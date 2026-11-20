@@ -4,7 +4,7 @@ import Development.AutomorphicSpectrum.Proofs.MetricProofs.IterDifferentiableOn
 import Development.AutomorphicSpectrum.Proofs.MetricProofs.AnalyticGroupLawBoundedCommutatorStatement
 import Development.AutomorphicSpectrum.Proofs.MetricProofs.AnalyticDoublingMapLocalInverseStatement
 import Development.AutomorphicSpectrum.Proofs.MetricProofs.DoublingLimitLocalLogarithmStatement
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.LocalLogarithmHomomorphismStatement
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.LocalLogarithmHomomorphism
 open Set Filter Topology Metric
 
 namespace GlobalTheory.CompanionTheory.Ar.Flat

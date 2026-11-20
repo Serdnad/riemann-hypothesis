@@ -215,3 +215,6 @@ theorem heckeBasis : âˆ€ (G : Type) [Group G] (K : Subgroup G), IsHeckePair K â†
     exact ht
 
 end GlobalTheory.CompanionTheory.HeckeBasis
+
+theorem _root_.GlobalTheory.T.hecke_operators_span_and_faithful : type_of% @_root_.GlobalTheory.CompanionTheory.HeckeBasis.heckeBasis :=
+  @_root_.GlobalTheory.CompanionTheory.HeckeBasis.heckeBasis

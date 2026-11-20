@@ -50,3 +50,6 @@ theorem exists_flat_ideal : ∀ (V K : Type) [CommRing V] [IsDomain V] [Valuatio
     exact Ideal.map_comap_of_surjective _ e.surjective I
 
 end GlobalTheory.FlatHilbAff
+
+theorem _root_.GlobalTheory.T.exists_flat_ideal_valuationRing_pullback : type_of% @_root_.GlobalTheory.FlatHilbAff.exists_flat_ideal :=
+  @_root_.GlobalTheory.FlatHilbAff.exists_flat_ideal

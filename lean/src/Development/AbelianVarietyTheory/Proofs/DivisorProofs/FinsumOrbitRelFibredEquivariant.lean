@@ -56,3 +56,6 @@ theorem finsum_orbitRel_fibred : ∀ {H X B E : Type} [Group H] [MulAction H X] 
   exact (finsum_comp_equiv (Equiv.ofBijective φ hφ) (f := fun o : {o // ρ o = q} => g o.1)).symm
 
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.finsum_orbitRel_fibred_equivariant : type_of% @_root_.GlobalTheory.finsum_orbitRel_fibred :=
+  @_root_.GlobalTheory.finsum_orbitRel_fibred

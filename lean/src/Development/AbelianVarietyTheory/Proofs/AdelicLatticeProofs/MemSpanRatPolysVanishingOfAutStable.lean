@@ -63,3 +63,6 @@ theorem mem_span_vanI_of_vanish : ∀ (ι : Type) [Fintype ι] [DecidableEq ι] 
   exact hw g hg
 
 end GlobalTheory.ClassFin
+
+theorem _root_.GlobalTheory.T.mem_span_ratPolysVanishing_of_autStable : type_of% @_root_.GlobalTheory.ClassFin.mem_span_vanI_of_vanish :=
+  @_root_.GlobalTheory.ClassFin.mem_span_vanI_of_vanish

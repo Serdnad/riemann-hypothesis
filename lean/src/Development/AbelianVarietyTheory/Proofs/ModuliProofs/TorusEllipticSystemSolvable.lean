@@ -224,3 +224,6 @@ theorem torus_elliptic_system_solvable : ∀ (n m : ℕ) (p : Fin m → Fin n �
       linear_combination (2 * π * I) * h3
 
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.exists_periodic_smooth_solution_torus_system : type_of% @_root_.GlobalTheory.torus_elliptic_system_solvable :=
+  @_root_.GlobalTheory.torus_elliptic_system_solvable

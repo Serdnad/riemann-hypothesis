@@ -87,3 +87,6 @@ theorem modK_units : ∀ {F : Type} [Field F] [ValuativeRel F] [TopologicalSpace
     simp
 
 end GlobalTheory.ModuleUnits
+
+theorem _root_.GlobalTheory.T.localModel_modulus_properties_on_units : type_of% @_root_.GlobalTheory.ModuleUnits.modK_units :=
+  @_root_.GlobalTheory.ModuleUnits.modK_units

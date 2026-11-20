@@ -259,3 +259,6 @@ theorem _root_.GlobalTheory.gaussExtension_coeff_mem_nonunits : ∀ {F : Type} [
   exact lt_irrefl _ hlt
 
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.gaussExtension_coeff_mem_nonunits_alt : type_of% @_root_.GlobalTheory.gaussExtension_coeff_mem_nonunits :=
+  @_root_.GlobalTheory.gaussExtension_coeff_mem_nonunits

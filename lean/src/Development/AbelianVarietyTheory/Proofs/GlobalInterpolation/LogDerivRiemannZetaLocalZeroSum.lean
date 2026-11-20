@@ -139,3 +139,6 @@ theorem logDeriv_riemannZeta_local : ∃ C : ℝ, 0 < C ∧ ∀ (t : ℝ) (s : �
   nlinarith
 
 end GlobalTheory.ZetaLocal
+
+theorem _root_.GlobalTheory.T.logDeriv_riemannZeta_local_zero_sum : type_of% @_root_.GlobalTheory.ZetaLocal.logDeriv_riemannZeta_local :=
+  @_root_.GlobalTheory.ZetaLocal.logDeriv_riemannZeta_local

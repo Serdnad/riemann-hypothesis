@@ -81,3 +81,6 @@ theorem GlobalTheory.weierstrassDiv_E_pow : ∀ (O K : Type) [CommRing O] [Norme
   refine ⟨c, g, hg, ?_⟩
   simp only [hc]
   rw [← GlobalTheory.WDivE.eq_sum_of_vanish hPv]
+
+theorem _root_.GlobalTheory.T.weierstrass_division_eisensteinPow_integral : type_of% @_root_.GlobalTheory.weierstrassDiv_E_pow :=
+  @_root_.GlobalTheory.weierstrassDiv_E_pow

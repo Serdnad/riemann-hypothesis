@@ -229,3 +229,6 @@ theorem mass_fibre : ∀ {G : Type} [Group G] (Γ : Subgroup G) (Y Z : Type) [Mu
   exact key O
 
 end GlobalTheory.MassFibre
+
+theorem _root_.GlobalTheory.T.orbit_mass_equivariant_constant_fibre : type_of% @_root_.GlobalTheory.MassFibre.mass_fibre :=
+  @_root_.GlobalTheory.MassFibre.mass_fibre

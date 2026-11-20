@@ -21,3 +21,6 @@ theorem GlobalTheory.span_ιMulti_span_range_eq : ∀ (C : Type) [Field C] (O : 
   · apply Submodule.span_mono
     rintro w ⟨s, rfl⟩
     exact ⟨g ∘ s, fun i => Submodule.subset_span ⟨s i, rfl⟩, rfl⟩
+
+theorem _root_.GlobalTheory.T.exteriorPower_span_of_lattice : type_of% @_root_.GlobalTheory.span_ιMulti_span_range_eq :=
+  @_root_.GlobalTheory.span_ιMulti_span_range_eq

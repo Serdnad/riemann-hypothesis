@@ -185,3 +185,6 @@ theorem torus_points : ∀ (K : UQ) (B : InvAlg K) (ι : Type) [Fintype ι] (e :
       ((((hia.pow _).sub isIntegral_one).mul (isIntegral_idem (hh i))).mul (hia.pow k))
 
 end GlobalTheory.UnitLemma.TorusPts
+
+theorem _root_.GlobalTheory.T.exists_injective_torus_classes_of_idempotent_decomposition : type_of% @_root_.GlobalTheory.UnitLemma.TorusPts.torus_points :=
+  @_root_.GlobalTheory.UnitLemma.TorusPts.torus_points

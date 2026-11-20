@@ -155,3 +155,6 @@ theorem count : ∀ (E : Type) [CommRing E] (τ : E →+* E) (q : ℕ) (ε : ℤ
       exact arith_zero _ _ _ _ hq0
 
 end GlobalTheory.CompanionTheory.UnrDens.Sphere
+
+theorem _root_.GlobalTheory.T.hermitian_vector_values_card : type_of% @_root_.GlobalTheory.CompanionTheory.UnrDens.Sphere.count :=
+  @_root_.GlobalTheory.CompanionTheory.UnrDens.Sphere.count

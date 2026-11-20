@@ -34,3 +34,6 @@ theorem extension_fixed : ∀ {W C₀ : Type} [CommRing W] [CommRing C₀] {K₀
   | add a b ha hb => rw [map_add, map_add, ha, hb]
 
 end GlobalTheory.CompanionTheory.FrobFix
+
+theorem _root_.GlobalTheory.T.tensor_eval_fixed_of_fixed : type_of% @_root_.GlobalTheory.CompanionTheory.FrobFix.extension_fixed :=
+  @_root_.GlobalTheory.CompanionTheory.FrobFix.extension_fixed

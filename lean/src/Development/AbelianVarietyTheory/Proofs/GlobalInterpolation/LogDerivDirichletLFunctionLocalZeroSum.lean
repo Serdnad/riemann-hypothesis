@@ -88,3 +88,6 @@ theorem logDeriv_LFunction_local : ∃ C : ℝ, 0 < C ∧ ∀ (q : ℕ) [NeZero 
     _ = _ := by ring
 
 end GlobalTheory.LLocal
+
+theorem _root_.GlobalTheory.T.logDeriv_dirichletLFunction_local_zero_sum : type_of% @_root_.GlobalTheory.LLocal.logDeriv_LFunction_local :=
+  @_root_.GlobalTheory.LLocal.logDeriv_LFunction_local

@@ -85,3 +85,6 @@ theorem herb_index_identity : ∀ (p : ℕ) (A : Type) [CommGroup A] (σ : A →
   ring
 
 end GlobalTheory.CNorm
+
+theorem _root_.GlobalTheory.T.norm_difference_index_identity : type_of% @_root_.GlobalTheory.CNorm.herb_index_identity :=
+  @_root_.GlobalTheory.CNorm.herb_index_identity

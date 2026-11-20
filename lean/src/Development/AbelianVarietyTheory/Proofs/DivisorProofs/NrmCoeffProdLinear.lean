@@ -91,3 +91,6 @@ theorem nrm_coeff_prod_linear : ∀ (k F : Type) [Field k] [Field F] [Algebra k 
     exact zero_le'
 
 end GlobalTheory.Nef
+
+theorem _root_.GlobalTheory.T.nrm_coeff_prod_linear' : type_of% @_root_.GlobalTheory.Nef.nrm_coeff_prod_linear :=
+  @_root_.GlobalTheory.Nef.nrm_coeff_prod_linear

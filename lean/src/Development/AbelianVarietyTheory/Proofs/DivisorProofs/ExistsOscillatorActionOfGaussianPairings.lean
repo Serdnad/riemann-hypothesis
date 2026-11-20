@@ -420,3 +420,6 @@ theorem exists_isOsc : ∀ (V : Type) [NormedAddCommGroup V] [InnerProductSpace 
 end GlobalTheory.RealWeil.Osc
 
 end
+
+theorem _root_.GlobalTheory.T.exists_oscillatorAction_of_gaussianPairings : type_of% @_root_.GlobalTheory.RealWeil.Osc.exists_isOsc :=
+  @_root_.GlobalTheory.RealWeil.Osc.exists_isOsc

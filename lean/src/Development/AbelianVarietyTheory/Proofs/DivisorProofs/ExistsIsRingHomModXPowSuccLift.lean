@@ -84,3 +84,6 @@ theorem exists_lift_succ : ∀ (A B R : Type) [CommRing A] [CommRing B] [CommRin
   · rw [← mk_eq_iff_X_pow_dvd, ← Ideal.Quotient.factor_mk hle, hψ, ← RingHom.comp_apply, h₁]; rfl
 
 end GlobalTheory.Nef.PathJet
+
+theorem _root_.GlobalTheory.T.exists_isRingHomModXPow_succ_lift : type_of% @_root_.GlobalTheory.Nef.PathJet.exists_lift_succ :=
+  @_root_.GlobalTheory.Nef.PathJet.exists_lift_succ

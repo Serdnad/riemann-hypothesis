@@ -30,3 +30,6 @@ theorem GlobalTheory.derivation_normalise_family : ∀ (k A : Type) [Field k] [C
   simp only [AddMonoidHom.mk'_apply] at hev
   rw [hev]
   simp [M]
+
+theorem _root_.GlobalTheory.T.exists_derivations_dual_to_family_of_nilpotent_aug : type_of% @_root_.GlobalTheory.derivation_normalise_family :=
+  @_root_.GlobalTheory.derivation_normalise_family

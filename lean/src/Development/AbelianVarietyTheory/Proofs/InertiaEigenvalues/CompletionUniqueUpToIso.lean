@@ -22,3 +22,6 @@ theorem isCplAt_unique : ∀ (R S S' : Type) [CommRing R] [CommRing S] [IsLocalR
   exact ⟨RingEquiv.ofRingHom θ η u' u, hθ⟩
 
 end GlobalTheory.Pat
+
+theorem _root_.GlobalTheory.T.completion_unique_up_to_iso : type_of% @_root_.GlobalTheory.Pat.isCplAt_unique :=
+  @_root_.GlobalTheory.Pat.isCplAt_unique

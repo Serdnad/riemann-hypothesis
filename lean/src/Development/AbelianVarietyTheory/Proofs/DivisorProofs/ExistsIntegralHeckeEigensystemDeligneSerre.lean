@@ -1,7 +1,7 @@
 import Mathlib
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MatrixExistsCommonEigenvectorMemStatement
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FiniteJointEigensystemsStatement
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsMatricesIntertwiningOfSemilinearStatement
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsMatricesIntertwiningOfSemilinear
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.NormEigenvalueLeOneOfEntries
 
 open Matrix

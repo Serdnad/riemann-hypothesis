@@ -1,6 +1,6 @@
 import Mathlib
 import Development.AbelianVarietyTheory.Definitions.Divisors.ZetaActRefl
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HasSumLambertDoubleSeriesDivisorsStatement
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HasSumLambertDoubleSeriesDivisors
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TsumResidueClassSplitBySignStatement
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TorsionPointRowSumEqQExpansionSeriesStatement
 

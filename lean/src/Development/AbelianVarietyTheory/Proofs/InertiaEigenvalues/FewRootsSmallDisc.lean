@@ -96,3 +96,6 @@ theorem few_roots_small_disc : ∀ (l : ℕ) [Fact l.Prime] (E M : ℕ) (a : ℕ
   exact (GlobalTheory.T.card_roots_closedBall_bounds_ultrametric ℂ_[l] H ρ (l ^ M) hρ0 hHd0).2 hbig
 
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.card_roots_closedBall_le_prime_pow : type_of% @_root_.GlobalTheory.few_roots_small_disc :=
+  @_root_.GlobalTheory.few_roots_small_disc

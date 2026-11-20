@@ -56,3 +56,6 @@ theorem bound : ∀ (F : Type) [Field F] [NumberField F] (σ : ℂ), 0 < σ.re �
   exact Real.rpow_le_rpow_of_nonpos (mul_pos (Finset.prod_pos fun τ _ => hc τ) hP) hlow (by linarith)
 
 end GlobalTheory.Proof.hilbertEisensteinLatticeSummand_weightTwo_bound
+
+theorem _root_.GlobalTheory.T.hilbertEisensteinLatticeSummand_weightTwo_bound : type_of% @_root_.GlobalTheory.Proof.hilbertEisensteinLatticeSummand_weightTwo_bound.bound :=
+  @_root_.GlobalTheory.Proof.hilbertEisensteinLatticeSummand_weightTwo_bound.bound

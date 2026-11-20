@@ -106,3 +106,6 @@ theorem GlobalTheory.UnRep.exists_refl_prod_mulVec_eq : ∀ (F E : Type) [Field 
       exact ⟨h1, hu, hmem _⟩
     · simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one]
       rw [hu', one_smul]
+
+theorem _root_.GlobalTheory.T.exists_quasiReflection_prod_mulVec_eq : type_of% @_root_.GlobalTheory.UnRep.exists_refl_prod_mulVec_eq :=
+  @_root_.GlobalTheory.UnRep.exists_refl_prod_mulVec_eq

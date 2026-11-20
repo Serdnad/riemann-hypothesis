@@ -61,3 +61,6 @@ theorem gl_factor_fromBlocks_mod_uniformizer : ∀ (O : Type) [CommRing O] [IsDo
     simpa [Matrix.toBlocks₂₁] using this
 
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.gl_factor_fromBlocks_mod_uniformizer_alt : type_of% @_root_.GlobalTheory.gl_factor_fromBlocks_mod_uniformizer :=
+  @_root_.GlobalTheory.gl_factor_fromBlocks_mod_uniformizer

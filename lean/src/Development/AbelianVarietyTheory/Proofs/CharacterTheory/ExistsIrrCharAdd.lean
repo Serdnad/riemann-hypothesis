@@ -1,7 +1,7 @@
 import Mathlib
 import Development.AbelianVarietyTheory.Definitions.CommutativeAlgebra.AbByPOfComm
 import Development.AbelianVarietyTheory.Proofs.CharacterTheory.IsCharacterOverSubfieldOfRepresentationStatement
-import Development.AbelianVarietyTheory.Proofs.CharacterTheory.ExistsCharacterQuotientOfInjectiveIntertwiningStatement
+import Development.AbelianVarietyTheory.Proofs.CharacterTheory.ExistsCharacterQuotientOfInjectiveIntertwining
 open GlobalTheory.BI
 namespace GlobalTheory.BI
 

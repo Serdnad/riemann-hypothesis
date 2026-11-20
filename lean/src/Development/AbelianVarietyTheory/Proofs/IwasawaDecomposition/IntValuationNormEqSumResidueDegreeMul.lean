@@ -148,3 +148,6 @@ end GlobalTheory.NormValuation
 
 theorem GlobalTheory.NormValuation.log_valuation_norm_eq_sum : ∀ (E K : Type) [Field E] [NumberField E] [Field K] [NumberField K] [Algebra E K] (v : HeightOneSpectrum (𝓞 E)) (a : Kˣ) (s : Finset (HeightOneSpectrum (𝓞 K))), (∀ w, w ∈ s ↔ w.asIdeal.comap (algebraMap (𝓞 E) (𝓞 K)) = v.asIdeal) → WithZero.log (v.valuation E (Algebra.norm E (a : K))) = ∑ w ∈ s, (w.asIdeal.inertiaDeg (𝓞 E) : ℤ) * WithZero.log (w.valuation K (a : K)) :=
   fun _ _ _ _ _ _ _ v a s hs => GlobalTheory.NormValuation.log_valuation_norm v a s hs
+
+theorem _root_.GlobalTheory.T.intValuation_norm_eq_sum_residueDegree_mul : type_of% @_root_.GlobalTheory.NormValuation.log_valuation_norm_eq_sum :=
+  @_root_.GlobalTheory.NormValuation.log_valuation_norm_eq_sum

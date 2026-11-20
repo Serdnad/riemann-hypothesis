@@ -107,3 +107,6 @@ theorem aeval_sum_elim_eq_zero_of_mem_pts : ∀ (ι : Type) [Fintype ι] [Decida
   exact hF g hg h hh
 
 end GlobalTheory.ClassFin
+
+theorem _root_.GlobalTheory.T.aeval_sum_elim_eq_zero_of_mem_pts' : type_of% @_root_.GlobalTheory.ClassFin.aeval_sum_elim_eq_zero_of_mem_pts :=
+  @_root_.GlobalTheory.ClassFin.aeval_sum_elim_eq_zero_of_mem_pts

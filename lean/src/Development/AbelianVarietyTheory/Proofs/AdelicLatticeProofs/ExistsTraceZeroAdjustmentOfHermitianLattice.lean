@@ -100,3 +100,6 @@ theorem exists_tv_adjust : ∀ (F E : Type) [Field F] [NumberField F] [Field E] 
     ring
 
 end GlobalTheory.TvAdjust
+
+theorem _root_.GlobalTheory.T.exists_traceZero_adjustment_of_hermitian_lattice : type_of% @_root_.GlobalTheory.TvAdjust.exists_tv_adjust :=
+  @_root_.GlobalTheory.TvAdjust.exists_tv_adjust

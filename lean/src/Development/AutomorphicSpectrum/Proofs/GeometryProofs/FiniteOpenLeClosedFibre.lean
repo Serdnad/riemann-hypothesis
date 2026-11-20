@@ -8,3 +8,6 @@ theorem isFinite_open_le_of_closedFibre_le : ∀ (R : Type) [CommRing R] [IsLoca
   @PositivityTheory.HtPt.Unc.finite_le
 
 end GlobalTheory.CompanionTheory.Ar.BT
+
+theorem _root_.GlobalTheory.T.finite_open_le_closed_fibre : type_of% @_root_.GlobalTheory.CompanionTheory.Ar.BT.isFinite_open_le_of_closedFibre_le :=
+  @_root_.GlobalTheory.CompanionTheory.Ar.BT.isFinite_open_le_of_closedFibre_le

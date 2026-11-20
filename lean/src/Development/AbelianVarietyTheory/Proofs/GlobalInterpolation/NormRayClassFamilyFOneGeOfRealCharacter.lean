@@ -1,6 +1,6 @@
 import Mathlib
 import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.LamIdealOfNotPrimePow
-import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExpSumBoundsStatement
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExpSumBounds
 open Complex ArithmeticFunction MeasureTheory Filter Topology NumberField GlobalTheory.Hk GlobalTheory.Mem
 open scoped Classical
 

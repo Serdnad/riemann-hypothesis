@@ -93,3 +93,6 @@ theorem famF_hasDerivAt : ∀ {n : ℕ} (ε : Fin n → Bool) (G : ℝ → ℝ) 
   rw [sum_prev g (nMode ε) a (q x) (hq x _ le_rfl)]
 
 end GlobalTheory.PsCo.HomotDeriv
+
+theorem _root_.GlobalTheory.T.scaledKoszulTestFamily_hasDerivAt_scale : type_of% @_root_.GlobalTheory.PsCo.HomotDeriv.famF_hasDerivAt :=
+  @_root_.GlobalTheory.PsCo.HomotDeriv.famF_hasDerivAt

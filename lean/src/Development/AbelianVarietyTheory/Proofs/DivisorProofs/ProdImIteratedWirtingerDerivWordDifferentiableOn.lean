@@ -103,3 +103,6 @@ theorem GlobalTheory.HeckeTwo.prodIm_wirtWord_differentiableOn : ∀ (F : Type) 
     exact ProdImWirt.wirtWord_congr hU h0 w
   refine ((ProdImWirt.mono_differentiable hc' ha' z).differentiableOn).congr fun σ _ => ?_
   rw [hw σ hz, h σ hz]
+
+theorem _root_.GlobalTheory.T.prodIm_iteratedWirtingerDerivWord_differentiableOn : type_of% @_root_.GlobalTheory.HeckeTwo.prodIm_wirtWord_differentiableOn :=
+  @_root_.GlobalTheory.HeckeTwo.prodIm_wirtWord_differentiableOn

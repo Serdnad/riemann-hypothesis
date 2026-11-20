@@ -143,3 +143,6 @@ theorem st_mul_self_of_factor : ∀ {E ι : Type} [Ring E] [Fintype ι] (wt : ι
   exact ⟨e1, e3⟩
 
 end GlobalTheory.CompanionTheory.Iwahori.Unitary
+
+theorem _root_.GlobalTheory.T.unitary_factors_of_unitary_upper_mul_lowerUni : type_of% @_root_.GlobalTheory.CompanionTheory.Iwahori.Unitary.st_mul_self_of_factor :=
+  @_root_.GlobalTheory.CompanionTheory.Iwahori.Unitary.st_mul_self_of_factor

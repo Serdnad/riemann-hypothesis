@@ -112,3 +112,6 @@ theorem parsevalSep_bound : ∀ (n N : ℕ) (ω : ℂ) (c : ℕ → ℤ) (S : Fi
   exact_mod_cast key
 
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.parseval_bound_integerVector_smallFourierSupport : type_of% @_root_.GlobalTheory.parsevalSep_bound :=
+  @_root_.GlobalTheory.parsevalSep_bound

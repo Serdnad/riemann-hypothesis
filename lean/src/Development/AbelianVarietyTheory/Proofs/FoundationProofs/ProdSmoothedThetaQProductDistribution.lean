@@ -242,3 +242,6 @@ theorem _root_.GlobalTheory.Sieg.prod_cth_mul_pow : ∀ (c m : ℕ) (Q t : ℂ),
   field_simp
 
 end GlobalTheory.Sieg.Distr
+
+theorem _root_.GlobalTheory.T.prod_smoothedThetaQProduct_distribution : type_of% @_root_.GlobalTheory.Sieg.prod_cth_mul_pow :=
+  @_root_.GlobalTheory.Sieg.prod_cth_mul_pow

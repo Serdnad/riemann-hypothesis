@@ -1,7 +1,7 @@
 import Mathlib
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.MonodromyZeroOfWeilDeligneRepClassIff
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Mono0OfLpDimEqOne
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CharpolyEqOfTracePowersStatement
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CharpolyEqOfTracePowers
 
 noncomputable section
 

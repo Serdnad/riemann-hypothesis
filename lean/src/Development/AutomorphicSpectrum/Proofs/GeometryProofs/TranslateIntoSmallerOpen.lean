@@ -57,3 +57,6 @@ theorem translates_cover : ∀ (R : Type) [CommRing R] [IsDomain R] [IsIntegrall
   exact hU'.one z
 
 end GlobalTheory.CompanionTheory.Ar.BT.Transl
+
+theorem _root_.GlobalTheory.T.translate_into_smaller_open : type_of% @_root_.GlobalTheory.CompanionTheory.Ar.BT.Transl.translates_cover :=
+  @_root_.GlobalTheory.CompanionTheory.Ar.BT.Transl.translates_cover

@@ -94,3 +94,6 @@ theorem exists_R_mul_KOne : ∀ (k : Type) [Field k] [ValuativeRel k] [Topologic
   · group
 
 end GlobalTheory.SymChain.ResidueLift
+
+theorem _root_.GlobalTheory.T.exists_rootExchangeParabolic_mul_principalCongruence : type_of% @_root_.GlobalTheory.SymChain.ResidueLift.exists_R_mul_KOne :=
+  @_root_.GlobalTheory.SymChain.ResidueLift.exists_R_mul_KOne

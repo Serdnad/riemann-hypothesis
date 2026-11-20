@@ -72,3 +72,6 @@ theorem mul_star_anisotropic_proper : ∀ (F E : Type) [NontriviallyNormedField 
     nlinarith [mul_le_mul_of_nonneg_left h1 (sq_nonneg ‖z‖)]
 
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.isCompact_preimage_mul_star_anisotropic_submodule : type_of% @_root_.GlobalTheory.mul_star_anisotropic_proper :=
+  @_root_.GlobalTheory.mul_star_anisotropic_proper

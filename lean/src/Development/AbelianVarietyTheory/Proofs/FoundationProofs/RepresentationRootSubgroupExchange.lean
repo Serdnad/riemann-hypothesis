@@ -78,3 +78,6 @@ theorem root_exchange : ∀ (G : Type) [Group G] [Fintype G] (M : Type) [AddComm
     rw [← hmul]; rfl
 
 end GlobalTheory.BadShare
+
+theorem _root_.GlobalTheory.T.representation_root_subgroup_exchange : type_of% @_root_.GlobalTheory.BadShare.root_exchange :=
+  @_root_.GlobalTheory.BadShare.root_exchange

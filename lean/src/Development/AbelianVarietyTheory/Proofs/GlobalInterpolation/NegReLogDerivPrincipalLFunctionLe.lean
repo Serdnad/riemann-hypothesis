@@ -1,5 +1,5 @@
 import Mathlib
-import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.LogDerivRiemannZetaLocalZeroSumStatement
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.LogDerivRiemannZetaLocalZeroSum
 open Complex DirichletCharacter ArithmeticFunction MeasureTheory
 
 namespace GlobalTheory.PrincipalLogDeriv

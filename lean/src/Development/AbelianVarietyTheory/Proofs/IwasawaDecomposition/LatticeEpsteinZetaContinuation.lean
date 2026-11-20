@@ -1,6 +1,6 @@
 import Mathlib
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.NonemptyRayDataOfNeZero
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LatticeThetaAsymptoticsStatement
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LatticeThetaAsymptotics
 open Complex Filter Asymptotics
 
 namespace GlobalTheory

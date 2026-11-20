@@ -90,3 +90,6 @@ theorem corner_rankOne : ∀ (k : Type) [Field k] [ValuativeRel k] [TopologicalS
       simp [eq_comm]
 
 end GlobalTheory.PsType
+
+theorem _root_.GlobalTheory.T.exists_rankOne_corner_principalSeriesCongruence : type_of% @_root_.GlobalTheory.PsType.corner_rankOne :=
+  @_root_.GlobalTheory.PsType.corner_rankOne

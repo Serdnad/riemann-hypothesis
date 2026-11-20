@@ -17,3 +17,6 @@ theorem iSup_jointEigenspace_eq_top_of_separable : ∀ (C : Type) [Field C] [IsA
   simpa only [hmax] using htop
 
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.commuting_semisimple_eigenspaces_span : type_of% @_root_.GlobalTheory.iSup_jointEigenspace_eq_top_of_separable :=
+  @_root_.GlobalTheory.iSup_jointEigenspace_eq_top_of_separable

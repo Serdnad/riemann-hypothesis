@@ -1,6 +1,6 @@
 import Mathlib
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsPushoutAppLEOfIsPullbackOfIsAffine
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SchlessingerFlatFibreProductStatement
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SchlessingerFlatFibreProduct
 open AlgebraicGeometry CategoryTheory CategoryTheory.Limits
 
 namespace GlobalTheory.SchlessingerAffine

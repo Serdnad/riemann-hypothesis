@@ -163,3 +163,6 @@ theorem limit_extension_upTo : ∀ (W : Type) [CommRing W] [IsDomain W] [IsDiscr
     exact sub_eq_zero.2 (smul_comm ((l : A) ^ c) a (x.1 n : A ⊗[W] S.M n))
 
 end GlobalTheory.CompanionTheory.TowerExt
+
+theorem _root_.GlobalTheory.T.flat_base_change_limit_system : type_of% @_root_.GlobalTheory.CompanionTheory.TowerExt.limit_extension_upTo :=
+  @_root_.GlobalTheory.CompanionTheory.TowerExt.limit_extension_upTo

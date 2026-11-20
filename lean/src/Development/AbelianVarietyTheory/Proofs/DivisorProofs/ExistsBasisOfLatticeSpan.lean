@@ -39,3 +39,6 @@ theorem exists_basis_span_eq_span_of_valuation : ∀ (C : Type) [Field C] (v : V
   rw [Module.Basis.range_reindex, Module.Basis.coe_mk, hspR]
 
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.exists_basis_of_lattice_span : type_of% @_root_.GlobalTheory.exists_basis_span_eq_span_of_valuation :=
+  @_root_.GlobalTheory.exists_basis_span_eq_span_of_valuation

@@ -1,7 +1,7 @@
 import Mathlib
 import Development.AbelianVarietyTheory.Definitions.AdelicHermitianForms.AdelicPair
 import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.OneAddSmulMemOfSqZeroStatement
-import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsRatProjectorOfAutStableMatricesStatement
+import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsRatProjectorOfAutStableMatrices
 open Matrix GlobalTheory.ClassFin
 open scoped Kronecker ComplexOrder TensorProduct
 

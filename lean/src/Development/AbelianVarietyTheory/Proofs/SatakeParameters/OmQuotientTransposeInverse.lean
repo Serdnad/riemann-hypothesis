@@ -87,3 +87,6 @@ theorem GlobalTheory.omQuot_transpose : ∀ (k : Type) [Field k] [ValuativeRel k
       exact om_trans θr θn hr hn g h Ψ.1
     simp only [LinearMap.coe_comp, Function.comp_apply, LinearEquiv.coe_coe, key, MonoidHom.coe_comp]
     exact (TensorProduct.map_comm _ _ _).symm
+
+theorem _root_.GlobalTheory.T.om_quotient_transpose_inverse : type_of% @_root_.GlobalTheory.omQuot_transpose :=
+  @_root_.GlobalTheory.omQuot_transpose

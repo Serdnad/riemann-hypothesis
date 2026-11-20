@@ -255,3 +255,6 @@ theorem GlobalTheory.UnRep.normOne_approx : ∀ (F E : Type) [Field F] [NumberFi
     refine ⟨s, ⟨hs0, hsP⟩, ⟨b₁, ?_⟩, b₂, ?_⟩
     · rw [← hb₁, mul_left_comm, mul_div_cancel₀ _ hDE]
     · rw [← hb₂, mul_left_comm, mul_div_cancel₀ _ hDE]
+
+theorem _root_.GlobalTheory.T.normOne_approximation_at_level_primes : type_of% @_root_.GlobalTheory.UnRep.normOne_approx :=
+  @_root_.GlobalTheory.UnRep.normOne_approx

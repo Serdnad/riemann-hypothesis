@@ -55,3 +55,6 @@ theorem exists_second_order_nbhd : ∀ (O : Type) [CommRing O] [Algebra ℂ O] (
     simpa [i, j, e₁, e₂] using this
 
 end GlobalTheory.SecondOrderNbhd
+
+theorem _root_.GlobalTheory.T.exists_secondOrderNbhd_commuting_derivations : type_of% @_root_.GlobalTheory.SecondOrderNbhd.exists_second_order_nbhd :=
+  @_root_.GlobalTheory.SecondOrderNbhd.exists_second_order_nbhd

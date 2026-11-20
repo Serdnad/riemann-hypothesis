@@ -217,3 +217,6 @@ theorem fourier_pi : ∀ (k : Type) [Field k] [ValuativeRel k] [TopologicalSpace
   exact fourier_pi_of_conductor h hν hf
 
 end GlobalTheory.SplitWeil.FourierPi
+
+theorem _root_.GlobalTheory.T.fourier_transform_inversion_localFieldPi : type_of% @_root_.GlobalTheory.SplitWeil.FourierPi.fourier_pi :=
+  @_root_.GlobalTheory.SplitWeil.FourierPi.fourier_pi

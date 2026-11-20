@@ -97,3 +97,6 @@ theorem isQuad_galois_and_embedding : ∀ (F E : Type) [Field F] [CharZero F] [F
       simp [h1, h2]
 
 end GlobalTheory.QNorm
+
+theorem _root_.GlobalTheory.T.isQuadraticSqrtExtension_isGalois_and_embedding : type_of% @_root_.GlobalTheory.QNorm.isQuad_galois_and_embedding :=
+  @_root_.GlobalTheory.QNorm.isQuad_galois_and_embedding

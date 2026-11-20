@@ -145,3 +145,6 @@ theorem main : ∀ {k U : Type} [Field k] [AddCommGroup U] [Module k U] (T : Mod
   omega
 
 end GlobalTheory.PhiGam.GmultAdd
+
+theorem _root_.GlobalTheory.T.genEigenMultiplicityQuotient_additive_chain : type_of% @_root_.GlobalTheory.PhiGam.GmultAdd.main :=
+  @_root_.GlobalTheory.PhiGam.GmultAdd.main

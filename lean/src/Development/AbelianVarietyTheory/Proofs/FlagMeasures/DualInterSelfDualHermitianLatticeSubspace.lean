@@ -242,3 +242,6 @@ theorem dual_inter : ∀ {F : Type} [Field F] [ValuativeRel F] [TopologicalSpace
       exact ⟨hb j, hbY j⟩
 
 end GlobalTheory.HL.DualInter
+
+theorem _root_.GlobalTheory.T.dual_inter_selfDualHermitianLattice_subspace : type_of% @_root_.GlobalTheory.HL.DualInter.dual_inter :=
+  @_root_.GlobalTheory.HL.DualInter.dual_inter

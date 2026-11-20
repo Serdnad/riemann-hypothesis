@@ -72,3 +72,6 @@ theorem wtNear_orth_decomp : ∀ (M : Type) [NormedAddCommGroup M] [InnerProduct
     fun ω _ ω' _ hne => inner_eq_zero_of_ne hU (h2 ω) (h2 ω') hne⟩
 
 end GlobalTheory.WtOrth
+
+theorem _root_.GlobalTheory.T.exists_orthogonal_weight_decomp_of_mem_wtNear : type_of% @_root_.GlobalTheory.WtOrth.wtNear_orth_decomp :=
+  @_root_.GlobalTheory.WtOrth.wtNear_orth_decomp

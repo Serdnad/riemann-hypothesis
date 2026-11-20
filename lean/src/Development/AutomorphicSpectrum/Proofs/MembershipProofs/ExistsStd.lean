@@ -1,6 +1,6 @@
 import Mathlib
 import Development.AutomorphicSpectrum.Definitions.MembershipCriteria.GoodChar
-import Development.AutomorphicSpectrum.Proofs.MembershipProofs.SchrodingerModelSelfDualLatticeStatement
+import Development.AutomorphicSpectrum.Proofs.MembershipProofs.SchrodingerModelSelfDualLattice
 
 noncomputable section
 

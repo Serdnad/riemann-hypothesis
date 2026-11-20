@@ -19,3 +19,6 @@ theorem charpoly_nilpotent_add_scalar : ∀ (k : Type) [Field k] (n : ℕ) (N : 
     _ = (X - C c) ^ n := by rw [← h1]; simp
 
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.charpoly_nilpotent_add_scalar' : type_of% @_root_.GlobalTheory.charpoly_nilpotent_add_scalar :=
+  @_root_.GlobalTheory.charpoly_nilpotent_add_scalar

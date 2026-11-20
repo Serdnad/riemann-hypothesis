@@ -1,5 +1,5 @@
 import Mathlib
-import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.ModuleFlatOfFlatAndFibreFlatStatement
+import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.ModuleFlatOfFlatAndFibreFlat
 open TensorProduct
 
 namespace GlobalTheory.CompanionTheory.FinAlgFlat

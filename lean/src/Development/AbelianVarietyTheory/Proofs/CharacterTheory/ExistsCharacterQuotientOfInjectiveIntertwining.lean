@@ -21,3 +21,6 @@ theorem exists_isChar_eq_add_of_injective : ∀ (K L : Type) [Field K] [Field L]
   ext v
   rfl
 end GlobalTheory.BI
+
+theorem _root_.GlobalTheory.T.exists_character_quotient_of_injective_intertwining : type_of% @_root_.GlobalTheory.BI.exists_isChar_eq_add_of_injective :=
+  @_root_.GlobalTheory.BI.exists_isChar_eq_add_of_injective

@@ -291,3 +291,6 @@ theorem LFam.exp_sum_bounds : ∃ C : ℝ, 0 < C ∧ ∀ (𝓕 : LFam) (χ : Add
     linarith
 
 end GlobalTheory.Hk
+
+theorem _root_.GlobalTheory.T.tsum_exp_mul_aChi_bounds : type_of% @_root_.GlobalTheory.Hk.LFam.exp_sum_bounds :=
+  @_root_.GlobalTheory.Hk.LFam.exp_sum_bounds

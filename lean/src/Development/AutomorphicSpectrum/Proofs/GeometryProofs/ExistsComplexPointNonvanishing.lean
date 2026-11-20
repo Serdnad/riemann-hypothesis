@@ -11,3 +11,6 @@ theorem exists_ptOver_ne : ∀ (K : Type) [Fintype K] (ι : K → Type) [∀ k, 
   @PositivityTheory.Xgn.exists_point_over_nonvanishing
 
 end GlobalTheory.CompanionTheory.Ar.Flat
+
+theorem _root_.GlobalTheory.T.exists_complex_point_nonvanishing : type_of% @_root_.GlobalTheory.CompanionTheory.Ar.Flat.exists_ptOver_ne :=
+  @_root_.GlobalTheory.CompanionTheory.Ar.Flat.exists_ptOver_ne

@@ -176,3 +176,6 @@ theorem mulS_laws : ∀ (q : ℕ) [Fact q.Prime], (∀ a : ℤ_[q], Bd 1 (mulS a
     mulS_one, bd_subst_mulS_iff, DT_logS, norm_zc⟩
 
 end GlobalTheory.MomOne.MulSeries
+
+theorem _root_.GlobalTheory.T.cpBinomialPowerSubOneSeries_integrality_composition_log : type_of% @_root_.GlobalTheory.MomOne.MulSeries.mulS_laws :=
+  @_root_.GlobalTheory.MomOne.MulSeries.mulS_laws

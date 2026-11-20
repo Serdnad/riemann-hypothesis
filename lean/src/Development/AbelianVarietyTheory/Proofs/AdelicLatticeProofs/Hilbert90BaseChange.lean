@@ -98,3 +98,6 @@ theorem hilbert90_baseChange : ∀ (F E K : Type) [Field F] [CharZero F] [Field 
   exact ⟨hc.unit, hfix c⟩
 
 end GlobalTheory.CNorm
+
+theorem _root_.GlobalTheory.T.hilbert90_baseChange' : type_of% @_root_.GlobalTheory.CNorm.hilbert90_baseChange :=
+  @_root_.GlobalTheory.CNorm.hilbert90_baseChange

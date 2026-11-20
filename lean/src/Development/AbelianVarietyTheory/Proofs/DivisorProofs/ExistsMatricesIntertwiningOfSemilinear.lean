@@ -49,3 +49,6 @@ theorem exists_matrices_intertwining_of_semilinear : ∀ (l : ℕ) [Fact l.Prime
     rw [mul_comm]
 
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.exists_matrices_intertwining_of_semilinear_alt : type_of% @_root_.GlobalTheory.exists_matrices_intertwining_of_semilinear :=
+  @_root_.GlobalTheory.exists_matrices_intertwining_of_semilinear

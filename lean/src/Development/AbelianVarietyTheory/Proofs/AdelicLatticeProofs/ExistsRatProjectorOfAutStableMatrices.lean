@@ -83,3 +83,6 @@ theorem exists_rat_projector : ∀ (ι : Type) [Fintype ι] [DecidableEq ι] (E 
     exact LinearMap.eqOn_span key hd
 
 end GlobalTheory.ClassFin.RatProj
+
+theorem _root_.GlobalTheory.T.exists_rat_projector_of_autStable_matrices : type_of% @_root_.GlobalTheory.ClassFin.RatProj.exists_rat_projector :=
+  @_root_.GlobalTheory.ClassFin.RatProj.exists_rat_projector

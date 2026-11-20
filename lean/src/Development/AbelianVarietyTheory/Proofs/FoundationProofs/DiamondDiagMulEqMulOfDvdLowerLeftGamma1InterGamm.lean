@@ -61,3 +61,6 @@ theorem dia_diag_mul_of_dvd_lowerLeft : ∀ (N l q : ℕ) (σ γ : SL(2, ℤ)), 
     · linear_combination (-(σ 1 0 * (q * γ 0 1) + σ 1 1 * γ 1 1)) * dσ
 
 end GlobalTheory.Hk
+
+theorem _root_.GlobalTheory.T.diamond_diag_mul_eq_mul_of_dvd_lowerLeft_gamma1InterGamma0 : type_of% @_root_.GlobalTheory.Hk.dia_diag_mul_of_dvd_lowerLeft :=
+  @_root_.GlobalTheory.Hk.dia_diag_mul_of_dvd_lowerLeft

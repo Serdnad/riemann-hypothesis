@@ -378,3 +378,6 @@ theorem main : ∀ (Ω : Type) [Field Ω] [Algebra ℚ Ω] (l k : ℕ) [Fact l.P
     · simpa [Valuation.comap_apply] using h₂ x
 
 end GlobalTheory.CycInertial
+
+theorem _root_.GlobalTheory.T.cyclotomicPrimePow_automorphism_inertial_at_prime : type_of% @_root_.GlobalTheory.CycInertial.main :=
+  @_root_.GlobalTheory.CycInertial.main

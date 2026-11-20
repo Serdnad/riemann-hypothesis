@@ -75,3 +75,6 @@ theorem fourier_inversion_prod : ∀ (X : Type) [NormedAddCommGroup X] [NormedSp
   rfl
 
 end GlobalTheory.CompanionTheory.TubeFourier
+
+theorem _root_.GlobalTheory.T.fourier_inversion_real_plane : type_of% @_root_.GlobalTheory.CompanionTheory.TubeFourier.fourier_inversion_prod :=
+  @_root_.GlobalTheory.CompanionTheory.TubeFourier.fourier_inversion_prod

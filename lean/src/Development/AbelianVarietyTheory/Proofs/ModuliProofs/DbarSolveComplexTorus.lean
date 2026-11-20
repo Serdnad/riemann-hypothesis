@@ -1,5 +1,5 @@
 import Mathlib
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.TorusEllipticSystemSolvableStatement
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.TorusEllipticSystemSolvable
 open Complex Matrix
 open scoped ContDiff BigOperators Real
 

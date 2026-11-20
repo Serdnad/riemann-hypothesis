@@ -178,3 +178,6 @@ theorem theta_asymptotics : ∀ (w₁ w₂ x₀ : ℂ), (starRingEnd ℂ w₁ * 
     exact min_le_right _ _
 
 end GlobalTheory.PlaneTheta
+
+theorem _root_.GlobalTheory.T.lattice_theta_asymptotics : type_of% @_root_.GlobalTheory.PlaneTheta.theta_asymptotics :=
+  @_root_.GlobalTheory.PlaneTheta.theta_asymptotics

@@ -23,3 +23,6 @@ theorem cocycle_isCoboundary_of_neg_central : ∀ (G : Type) [Group G] (R : Type
       rw [mul_smul, h2z, map_neg, map_smul, smul_sub]; abel
 
 end GlobalTheory.KZ.H3
+
+theorem _root_.GlobalTheory.T.cocycle_isCoboundary_of_neg_central_element : type_of% @_root_.GlobalTheory.KZ.H3.cocycle_isCoboundary_of_neg_central :=
+  @_root_.GlobalTheory.KZ.H3.cocycle_isCoboundary_of_neg_central

@@ -9,3 +9,6 @@ theorem exists_centre_of_isProper : ∀ (X : Scheme.{0}) (Ω : Type) [Field Ω] 
   @PositivityTheory.Xgn.valuation_centre_exists
 
 end GlobalTheory.CompanionTheory.Ar.Flat
+
+theorem _root_.GlobalTheory.T.valuation_centre_regular_unit : type_of% @_root_.GlobalTheory.CompanionTheory.Ar.Flat.exists_centre_of_isProper :=
+  @_root_.GlobalTheory.CompanionTheory.Ar.Flat.exists_centre_of_isProper

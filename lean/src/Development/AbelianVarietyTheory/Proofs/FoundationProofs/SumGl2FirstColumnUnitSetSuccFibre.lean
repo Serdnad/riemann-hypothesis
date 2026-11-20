@@ -80,3 +80,6 @@ theorem sum_unitSet_succ_fibre : ∀ (p : ℕ) [Fact p.Prime] (n : ℕ) (K : Typ
     rfl
 
 end GlobalTheory.KummerEisensteinGalois
+
+theorem _root_.GlobalTheory.T.sum_gl2FirstColumnUnitSet_succ_fibre : type_of% @_root_.GlobalTheory.KummerEisensteinGalois.sum_unitSet_succ_fibre :=
+  @_root_.GlobalTheory.KummerEisensteinGalois.sum_unitSet_succ_fibre

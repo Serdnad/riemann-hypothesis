@@ -1,6 +1,6 @@
 import Mathlib
 import CompanionTheory.RealGroups.UnitaryAdmissibility.ArchimedeanUnitaryDual.InhabitedFinite
-import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.HeckeOperatorsSpanAndFaithfulStatement
+import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.HeckeOperatorsSpanAndFaithful
 
 open CompanionTheory.Rg.Fl
 open CompanionTheory.D.gk.admitted (stdPoly word word_nil word_cons)

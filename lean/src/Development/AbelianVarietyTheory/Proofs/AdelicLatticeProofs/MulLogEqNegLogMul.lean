@@ -50,3 +50,6 @@ theorem mul_log_eq_neg_log_mul : ∀ (ι : Type) [Fintype ι] [DecidableEq ι] (
     _ = -(H' * x) := by rw [hU, Matrix.mul_one]
 
 end GlobalTheory.ClassFin
+
+theorem _root_.GlobalTheory.T.mul_log_eq_neg_log_mul' : type_of% @_root_.GlobalTheory.ClassFin.mul_log_eq_neg_log_mul :=
+  @_root_.GlobalTheory.ClassFin.mul_log_eq_neg_log_mul

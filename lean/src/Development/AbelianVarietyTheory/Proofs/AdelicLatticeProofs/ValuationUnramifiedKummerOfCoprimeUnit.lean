@@ -128,3 +128,6 @@ theorem kummer_valuation_unramified : ∀ (p : ℕ) (F E : Type) [Field F] [Numb
   rw [hw, h7, pow_one]
 
 end GlobalTheory.CNorm
+
+theorem _root_.GlobalTheory.T.valuation_unramified_kummer_of_coprime_unit : type_of% @_root_.GlobalTheory.CNorm.kummer_valuation_unramified :=
+  @_root_.GlobalTheory.CNorm.kummer_valuation_unramified

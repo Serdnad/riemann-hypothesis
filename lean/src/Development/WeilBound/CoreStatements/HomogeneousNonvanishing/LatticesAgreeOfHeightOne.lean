@@ -1,7 +1,7 @@
 import Mathlib
 import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.QuadraticCharacterPrescribedPlaces
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.RegAtFractionNoetherianClosedStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsPointLocalizationPrimeStatement
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsPointLocalizationPrime
 import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.EigLat
 open AlgebraicGeometry CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj GlobalTheory.CompanionTheory.Ar
 open scoped CategoryTheory.Obj

@@ -193,3 +193,6 @@ theorem main : ∀ {k : Type} [Field k] {l : ℕ} [Fact l.Prime] [CharP k l] (R 
   exact shift_of_le R hg x m P Q hP.1 hQ.1 hle cP cQ (Close.sh_le hm)
 
 end GlobalTheory.PhiGam.QuotShift
+
+theorem _root_.GlobalTheory.T.quotientMultiplicity_shift_lattice_quotient : type_of% @_root_.GlobalTheory.PhiGam.QuotShift.main :=
+  @_root_.GlobalTheory.PhiGam.QuotShift.main

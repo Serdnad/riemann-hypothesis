@@ -134,3 +134,6 @@ theorem csub_ring_map : ∀ (K : Type) [NormedField K] [IsUltrametricDist K] [Co
     fun k ι _ φ a A ha => csub_eval₂_of_bdd hs φ a A ha⟩
 
 end GlobalTheory.ConvSer
+
+theorem _root_.GlobalTheory.T.mvPowerSeriesConvergentSubst_isRingHom_on_bounded : type_of% @_root_.GlobalTheory.ConvSer.csub_ring_map :=
+  @_root_.GlobalTheory.ConvSer.csub_ring_map

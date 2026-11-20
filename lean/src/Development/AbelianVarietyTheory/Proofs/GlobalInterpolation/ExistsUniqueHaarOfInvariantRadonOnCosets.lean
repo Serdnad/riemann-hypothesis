@@ -197,3 +197,6 @@ theorem existsUnique_haar_of_invariantRadon : ∀ (G : Type) [Group G] [Topologi
     (quotientFormula_bind H hH ν μ _ hf).2]
 
 end GlobalTheory.QuotientHaar
+
+theorem _root_.GlobalTheory.T.existsUnique_haar_of_invariantRadonOnCosets : type_of% @_root_.GlobalTheory.QuotientHaar.existsUnique_haar_of_invariantRadon :=
+  @_root_.GlobalTheory.QuotientHaar.existsUnique_haar_of_invariantRadon

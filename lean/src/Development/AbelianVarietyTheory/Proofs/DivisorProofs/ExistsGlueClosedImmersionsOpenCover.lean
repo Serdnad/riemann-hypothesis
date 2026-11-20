@@ -130,3 +130,6 @@ theorem exists_glue_isClosedImmersion : ∀ (X : Scheme.{0}) (ι : Type) (Xi : �
       exact ⟨z ≫ e U, by rw [Category.assoc, ← (he U).w, ← Category.assoc, hz, hh]⟩
 
 end GlobalTheory.GlueClosed
+
+theorem _root_.GlobalTheory.T.exists_glue_closedImmersions_open_cover : type_of% @_root_.GlobalTheory.GlueClosed.exists_glue_isClosedImmersion :=
+  @_root_.GlobalTheory.GlueClosed.exists_glue_isClosedImmersion

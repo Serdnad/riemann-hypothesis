@@ -39,3 +39,6 @@ theorem InvAlg.isReduced_of_separable_P : ∀ (K : UQ) (B : InvAlg K), B.P.Separ
   rw [hr, map_mul, minpoly.aeval, zero_mul]
 
 end GlobalTheory.UnitLemma
+
+theorem _root_.GlobalTheory.T.isReduced_of_separable_markedCharpoly : type_of% @_root_.GlobalTheory.UnitLemma.InvAlg.isReduced_of_separable_P :=
+  @_root_.GlobalTheory.UnitLemma.InvAlg.isReduced_of_separable_P

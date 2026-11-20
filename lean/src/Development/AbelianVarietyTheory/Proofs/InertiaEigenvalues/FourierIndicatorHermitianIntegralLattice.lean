@@ -84,3 +84,6 @@ theorem fourB_indicator_intLattice : ∀ (F E : Type) [NontriviallyNormedField F
     simp [hy]
 
 end GlobalTheory.JR
+
+theorem _root_.GlobalTheory.T.fourier_indicator_hermitianIntegralLattice : type_of% @_root_.GlobalTheory.JR.fourB_indicator_intLattice :=
+  @_root_.GlobalTheory.JR.fourB_indicator_intLattice

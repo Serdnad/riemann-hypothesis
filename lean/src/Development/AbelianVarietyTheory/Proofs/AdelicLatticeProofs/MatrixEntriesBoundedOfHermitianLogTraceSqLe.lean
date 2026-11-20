@@ -66,3 +66,6 @@ theorem entries_le_of_energy_le : ∀ (ι : Type) [Fintype ι] [DecidableEq ι] 
     rwa [hherm]
 
 end GlobalTheory.ClassFin
+
+theorem _root_.GlobalTheory.T.matrix_entries_bounded_of_hermitian_log_trace_sq_le : type_of% @_root_.GlobalTheory.ClassFin.entries_le_of_energy_le :=
+  @_root_.GlobalTheory.ClassFin.entries_le_of_energy_le

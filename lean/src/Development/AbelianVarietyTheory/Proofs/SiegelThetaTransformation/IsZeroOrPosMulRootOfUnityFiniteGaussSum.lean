@@ -197,3 +197,6 @@ theorem ph_sum : ∀ (M : Type) [AddCommGroup M] [Fintype M] (f : M → ℂ), Qu
     rw [pow_mul, h8, mul_pow, hz, one_mul, pow_mul]
 
 end GlobalTheory.Phase.GaussSum
+
+theorem _root_.GlobalTheory.T.isZeroOrPosMulRootOfUnity_finite_gaussSum : type_of% @_root_.GlobalTheory.Phase.GaussSum.ph_sum :=
+  @_root_.GlobalTheory.Phase.GaussSum.ph_sum

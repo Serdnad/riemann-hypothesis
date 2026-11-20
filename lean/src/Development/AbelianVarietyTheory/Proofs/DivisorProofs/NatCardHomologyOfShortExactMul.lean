@@ -37,3 +37,6 @@ theorem natCard_homology_of_shortExact_mul : ∀ (p : ℕ) (C G : CochainComplex
   exact natCard_eq_coker_mul_ker_of_exact _ _ _ _ e2 e3 e1
 
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.natCard_homology_of_shortExact_mul' : type_of% @_root_.GlobalTheory.natCard_homology_of_shortExact_mul :=
+  @_root_.GlobalTheory.natCard_homology_of_shortExact_mul

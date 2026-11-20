@@ -122,3 +122,6 @@ theorem main : ∀ {o Ω : Type} [CommRing o] [Field Ω] [Algebra o Ω] (R : Sub
   exact GlobalTheory.T.locally_free_of_finite_projective R r₁ M₁ hfin₁ hproj₁ hrk₁ hbc₁
 
 end GlobalTheory.CompanionTheory.Ar.Num.LocFreeKernel
+
+theorem _root_.GlobalTheory.T.locally_free_of_short_exact : type_of% @_root_.GlobalTheory.CompanionTheory.Ar.Num.LocFreeKernel.main :=
+  @_root_.GlobalTheory.CompanionTheory.Ar.Num.LocFreeKernel.main

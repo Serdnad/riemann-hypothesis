@@ -11,3 +11,6 @@ theorem normal_holomorphic_frame : ∀ (d : ℕ) (G : (Fin d → ℂ) → Matrix
   PositivityTheory.Xgp.projective_line_normal_frame
 
 end GlobalTheory.CompanionTheory.Ar.PB
+
+theorem _root_.GlobalTheory.T.exists_holomorphic_normal_frame : type_of% @_root_.GlobalTheory.CompanionTheory.Ar.PB.normal_holomorphic_frame :=
+  @_root_.GlobalTheory.CompanionTheory.Ar.PB.normal_holomorphic_frame

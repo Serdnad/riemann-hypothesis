@@ -109,3 +109,6 @@ theorem kum_near_zero_eval : ∀ (Ω : Type) [Field Ω] [Algebra ℚ Ω] (ε : �
   exact cls_pow_eq_zero X l n _
 
 end GlobalTheory.KZ.H3
+
+theorem _root_.GlobalTheory.T.kummerClass_eval_eq_zero_of_vanishing_on_congruence : type_of% @_root_.GlobalTheory.KZ.H3.kum_near_zero_eval :=
+  @_root_.GlobalTheory.KZ.H3.kum_near_zero_eval

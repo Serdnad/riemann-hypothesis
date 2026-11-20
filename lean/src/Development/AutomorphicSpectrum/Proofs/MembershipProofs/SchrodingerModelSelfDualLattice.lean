@@ -169,3 +169,6 @@ theorem indicator_mem_span : ∀ {R : Type} [CommRing R] [TopologicalSpace R] [I
   exact Submodule.sum_mem _ (fun q _ => Submodule.smul_mem _ _ (Submodule.subset_span ⟨_, rfl⟩))
 
 end GlobalTheory.CompanionTheory.CosetMod
+
+theorem _root_.GlobalTheory.T.indicator_in_schrodinger_span : type_of% @_root_.GlobalTheory.CompanionTheory.CosetMod.indicator_mem_span :=
+  @_root_.GlobalTheory.CompanionTheory.CosetMod.indicator_mem_span

@@ -167,3 +167,6 @@ theorem GlobalTheory.splitting_absence_spreads : ∀ (A : Type) [CommRing A] (σ
   obtain ⟨a, I, ha, hI, hk⟩ := GlobalTheory.T.no_common_zero_spreads_constructible_nbhd A _ _ (GlobalTheory.SplitSpread.eqs A D f g) Ω φ h0
   refine ⟨a, I, ha, hI, fun k _ ψ hψa hψI hb => hk k ψ hψa hψI ?_⟩
   exact (GlobalTheory.SplitSpread.bad_iff f g D k ψ).mpr hb
+
+theorem _root_.GlobalTheory.T.splitting_absence_spreads_alt : type_of% @_root_.GlobalTheory.splitting_absence_spreads :=
+  @_root_.GlobalTheory.splitting_absence_spreads

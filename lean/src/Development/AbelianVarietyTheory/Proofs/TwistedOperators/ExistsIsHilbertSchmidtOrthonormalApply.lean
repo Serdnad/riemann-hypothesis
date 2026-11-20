@@ -77,3 +77,6 @@ theorem exists_isHilbertSchmidt_orthonormal_apply : ∀ (H K : Type) [NormedAddC
   · simp only [Function.comp_apply, hbe, hval]
 
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.exists_isHilbertSchmidt_orthonormal_apply_alt : type_of% @_root_.GlobalTheory.exists_isHilbertSchmidt_orthonormal_apply :=
+  @_root_.GlobalTheory.exists_isHilbertSchmidt_orthonormal_apply

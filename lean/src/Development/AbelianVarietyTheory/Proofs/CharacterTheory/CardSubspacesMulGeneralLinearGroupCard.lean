@@ -36,3 +36,6 @@ theorem card_subspaces_mul_glCard : ∀ (F : Type) [Field F] [Finite F] (V : Typ
   exact_mod_cast key
 
 end GlobalTheory.CuspGL
+
+theorem _root_.GlobalTheory.T.card_subspaces_mul_generalLinearGroupCard : type_of% @_root_.GlobalTheory.CuspGL.card_subspaces_mul_glCard :=
+  @_root_.GlobalTheory.CuspGL.card_subspaces_mul_glCard

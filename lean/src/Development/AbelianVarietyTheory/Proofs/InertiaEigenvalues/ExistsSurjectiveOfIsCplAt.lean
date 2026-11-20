@@ -1,7 +1,7 @@
 import Mathlib
 import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.ProjectionSurjective
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsUniqueAlgEquivOfCompatibleQuotient
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CompletionUniqueUpToIsoStatement
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CompletionUniqueUpToIso
 open IsLocalRing GlobalTheory.Pat
 
 namespace GlobalTheory.Pat

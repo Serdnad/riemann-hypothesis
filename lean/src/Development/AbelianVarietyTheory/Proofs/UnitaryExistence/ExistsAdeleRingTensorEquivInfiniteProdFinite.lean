@@ -114,3 +114,6 @@ theorem exists_adele_equiv : ∀ (F E : Type) [Field F] [NumberField F] [Field E
   exact exists_prod_equiv F E (InfiniteAdeleRing F) (FiniteAdeleRing (𝓞 F) F)
 
 end GlobalTheory.AdSplit
+
+theorem _root_.GlobalTheory.T.exists_adeleRing_tensor_equiv_infinite_prod_finite : type_of% @_root_.GlobalTheory.AdSplit.exists_adele_equiv :=
+  @_root_.GlobalTheory.AdSplit.exists_adele_equiv

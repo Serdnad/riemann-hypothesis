@@ -16,3 +16,6 @@ theorem bertini_derivation_split : ∀ (k A : Type) [Field k] [CommRing A] [Alge
   ext j
   simp [Pi.single_apply, eq_comm]
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.exists_derivation_split_kaehlerD_smooth : type_of% @_root_.GlobalTheory.bertini_derivation_split :=
+  @_root_.GlobalTheory.bertini_derivation_split

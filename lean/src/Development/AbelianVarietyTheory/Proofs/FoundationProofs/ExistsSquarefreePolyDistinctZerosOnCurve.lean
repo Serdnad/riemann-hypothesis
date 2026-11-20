@@ -125,3 +125,6 @@ theorem main : ∀ (k A : Type) [Field k] [IsAlgClosed k] [CharZero k] [CommRing
     exact (Ideal.prod_normalizedFactors_eq_self hI0).symm
 
 end GlobalTheory.SquarefreeFibre
+
+theorem _root_.GlobalTheory.T.exists_squarefree_poly_distinct_zeros_on_curve : type_of% @_root_.GlobalTheory.SquarefreeFibre.main :=
+  @_root_.GlobalTheory.SquarefreeFibre.main

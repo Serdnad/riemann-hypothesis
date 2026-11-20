@@ -235,3 +235,6 @@ theorem tame_character : ∀ {F : Type} [Field F] [ValuativeRel F] [TopologicalS
     exact extendedCharacter_congr_of_tame hδ hD₀ hkU
 
 end GlobalTheory.CompanionTheory.QL.Tame
+
+theorem _root_.GlobalTheory.T.parahoric_character_modulus_properties : type_of% @_root_.GlobalTheory.CompanionTheory.QL.Tame.tame_character :=
+  @_root_.GlobalTheory.CompanionTheory.QL.Tame.tame_character

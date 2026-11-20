@@ -191,3 +191,6 @@ theorem schlessinger_flat : ∀ (P R₁ R₂ R₀ B₁ B₂ B₀ B : CommRingCat
     (mul_injective_of_flat P R₂ B B₂ (RingHom.ker f₁.hom) f₂.hom a₂.hom c₂.hom sf₂ sc₂ w₂ kc₂ jP hfl₂)
 
 end GlobalTheory.SchlessingerFlat
+
+theorem _root_.GlobalTheory.T.schlessinger_flat_fibreProduct : type_of% @_root_.GlobalTheory.SchlessingerFlat.schlessinger_flat :=
+  @_root_.GlobalTheory.SchlessingerFlat.schlessinger_flat

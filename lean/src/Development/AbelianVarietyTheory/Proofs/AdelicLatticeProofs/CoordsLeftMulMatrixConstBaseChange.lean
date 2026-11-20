@@ -29,3 +29,6 @@ theorem coords_const_baseChange : ∀ (F β : Type) [Field F] [Algebra ℚ F] [F
     hb j, ← map_mul, repr_algebraMap_of_basis_image F β ω R A b hb]
 
 end GlobalTheory.ClassFin
+
+theorem _root_.GlobalTheory.T.coords_leftMulMatrix_const_baseChange : type_of% @_root_.GlobalTheory.ClassFin.coords_const_baseChange :=
+  @_root_.GlobalTheory.ClassFin.coords_const_baseChange

@@ -2,7 +2,7 @@ import Mathlib
 import Formalism.UnipotentAdelicQuotients.SWXSDefs
 import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.GenusMassVolumes
 import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.MatrixTransvectionDiagonalDecompositionStatement
-import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.HaarInvariantUnderTransvectionStatement
+import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.HaarInvariantUnderTransvection
 open MeasureTheory Topology Matrix
 open scoped ENNReal NNReal
 

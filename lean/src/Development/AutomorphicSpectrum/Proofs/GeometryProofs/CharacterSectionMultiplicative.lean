@@ -283,3 +283,6 @@ theorem GlobalTheory.CompanionTheory.Ar.BT.charValues_mul : ∀ (R : Type) [Comm
     rw [pull, map_mul, pull, pull, comp_mul, lift_fst, lift_snd] at h
     exact h
   · rw [Hom.one_def, ← pull, one_univ Γ χ s hs, map_one]
+
+theorem _root_.GlobalTheory.T.character_section_multiplicative : type_of% @_root_.GlobalTheory.CompanionTheory.Ar.BT.charValues_mul :=
+  @_root_.GlobalTheory.CompanionTheory.Ar.BT.charValues_mul

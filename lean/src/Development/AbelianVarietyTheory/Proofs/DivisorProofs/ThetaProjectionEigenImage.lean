@@ -46,3 +46,6 @@ theorem proj_kills_other_eig : ∀ (p : ℕ) [Fact p.Prime] (O : Type) [CommRing
   exact (smul_eq_zero.mp h2).resolve_left hne
 
 end GlobalTheory.DetInv
+
+theorem _root_.GlobalTheory.T.theta_projection_eigen_image : type_of% @_root_.GlobalTheory.DetInv.proj_kills_other_eig :=
+  @_root_.GlobalTheory.DetInv.proj_kills_other_eig

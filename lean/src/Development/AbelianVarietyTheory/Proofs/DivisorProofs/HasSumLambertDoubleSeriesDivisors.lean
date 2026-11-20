@@ -45,3 +45,6 @@ theorem hasSum_lambert : ∀ (e : ℕ) (Q : ℂ) (c : ℕ → ℕ → ℂ), ‖Q
       rw [Nat.div_mul_cancel (Nat.dvd_of_mem_divisors hm)]
 
 end GlobalTheory.WpFam
+
+theorem _root_.GlobalTheory.T.hasSum_lambert_double_series_divisors : type_of% @_root_.GlobalTheory.WpFam.hasSum_lambert :=
+  @_root_.GlobalTheory.WpFam.hasSum_lambert

@@ -1,7 +1,7 @@
 import Mathlib
 import Formalism.SharpRestriction.CuspSpanNormBounds.IsTermOver
 import Development.AbelianVarietyTheory.Proofs.FlagMeasures.DetGramSumElimSmulSub
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.LocalModelModulusPropertiesOnUnitsStatement
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.LocalModelModulusPropertiesOnUnits
 open ValuativeRel Formalism.MainNotions.S Formalism.MainNotions.S.Loc
 open scoped Pointwise ENNReal Classical
 

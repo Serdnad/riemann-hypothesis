@@ -11,3 +11,6 @@ theorem condC_sh_and_nab_mem : ∀ {k : Type} [Field k] {l : ℕ} [Fact l.Prime]
   exact ⟨(condC_iff_nab_mem g _).2 h, h⟩
 
 end GlobalTheory.PhiGam
+
+theorem _root_.GlobalTheory.T.gammaCondition_shift_and_divVariable_mem : type_of% @_root_.GlobalTheory.PhiGam.condC_sh_and_nab_mem :=
+  @_root_.GlobalTheory.PhiGam.condC_sh_and_nab_mem

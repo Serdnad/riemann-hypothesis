@@ -173,3 +173,6 @@ theorem locally_bounded : (∀ (H : ℂ → ℂ) (r C : ℝ) (N : ℕ), 0 < r �
   exact le_of_tendsto hT.norm hev
 
 end GlobalTheory.HyperplaneLocBound
+
+theorem _root_.GlobalTheory.T.locally_bounded_off_coordinate_hyperplanes : type_of% @_root_.GlobalTheory.HyperplaneLocBound.locally_bounded :=
+  @_root_.GlobalTheory.HyperplaneLocBound.locally_bounded

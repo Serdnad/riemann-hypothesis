@@ -52,3 +52,6 @@ theorem ncard_extend_prim_one : âˆ€ {B : Type} [CommRing B] [Fintype B] (c : B â
   constructor <;> linarith [hZ.1, hZ.2]
 
 end GlobalTheory.GramCount
+
+theorem _root_.GlobalTheory.T.card_primitiveTuple_extensions_le : type_of% @_root_.GlobalTheory.GramCount.ncard_extend_prim_one :=
+  @_root_.GlobalTheory.GramCount.ncard_extend_prim_one

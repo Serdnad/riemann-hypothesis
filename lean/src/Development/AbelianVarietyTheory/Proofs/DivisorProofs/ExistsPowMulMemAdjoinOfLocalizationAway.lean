@@ -48,3 +48,6 @@ theorem GlobalTheory.adjoin_mem_of_away_localization {R A R' A' : Type} [CommRin
 theorem GlobalTheory.adjoin_mem_of_away_localization' : ∀ {R A R' A' : Type} [CommRing R] [CommRing A] [CommRing R'] [CommRing A'] [Algebra R A] [Algebra R R'] [Algebra R' A'] [Algebra A A'] [Algebra R A'] [IsScalarTower R A A'] [IsScalarTower R R' A'] (g : R) [IsLocalization.Away g R'] [IsLocalization.Away (algebraMap R A g) A'], ∀ (T : Set A) (b : A), algebraMap A A' b ∈ Algebra.adjoin R' (algebraMap A A' '' T) → ∃ m : ℕ, algebraMap R A g ^ m * b ∈ Algebra.adjoin R T := by
   intros R A R' A' _ _ _ _ _ _ _ _ _ _ _ g _ _ T b h
   exact GlobalTheory.adjoin_mem_of_away_localization g T b h
+
+theorem _root_.GlobalTheory.T.exists_pow_mul_mem_adjoin_of_localizationAway : type_of% @_root_.GlobalTheory.adjoin_mem_of_away_localization' :=
+  @_root_.GlobalTheory.adjoin_mem_of_away_localization'

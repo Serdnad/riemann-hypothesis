@@ -43,3 +43,6 @@ theorem det_leading_gram_iwasawa : ∀ (N : ℕ) (k : Matrix (Fin N) (Fin N) ℝ
   simp
 
 end GlobalTheory.ClassFin
+
+theorem _root_.GlobalTheory.T.det_leading_minor_gram_iwasawa : type_of% @_root_.GlobalTheory.ClassFin.det_leading_gram_iwasawa :=
+  @_root_.GlobalTheory.ClassFin.det_leading_gram_iwasawa

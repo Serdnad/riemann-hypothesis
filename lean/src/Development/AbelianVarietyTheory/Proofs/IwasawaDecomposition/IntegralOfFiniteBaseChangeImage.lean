@@ -18,3 +18,6 @@ theorem integral_of_finite_base_change_image : ∀ (T U C F K L : Type) [CommRin
   exact isIntegral_trans ω hint
 
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.isIntegral_of_monic_eval_tmul_map_eq_zero : type_of% @_root_.GlobalTheory.integral_of_finite_base_change_image :=
+  @_root_.GlobalTheory.integral_of_finite_base_change_image

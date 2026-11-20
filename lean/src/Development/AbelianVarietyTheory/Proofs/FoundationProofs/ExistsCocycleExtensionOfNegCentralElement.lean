@@ -47,3 +47,6 @@ theorem exists_cocycle_extension_of_neg_action : ∀ (G : Type) [Group G] (R : T
       smul_neg, neg_smul, neg_neg, smul_smul, ← hu, Units.inv_mul, one_smul]
 
 end GlobalTheory.KZ.H3
+
+theorem _root_.GlobalTheory.T.exists_cocycle_extension_of_neg_central_element : type_of% @_root_.GlobalTheory.KZ.H3.exists_cocycle_extension_of_neg_action :=
+  @_root_.GlobalTheory.KZ.H3.exists_cocycle_extension_of_neg_action

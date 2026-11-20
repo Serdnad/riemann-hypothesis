@@ -62,3 +62,6 @@ theorem cfmax_main : ∀ (p : ℕ) [Fact p.Prime] (K : Type) [Field K] [CharP K 
     exact IntermediateField.mem_adjoin_simple_self L y
 
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.exists_maximal_subfield_missing_elem_expOne : type_of% @_root_.GlobalTheory.cfmax_main :=
+  @_root_.GlobalTheory.cfmax_main

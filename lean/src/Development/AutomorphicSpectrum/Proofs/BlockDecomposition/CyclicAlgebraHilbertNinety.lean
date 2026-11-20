@@ -204,3 +204,6 @@ theorem main : PositivityTheory.Rg.Tf.Loc.N1 → ∀ (O O' R : Type) [CommRing O
       | simp [Units.coe_map]
 
 end GlobalTheory.CompanionTheory.FirstApprox
+
+theorem _root_.GlobalTheory.T.cyclic_algebra_hilbert_ninety : type_of% @_root_.GlobalTheory.CompanionTheory.FirstApprox.main :=
+  @_root_.GlobalTheory.CompanionTheory.FirstApprox.main

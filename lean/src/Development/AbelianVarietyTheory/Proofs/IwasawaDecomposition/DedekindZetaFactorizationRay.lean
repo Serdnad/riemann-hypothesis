@@ -196,3 +196,6 @@ theorem ray_prod_LSeries_nonneg : ∀ (K : Type) [Field K] [NumberField K] (M : 
   exact Finset.prod_congr rfl fun χ _ => (GlobalTheory.T.ray_L_series_euler_product K M hM D χ s hs).2.2.symm
 
 end GlobalTheory.Mem
+
+theorem _root_.GlobalTheory.T.dedekind_zeta_factorization_ray : type_of% @_root_.GlobalTheory.Mem.ray_prod_LSeries_nonneg :=
+  @_root_.GlobalTheory.Mem.ray_prod_LSeries_nonneg

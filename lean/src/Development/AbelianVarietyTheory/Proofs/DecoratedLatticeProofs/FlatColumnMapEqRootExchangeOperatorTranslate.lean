@@ -52,3 +52,6 @@ theorem flCol_eq_opE_colE : ∀ (k : Type) [Field k] [ValuativeRel k] [Topologic
   rw [← affPt_add_colAt, big, ch_add_colAt, one_mul]
 
 end GlobalTheory.LocFlat
+
+theorem _root_.GlobalTheory.T.flatColumnMap_eq_rootExchangeOperator_translate : type_of% @_root_.GlobalTheory.LocFlat.flCol_eq_opE_colE :=
+  @_root_.GlobalTheory.LocFlat.flCol_eq_opE_colE

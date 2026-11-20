@@ -63,3 +63,6 @@ theorem ind_eq_finsum_cosets : ∀ (L : Type) [Field L] [CharZero L] (G : Type) 
   rw [← Finset.mul_sum, ← mul_assoc, inv_mul_cancel₀ hc, one_mul]
 
 end GlobalTheory.BI
+
+theorem _root_.GlobalTheory.T.inducedClassFunctionFromSubgroup_eq_finsum_cosets : type_of% @_root_.GlobalTheory.BI.ind_eq_finsum_cosets :=
+  @_root_.GlobalTheory.BI.ind_eq_finsum_cosets

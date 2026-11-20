@@ -1,6 +1,6 @@
 import Mathlib
 import Development.AbelianVarietyTheory.Proofs.FlagMeasures.PrimOfIsUnitDet
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.CardPrimitiveTupleExtensionsLeStatement
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.CardPrimitiveTupleExtensionsLe
 
 open GlobalTheory.GramCount
 open scoped Classical

@@ -170,3 +170,6 @@ theorem GlobalTheory.adicCompletion_valuationRing_props : ∀ (V : Type) [CommRi
       rw [Ideal.map_span, Set.image_singleton]
     rw [← e, IsAdicComplete.map_algebraMap_iff]
     exact AdicCompletion.isAdicComplete (Submodule.fg_span_singleton x)
+
+theorem _root_.GlobalTheory.T.adicCompletion_valuationRing_complete_valuationDomain : type_of% @_root_.GlobalTheory.adicCompletion_valuationRing_props :=
+  @_root_.GlobalTheory.adicCompletion_valuationRing_props

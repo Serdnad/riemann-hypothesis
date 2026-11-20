@@ -1,7 +1,7 @@
 import Mathlib
 import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.FlagMinor
 import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.SumMemLoc
-import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.LocallyFreeOfShortExactStatement
+import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.LocallyFreeOfShortExact
 
 open GlobalTheory.CompanionTheory.Ar.Num
 

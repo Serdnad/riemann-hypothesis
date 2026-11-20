@@ -37,3 +37,6 @@ theorem conj_places_of_same_prime_below : ∀ (E Ω : Type) [Field E] [NumberFie
     rfl
 
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.exists_conj_valuationSubring_of_same_below : type_of% @_root_.GlobalTheory.conj_places_of_same_prime_below :=
+  @_root_.GlobalTheory.conj_places_of_same_prime_below

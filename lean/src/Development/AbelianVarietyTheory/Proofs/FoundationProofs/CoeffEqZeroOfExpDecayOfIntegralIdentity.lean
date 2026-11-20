@@ -68,3 +68,6 @@ theorem ode_coeff_zero_of_decay_ends : ∀ (v : ℝ → ℂ) (K c : ℂ) (C α �
   exact hKc.resolve_left hK
 
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.coeff_eq_zero_of_exp_decay_of_integral_identity : type_of% @_root_.GlobalTheory.ode_coeff_zero_of_decay_ends :=
+  @_root_.GlobalTheory.ode_coeff_zero_of_decay_ends

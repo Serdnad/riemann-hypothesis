@@ -1,5 +1,5 @@
 import Mathlib
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ClosureGenericFibreClopenSplitStatement
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ClosureGenericFibreClopenSplit
 
 open AlgebraicGeometry CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj TopologicalSpace TensorProduct
 open scoped CategoryTheory.Obj

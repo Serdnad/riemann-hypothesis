@@ -61,3 +61,6 @@ theorem solv_pow : ∀ (p : ℕ) [Fact p.Prime] (A : Type) [CommRing A](S : Type
   exact hmem
 
 end GlobalTheory.CompanionTheory.PerfectQuotient
+
+theorem _root_.GlobalTheory.T.frobenius_power_solution_lift : type_of% @_root_.GlobalTheory.CompanionTheory.PerfectQuotient.solv_pow :=
+  @_root_.GlobalTheory.CompanionTheory.PerfectQuotient.solv_pow

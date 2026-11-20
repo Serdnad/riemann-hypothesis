@@ -44,3 +44,6 @@ theorem cubeComplex_polyGrading_finite_exact : ∀ (ι : Type) [LinearOrder ι] 
     · exact h1 p hp
 
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.finite_homology_and_exact_cubeComplex_polyGrading : type_of% @_root_.GlobalTheory.cubeComplex_polyGrading_finite_exact :=
+  @_root_.GlobalTheory.cubeComplex_polyGrading_finite_exact

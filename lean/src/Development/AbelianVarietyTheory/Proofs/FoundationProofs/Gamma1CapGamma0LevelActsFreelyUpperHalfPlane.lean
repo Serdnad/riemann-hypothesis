@@ -95,3 +95,6 @@ theorem gam_free : ∀ (N l : ℕ), 4 ≤ N → ∀ γ ∈ Gam N l, ∀ z ∈ Hs
     exact no_small N hN (a + d) (k + m) (by linear_combination hk + hm) ht
 
 end GlobalTheory.KZ
+
+theorem _root_.GlobalTheory.T.gamma1CapGamma0Level_acts_freely_upperHalfPlane : type_of% @_root_.GlobalTheory.KZ.gam_free :=
+  @_root_.GlobalTheory.KZ.gam_free

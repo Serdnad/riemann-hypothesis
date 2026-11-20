@@ -81,3 +81,6 @@ theorem exists_isGen_linComb : ∀ (X Y : Scheme.{0}) (L : LB X) (θ : L.Sec) (�
     (pullU (![φ, ψ] k) (L.U (i k) ⊓ L.U (j k)) (L.g (i k) (j k)))) ^ ((![1, -1] : Fin 2 → ℤ) k))).symm
 
 end GlobalTheory.SameZeroScheme
+
+theorem _root_.GlobalTheory.T.isoLineBundle_of_regularPullbacks_sameZeroScheme : type_of% @_root_.GlobalTheory.SameZeroScheme.exists_isGen_linComb :=
+  @_root_.GlobalTheory.SameZeroScheme.exists_isGen_linComb

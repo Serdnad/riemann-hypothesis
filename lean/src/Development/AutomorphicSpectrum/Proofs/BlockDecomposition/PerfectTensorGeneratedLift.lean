@@ -86,3 +86,6 @@ theorem pq_baseChange : ∀ (p : ℕ) [Fact p.Prime] (A : Type) [CommRing A](S :
       exact hred _ _ h
 
 end GlobalTheory.CompanionTheory.PerfectRing
+
+theorem _root_.GlobalTheory.T.perfect_tensor_generated_lift : type_of% @_root_.GlobalTheory.CompanionTheory.PerfectRing.pq_baseChange :=
+  @_root_.GlobalTheory.CompanionTheory.PerfectRing.pq_baseChange

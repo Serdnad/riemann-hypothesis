@@ -127,3 +127,6 @@ theorem regAt_prime_generisation : ∀ (X : Scheme.{0}) (Ω : Type) [Field Ω] (
     rw [map_mul, hσ, ht, hρ, ← hσ r, ← _root_.mul_assoc, mul_comm (genMap ξ q _), hne, _root_.one_mul]
 
 end GlobalTheory.CompanionTheory.Ar
+
+theorem _root_.GlobalTheory.T.exists_point_localization_prime : type_of% @_root_.GlobalTheory.CompanionTheory.Ar.regAt_prime_generisation :=
+  @_root_.GlobalTheory.CompanionTheory.Ar.regAt_prime_generisation

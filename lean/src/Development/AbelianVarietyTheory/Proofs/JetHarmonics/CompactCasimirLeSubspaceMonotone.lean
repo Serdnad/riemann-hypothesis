@@ -77,3 +77,6 @@ theorem casKLe_subspace_mono : ∀ (M : Type) [NormedAddCommGroup M] [InnerProdu
     gcongr
 
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.compactCasimirLe_subspace_monotone : type_of% @_root_.GlobalTheory.casKLe_subspace_mono :=
+  @_root_.GlobalTheory.casKLe_subspace_mono

@@ -32,3 +32,6 @@ theorem hasSum_rows_derivWeierstrassP : ∀ (τ : ℍ) (z : ℂ), HasSum (fun n 
   exact h.prod_fiberwise fun n => (h.summable.prod_factor n).hasSum
 
 end GlobalTheory.WpFam
+
+theorem _root_.GlobalTheory.T.hasSum_rows_inv_cube_derivWeierstrassP : type_of% @_root_.GlobalTheory.WpFam.hasSum_rows_derivWeierstrassP :=
+  @_root_.GlobalTheory.WpFam.hasSum_rows_derivWeierstrassP

@@ -45,3 +45,6 @@ theorem ann_of_directed_essEtale : ∀ (R B : Type) [CommRing R] [CommRing B] [A
   exact ⟨s, hs, hsQ, congrArg Subtype.val hsc⟩
 
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.annihilator_of_directed_essentiallyEtale_union : type_of% @_root_.GlobalTheory.ann_of_directed_essEtale :=
+  @_root_.GlobalTheory.ann_of_directed_essEtale

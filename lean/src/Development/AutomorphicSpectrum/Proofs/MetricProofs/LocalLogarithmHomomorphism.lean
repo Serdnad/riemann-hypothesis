@@ -46,3 +46,6 @@ theorem koenigs_limit_additive_for_law : ∀ {B V : Type} [NormedAddCommGroup B]
   exact tendsto_nhds_unique (hlim b hb _ hm) hsum
 
 end GlobalTheory.CompanionTheory.Ar.Flat.LocalLog
+
+theorem _root_.GlobalTheory.T.local_logarithm_homomorphism : type_of% @_root_.GlobalTheory.CompanionTheory.Ar.Flat.LocalLog.koenigs_limit_additive_for_law :=
+  @_root_.GlobalTheory.CompanionTheory.Ar.Flat.LocalLog.koenigs_limit_additive_for_law

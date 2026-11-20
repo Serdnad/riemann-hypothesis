@@ -180,3 +180,6 @@ theorem span_box : ∀ (A B : Type) [TopologicalSpace A] [T2Space A] [LocallyCom
     simp at this
 
 end GlobalTheory.CompanionTheory.FrobProd
+
+theorem _root_.GlobalTheory.T.schwartzBruhat_prod_span_tensors : type_of% @_root_.GlobalTheory.CompanionTheory.FrobProd.span_box :=
+  @_root_.GlobalTheory.CompanionTheory.FrobProd.span_box

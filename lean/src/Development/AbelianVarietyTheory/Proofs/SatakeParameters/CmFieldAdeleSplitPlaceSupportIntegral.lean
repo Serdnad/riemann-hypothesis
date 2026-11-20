@@ -102,3 +102,6 @@ theorem mem_ALint_of_supported_at_split : ∀ (L : Type) [Field L] [NumberField 
       (Subring.subset_closure (Or.inr ⟨B, hBi, rfl⟩)))
 
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.cmField_adele_split_place_support_integral : type_of% @_root_.GlobalTheory.mem_ALint_of_supported_at_split :=
+  @_root_.GlobalTheory.mem_ALint_of_supported_at_split

@@ -88,3 +88,6 @@ theorem GlobalTheory.closure_generic_fibre_clopen_split : ∀ (R A : Type) [Comm
       (closure_minimal hCa hclo.isClosed) (closure_minimal hC'a hclo.isOpen.isClosed_compl)
   · rw [← closure_union, hU, hF]
     exact hdense.closure_range
+
+theorem _root_.GlobalTheory.T.closure_generic_fibre_clopen_split_alt : type_of% @_root_.GlobalTheory.closure_generic_fibre_clopen_split :=
+  @_root_.GlobalTheory.closure_generic_fibre_clopen_split

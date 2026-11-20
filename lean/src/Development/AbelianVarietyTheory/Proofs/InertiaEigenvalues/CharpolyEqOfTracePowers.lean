@@ -99,3 +99,6 @@ theorem charpoly_eq_of_trace_pow_eq : ∀ (V V' : Type) [AddCommGroup V] [Module
     rw [← trace_pow_eq_sum_roots, ← trace_pow_eq_sum_roots, h k]
 
 end GlobalTheory.TracePowCharpoly
+
+theorem _root_.GlobalTheory.T.charpoly_eq_of_trace_powers : type_of% @_root_.GlobalTheory.TracePowCharpoly.charpoly_eq_of_trace_pow_eq :=
+  @_root_.GlobalTheory.TracePowCharpoly.charpoly_eq_of_trace_pow_eq
