@@ -83,26 +83,27 @@ theorem ringKrullDim_le_add {O A : Type} (K : Type) [CommRing O] [IsDomain O] [I
     MvPolynomial.ringKrullDim_of_isNoetherianRing, Nat.card, hc, Cardinal.toNat_natCast] at h
   exact h
 
-theorem topologicalKrullDim_eq_succ {O K : Type} [CommRing O] [IsDedekindDomain O] (hO : ¬ IsField O) [Field K]
-    [Algebra O K] [IsFractionRing O K] {X Y : Scheme.{0}} [IsIntegral X] {p : X ⟶ Sp O} [IsProper p] [Flat p]
+theorem topologicalKrullDim_eq_succ_of_ringKrullDim_le_one {O K : Type}
+    [CommRing O] [IsDomain O] [IsNoetherianRing O] (hO : ¬ IsField O)
+    (hO1 : ringKrullDim O ≤ 1) [Field K]
+    [Algebra O K] [IsFractionRing O K] {X Y : Scheme.{0}} [IsIntegral X] {p : X ⟶ Sp O} [IsProper p]
+    (hfaithful : ∀ {A : Type} [CommRing A] [Algebra O A] [Nontrivial A]
+      (i : Sp A ⟶ X) [IsOpenImmersion i], i ≫ p = spMap (algebraMap O A) → FaithfulSMul O A)
     {j : Y ⟶ X} {q : Y ⟶ Sp K} (H : IsPullback j q p (spMap (algebraMap O K))) {d : ℕ}
     (hd : topologicalKrullDim Y = d) : topologicalKrullDim X = (d + 1 : ℕ) := by
-  have hO1 : ringKrullDim O ≤ 1 := by exact_mod_cast Ring.krullDimLE_iff.mp (inferInstance : Ring.KrullDimLE 1 O)
   refine le_antisymm (topologicalKrullDim_le_of_forall_exists_isOpen fun x => ?_) ?_
   · obtain ⟨A, _, _, i, _, a, rfl, hi⟩ := exists_affine_chart_over p x
     obtain ⟨i₀, _, -⟩ := exists_affine_chart_of_isPullback H i hi
     refine ⟨Set.range i, i.isOpenEmbedding.isOpen_range, ⟨a, rfl⟩, ?_⟩
     rw [topologicalKrullDim_eq_of_isEmbedding i.isOpenEmbedding.isEmbedding rfl]
     have : Nonempty (Spec (.of A)) := ⟨a⟩
+    have : Nontrivial A := PrimeSpectrum.nonempty_iff_nontrivial.1 ⟨a⟩
     have : IsIntegral (Spec (.of A)) := isIntegral_of_isOpenImmersion i
     have : IsDomain A := (affine_isIntegral_iff (.of A)).1 this
     have hft : LocallyOfFiniteType (Spec.map (CommRingCat.ofHom (algebraMap O A))) := by rw [← hi]; infer_instance
-    have hfl : Flat (Spec.map (CommRingCat.ofHom (algebraMap O A))) := by rw [← hi]; infer_instance
     rw [HasRingHomProperty.Spec_iff (P := @LocallyOfFiniteType)] at hft
-    rw [HasRingHomProperty.Spec_iff (P := @Flat)] at hfl
     have : Algebra.FiniteType O A := RingHom.finiteType_algebraMap.mp hft
-    have : Module.Flat O A := RingHom.flat_algebraMap_iff.mp hfl
-    have : FaithfulSMul O A := inferInstance
+    have : FaithfulSMul O A := hfaithful i hi
     have h₁ : ringKrullDim (K ⊗[O] A) ≤ d :=
       (PrimeSpectrum.topologicalKrullDim_eq_ringKrullDim _).ge.trans
         (i₀.isOpenEmbedding.isInducing.topologicalKrullDim_le.trans hd.le)
@@ -137,6 +138,21 @@ theorem topologicalKrullDim_eq_succ {O K : Type} [CommRing O] [IsDedekindDomain 
       exact le_bot_iff.1 (h₂.trans (hp _).le)
     refine Order.le_krullDim_iff.2 ⟨(l.map _ hm).cons x hlt, ?_⟩
     simp [hl]
+
+theorem topologicalKrullDim_eq_succ {O K : Type} [CommRing O] [IsDedekindDomain O] (hO : ¬ IsField O) [Field K]
+    [Algebra O K] [IsFractionRing O K] {X Y : Scheme.{0}} [IsIntegral X] {p : X ⟶ Sp O} [IsProper p] [Flat p]
+    {j : Y ⟶ X} {q : Y ⟶ Sp K} (H : IsPullback j q p (spMap (algebraMap O K))) {d : ℕ}
+    (hd : topologicalKrullDim Y = d) : topologicalKrullDim X = (d + 1 : ℕ) := by
+  have hO1 : ringKrullDim O ≤ 1 := by
+    exact_mod_cast Ring.krullDimLE_iff.mp (inferInstance : Ring.KrullDimLE 1 O)
+  refine topologicalKrullDim_eq_succ_of_ringKrullDim_le_one hO hO1 ?_ H hd
+  intro A _ _ _ i _ hi
+  have hfl : Flat (spMap (algebraMap O A)) := by
+    rw [← hi]
+    infer_instance
+  rw [HasRingHomProperty.Spec_iff (P := @Flat)] at hfl
+  have : Module.Flat O A := RingHom.flat_algebraMap_iff.mp hfl
+  infer_instance
 
 theorem exists_flat_model {O K : Type} [CommRing O] [IsDedekindDomain O] [Field K] [Algebra O K] [IsFractionRing O K]
     {Y : Scheme.{0}} [IsIntegral Y] (q : Y ⟶ Sp K) (hq : IsProjOver q) {ι : Type} [Fintype ι]

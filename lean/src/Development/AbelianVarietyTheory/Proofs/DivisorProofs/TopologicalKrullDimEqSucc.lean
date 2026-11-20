@@ -82,55 +82,15 @@ theorem topologicalKrullDim_eq_succ (h : IsArithVar p D) {K : Type} [Field K] [A
     topologicalKrullDim X = (d + 1 : ℕ) := by
   have := h.isDomain
   have := h.isNoetherianRing
+  have := h.isIntegral
   have : IsProper p := CommonModel.isProper_of_isProjOver h.isProjOver
-  have hO1 := ringKrullDim_base h
+  have hdim := ringKrullDim_base h
   have hO : ¬ IsField k := fun e => by
-    rw [ringKrullDim_eq_zero_of_isField e] at hO1
-    exact absurd hO1 (by decide)
-  refine le_antisymm (topologicalKrullDim_le_of_forall_exists_isOpen fun x => ?_) ?_
-  · obtain ⟨A, _, _, i, _, a, rfl, hi⟩ := exists_affine_chart_over p x
-    obtain ⟨i₀, _, -⟩ := exists_affine_chart_of_isPullback H i hi
-    refine ⟨Set.range i, i.isOpenEmbedding.isOpen_range, ⟨a, rfl⟩, ?_⟩
-    rw [topologicalKrullDim_eq_of_isEmbedding i.isOpenEmbedding.isEmbedding rfl]
-    have : Nontrivial A := PrimeSpectrum.nonempty_iff_nontrivial.1 ⟨a⟩
-    obtain ⟨_, _, _⟩ := chart_props h i hi
-    have h₁ : ringKrullDim (K ⊗[k] A) ≤ d :=
-      (PrimeSpectrum.topologicalKrullDim_eq_ringKrullDim _).ge.trans
-        (i₀.isOpenEmbedding.isInducing.topologicalKrullDim_le.trans hd.le)
-    refine (PrimeSpectrum.topologicalKrullDim_eq_ringKrullDim A).le.trans
-      ((IntModel.ringKrullDim_le_add (O := k) K).trans ?_)
-    refine (add_le_add hO1.le h₁).trans_eq ?_
-    push_cast
-    exact add_comm _ _
-  · have := IsPreimmersion.of_isLocalization (R := k) (S := K) (nonZeroDivisors k)
-    have : IsPreimmersion j := MorphismProperty.of_isPullback H.flip this
-    have hj := j.isEmbedding
-    have eX : topologicalKrullDim X = Order.krullDim X :=
-      Order.krullDim_eq_of_orderIso (irreducibleSetEquivPoints (α := X))
-    have eY : topologicalKrullDim Y = Order.krullDim Y :=
-      Order.krullDim_eq_of_orderIso (irreducibleSetEquivPoints (α := Y))
-    rw [eY] at hd
-    rw [eX]
-    obtain ⟨l, hl⟩ := Order.le_krullDim_iff.1 hd.ge
-    have hm : StrictMono (j : Y → X) := fun a b h =>
-      ⟨hj.isInducing.specializes_iff.2 h.1, fun h' => h.2 (hj.isInducing.specializes_iff.1 h')⟩
-    obtain ⟨m, hm0, hmp⟩ := Ring.not_isField_iff_exists_prime.1 hO
-    have hp (y : Y) : (p (j y)).asIdeal = ⊥ := by
-      rw [← Scheme.Hom.comp_apply, H.w, Scheme.Hom.comp_apply]
-      change Ideal.comap (algebraMap k K) (q y).asIdeal = ⊥
-      rw [(Ideal.eq_bot_or_top _).resolve_right (q y).2.ne_top]
-      exact Ideal.comap_bot_of_injective _ (IsFractionRing.injective k K)
-    have hs : p (j l.head) ⤳ (⟨m, hmp⟩ : PrimeSpectrum k) :=
-      (PrimeSpectrum.le_iff_specializes _ _).1 ((hp _).le.trans bot_le)
-    obtain ⟨x, hx, hxm⟩ := p.isClosedMap.specializingMap hs
-    have hlt : x < (l.map _ hm).head := by
-      refine ⟨hx, fun h' => hm0 ?_⟩
-      have h₁ : p x ⤳ p (j l.head) := Specializes.map h' p.continuous
-      rw [hxm] at h₁
-      have h₂ : m ≤ (p (j l.head)).asIdeal := (PrimeSpectrum.le_iff_specializes _ _).2 h₁
-      exact le_bot_iff.1 (h₂.trans (hp _).le)
-    refine Order.le_krullDim_iff.2 ⟨(l.map _ hm).cons x hlt, ?_⟩
-    simp [hl]
+    rw [ringKrullDim_eq_zero_of_isField e] at hdim
+    exact absurd hdim (by decide)
+  refine IntModel.topologicalKrullDim_eq_succ_of_ringKrullDim_le_one hO hdim.le ?_ H hd
+  intro A _ _ _ i _ hi
+  exact (chart_props h i hi).2.2
 
 attribute [local instance] Algebra.TensorProduct.rightAlgebra in
 
