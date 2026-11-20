@@ -56,30 +56,6 @@ private theorem flat_quotient_of_mem_ideal_smul_imp_mem_map_smul {V A N : Type*}
     (Finset.sum_congr rfl fun j _ => map_smul _ _ _)
 
 open CategoryTheory CategoryTheory.Limits TensorProduct in
-private theorem smul_mem_ideal_smul_of_mem_map {V A N : Type*} [CommRing V] [CommRing A]
-    [Algebra V A] [AddCommGroup N] [Module A N] [Module V N] [IsScalarTower V A N] (I : Ideal V)
-    {r : A} (hr : r ∈ I.map (algebraMap V A)) (y : N) : r • y ∈ I • (⊤ : Submodule V N) := by
-  have hr' : r ∈ Submodule.span A (algebraMap V A '' I) := hr
-  refine Submodule.span_induction
-    (p := fun x _ => ∀ y : N, x • y ∈ I • (⊤ : Submodule V N))
-    (fun x hx y => ?_) (fun y => by simp) (fun x x' _ _ hx hx' y => ?_)
-    (fun s x _ hx y => ?_) hr' y
-  · obtain ⟨i, hi, rfl⟩ := hx
-    rw [algebraMap_smul]
-    exact Submodule.smul_mem_smul hi Submodule.mem_top
-  · rw [add_smul]; exact Submodule.add_mem _ (hx y) (hx' y)
-  · rw [smul_eq_mul, mul_comm, mul_smul]; exact hx _
-
-open CategoryTheory CategoryTheory.Limits TensorProduct in
-private theorem mem_ideal_smul_of_mem_map_smul {V A N : Type*} [CommRing V] [CommRing A]
-    [Algebra V A] [AddCommGroup N] [Module A N] [Module V N] [IsScalarTower V A N] (I : Ideal V)
-    (K : Submodule A N) {w : N} (hw : w ∈ I.map (algebraMap V A) • K) :
-    w ∈ I • (⊤ : Submodule V N) := by
-  exact Submodule.smul_induction_on (p := fun w => w ∈ I • (⊤ : Submodule V N)) hw
-    (fun r hr y _ => smul_mem_ideal_smul_of_mem_map I hr y)
-    (fun x y hx hy => Submodule.add_mem _ hx hy)
-
-open CategoryTheory CategoryTheory.Limits TensorProduct in
 private theorem mem_ideal_smul_of_smul_mem_of_flat {V N : Type*} [CommRing V] [IsNoetherianRing V]
     [AddCommGroup N] [Module V N] [Module.Flat V N] (J m : Ideal V) (a : V)
     (ha : ∀ b, a * b ∈ J → b ∈ m) {n : N} (hn : a • n ∈ J • (⊤ : Submodule V N)) :
@@ -158,7 +134,10 @@ private theorem mem_map_smul_of_maximalIdeal_pow_le {V A N : Type*} [CommRing V]
   obtain ⟨w, hw, v, hv, rfl⟩ := Submodule.mem_sup.1 hz'
   obtain ⟨c, hc, rfl⟩ := (Submodule.mem_smul_pointwise_iff_exists _ _ _).1 hv
   have hac : a • c ∈ J • (⊤ : Submodule V N) := by
-    have h1 := Submodule.sub_mem _ hzJ (mem_ideal_smul_of_mem_map_smul J K hw)
+    have hwN : w ∈ J • K.restrictScalars V := by
+      rw [← Ideal.smul_restrictScalars]
+      exact hw
+    have h1 := Submodule.sub_mem _ hzJ (Submodule.smul_mono le_rfl le_top hwN)
     rwa [add_sub_cancel_left, algebraMap_smul] at h1
   have hcm := h0 c hc (mem_ideal_smul_of_smul_mem_of_flat J _ a hcol hac)
   have key : ∀ c' ∈ (IsLocalRing.maximalIdeal V).map (algebraMap V A) • K,
@@ -180,41 +159,23 @@ private theorem mem_map_smul_of_maximalIdeal_pow_le {V A N : Type*} [CommRing V]
     · rw [smul_add]; exact Submodule.add_mem _ hx hy
   exact Submodule.add_mem _ hw (key c hcm)
 
-open CategoryTheory CategoryTheory.Limits TensorProduct in
-
-theorem _root_.GlobalTheory.flat_coker_of_injective_mod_maximalIdeal : ∀ (V A : Type) [CommRing V] [IsNoetherianRing V] [IsLocalRing V] [CommRing A] [IsNoetherianRing A] [IsLocalRing A] [Algebra V A] [IsLocalHom (algebraMap V A)] (M N : Type) [AddCommGroup M] [Module A M] [Module.Finite A M] [AddCommGroup N] [Module A N] [Module V N] [IsScalarTower V A N] [Module.Flat V N] (u : M →ₗ[A] N), (∀ x : M, u x ∈ (((IsLocalRing.maximalIdeal V).map (algebraMap V A)) • ⊤ : Submodule A N) → x ∈ (((IsLocalRing.maximalIdeal V).map (algebraMap V A)) • ⊤ : Submodule A M)) → Module.Flat V (N ⧸ LinearMap.range u) := by
-  intro V A _ _ _ _ _ _ _ _ M N _ _ _ _ _ _ _ _ u hu
-  have hmA : (IsLocalRing.maximalIdeal V).map (algebraMap V A) ≠ ⊤ := by
-    intro h
-    have hle : (IsLocalRing.maximalIdeal V).map (algebraMap V A) ≤ IsLocalRing.maximalIdeal A :=
-      Ideal.map_le_iff_le_comap.2 fun x hx => by
-        rw [Ideal.mem_comap, IsLocalRing.mem_maximalIdeal, mem_nonunits_iff]
-        exact fun h' => (IsLocalRing.mem_maximalIdeal x).1 hx (isUnit_of_map_unit _ _ h')
-    rw [h] at hle
-    exact (IsLocalRing.maximalIdeal.isMaximal A).ne_top (top_le_iff.1 hle)
-  have hgen : ∀ y ∈ IsLocalRing.maximalIdeal V • (⊤ : Submodule V N),
-      y ∈ (IsLocalRing.maximalIdeal V).map (algebraMap V A) • (⊤ : Submodule A N) := by
-    intro y hy
-    refine Submodule.smul_induction_on
-      (p := fun y => y ∈ (IsLocalRing.maximalIdeal V).map (algebraMap V A) • (⊤ : Submodule A N))
-      hy (fun r hr y _ => ?_) (fun x y hx hy => Submodule.add_mem _ hx hy)
-    rw [← algebraMap_smul A r y]
-    exact Submodule.smul_mem_smul (Ideal.mem_map_of_mem _ hr) Submodule.mem_top
-  have hgen2 : ∀ y ∈ (IsLocalRing.maximalIdeal V).map (algebraMap V A) • (⊤ : Submodule A M),
-      u y ∈ (IsLocalRing.maximalIdeal V).map (algebraMap V A) • LinearMap.range u := by
-    intro y hy
-    refine Submodule.smul_induction_on
-      (p := fun y => u y ∈ (IsLocalRing.maximalIdeal V).map (algebraMap V A) • LinearMap.range u)
-      hy (fun r hr y _ => ?_) (fun x y hx hy => ?_)
-    · rw [map_smul]
-      exact Submodule.smul_mem_smul hr (LinearMap.mem_range_self u y)
-    · rw [map_add]; exact Submodule.add_mem _ hx hy
-  have h0 : ∀ z ∈ LinearMap.range u, z ∈ IsLocalRing.maximalIdeal V • (⊤ : Submodule V N) →
-      z ∈ (IsLocalRing.maximalIdeal V).map (algebraMap V A) • LinearMap.range u := by
-    rintro _ ⟨x, rfl⟩ hx
-    exact hgen2 x (hu x (hgen _ hx))
-  refine flat_quotient_of_mem_ideal_smul_imp_mem_map_smul (LinearMap.range u) fun I z hz hzI => ?_
-  let K := LinearMap.range u
+theorem flat_quotient_of_maximalIdeal_smul_intersection {V A N : Type} [CommRing V]
+    [IsNoetherianRing V] [IsLocalRing V] [CommRing A] [IsNoetherianRing A] [Algebra V A]
+    [AddCommGroup N] [Module A N] [Module V N] [IsScalarTower V A N] [Module.Flat V N]
+    (K : Submodule A N) [Module.Finite A K]
+    (hj : (IsLocalRing.maximalIdeal V).map (algebraMap V A) ≤ Ideal.jacobson ⊥)
+    (hK : K ⊓ ((IsLocalRing.maximalIdeal V).map (algebraMap V A) • ⊤) ≤
+      (IsLocalRing.maximalIdeal V).map (algebraMap V A) • K) :
+    Module.Flat V (N ⧸ K) := by
+  have h0 : ∀ z ∈ K, z ∈ IsLocalRing.maximalIdeal V • (⊤ : Submodule V N) →
+      z ∈ (IsLocalRing.maximalIdeal V).map (algebraMap V A) • K := by
+    intro z hz hzN
+    apply hK
+    refine ⟨hz, ?_⟩
+    change z ∈ (((IsLocalRing.maximalIdeal V).map (algebraMap V A)) •
+      (⊤ : Submodule A N)).restrictScalars V
+    rwa [Ideal.smul_restrictScalars, Submodule.restrictScalars_top]
+  refine flat_quotient_of_mem_ideal_smul_imp_mem_map_smul K fun I z hz hzI => ?_
   let P : Submodule A K := (I.map (algebraMap V A) • K).comap K.subtype
   have hstep : ∀ p : ℕ, Submodule.Quotient.mk (p := P) ⟨z, hz⟩ ∈
       (IsLocalRing.maximalIdeal V).map (algebraMap V A) ^ p • (⊤ : Submodule A (K ⧸ P)) := by
@@ -240,13 +201,24 @@ theorem _root_.GlobalTheory.flat_coker_of_injective_mod_maximalIdeal : ∀ (V A 
       rw [Submodule.map_smul'']
       exact Submodule.smul_mono le_rfl le_top
     exact hle (Submodule.mem_map_of_mem hw'')
-  have hbot := Ideal.iInf_pow_smul_eq_bot_of_isLocalRing (M := K ⧸ P)
-    ((IsLocalRing.maximalIdeal V).map (algebraMap V A)) hmA
+  have hbot := Ideal.iInf_pow_smul_eq_bot_of_le_jacobson (M := K ⧸ P)
+    ((IsLocalRing.maximalIdeal V).map (algebraMap V A)) hj
   have hmem : Submodule.Quotient.mk (p := P) ⟨z, hz⟩ ∈
       (⨅ i, (IsLocalRing.maximalIdeal V).map (algebraMap V A) ^ i • ⊤ : Submodule A (K ⧸ P)) :=
     Submodule.mem_iInf _ |>.2 hstep
   rw [hbot, Submodule.mem_bot, Submodule.Quotient.mk_eq_zero] at hmem
   exact hmem
+
+open CategoryTheory CategoryTheory.Limits TensorProduct in
+
+theorem _root_.GlobalTheory.flat_coker_of_injective_mod_maximalIdeal : ∀ (V A : Type) [CommRing V] [IsNoetherianRing V] [IsLocalRing V] [CommRing A] [IsNoetherianRing A] [IsLocalRing A] [Algebra V A] [IsLocalHom (algebraMap V A)] (M N : Type) [AddCommGroup M] [Module A M] [Module.Finite A M] [AddCommGroup N] [Module A N] [Module V N] [IsScalarTower V A N] [Module.Flat V N] (u : M →ₗ[A] N), (∀ x : M, u x ∈ (((IsLocalRing.maximalIdeal V).map (algebraMap V A)) • ⊤ : Submodule A N) → x ∈ (((IsLocalRing.maximalIdeal V).map (algebraMap V A)) • ⊤ : Submodule A M)) → Module.Flat V (N ⧸ LinearMap.range u) := by
+  intro V A _ _ _ _ _ _ _ _ M N _ _ _ _ _ _ _ _ u hu
+  refine flat_quotient_of_maximalIdeal_smul_intersection (LinearMap.range u)
+    ((IsLocalRing.map_maximalIdeal_le (algebraMap V A)).trans
+      (IsLocalRing.maximalIdeal_le_jacobson ⊥)) ?_
+  rintro _ ⟨⟨x, rfl⟩, hx⟩
+  have h := Submodule.mem_map_of_mem (f := u) (hu x hx)
+  simpa only [Submodule.map_smul'', Submodule.map_top] using h
 
 end GlobalTheory
 
