@@ -1,5 +1,5 @@
-import Development.AutomorphicArithmetic.CharacterBoxes.EveryCharacter
-import Formalism.GammaFactorNonvanishing.RhOfRight
+import Development.AutomorphicArithmetic.CharacterBoxes.ClaimStrip
+import Development.AutomorphicArithmetic.CharacterBoxes.EveryCharacterStatement
 
 open Complex DirichletCharacter
 
@@ -10,23 +10,16 @@ theorem Formalism.VW.gammaFactor_ne_zero {N : ℕ} (χ : DirichletCharacter ℂ 
 
 theorem Formalism.VW.critLine (h : UpperTheory.EveryCharacter) (N : ℕ) [NeZero N] (χ : DirichletCharacter ℂ N) (hχ : χ.IsPrimitive) (s : ℂ)
     (h0 : 0 < s.re) (h1 : s.re < 1) (hz : LFunction χ s = 0) : s.re = 1 / 2 := by
-  have hs0 : s ≠ 0 := fun e => by simp [e] at h0
-  have hs1 : s ≠ 1 := fun e => by simp [e] at h1
-  by_contra hne
-  rcases lt_or_gt_of_ne hne with hlt | hgt
-  · have hinv : χ⁻¹.IsPrimitive := by
-      rw [isPrimitive_def, conductor_inv]; exact hχ
-    have hc : completedLFunction χ s = 0 := by
-      rw [LFunction_eq_completed_div_gammaFactor χ s (Or.inl hs0)] at hz
-      exact (div_eq_zero_iff.1 hz).resolve_right (Formalism.VW.gammaFactor_ne_zero χ h0)
-    have hfe := hinv.completedLFunction_one_sub s
-    rw [inv_inv, hc, mul_zero] at hfe
-    have h2 : (1 - s) ≠ 0 := sub_ne_zero.2 hs1.symm
-    refine h N χ⁻¹ (1 - s) (by rw [sub_re, one_re]; linarith) (Or.inr fun e => hs0 (by linear_combination -e)) ?_
-    rw [LFunction_eq_completed_div_gammaFactor χ⁻¹ (1 - s) (Or.inl h2), hfe, zero_div]
-  · exact h N χ s hgt (Or.inr hs1) hz
+  rcases lt_trichotomy s.re (1 / 2) with hlt | heq | hgt
+  · have hre : 1 / 2 < (1 - s).re := by
+      simp only [sub_re, one_re]
+      linarith
+    have hs0 : s ≠ 0 := fun e => by simp [e] at h0
+    have hreflect : (1 : ℂ) - s ≠ 1 := fun e => hs0 (sub_eq_self.mp e)
+    exact (h N χ⁻¹ (1 - s) hre (Or.inr hreflect) (Claim.prim_reflect χ hχ h0 h1 hz)).elim
+  · exact heq
+  · have hs1 : s ≠ 1 := fun e => by simp [e] at h1
+    exact (h N χ s hgt (Or.inr hs1) hz).elim
 
 theorem Formalism.VW.rh_of_every (h : UpperTheory.EveryCharacter) : RiemannHypothesis :=
-  Formalism.VW.rh_of_right fun s hs hs1 => by
-    have := h 1 (1 : DirichletCharacter ℂ 1) s hs (Or.inr hs1)
-    rwa [LFunction_modOne_eq] at this
+  Claim.zeta h
