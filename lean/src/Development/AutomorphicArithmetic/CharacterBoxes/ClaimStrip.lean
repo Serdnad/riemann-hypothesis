@@ -1,7 +1,13 @@
 import Development.AutomorphicArithmetic.CharacterBoxes.HalfPlane
-import Formalism.GammaFactorNonvanishing.RhOfRight
+import Development.AutomorphicArithmetic.CharacterBoxes.RiemannHypothesisOfEveryCharacter
 
 open Complex
+
+open DirichletCharacter in
+theorem Formalism.VW.gammaFactor_ne_zero {N : ℕ} (χ : DirichletCharacter ℂ N) {s : ℂ} (hs : 0 < s.re) : gammaFactor χ s ≠ 0 := by
+  rcases χ.even_or_odd with h | h
+  · rw [h.gammaFactor_def]; exact Gammaℝ_ne_zero_of_re_pos hs
+  · rw [h.gammaFactor_def]; exact Gammaℝ_ne_zero_of_re_pos (by rw [add_re, one_re]; linarith)
 
 namespace Claim
 
@@ -21,41 +27,43 @@ theorem factor_ne_zero {M : ℕ} (ψ : DirichletCharacter ℂ M) {s : ℂ} (hs :
   rw [h1, norm_one] at hn
   exact lt_irrefl _ hn
 
-theorem prim_zero {N : ℕ} [NeZero N] (χ : DirichletCharacter ℂ N) [NeZero χ.conductor] {s : ℂ}
-    (hs0 : 0 < s.re) (hs1 : s.re < 1) (h : DirichletCharacter.LFunction χ s = 0) :
+theorem nonzero_iff_primitive {N : ℕ} [NeZero N] (χ : DirichletCharacter ℂ N)
+    [NeZero χ.conductor] {s : ℂ} (hs : 0 < s.re) (hχs : χ ≠ 1 ∨ s ≠ 1) :
+    DirichletCharacter.LFunction χ s ≠ 0 ↔
+      DirichletCharacter.LFunction χ.primitiveCharacter s ≠ 0 := by
+  have hprim : χ.primitiveCharacter ≠ 1 ∨ s ≠ 1 := hχs.imp (fun hχ h1 => hχ (by
+    rw [← χ.changeLevel_primitiveCharacter, h1, DirichletCharacter.changeLevel_one])) id
+  have hL := DirichletCharacter.LFunction_changeLevel χ.conductor_dvd_level
+    χ.primitiveCharacter hprim
+  rw [χ.changeLevel_primitiveCharacter] at hL
+  rw [hL]
+  exact mul_ne_zero_iff_right (Finset.prod_ne_zero_iff.mpr fun p hp =>
+    factor_ne_zero _ hs p (Nat.prime_of_mem_primeFactors hp))
+
+theorem prim_zero {N : ℕ} [NeZero N] (χ : DirichletCharacter ℂ N) [NeZero χ.conductor]
+    {s : ℂ} (hs0 : 0 < s.re) (hs1 : s.re < 1) (h : DirichletCharacter.LFunction χ s = 0) :
     DirichletCharacter.LFunction χ.primitiveCharacter s = 0 := by
   have hs : s ≠ 1 := fun e => by rw [e, Complex.one_re] at hs1; exact lt_irrefl _ hs1
-  have key := DirichletCharacter.LFunction_changeLevel χ.conductor_dvd_level
-    χ.primitiveCharacter (Or.inr hs)
-  rw [χ.changeLevel_primitiveCharacter, h] at key
-  rcases mul_eq_zero.mp key.symm with h' | h'
-  · exact h'
-  · obtain ⟨p, hp, hp0⟩ := Finset.prod_eq_zero_iff.mp h'
-    exact absurd hp0 (factor_ne_zero _ hs0 p (Nat.prime_of_mem_primeFactors hp))
+  by_contra hprim
+  exact ((nonzero_iff_primitive χ hs0 (Or.inr hs)).2 hprim) h
 
 theorem gamma_ne_zero {M : ℕ} [NeZero M] (φ : DirichletCharacter ℂ M) {t : ℂ} (ht : 0 < t.re) :
-    DirichletCharacter.gammaFactor φ t ≠ 0 := by
-  rcases φ.even_or_odd with hφ | hφ
-  · rw [hφ.gammaFactor_def]; exact Complex.Gammaℝ_ne_zero_of_re_pos ht
-  · rw [hφ.gammaFactor_def]
-    exact Complex.Gammaℝ_ne_zero_of_re_pos (by rw [Complex.add_re, Complex.one_re]; linarith)
+    DirichletCharacter.gammaFactor φ t ≠ 0 :=
+  Formalism.VW.gammaFactor_ne_zero φ ht
 
 theorem prim_reflect {M : ℕ} [NeZero M] (ψ : DirichletCharacter ℂ M) (hψ : ψ.IsPrimitive) {s : ℂ}
     (hs0 : 0 < s.re) (hs1 : s.re < 1) (h : DirichletCharacter.LFunction ψ s = 0) :
     DirichletCharacter.LFunction ψ⁻¹ (1 - s) = 0 := by
-  have hs0' : s ≠ 0 := fun e => by rw [e, Complex.zero_re] at hs0; exact lt_irrefl _ hs0
-  have ht0 : 0 < (1 - s).re := by rw [Complex.sub_re, Complex.one_re]; linarith
-  have ht0' : 1 - s ≠ 0 := fun e => by rw [e, Complex.zero_re] at ht0; exact lt_irrefl _ ht0
-  have hc : DirichletCharacter.completedLFunction ψ s = 0 := by
-    rw [DirichletCharacter.LFunction_eq_completed_div_gammaFactor ψ s (Or.inl hs0'),
-      div_eq_zero_iff] at h
-    exact h.resolve_right (gamma_ne_zero ψ hs0)
-  have hψ' : (ψ⁻¹).IsPrimitive := by
-    rw [DirichletCharacter.isPrimitive_def, DirichletCharacter.conductor_inv]; exact hψ
-  have fe := hψ'.completedLFunction_one_sub s
-  rw [inv_inv, hc, mul_zero] at fe
-  rw [DirichletCharacter.LFunction_eq_completed_div_gammaFactor ψ⁻¹ (1 - s) (Or.inl ht0'), fe,
-    zero_div]
+  have hs0' : s ≠ 0 := fun e => by simp [e] at hs0
+  have hs1' : s ≠ 1 := fun e => by simp [e] at hs1
+  rw [DirichletCharacter.LFunction_eq_completed_div_gammaFactor ψ s (Or.inl hs0'),
+    div_eq_zero_iff] at h
+  have hc := h.resolve_right (gamma_ne_zero ψ hs0)
+  have hinv : ψ⁻¹.IsPrimitive := by
+    rwa [DirichletCharacter.isPrimitive_def, DirichletCharacter.conductor_inv]
+  rw [DirichletCharacter.LFunction_eq_completed_div_gammaFactor _ _
+      (Or.inl (sub_ne_zero.mpr hs1'.symm)),
+    hinv.completedLFunction_one_sub, inv_inv, hc, mul_zero, zero_div]
 
 theorem strip (h : HalfPlane) : Strip := by
   unfold HalfPlane at h
@@ -64,7 +72,7 @@ theorem strip (h : HalfPlane) : Strip := by
   have hs0' : s ≠ 0 := fun e => by rw [e, Complex.zero_re] at hs0; exact lt_irrefl _ hs0
   rcases lt_trichotomy s.re (1 / 2) with hlt | heq | hgt
   · exfalso
-    haveI : NeZero χ.conductor := ⟨χ.conductor_ne_zero⟩
+    have : NeZero χ.conductor := ⟨χ.conductor_ne_zero⟩
     have hp := prim_zero χ hs0 hs1 hz
     have hr := prim_reflect χ.primitiveCharacter χ.primitiveCharacter_isPrimitive hs0 hs1 hp
     have ht : (1 : ℂ) - s ≠ 1 := fun e => hs0' (sub_eq_self.mp e)
@@ -73,10 +81,25 @@ theorem strip (h : HalfPlane) : Strip := by
   · exact heq
   · exact absurd hz (h N χ s hgt (Or.inr hs))
 
+/-- It suffices to establish nonvanishing for primitive characters in the right half of
+the open critical strip. Mathlib handles the closed half-plane at and to the right of 1. -/
+theorem halfPlane_iff_primitive_right_strip :
+    HalfPlane ↔ ∀ (N : ℕ) [NeZero N] (χ : DirichletCharacter ℂ N), χ.IsPrimitive →
+      ∀ s : ℂ, 1 / 2 < s.re → s.re < 1 → DirichletCharacter.LFunction χ s ≠ 0 := by
+  constructor
+  · intro h N _ χ _ s hhalf h1
+    have hs : s ≠ 1 := fun e => by simp [e] at h1
+    exact h N χ s hhalf (Or.inr hs)
+  · intro h N _ χ s hhalf hχs
+    by_cases h1 : s.re < 1
+    · intro hz
+      have : NeZero χ.conductor := ⟨χ.conductor_ne_zero⟩
+      exact h χ.conductor χ.primitiveCharacter χ.primitiveCharacter_isPrimitive s hhalf h1
+        (prim_zero χ (by linarith) h1 hz)
+    · exact χ.LFunction_ne_zero_of_one_le_re hχs (le_of_not_gt h1)
+
 theorem zeta (h : HalfPlane) : Zeta :=
-  Formalism.VW.rh_of_right fun s hs hs1 => by
-    simpa only [DirichletCharacter.LFunction_modOne_eq] using
-      h 1 (1 : DirichletCharacter ℂ 1) s hs (Or.inr hs1)
+  UpperTheory.riemannHypothesis_of_everyCharacter h
 
 theorem zeta_iff : Zeta ↔ RiemannHypothesis := Iff.rfl
 
