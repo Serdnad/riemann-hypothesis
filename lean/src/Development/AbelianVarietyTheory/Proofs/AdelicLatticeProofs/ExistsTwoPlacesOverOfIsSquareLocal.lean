@@ -158,3 +158,6 @@ theorem two_places_of_isSquare : ∀ (F E : Type) [Field F] [NumberField F] [Fie
       (not_lt.2 hd1)
 
 end GlobalTheory.QNorm
+
+theorem _root_.GlobalTheory.T.exists_two_places_over_of_isSquare_local : type_of% @_root_.GlobalTheory.QNorm.two_places_of_isSquare :=
+  @_root_.GlobalTheory.QNorm.two_places_of_isSquare

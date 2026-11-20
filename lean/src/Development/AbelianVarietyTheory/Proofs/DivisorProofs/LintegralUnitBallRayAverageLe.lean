@@ -105,3 +105,6 @@ theorem rayAvg_bound : ∀ {E : Type} [NormedAddCommGroup E] [NormedSpace ℝ E]
     _ = ENNReal.ofReal (1 / ((m : ℝ) + 1)) * ∫⁻ y, Ψ y ∂μ := lintegral_const_mul _ hΨ
 
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.lintegral_unit_ball_ray_average_le : type_of% @_root_.GlobalTheory.rayAvg_bound :=
+  @_root_.GlobalTheory.rayAvg_bound

@@ -1,6 +1,6 @@
 import Mathlib
 import Formalism.LocalToGlobal.IndefiniteReal.GramCEqTranspose
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RationalMatrixEigenspaceImageSpannedRationalStatement
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RationalMatrixEigenspaceImageSpannedRational
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LatticeSpanInfRationalSubspaceIntegersExtStatement
 open NumberField
 

@@ -36,3 +36,6 @@ theorem sepFamily_prod : ∀ (L : Type) [Field L] (v : Valuation L ℝ≥0) (G :
       rw [e1, e2]; ring
 
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.separating_family_sum_closed_under_prod : type_of% @_root_.GlobalTheory.sepFamily_prod :=
+  @_root_.GlobalTheory.sepFamily_prod

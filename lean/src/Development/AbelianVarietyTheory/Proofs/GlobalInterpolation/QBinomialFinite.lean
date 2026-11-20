@@ -85,3 +85,6 @@ theorem qBinomial_finite : ∀ (s X : ℂ), ‖s‖ < 1 → ∀ m : ℕ, ∏ k �
     ring
 
 end GlobalTheory.JacobiTriple.QBinomial
+
+theorem _root_.GlobalTheory.T.prod_range_one_add_mul_pow_two_mul_eq_sum_qBinom : type_of% @_root_.GlobalTheory.JacobiTriple.QBinomial.qBinomial_finite :=
+  @_root_.GlobalTheory.JacobiTriple.QBinomial.qBinomial_finite

@@ -34,3 +34,6 @@ theorem cosetTrace_fixed_props : ∀ (L : Type) [Field L] (v : Valuation L ℝ�
     rw [smul_mul', he]
 
 end GlobalTheory.AlmostEt
+
+theorem _root_.GlobalTheory.T.cosetRepresentativeTrace_fixed_properties : type_of% @_root_.GlobalTheory.AlmostEt.cosetTrace_fixed_props :=
+  @_root_.GlobalTheory.AlmostEt.cosetTrace_fixed_props

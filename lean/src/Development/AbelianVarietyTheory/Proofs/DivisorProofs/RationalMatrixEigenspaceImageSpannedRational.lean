@@ -84,3 +84,6 @@ theorem GlobalTheory.rational_eigen_image_span : ∀ (K L : Type) [Field K] [Fie
       rintro _ ⟨x, ⟨w, rfl⟩, rfl⟩
       exact ⟨fun i => f (w i), by rw [Matrix.mulVecLin_apply, GlobalTheory.RationalSpan.map_mulVec_comp]; rfl⟩
     exact hle h
+
+theorem _root_.GlobalTheory.T.rational_matrix_eigenspace_image_spanned_rational : type_of% @_root_.GlobalTheory.rational_eigen_image_span :=
+  @_root_.GlobalTheory.rational_eigen_image_span

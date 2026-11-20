@@ -63,3 +63,6 @@ theorem exists_derivation_eq_one_of_pow_mem : ∀ (p : ℕ) [Fact p.Prime] (K : 
     rw [hwd (G f) X (by rw [hG, aeval_X]), derivative_X, map_one]
 
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.exists_derivation_eq_one_of_pow_mem' : type_of% @_root_.GlobalTheory.exists_derivation_eq_one_of_pow_mem :=
+  @_root_.GlobalTheory.exists_derivation_eq_one_of_pow_mem

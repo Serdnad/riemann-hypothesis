@@ -1,6 +1,6 @@
 import Mathlib
 import Development.AbelianVarietyTheory.Proofs.SatakeParameters.LengthLeOfForallFgSubmoduleLengthLeStatement
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.LengthQuotientScalarMulStatement
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.LengthQuotientScalarMul
 open Pointwise
 
 namespace GlobalTheory

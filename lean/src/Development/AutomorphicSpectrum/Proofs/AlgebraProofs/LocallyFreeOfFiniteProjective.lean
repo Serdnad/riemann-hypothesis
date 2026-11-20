@@ -147,3 +147,6 @@ theorem locFree_of_projective : ∀ {o Ω : Type} [CommRing o] [Field Ω] [Algeb
   simpa using this
 
 end GlobalTheory.CompanionTheory.Ar.Num.LocFreeProj
+
+theorem _root_.GlobalTheory.T.locally_free_of_finite_projective : type_of% @_root_.GlobalTheory.CompanionTheory.Ar.Num.LocFreeProj.locFree_of_projective :=
+  @_root_.GlobalTheory.CompanionTheory.Ar.Num.LocFreeProj.locFree_of_projective

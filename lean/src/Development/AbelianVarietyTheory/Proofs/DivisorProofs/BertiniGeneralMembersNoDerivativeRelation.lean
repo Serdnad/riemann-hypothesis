@@ -176,3 +176,6 @@ theorem no_dependence_of_general : ∀ (k A : Type) [Field k] [CharZero k] [Comm
   exact hu ((algebraMap k K).injective (this.symm.trans (map_zero _).symm))
 
 end GlobalTheory.BertiniC
+
+theorem _root_.GlobalTheory.T.bertini_general_members_no_derivative_relation : type_of% @_root_.GlobalTheory.BertiniC.no_dependence_of_general :=
+  @_root_.GlobalTheory.BertiniC.no_dependence_of_general

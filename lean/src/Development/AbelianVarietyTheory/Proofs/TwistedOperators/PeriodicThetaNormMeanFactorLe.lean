@@ -1,5 +1,5 @@
 import Mathlib
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.MeanFundamentalDomainOfLeStatement
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.MeanFundamentalDomainOfLe
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.AffineChangeFundamentalDomainMeanPeriodicStatement
 
 open MeasureTheory

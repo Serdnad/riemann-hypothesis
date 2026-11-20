@@ -59,3 +59,6 @@ theorem aic_step : ∀ (B : Type) [CommRing B] (T : Type) [CommRing T] (π : B) 
   rwa [hb a₁, h0, map_zero, sub_zero] at h3
 
 end GlobalTheory.CompanionTheory.AicStep
+
+theorem _root_.GlobalTheory.T.hensel_polynomial_refinement : type_of% @_root_.GlobalTheory.CompanionTheory.AicStep.aic_step :=
+  @_root_.GlobalTheory.CompanionTheory.AicStep.aic_step

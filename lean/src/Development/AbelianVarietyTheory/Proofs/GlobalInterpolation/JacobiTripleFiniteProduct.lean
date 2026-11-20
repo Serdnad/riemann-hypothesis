@@ -1,6 +1,6 @@
 import Mathlib
 import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.MultipliableTpFactor
-import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.QBinomialFiniteStatement
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.QBinomialFinite
 open Complex
 open scoped Real
 

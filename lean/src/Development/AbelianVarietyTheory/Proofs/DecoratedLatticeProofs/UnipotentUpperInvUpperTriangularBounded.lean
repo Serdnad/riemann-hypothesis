@@ -31,3 +31,6 @@ theorem unipotent_upper_inv_bounded : ∀ (N : ℕ) (C : ℝ), ∃ C' : ℝ, ∀
         exact le_trans (hb k l) (le_max_left _ _)
 
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.unipotent_upper_inv_upperTriangular_bounded : type_of% @_root_.GlobalTheory.unipotent_upper_inv_bounded :=
+  @_root_.GlobalTheory.unipotent_upper_inv_bounded

@@ -1,7 +1,7 @@
 import Mathlib
 import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.SandwichMaps
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RingHomsLinearlyIndependentStatement
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TraceEqSumEigenMultiplicitiesStatement
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TraceEqSumEigenMultiplicities
 open GlobalTheory.Sandwich GlobalTheory.IndefiniteRowSideFullHecke.SandwichMaps
 
 namespace GlobalTheory

@@ -102,3 +102,6 @@ theorem index_identity : ∀ {G : Type} [Group G] (T H U C : Subgroup G), (∀ a
   rw [mul_assoc, mul_div_mul_left _ _ hs]
 
 end GlobalTheory.DCIndex
+
+theorem _root_.GlobalTheory.T.doubleCoset_card_div_card_inf_commutative_subgroup : type_of% @_root_.GlobalTheory.DCIndex.index_identity :=
+  @_root_.GlobalTheory.DCIndex.index_identity

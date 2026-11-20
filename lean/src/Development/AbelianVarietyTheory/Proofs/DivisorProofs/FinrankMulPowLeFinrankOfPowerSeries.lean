@@ -1,6 +1,6 @@
 import Mathlib
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LinearIndependentOfDistinctValuationLikeStatement
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FinrankLeCardValuesStatement
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FinrankLeCardValues
 
 open Filter Topology
 

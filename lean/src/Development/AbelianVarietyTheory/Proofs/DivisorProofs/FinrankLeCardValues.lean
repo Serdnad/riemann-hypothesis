@@ -74,3 +74,6 @@ theorem finrank_le_card_values : ∀ (C V Γ : Type) [Field C] [AddCommGroup V] 
     exact Fin.ext (emb.injective (Subtype.ext hij))
 
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.exists_injective_values_on_finrank_family : type_of% @_root_.GlobalTheory.finrank_le_card_values :=
+  @_root_.GlobalTheory.finrank_le_card_values

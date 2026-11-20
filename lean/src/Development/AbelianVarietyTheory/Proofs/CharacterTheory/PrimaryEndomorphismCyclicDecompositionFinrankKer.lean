@@ -126,3 +126,6 @@ theorem primary_structure : ∀ (F : Type) [Field F] (V : Type) [AddCommGroup V]
   exact Finset.sum_congr rfl fun i _ => finrank_ker_lsmul_pow_quotient f hf.ne_zero _ j
 
 end GlobalTheory.CuspGL
+
+theorem _root_.GlobalTheory.T.primary_endomorphism_cyclic_decomposition_finrank_ker : type_of% @_root_.GlobalTheory.CuspGL.primary_structure :=
+  @_root_.GlobalTheory.CuspGL.primary_structure

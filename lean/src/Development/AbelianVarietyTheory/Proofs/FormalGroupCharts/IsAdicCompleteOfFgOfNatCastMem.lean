@@ -68,3 +68,6 @@ theorem isAdicComplete_of_fg_of_natCast_mem : ∀ (C : Type) [Field C] [IsAlgClo
   exact isAdicComplete_of_pow_le_of_le hc hn ((Ideal.span_singleton_le_iff_mem _).mpr hpJ)
 
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.isAdicComplete_of_fg_of_natCast_mem_of_integers : type_of% @_root_.GlobalTheory.isAdicComplete_of_fg_of_natCast_mem :=
+  @_root_.GlobalTheory.isAdicComplete_of_fg_of_natCast_mem

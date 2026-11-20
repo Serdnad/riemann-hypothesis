@@ -228,3 +228,6 @@ theorem GlobalTheory.length_coker_lsmul_eq_length_ker_add_sum : ∀ (A : Type) [
     exact concl_ext b P f g hf hg hfg
       (h₁ fun q hq => hN q (Module.support_subset_of_injective f hf hq))
       (h₃ fun q hq => hN q (Module.support_subset_of_surjective g hg hq))
+
+theorem _root_.GlobalTheory.T.length_coker_lsmul_eq_length_ker_add_sum' : type_of% @_root_.GlobalTheory.length_coker_lsmul_eq_length_ker_add_sum :=
+  @_root_.GlobalTheory.length_coker_lsmul_eq_length_ker_add_sum

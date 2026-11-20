@@ -80,3 +80,6 @@ theorem conv_basic : ∀ (F : Type) [Field F] (P : F[X]), P.Monic → {x : F[X] 
     ⟨conv_comm a b P, conv_assoc a b c P, conv_add_left a b c P, conv_sub_left a b c P⟩⟩
 
 end GlobalTheory.CuspGL
+
+theorem _root_.GlobalTheory.T.monicFactorizationConvolution_finite_comm_assoc_add : type_of% @_root_.GlobalTheory.CuspGL.conv_basic :=
+  @_root_.GlobalTheory.CuspGL.conv_basic

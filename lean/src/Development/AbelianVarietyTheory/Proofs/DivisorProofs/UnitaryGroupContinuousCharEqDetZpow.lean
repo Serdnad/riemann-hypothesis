@@ -169,3 +169,6 @@ theorem char_eq_det_zpow : ∀ (n : ℕ) (c : Matrix.unitaryGroup (Fin n) ℂ �
   exact map_prod Circle.coeHom _ _
 
 end GlobalTheory.UnitaryChar
+
+theorem _root_.GlobalTheory.T.unitaryGroup_continuous_char_eq_det_zpow : type_of% @_root_.GlobalTheory.UnitaryChar.char_eq_det_zpow :=
+  @_root_.GlobalTheory.UnitaryChar.char_eq_det_zpow

@@ -87,3 +87,6 @@ theorem matrixGaussSum_mul_dual_eq_card_pow : ∀ (k : Type) [Field k] [Fintype 
   ring
 
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.matrixGaussSum_mul_dual_eq_card_pow_sq : type_of% @_root_.GlobalTheory.matrixGaussSum_mul_dual_eq_card_pow :=
+  @_root_.GlobalTheory.matrixGaussSum_mul_dual_eq_card_pow

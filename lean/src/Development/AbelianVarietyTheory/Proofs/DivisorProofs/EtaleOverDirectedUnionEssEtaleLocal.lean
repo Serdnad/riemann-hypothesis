@@ -1,5 +1,5 @@
 import Mathlib
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleLocalRingOfLocalizationStatement
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleLocalRingOfLocalization
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleAdjoinBaseChangeImageStatement
 open IsLocalRing TensorProduct
 

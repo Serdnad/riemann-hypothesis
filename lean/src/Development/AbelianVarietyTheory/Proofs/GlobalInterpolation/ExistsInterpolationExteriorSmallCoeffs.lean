@@ -333,3 +333,6 @@ theorem interpolation : ∀ (l : ℕ) (z : Fin l → ℂ) (g : ℂ → ℂ) (r G
           ring
 
 end GlobalTheory.ExteriorInterpolation
+
+theorem _root_.GlobalTheory.T.exists_interpolation_exterior_small_coeffs : type_of% @_root_.GlobalTheory.ExteriorInterpolation.interpolation :=
+  @_root_.GlobalTheory.ExteriorInterpolation.interpolation

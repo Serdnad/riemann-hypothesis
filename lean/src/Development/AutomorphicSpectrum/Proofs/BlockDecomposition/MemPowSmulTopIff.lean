@@ -1,6 +1,6 @@
 import Mathlib
 import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.WittExactSequences.IsCompl
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HenselPolynomialRefinementStatement
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HenselPolynomialRefinement
 
 open TensorProduct CrystallineSemistableComparison.D
 open scoped LaurentPolynomial

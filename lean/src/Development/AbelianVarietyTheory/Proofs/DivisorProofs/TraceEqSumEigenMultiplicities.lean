@@ -48,3 +48,6 @@ theorem trace_eq_sum_eigenspaces : ∀ (C : Type) [Field C] (O : Type) [CommRing
   simp
 
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.trace_eq_sum_eigen_multiplicities : type_of% @_root_.GlobalTheory.trace_eq_sum_eigenspaces :=
+  @_root_.GlobalTheory.trace_eq_sum_eigenspaces

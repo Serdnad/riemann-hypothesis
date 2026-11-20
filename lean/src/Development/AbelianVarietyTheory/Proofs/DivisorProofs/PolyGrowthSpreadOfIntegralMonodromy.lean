@@ -105,3 +105,6 @@ theorem polyGrowth_spread_of_integral_monodromy : ∀ (g m : ℕ) (lam : ℂ →
   linarith [Real.pi_pos]
 
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.polyGrowth_strip_of_integral_monodromy : type_of% @_root_.GlobalTheory.polyGrowth_spread_of_integral_monodromy :=
+  @_root_.GlobalTheory.polyGrowth_spread_of_integral_monodromy

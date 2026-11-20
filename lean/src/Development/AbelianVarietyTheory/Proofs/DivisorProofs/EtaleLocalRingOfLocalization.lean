@@ -122,3 +122,6 @@ theorem essEtale_atPrime_of_etale_over_atPrime : ∀ (R A E : Type) [CommRing R]
   exact ⟨A', i1, i2, i3, q', i4, ⟨e.trans (eP.restrictScalars R)⟩⟩
 
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.etale_local_ring_of_localization : type_of% @_root_.GlobalTheory.essEtale_atPrime_of_etale_over_atPrime :=
+  @_root_.GlobalTheory.essEtale_atPrime_of_etale_over_atPrime

@@ -43,3 +43,6 @@ theorem isRoot_map_minpoly_iff_exists_ringHom : ∀ (A B : Type) [CommRing A] [I
     rw [IsRoot, eval_map, ← hom_eval₂, ← aeval_def, minpoly.aeval, map_zero]
 
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.isRoot_map_minpoly_iff_exists_ringHom_extension : type_of% @_root_.GlobalTheory.isRoot_map_minpoly_iff_exists_ringHom :=
+  @_root_.GlobalTheory.isRoot_map_minpoly_iff_exists_ringHom

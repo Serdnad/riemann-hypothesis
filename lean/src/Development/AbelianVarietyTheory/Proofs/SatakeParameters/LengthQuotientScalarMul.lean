@@ -29,3 +29,6 @@ theorem length_quot_smul_range_finite_free : ∀ (O M : Type) [CommRing O] [Nont
     nsmul_eq_mul]
 
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.length_quotient_scalar_mul : type_of% @_root_.GlobalTheory.length_quot_smul_range_finite_free :=
+  @_root_.GlobalTheory.length_quot_smul_range_finite_free

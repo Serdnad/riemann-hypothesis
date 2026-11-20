@@ -1,5 +1,5 @@
 import Mathlib
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LintegralUnitBallRayAverageLeStatement
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LintegralUnitBallRayAverageLe
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.NormLeLintegralRayIteratedFDerivStatement
 open MeasureTheory Filter Topology Set Module
 open scoped ENNReal

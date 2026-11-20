@@ -213,3 +213,6 @@ theorem fourier_gaussian_real_place : ∀ (ι : Type) [Fintype ι] [DecidableEq 
       ring
 
 end GlobalTheory.CompanionTheory.SW.GaussOne
+
+theorem _root_.GlobalTheory.T.real_gaussian_fourier_transform : type_of% @_root_.GlobalTheory.CompanionTheory.SW.GaussOne.fourier_gaussian_real_place :=
+  @_root_.GlobalTheory.CompanionTheory.SW.GaussOne.fourier_gaussian_real_place

@@ -45,3 +45,6 @@ theorem GlobalTheory.DI.frobDeriv_factors_kaehler : ∀ {K : Type} [CommRing K] 
     show D.liftKaehlerDifferential (KaehlerDifferential.D ℤ K a) = φ a
     rw [Derivation.liftKaehlerDifferential_comp_D]
     rfl
+
+theorem _root_.GlobalTheory.T.frobeniusDerivation_factors_through_kaehler : type_of% @_root_.GlobalTheory.DI.frobDeriv_factors_kaehler :=
+  @_root_.GlobalTheory.DI.frobDeriv_factors_kaehler

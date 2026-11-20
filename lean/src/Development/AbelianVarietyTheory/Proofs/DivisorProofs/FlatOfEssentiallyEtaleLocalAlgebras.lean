@@ -49,3 +49,6 @@ theorem flat_of_essEtale : ∀ (R L₁ L₂ : Type) [CommRing R] [CommRing L₁]
   exact (Module.flat_iff_of_isLocalization L₁ q.primeCompl L₂).mpr hflat
 
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.flat_of_essentiallyEtale_local_algebras : type_of% @_root_.GlobalTheory.flat_of_essEtale :=
+  @_root_.GlobalTheory.flat_of_essEtale

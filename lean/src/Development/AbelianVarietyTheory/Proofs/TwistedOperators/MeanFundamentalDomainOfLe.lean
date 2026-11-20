@@ -96,3 +96,6 @@ theorem mean_fundamentalDomain_of_le : ∀ (g : ℕ) (Λ Λ₁ : AddSubgroup (Fi
   field_simp
 
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.mean_fundamentalDomain_eq_one_of_le : type_of% @_root_.GlobalTheory.mean_fundamentalDomain_of_le :=
+  @_root_.GlobalTheory.mean_fundamentalDomain_of_le

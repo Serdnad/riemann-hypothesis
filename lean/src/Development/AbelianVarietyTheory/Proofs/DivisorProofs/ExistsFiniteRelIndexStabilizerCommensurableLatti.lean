@@ -118,3 +118,6 @@ theorem exists_relIndex_ne_zero_stab : ∀ {E : Type} [Field E] [NumberField E] 
       Matrix.one_mulVec] at this
 
 end GlobalTheory.LatticeCongr
+
+theorem _root_.GlobalTheory.T.exists_finite_relIndex_stabilizer_commensurable_lattice : type_of% @_root_.GlobalTheory.LatticeCongr.exists_relIndex_ne_zero_stab :=
+  @_root_.GlobalTheory.LatticeCongr.exists_relIndex_ne_zero_stab

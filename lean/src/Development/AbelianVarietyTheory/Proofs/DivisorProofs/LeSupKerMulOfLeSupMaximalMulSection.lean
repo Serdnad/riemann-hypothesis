@@ -47,3 +47,6 @@ theorem nakayama_at_section : ∀ (O P : Type) [CommRing O] [IsLocalRing O] [Com
   rwa [← mul_assoc, ← map_mul, ← hu', Units.inv_mul, map_one, one_mul] at h4
 
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.le_sup_ker_mul_of_le_sup_maximal_mul_section : type_of% @_root_.GlobalTheory.nakayama_at_section :=
+  @_root_.GlobalTheory.nakayama_at_section

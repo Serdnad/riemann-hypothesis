@@ -111,3 +111,6 @@ theorem charSum : ∀ (p m : ℕ) [Fact p.Prime] (K : Type) [Field K] [CharZero 
     exact eval ψ hψ e he _ _ w _ _ hw
 
 end GlobalTheory.KummerEisensteinGalois.ChSum
+
+theorem _root_.GlobalTheory.T.primitiveChar_doubleSum_primePow_eval : type_of% @_root_.GlobalTheory.KummerEisensteinGalois.ChSum.charSum :=
+  @_root_.GlobalTheory.KummerEisensteinGalois.ChSum.charSum
