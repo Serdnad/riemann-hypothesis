@@ -1,6 +1,6 @@
 import Mathlib
 import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.MoriwakiBig
-import GroundTheory.HeightsAndTheta.Heights.LocalFiniteness.KeyFormulaVanishingCechMultInvariants
+import GroundTheory.HeightsAndTheta.Heights.ElementarySymmetric.PLiftGraphFactorX
 import GroundTheory.HeightsAndTheta.Heights.SemipositiveHeights.KleimanNef
 import GroundTheory.HeightsAndTheta.Heights.SemipositiveHeights.PtsIntegrable
 import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.AssemblyBase
