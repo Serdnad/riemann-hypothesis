@@ -249,3 +249,6 @@ theorem _root_.GlobalTheory.flat_coker_of_injective_mod_maximalIdeal : ∀ (V A 
   exact hmem
 
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.flat_quotient_range_of_injective_mod_maximal : type_of% @GlobalTheory.flat_coker_of_injective_mod_maximalIdeal :=
+  @GlobalTheory.flat_coker_of_injective_mod_maximalIdeal

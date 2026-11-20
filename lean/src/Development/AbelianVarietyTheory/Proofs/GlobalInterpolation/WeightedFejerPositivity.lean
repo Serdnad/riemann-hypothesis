@@ -118,3 +118,6 @@ theorem weighted_fejer_positivity : ∀ (J : ℕ) (θ : ℝ), (∀ w : ℂ, ‖w
     linarith
 
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.neg_one_le_sum_fejer_cos_re_pow_and_lower_bound : type_of% @GlobalTheory.weighted_fejer_positivity :=
+  @GlobalTheory.weighted_fejer_positivity

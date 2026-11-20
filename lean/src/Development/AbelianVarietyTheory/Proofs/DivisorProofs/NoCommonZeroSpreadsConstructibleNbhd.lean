@@ -148,3 +148,6 @@ theorem no_common_zero_spreads : ∀ (A : Type) [CommRing A] (τ J : Type) [Fini
 
 end NoCommonZeroSpread
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.no_common_zero_spreads_constructible_nbhd : type_of% @GlobalTheory.NoCommonZeroSpread.no_common_zero_spreads :=
+  @GlobalTheory.NoCommonZeroSpread.no_common_zero_spreads
