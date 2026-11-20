@@ -11,21 +11,22 @@ theorem Formalism.VW.gammaFactor_ne_zero {N : ℕ} (χ : DirichletCharacter ℂ 
 
 namespace Claim
 
+/-- The reverse triangle inequality bounds an Euler factor for any complex coefficient
+and any positive real base. -/
+theorem eulerFactor_norm_lower_bound {x : ℝ} (hx : 0 < x) (a s : ℂ) :
+    1 - ‖a‖ * x ^ (-s.re) ≤ ‖1 - a * (x : ℂ) ^ (-s)‖ := by
+  simpa only [norm_one, norm_mul, norm_cpow_eq_rpow_re_of_pos hx, neg_re] using
+    norm_sub_norm_le (1 : ℂ) (a * (x : ℂ) ^ (-s))
+
 theorem factor_ne_zero {M : ℕ} (ψ : DirichletCharacter ℂ M) {s : ℂ} (hs : 0 < s.re) (p : ℕ)
     (hp : p.Prime) : (1 : ℂ) - ψ p * (p : ℂ) ^ (-s) ≠ 0 := by
-  intro h
-  have h1 : ψ p * (p : ℂ) ^ (-s) = 1 := by linear_combination -h
   have hp1 : (1 : ℝ) < p := by exact_mod_cast hp.one_lt
-  have hpow : ‖(p : ℂ) ^ (-s)‖ < 1 := by
-    rw [Complex.norm_natCast_cpow_of_pos hp.pos, Complex.neg_re]
-    exact Real.rpow_lt_one_of_one_lt_of_neg hp1 (by linarith)
-  have hn : ‖ψ p * (p : ℂ) ^ (-s)‖ < 1 := by
-    rw [norm_mul]
-    calc ‖ψ p‖ * ‖(p : ℂ) ^ (-s)‖ ≤ 1 * ‖(p : ℂ) ^ (-s)‖ := by
-          gcongr; exact ψ.norm_le_one _
-      _ < 1 := by rw [one_mul]; exact hpow
-  rw [h1, norm_one] at hn
-  exact lt_irrefl _ hn
+  have hp0 : (0 : ℝ) < p := zero_lt_one.trans hp1
+  have hpow := Real.rpow_lt_one_of_one_lt_of_neg hp1 (neg_lt_zero.mpr hs)
+  have hmul := (mul_le_of_le_one_left (Real.rpow_nonneg hp0.le _) (ψ.norm_le_one p)).trans_lt hpow
+  apply norm_pos_iff.mp
+  simpa only [ofReal_natCast] using
+    (sub_pos.mpr hmul).trans_le (eulerFactor_norm_lower_bound hp0 (ψ p) s)
 
 theorem nonzero_iff_primitive {N : ℕ} [NeZero N] (χ : DirichletCharacter ℂ N)
     [NeZero χ.conductor] {s : ℂ} (hs : 0 < s.re) (hχs : χ ≠ 1 ∨ s ≠ 1) :
@@ -51,19 +52,38 @@ theorem gamma_ne_zero {M : ℕ} [NeZero M] (φ : DirichletCharacter ℂ M) {t : 
     DirichletCharacter.gammaFactor φ t ≠ 0 :=
   Formalism.VW.gammaFactor_ne_zero φ ht
 
-theorem prim_reflect {M : ℕ} [NeZero M] (ψ : DirichletCharacter ℂ M) (hψ : ψ.IsPrimitive) {s : ℂ}
-    (hs0 : 0 < s.re) (hs1 : s.re < 1) (h : DirichletCharacter.LFunction ψ s = 0) :
-    DirichletCharacter.LFunction ψ⁻¹ (1 - s) = 0 := by
-  have hs0' : s ≠ 0 := fun e => by simp [e] at hs0
-  have hs1' : s ≠ 1 := fun e => by simp [e] at hs1
-  rw [DirichletCharacter.LFunction_eq_completed_div_gammaFactor ψ s (Or.inl hs0'),
-    div_eq_zero_iff] at h
-  have hc := h.resolve_right (gamma_ne_zero ψ hs0)
+/-- Completion makes zero reflection unconditional for a primitive character. -/
+theorem completed_zero_iff_reflect {M : ℕ} [NeZero M] (ψ : DirichletCharacter ℂ M)
+    (hψ : ψ.IsPrimitive) {s : ℂ} :
+    DirichletCharacter.completedLFunction ψ s = 0 ↔
+      DirichletCharacter.completedLFunction ψ⁻¹ (1 - s) = 0 := by
   have hinv : ψ⁻¹.IsPrimitive := by
     rwa [DirichletCharacter.isPrimitive_def, DirichletCharacter.conductor_inv]
-  rw [DirichletCharacter.LFunction_eq_completed_div_gammaFactor _ _
-      (Or.inl (sub_ne_zero.mpr hs1'.symm)),
-    hinv.completedLFunction_one_sub, inv_inv, hc, mul_zero, zero_div]
+  constructor
+  · intro hz
+    rw [hinv.completedLFunction_one_sub, inv_inv, hz, mul_zero]
+  · intro hz
+    rw [← sub_sub_cancel (1 : ℂ) s, hψ.completedLFunction_one_sub, hz, mul_zero]
+
+/-- An ordinary zero reflects whenever the input gamma factor is nonzero and both
+completion identities apply. The output gamma factor may vanish. -/
+theorem prim_reflect_of_gamma_ne_zero {M : ℕ} [NeZero M] (ψ : DirichletCharacter ℂ M)
+    (hψ : ψ.IsPrimitive) {s : ℂ} (h₀ : s ≠ 0 ∨ M ≠ 1) (h₁ : 1 - s ≠ 0 ∨ M ≠ 1)
+    (hgamma : DirichletCharacter.gammaFactor ψ s ≠ 0)
+    (hz : DirichletCharacter.LFunction ψ s = 0) :
+    DirichletCharacter.LFunction ψ⁻¹ (1 - s) = 0 := by
+  rw [DirichletCharacter.LFunction_eq_completed_div_gammaFactor ψ s h₀,
+    div_eq_zero_iff, or_iff_left hgamma] at hz
+  rw [DirichletCharacter.LFunction_eq_completed_div_gammaFactor ψ⁻¹ (1 - s) h₁,
+    (completed_zero_iff_reflect ψ hψ).mp hz, zero_div]
+
+theorem prim_reflect {M : ℕ} [NeZero M] (ψ : DirichletCharacter ℂ M) (hψ : ψ.IsPrimitive) {s : ℂ}
+    (hs0 : 0 < s.re) (hs1 : s.re < 1) (h : DirichletCharacter.LFunction ψ s = 0) :
+    DirichletCharacter.LFunction ψ⁻¹ (1 - s) = 0 :=
+  prim_reflect_of_gamma_ne_zero ψ hψ
+    (Or.inl fun e => by simp [e] at hs0)
+    (Or.inl (sub_ne_zero.mpr fun e => by simp [← e] at hs1))
+    (gamma_ne_zero ψ hs0) h
 
 theorem strip (h : HalfPlane) : Strip := by
   unfold HalfPlane at h
