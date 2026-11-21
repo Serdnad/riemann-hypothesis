@@ -1,4 +1,5 @@
 import Mathlib
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.HenselSimpleRoot
 
 open Polynomial
 
@@ -7,81 +8,8 @@ namespace UpperTheory.Reformulated.B.AdicCompleteRootExistence
 private lemma exists_root_of_adicComplete {R : Type*} [CommRing R] (I : Ideal R)
     [IsAdicComplete I R] (f : R[X]) (a₀ : R) (h₁ : f.eval a₀ ∈ I)
     (h₂ : IsUnit (Ideal.Quotient.mk I (f.derivative.eval a₀))) :
-    ∃ a : R, f.eval a = 0 ∧ a - a₀ ∈ I := by
-  classical
-  obtain ⟨f', hf'⟩ : ∃ f' : R[X], f' = derivative f := ⟨_, rfl⟩
-  obtain ⟨c, hc0, hc⟩ : ∃ c : ℕ → R, c 0 = a₀ ∧
-      ∀ n, c (n + 1) = c n - f.eval (c n) * Ring.inverse (f'.eval (c n)) :=
-    ⟨fun n => Nat.recOn n a₀ fun _ b => b - f.eval b * Ring.inverse (f'.eval b), rfl,
-      fun _ => rfl⟩
-  rw [← hf'] at h₂
-  have hc_mod : ∀ n, c n ≡ a₀ [SMOD I] := by
-    intro n
-    induction n with
-    | zero => rw [hc0]
-    | succ n ih =>
-      rw [hc, sub_eq_add_neg, ← add_zero a₀]
-      refine ih.add ?_
-      rw [SModEq.zero, Ideal.neg_mem_iff]
-      refine I.mul_mem_right _ ?_
-      rw [← SModEq.zero] at h₁ ⊢
-      exact (ih.eval f).trans h₁
-  have hf'c : ∀ n, IsUnit (f'.eval (c n)) := by
-    intro n
-    have := isLocalHom_of_le_jacobson_bot I (IsAdicComplete.le_jacobson_bot I)
-    apply IsUnit.of_map (Ideal.Quotient.mk I)
-    convert! h₂ using 1
-    exact SModEq.def.mp ((hc_mod n).eval _)
-  have hfcI : ∀ n, f.eval (c n) ∈ I ^ (n + 1) := by
-    intro n
-    induction n with
-    | zero => simpa only [hc0, zero_add, pow_one] using h₁
-    | succ n ih =>
-      obtain ⟨q, hq⟩ := Polynomial.binomExpansion f (c n)
-        (-(f.eval (c n) * Ring.inverse (f'.eval (c n))))
-      rw [hc, sub_eq_add_neg, hq]
-      have hcancel : f'.eval (c n) * Ring.inverse (f'.eval (c n)) = 1 :=
-        Ring.mul_inverse_cancel _ (hf'c n)
-      have hz : eval (c n) f + eval (c n) (derivative f) *
-          (-(f.eval (c n) * Ring.inverse (f'.eval (c n)))) = 0 := by
-        rw [← hf']
-        linear_combination (-(f.eval (c n))) * hcancel
-      rw [hz, zero_add]
-      have hle : I ^ (2 * (n + 1)) ≤ I ^ (n + 1 + 1) :=
-        Ideal.pow_le_pow_right (by omega)
-      refine Ideal.mul_mem_left _ _ (hle ?_)
-      rw [pow_mul']
-      exact Ideal.pow_mem_pow ((Ideal.neg_mem_iff _).2 <| Ideal.mul_mem_right _ _ ih) _
-  have aux : ∀ m n, m ≤ n → c m ≡ c n [SMOD (I ^ m • ⊤ : Ideal R)] := by
-    intro m n hmn
-    rw [← Ideal.one_eq_top, Ideal.smul_eq_mul, mul_one]
-    obtain ⟨k, rfl⟩ := Nat.exists_eq_add_of_le hmn
-    clear hmn
-    induction k with
-    | zero => rw [add_zero]
-    | succ k ih =>
-      rw [← add_assoc, hc, ← add_zero (c m), sub_eq_add_neg]
-      refine ih.add ?_
-      symm
-      rw [SModEq.zero, Ideal.neg_mem_iff]
-      refine Ideal.mul_mem_right _ _ (Ideal.pow_le_pow_right ?_ (hfcI _))
-      rw [add_assoc]
-      exact le_self_add
-  obtain ⟨a, ha⟩ := IsPrecomplete.prec' c (aux _ _)
-  refine ⟨a, ?_, ?_⟩
-  · suffices ∀ n, f.eval a ≡ 0 [SMOD (I ^ n • ⊤ : Ideal R)] by exact IsHausdorff.haus' _ this
-    intro n
-    specialize ha n
-    rw [← Ideal.one_eq_top, Ideal.smul_eq_mul, mul_one] at ha ⊢
-    refine (ha.symm.eval f).trans ?_
-    rw [SModEq.zero]
-    exact Ideal.pow_le_pow_right le_self_add (hfcI _)
-  · specialize ha (0 + 1)
-    rw [hc, hc0, pow_one, ← Ideal.one_eq_top, Ideal.smul_eq_mul, mul_one, sub_eq_add_neg] at ha
-    rw [← SModEq.sub_mem, ← add_zero a₀]
-    refine ha.symm.trans (SModEq.rfl.add ?_)
-    rw [SModEq.zero, Ideal.neg_mem_iff]
-    exact Ideal.mul_mem_right _ _ h₁
+    ∃ a : R, f.eval a = 0 ∧ a - a₀ ∈ I :=
+  GlobalTheory.exists_simple_root_of_isAdicComplete I f a₀ h₁ h₂
 
 private lemma root_of_local {R : Type*} [CommRing R] [IsLocalRing R]
     [IsAdicComplete (IsLocalRing.maximalIdeal R) R] {ϖ : R}
