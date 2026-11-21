@@ -16,9 +16,22 @@ import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.WdPstC
 import Development.AbelianVarietyTheory.Proofs.SatakeParameters.CommuteIsNilpotentOfUnipotent
 import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.ExistsFrobeniusFixedPeriod
 
+set_option maxHeartbeats 800000
+set_option synthInstance.maxHeartbeats 200000
+
 section Priv
 open NumberField IsDedekindDomain Formalism.ConjugateSelfDual ReciprocityTheory.Gal Formalism.BasicNotions Formalism.BasicNotions.Loc GlobalTheory.WeilDeligne GlobalTheory.GalOfCusp GlobalTheory.HeckeGal GlobalTheory.LocLanglands GlobalTheory.Published UpperTheory.V.W UpperTheory.V.Hi
 attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
+
+/-- The rank-one comparison needed for ordinary characters at an `l`-adic place. -/
+def UpperTheory.V.Loc.OrdinaryCharacterDeRhamAbove : Prop :=
+    ∀ {F Ω : Type} [Field F] [NumberField F] [Field Ω] [Algebra F Ω] [IsAlgClosure F Ω] {l : ℕ} [Fact l.Prime] {A : ValuationSubring Ω} {w : Plc F}
+    (h : IsPlaceOver A w), ((l : ℕ) : 𝓞 F) ∈ w.asIdeal →
+    ∀ (ι : Qbar l ≃+* ℂ) (a : Weil h →* (w.adicCompletion F)ˣ), IsLocalArtin h a →
+    ∀ (ω : (w.adicCompletion F)ˣ →* ℂˣ) (hh : (F →+* Qbar l) → ℤ)
+      (ψ : ↥(Dec (F := F) A) →* (Qbar l)ˣ), OrdChar ι a ω hh ψ →
+      DRat ι h (GlobalTheory.TripleGal.rk1 ψ) (fun τ => {hh τ}) (fun s => Polynomial.X - Polynomial.C (ω (a s) : ℂ)) ∧
+        PotCrys A (GlobalTheory.TripleGal.rk1 ψ)
 
 section SlopeTestRemainingChoices
 
@@ -155,7 +168,7 @@ private theorem good_comp {a : ↥(Weil h) →* (w.adicCompletion F)ˣ} (ha : Is
     ((MonoidHom.cancel_right ha.surj).1 ?_)⟩
   rw [e, MonoidHom.mul_comp, ← ha.absPow_comp, Complex.ofReal_one]
 
-private theorem flag (hL : GlobalTheory.Mem.LiteralAutomorphy.LitN) (hw : ((l : ℕ) : 𝓞 F) ∈ w.asIdeal)
+private theorem flag (hChar : UpperTheory.V.Loc.OrdinaryCharacterDeRhamAbove) (hB : DeRhamPotSemistable) (hw : ((l : ℕ) : 𝓞 F) ∈ w.asIdeal)
     {a : ↥(Weil h) →* (w.adicCompletion F)ˣ} (ha : IsLocalArtin h a) (n : ℕ) :
     ∀ (r : ↥(Dec (F := F) A) →* GL (Fin n) (Qbar l)), Continuous r →
     ∀ (hh : Fin n → (F →+* Qbar l) → ℤ), (∀ τ, StrictMono fun j => hh j τ) →
@@ -164,7 +177,6 @@ private theorem flag (hL : GlobalTheory.Mem.LiteralAutomorphy.LitN) (hw : ((l : 
       (∀ i j, i ≠ j → ω i ≠ ω j ∧ ω i ≠ ω j * GlobalTheory.SmGL.absPow (w.adicCompletion F) 1) →
       DRat ι h r (fun τ => Finset.univ.val.map fun j => hh j τ) (fun s => ∏ j, (X - C (ω j (a s) : ℂ))) →
       HasFlag r ψ := by
-  have hB := hL.aut.berger
   induction n with
   | zero => exact fun r _ _ _ _ _ _ _ _ => ⟨1, fun _ => ⟨fun i => i.elim0, fun i => i.elim0⟩⟩
   | succ n ih =>
@@ -172,7 +184,7 @@ private theorem flag (hL : GlobalTheory.Mem.LiteralAutomorphy.LitN) (hw : ((l : 
     have hO' := ordChar_inv ι h (hO 0)
     have hc := twR_cont hO'.cont hr
     have h1 := UpperTheory.deRham_rational_twist_by_character hB ι h r (twR (ψ 0)⁻¹ r) (ψ 0)⁻¹ hr hc hO'.cont (fun _ => rfl) _ _ _ _ hD
-      (UpperTheory.V.Loc.charDR hL h hw ι a ha _ _ _ hO').1
+      (hChar h hw ι a ha _ _ _ hO').1
     obtain ⟨LL, Bw, hj⟩ := GlobalTheory.Pst.Test.exists_induces (l := l) (E := F) (Ω := Ω) hw h
     obtain ⟨v, v0, hv⟩ := (core ι h hB _ hc _ (fun j => (ω j * (ω 0)⁻¹).comp a)
       (good_comp h ha fun j k hjk => ⟨fun e => (hne j k hjk).1 (mul_right_cancel e),
@@ -193,7 +205,7 @@ private theorem flag (hL : GlobalTheory.Mem.LiteralAutomorphy.LitN) (hw : ((l : 
     refine hfl (ih r' c' (fun j => hh j.succ) (fun τ => (hmono τ).comp Fin.strictMono_succ) (fun j => ω j.succ) _
       (fun j => hO j.succ) (fun i j hij => hne _ _ fun e => hij (Fin.succ_injective _ e)) ?_)
     refine UpperTheory.deRham_rational_of_extension_by_character hB ι h r₁ r' (ψ 0) c₁ b1 b2 b3 (hh 0) _ _ _ ?_
-      (UpperTheory.V.Loc.charDR hL h hw ι a ha _ _ _ (hO 0)).1
+      (hChar h hw ι a ha _ _ _ (hO 0)).1
     convert h2 using 2
     · rw [Fin.univ_val_map, Fin.univ_val_map, List.ofFn_succ, Multiset.cons_coe]
     · rw [Fin.prod_univ_succ]
@@ -206,8 +218,28 @@ open NumberField IsDedekindDomain Formalism.ConjugateSelfDual ReciprocityTheory.
 open GlobalTheory.CuspRep GlobalTheory.WeilDeligne GlobalTheory.Pst GlobalTheory.LocLanglands GlobalTheory.LocGL GlobalTheory.GalOfCusp GlobalTheory.SmGL GlobalTheory.SplitWeil UpperTheory.V UpperTheory.V.Hi
 attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
 
+/-- Characters are unlinked if their ratios avoid the trivial and absolute-value characters. -/
+def UpperTheory.V.Loc.UnlinkedOrdinaryFlag : Prop :=
+  ∀ (L Ω : Type) [Field L] [NumberField L] [Field Ω] [Algebra L Ω] [IsAlgClosure L Ω] (l : ℕ) [Fact l.Prime], l ≠ 2 →
+    ∀ (ι : Qbar l ≃+* ℂ) (n : ℕ) (w : HeightOneSpectrum (𝓞 L)), ((l : ℕ) : 𝓞 L) ∈ w.asIdeal →
+    ∀ (A : ValuationSubring Ω) (h : IsPlaceOver A w) (a : Weil h →* (w.adicCompletion L)ˣ), IsLocalArtin h a →
+    ∀ (r : Dec (F := L) A →* GL (Fin n) (Qbar l)), Continuous r →
+    ∀ (hh : Fin n → (L →+* Qbar l) → ℤ), (∀ τ, StrictMono fun j => hh j τ) →
+    ∀ (ω : Fin n → (w.adicCompletion L)ˣ →* ℂˣ) (ψ : Fin n → Dec (F := L) A →* (Qbar l)ˣ),
+      (∀ j, OrdChar ι a (ω j) (hh j) (ψ j)) →
+      (∀ i j, i ≠ j → ω i ≠ ω j ∧ ω i ≠ ω j * absPow (w.adicCompletion L) 1) →
+      DRat ι h r (fun τ => Finset.univ.val.map fun j => hh j τ) (fun s => ∏ j, (X - C (ω j (a s) : ℂ))) →
+      W.HasFlag r ψ ∧ PotCrys A r
+
+theorem UpperTheory.V.Loc.ordinaryFlagOfUnlinkedCharacters
+    (hChar : UpperTheory.V.Loc.OrdinaryCharacterDeRhamAbove)
+    (hB : GlobalTheory.Published.DeRhamPotSemistable) : UnlinkedOrdinaryFlag := by
+  intro F Ω _ _ _ _ _ l _ _ ι n w hw A h a ha r hr hh hmono ω ψ hO hne hD
+  exact ⟨flag ι h hChar hB hw ha n r hr hh hmono ω ψ hO hne hD, fun O _ _ _ Bw hj =>
+    (core ι h hB r hr _ (fun j => (ω j).comp a) (good_comp h ha hne) hD Bw hj).1⟩
+
 theorem UpperTheory.V.Loc.ordFlagU :
     GlobalTheory.Mem.LiteralAutomorphy.LitN → ∀ (L Ω : Type) [Field L] [NumberField L] [Field Ω] [Algebra L Ω] [IsAlgClosure L Ω] (l : ℕ) [Fact l.Prime], l ≠ 2 → ∀ (ι : Qbar l ≃+* ℂ) (n : ℕ) (w : HeightOneSpectrum (𝓞 L)), ((l : ℕ) : 𝓞 L) ∈ w.asIdeal → ∀ (A : ValuationSubring Ω) (h : IsPlaceOver A w) (a : Weil h →* (w.adicCompletion L)ˣ), IsLocalArtin h a → ∀ (r : Dec (F := L) A →* GL (Fin n) (Qbar l)), Continuous r → ∀ (hh : Fin n → (L →+* Qbar l) → ℤ), (∀ τ, StrictMono fun j => hh j τ) → ∀ (ω : Fin n → (w.adicCompletion L)ˣ →* ℂˣ) (ψ : Fin n → Dec (F := L) A →* (Qbar l)ˣ), (∀ j, OrdChar ι a (ω j) (hh j) (ψ j)) → (∀ i j, i ≠ j → ω i ≠ ω j ∧ ω i ≠ ω j * absPow (w.adicCompletion L) 1) → DRat ι h r (fun τ => Finset.univ.val.map fun j => hh j τ) (fun s => ∏ j, (X - C (ω j (a s) : ℂ))) → W.HasFlag r ψ ∧ PotCrys A r := by
-  intro hL F Ω _ _ _ _ _ l _ _ ι n w hw A h a ha r hr hh hmono ω ψ hO hne hD
-  exact ⟨flag ι h hL hw ha n r hr hh hmono ω ψ hO hne hD, fun O _ _ _ Bw hj =>
-    (core ι h hL.aut.berger r hr _ (fun j => (ω j).comp a) (good_comp h ha hne) hD Bw hj).1⟩
+  intro N
+  exact UpperTheory.V.Loc.ordinaryFlagOfUnlinkedCharacters
+    (UpperTheory.V.Loc.charDR N) N.aut.berger
