@@ -1,4 +1,5 @@
 import Mathlib
+import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.LengthEqTopOfFinrankNeZero
 import Formalism.LocalRingCardinality.DataArith
 import Formalism.FilteredPoleLength.LocalDescentLevels.InvFromBlocksApplyZero
 import Formalism.PeriodIntegrals.Transference
@@ -1791,6 +1792,75 @@ end GPPacket
 
 open Module
 
+/-- Integral values of linear forms on a spanning family bound the length of
+the saturated quotient by the valuation of their evaluation determinant. -/
+theorem length_le_addVal_det_of_integral_linear_forms {R F : Type} [CommRing R] [IsDomain R] [IsDiscreteValuationRing R] [Field F] [Algebra R F]
+    [IsFractionRing R F] {V1 : Type} [AddCommGroup V1] [Module F V1] [Module R V1] [IsScalarTower R F V1]
+    (M1 : Submodule R V1) {ρ : ℕ} (z : Fin ρ → V1) (hz : ∀ k, z k ∈ M1)
+    (Z : Submodule R V1) (hZ1 : Submodule.span R (Set.range z) ≤ Z)
+    (φ : Fin ρ → V1 →ₗ[F] F) (hφ : ∀ i, ∀ f ∈ M1, φ i f ∈ Set.range (algebraMap R F)) (r : R)
+    (hr : algebraMap R F r = (Matrix.of fun i k => φ i (z k)).det) :
+    Module.length R (↥(M1 ⊓ (Submodule.span F (Set.range z)).restrictScalars R) ⧸
+      Z.comap (M1 ⊓ (Submodule.span F (Set.range z)).restrictScalars R).subtype) ≤
+      IsDiscreteValuationRing.addVal R r := by
+  classical
+  by_cases hr0 : r = 0
+  · rw [hr0, IsDiscreteValuationRing.addVal_zero]
+    exact le_top
+  let S := M1 ⊓ (Submodule.span F (Set.range z)).restrictScalars R
+  let zS : Fin ρ → S := fun k => ⟨z k, hz k, Submodule.subset_span (Set.mem_range_self k)⟩
+  let J := Submodule.span R (Set.range zS)
+  have hJZ : J ≤ Z.comap S.subtype := Submodule.span_le.2 <| by
+    rintro _ ⟨k, rfl⟩
+    exact hZ1 (Submodule.subset_span (Set.mem_range_self k))
+  let a : R →ₗ[R] F := Algebra.linearMap R F
+  let e := LinearEquiv.ofInjective a (IsFractionRing.injective R F)
+  let f₀ (i : Fin ρ) : S →ₗ[R] a.range :=
+    (((φ i).restrictScalars R).comp S.subtype).codRestrict a.range fun x =>
+      LinearMap.mem_range.2 (hφ i x x.2.1)
+  let f : S →ₗ[R] (Fin ρ → R) := LinearMap.pi fun i => e.symm.toLinearMap.comp (f₀ i)
+  have hf (x : S) (i : Fin ρ) : algebraMap R F (f x i) = φ i x :=
+    congrArg Subtype.val (e.apply_symm_apply (f₀ i x))
+  let A : Matrix (Fin ρ) (Fin ρ) F := Matrix.of fun i k => φ i (z k)
+  have hA : A.det ≠ 0 := by
+    change (Matrix.of fun i k => φ i (z k)).det ≠ 0
+    rw [← hr]
+    simpa only [map_zero] using (IsFractionRing.injective R F).ne hr0
+  have hfinj : Function.Injective f := by
+    rw [injective_iff_map_eq_zero]
+    intro x hx
+    obtain ⟨c, hc⟩ := (Submodule.mem_span_range_iff_exists_fun F).1 x.2.2
+    have hAc : A.mulVec c = 0 := by
+      funext i
+      change ∑ k, φ i (z k) * c k = 0
+      calc
+        _ = φ i (∑ k, c k • z k) := by simp [map_sum, map_smul, smul_eq_mul, mul_comm]
+        _ = φ i x := by rw [hc]
+        _ = 0 := by rw [← hf, hx, Pi.zero_apply, map_zero]
+    have hc0 := Matrix.mulVec_injective_of_det_ne_zero hA (hAc.trans (Matrix.mulVec_zero A).symm)
+    apply Subtype.ext
+    simpa [hc0] using hc.symm
+  let C : Matrix (Fin ρ) (Fin ρ) R := Matrix.of fun i k => f (zS k) i
+  have hC : (algebraMap R F).mapMatrix C = A := by
+    ext i k
+    exact hf (zS k) i
+  have hdet : C.det = r := (IsFractionRing.injective R F) (by rw [RingHom.map_det, hC, hr])
+  let ψ := J.mapQ (J.map f) f (Submodule.le_comap_map _ _)
+  have hψ : Function.Injective ψ := by
+    rw [← LinearMap.ker_eq_bot, Submodule.ker_mapQ,
+      Submodule.comap_map_eq_of_injective hfinj, Submodule.mkQ_map_self]
+  have hJ : J.map f = LinearMap.range C.mulVecLin := by
+    rw [Submodule.map_span, ← Set.range_comp, Matrix.range_mulVecLin]
+    rfl
+  calc
+    _ ≤ Module.length R (S ⧸ J) :=
+      Module.length_le_of_surjective _ (Submodule.factor_surjective hJZ)
+    _ ≤ Module.length R ((Fin ρ → R) ⧸ J.map f) := Module.length_le_of_injective ψ hψ
+    _ = IsDiscreteValuationRing.addVal R r := by
+      rw [hJ, GlobalTheory.LengthCokernelFinrank.length_coker_eq_addVal_det]
+      change IsDiscreteValuationRing.addVal R (LinearMap.det (Matrix.toLin' C)) = _
+      rw [LinearMap.det_toLin', hdet]
+
 theorem len_sat_le {R F : Type} [CommRing R] [IsDomain R] [IsDiscreteValuationRing R] [Field F] [Algebra R F]
     [IsFractionRing R F] {V1 : Type} [AddCommGroup V1] [Module F V1] [Module R V1] [IsScalarTower R F V1]
     (M1 : Submodule R V1) (hfg : M1.FG) {ρ : ℕ} (z : Fin ρ → V1) (hz : ∀ k, z k ∈ M1)
@@ -1799,136 +1869,8 @@ theorem len_sat_le {R F : Type} [CommRing R] [IsDomain R] [IsDiscreteValuationRi
     (hr : algebraMap R F r = (Matrix.of fun i k => φ i (z k)).det) :
     Module.length R (↥(M1 ⊓ (Submodule.span F (Set.range z)).restrictScalars R) ⧸
       Z.comap (M1 ⊓ (Submodule.span F (Set.range z)).restrictScalars R).subtype) ≤
-      IsDiscreteValuationRing.addVal R r := by
-  classical
-  by_cases ha : r = 0
-  · rw [ha, IsDiscreteValuationRing.addVal_zero]; exact le_top
-  set Zsat : Submodule R V1 := M1 ⊓ (Submodule.span F (Set.range z)).restrictScalars R with hZsat
-  let U : Submodule F V1 := Submodule.span F (Set.range z)
-  let bz : Basis (Fin ρ) F U := Basis.span hli
-  have hbz : ∀ k, ((bz k : U) : V1) = z k := fun k => congrArg Subtype.val (Basis.span_apply hli k)
-  have : FiniteDimensional F U := Module.Finite.of_basis bz
-  have hfr : finrank F U = ρ := by rw [finrank_eq_card_basis bz]; simp
-  let ι : U →ₗ[R] V1 := U.subtype.restrictScalars R
-  have hι : Function.Injective ι := Subtype.val_injective
-  let S : Submodule R U := M1.comap ι
-  let T : Submodule R U := Submodule.span R (Set.range bz)
-  have hTS : T ≤ S := by
-    rw [Submodule.span_le]
-    rintro _ ⟨k, rfl⟩
-    show ((bz k : U) : V1) ∈ M1
-    rw [hbz]; exact hz k
-  have hTlat : Formalism.LatticeIndexTer.IsLat R F U T := by
-    refine ⟨Submodule.fg_span (Set.finite_range _), ?_⟩
-    rw [eq_top_iff, ← bz.span_eq]
-    exact Submodule.span_mono Submodule.subset_span
-  have hSlat : Formalism.LatticeIndexTer.IsLat R F U S := by
-    refine ⟨?_, ?_⟩
-    · apply Submodule.fg_of_fg_map_injective ι hι
-      exact hfg.of_le (Submodule.map_comap_le _ _)
-    · rw [eq_top_iff, ← hTlat.2]
-      exact Submodule.span_mono hTS
-  obtain ⟨w0, hw0⟩ := Formalism.LatticeIndexTer.lattice_has_basis R F U S hSlat
-  let w : Basis (Fin ρ) F U := w0.reindex (finCongr hfr)
-  have hw : S = Submodule.span R (Set.range w) := by
-    rw [Basis.range_reindex]; exact hw0
-  have hwM : ∀ l, ((w l : U) : V1) ∈ M1 := by
-    intro l
-    have : w l ∈ S := by rw [hw]; exact Submodule.subset_span ⟨l, rfl⟩
-    exact this
-
-  have hint : ∀ l i, ∃ c : R, algebraMap R F c = φ i ((w l : U) : V1) := fun l i => hφ i _ (hwM l)
-  choose W0 hW0 using hint
-  let Wm : Matrix (Fin ρ) (Fin ρ) R := Matrix.of fun i l => W0 l i
-  let C : Matrix (Fin ρ) (Fin ρ) F :=
-    LinearMap.toMatrix bz w ((LinearEquiv.refl F U : U ≃ₗ[F] U) : U →ₗ[F] U)
-  have hprod : (Matrix.of fun i k => φ i (z k)) = (algebraMap R F).mapMatrix Wm * C := by
-    ext i k
-    rw [Matrix.mul_apply]
-    have h1 : z k = ∑ l, w.repr (bz k) l • ((w l : U) : V1) := by
-      have h := congrArg U.subtype (w.sum_repr (bz k))
-      rw [map_sum] at h
-      rw [← hbz k]
-      simpa using h.symm
-    simp only [Matrix.of_apply]
-    rw [h1]
-    simp only [map_sum, map_smul, smul_eq_mul]
-    refine Finset.sum_congr rfl fun l _ => ?_
-    simp only [C, Wm, RingHom.mapMatrix_apply, Matrix.map_apply, Matrix.of_apply,
-      LinearMap.toMatrix_apply, hW0]
-    simp [mul_comm]
-  have hdetprod : (Matrix.of fun i k => φ i (z k)).det = algebraMap R F Wm.det * C.det := by
-    rw [hprod, Matrix.det_mul, ← RingHom.map_det]
-  have hinj := IsFractionRing.injective R F
-  have haK : algebraMap R F r ≠ 0 := fun h => ha (hinj (by rw [h, map_zero]))
-  have hC0 : C.det ≠ 0 := by
-    intro h
-    apply haK
-    rw [hr, hdetprod, h]; simp
-  obtain ⟨a1, b1, hb1, hab⟩ := IsFractionRing.div_surjective (A := R) C.det
-  have hb10 : b1 ≠ 0 := nonZeroDivisors.ne_zero hb1
-  have hb1K : algebraMap R F b1 ≠ 0 := fun h => hb10 (hinj (by rw [h, map_zero]))
-  have ha1eq : algebraMap R F a1 = C.det * algebraMap R F b1 := by
-    rw [← hab]; field_simp
-  have ha10 : a1 ≠ 0 := by
-    rintro rfl
-    rw [map_zero] at ha1eq
-    exact (mul_ne_zero hC0 hb1K) ha1eq.symm
-  have hidx := Formalism.LatticeIndexTer.lattice_index_eq_det_valuation R F U U (Fin ρ) bz w (LinearEquiv.refl F U) a1 b1 ha10 hb10 ha1eq
-  have hmapid : (Submodule.span R (Set.range bz)).map
-      (((LinearEquiv.refl F U : U ≃ₗ[F] U) : U →ₗ[F] U).restrictScalars R) = T := by
-    ext x; simp [T]
-  rw [hmapid, ← hw] at hidx
-
-  have hrel : r * b1 = Wm.det * a1 := by
-    apply hinj
-    rw [map_mul, map_mul, hr, hdetprod, ha1eq]; ring
-  have hW0ne : Wm.det ≠ 0 := by
-    rintro h
-    rw [h] at hrel
-    simp at hrel
-    rcases hrel with h | h
-    · exact ha h
-    · exact hb10 h
-  have hv : ∀ x : R, x ≠ 0 → IsDiscreteValuationRing.addVal R x ≠ ⊤ := by
-    intro x hx h
-    exact hx (IsDiscreteValuationRing.addVal_eq_top_iff.1 h)
-  have hval : (IsDiscreteValuationRing.addVal R r).toNat + (IsDiscreteValuationRing.addVal R b1).toNat =
-      (IsDiscreteValuationRing.addVal R Wm.det).toNat + (IsDiscreteValuationRing.addVal R a1).toNat := by
-    have := congrArg (fun x => (IsDiscreteValuationRing.addVal R x).toNat) hrel
-    simp only [IsDiscreteValuationRing.addVal_mul] at this
-    rw [ENat.toNat_add (hv _ ha) (hv _ hb10), ENat.toNat_add (hv _ hW0ne) (hv _ ha10)] at this
-    exact this
-
-  have hfin : Formalism.LatticeIndexTer.qlen R U S T ≠ ⊤ := Formalism.LatticeIndexTer.lattice_quotient_finite R F U S T hSlat hTlat
-  have hzero : Formalism.LatticeIndexTer.qlen R U T S = 0 := by
-    unfold Formalism.LatticeIndexTer.qlen
-    rw [Submodule.comap_subtype_eq_top.2 hTS]
-    exact Module.length_eq_zero
-
-  let g : S →ₗ[R] Zsat := LinearMap.codRestrict Zsat (ι ∘ₗ S.subtype) (fun x => ⟨x.2, x.1.2⟩)
-  have hgT : T.comap S.subtype ≤ (Z.comap Zsat.subtype).comap g := by
-    intro x hx
-    have hTZ : T.map ι ≤ Z := by
-      rw [Submodule.map_span_le]
-      rintro _ ⟨k, rfl⟩
-      show ((bz k : U) : V1) ∈ Z
-      rw [hbz]; exact hZ1 (Submodule.subset_span ⟨k, rfl⟩)
-    exact hTZ ⟨x.1, hx, rfl⟩
-  have hsurj : Function.Surjective (Submodule.mapQ _ _ g hgT) := by
-    intro y
-    induction y using Submodule.Quotient.induction_on with | H y => ?_
-    refine ⟨Submodule.Quotient.mk ⟨⟨y.1, y.2.2⟩, y.2.1⟩, ?_⟩
-    rfl
-  have hle : Module.length R (↥Zsat ⧸ Z.comap Zsat.subtype) ≤ Formalism.LatticeIndexTer.qlen R U S T :=
-    Module.length_le_of_surjective _ hsurj
-  refine hle.trans ?_
-  rw [← ENat.natCast_toNat hfin, ← ENat.natCast_toNat (hv _ ha)]
-  unfold Formalism.LatticeIndexTer.idx at hidx
-  rw [hzero] at hidx
-  simp only [ENat.toNat_zero, Nat.cast_zero, sub_zero] at hidx
-  have : (Formalism.LatticeIndexTer.qlen R U S T).toNat ≤ (IsDiscreteValuationRing.addVal R r).toNat := by omega
-  exact_mod_cast this
+      IsDiscreteValuationRing.addVal R r :=
+  length_le_addVal_det_of_integral_linear_forms M1 z hz Z hZ1 φ hφ r hr
 
 section Br
 
