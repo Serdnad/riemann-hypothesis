@@ -848,30 +848,34 @@ theorem exp_neg_le_half {y : ℝ} (hy : 1 ≤ y) : Real.exp (-y) ≤ 1 / 2 := by
 
 variable {eps : ℝ}
 
+/-- The loss bound together with a host over every label in the base host's frame. -/
+def LossWithHostCover (Fm : FamP eps) (eL : ℝ) : Prop :=
+  ∃ C x0 : ℝ, 0 ≤ C ∧ ∀ x ≥ x0, x ∈ Fm.Win → ∃ (i0 : Fm.Ix x) (av bv : ℕ → ℤ),
+    (∀ u0 : (Fm.D x i0).R.A, ∃ i : Fm.Ix x, (Fm.D x i).host.u0.val = hval _ u0 ∧
+      ∀ t : (Fm.D x i).host.TT, (Fm.L x i).aT t = av (t : (Fm.D x i).R.A).val ∧
+        (Fm.L x i).bT t = bv (t : (Fm.D x i).R.A).val) ∧
+    ∀ i : Fm.Ix x, (∀ t : (Fm.D x i).host.TT,
+      (Fm.L x i).aT t = av (t : (Fm.D x i).R.A).val ∧
+      (Fm.L x i).bT t = bv (t : (Fm.D x i).R.A).val) → Loss_at (Fm.L x i) C eL
+
 set_option maxHeartbeats 1600000 in
 
-theorem linkGLOBAL_of (Fm : FamP eps) (Cabs CH C0 eL : ℝ) (hCabs : 0 ≤ Cabs) (hCH : 0 ≤ CH) (heL : 0 ≤ eL)
-    (hCount : CountF Fm) (hSM : SlopesMF Fm)
-    (hSN : LinkG Fm → LinkMu Fm → SlopesNF Fm)
-    (hLat : LinkDIV Fm Cabs CH → LatF Fm)
-    (hNodes : NodesF Fm)
-    (hFr : ChosenProviso Fm C0 → ChosenCode Fm C0 CH → LinkS Fm C0 → LinkIRR Fm → LinkDIV Fm Cabs CH → FrameF Fm CH)
-    (hLoss : ∀ Cb : ℝ, 0 < Cb → ChosenTT Fm → ChosenBad Fm Cb → LinkG Fm → LossF Fm eL)
-    (hChar : CharF Fm)
-    (hWin : ThickSetEventually Fm → WinF Fm) (hCov : Fm.CoverAll) :
-    LinkGLOBAL Fm Cabs CH C0 Cabs eL := by
-  intro hCh hIn
-  obtain ⟨C5, c6, Cb, hC5, hc6, hCb, cT2, cTT, cBad, ⟨xQD, hQD⟩, ⟨xTh, hTh⟩, cPr, cCo⟩ := hCh
-  obtain ⟨lG, lS, lI, lD, lMu⟩ := hIn
+theorem linkCoreOfCoveredLoss (Fm : FamP eps) (Cabs CH eL C5 c6 : ℝ) (hCabs : 0 ≤ Cabs) (hCH : 0 ≤ CH) (heL : 0 ≤ eL) (hc6 : 0 < c6)
+    (hCount : CountF Fm) (hSM : SlopesMF Fm) (hSN : SlopesNF Fm) (hLat : LatF Fm) (hNodes : NodesF Fm)
+    (hFr : FrameF Fm CH) (hLoss : LossWithHostCover Fm eL) (hChar : CharF Fm) (hWin : WinF Fm)
+    (cTT : ChosenTT Fm) (cQD : ChosenQD Fm C5) (cTh : ChosenThin Fm c6) (lI : LinkIRR Fm) (lD : LinkDIV Fm Cabs CH) :
+    ∃ K cHH eK CL x0 : ℝ, ∀ x ≥ x0, x ∈ Fm.Win → ChainTied Fm Cabs eL K cHH eK CL x := by
+  obtain ⟨xQD, hQD⟩ := cQD
+  obtain ⟨xTh, hTh⟩ := cTh
   obtain ⟨Cc, xC, hCc, hC⟩ := hCount
   obtain ⟨Cs, xS, hCs, hS⟩ := hSM
-  obtain ⟨C1, xN, hC1, hN⟩ := hSN lG lMu
-  obtain ⟨xL, hL⟩ := hLat lD
+  obtain ⟨C1, xN, hC1, hN⟩ := hSN
+  obtain ⟨xL, hL⟩ := hLat
   obtain ⟨xO, hO⟩ := hNodes
-  obtain ⟨xF, hF⟩ := hFr cPr cCo lS lI lD
-  obtain ⟨Cl, xLo, hCl, hLo⟩ := hLoss Cb hCb cTT cBad lG
+  obtain ⟨xF, hF⟩ := hFr
+  obtain ⟨Cl, xLo, hCl, hLo⟩ := hLoss
   obtain ⟨xCh, hChr⟩ := hChar c6 C5
-  obtain ⟨eK, xW, heK, hW⟩ := hWin cT2 c6 hc6
+  obtain ⟨eK, xW, heK, hW⟩ := hWin c6 hc6
   obtain ⟨xTT, hTT⟩ := cTT
   obtain ⟨xI, hI⟩ := lI
   obtain ⟨Cd, xD, hD⟩ := lD
@@ -904,11 +908,7 @@ theorem linkGLOBAL_of (Fm : FamP eps) (Cabs CH C0 eL : ℝ) (hCabs : 0 ≤ Cabs)
   have hx0 : 0 < x := by linarith
   have hx1' : 1 ≤ x := by linarith
 
-  obtain ⟨i0, av, bv, hadm, hloss⟩ := hLo x hxLo hxw
-  have hcov : ∀ u0 : (Fm.D x i0).R.A, ∃ i : Fm.Ix x, (Fm.D x i).host.u0.val = hval _ u0 ∧
-      ∀ t : (Fm.D x i).host.TT, (Fm.L x i).aT t = av (t : (Fm.D x i).R.A).val ∧
-        (Fm.L x i).bT t = bv (t : (Fm.D x i).R.A).val :=
-    fun u0 => hCov x hx1 i0 (hval _ u0) av bv (hval_lt _ u0) hadm
+  obtain ⟨i0, av, bv, hcov, hloss⟩ := hLo x hxLo hxw
   choose pt hpt1 hpt2 using hcov
   let M : Mod Fm x := ⟨i0, av, bv, pt, hpt1, hpt2⟩
   have iq : Fact M.q.Prime := ⟨(Fm.D x i0).host.hyp.1⟩
@@ -1115,6 +1115,29 @@ theorem linkGLOBAL_of (Fm : FamP eps) (Cabs CH C0 eL : ℝ) (hCabs : 0 ≤ Cabs)
     M.tiePts, M.tieGlobal hx1 _ _ _ _ _ _, M.tieLocal _ _ _ _ _ _, M.tieArith ell hell1, rfl, rfl, le_refl _, le_refl _,
     le_refl _, M.ident _ _ _ _ _ _ ell hell2,
     ⟨L1, L2, L3, L4, L5, L6, L7, L8, liftZP_newton, ParameterUpperBound, liftZP_unit⟩, E1, B1, R1, W1, S1⟩
+
+theorem linkGLOBAL_of (Fm : FamP eps) (Cabs CH C0 eL : ℝ) (hCabs : 0 ≤ Cabs) (hCH : 0 ≤ CH) (heL : 0 ≤ eL)
+    (hCount : CountF Fm) (hSM : SlopesMF Fm)
+    (hSN : LinkG Fm → LinkMu Fm → SlopesNF Fm)
+    (hLat : LinkDIV Fm Cabs CH → LatF Fm)
+    (hNodes : NodesF Fm)
+    (hFr : ChosenProviso Fm C0 → ChosenCode Fm C0 CH → LinkS Fm C0 → LinkIRR Fm → LinkDIV Fm Cabs CH → FrameF Fm CH)
+    (hLoss : ∀ Cb : ℝ, 0 < Cb → ChosenTT Fm → ChosenBad Fm Cb → LinkG Fm → LossF Fm eL)
+    (hChar : CharF Fm)
+    (hWin : ThickSetEventually Fm → WinF Fm) (hCov : Fm.CoverAll) :
+    LinkGLOBAL Fm Cabs CH C0 Cabs eL := by
+  intro hChosen hInputs
+  obtain ⟨C5, c6, Cb, hC5, hc6, hCb, cT2, cTT, cBad, cQD, cTh, cPr, cCo⟩ := hChosen
+  obtain ⟨lG, lS, lI, lD, lMu⟩ := hInputs
+  have lossCovered : LossWithHostCover Fm eL := by
+    obtain ⟨C, x0, hC, hLossAt⟩ := hLoss Cb hCb cTT cBad lG
+    refine ⟨C, max x0 (Fm.x1 + 1), hC, fun x hx hw => ?_⟩
+    obtain ⟨i0, av, bv, hAdmissible, hBounds⟩ := hLossAt x (le_of_max_le_left hx) hw
+    have hLarge : Fm.x1 < x := lt_of_lt_of_le (lt_add_one _) (le_of_max_le_right hx)
+    exact ⟨i0, av, bv, fun u0 => hCov x hLarge i0 (hval _ u0) av bv (hval_lt _ u0) hAdmissible, hBounds⟩
+  exact linkCoreOfCoveredLoss Fm Cabs CH eL C5 c6 hCabs hCH heL hc6 hCount hSM
+    (hSN lG lMu) (hLat lD) hNodes (hFr cPr cCo lS lI lD) lossCovered hChar (hWin cT2)
+    cTT cQD cTh lI lD
 
 end Formalism.MainNotions.Lnk
 
