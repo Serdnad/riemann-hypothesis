@@ -1,4 +1,5 @@
 import Mathlib
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ProjectiveProper
 import ReciprocityTheory.AnalyticForms.PotentialTheory.IsPotentialPullbackStatement
 import Development.AbelianVarietyTheory.Definitions.Divisors.NefFibOfIsNef
 import Development.AbelianVarietyTheory.Definitions.ShimuraVarieties.IsOpenOfMemIrreducibleComponentsOfFinite
@@ -14,14 +15,6 @@ open CategoryTheory CategoryTheory.Limits AlgebraicGeometry TopologicalSpace
 open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Geo.Tor
 
 namespace GlobalTheory.CommonModel
-
-open CategoryTheory CategoryTheory.Limits AlgebraicGeometry TopologicalSpace in
-
-theorem _root_.GlobalTheory.CommonModel.isProper_of_isProjOver {R : Type} [CommRing R] {X : Scheme.{0}} {s : X ⟶ _root_.ReciprocityTheory.ChartRestriction.G.Geo.Tor.Sp R}
-    (hs : _root_.ReciprocityTheory.ChartRestriction.G.Geo.Tor.IsProjOver s) : IsProper s := by
-  obtain ⟨N, i, hi, rfl⟩ := hs
-  haveI := _root_.ReciprocityTheory.ChartRestriction.G.Geo.Tor.isProper_str R N
-  infer_instance
 
 open CategoryTheory CategoryTheory.Limits AlgebraicGeometry TopologicalSpace in
 

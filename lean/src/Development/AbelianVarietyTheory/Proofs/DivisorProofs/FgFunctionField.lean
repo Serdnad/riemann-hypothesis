@@ -1,6 +1,5 @@
 import Mathlib
-import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.MemRiemannRochSpaceIffRegularAtEverywhere
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.AbProj
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ProjectiveProper
 open AlgebraicGeometry CategoryTheory ReciprocityTheory.ChartRestriction.G.Geo.Tor
 
 set_option autoImplicit false
@@ -20,10 +19,8 @@ theorem fg_functionField : ∀ (F : Type) [Field F] (G : Scheme.{0}) [IsIntegral
     apply ι.injective
     have := congrArg (fun f => f.hom c) h'
     simpa using this
-  have hft : LocallyOfFiniteType sG := by
-    obtain ⟨N, i, hi, rfl⟩ := hproj
-    haveI := isProper_str F N
-    infer_instance
+  have := GlobalTheory.CommonModel.isProper_of_isProjOver hproj
+  have hft : LocallyOfFiniteType sG := inferInstance
   obtain ⟨U, hU, hx, -⟩ := TopologicalSpace.Opens.isBasis_iff_nbhd.1 G.isBasis_affineOpens
     (TopologicalSpace.Opens.mem_top (genericPoint G))
   haveI : Nonempty U := ⟨⟨_, hx⟩⟩
