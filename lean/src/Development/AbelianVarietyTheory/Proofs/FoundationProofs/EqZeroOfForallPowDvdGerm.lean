@@ -193,8 +193,7 @@ private theorem exists_section_restrict_eq_of_germ_eq {V : X.Opens} (hV : IsAffi
     (hY : genericPoint X ∈ X.basicOpen (X.presheaf.map (homOfLE (le_top : V ≤ ⊤)).op t))
     (y : Γ(X, X.basicOpen (X.presheaf.map (homOfLE (le_top : V ≤ ⊤)).op t))) (z : X.presheaf.stalk η)
     (h : X.presheaf.germ _ (genericPoint X) hY y = algebraMap (X.presheaf.stalk η) X.functionField z) :
-    ∃ r : Γ(X, V), X.presheaf.map (homOfLE (X.basicOpen_le _)).op r = y ∧
-      (IsUnit y → IsUnit z → IsUnit r) := by
+    ∃ r : Γ(X, V), X.presheaf.map (homOfLE (X.basicOpen_le _)).op r = y := by
   have := GlobalTheory.PrimeElement.isPrime_span hπ
   have : Nonempty V := ⟨⟨η, hηV⟩⟩
   have : Nonempty (X.basicOpen (X.presheaf.map (homOfLE (le_top : V ≤ ⊤)).op t)) := ⟨⟨_, hY⟩⟩
@@ -219,16 +218,7 @@ private theorem exists_section_restrict_eq_of_germ_eq {V : X.Opens} (hV : IsAffi
   have : IsScalarTower Γ(X, V) (X.presheaf.stalk η) X.functionField :=
     functionField_isScalarTower X V ⟨η, hηV⟩
   have hh : algebraMap _ X.functionField y = algebraMap (X.presheaf.stalk η) X.functionField z := h
-  obtain ⟨r, hr⟩ := GlobalTheory.PrimeElement.exists_algebraMap_eq (K := X.functionField) hπ.ne_zero hh
-  refine ⟨r, hr, fun hy hz => ?_⟩
-  obtain ⟨r', hr'u, hr'⟩ :=
-    GlobalTheory.PrimeElement.exists_unit_algebraMap_eq (K := X.functionField) hπ.ne_zero hy hz hh
-  have hinj := IsLocalization.injective
-    (M := Submonoid.powers (X.presheaf.map (homOfLE (le_top : V ≤ ⊤)).op t))
-    Γ(X, X.basicOpen (X.presheaf.map (homOfLE (le_top : V ≤ ⊤)).op t))
-    (powers_le_nonZeroDivisors_of_noZeroDivisors hπ.ne_zero)
-  have hrr : r' = r := hinj (hr'.trans hr.symm)
-  exact hrr ▸ hr'u
+  exact GlobalTheory.PrimeElement.exists_algebraMap_eq X.functionField hπ.ne_zero hh
 
 include hη in
 
@@ -257,7 +247,7 @@ theorem exists_res_eq {W : X.Opens} (r : Γ(X, W ⊓ X.basicOpen t))
       rw [Scheme.basicOpen_res]
       exact genericPoint_mem_inf hp (hηV x)
     obtain ⟨z, hz⟩ := hr (hVW x (hηV x))
-    obtain ⟨sx, hsx, -⟩ := exists_section_restrict_eq_of_germ_eq (hV x) (hηV x) hπ hq hY
+    obtain ⟨sx, hsx⟩ := exists_section_restrict_eq_of_germ_eq (hV x) (hηV x) hπ hq hY
       (X.presheaf.map (homOfLE hYle).op r) z (by rw [germ_res]; exact hz.symm)
     refine ⟨sx, ?_⟩
     rw [← germ_res (X.basicOpen_le _) hY sx, hsx, germ_res]
@@ -297,43 +287,42 @@ theorem isUnit_of_isUnit_res {W : X.Opens} {s : Γ(X, W)}
     (hs : IsUnit (X.presheaf.map (homOfLE (inf_le_left : W ⊓ X.basicOpen t ≤ W)).op s))
     (hsη : η ∈ W → η ∈ X.basicOpen s) : IsUnit s := by
   refine X.toRingedSpace.isUnit_of_isUnit_germ W s fun x hx => ?_
-  change IsUnit (X.presheaf.germ W x hx s)
   by_cases hxt : x ∈ X.basicOpen t
-  · have hx' : x ∈ W ⊓ X.basicOpen t := ⟨hx, hxt⟩
-    rw [← germ_res inf_le_left hx' s]
+  · rw [← germ_res inf_le_left (show x ∈ W ⊓ X.basicOpen t from ⟨hx, hxt⟩) s]
     exact hs.map _
-  · obtain ⟨_, ⟨V, hV, rfl⟩, hxV, hVW0⟩ := X.isBasis_affineOpens.exists_subset_of_mem_open hx W.isOpen
-    have hVW : V ≤ W := hVW0
+  · obtain ⟨_, ⟨V, hV, rfl⟩, hxV, hVW⟩ :=
+      X.isBasis_affineOpens.exists_subset_of_mem_open hx W.isOpen
+    have hVW : V ≤ W := hVW
     have hηV : η ∈ V := mem_of_notMem_basicOpen hη hxV hxt
-    have hηW : η ∈ W := hVW hηV
+    have : Nonempty V := ⟨⟨η, hηV⟩⟩
+    let π : Γ(X, V) := X.presheaf.map (homOfLE (le_top : V ≤ ⊤)).op t
+    let sV : Γ(X, V) := X.presheaf.map (homOfLE hVW).op s
+    let _ : Algebra Γ(X, V) Γ(X, X.basicOpen π) :=
+      (X.presheaf.map (homOfLE (X.basicOpen_le π)).op).hom.toAlgebra
+    have : IsLocalization.Away π Γ(X, X.basicOpen π) := hV.isLocalization_basicOpen π
+    have hD : X.basicOpen π ≤ W ⊓ X.basicOpen t := by
+      change X.basicOpen (X.presheaf.map (homOfLE (le_top : V ≤ ⊤)).op t) ≤ _
+      rw [Scheme.basicOpen_res]
+      exact inf_le_inf_right _ hVW
+    have hu : IsUnit (algebraMap Γ(X, V) Γ(X, X.basicOpen π) sV) := by
+      change IsUnit (X.presheaf.map (homOfLE (X.basicOpen_le π)).op
+        (X.presheaf.map (homOfLE hVW).op s))
+      rw [res_res, ← res_res hD inf_le_left]
+      exact hs.map _
+    obtain ⟨n, hn⟩ := (IsLocalization.Away.algebraMap_isUnit_iff π).mp hu
+    obtain ⟨k, -, hk⟩ := (dvd_prime_pow (hp V hV hηV) n).mp hn
+    have hndvd : ¬ π ∣ sV := by
+      rw [dvd_iff_notMem_basicOpen hη hp hV hηV]
+      push Not
+      change η ∈ X.basicOpen (X.presheaf.map (homOfLE hVW).op s)
+      rw [Scheme.basicOpen_res]
+      exact ⟨hηV, hsη (hVW hηV)⟩
+    have hk0 : k = 0 := by
+      by_contra hk0
+      exact hndvd ((dvd_pow_self π hk0).trans hk.dvd')
+    rw [hk0, pow_zero] at hk
     rw [← germ_res hVW hxV s]
-    refine IsUnit.map _ ?_
-    have hπ := hp V hV hηV
-    have hq := primeIdealOf_eq_span hη hp hV hηV
-    have hYle : X.basicOpen (X.presheaf.map (homOfLE (le_top : V ≤ ⊤)).op t) ≤ W ⊓ X.basicOpen t := by
-      rw [Scheme.basicOpen_res]
-      exact fun y hy => ⟨hVW hy.1, hy.2⟩
-    have hY : genericPoint X ∈ X.basicOpen (X.presheaf.map (homOfLE (le_top : V ≤ ⊤)).op t) := by
-      rw [Scheme.basicOpen_res]
-      exact genericPoint_mem_inf hp hηV
-    have hres : X.presheaf.map (homOfLE hYle).op (X.presheaf.map (homOfLE inf_le_left).op s) =
-        X.presheaf.map (homOfLE (X.basicOpen_le _)).op (X.presheaf.map (homOfLE hVW).op s) := by
-      rw [res_res, res_res]
-    have hz : IsUnit (X.presheaf.germ V η hηV (X.presheaf.map (homOfLE hVW).op s)) := by
-      rw [germ_res]
-      exact (X.mem_basicOpen s η hηW).mp (hsη hηW)
-    obtain ⟨r, hr, hru⟩ := exists_section_restrict_eq_of_germ_eq hV hηV hπ hq hY
-      (X.presheaf.map (homOfLE (X.basicOpen_le _)).op (X.presheaf.map (homOfLE hVW).op s))
-      (X.presheaf.germ V η hηV (X.presheaf.map (homOfLE hVW).op s))
-      (by rw [algebraMap_germ, germ_res, germ_res])
-    have hinj : r = X.presheaf.map (homOfLE hVW).op s := by
-      have : Nonempty V := ⟨⟨η, hηV⟩⟩
-      refine eq_of_germ_eq fun hgV => ?_
-      rw [← germ_res (X.basicOpen_le _) hY r, hr, germ_res]
-    rw [← hinj]
-    refine hru ?_ hz
-    rw [← hres]
-    exact hs.map _
+    exact (associated_one_iff_isUnit.mp hk).map _
 
 section Cocycle
 
