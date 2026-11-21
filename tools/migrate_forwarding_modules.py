@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Migrate exact-signature forwarding modules and validate their direct importers."""
+"""Migrate exact-signature forwarders and build direct importers of both module paths."""
 
 import argparse
 import csv
@@ -36,11 +36,16 @@ class Migration:
     signature: str
     scoped_commands: tuple
     callers: tuple
+    provider_callers: tuple
     dependencies: frozenset
 
     @property
-    def targets(self):
+    def edited_modules(self):
         return self.wrapper, self.provider, *self.callers
+
+    @property
+    def targets(self):
+        return self.edited_modules + self.provider_callers
 
 
 def imported(source):
@@ -83,13 +88,20 @@ def import_line(module):
     return re.compile(rb"(?m)^import[ \t]+" + re.escape(module.encode()) + rb"[ \t]*(?=\r?$)")
 
 
-def plan_row(row, locations, graph, importers, main_modules, max_closure):
+def plan_row(row, locations, graph, importers, main_modules, max_closure,
+             include_prefixes=(), exclude_prefixes=()):
     wrapper = row["statement_module"]
     provider = row["implementation_module"]
     callers = tuple(sorted(importers[wrapper]))
     if wrapper not in main_modules or provider not in graph[wrapper] or not callers:
         return None
-    dependency_set = closure(graph, [wrapper, *callers], max_closure)
+    edited_modules = (wrapper, provider, *callers)
+    if include_prefixes and not all(module.startswith(include_prefixes) for module in edited_modules):
+        return None
+    if any(module.startswith(exclude_prefixes) for module in edited_modules):
+        return None
+    provider_callers = tuple(sorted(set(importers[provider]) - {wrapper, *callers}))
+    dependency_set = closure(graph, [wrapper, *callers, *provider_callers], max_closure)
     if dependency_set is None:
         return None
     provider_closure = closure(graph, [provider], max_closure)
@@ -119,21 +131,26 @@ def plan_row(row, locations, graph, importers, main_modules, max_closure):
            for caller in callers):
         return None
     return Migration(wrapper, provider, match[1], match[3], match[2].strip(),
-                     commands, callers, frozenset(dependency_set))
+                     commands, callers, provider_callers, frozenset(dependency_set))
 
 
-def select_migrations(inventory, locations, graph, importers, max_closure, limit):
+def select_migrations(inventory, locations, graph, importers, max_closure, limit,
+                      include_prefixes=(), exclude_prefixes=()):
     main_modules = closure(graph, ["Main"])
     with inventory.open(newline="") as rows:
         candidates = [candidate for row in csv.DictReader(rows, delimiter="\t")
-                      if (candidate := plan_row(row, locations, graph, importers, main_modules, max_closure))]
+                      if (candidate := plan_row(row, locations, graph, importers, main_modules,
+                                                max_closure, include_prefixes, exclude_prefixes))]
     selected = []
-    occupied = set()
+    edited_modules = set()
+    theorem_modules = set()
     for candidate in sorted(candidates, key=lambda item: (len(item.dependencies), item.wrapper)):
-        if occupied.intersection(candidate.targets):
+        module_paths = {candidate.wrapper, candidate.provider}
+        if edited_modules & module_paths or theorem_modules.intersection(candidate.callers):
             continue
         selected.append(candidate)
-        occupied.update(candidate.targets)
+        edited_modules.update(candidate.edited_modules)
+        theorem_modules.update(module_paths)
         if len(selected) == limit:
             break
     return selected
@@ -175,7 +192,7 @@ def signature_checks(migrations):
                       "set_option relaxedAutoImplicit false", "", *blocks])
 
 
-def run_checks(sandbox, migrations, jobs, log_dir, number):
+def run_checks(sandbox, migrations, jobs, log_dir, number, runner=()):
     targets = sorted({f"+{module}" for item in migrations for module in item.targets})
     guard = sandbox / "CheckForwardingSignatures.lean"
     guard.write_text(signature_checks(migrations))
@@ -189,6 +206,7 @@ def run_checks(sandbox, migrations, jobs, log_dir, number):
     log_path = log_dir / f"trial-{number:03d}.log"
     with log_path.open("w") as output:
         for command in commands:
+            command = [*runner, *command]
             print("$ " + shlex.join(command), file=output, flush=True)
             status = subprocess.run(command, cwd=sandbox, env=env, stdout=output,
                                     stderr=subprocess.STDOUT, check=False).returncode
@@ -201,7 +219,7 @@ def run_checks(sandbox, migrations, jobs, log_dir, number):
     return False
 
 
-def migrate(selected, locations, log_dir, jobs, apply):
+def migrate(selected, locations, log_dir, jobs, apply, runner=()):
     dependencies = set().union(*(item.dependencies for item in selected))
     originals = {module: (SOURCE / locations[module]).read_bytes() for module in dependencies}
     passed = []
@@ -220,13 +238,14 @@ def migrate(selected, locations, log_dir, jobs, apply):
 
         def try_group(group):
             nonlocal trials
-            snapshot = {module: paths[module].read_bytes() for item in group for module in item.targets}
+            snapshot = {module: paths[module].read_bytes()
+                        for item in group for module in item.edited_modules}
             for item in group:
                 edit(item, paths)
             trials += 1
             number = trials
             print(f"Trial {number}: {len(group)} migrations", flush=True)
-            if run_checks(sandbox, [*passed, *group], jobs, log_dir, number):
+            if run_checks(sandbox, [*passed, *group], jobs, log_dir, number, runner):
                 passed.extend(group)
                 print(f"  passed: {len(group)}", flush=True)
                 return
@@ -242,12 +261,13 @@ def migrate(selected, locations, log_dir, jobs, apply):
 
         try_group(selected)
         if apply:
-            for module, content in originals.items():
-                if (SOURCE / locations[module]).read_bytes() != content:
+            validated_dependencies = set().union(*(item.dependencies for item in passed))
+            for module in validated_dependencies:
+                if (SOURCE / locations[module]).read_bytes() != originals[module]:
                     raise SystemExit(f"Source changed during validation: {module}. Source edits were discarded.")
             written = []
             try:
-                for module in sorted({module for item in passed for module in item.targets}):
+                for module in sorted({module for item in passed for module in item.edited_modules}):
                     written.append(module)
                     (SOURCE / locations[module]).write_bytes(paths[module].read_bytes())
             except BaseException:
@@ -256,7 +276,8 @@ def migrate(selected, locations, log_dir, jobs, apply):
                 raise
 
     report = {
-        "validated": [{"wrapper": item.wrapper, "provider": item.provider, "callers": item.callers}
+        "validated": [{"wrapper": item.wrapper, "provider": item.provider, "callers": item.callers,
+                       "provider_callers": item.provider_callers}
                       for item in passed],
         "rejected": rejected,
         "trials": trials,
@@ -281,16 +302,23 @@ def main():
                         help="maximum project modules needed by one migration and its callers")
     parser.add_argument("--jobs", type=positive, default=6, help="Lean task threads")
     parser.add_argument("--log-dir", type=Path, required=True)
+    parser.add_argument("--include-prefix", action="append", default=[],
+                        help="only edit modules under the selected module prefixes")
+    parser.add_argument("--exclude-prefix", action="append", default=[],
+                        help="exclude edits in a module prefix reserved for other work")
+    parser.add_argument("--runner", type=shlex.split, default=[],
+                        help="command prefix for the compile and signature checks")
     parser.add_argument("--apply", action="store_true", help="copy only validated edits into the checkout")
     args = parser.parse_args()
     if not (PROJECT / ".lake" / "packages").is_dir():
         parser.error("Lake dependencies must be available in lean/.lake/packages")
     args.log_dir.resolve().mkdir(parents=True, exist_ok=False)
     locations, graph, importers = index_sources()
-    selected = select_migrations(args.inventory, locations, graph, importers, args.max_closure, args.limit)
+    selected = select_migrations(args.inventory, locations, graph, importers, args.max_closure,
+                                 args.limit, tuple(args.include_prefix), tuple(args.exclude_prefix))
     if selected:
         print(f"Selected {len(selected)} candidates", flush=True)
-        migrate(selected, locations, args.log_dir.resolve(), args.jobs, args.apply)
+        migrate(selected, locations, args.log_dir.resolve(), args.jobs, args.apply, args.runner)
     else:
         print("No candidates matched the current sources and limits.", flush=True)
 
