@@ -9,7 +9,7 @@ import GroundTheory.LocalFields.UnramifiedGalois
 import GroundTheory.LocalFields.UnramifiedExistence
 import GroundTheory.LocalFields.AbstractLocalReciprocity.ProfiniteInteger
 import GroundTheory.LocalFields.AbstractLocalReciprocity.ExistsEqNsmulOfProjEqZero
-import GroundTheory.LocalFields.AbstractLocalReciprocity.Frobenius
+import GroundTheory.LocalFields.AbstractLocalReciprocity.Reciprocity
 import GroundTheory.LocalFields.AbstractLocalReciprocity.Valuation
 
 noncomputable section

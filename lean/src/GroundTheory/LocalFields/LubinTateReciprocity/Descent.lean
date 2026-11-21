@@ -2,7 +2,7 @@ import Mathlib
 import GroundTheory.LocalFields.FormalGroups.OverUnramified
 import GroundTheory.LocalFields.LubinTateTorsion
 import GroundTheory.LocalFields.CompletedUnramified
-import GroundTheory.LocalFields.LubinTateTower
+import GroundTheory.LocalFields.LubinTatePrimitive
 import GroundTheory.LocalFields.UnramifiedExistence
 import GroundTheory.PowerSubgroups.CountableNeighbourhoods.DescentPowerSubgroups
 

@@ -1,9 +1,9 @@
 import Formalism.TameInertiaTowers.CentralOrderTwo.OrderOfThreeUnitsTwoPow
-import Formalism.TameInertiaTowers.CentralOrderTwo.TwoAdic
+import Formalism.TameInertiaTowers.CentralOrderTwo.NormalOrderTwoCentral
 import Formalism.TameInertiaTowers.CentralOrderTwo.MemDecompositionSubgroupIff
 import Formalism.TameInertiaTowers.CentralOrderTwo.NegOneNeOneUnitsZmodFour
 import Formalism.TameInertiaTowers.CentralOrderTwo.Groups
-import Formalism.TameInertiaTowers.CentralOrderTwo.NormalOrderTwoCentral
+
 
 namespace Formalism.TwoAdicCyclotomicDecomposition
 

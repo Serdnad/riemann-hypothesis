@@ -2,7 +2,7 @@ import Formalism.LatticeSlopes.Statement
 import Formalism.LatticeSlopes.CovolAntiSameRank
 import Formalism.LatticeSlopes.LatticeSlopesProofs.DiscreteTopologyOfLe
 import Formalism.LatticeSlopes.LatticeSlopesProofs.CovolEqGram
-import Formalism.LatticeSlopes.LatticeSlopesProofs.SlopeInequality
+import Formalism.LatticeSlopes.LatticeSlopesProofs.OrthSum
 
 open Module Submodule
 

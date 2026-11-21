@@ -21,8 +21,8 @@ import Formalism.GradedWeylDivisibility.FockSpaceTableaux.FockPos
 import Formalism.GradedWeylDivisibility.FockSpaceTableaux.FockWeightOrth
 import Formalism.GradedWeylDivisibility.FockSpaceTableaux.FockSubAdj
 import Formalism.GradedWeylDivisibility.FockSpaceTableaux.FockRowAdj
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.DomPow
 import Formalism.GradedWeylDivisibility.FockSpaceTableaux.FockDiagBound
+
 import Formalism.GradedWeylDivisibility.FockSpaceTableaux.DualWeylDominanceOf
 
 namespace Formalism.GradedWeylDivisibility

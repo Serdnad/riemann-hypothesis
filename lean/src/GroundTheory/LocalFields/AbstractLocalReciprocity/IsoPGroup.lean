@@ -1,7 +1,7 @@
 import Mathlib
 import GroundTheory.LocalFields.AbstractLocalReciprocity.ReciprocityMap
 import GroundTheory.LocalFields.AbstractLocalReciprocity.CoeNormEqProdSmulNorm
-import GroundTheory.LocalFields.AbstractLocalReciprocity.NormFormula
+
 import GroundTheory.LocalFields.AbstractLocalReciprocity.FunctorialityTransfer
 
 /-! # The local reciprocity isomorphism for finite p-groups -/
