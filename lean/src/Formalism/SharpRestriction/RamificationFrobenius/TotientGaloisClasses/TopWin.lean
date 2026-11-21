@@ -1,5 +1,6 @@
 import Formalism.SharpRestriction.RamificationFrobenius.TotientGaloisClasses.TopDefs
 import Formalism.SharpRestriction.RamificationFrobenius.TotientGaloisClasses.Window
+import Development.AutomorphicArithmetic.PrimitiveCosets.Imports
 
 noncomputable section
 
@@ -114,20 +115,8 @@ theorem ChebyshevInequalityOnWindows.chebyshevInequality_of_windowed {Λ : Level
   have b := le_of_max_le_right a
   exact hy x (le_of_max_le_right b) _ _ _ _ _ _ (hx x (le_of_max_le_left b))
 
-theorem level_of_tiedAll {Λ : Level} (h112 : ChebyshevInequalityOnWindows @core @Tied Λ) (h : TiedAll @core @Tied Λ) : Λ.ZeroFreeLevel := by
-  obtain ⟨eD, eL, ε₁, h1, h⟩ := h
-  intro ψ hψ s hs
-  have hm1 : min (s.re - 1 / 2) (1 / 2) ≤ s.re - 1 / 2 := min_le_left _ _
-  have hm2 : min (s.re - 1 / 2) (1 / 2) ≤ 1 / 2 := min_le_right _ _
-  have hm0 : 0 < min (s.re - 1 / 2) (1 / 2) := lt_min (by linarith) (by norm_num)
-  obtain ⟨ε, hε0, hεlt, hCe⟩ := exists_small_eps (eD + eL + 7) (half_pos hm0) h1
-  obtain ⟨Fm, hE, ⟨y0, hW⟩, hT⟩ := h ε hε0 hεlt
-  obtain ⟨x1, hx⟩ := h112 eD eL ε hε0 Fm hE hT
-  refine Landau.zero_free_of_Chebyshev_growth Λ (1 / 2 + min (s.re - 1 / 2) (1 / 2) / 2) (by linarith) (by linarith) (max (max x1 y0) 1)
-    (fun y hy => ?_) ψ hψ s (by linarith)
-  have a := le_of_max_le_left hy
-  exact (hx y (le_of_max_le_left a) (hW y (le_of_max_le_right a))).trans
-    (Real.rpow_le_rpow_of_exponent_le (le_of_max_le_right hy) (by linarith))
+theorem level_of_tiedAll {Λ : Level} (h112 : ChebyshevInequalityOnWindows @core @Tied Λ) (h : TiedAll @core @Tied Λ) : Λ.ZeroFreeLevel :=
+  level_of_tiedWin h112 (UpperTheory.Comparison₂.formB Λ 2 (by norm_num)) (h.tiedWin 2)
 
 theorem zeroFreeOn_of_tiedAll {Q : PChar → Prop} (h112 : ∀ ψ, Q ψ → ChebyshevInequalityOnWindows @core @Tied (Level.cyc ψ))
     (h : ∀ ψ, Q ψ → TiedAll @core @Tied (Level.cyc ψ)) : ZeroFreeOn Q :=

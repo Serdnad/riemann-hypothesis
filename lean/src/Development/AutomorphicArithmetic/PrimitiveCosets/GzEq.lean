@@ -1,7 +1,7 @@
-import Development.AutomorphicArithmetic.PrimitiveCosets.CoreAtH
+import Development.AutomorphicArithmetic.PrimitiveCosets.GChiEq
+import Formalism.StatementOC
 
-open UpperTheory.Comparison₂ Deduction.CH Formalism Formalism.HC Formalism.D5 Formalism.RankGapBounds.WeightedMeanData Formalism.LFunctionChainParameters.WeightedSlopeBounds Formalism.LFunctionChainParameters.characterSumData Formalism.LFunctionChainParameters.ThickSetMeanBounds Formalism.LFunctionChainParameters.LErr
-  Formalism.LFunctionChainParameters.LChain Formalism.LFunctionChainParameters.LHost
+open Formalism.HC
 
 theorem UpperTheory.Comparison₂.Gz_eq :
     ∀ y : ℝ, Formalism.Gz y = An.G y ∧ An.G y = Deduction.G y := by
@@ -27,20 +27,8 @@ theorem UpperTheory.Comparison₂.Gz_eq :
     rw [max_eq_left this]
   have hre : (Deduction.ramp (fun _ => 1) y).re
       = ∑ n ∈ Finset.Icc 1 ⌊y⌋₊, An.abelian₂ n * max (y / (n : ℝ) - 1) 0 := by
-    have hsub : Finset.Icc 1 ⌊y⌋₊ ⊆ Finset.range (⌊y⌋₊ + 1) := by
-      intro n hn
-      rw [Finset.mem_Icc] at hn
-      rw [Finset.mem_range]
-      omega
-    rw [Finset.sum_subset hsub]
-    · simp [Deduction.ramp, Complex.re_sum]
-    · intro n hn hn'
-      have h0 : n = 0 := by
-        rw [Finset.mem_range] at hn
-        rw [Finset.mem_Icc] at hn'
-        omega
-      subst h0
-      simp
+    rw [UpperTheory.Comparison₂.ramp_eq_sum_Icc]
+    simp [Complex.re_sum]
   refine ⟨?_, ?_⟩
   · simp only [Formalism.Gz, Formalism.Sz, An.G]
     rw [hsum]
