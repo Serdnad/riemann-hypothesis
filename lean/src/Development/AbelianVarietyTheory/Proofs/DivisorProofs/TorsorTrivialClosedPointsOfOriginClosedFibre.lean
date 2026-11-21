@@ -1,5 +1,5 @@
 import Mathlib
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TorsorsTrivial
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PolynomialBaseLocalization
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsRootSubMemOfEvalMem
 open IsLocalRing Polynomial
 
@@ -57,15 +57,26 @@ end GlobalTheory.LocAcyc.Translate
 
 namespace GlobalTheory.LocAcyc.Translate
 
-theorem keyClosedPts_of_keyOrigin : GlobalTheory.LocAcyc.KeyOrigin → GlobalTheory.LocAcyc.KeyClosedPts := by
-  intro hKO
-  unfold GlobalTheory.LocAcyc.KeyOrigin GlobalTheory.LocAcyc.KeyLocalWith at hKO
-  unfold GlobalTheory.LocAcyc.KeyClosedPts GlobalTheory.LocAcyc.KeyLocalWith
-  intro T O _ _ _ _ _ _ _ _ hT P _ φ hφ hsh hPm hne q hq hqu
-  have hne' : P ≠ (maximalIdeal T).map (C : T →+* T[X]) := hne
+open GlobalTheory.IndefiniteRowSideFullHecke.ProjectiveSpaceOverSpec in
+/-- Translating a closed point to the origin preserves a claim about the base and the strict
+henselization. -/
+theorem polynomialClaim_of_origin
+    (claim : ∀ (T O : Type) [CommRing T] [CommRing O] [Algebra T O], Prop)
+    (hOrigin : ∀ (T O : Type) [CommRing T] [IsDomain T] [IsLocalRing T] [CommRing O] [IsLocalRing O]
+      [Algebra T O] [Algebra T[X] O] [IsScalarTower T T[X] O], AbsIntClosed T →
+      ∀ (P : Ideal T[X]) [P.IsPrime] (φ : Localization.AtPrime P →+* O),
+      φ.comp (algebraMap T[X] _) = algebraMap T[X] O → IsStrictHenselisation φ →
+      P.comap (C : T →+* T[X]) = maximalIdeal T →
+      P = (maximalIdeal T).map C ⊔ Ideal.span {X} → claim T O)
+    (T O : Type) [CommRing T] [IsDomain T] [IsLocalRing T] [CommRing O] [IsLocalRing O]
+    [Algebra T O] [Algebra T[X] O] [IsScalarTower T T[X] O] (hT : AbsIntClosed T)
+    (P : Ideal T[X]) [P.IsPrime] (φ : Localization.AtPrime P →+* O)
+    (hφ : φ.comp (algebraMap T[X] _) = algebraMap T[X] O) (hsh : IsStrictHenselisation φ)
+    (hPm : P.comap (C : T →+* T[X]) = maximalIdeal T)
+    (hne : P ≠ (maximalIdeal T).map (C : T →+* T[X])) : claim T O := by
   haveI hac : IsAlgClosed (ResidueField T) :=
     (GlobalTheory.AbsIntClosedLocal.henselian_isAlgClosed_pow_surj T ⟨inferInstance, hT⟩).2.1
-  obtain ⟨c, hc⟩ := exists_X_sub_C_mem T P hPm hne'
+  obtain ⟨c, hc⟩ := exists_X_sub_C_mem T P hPm hne
   let τ : T[X] ≃ₐ[T] T[X] := algEquivAevalXAddC (-c)
   have hτX : τ X = X - C c := by simp [τ, sub_eq_add_neg]
   have hτC : ∀ a : T, τ (C a) = C a := fun a => τ.commutes a
@@ -106,18 +117,8 @@ theorem keyClosedPts_of_keyOrigin : GlobalTheory.LocAcyc.KeyOrigin → GlobalThe
     rw [show (τ : T[X] →+* T[X]) (algebraMap T T[X] x) = algebraMap T T[X] x from τ.commutes x,
       ← IsScalarTower.algebraMap_apply]
 
-  have hmap : P'.primeCompl.map (τ : T[X] ≃+* T[X]).toMonoidHom = P.primeCompl := by
-    ext x
-    rw [Submonoid.mem_map]
-    constructor
-    · rintro ⟨y, hy, rfl⟩
-      exact hy
-    · intro hx
-      refine ⟨(τ : T[X] ≃+* T[X]).symm x, ?_, by simp⟩
-      change (τ : T[X] →+* T[X]) ((τ : T[X] ≃+* T[X]).symm x) ∉ P
-      have hx' : x ∉ P := hx
-      convert hx' using 2
-      exact (τ : T[X] ≃+* T[X]).apply_symm_apply x
+  have hmap : P'.primeCompl.map (τ : T[X] ≃+* T[X]).toMonoidHom = P.primeCompl :=
+    (τ : T[X] ≃+* T[X]).map_primeCompl_comap_eq P
   let Lq : Localization.AtPrime P' ≃+* Localization.AtPrime P :=
     IsLocalization.ringEquivOfRingEquiv _ _ (τ : T[X] ≃+* T[X]) hmap
   let φ' : Localization.AtPrime P' →+* O := φ.comp (Lq : Localization.AtPrime P' →+* Localization.AtPrime P)
@@ -129,21 +130,13 @@ theorem keyClosedPts_of_keyOrigin : GlobalTheory.LocAcyc.KeyOrigin → GlobalThe
       IsLocalization.ringEquivOfRingEquiv_eq _ x]
     rw [← RingHom.comp_apply φ, hφ]
     rfl
-  have hsh' : GlobalTheory.IndefiniteRowSideFullHecke.ProjectiveSpaceOverSpec.IsStrictHenselisation φ' := by
-    obtain ⟨h1, h2, h3, h4⟩ := hsh
-    refine ⟨h1, h2, ?_, ?_⟩
-    · haveI := h3
-      haveI : IsLocalHom (Lq : Localization.AtPrime P' →+* Localization.AtPrime P) :=
-        ⟨fun a ha => by simpa using ha.map (Lq.symm : Localization.AtPrime P →+* Localization.AtPrime P')⟩
-      exact RingHom.isLocalHom_comp _ _
-    · have : (RingHom.toMorphismProperty @RingHom.Etale).RespectsIso :=
-        RingHom.toMorphismProperty_respectsIso_iff.mp RingHom.Etale.respectsIso
-      have h5 := CategoryTheory.MorphismProperty.RespectsIso.precomp
-        (CategoryTheory.MorphismProperty.ind.{0} (RingHom.toMorphismProperty @RingHom.Etale))
-        Lq.toCommRingCatIso.hom (CommRingCat.ofHom φ) h4
-      unfold GlobalTheory.IndefiniteRowSideFullHecke.ProjectiveSpaceOverSpec.IsIndEtale
-      convert h5 using 1
-      rfl
-  exact @hKO T O _ _ _ _ _ _ alg' tower' hT P' hP'p φ' hφ' hsh' hP'C hP' q hq hqu
+  exact @hOrigin T O _ _ _ _ _ _ alg' tower' hT P' hP'p φ' hφ'
+    (isStrictHenselisation_comp_ringEquiv hsh Lq) hP'C hP'
+
+theorem keyClosedPts_of_keyOrigin : KeyOrigin → KeyClosedPts := by
+  intro hKO T O _ _ _ _ _ _ _ _ hT P _ φ hφ hsh hPm hne
+  let claim (T O : Type) [CommRing T] [CommRing O] [Algebra T O] : Prop :=
+    ∀ q : ℕ, 0 < q → IsUnit (q : T) → TorsorsTrivial (GenFib T O) q
+  exact polynomialClaim_of_origin claim hKO T O hT P φ hφ hsh hPm hne
 
 end GlobalTheory.LocAcyc.Translate
