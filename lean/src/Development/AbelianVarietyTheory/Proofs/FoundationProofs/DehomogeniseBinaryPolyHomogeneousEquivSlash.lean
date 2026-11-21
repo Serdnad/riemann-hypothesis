@@ -105,3 +105,6 @@ theorem deh_homog_iso : ∀ w : ℕ, (∀ (m : Matrix (Fin 2) (Fin 2) ℤ) (p : 
     rw [h1]
 
 end GlobalTheory.KZ.H3
+
+theorem _root_.GlobalTheory.T.dehomogeniseBinaryPoly_homogeneous_equiv_slash : type_of% @_root_.GlobalTheory.KZ.H3.deh_homog_iso :=
+  @_root_.GlobalTheory.KZ.H3.deh_homog_iso

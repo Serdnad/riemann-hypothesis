@@ -59,3 +59,6 @@ theorem main : ∀ (k : Type) [Field k] [ValuativeRel k] [TopologicalSpace k] [I
     rwa [one_mul, twist_twist, twist_twist, e1, e2, twist_one, twist_one] at this
 
 end GlobalTheory.OmTwist
+
+theorem _root_.GlobalTheory.T.om_quotient_twist_det : type_of% @_root_.GlobalTheory.OmTwist.main :=
+  @_root_.GlobalTheory.OmTwist.main

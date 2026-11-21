@@ -49,3 +49,6 @@ theorem image_lattice : ∀ {k : Type} [Field k] {l : ℕ} [Fact l.Prime] [CharP
     rw [map_sub, hγ]
 
 end GlobalTheory.PhiGam.Img
+
+theorem _root_.GlobalTheory.T.phiGammaLatticeFamily_image_of_surjective : type_of% @_root_.GlobalTheory.PhiGam.Img.image_lattice :=
+  @_root_.GlobalTheory.PhiGam.Img.image_lattice

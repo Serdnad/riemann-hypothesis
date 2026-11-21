@@ -103,3 +103,6 @@ theorem main : ∀ {o Ω : Type} [CommRing o] [Field Ω] [Algebra o Ω] {F : Typ
   rfl
 
 end GlobalTheory.CompanionTheory.Ar.Num.LatticeGoodness.StepIdeal
+
+theorem _root_.GlobalTheory.T.character_lattice_fibre_ideal_locally_free : type_of% @_root_.GlobalTheory.CompanionTheory.Ar.Num.LatticeGoodness.StepIdeal.main :=
+  @_root_.GlobalTheory.CompanionTheory.Ar.Num.LatticeGoodness.StepIdeal.main

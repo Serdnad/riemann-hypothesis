@@ -291,3 +291,6 @@ theorem GlobalTheory.BK.jumps_subset_of_split_mono : ∀ (O K : Type) [CommRing 
   have h2 := SubJumps.app_mem_filL F i hx
   rw [← h1] at h2
   exact SubJumps.mem_filL_of_app_mem D₀ D₁ F n hΛ (i + 1) (SubJumps.filL_le_ext _ _ hx) h2
+
+theorem _root_.GlobalTheory.T.breuilKisin_jumps_subset_of_split_mono : type_of% @_root_.GlobalTheory.BK.jumps_subset_of_split_mono :=
+  @_root_.GlobalTheory.BK.jumps_subset_of_split_mono

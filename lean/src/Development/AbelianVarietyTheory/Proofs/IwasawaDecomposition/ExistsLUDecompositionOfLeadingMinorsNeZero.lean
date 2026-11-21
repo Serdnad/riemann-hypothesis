@@ -67,3 +67,6 @@ theorem lu : ∀ {n : ℕ} (B : GL (Fin n) ℂ), (∀ (k : ℕ) (hk : k ≤ n), 
     exact this
 
 end GlobalTheory.LUDecomp
+
+theorem _root_.GlobalTheory.T.exists_LU_decomposition_of_leading_minors_ne_zero : type_of% @_root_.GlobalTheory.LUDecomp.lu :=
+  @_root_.GlobalTheory.LUDecomp.lu

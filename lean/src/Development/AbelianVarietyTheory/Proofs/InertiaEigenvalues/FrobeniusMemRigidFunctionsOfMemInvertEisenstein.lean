@@ -76,3 +76,6 @@ theorem frob_mem_R_of_mem_invE_A : ∀ (O K : Type) [CommRing O] [NormedField K]
   exact mul_mem (pow_mem hg n) h1
 
 end GlobalTheory.BK
+
+theorem _root_.GlobalTheory.T.frobenius_mem_rigidFunctions_of_mem_invertEisenstein : type_of% @_root_.GlobalTheory.BK.frob_mem_R_of_mem_invE_A :=
+  @_root_.GlobalTheory.BK.frob_mem_R_of_mem_invE_A

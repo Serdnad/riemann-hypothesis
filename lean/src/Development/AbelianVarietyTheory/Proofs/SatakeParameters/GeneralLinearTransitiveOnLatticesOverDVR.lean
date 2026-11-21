@@ -40,3 +40,6 @@ theorem gl_transitive_lattices : ∀ (O K : Type) [CommRing O] [IsDomain O] [IsD
   rw [h2, h1, ← Submodule.map_span, b.span_eq, Submodule.map_top, Submodule.range_subtype]
 
 end GlobalTheory.LatHecke
+
+theorem _root_.GlobalTheory.T.generalLinear_transitive_on_lattices_over_DVR : type_of% @_root_.GlobalTheory.LatHecke.gl_transitive_lattices :=
+  @_root_.GlobalTheory.LatHecke.gl_transitive_lattices

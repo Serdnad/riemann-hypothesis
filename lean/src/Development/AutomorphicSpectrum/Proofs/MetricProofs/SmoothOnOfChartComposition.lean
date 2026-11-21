@@ -24,3 +24,6 @@ theorem smoothOn_comp_compatChart' : ∀ (e : ℕ) (X : Type) [TopologicalSpace 
   fun e X _ A ψ O G h1 h2 h3 h4 => smoothOn_comp_compatChart e X A ψ O G h1 h2 h3 h4
 
 end GlobalTheory.CompanionTheory.Metric
+
+theorem _root_.GlobalTheory.T.smoothOn_of_chart_composition : type_of% @_root_.GlobalTheory.CompanionTheory.Metric.smoothOn_comp_compatChart' :=
+  @_root_.GlobalTheory.CompanionTheory.Metric.smoothOn_comp_compatChart'

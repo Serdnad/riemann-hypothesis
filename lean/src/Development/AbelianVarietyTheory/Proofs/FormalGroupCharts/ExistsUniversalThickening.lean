@@ -159,3 +159,6 @@ theorem exists_universal_thickening : ∀ (k : Type) [Field k] (K : Over (Spec (
     exact ⟨a, ha, by rw [← Category.assoc, Chart.spMap_comp]⟩
 
 end GlobalTheory.IsolPt
+
+theorem _root_.GlobalTheory.T.exists_universal_thickening_of_finite_points : type_of% @_root_.GlobalTheory.IsolPt.exists_universal_thickening :=
+  @_root_.GlobalTheory.IsolPt.exists_universal_thickening

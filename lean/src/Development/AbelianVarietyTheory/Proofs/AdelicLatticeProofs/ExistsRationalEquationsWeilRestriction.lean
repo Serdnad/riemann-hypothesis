@@ -178,3 +178,6 @@ theorem exists_equations : ∀ (F β : Type) [Field F] [Algebra ℚ F] [Fintype 
       simp
 
 end GlobalTheory.ClassFin.WeilEqs
+
+theorem _root_.GlobalTheory.T.exists_rational_equations_weil_restriction : type_of% @_root_.GlobalTheory.ClassFin.WeilEqs.exists_equations :=
+  @_root_.GlobalTheory.ClassFin.WeilEqs.exists_equations

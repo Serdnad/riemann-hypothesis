@@ -212,3 +212,6 @@ theorem lc_semisimple : ∀ (O K : Type) [CommRing O] [NormedField K] [IsUltrame
   exact semisimple_of_aeval D.LcZ _ _ hinj hZ
 
 end GlobalTheory.LcSemisimple
+
+theorem _root_.GlobalTheory.T.tameDescent_connection_semisimple_eigenvalues : type_of% @_root_.GlobalTheory.LcSemisimple.lc_semisimple :=
+  @_root_.GlobalTheory.LcSemisimple.lc_semisimple

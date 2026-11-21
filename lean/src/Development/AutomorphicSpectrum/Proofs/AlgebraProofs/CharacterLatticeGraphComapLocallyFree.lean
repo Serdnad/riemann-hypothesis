@@ -143,3 +143,6 @@ theorem stepKer : ∀ {o Ω : Type} [CommRing o] [Field Ω] [Algebra o Ω] {F : 
     exact key
 
 end GlobalTheory.CompanionTheory.Ar.Num.LatticeGoodness
+
+theorem _root_.GlobalTheory.T.character_lattice_graph_comap_locally_free : type_of% @_root_.GlobalTheory.CompanionTheory.Ar.Num.LatticeGoodness.stepKer :=
+  @_root_.GlobalTheory.CompanionTheory.Ar.Num.LatticeGoodness.stepKer

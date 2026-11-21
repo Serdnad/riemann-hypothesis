@@ -251,3 +251,6 @@ theorem exists_height : ∀ (k K : Type) [Field k] [Field K] [Algebra k K] (Pl :
     exact (Scheme.preimage_eq_top_of_closedPoint_mem (R := .of (Pl.O i)) (b x i) hm).ge (x := y) trivial
 
 end GlobalTheory.SS
+
+theorem _root_.GlobalTheory.T.exists_lineBundle_height_properScheme : type_of% @_root_.GlobalTheory.SS.exists_height :=
+  @_root_.GlobalTheory.SS.exists_height

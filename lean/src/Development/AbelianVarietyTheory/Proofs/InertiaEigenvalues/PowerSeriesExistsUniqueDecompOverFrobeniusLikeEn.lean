@@ -65,3 +65,6 @@ theorem main : ∀ {O : Type} [CommRing O] (l : ℕ), 2 ≤ l → ∀ (φ : O⟦
     simp only [e1, e2]
 
 end GlobalTheory.InertiaEigenvalues.PowerSeriesFree
+
+theorem _root_.GlobalTheory.T.powerSeries_existsUnique_decomp_over_frobeniusLike_endo : type_of% @_root_.GlobalTheory.InertiaEigenvalues.PowerSeriesFree.main :=
+  @_root_.GlobalTheory.InertiaEigenvalues.PowerSeriesFree.main

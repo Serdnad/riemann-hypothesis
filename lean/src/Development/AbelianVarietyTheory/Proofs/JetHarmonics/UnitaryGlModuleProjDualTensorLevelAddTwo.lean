@@ -1,9 +1,9 @@
 import Mathlib
 import Development.AbelianVarietyTheory.Definitions.Jets.SumIoPr
 import Development.AbelianVarietyTheory.Proofs.JetHarmonics.LowKSubSingleSqrtCkvLeStatement
-import Development.AbelianVarietyTheory.Proofs.JetHarmonics.CompactCasimirBoundProjectionDualTensorStatement
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.CompactCasimirBoundProjectionDualTensor
 import Development.AbelianVarietyTheory.Proofs.JetHarmonics.WtNearLeOfAddDistLe
-import Development.AbelianVarietyTheory.Proofs.JetHarmonics.AlgTensWtNearStatement
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.AlgTensWtNear
 
 open Finset BranchingSupport Formalism.REAL Formalism.QuantumDeterminants
 open scoped InnerProductSpace

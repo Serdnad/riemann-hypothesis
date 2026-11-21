@@ -438,3 +438,6 @@ theorem kunneth_symm : ∀ (K : Type) [Field K] (Y Z : Scheme.{0}) (q : Y ⟶ Sp
   exact hmem b
 
 end GlobalTheory.KS.Kunneth
+
+theorem _root_.GlobalTheory.T.kunneth_symm_product_affine_covers : type_of% @_root_.GlobalTheory.KS.Kunneth.kunneth_symm :=
+  @_root_.GlobalTheory.KS.Kunneth.kunneth_symm

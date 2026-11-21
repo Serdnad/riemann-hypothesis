@@ -66,3 +66,6 @@ theorem qs_mdifferentiable : ∀ a : ℕ → ℂ, PolyB a → MDifferentiable �
   rfl
 
 end GlobalTheory.EisM
+
+theorem _root_.GlobalTheory.T.mdifferentiable_qExpansion_of_coeffPolynomialGrowth : type_of% @_root_.GlobalTheory.EisM.qs_mdifferentiable :=
+  @_root_.GlobalTheory.EisM.qs_mdifferentiable

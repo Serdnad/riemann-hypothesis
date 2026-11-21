@@ -219,3 +219,6 @@ theorem _root_.GlobalTheory.BertiniNoether.le_of_residue_independent : ∀ {F : 
   exact mul_le_one' ((W₂.valuation_le_one_iff _).2 hu₂) ((W₂.valuation_le_one_iff _).2 hR'₂)
 
 end GlobalTheory.BertiniNoether
+
+theorem _root_.GlobalTheory.T.valuationSubring_le_of_residue_independent : type_of% @_root_.GlobalTheory.BertiniNoether.le_of_residue_independent :=
+  @_root_.GlobalTheory.BertiniNoether.le_of_residue_independent

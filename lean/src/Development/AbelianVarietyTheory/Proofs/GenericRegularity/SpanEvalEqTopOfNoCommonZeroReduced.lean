@@ -28,3 +28,6 @@ theorem span_evR_eq_top_of_noCommonZero : ∀ (E : Type) [Field E] [NumberField 
   rw [h0, map_zero]
 
 end GlobalTheory.Reg
+
+theorem _root_.GlobalTheory.T.span_eval_eq_top_of_noCommonZero_reduced : type_of% @_root_.GlobalTheory.Reg.span_evR_eq_top_of_noCommonZero :=
+  @_root_.GlobalTheory.Reg.span_evR_eq_top_of_noCommonZero

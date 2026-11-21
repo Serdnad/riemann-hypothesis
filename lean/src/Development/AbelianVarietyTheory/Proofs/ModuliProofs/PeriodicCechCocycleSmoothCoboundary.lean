@@ -43,3 +43,6 @@ theorem periodic_cech_cocycle_smooth_coboundary : ∀ (g : ℕ) (Λ : Submodule 
     · simp [hzero k z hzk]
 
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.exists_periodic_smooth_coboundary_of_cech_cocycle : type_of% @_root_.GlobalTheory.periodic_cech_cocycle_smooth_coboundary :=
+  @_root_.GlobalTheory.periodic_cech_cocycle_smooth_coboundary

@@ -181,3 +181,6 @@ theorem twoStep_eulerFactors : ∀ (x y : ℂ) (c : ℕ → ℂ) (T : ℝ), 0 �
   exact ⟨(part1 x y T c h0 hs (hsq x hx) (hsq y hy)).2, part2 x y c T hT0 hT1 hx hy h0 hs⟩
 
 end GlobalTheory.LocSer
+
+theorem _root_.GlobalTheory.T.twoStepRecursion_localEulerFactors : type_of% @_root_.GlobalTheory.LocSer.twoStep_eulerFactors :=
+  @_root_.GlobalTheory.LocSer.twoStep_eulerFactors

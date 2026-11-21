@@ -117,3 +117,6 @@ theorem famFE_field_change : GlobalFnsSt → ∀ (R : Type) [CommRing R] [IsDoma
   exact (isUnit_scal D h₂ _ y).mul_left_cancel e₁
 
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.familyFunctionalEquation_field_change : type_of% @_root_.GlobalTheory.famFE_field_change :=
+  @_root_.GlobalTheory.famFE_field_change

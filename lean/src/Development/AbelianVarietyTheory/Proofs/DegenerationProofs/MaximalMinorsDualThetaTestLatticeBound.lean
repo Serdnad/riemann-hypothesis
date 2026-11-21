@@ -231,3 +231,6 @@ theorem minors_dual_testLattice : ∀ (o Ω : Type) [CommRing o] [Field Ω] [Alg
     rw [h6, hWdet] at h5
     linarith
 end GlobalTheory.ZH
+
+theorem _root_.GlobalTheory.T.maximal_minors_dual_thetaTest_lattice_bound : type_of% @_root_.GlobalTheory.ZH.minors_dual_testLattice :=
+  @_root_.GlobalTheory.ZH.minors_dual_testLattice

@@ -10,3 +10,6 @@ theorem ProIso.nonempty_of_forall_prime : ∀ (O : Type) [CommRing O] (L L' : Ty
   @PositivityTheory.UnitarySelfGeneration.tw_crt
 
 end GlobalTheory.CompanionTheory.Ar
+
+theorem _root_.GlobalTheory.T.pro_isometry_of_local_isometries : type_of% @_root_.GlobalTheory.CompanionTheory.Ar.ProIso.nonempty_of_forall_prime :=
+  @_root_.GlobalTheory.CompanionTheory.Ar.ProIso.nonempty_of_forall_prime

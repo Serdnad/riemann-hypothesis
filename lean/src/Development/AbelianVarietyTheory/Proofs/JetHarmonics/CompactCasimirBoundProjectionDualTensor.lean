@@ -59,3 +59,6 @@ theorem casKLe_proj_single : ∀ (M : Type) [NormedAddCommGroup M] [InnerProduct
     · simp
 
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.compactCasimirBound_projection_dualTensor : type_of% @_root_.GlobalTheory.casKLe_proj_single :=
+  @_root_.GlobalTheory.casKLe_proj_single

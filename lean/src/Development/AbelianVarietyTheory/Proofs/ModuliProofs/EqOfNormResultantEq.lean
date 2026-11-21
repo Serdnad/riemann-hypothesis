@@ -236,3 +236,6 @@ theorem eq_of_norm_resultant_eq : ∀ (l : ℕ) [Fact l.Prime] (Ω : Type) [Fiel
     (ResultantNorm.countP_le a b _ h2)
 
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.eq_of_norm_prod_aeval_eq_moduli : type_of% @_root_.GlobalTheory.eq_of_norm_resultant_eq :=
+  @_root_.GlobalTheory.eq_of_norm_resultant_eq

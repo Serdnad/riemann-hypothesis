@@ -4,7 +4,7 @@ import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.GapCondExa
 import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.BundleDegreeEqSumValuationsStatement
 import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.DegreeMonoLatticeLe
 import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.SubAndQuotientBundlesStatement
-import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.SubDegreeNonposTrivialLatticeStatement
+import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.SubDegreeNonposTrivialLattice
 
 noncomputable section
 

@@ -47,3 +47,6 @@ theorem mass_union_bounds : ∀ (g : ℕ) [Fact g.Prime], ∀ (N : ℕ), (∀ A 
     by_cases hA : A f <;> simp [hA]
 
 end GlobalTheory.BadShare
+
+theorem _root_.GlobalTheory.T.squarefreeLabelTorusMass_union_bounds : type_of% @_root_.GlobalTheory.BadShare.mass_union_bounds :=
+  @_root_.GlobalTheory.BadShare.mass_union_bounds

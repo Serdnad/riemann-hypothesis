@@ -86,3 +86,6 @@ theorem defect_bounded : ∀ (R : Type) [CommRing R] [IsDomain R] [IsDiscreteVal
   rw [hπ, ← map_pow, algebraMap_smul, ← hcomp]
 
 end GlobalTheory.SS
+
+theorem _root_.GlobalTheory.T.exists_defect_bound_of_smooth_away : type_of% @_root_.GlobalTheory.SS.defect_bounded :=
+  @_root_.GlobalTheory.SS.defect_bounded

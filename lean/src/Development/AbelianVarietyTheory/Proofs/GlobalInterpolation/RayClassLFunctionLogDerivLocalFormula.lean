@@ -156,3 +156,6 @@ theorem logDeriv_local : ∃ C : ℝ, 0 < C ∧ ∀ (𝓕 : LFam) (χ : AddChar 
     linarith
 
 end GlobalTheory.HkLocal
+
+theorem _root_.GlobalTheory.T.rayClassLFunction_logDeriv_local_formula : type_of% @_root_.GlobalTheory.HkLocal.logDeriv_local :=
+  @_root_.GlobalTheory.HkLocal.logDeriv_local

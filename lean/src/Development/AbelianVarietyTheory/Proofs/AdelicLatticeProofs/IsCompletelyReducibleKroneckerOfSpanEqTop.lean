@@ -83,3 +83,6 @@ theorem ss_kronecker_of_span_top : ∀ (ι : Type) [Fintype ι] [DecidableEq ι]
     exact this
 
 end GlobalTheory.ClassFin
+
+theorem _root_.GlobalTheory.T.isCompletelyReducible_kronecker_of_span_eq_top : type_of% @_root_.GlobalTheory.ClassFin.ss_kronecker_of_span_top :=
+  @_root_.GlobalTheory.ClassFin.ss_kronecker_of_span_top

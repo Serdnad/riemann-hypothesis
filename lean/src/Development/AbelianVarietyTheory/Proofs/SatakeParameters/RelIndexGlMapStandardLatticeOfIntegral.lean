@@ -59,3 +59,6 @@ theorem GlobalTheory.LatHecke.relIndex_glMap_std_of_integral : ∀ (O K : Type) 
   · intro h
     rw [← Submodule.map_smul''] at h
     exact (Submodule.map_le_map_iff_of_injective coordIncl_injective _ _).1 h
+
+theorem _root_.GlobalTheory.T.relIndex_glMap_standardLattice_of_integral : type_of% @_root_.GlobalTheory.LatHecke.relIndex_glMap_std_of_integral :=
+  @_root_.GlobalTheory.LatHecke.relIndex_glMap_std_of_integral

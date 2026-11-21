@@ -144,3 +144,6 @@ theorem GlobalTheory.BK.frob_recursion_decay : ∀ (O K : Type) [CommRing O] [No
           (bd_frob l hM0 (ih (ρ ^ l) (pow_nonneg hρ _) hρl (τ - 1) p q))
   refine ⟨N / rad l k, β * γ, mul_nonneg hβ0 hγ0, fun n τ i j => ⟨hmem n τ i j, ?_⟩⟩
   exact ciSup_le fun m => key n (rad l k) hr.le le_rfl τ i j m
+
+theorem _root_.GlobalTheory.T.frobenius_recursion_differences_decay_gaussNorm : type_of% @_root_.GlobalTheory.BK.frob_recursion_decay :=
+  @_root_.GlobalTheory.BK.frob_recursion_decay

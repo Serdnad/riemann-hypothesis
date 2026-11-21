@@ -1,5 +1,5 @@
 import Mathlib
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.EqOfNormResultantEqStatement
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.EqOfNormResultantEq
 open Polynomial
 
 namespace GlobalTheory.PolyNorm

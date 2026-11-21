@@ -63,3 +63,6 @@ theorem trace_lift_monomial : ∀ (k : Type) [Field k] [IsAlgClosed k] (θ : k �
   rfl
 
 end GlobalTheory.MonoTrace
+
+theorem _root_.GlobalTheory.T.trace_lift_monomialMatrix_eq_sum_eigenvalues : type_of% @_root_.GlobalTheory.MonoTrace.trace_lift_monomial :=
+  @_root_.GlobalTheory.MonoTrace.trace_lift_monomial

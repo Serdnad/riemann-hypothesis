@@ -13,3 +13,6 @@ theorem regAt_local_mono_frac : ∀ (X : Scheme.{0}) (Ω : Type) [Field Ω] (ξ 
   @PositivityTheory.HtPt.Ma.reg_local
 
 end GlobalTheory.CompanionTheory.Ar
+
+theorem _root_.GlobalTheory.T.regAt_local_order_fraction : type_of% @_root_.GlobalTheory.CompanionTheory.Ar.regAt_local_mono_frac :=
+  @_root_.GlobalTheory.CompanionTheory.Ar.regAt_local_mono_frac

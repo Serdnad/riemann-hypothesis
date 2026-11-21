@@ -50,3 +50,6 @@ theorem GlobalTheory.gen_type_core : ∀ (O K : Type) [CommRing O] [IsDomain O] 
     rw [e, this, add_zero]
   obtain ⟨h, h1, h2, h3⟩ := GlobalTheory.T.gl_factor_fromBlocks_mod_uniformizer_alt O r t ϖ hϖ g L hL bt q hqq
   exact ⟨h, h1, h2, by rw [← Matrix.mul_assoc, h3, hqx]⟩
+
+theorem _root_.GlobalTheory.T.exists_hyperplane_residue_outside_translates : type_of% @_root_.GlobalTheory.gen_type_core :=
+  @_root_.GlobalTheory.gen_type_core

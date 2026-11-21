@@ -166,3 +166,6 @@ theorem main : ∀ {o Ω : Type} [CommRing o] [Field Ω] [Algebra o Ω] {F : Typ
     (fun x hx => (hB.stable τ x hx).1) (fun x hx => (hB.stable τ x hx).2.1) g1 g2 g3 d1 d3 d4
 
 end GlobalTheory.CompanionTheory.Ar.Num.LatticeGoodness.KerFree
+
+theorem _root_.GlobalTheory.T.character_lattice_kernel_locally_free : type_of% @_root_.GlobalTheory.CompanionTheory.Ar.Num.LatticeGoodness.KerFree.main :=
+  @_root_.GlobalTheory.CompanionTheory.Ar.Num.LatticeGoodness.KerFree.main

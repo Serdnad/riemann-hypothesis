@@ -131,3 +131,6 @@ theorem exists_colimit_of_quotient_charts : ∀ {X : Scheme.{0}} (R : X → X �
   exact ⟨U, x, rfl⟩
 
 end GlobalTheory.CompanionTheory.FreeQuotGlue
+
+theorem _root_.GlobalTheory.T.glue_quotient_charts_cover : type_of% @_root_.GlobalTheory.CompanionTheory.FreeQuotGlue.exists_colimit_of_quotient_charts :=
+  @_root_.GlobalTheory.CompanionTheory.FreeQuotGlue.exists_colimit_of_quotient_charts

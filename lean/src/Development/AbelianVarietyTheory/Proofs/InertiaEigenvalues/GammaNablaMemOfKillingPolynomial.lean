@@ -44,3 +44,6 @@ theorem nab_mem_of_ePoly : ∀ {k : Type} [Field k] {l n m : ℕ} [Fact l.Prime]
     (GlobalTheory.PhiGam.condC_sh_and_nab_mem R (D.γ i) (D.γ_semi i) N hC s).2 f hf x (hE x hx) j hj
 
 end GlobalTheory.GenKernelFit
+
+theorem _root_.GlobalTheory.T.gammaNabla_mem_of_killing_polynomial : type_of% @_root_.GlobalTheory.GenKernelFit.nab_mem_of_ePoly :=
+  @_root_.GlobalTheory.GenKernelFit.nab_mem_of_ePoly

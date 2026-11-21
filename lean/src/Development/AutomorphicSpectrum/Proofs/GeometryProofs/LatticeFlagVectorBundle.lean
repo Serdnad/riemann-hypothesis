@@ -6,7 +6,7 @@ import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.T
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.CoherentLatticeClosureStatement
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FrameOpenNeighbourhood
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LatticeSubQuotientSplitStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.RegAtLocalOrderFractionStatement
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.RegAtLocalOrderFraction
 open AlgebraicGeometry CategoryTheory GlobalTheory.CompanionTheory.Ar NumberField
 
 namespace GlobalTheory.CompanionTheory.Ar.FlagVB

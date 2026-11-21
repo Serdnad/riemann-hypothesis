@@ -215,3 +215,6 @@ theorem gen_and_witt : ∀ (E : Type) [Field E] [CharZero E] (n : ℕ) (σ : E �
     exact ⟨_, isU_prod hG l fun p hp => ⟨(hl p hp).1, (hl p hp).2.1⟩, e⟩
 
 end GlobalTheory.UTrans.ReflChar0
+
+theorem _root_.GlobalTheory.T.unitary_generated_by_quasiReflections_and_witt : type_of% @_root_.GlobalTheory.UTrans.ReflChar0.gen_and_witt :=
+  @_root_.GlobalTheory.UTrans.ReflChar0.gen_and_witt

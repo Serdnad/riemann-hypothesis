@@ -65,3 +65,6 @@ theorem normOp_comp_of_adj : ∀ {R X M : Type} [CommRing R] [AddCommGroup X] [M
     field_simp
 
 end GlobalTheory.FinWeil
+
+theorem _root_.GlobalTheory.T.normalizedIntertwiner_comp_of_adjacent_lattices : type_of% @_root_.GlobalTheory.FinWeil.normOp_comp_of_adj :=
+  @_root_.GlobalTheory.FinWeil.normOp_comp_of_adj

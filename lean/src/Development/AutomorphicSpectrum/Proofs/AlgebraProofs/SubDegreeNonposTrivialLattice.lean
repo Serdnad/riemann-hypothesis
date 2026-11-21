@@ -11,3 +11,6 @@ theorem subDeg_le_zero_of_trivial : ∀ (K : Type) [Field K] (C : ACurve K) (V :
   @PositivityTheory.HtPt.Ch.subdeg_trivial
 
 end GlobalTheory.CompanionTheory.Ar.Crv
+
+theorem _root_.GlobalTheory.T.sub_degree_nonpos_trivial_lattice : type_of% @_root_.GlobalTheory.CompanionTheory.Ar.Crv.subDeg_le_zero_of_trivial :=
+  @_root_.GlobalTheory.CompanionTheory.Ar.Crv.subDeg_le_zero_of_trivial

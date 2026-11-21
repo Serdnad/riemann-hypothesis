@@ -285,3 +285,6 @@ theorem main : ∀ {o Ω : Type} [CommRing o] [Field Ω] [Algebra o Ω] {F : Typ
   exact key
 
 end GlobalTheory.CompanionTheory.Ar.Num.LatticeGoodness.KerBC
+
+theorem _root_.GlobalTheory.T.character_lattice_base_change_free : type_of% @_root_.GlobalTheory.CompanionTheory.Ar.Num.LatticeGoodness.KerBC.main :=
+  @_root_.GlobalTheory.CompanionTheory.Ar.Num.LatticeGoodness.KerBC.main

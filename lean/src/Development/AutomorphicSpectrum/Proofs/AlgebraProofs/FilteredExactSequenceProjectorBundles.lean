@@ -78,3 +78,6 @@ theorem subDeg_range_shortExact : ∀ (K : Type) [Field K] (C : ACurve K) (V : T
     f₀ g₀ hBW hSE0).2.2
 
 end GlobalTheory.CompanionTheory.Ar.Flat.DegCurve
+
+theorem _root_.GlobalTheory.T.filtered_exact_sequence_projector_bundles : type_of% @_root_.GlobalTheory.CompanionTheory.Ar.Flat.DegCurve.subDeg_range_shortExact :=
+  @_root_.GlobalTheory.CompanionTheory.Ar.Flat.DegCurve.subDeg_range_shortExact

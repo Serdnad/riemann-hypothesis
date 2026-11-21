@@ -223,3 +223,6 @@ theorem exists_mem_fractionalIdeal_primitive_local_generator : ∀ (F E : Type) 
       simp
 
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.exists_mem_fractionalIdeal_primitive_local_generator' : type_of% @_root_.GlobalTheory.exists_mem_fractionalIdeal_primitive_local_generator :=
+  @_root_.GlobalTheory.exists_mem_fractionalIdeal_primitive_local_generator

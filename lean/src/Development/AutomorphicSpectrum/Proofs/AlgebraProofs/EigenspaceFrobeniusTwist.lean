@@ -11,3 +11,6 @@ theorem eig_frobenius_twist : ∀ (K : Type) [Field K] (p : ℕ) [Fact p.Prime] 
   PositivityTheory.HtPt.Ci.eig_frob
 
 end GlobalTheory.CompanionTheory.Ar.Crv
+
+theorem _root_.GlobalTheory.T.eigenspace_frobenius_twist : type_of% @_root_.GlobalTheory.CompanionTheory.Ar.Crv.eig_frobenius_twist :=
+  @_root_.GlobalTheory.CompanionTheory.Ar.Crv.eig_frobenius_twist

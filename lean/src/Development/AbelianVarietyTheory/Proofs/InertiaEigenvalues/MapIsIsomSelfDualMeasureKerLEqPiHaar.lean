@@ -190,3 +190,6 @@ theorem map_isIsom_eq_pi : ∀ (F E : Type) [NontriviallyNormedField F] [Nontriv
   exact (huniq _ (map_selfDual A ψ hx μ hμ)).trans (huniq _ (pi_selfDual ψ hψ r M)).symm
 
 end GlobalTheory.JR.MeasTransport
+
+theorem _root_.GlobalTheory.T.map_isIsom_selfDualMeasure_kerL_eq_pi_haar : type_of% @_root_.GlobalTheory.JR.MeasTransport.map_isIsom_eq_pi :=
+  @_root_.GlobalTheory.JR.MeasTransport.map_isIsom_eq_pi

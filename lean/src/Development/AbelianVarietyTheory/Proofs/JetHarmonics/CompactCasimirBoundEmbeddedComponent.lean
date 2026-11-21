@@ -53,3 +53,6 @@ theorem casKLe_io_component : ∀ (M : Type) [NormedAddCommGroup M] [InnerProduc
   exact key
 
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.compactCasimirBound_embedded_component : type_of% @_root_.GlobalTheory.casKLe_io_component :=
+  @_root_.GlobalTheory.casKLe_io_component

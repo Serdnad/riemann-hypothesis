@@ -165,3 +165,6 @@ theorem cocycle_of_rigid : ∀ (X S : Scheme.{0}) (p : X ⟶ S) (e : S ⟶ X) (V
   exact mul_inv_eq_one.1 fin
 
 end GlobalTheory.PartialCocycle
+
+theorem _root_.GlobalTheory.T.rigidified_partialLineBundle_iso_cocycle : type_of% @_root_.GlobalTheory.PartialCocycle.cocycle_of_rigid :=
+  @_root_.GlobalTheory.PartialCocycle.cocycle_of_rigid

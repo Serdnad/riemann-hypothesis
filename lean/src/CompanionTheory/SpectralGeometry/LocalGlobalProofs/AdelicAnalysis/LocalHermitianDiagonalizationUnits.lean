@@ -33,3 +33,6 @@ theorem hermR_unit_diagonalisable : ∀ (F E : Type) [Field F] [NumberField F] [
     _ = _ := by simp only [Matrix.mul_assoc]
 
 end GlobalTheory.CompanionTheory.SW
+
+theorem _root_.GlobalTheory.T.local_hermitian_diagonalization_units : type_of% @_root_.GlobalTheory.CompanionTheory.SW.hermR_unit_diagonalisable :=
+  @_root_.GlobalTheory.CompanionTheory.SW.hermR_unit_diagonalisable

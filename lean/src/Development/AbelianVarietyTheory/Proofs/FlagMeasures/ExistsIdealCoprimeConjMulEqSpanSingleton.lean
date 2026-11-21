@@ -1,6 +1,6 @@
 import Mathlib
 import Formalism.LocalRingCardinality.DataSpaces
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsMemFractionalIdealPrimitiveLocalGeneratorAStatement
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsMemFractionalIdealPrimitiveLocalGeneratorA
 import Development.AbelianVarietyTheory.Proofs.FlagMeasures.LeMapComapOfLeConjMaximalCmDataStatement
 
 open NumberField IsDedekindDomain

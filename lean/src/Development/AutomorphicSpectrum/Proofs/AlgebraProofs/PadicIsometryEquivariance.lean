@@ -9,3 +9,6 @@ theorem proIsoAt_of_padic_isometry : ∀ (p : ℕ) [Fact p.Prime] (O : Type) [Co
   @PositivityTheory.UnitarySelfGeneration.tw_lift
 
 end GlobalTheory.CompanionTheory.Ar
+
+theorem _root_.GlobalTheory.T.padic_isometry_equivariance : type_of% @_root_.GlobalTheory.CompanionTheory.Ar.proIsoAt_of_padic_isometry :=
+  @_root_.GlobalTheory.CompanionTheory.Ar.proIsoAt_of_padic_isometry

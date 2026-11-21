@@ -58,3 +58,6 @@ theorem iwasawa_real : ∀ (N : ℕ) (g : Matrix (Fin N) (Fin N) ℝ), g.det ≠
     field_simp
 
 end GlobalTheory.ClassFin
+
+theorem _root_.GlobalTheory.T.iwasawa_decomposition_real_matrix : type_of% @_root_.GlobalTheory.ClassFin.iwasawa_real :=
+  @_root_.GlobalTheory.ClassFin.iwasawa_real

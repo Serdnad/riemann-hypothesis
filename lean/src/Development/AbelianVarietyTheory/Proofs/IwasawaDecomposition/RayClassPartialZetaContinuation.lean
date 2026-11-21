@@ -433,3 +433,6 @@ theorem partial_zeta_continuation : ∀ (K : Type) [Field K] [NumberField K] [Is
 end GlobalTheory.Mem.PartialZeta
 
 end
+
+theorem _root_.GlobalTheory.T.ray_class_partial_zeta_continuation : type_of% @_root_.GlobalTheory.Mem.PartialZeta.partial_zeta_continuation :=
+  @_root_.GlobalTheory.Mem.PartialZeta.partial_zeta_continuation

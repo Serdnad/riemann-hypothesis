@@ -157,3 +157,6 @@ theorem glCount_of_one : ∀ N : ℕ, 1 ≤ N → GLCount 1 → GLCount N := by
 end GlobalTheory.PMonE.LinCount
 
 end
+
+theorem _root_.GlobalTheory.T.additiveSystemIntegralSolutionCount_of_order_one : type_of% @_root_.GlobalTheory.PMonE.LinCount.glCount_of_one :=
+  @_root_.GlobalTheory.PMonE.LinCount.glCount_of_one

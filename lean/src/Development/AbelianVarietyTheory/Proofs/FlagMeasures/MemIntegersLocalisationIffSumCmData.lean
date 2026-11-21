@@ -132,3 +132,6 @@ theorem mem_O_iff : ∀ {F E : Type} [Field F] [NumberField F] [Field E] [Number
     exact isIntegral_algebraMap (R := 𝒪[A.Fp]) (x := c i)
 
 end GlobalTheory.LocSpan
+
+theorem _root_.GlobalTheory.T.mem_integers_localisation_iff_sum_cmData : type_of% @_root_.GlobalTheory.LocSpan.mem_O_iff :=
+  @_root_.GlobalTheory.LocSpan.mem_O_iff

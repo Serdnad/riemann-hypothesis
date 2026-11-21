@@ -181,3 +181,6 @@ theorem ptDer_iff_dualPoint : ∀ (X : Scheme.{0}) (y : Sp ℂ ⟶ X), (∀ δ, 
 
 end GlobalTheory.KS
 end
+
+theorem _root_.GlobalTheory.T.germDerivation_iff_dualNumberPoint : type_of% @_root_.GlobalTheory.KS.ptDer_iff_dualPoint :=
+  @_root_.GlobalTheory.KS.ptDer_iff_dualPoint

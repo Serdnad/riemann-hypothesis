@@ -161,3 +161,6 @@ theorem lintegral_cone_polar : ∀ (k : ℕ) (ψ : (Fin (k + 1) → ℂ) → ℝ
     Measure.restrict_univ, lintegral_prod _ hG'.aemeasurable]
 
 end GlobalTheory.HCXi
+
+theorem _root_.GlobalTheory.T.lintegral_hyperboloid_fibration : type_of% @_root_.GlobalTheory.HCXi.lintegral_cone_polar :=
+  @_root_.GlobalTheory.HCXi.lintegral_cone_polar

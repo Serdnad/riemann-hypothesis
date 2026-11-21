@@ -184,3 +184,6 @@ theorem lam_fst_eq_zero_of_triv : ∀ (Ω : Type) [Field Ω] [Algebra ℚ Ω] (�
   exact tmul_sum_zero f v c hf b hb
 
 end GlobalTheory.KZ.H3
+
+theorem _root_.GlobalTheory.T.trivial_eigenvalue_congruence_vanishes : type_of% @_root_.GlobalTheory.KZ.H3.lam_fst_eq_zero_of_triv :=
+  @_root_.GlobalTheory.KZ.H3.lam_fst_eq_zero_of_triv

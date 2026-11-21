@@ -11,3 +11,6 @@ theorem eigen_ses_subDeg : ∀ (K : Type) [Field K] (C : ACurve K) (V : Type) [A
   @PositivityTheory.HtPt.Ch.split_ses
 
 end GlobalTheory.CompanionTheory.Ar.Crv
+
+theorem _root_.GlobalTheory.T.short_exact_eigen_sub_degree : type_of% @_root_.GlobalTheory.CompanionTheory.Ar.Crv.eigen_ses_subDeg :=
+  @_root_.GlobalTheory.CompanionTheory.Ar.Crv.eigen_ses_subDeg

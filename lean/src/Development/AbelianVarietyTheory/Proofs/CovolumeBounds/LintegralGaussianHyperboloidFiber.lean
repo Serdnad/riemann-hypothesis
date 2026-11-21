@@ -1,6 +1,6 @@
 import Mathlib
 import Development.AbelianVarietyTheory.Definitions.ThetaMetrics.IsKMeas
-import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.LintegralHyperboloidFibrationStatement
+import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.LintegralHyperboloidFibration
 open Matrix MeasureTheory Formalism.QuantumDeterminants Formalism.FourierDecayAlt.B Formalism.FourierDecayAlt.B2 GlobalTheory.HCXi
 open scoped ENNReal ComplexOrder
 

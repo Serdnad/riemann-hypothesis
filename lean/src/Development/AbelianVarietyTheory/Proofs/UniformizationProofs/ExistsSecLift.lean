@@ -342,3 +342,6 @@ theorem exists_sec_lift : ∀ (A A₀ A' : Type) [CommRing A] [CommRing A₀] [C
   exact c
 
 end GlobalTheory.SecLift
+
+theorem _root_.GlobalTheory.T.exists_sec_lift_alt : type_of% @_root_.GlobalTheory.SecLift.exists_sec_lift :=
+  @_root_.GlobalTheory.SecLift.exists_sec_lift

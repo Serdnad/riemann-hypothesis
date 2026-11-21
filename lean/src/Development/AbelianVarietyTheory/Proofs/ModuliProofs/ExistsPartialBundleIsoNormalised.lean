@@ -179,3 +179,6 @@ theorem exists_iso_normalised : ∀ (X S : Scheme.{0}) (p : X ⟶ S) (e : S ⟶ 
     exact eq_mul_mul_inv_mul_inv_mul _ _ _
 
 end GlobalTheory.BundleNormalise
+
+theorem _root_.GlobalTheory.T.exists_partialBundle_iso_normalised : type_of% @_root_.GlobalTheory.BundleNormalise.exists_iso_normalised :=
+  @_root_.GlobalTheory.BundleNormalise.exists_iso_normalised

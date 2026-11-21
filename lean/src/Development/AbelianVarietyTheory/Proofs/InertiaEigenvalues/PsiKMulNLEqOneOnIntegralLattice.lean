@@ -60,3 +60,6 @@ theorem main : ∀ (F E : Type) [NontriviallyNormedField F] [NontriviallyNormedF
   exact hψ.1 T hT1
 
 end GlobalTheory.JR.NormInt
+
+theorem _root_.GlobalTheory.T.psiK_mul_NL_eq_one_on_integral_lattice : type_of% @_root_.GlobalTheory.JR.NormInt.main :=
+  @_root_.GlobalTheory.JR.NormInt.main

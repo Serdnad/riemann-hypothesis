@@ -64,3 +64,6 @@ theorem exists_smooth_free_away : ∀ (k C : Type) [Field k] [PerfectField k] [C
     exact fun x hx => hf₁ (PrimeSpectrum.basicOpen_mul_le_right r f₁ hx)
 
 end GlobalTheory.SS
+
+theorem _root_.GlobalTheory.T.exists_smooth_free_away' : type_of% @_root_.GlobalTheory.SS.exists_smooth_free_away :=
+  @_root_.GlobalTheory.SS.exists_smooth_free_away

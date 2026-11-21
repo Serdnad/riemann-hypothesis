@@ -247,3 +247,6 @@ theorem permWord : ∀ (A : Type) [Ring A] [Algebra ℂ A] (n : ℕ) (E : Fin n 
 end GlobalTheory.SmoothForms.PermWord
 
 end
+
+theorem _root_.GlobalTheory.T.permutationWord_gelfandPolynomial_mod_shorter : type_of% @_root_.GlobalTheory.SmoothForms.PermWord.permWord :=
+  @_root_.GlobalTheory.SmoothForms.PermWord.permWord

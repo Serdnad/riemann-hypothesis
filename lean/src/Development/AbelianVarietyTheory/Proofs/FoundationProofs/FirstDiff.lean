@@ -131,3 +131,6 @@ theorem first_diff : ∀ j : ℕ, ∃ C : ℝ, ∀ (s : ℝ) (z a : ℂ), 0 ≤ 
           field_simp; ring
 
 end GlobalTheory.EisM.TermDiff
+
+theorem _root_.GlobalTheory.T.norm_trm_sub_trm_add_le : type_of% @_root_.GlobalTheory.EisM.TermDiff.first_diff :=
+  @_root_.GlobalTheory.EisM.TermDiff.first_diff

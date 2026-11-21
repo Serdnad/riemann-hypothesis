@@ -112,3 +112,6 @@ theorem exists_open_part : ∀ (k : Type) [Field k] (q : Polynomial k), ∃ jj :
 
 end GlobalTheory.SS.TorOpen
 end
+
+theorem _root_.GlobalTheory.T.exists_multiplicativeGroup_open_nonvanishing_polynomial : type_of% @_root_.GlobalTheory.SS.TorOpen.exists_open_part :=
+  @_root_.GlobalTheory.SS.TorOpen.exists_open_part

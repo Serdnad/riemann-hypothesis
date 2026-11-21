@@ -17,3 +17,6 @@ theorem glOnto_zero_and_glCount_zero : GLOnto 0 ∧ GLCount 0 := by
     exact ⟨⟨y, hy⟩, fun z => Subtype.ext (huniq z.1 z.2)⟩
 
 end GlobalTheory.PMonE
+
+theorem _root_.GlobalTheory.T.additiveSystem_surjectivity_and_count_order_zero : type_of% @_root_.GlobalTheory.PMonE.glOnto_zero_and_glCount_zero :=
+  @_root_.GlobalTheory.PMonE.glOnto_zero_and_glCount_zero

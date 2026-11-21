@@ -303,3 +303,6 @@ theorem translates_independent : ∀ (g : ℕ) [Fact g.Prime] (N : ℕ), ∀ (M 
     rw [this, zero_mul]
 
 end GlobalTheory.BadShare.Indep
+
+theorem _root_.GlobalTheory.T.whittaker_translates_corner_linearIndependent : type_of% @_root_.GlobalTheory.BadShare.Indep.translates_independent :=
+  @_root_.GlobalTheory.BadShare.Indep.translates_independent

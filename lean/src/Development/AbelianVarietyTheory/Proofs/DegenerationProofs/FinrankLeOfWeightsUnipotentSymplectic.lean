@@ -329,3 +329,6 @@ theorem finrank_le_of_weights : ∀ (𝕜 V : Type) [Field 𝕜] [CharZero 𝕜]
     exact hPW x (by simpa [sub_eq_zero] using hx)
 
 end GlobalTheory.SS.LinCore
+
+theorem _root_.GlobalTheory.T.finrank_le_of_weights_unipotent_symplectic : type_of% @_root_.GlobalTheory.SS.LinCore.finrank_le_of_weights :=
+  @_root_.GlobalTheory.SS.LinCore.finrank_le_of_weights

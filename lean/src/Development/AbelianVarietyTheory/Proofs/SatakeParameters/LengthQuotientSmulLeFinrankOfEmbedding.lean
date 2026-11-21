@@ -68,3 +68,6 @@ theorem length_quotient_smul_range_le_finrank_mul : ∀ (O K : Type) [CommRing O
       gcongr
 
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.length_quotient_smul_le_finrank_of_embedding : type_of% @_root_.GlobalTheory.length_quotient_smul_range_le_finrank_mul :=
+  @_root_.GlobalTheory.length_quotient_smul_range_le_finrank_mul

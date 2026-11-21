@@ -314,3 +314,6 @@ theorem cotangent_away : ∀ (R : Type) [CommRing R] (X : Scheme.{0}) (s : X ⟶
   exact equiv_general hes hcot hjs hje (LinearEquiv.refl _ _)
 
 end GlobalTheory.CompanionTheory.CotLoc
+
+theorem _root_.GlobalTheory.T.cotangent_local_open_chart_exists : type_of% @_root_.GlobalTheory.CompanionTheory.CotLoc.cotangent_away :=
+  @_root_.GlobalTheory.CompanionTheory.CotLoc.cotangent_away

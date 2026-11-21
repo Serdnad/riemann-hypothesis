@@ -63,3 +63,6 @@ theorem integral_eq_measureReal_box_mul_sum : ∀ (k : Type) [Field k] [Valuativ
     _ = _ := by rw [Finset.mul_sum]
 
 end GlobalTheory.SplitWeil.FourierPi
+
+theorem _root_.GlobalTheory.T.integral_box_invariant_eq_measureReal_mul_sum_reps : type_of% @_root_.GlobalTheory.SplitWeil.FourierPi.integral_eq_measureReal_box_mul_sum :=
+  @_root_.GlobalTheory.SplitWeil.FourierPi.integral_eq_measureReal_box_mul_sum

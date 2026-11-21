@@ -13,3 +13,6 @@ theorem join_points_charts : ∀ (o : Type) [CommRing o] (Ω : Type) [Field Ω] 
   @PositivityTheory.HtPt.Mb.join_charts
 
 end GlobalTheory.CompanionTheory.Ar
+
+theorem _root_.GlobalTheory.T.join_coords_centre_chart : type_of% @_root_.GlobalTheory.CompanionTheory.Ar.join_points_charts :=
+  @_root_.GlobalTheory.CompanionTheory.Ar.join_points_charts

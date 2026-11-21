@@ -209,3 +209,6 @@ theorem exists_locDer : ∀ (Y Y' : Scheme.{0}) (q : Y ⟶ Sp ℂ) (π : Y' ⟶ 
 
 end GlobalTheory.KS.EpsDer
 end
+
+theorem _root_.GlobalTheory.T.exists_localDerivation_of_dualNumber_thickening : type_of% @_root_.GlobalTheory.KS.EpsDer.exists_locDer :=
+  @_root_.GlobalTheory.KS.EpsDer.exists_locDer

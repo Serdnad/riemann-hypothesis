@@ -10,3 +10,6 @@ theorem subDeg_ses : ∀ (K : Type) [Field K] (C : ACurve K) (V : Type) [AddComm
   @PositivityTheory.HtPt.Ch.subdeg_ses
 
 end GlobalTheory.CompanionTheory.Ar.Crv.SubDegSes
+
+theorem _root_.GlobalTheory.T.short_exact_sub_degree_bound : type_of% @_root_.GlobalTheory.CompanionTheory.Ar.Crv.SubDegSes.subDeg_ses :=
+  @_root_.GlobalTheory.CompanionTheory.Ar.Crv.SubDegSes.subDeg_ses

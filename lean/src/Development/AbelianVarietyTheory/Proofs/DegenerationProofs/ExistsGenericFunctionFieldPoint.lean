@@ -87,3 +87,6 @@ theorem exists_generic_field_point : ∀ (Y : Scheme.{0}) [IsIntegral Y], ∃ (F
 
 end GlobalTheory.SS.WtRat
 end
+
+theorem _root_.GlobalTheory.T.exists_generic_functionField_point : type_of% @_root_.GlobalTheory.SS.WtRat.exists_generic_field_point :=
+  @_root_.GlobalTheory.SS.WtRat.exists_generic_field_point

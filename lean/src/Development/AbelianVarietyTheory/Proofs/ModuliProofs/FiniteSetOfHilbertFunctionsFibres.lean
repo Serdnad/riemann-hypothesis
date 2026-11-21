@@ -222,3 +222,6 @@ theorem finite_setOf_dimDeg_map : ∀ (R σ : Type) [CommRing R] [IsNoetherianRi
   exact ⟨K, _, x, bot_le, rfl⟩
 
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.finite_setOf_hilbertFunctions_fibres : type_of% @_root_.GlobalTheory.finite_setOf_dimDeg_map :=
+  @_root_.GlobalTheory.finite_setOf_dimDeg_map

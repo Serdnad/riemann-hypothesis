@@ -63,3 +63,6 @@ theorem isKummerPotentialIncrement_linear_laws : ∀ (Ω : Type) [Field Ω] [Alg
     exact hI (cj m δ) hc2 (mob (toGQ m) z) hmz
 
 end GlobalTheory.KZ.H3
+
+theorem _root_.GlobalTheory.T.r1_smul_and_kmap_of_r1_linear_laws : type_of% @_root_.GlobalTheory.KZ.H3.isKummerPotentialIncrement_linear_laws :=
+  @_root_.GlobalTheory.KZ.H3.isKummerPotentialIncrement_linear_laws

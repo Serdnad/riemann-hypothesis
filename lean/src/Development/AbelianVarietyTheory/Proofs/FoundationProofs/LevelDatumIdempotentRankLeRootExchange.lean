@@ -370,3 +370,6 @@ theorem rk_le_step : ∀ (g : ℕ) [Fact g.Prime] (N : ℕ), ∀ (M : Type) [Add
   group
 
 end GlobalTheory.BadShare.RxStep
+
+theorem _root_.GlobalTheory.T.levelDatum_idempotent_rank_le_root_exchange : type_of% @_root_.GlobalTheory.BadShare.RxStep.rk_le_step :=
+  @_root_.GlobalTheory.BadShare.RxStep.rk_le_step

@@ -59,3 +59,6 @@ theorem monomial_eq_of_unipotent_double_coset : ∀ (g : ℕ) [Fact g.Prime] (N 
   · rw [hz a b hab, hz' a b (by rwa [← hσσ])]
 
 end GlobalTheory.BadShare
+
+theorem _root_.GlobalTheory.T.monomial_eq_of_upperUnipotent_double_coset : type_of% @_root_.GlobalTheory.BadShare.monomial_eq_of_unipotent_double_coset :=
+  @_root_.GlobalTheory.BadShare.monomial_eq_of_unipotent_double_coset

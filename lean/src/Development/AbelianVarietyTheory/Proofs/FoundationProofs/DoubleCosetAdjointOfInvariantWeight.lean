@@ -145,3 +145,6 @@ theorem abstract_double_coset_adjoint : ∀ (G X Γ ι κ : Type) [Group G] [Mea
         Finset.sum_congr rfl fun j _ => (hQpart j).2.tsum_eq
 
 end GlobalTheory.EisM
+
+theorem _root_.GlobalTheory.T.double_coset_adjoint_of_invariant_weight : type_of% @_root_.GlobalTheory.EisM.abstract_double_coset_adjoint :=
+  @_root_.GlobalTheory.EisM.abstract_double_coset_adjoint

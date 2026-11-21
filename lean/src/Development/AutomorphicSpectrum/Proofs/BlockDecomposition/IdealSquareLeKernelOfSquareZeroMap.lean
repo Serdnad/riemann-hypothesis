@@ -84,3 +84,6 @@ theorem ker_sq_le_ker : ∀ (R Q B : Type) [CommRing R] [CommRing Q] [CommRing B
   exact mul_eq_zero_open q hq (y ⁻¹ᵁ V) _ _ (key a ha) (key b hb)
 
 end GlobalTheory.CompanionTheory.CotKer
+
+theorem _root_.GlobalTheory.T.ideal_square_le_kernel_of_square_zero_map : type_of% @_root_.GlobalTheory.CompanionTheory.CotKer.ker_sq_le_ker :=
+  @_root_.GlobalTheory.CompanionTheory.CotKer.ker_sq_le_ker

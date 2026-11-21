@@ -71,3 +71,6 @@ theorem gauss_prod : ∀ (R : Type) [CommRing R] (σ : R →+* R) (ϖ : R) (hf :
   exact h
 
 end GlobalTheory.CompanionTheory.GaussProd
+
+theorem _root_.GlobalTheory.T.matrix_gauss_sum_diagonal_factor : type_of% @_root_.GlobalTheory.CompanionTheory.GaussProd.gauss_prod :=
+  @_root_.GlobalTheory.CompanionTheory.GaussProd.gauss_prod

@@ -133,3 +133,6 @@ theorem discr_trace_isUnit : ∀ (K K' : UQ) (d : ℕ) (φ : K.E →+* K'.E), Is
     Algebra.traceForm_apply, Matrix.of_apply, hTr, map_mul, hb]
 
 end GlobalTheory.UnitLemma.Unr.ResDisc
+
+theorem _root_.GlobalTheory.T.isUnit_traceForm_discr_unramifiedExt : type_of% @_root_.GlobalTheory.UnitLemma.Unr.ResDisc.discr_trace_isUnit :=
+  @_root_.GlobalTheory.UnitLemma.Unr.ResDisc.discr_trace_isUnit

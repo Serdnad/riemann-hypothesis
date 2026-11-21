@@ -35,3 +35,6 @@ theorem finite_smul_mem_fd : ∀ τ : ℍ, {γ : SL(2, ℤ) | γ • τ ∈ Modu
   linarith
 
 end GlobalTheory.EisM
+
+theorem _root_.GlobalTheory.T.finite_slTwo_smul_mem_fundamentalDomain : type_of% @_root_.GlobalTheory.EisM.finite_smul_mem_fd :=
+  @_root_.GlobalTheory.EisM.finite_smul_mem_fd

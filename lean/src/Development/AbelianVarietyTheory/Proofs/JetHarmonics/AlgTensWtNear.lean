@@ -66,3 +66,6 @@ theorem algTens_wtNear : ∀ (M : Type) [NormedAddCommGroup M] [InnerProductSpac
     | smul r x _ hx => rw [map_smul, Pi.smul_apply]; exact Submodule.smul_mem _ _ hx
 
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.wtNear_pr_and_io_of_algTens : type_of% @_root_.GlobalTheory.algTens_wtNear :=
+  @_root_.GlobalTheory.algTens_wtNear

@@ -46,3 +46,6 @@ theorem integral_scale_change_haar : ∀ (k : Type) [Field k] [ValuativeRel k] [
     field_simp
 
 end GlobalTheory.IdealChain
+
+theorem _root_.GlobalTheory.T.haar_measure_pi_change_constant : type_of% @_root_.GlobalTheory.IdealChain.integral_scale_change_haar :=
+  @_root_.GlobalTheory.IdealChain.integral_scale_change_haar

@@ -136,3 +136,6 @@ theorem exists_fibre_near : ∀ (F E : Type) [Field F] [NumberField F] [Field E]
     exact hfib
 
 end GlobalTheory.CompanionTheory.SW.GramNear
+
+theorem _root_.GlobalTheory.T.gram_fiber_measure_disintegration_formula : type_of% @_root_.GlobalTheory.CompanionTheory.SW.GramNear.exists_fibre_near :=
+  @_root_.GlobalTheory.CompanionTheory.SW.GramNear.exists_fibre_near

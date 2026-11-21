@@ -11,3 +11,6 @@ theorem subDeg_le_map_of_injective : ∀ (K : Type) [Field K] (C : ACurve K) (V 
   PositivityTheory.HtPt.Ch.deg_inj
 
 end GlobalTheory.CompanionTheory.Ar.Crv
+
+theorem _root_.GlobalTheory.T.sub_degree_mono_injective_hom : type_of% @_root_.GlobalTheory.CompanionTheory.Ar.Crv.subDeg_le_map_of_injective :=
+  @_root_.GlobalTheory.CompanionTheory.Ar.Crv.subDeg_le_map_of_injective

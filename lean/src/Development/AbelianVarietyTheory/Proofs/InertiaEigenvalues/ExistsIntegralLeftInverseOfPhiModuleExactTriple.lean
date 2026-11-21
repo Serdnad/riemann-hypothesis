@@ -107,3 +107,6 @@ theorem exists_integral_leftInverse_of_exactTriple : ∀ (O K : Type) [CommRing 
   simpa using this
 
 end GlobalTheory.BK
+
+theorem _root_.GlobalTheory.T.exists_integral_leftInverse_of_phiModule_exactTriple : type_of% @_root_.GlobalTheory.BK.exists_integral_leftInverse_of_exactTriple :=
+  @_root_.GlobalTheory.BK.exists_integral_leftInverse_of_exactTriple

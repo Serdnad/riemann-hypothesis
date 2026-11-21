@@ -118,3 +118,6 @@ theorem exists_jet_coordinates : ∀ (R : Type) [CommRing R] (G : Over (Spec (Co
   rwa [hq, spMap_id, Category.id_comp, Category.id_comp] at h2
 
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.exists_jetChart_coordinates_nilpotent : type_of% @_root_.GlobalTheory.exists_jet_coordinates :=
+  @_root_.GlobalTheory.exists_jet_coordinates

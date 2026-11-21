@@ -11,3 +11,6 @@ theorem degree_eq_sum_eigen : ∀ (K : Type) [Field K] (C : ACurve K) (V : Type)
   @PositivityTheory.HtPt.Ch.split_deg
 
 end GlobalTheory.CompanionTheory.Ar.Crv
+
+theorem _root_.GlobalTheory.T.degree_sum_eigen_sub_degrees : type_of% @_root_.GlobalTheory.CompanionTheory.Ar.Crv.degree_eq_sum_eigen :=
+  @_root_.GlobalTheory.CompanionTheory.Ar.Crv.degree_eq_sum_eigen

@@ -129,3 +129,6 @@ theorem glOnto_of_one : ∀ N : ℕ, 1 ≤ N → GLOnto 1 → GLOnto N := by
 end GlobalTheory.PMonE
 
 end
+
+theorem _root_.GlobalTheory.T.additiveSystemIntegralSurjectivity_of_one : type_of% @_root_.GlobalTheory.PMonE.glOnto_of_one :=
+  @_root_.GlobalTheory.PMonE.glOnto_of_one
