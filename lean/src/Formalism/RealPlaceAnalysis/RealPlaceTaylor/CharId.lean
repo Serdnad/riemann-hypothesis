@@ -87,9 +87,8 @@ theorem CharId_aeval_comm {V : Type} [AddCommGroup V] [Module ℂ V] {n : ℕ}
     (E : Fin n → Fin n → Module.End ℂ V) (hE : GlRel E) (q : ℂ[X]) (c d : Fin n) :
     twistedAction E c d * aeval (CharId_M E) q = aeval (CharId_M E) q * twistedAction E c d := by
   have hc : Commute (twistedAction E c d) (CharId_M E) := CharId_comm E hE c d
-  rw [aeval_eq_sum_range, Finset.mul_sum, Finset.sum_mul]
-  refine Finset.sum_congr rfl fun i _ => ?_
-  rw [mul_smul_comm, smul_mul_assoc, (hc.pow_right i).eq]
+  rw [aeval_eq_smeval]
+  exact (smeval_commute_left ℂ q hc.symm).symm
 
 theorem CharId_ker {V : Type} [AddCommGroup V] [Module ℂ V] {n : ℕ}
     (E : Fin n → Fin n → Module.End ℂ V) (hE : GlRel E) (v : V) (j : ℕ) (q : ℂ[X])
@@ -123,6 +122,11 @@ private theorem twistedAction_single_of_lt {V : Type} [AddCommGroup V] [Module �
     simp [ne_of_gt hta]
   · simp [Pi.single_apply, hxa]
 
+theorem CharId_single {V : Type} [AddCommGroup V] [Module ℂ V] {n : ℕ}
+    (f : Fin n → Module.End ℂ V) (b : Fin n) (v : V) :
+    ∑ c, f c ((Pi.single b v : Fin n → V) c) = f b v := by
+  simp [Pi.single_apply, apply_ite]
+
 theorem CharId_sub_lsh_apply_single {V : Type} [AddCommGroup V] [Module ℂ V] {n : ℕ}
     (E : Fin n → Fin n → Module.End ℂ V) (ν : Fin n → ℂ) (v : V) (hv : IsHW E ν v) (t : Fin n) :
     (CharId_M E - algebraMap ℂ (Module.End ℂ (Fin n → V)) (lsh ν t)) (Pi.single t v) =
@@ -131,61 +135,48 @@ theorem CharId_sub_lsh_apply_single {V : Type} [AddCommGroup V] [Module ℂ V] {
   rw [Finset.sum_apply, Finset.sum_congr rfl
     (fun a ha => twistedAction_single_of_lt E v x t a (Finset.mem_filter.1 ha).2),
     Finset.sum_sub_distrib, Finset.sum_ite_eq, Finset.sum_const]
-  have hs : ∑ c, E x c ((Pi.single t v : Fin n → V) c) = E x t v := by
-    rw [Finset.sum_eq_single t]
-    · simp
-    · intro c _ hc
-      simp [Pi.single_apply, hc]
-    · simp
   simp only [LinearMap.sub_apply, Module.algebraMap_end_apply, Pi.sub_apply, Pi.smul_apply,
-    CharId_M_apply, hs, Finset.mem_filter, Finset.mem_univ, true_and]
+    CharId_M_apply, CharId_single, Finset.mem_filter, Finset.mem_univ, true_and]
   rcases lt_trichotomy x t with h | h | h
   · simp [h.ne, not_lt.2 h.le, hv.2 x t h]
   · subst h
     rw [← Nat.cast_smul_eq_nsmul ℂ, CharId_card]
     simp [hv.1 x, lsh, add_smul, sub_smul]
-  · simp [h.ne', h, Pi.single_apply]
+  · simp [h.ne', h]
+
+/-- The tail polynomial annihilates the submodule generated from those coordinates. -/
+theorem CharId_kill_tail {V : Type} [AddCommGroup V] [Module ℂ V] {n : ℕ}
+    (E : Fin n → Fin n → Module.End ℂ V) (hE : GlRel E) (ν : Fin n → ℂ) (v : V)
+    (hv : IsHW E ν v) (j : ℕ) (q : ℂ[X])
+    (hq : (∏ s ∈ univ.filter (fun s : Fin n => j ≤ (s : ℕ)), (X - C (lsh ν s))) ∣ q)
+    (y : Fin n → V) (hy : y ∈ CharId_F E v j) : aeval (CharId_M E) q y = 0 := by
+  refine CharId_ker E hE v j q (fun t ht => ?_) y hy
+  have hsub : insert t (univ.filter (fun s : Fin n => t.1 + 1 ≤ (s : ℕ))) ⊆
+      univ.filter (fun s : Fin n => j ≤ (s : ℕ)) := by
+    intro s hs
+    simp only [Finset.mem_insert, Finset.mem_filter, Finset.mem_univ, true_and] at hs ⊢
+    rcases hs with rfl | hs <;> omega
+  have htn : t ∉ univ.filter (fun s : Fin n => t.1 + 1 ≤ (s : ℕ)) := by simp
+  have hdvd := Finset.prod_dvd_prod_of_subset _ _ (fun s => X - C (lsh ν s)) hsub
+  rw [Finset.prod_insert htn] at hdvd
+  obtain ⟨w, hw⟩ := hdvd.trans hq
+  have hq' : q = ((∏ s ∈ univ.filter (fun s : Fin n => t.1 + 1 ≤ (s : ℕ)), (X - C (lsh ν s))) * w) *
+      (X - C (lsh ν t)) := by
+    rw [hw]; ring
+  rw [hq', map_mul, Module.End.mul_apply, map_sub, aeval_X, aeval_C, CharId_sub_lsh_apply_single E ν v hv t]
+  refine CharId_kill_tail E hE ν v hv (t.1 + 1) _ (dvd_mul_right _ _) _ ?_
+  refine Submodule.sum_mem _ fun a ha => twistedAction_mem_tailSubmodule E v _ a t _ (CharId_F_gen E v _ a ?_)
+  exact (Finset.mem_filter.1 ha).2
+termination_by n - j
+decreasing_by omega
 
 theorem CharId_kill {V : Type} [AddCommGroup V] [Module ℂ V] {n : ℕ}
     (E : Fin n → Fin n → Module.End ℂ V) (hE : GlRel E) (ν : Fin n → ℂ) (v : V)
     (hv : IsHW E ν v) :
     ∀ k j : ℕ, n ≤ j + k → ∀ q : ℂ[X],
       (∏ s ∈ univ.filter (fun s : Fin n => j ≤ (s : ℕ)), (X - C (lsh ν s))) ∣ q →
-      ∀ y ∈ CharId_F E v j, aeval (CharId_M E) q y = 0 := by
-  intro k
-  induction k with
-  | zero =>
-    intro j hj q _ y hy
-    exact CharId_ker E hE v j q (fun t ht => absurd t.isLt (by omega)) y hy
-  | succ k ih =>
-    intro j hj q hq y hy
-    refine CharId_ker E hE v j q (fun t ht => ?_) y hy
-    have hsub : insert t (univ.filter (fun s : Fin n => t.1 + 1 ≤ (s : ℕ))) ⊆
-        univ.filter (fun s : Fin n => j ≤ (s : ℕ)) := by
-      intro s hs
-      simp only [Finset.mem_insert, Finset.mem_filter, Finset.mem_univ, true_and] at hs ⊢
-      rcases hs with rfl | hs <;> omega
-    have htn : t ∉ univ.filter (fun s : Fin n => t.1 + 1 ≤ (s : ℕ)) := by simp
-    have hdvd := Finset.prod_dvd_prod_of_subset _ _ (fun s => X - C (lsh ν s)) hsub
-    rw [Finset.prod_insert htn] at hdvd
-    obtain ⟨w, hw⟩ := hdvd.trans hq
-    have hq' : q = ((∏ s ∈ univ.filter (fun s : Fin n => t.1 + 1 ≤ (s : ℕ)), (X - C (lsh ν s))) * w) *
-        (X - C (lsh ν t)) := by
-      rw [hw]; ring
-    rw [hq', map_mul, Module.End.mul_apply, map_sub, aeval_X, aeval_C, CharId_sub_lsh_apply_single E ν v hv t]
-    refine ih (t.1 + 1) (by omega) _ (dvd_mul_right _ _) _ ?_
-    refine Submodule.sum_mem _ fun a ha => twistedAction_mem_tailSubmodule E v _ a t _ (CharId_F_gen E v _ a ?_)
-    have h := (Finset.mem_filter.1 ha).2
-    exact h
-
-theorem CharId_single {V : Type} [AddCommGroup V] [Module ℂ V] {n : ℕ}
-    (f : Fin n → Module.End ℂ V) (b : Fin n) (v : V) :
-    ∑ c, f c ((Pi.single b v : Fin n → V) c) = f b v := by
-  rw [Finset.sum_eq_single b]
-  · simp
-  · intro c _ hc
-    simp [Pi.single_apply, hc]
-  · simp
+      ∀ y ∈ CharId_F E v j, aeval (CharId_M E) q y = 0 :=
+  fun _ j _ => CharId_kill_tail E hE ν v hv j
 
 theorem CharId_on_v {V : Type} [AddCommGroup V] [Module ℂ V] {n : ℕ}
     (E : Fin n → Fin n → Module.End ℂ V) (hE : GlRel E) (ν : Fin n → ℂ) (v : V)
@@ -193,9 +184,9 @@ theorem CharId_on_v {V : Type} [AddCommGroup V] [Module ℂ V] {n : ℕ}
     ∑ i ∈ range (n + 1),
       (∏ s : Fin n, (Polynomial.X - Polynomial.C (lsh ν s))).coeff i • epow E i a b v = 0 := by
   have hy : (Pi.single b v : Fin n → V) ∈ CharId_F E v 0 := CharId_F_gen E v 0 b (Nat.zero_le _)
-  have hk := CharId_kill E hE ν v hv n 0 (by omega) (∏ s : Fin n, (X - C (lsh ν s))) (by simp) _ hy
+  have hk := CharId_kill_tail E hE ν v hv 0 (∏ s : Fin n, (X - C (lsh ν s))) (by simp) _ hy
   have hdeg : (∏ s : Fin n, (X - C (lsh ν s))).natDegree < n + 1 := by
-    rw [natDegree_finset_prod_X_sub_C_eq_card]
+    rw [natDegree_finsetProd_X_sub_C_eq_card]
     simp
   rw [aeval_eq_sum_range' hdeg] at hk
   have h := congrFun hk a
@@ -218,16 +209,9 @@ theorem CharId_P_commutator {V : Type} [AddCommGroup V] [Module ℂ V] {n : ℕ}
       (if d = a then CharId_P E ν c b else 0) - (if b = c then CharId_P E ν a d else 0) := by
   unfold CharId_P
   rw [Finset.mul_sum, Finset.sum_mul, ← Finset.sum_sub_distrib]
-  have h : ∀ i ∈ range (n + 1),
-      E c d * ((∏ s : Fin n, (X - C (lsh ν s))).coeff i • epow E i a b) -
-        ((∏ s : Fin n, (X - C (lsh ν s))).coeff i • epow E i a b) * E c d =
-      (if d = a then (∏ s : Fin n, (X - C (lsh ν s))).coeff i • epow E i c b else 0) -
-        (if b = c then (∏ s : Fin n, (X - C (lsh ν s))).coeff i • epow E i a d else 0) := by
-    intro i _
-    rw [mul_smul_comm, smul_mul_assoc, ← smul_sub, generatorPowCovariance_holds _ n E hE i a b c d]
-    split_ifs <;> simp [smul_sub]
-  rw [Finset.sum_congr rfl h, Finset.sum_sub_distrib]
-  split_ifs <;> simp [smul_sub]
+  simp only [mul_smul_comm, smul_mul_assoc, ← smul_sub,
+    generatorPowCovariance_holds _ n E hE]
+  split_ifs <;> simp [smul_sub, Finset.sum_sub_distrib]
 
 theorem characteristicIdentity_holds : CharId := by
   intro V _ _ n E ν v hE hv x hx a b

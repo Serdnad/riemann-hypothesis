@@ -15,6 +15,17 @@ scoped instance topologicalSpace : TopologicalSpace (A →ₐ[R] C) :=
 theorem isEmbedding_coe : IsEmbedding (fun p : A →ₐ[R] C => (p : A → C)) :=
   ⟨⟨rfl⟩, DFunLike.coe_injective⟩
 
+private theorem isEmbedding_of_eval_recovery {Y : Type*} [TopologicalSpace Y]
+    {f : (A →ₐ[R] C) → Y} (hf : Continuous f)
+    (h : ∀ a : A, ∃ recover : range f → C, Continuous recover ∧
+      ∀ p, recover (rangeFactorization f p) = p a) : IsEmbedding f := by
+  choose recover hcontinuous heval using h
+  have hcomp : (fun y a => recover a y) ∘ rangeFactorization f =
+      fun p : A →ₐ[R] C => (p : A → C) :=
+    funext fun p => funext (heval · p)
+  exact IsEmbedding.subtypeVal.comp
+    (.of_comp hf.rangeFactorization (continuous_pi hcontinuous) (hcomp.symm ▸ isEmbedding_coe))
+
 theorem continuous_eval (a : A) : Continuous fun p : A →ₐ[R] C => p a :=
   (continuous_apply a).comp isEmbedding_coe.continuous
 
@@ -121,18 +132,10 @@ theorem exists_comap_eq_of_surjective (φ : A →ₐ[R] B) (hφ : Function.Surje
 
 theorem isClosedEmbedding_comap [T1Space C] (φ : A →ₐ[R] B) (hφ : Function.Surjective φ) :
     IsClosedEmbedding (comap φ : (B →ₐ[R] C) → (A →ₐ[R] C)) := by
-  refine ⟨⟨?_, ?_⟩, ?_⟩
-  · rw [isInducing_iff_nhds]
-    intro p
-    refine le_antisymm (continuous_comap φ).continuousAt.le_comap ?_
-    rw [← tendsto_id', tendsto_nhds_iff]
-    intro b
+  refine ⟨isEmbedding_of_eval_recovery (continuous_comap φ) ?_, ?_⟩
+  · intro b
     obtain ⟨a, rfl⟩ := hφ b
-    exact tendsto_nhds_iff.1 (tendsto_comap (f := comap φ) (x := 𝓝 (comap φ p))) a
-  · intro p q h
-    ext b
-    obtain ⟨a, rfl⟩ := hφ b
-    exact DFunLike.congr_fun h a
+    exact ⟨fun q => q.1 a, (continuous_eval a).comp continuous_subtype_val, fun _ => rfl⟩
   · have : range (comap φ : (B →ₐ[R] C) → (A →ₐ[R] C)) =
         ⋂ a ∈ {a | φ a = 0}, {p | p a = 0} := by
       ext p
@@ -187,27 +190,16 @@ theorem apply_eq_div_of_mul_eq (q : B →ₐ[R] K) {b : B} {a s : A} (hs : IsUni
 theorem isOpenEmbedding_comap_away (f : A) [IsLocalization.Away f B]
     [TopologicalSpace K] [T1Space K] [IsTopologicalDivisionRing K] :
     IsOpenEmbedding (comap (IsScalarTower.toAlgHom R A B) : (B →ₐ[R] K) → (A →ₐ[R] K)) := by
-  have key : ∀ b : B, ∃ a s : A, IsUnit (algebraMap A B s) ∧
-      b * algebraMap A B s = algebraMap A B a := fun b => by
+  refine ⟨isEmbedding_of_eval_recovery (continuous_comap _) ?_, ?_⟩
+  · intro b
     obtain ⟨⟨a, s⟩, h⟩ := IsLocalization.surj (Submonoid.powers f) b
-    exact ⟨a, s, IsLocalization.map_units B s, h⟩
-  refine ⟨⟨?_, ?_⟩, ?_⟩
-  · rw [isInducing_iff_nhds]
-    intro p
-    refine le_antisymm (continuous_comap _).continuousAt.le_comap ?_
-    rw [← tendsto_id', tendsto_nhds_iff]
-    intro b
-    obtain ⟨a, s, hs, h⟩ := key b
-    have H := tendsto_nhds_iff.1 (tendsto_comap
-      (f := (comap (IsScalarTower.toAlgHom R A B) : (B →ₐ[R] K) → (A →ₐ[R] K)))
-      (x := 𝓝 (comap (IsScalarTower.toAlgHom R A B) p)))
-    simp only [id, fun q : B →ₐ[R] K => apply_eq_div_of_mul_eq q hs h]
-    exact (H a).div (H s) (hs.map p).ne_zero
-  · intro p q hpq
-    ext b
-    obtain ⟨a, s, hs, h⟩ := key b
-    rw [apply_eq_div_of_mul_eq p hs h, apply_eq_div_of_mul_eq q hs h]
-    exact congrArg₂ (· / ·) (DFunLike.congr_fun hpq a) (DFunLike.congr_fun hpq s)
+    have hs : IsUnit (algebraMap A B s) := IsLocalization.map_units B s
+    refine ⟨fun q => q.1 a / q.1 s, ?_, fun p => (apply_eq_div_of_mul_eq p hs h).symm⟩
+    apply Continuous.div
+    · exact (continuous_eval a).comp continuous_subtype_val
+    · exact (continuous_eval (s : A)).comp continuous_subtype_val
+    · rintro ⟨_, ⟨p, rfl⟩⟩
+      exact (hs.map p).ne_zero
   · rw [range_comap_away f]; exact isOpen_nonvanishing f
 
 end Away

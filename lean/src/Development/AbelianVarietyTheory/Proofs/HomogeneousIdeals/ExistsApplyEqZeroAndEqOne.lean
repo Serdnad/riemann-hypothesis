@@ -56,44 +56,48 @@ theorem finite_fiber_comap {R A B K : Type*} [CommRing R] [CommRing A] [Algebra 
   ext b
   exact DFunLike.congr_fun h b
 
-theorem norm_le_of_isRoot_monic {h : ℂ[X]} (hm : h.Monic) {t : ℂ} (ht : h.IsRoot t) :
-    ‖t‖ ≤ ∑ i ∈ Finset.range h.natDegree, ‖h.coeff i‖ + 1 := by
-  have h1 := ht.norm_lt_cauchyBound hm.ne_zero
-  have h2 : h.cauchyBound ≤ ∑ i ∈ Finset.range h.natDegree, ‖h.coeff i‖₊ + 1 := by
+theorem norm_le_of_monic_root {K : Type*} [NormedDivisionRing K] {h : K[X]} (hm : h.Monic)
+    {t : K} (ht : h.IsRoot t) : ‖t‖ ≤ ∑ i ∈ Finset.range h.natDegree, ‖h.coeff i‖ + 1 := by
+  have hbound : h.cauchyBound ≤ ∑ i ∈ Finset.range h.natDegree, ‖h.coeff i‖₊ + 1 := by
     simp only [cauchyBound, hm.leadingCoeff, nnnorm_one, div_one, add_le_add_iff_right]
     exact Finset.sup_le fun i hi =>
       Finset.single_le_sum (f := fun i => ‖h.coeff i‖₊) (fun _ _ => zero_le) hi
-  have h3 := h1.le.trans h2
-  simpa [NNReal.coe_sum] using NNReal.coe_le_coe.2 h3
+  simpa [NNReal.coe_sum] using NNReal.coe_le_coe.2 ((ht.norm_lt_cauchyBound hm.ne_zero).le.trans hbound)
 
-theorem isProperMap_comap (φ : A →ₐ[ℂ] B) (hφ : φ.toRingHom.IsIntegral) :
-    IsProperMap (comap φ : (B →ₐ[ℂ] ℂ) → (A →ₐ[ℂ] ℂ)) := by
+theorem norm_le_of_isRoot_monic {h : ℂ[X]} (hm : h.Monic) {t : ℂ} (ht : h.IsRoot t) :
+    ‖t‖ ≤ ∑ i ∈ Finset.range h.natDegree, ‖h.coeff i‖ + 1 :=
+  norm_le_of_monic_root hm ht
+
+/-- Integral maps induce proper maps on points valued in a proper normed field. -/
+theorem isProperMap_comap_of_isIntegral {K A B : Type*} [NormedField K] [ProperSpace K]
+    [CommRing A] [Algebra K A] [CommRing B] [Algebra K B] (φ : A →ₐ[K] B) (hφ : φ.toRingHom.IsIntegral) :
+    IsProperMap (comap φ : (B →ₐ[K] K) → (A →ₐ[K] K)) := by
   refine isProperMap_iff_ultrafilter_of_t2.2 ⟨continuous_comap φ, fun 𝒰 p hp => ?_⟩
-  have hlim : ∀ b : B, ∃ t : ℂ, Tendsto (fun q : B →ₐ[ℂ] ℂ => q b) 𝒰 (𝓝 t) := by
+  have hlim : ∀ b : B, ∃ t : K, Tendsto (fun q : B →ₐ[K] K => q b) 𝒰 (𝓝 t) := by
     intro b
     obtain ⟨h, hm, hb⟩ := hφ b
-    let M : (A →ₐ[ℂ] ℂ) → ℝ := fun r => ∑ i ∈ Finset.range h.natDegree, ‖r (h.coeff i)‖ + 1
+    let M : (A →ₐ[K] K) → ℝ := fun r => ∑ i ∈ Finset.range h.natDegree, ‖r (h.coeff i)‖ + 1
     have hM : Continuous M :=
       (continuous_finset_sum _ fun i _ => (continuous_eval _).norm).add continuous_const
-    have hbd : ∀ q : B →ₐ[ℂ] ℂ, ‖q b‖ ≤ M (comap φ q) := by
+    have hbd : ∀ q : B →ₐ[K] K, ‖q b‖ ≤ M (comap φ q) := by
       intro q
       have hr : (h.map (comap φ q).toRingHom).IsRoot (q b) := by
         have : (comap φ q).toRingHom = q.toRingHom.comp φ.toRingHom := rfl
         rw [IsRoot, eval_map, this]
         change eval₂ _ (q.toRingHom b) h = 0
         rw [← hom_eval₂, hb, map_zero]
-      have := norm_le_of_isRoot_monic (hm.map _) hr
+      have := norm_le_of_monic_root (hm.map _) hr
       simpa [hm.natDegree_map, M] using this
-    have hev : ∀ᶠ q in (𝒰 : Filter (B →ₐ[ℂ] ℂ)), q b ∈ Metric.closedBall (0 : ℂ) (M p + 1) := by
+    have hev : ∀ᶠ q in (𝒰 : Filter (B →ₐ[K] K)), q b ∈ Metric.closedBall (0 : K) (M p + 1) := by
       filter_upwards [((hM.tendsto p).comp hp).eventually (gt_mem_nhds (lt_add_one (M p)))]
         with q hq
       exact mem_closedBall_zero_iff.2 ((hbd q).trans hq.le)
-    obtain ⟨t, -, ht⟩ := (isCompact_closedBall (0 : ℂ) (M p + 1)).ultrafilter_le_nhds
-      (𝒰.map fun q : B →ₐ[ℂ] ℂ => q b) (le_principal_iff.2 hev)
+    obtain ⟨t, -, ht⟩ := (isCompact_closedBall (0 : K) (M p + 1)).ultrafilter_le_nhds
+      (𝒰.map fun q : B →ₐ[K] K => q b) (le_principal_iff.2 hev)
     exact ⟨t, ht⟩
   choose u hu using hlim
-  have hu' : Tendsto (fun q : B →ₐ[ℂ] ℂ => (q : B → ℂ)) 𝒰 (𝓝 u) := tendsto_pi_nhds.2 hu
-  obtain ⟨q, hq⟩ := (isClosedEmbedding_coe (R := ℂ) (A := B) (C := ℂ)).isClosed_range.mem_of_tendsto
+  have hu' : Tendsto (fun q : B →ₐ[K] K => (q : B → K)) 𝒰 (𝓝 u) := tendsto_pi_nhds.2 hu
+  obtain ⟨q, hq⟩ := (isClosedEmbedding_coe (R := K) (A := B) (C := K)).isClosed_range.mem_of_tendsto
     hu' (Eventually.of_forall fun q => ⟨q, rfl⟩)
   refine ⟨q, ?_⟩
   rw [← tendsto_id', tendsto_nhds_iff]
@@ -101,15 +105,13 @@ theorem isProperMap_comap (φ : A →ₐ[ℂ] B) (hφ : φ.toRingHom.IsIntegral)
   rw [show q b = u b from congrFun hq b]
   exact hu b
 
+theorem isProperMap_comap (φ : A →ₐ[ℂ] B) (hφ : φ.toRingHom.IsIntegral) :
+    IsProperMap (comap φ : (B →ₐ[ℂ] ℂ) → (A →ₐ[ℂ] ℂ)) :=
+  isProperMap_comap_of_isIntegral φ hφ
+
 theorem exists_isRoot_norm_lt {h : ℂ[X]} (hm : h.Monic) {ε : ℝ} (hε : 0 ≤ ε)
-    (h0 : ‖h.coeff 0‖ < ε ^ h.natDegree) : ∃ t, h.IsRoot t ∧ ‖t‖ < ε := by
-  first
-  | exact @_root_.GlobalTheory.RootNormBound.exists_root_norm_lt
-  | exact _root_.GlobalTheory.RootNormBound.exists_root_norm_lt
-  | (apply _root_.GlobalTheory.RootNormBound.exists_root_norm_lt <;> assumption)
-  | (intros; apply _root_.GlobalTheory.RootNormBound.exists_root_norm_lt <;> assumption)
-  | (intros; apply @_root_.GlobalTheory.RootNormBound.exists_root_norm_lt <;> first | assumption | infer_instance)
-  | (intros; exact _root_.GlobalTheory.RootNormBound.exists_root_norm_lt ..)
+    (h0 : ‖h.coeff 0‖ < ε ^ h.natDegree) : ∃ t, h.IsRoot t ∧ ‖t‖ < ε :=
+  _root_.GlobalTheory.RootNormBound.exists_root_norm_lt hm hε h0
 
 theorem exists_apply_eq_zero_and_eq_one {K : Type*} [Field K] [Algebra K A] (p : A →ₐ[K] K)
     {S : Set (A →ₐ[K] K)} (hS : S.Finite) (hp : p ∉ S) :
