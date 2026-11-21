@@ -1,5 +1,4 @@
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.ProjDefs
-import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ImportsBisFurther
 
 noncomputable section
 

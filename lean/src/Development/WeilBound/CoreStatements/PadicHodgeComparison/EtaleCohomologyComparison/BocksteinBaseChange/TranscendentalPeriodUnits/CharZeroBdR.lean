@@ -1,6 +1,7 @@
 import Mathlib
-import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.BocksteinBaseChange.TranscendentalPeriodUnits.CrystallineSemistableComparison
-import GroundTheory.PAdicHodge.WAFracB
+import Development.WeilBound.CoreStatements.HeckeCharacterDeRham.DeRhamHeckeResults.PotentiallySemistableDeRham.SemistableDeRhamStatement.Second
+import Development.WeilBound.RepresentationTheoryGL.PeriodRingBases.BaseThetaVanishing.BaseThZero
+import GroundTheory.PAdicHodge.BCrisNewton
 
 set_option backward.isDefEq.respectTransparency false
 
@@ -23,6 +24,7 @@ abbrev Fr : Subfield (BdR l) :=
 
 def cK (g : K.fixingSubgroup) : BdR l := qQ l (period_ring_base.κ g.1) * tQ l
 
-theorem σ_uQ (g : K.fixingSubgroup) : σD g.1 (uQ l) = uQ l + cK g := (period_ring_base.base l).σ_u g.1
+theorem σ_uQ (g : K.fixingSubgroup) : σD g.1 (uQ l) = uQ l + cK g :=
+  period_ring_base.base_σ_u l g.1
 
 end CrystallineSemistableComparison
