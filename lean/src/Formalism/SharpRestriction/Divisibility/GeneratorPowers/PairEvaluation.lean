@@ -67,37 +67,25 @@ lemma sub_C_mem (p : MvPolynomial σ S) : p - C (coeff 0 p) ∈ Io S σ := by
     simp)
   simpa using h
 
+/-- Agreement of variable images modulo an ideal gives agreement of all polynomial values. -/
+theorem aeval_sub_mem_ideal {A : Type*} [CommRing A] [Algebra S A]
+    (I : Ideal A) (g g' : σ → A)
+    (hgg : ∀ i, g i - g' i ∈ I) (p : MvPolynomial σ S) : aeval g p - aeval g' p ∈ I := by
+  have h : (Ideal.Quotient.mkₐ S I).comp (aeval g) = (Ideal.Quotient.mkₐ S I).comp (aeval g') := by
+    apply MvPolynomial.algHom_ext
+    intro i
+    simp only [AlgHom.comp_apply, aeval_X, Ideal.Quotient.mkₐ_eq_mk]
+    exact Ideal.Quotient.eq.2 (hgg i)
+  exact Ideal.Quotient.eq.1 (AlgHom.congr_fun h p)
+
 lemma aeval_sub_aeval_mem (g g' : σ → MvPolynomial τ S) (hg : ∀ i, g i ∈ Io S τ) (hg' : ∀ i, g' i ∈ Io S τ)
-    (p : MvPolynomial σ S) : aeval g p - aeval g' p ∈ Io S τ := by
-  have h0 : p - C (coeff 0 p) ∈ Io S σ ^ 1 := by simpa using sub_C_mem p
-  have h1 := aeval_mem_pow g hg 1 h0
-  have h2 := aeval_mem_pow g' hg' 1 h0
-  have h3 := sub_mem (by simpa using h1) (by simpa using h2)
-  simpa [map_sub, aeval_C] using h3
+    (p : MvPolynomial σ S) : aeval g p - aeval g' p ∈ Io S τ :=
+  aeval_sub_mem_ideal _ g g' (fun i => sub_mem (hg i) (hg' i)) p
 
 lemma aeval_sub_mem_sq (g g' : σ → MvPolynomial τ S) (hg : ∀ i, g i ∈ Io S τ) (hg' : ∀ i, g' i ∈ Io S τ)
     (hgg : ∀ i, g i - g' i ∈ Io S τ ^ 2) {p : MvPolynomial σ S} (hp : p ∈ Io S σ) :
-    aeval g p - aeval g' p ∈ Io S τ ^ 2 := by
-  have hp' : p ∈ Ideal.span (Set.range (X : σ → MvPolynomial σ S)) := hp
-  clear hp
-  induction hp' using Submodule.span_induction with
-  | mem x hx =>
-    obtain ⟨i, rfl⟩ := hx
-    simpa using hgg i
-  | zero => simp
-  | add x y _ _ hx hy =>
-    have e : aeval g (x + y) - aeval g' (x + y) = (aeval g x - aeval g' x) + (aeval g y - aeval g' y) := by
-      simp only [map_add]; ring
-    rw [e]; exact add_mem hx hy
-  | smul r x hxm hx =>
-    have e : aeval g (r • x) - aeval g' (r • x) =
-        (aeval g r - aeval g' r) * aeval g x + aeval g' r * (aeval g x - aeval g' x) := by
-      simp only [smul_eq_mul, map_mul]; ring
-    rw [e]
-    refine add_mem ?_ (Ideal.mul_mem_left _ _ hx)
-    rw [pow_two]
-    have hx1 : x ∈ Io S σ ^ 1 := by simpa using hxm
-    exact Ideal.mul_mem_mul (aeval_sub_aeval_mem g g' hg hg' r) (by simpa using aeval_mem_pow g hg 1 hx1)
+    aeval g p - aeval g' p ∈ Io S τ ^ 2 :=
+  aeval_sub_mem_ideal _ g g' hgg p
 
 lemma aeval_sub_mem_pow (g g' : σ → MvPolynomial τ S) (hg : ∀ i, g i ∈ Io S τ) (hg' : ∀ i, g' i ∈ Io S τ)
     (hgg : ∀ i, g i - g' i ∈ Io S τ ^ 2) : ∀ (k : ℕ) (p : MvPolynomial σ S), p ∈ Io S σ ^ k →
@@ -188,6 +176,93 @@ lemma xs_mem {n : ℕ} (k : Fin n) (i : Fin d) : xs S d k i ∈ Io S (Fin n × F
 lemma lin_mem {n : ℕ} (A : Fin d → Fin d → S) (k : Fin n) (i : Fin d) : lin A k i ∈ Io S (Fin n × Fin d) :=
   Ideal.sum_mem _ fun _ _ => Ideal.mul_mem_left _ _ (Ideal.subset_span ⟨_, rfl⟩)
 
+/-- A homogeneous approximation of a symmetric multiplicative pair law is additive and symmetric. -/
+theorem homogeneous_pair_biadd {P : MvPolynomial (Fin 2 × Fin d) S} {m j : ℕ} (hj1 : 1 ≤ j) (hjm : j ≤ m)
+    (fF : Fin d → MvPolynomial (Fin 3 × Fin d) S)
+    (hF : ∀ i, fF i - (xs S d 0 i + xs S d 1 i) ∈ Io S (Fin 3 × Fin d) ^ 2)
+    (hph1 : ev2 P fF (xs S d 2) - ev2 P (xs S d 0) (xs S d 2) * ev2 P (xs S d 1) (xs S d 2) ∈
+      Io S (Fin 3 × Fin d) ^ (m + 1))
+    (hsym : ev2 P (xs S d 1) (xs S d 0) - P ∈ Io S (Fin 2 × Fin d) ^ (m + 1))
+    {h : MvPolynomial (Fin 2 × Fin d) S} (hh : h.IsHomogeneous j)
+    (hR : P - 1 - h ∈ Io S (Fin 2 × Fin d) ^ (j + 1))
+    (hP : P - 1 ∈ Io S (Fin 2 × Fin d) ^ j) :
+    ev2 h (fun i => xs S d (0 : Fin 3) i + xs S d 1 i) (xs S d 2) =
+        ev2 h (xs S d 0) (xs S d 2) +
+          ev2 h (xs S d 1) (xs S d 2) ∧
+      ev2 h (xs S d 1) (xs S d 0) = h := by
+  set W := P - 1 with hWdef
+  have hhI : h ∈ Io S _ ^ j := by
+    have := sub_mem hP (Ideal.pow_le_pow_right (Nat.le_succ j) hR)
+    simpa using this
+  have hmj : ∀ {σ : Type} {p : MvPolynomial σ S}, p ∈ Io S σ ^ (m + 1) → p ∈ Io S σ ^ (j + 1) :=
+    fun hp => Ideal.pow_le_pow_right (by omega) hp
+  have hsq : ∀ {τ : Type} {p : MvPolynomial τ S}, p ∈ Io S τ ^ 2 → p ∈ Io S τ :=
+    fun hp => Ideal.pow_le_self two_ne_zero hp
+  have hPW : ∀ {τ : Type} (u v : Fin d → MvPolynomial τ S), ev2 P u v = 1 + ev2 W u v := by
+    intro τ u v; rw [hWdef, eval_pair_sub, eval_pair_one]; ring
+  have hTr : ∀ {τ : Type} (u v : Fin d → MvPolynomial τ S), (∀ i, u i ∈ Io S τ) → (∀ i, v i ∈ Io S τ) →
+      ev2 W u v - ev2 h u v ∈ Io S τ ^ (j + 1) := by
+    intro τ u v hu hv
+    rw [← eval_pair_sub]
+    exact aeval_mem_pow _ (fun p => by rcases p with ⟨k, i⟩; fin_cases k <;> simp [hu, hv]) _ hR
+  have hEvW : ∀ {τ : Type} (u v : Fin d → MvPolynomial τ S), (∀ i, u i ∈ Io S τ) → (∀ i, v i ∈ Io S τ) →
+      ev2 W u v ∈ Io S τ ^ j := fun u v hu hv =>
+    aeval_mem_pow _ (fun p => by rcases p with ⟨k, i⟩; fin_cases k <;> simp [hu, hv]) _ hP
+  have hRep : ∀ {τ : Type} (u v u' v' : Fin d → MvPolynomial τ S), (∀ i, u i ∈ Io S τ) → (∀ i, v i ∈ Io S τ) →
+      (∀ i, u' i ∈ Io S τ) → (∀ i, v' i ∈ Io S τ) → (∀ i, u i - u' i ∈ Io S τ ^ 2) →
+      (∀ i, v i - v' i ∈ Io S τ ^ 2) → ev2 h u v - ev2 h u' v' ∈ Io S τ ^ (j + 1) := by
+    intro τ u v u' v' hu hv hu' hv' huu hvv
+    exact aeval_sub_mem_pow _ _ (fun p => by rcases p with ⟨k, i⟩; fin_cases k <;> simp [hu, hv])
+      (fun p => by rcases p with ⟨k, i⟩; fin_cases k <;> simp [hu', hv'])
+      (fun p => by rcases p with ⟨k, i⟩; fin_cases k <;> simp [huu, hvv]) j h hhI
+  have hx : ∀ {n : ℕ} (k : Fin n) (i : Fin d), xs S d k i ∈ Io S (Fin n × Fin d) := fun k i => xs_mem k i
+
+  have hA1 : ev2 h (fun i => xs S d (0 : Fin 3) i + xs S d 1 i) (xs S d 2) =
+      ev2 h (xs S d 0) (xs S d 2) + ev2 h (xs S d 1) (xs S d 2) := by
+    have hfF : ∀ i, fF i ∈ Io S _ := fun i => by
+      have := add_mem (hsq (hF i)) (add_mem (hx 0 i) (hx 1 i)); simpa using this
+    have k1 : ev2 W fF (xs S d 2) - ev2 W (xs S d 0) (xs S d 2) - ev2 W (xs S d 1) (xs S d 2) ∈
+        Io S _ ^ (j + 1) := by
+      have e : ev2 W fF (xs S d 2) - ev2 W (xs S d 0) (xs S d 2) - ev2 W (xs S d 1) (xs S d 2) =
+          (ev2 P fF (xs S d 2) - ev2 P (xs S d 0) (xs S d 2) * ev2 P (xs S d 1) (xs S d 2)) +
+            ev2 W (xs S d 0) (xs S d 2) * ev2 W (xs S d 1) (xs S d 2) := by
+        rw [hPW, hPW, hPW]; ring
+      rw [e]
+      refine add_mem (hmj hph1) (Ideal.pow_le_pow_right (by omega : j + 1 ≤ j + j) ?_)
+      rw [pow_add]
+      exact Ideal.mul_mem_mul (hEvW _ _ (hx 0) (hx 2)) (hEvW _ _ (hx 1) (hx 2))
+    have k3 := hRep fF (xs S d 2) (fun i => xs S d (0 : Fin 3) i + xs S d 1 i) (xs S d 2) hfF (hx 2)
+      (fun i => add_mem (hx 0 i) (hx 1 i)) (hx 2) hF (fun i => by simp)
+    have hE : ev2 h (fun i => xs S d (0 : Fin 3) i + xs S d 1 i) (xs S d 2) - ev2 h (xs S d 0) (xs S d 2) -
+        ev2 h (xs S d 1) (xs S d 2) ∈ Io S _ ^ (j + 1) := by
+      have e : ev2 h (fun i => xs S d (0 : Fin 3) i + xs S d 1 i) (xs S d 2) - ev2 h (xs S d 0) (xs S d 2) -
+          ev2 h (xs S d 1) (xs S d 2) =
+          (ev2 W fF (xs S d 2) - ev2 W (xs S d 0) (xs S d 2) - ev2 W (xs S d 1) (xs S d 2)) -
+            (ev2 W fF (xs S d 2) - ev2 h fF (xs S d 2)) + (ev2 W (xs S d 0) (xs S d 2) - ev2 h (xs S d 0) (xs S d 2)) +
+            (ev2 W (xs S d 1) (xs S d 2) - ev2 h (xs S d 1) (xs S d 2)) -
+            (ev2 h fF (xs S d 2) - ev2 h (fun i => xs S d (0 : Fin 3) i + xs S d 1 i) (xs S d 2)) := by ring
+      rw [e]
+      exact sub_mem (add_mem (add_mem (sub_mem k1 (hTr _ _ hfF (hx 2))) (hTr _ _ (hx 0) (hx 2)))
+        (hTr _ _ (hx 1) (hx 2))) k3
+    have hom : (ev2 h (fun i => xs S d (0 : Fin 3) i + xs S d 1 i) (xs S d 2) - ev2 h (xs S d 0) (xs S d 2) -
+        ev2 h (xs S d 1) (xs S d 2)).IsHomogeneous j :=
+      ((eval_pair_homogeneous hh _ _ (fun i => (xs_hom 0 i).add (xs_hom 1 i)) (xs_hom 2)).sub
+        (eval_pair_homogeneous hh _ _ (xs_hom 0) (xs_hom 2))).sub (eval_pair_homogeneous hh _ _ (xs_hom 1) (xs_hom 2))
+    have := eq_zero_of_isHomogeneous hom hE
+    rw [sub_sub, sub_eq_zero] at this
+    exact this
+
+  have hs : ev2 h (xs S d 1) (xs S d 0) = h := by
+    have k : ev2 h (xs S d 1) (xs S d 0) - h ∈ Io S _ ^ (j + 1) := by
+      have e : ev2 h (xs S d 1) (xs S d 0) - h = (ev2 P (xs S d 1) (xs S d 0) - P) -
+          (ev2 W (xs S d 1) (xs S d 0) - ev2 h (xs S d 1) (xs S d 0)) + (W - h) := by
+        rw [hPW, hWdef]; ring
+      rw [e]
+      exact add_mem (sub_mem (hmj hsym) (hTr _ _ (hx 1) (hx 0))) hR
+    have := eq_zero_of_isHomogeneous ((eval_pair_homogeneous hh _ _ (xs_hom 1) (xs_hom 0)).sub hh) k
+    exact sub_eq_zero.1 this
+  exact ⟨hA1, hs⟩
+
 section Main
 
 variable [Algebra ℚ S]
@@ -256,9 +331,6 @@ theorem step {P : MvPolynomial (Fin 2 × Fin d) S} {m j : ℕ} (hj1 : 1 ≤ j) (
     intro τ u v hu hv
     rw [← eval_pair_sub]
     exact aeval_mem_pow _ (fun p => by rcases p with ⟨k, i⟩; fin_cases k <;> simp [hu, hv]) _ hR
-  have hEvW : ∀ {τ : Type} (u v : Fin d → MvPolynomial τ S), (∀ i, u i ∈ Io S τ) → (∀ i, v i ∈ Io S τ) →
-      ev2 W u v ∈ Io S τ ^ j := fun u v hu hv =>
-    aeval_mem_pow _ (fun p => by rcases p with ⟨k, i⟩; fin_cases k <;> simp [hu, hv]) _ hP
   have hRep : ∀ {τ : Type} (u v u' v' : Fin d → MvPolynomial τ S), (∀ i, u i ∈ Io S τ) → (∀ i, v i ∈ Io S τ) →
       (∀ i, u' i ∈ Io S τ) → (∀ i, v' i ∈ Io S τ) → (∀ i, u i - u' i ∈ Io S τ ^ 2) →
       (∀ i, v i - v' i ∈ Io S τ ^ 2) → ev2 h u v - ev2 h u' v' ∈ Io S τ ^ (j + 1) := by
@@ -270,50 +342,7 @@ theorem step {P : MvPolynomial (Fin 2 × Fin d) S} {m j : ℕ} (hj1 : 1 ≤ j) (
   have hl : ∀ {n : ℕ} (B : Fin d → Fin d → S) (k : Fin n) (i : Fin d), lin B k i ∈ Io S (Fin n × Fin d) :=
     fun B k i => lin_mem B k i
 
-  have hA1 : ev2 h (fun i => xs S d (0 : Fin 3) i + xs S d 1 i) (xs S d 2) =
-      ev2 h (xs S d 0) (xs S d 2) + ev2 h (xs S d 1) (xs S d 2) := by
-    have hfF : ∀ i, fF i ∈ Io S _ := fun i => by
-      have := add_mem (hsq (hF i)) (add_mem (hx 0 i) (hx 1 i)); simpa using this
-    have k1 : ev2 W fF (xs S d 2) - ev2 W (xs S d 0) (xs S d 2) - ev2 W (xs S d 1) (xs S d 2) ∈
-        Io S _ ^ (j + 1) := by
-      have e : ev2 W fF (xs S d 2) - ev2 W (xs S d 0) (xs S d 2) - ev2 W (xs S d 1) (xs S d 2) =
-          (ev2 P fF (xs S d 2) - ev2 P (xs S d 0) (xs S d 2) * ev2 P (xs S d 1) (xs S d 2)) +
-            ev2 W (xs S d 0) (xs S d 2) * ev2 W (xs S d 1) (xs S d 2) := by
-        rw [hPW, hPW, hPW]; ring
-      rw [e]
-      refine add_mem (hmj hph1) (Ideal.pow_le_pow_right (by omega : j + 1 ≤ j + j) ?_)
-      rw [pow_add]
-      exact Ideal.mul_mem_mul (hEvW _ _ (hx 0) (hx 2)) (hEvW _ _ (hx 1) (hx 2))
-    have k3 := hRep fF (xs S d 2) (fun i => xs S d (0 : Fin 3) i + xs S d 1 i) (xs S d 2) hfF (hx 2)
-      (fun i => add_mem (hx 0 i) (hx 1 i)) (hx 2) hF (fun i => by simp)
-    have hE : ev2 h (fun i => xs S d (0 : Fin 3) i + xs S d 1 i) (xs S d 2) - ev2 h (xs S d 0) (xs S d 2) -
-        ev2 h (xs S d 1) (xs S d 2) ∈ Io S _ ^ (j + 1) := by
-      have e : ev2 h (fun i => xs S d (0 : Fin 3) i + xs S d 1 i) (xs S d 2) - ev2 h (xs S d 0) (xs S d 2) -
-          ev2 h (xs S d 1) (xs S d 2) =
-          (ev2 W fF (xs S d 2) - ev2 W (xs S d 0) (xs S d 2) - ev2 W (xs S d 1) (xs S d 2)) -
-            (ev2 W fF (xs S d 2) - ev2 h fF (xs S d 2)) + (ev2 W (xs S d 0) (xs S d 2) - ev2 h (xs S d 0) (xs S d 2)) +
-            (ev2 W (xs S d 1) (xs S d 2) - ev2 h (xs S d 1) (xs S d 2)) -
-            (ev2 h fF (xs S d 2) - ev2 h (fun i => xs S d (0 : Fin 3) i + xs S d 1 i) (xs S d 2)) := by ring
-      rw [e]
-      exact sub_mem (add_mem (add_mem (sub_mem k1 (hTr _ _ hfF (hx 2))) (hTr _ _ (hx 0) (hx 2)))
-        (hTr _ _ (hx 1) (hx 2))) k3
-    have hom : (ev2 h (fun i => xs S d (0 : Fin 3) i + xs S d 1 i) (xs S d 2) - ev2 h (xs S d 0) (xs S d 2) -
-        ev2 h (xs S d 1) (xs S d 2)).IsHomogeneous j :=
-      ((eval_pair_homogeneous hh _ _ (fun i => (xs_hom 0 i).add (xs_hom 1 i)) (xs_hom 2)).sub
-        (eval_pair_homogeneous hh _ _ (xs_hom 0) (xs_hom 2))).sub (eval_pair_homogeneous hh _ _ (xs_hom 1) (xs_hom 2))
-    have := eq_zero_of_isHomogeneous hom hE
-    rw [sub_sub, sub_eq_zero] at this
-    exact this
-
-  have hs : ev2 h (xs S d 1) (xs S d 0) = h := by
-    have k : ev2 h (xs S d 1) (xs S d 0) - h ∈ Io S _ ^ (j + 1) := by
-      have e : ev2 h (xs S d 1) (xs S d 0) - h = (ev2 P (xs S d 1) (xs S d 0) - P) -
-          (ev2 W (xs S d 1) (xs S d 0) - ev2 h (xs S d 1) (xs S d 0)) + (W - h) := by
-        rw [hPW, hWdef]; ring
-      rw [e]
-      exact add_mem (sub_mem (hmj hsym) (hTr _ _ (hx 1) (hx 0))) hR
-    have := eq_zero_of_isHomogeneous ((eval_pair_homogeneous hh _ _ (xs_hom 1) (xs_hom 0)).sub hh) k
-    exact sub_eq_zero.1 this
+  obtain ⟨hA1, hs⟩ := homogeneous_pair_biadd hj1 hjm fF hF hph1 hsym hh hR hP
   have add1 : ∀ {τ : Type} (u u' v : Fin d → MvPolynomial τ S),
       ev2 h (fun i => u i + u' i) v = ev2 h u v + ev2 h u' v := fun u u' v => eval_pair_additive_first hA1 u u' v
   have symm : ∀ {τ : Type} (u v : Fin d → MvPolynomial τ S), ev2 h u v = ev2 h v u :=
@@ -400,6 +429,10 @@ theorem step {P : MvPolynomial (Fin 2 × Fin d) S} {m j : ℕ} (hj1 : 1 ≤ j) (
         rw [map_sub, map_pow, map_ofNat, map_ofNat]
       rw [e]; exact ((IsUnit.mk0 _ hne).map (algebraMap ℚ S)).map C
     exact hu.mul_right_eq_zero.1 h4'
+
+-- Retain the arithmetic lemma generated by the original proof of `step`.
+theorem step._proof_1_2 {m j : ℕ} (hj1 : 1 ≤ j) : (¬ j + 1 ≤ j + j) → False :=
+  fun h => h (Nat.add_le_add_left hj1 j)
 
 theorem unit_eq_one {P : MvPolynomial (Fin 2 × Fin d) S} {m : ℕ}
     (fF : Fin d → MvPolynomial (Fin 3 × Fin d) S)

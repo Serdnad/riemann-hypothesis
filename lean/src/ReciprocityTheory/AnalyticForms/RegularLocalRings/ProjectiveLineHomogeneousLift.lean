@@ -183,50 +183,30 @@ theorem projectiveLine_cover (x : OnePoint ℂ) : ∃ i, x ∈ projectiveLineSou
   · exact ⟨1, infty_mem_projectiveLineSource_one⟩
   · exact ⟨0, coe_mem_projectiveLineSource_zero z⟩
 
-private theorem tendsto_elim_inv_nhds_infty_nhds_zero :
-    Filter.Tendsto (fun y : OnePoint ℂ => y.elim 0 (fun z => z⁻¹)) (nhds ∞) (nhds 0) := by
-  rw [OnePoint.hasBasis_nhds_infty.tendsto_left_iff]
-  intro U hU
-  obtain ⟨ε, hε, hball⟩ := Metric.mem_nhds_iff.mp hU
-  refine ⟨Metric.closedBall 0 ε⁻¹, ⟨Metric.isClosed_closedBall, isCompact_closedBall 0 _⟩, ?_⟩
-  intro y hy
-  rcases hy with ⟨w, hw, rfl⟩ | hy
-  · apply hball
-    rw [Set.mem_compl_iff, Metric.mem_closedBall, dist_zero_right, not_le] at hw
-    have hpos : 0 < ‖w‖ := lt_trans (inv_pos.mpr hε) hw
-    simp only [Metric.mem_ball, dist_zero_right, onePoint_elim_coe, norm_inv]
-    first
-    | exact (inv_lt_comm₀ hε hpos).mp hw
-    | exact (inv_lt_comm₀ hpos hε).mpr hw
-    | exact (inv_lt hε hpos).mp hw
-  · rw [Set.mem_singleton_iff] at hy
-    subst hy
-    apply hball
-    simp only [Metric.mem_ball, dist_zero_right, onePoint_elim_infty, norm_zero]
-    exact hε
+private theorem tendsto_elim_inv_nhds_infty_nhds_zero {K : Type*}
+    [NormedField K] [ProperSpace K] :
+    Filter.Tendsto (fun y : OnePoint K => y.elim 0 (fun z => z⁻¹)) (nhds ∞) (nhds 0) := by
+  apply OnePoint.continuousAt_infty'.mpr
+  change Filter.Tendsto (Inv.inv : K → K) (Filter.coclosedCompact K) (nhds 0)
+  rw [Filter.coclosedCompact_eq_cocompact, ← Metric.cobounded_eq_cocompact]
+  exact Filter.tendsto_inv₀_cobounded
 
-private theorem tendsto_ite_zero_infty_inv_nhds_zero : Filter.Tendsto
-    (fun w : ℂ => if w = 0 then (∞ : OnePoint ℂ) else ((w⁻¹ : ℂ) : OnePoint ℂ)) (nhds 0) (nhds ∞) := by
-  rw [OnePoint.hasBasis_nhds_infty.tendsto_right_iff]
-  rintro s ⟨-, hs⟩
-  obtain ⟨R, hR⟩ := hs.isBounded.subset_closedBall 0
-  have hRpos : (0 : ℝ) < |R| + 1 := by positivity
-  filter_upwards [Metric.ball_mem_nhds (0 : ℂ) (inv_pos.mpr hRpos)] with u hu
-  by_cases hu0 : u = 0
-  · rw [if_pos hu0]
-    exact Set.mem_union_right _ rfl
-  · rw [if_neg hu0]
-    refine Set.mem_union_left _ (Set.mem_image_of_mem _ (Set.mem_compl fun hmem => ?_))
-    have h1 := hR hmem
-    rw [Metric.mem_closedBall, dist_zero_right, norm_inv] at h1
-    rw [Metric.mem_ball, dist_zero_right] at hu
-    have hpos : 0 < ‖u‖ := norm_pos_iff.mpr hu0
-    have h2 : |R| + 1 < ‖u‖⁻¹ := by
-      first
-      | exact (lt_inv_comm₀ hRpos hpos).mpr hu
-      | exact (lt_inv_comm₀ hpos hRpos).mp hu
-      | exact (lt_inv hRpos hpos).mpr hu
-    linarith [le_abs_self R]
+private theorem tendsto_ite_zero_infty_inv_nhds_zero {K : Type*} [NormedField K] [ProperSpace K]
+    [DecidableEq K] :
+    Filter.Tendsto (fun w : K => if w = 0 then (∞ : OnePoint K) else ((w⁻¹ : K) : OnePoint K))
+      (nhds 0) (nhds ∞) := by
+  classical
+  rw [← nhdsNE_sup_pure (0 : K), Filter.tendsto_sup]
+  constructor
+  · have hinv : Filter.Tendsto (Inv.inv : K → K) (nhdsWithin (0 : K) ({0} : Set K)ᶜ)
+        (Filter.coclosedCompact K) := by
+      rw [Filter.coclosedCompact_eq_cocompact, ← Metric.cobounded_eq_cocompact]
+      exact Filter.tendsto_inv₀_nhdsNE_zero
+    refine (OnePoint.tendsto_coe_infty.comp hinv).congr' ?_
+    filter_upwards [self_mem_nhdsWithin (s := ({0} : Set K)ᶜ)] with w hw
+    exact (if_neg (Set.mem_compl_singleton_iff.mp hw)).symm
+  · simpa using
+      (tendsto_pure_nhds (fun w : K => if w = 0 then (∞ : OnePoint K) else ↑w⁻¹) (0 : K))
 
 private theorem continuous_ite_zero_infty_inv_coe :
     Continuous (fun w : ℂ => if w = 0 then (∞ : OnePoint ℂ) else ((w⁻¹ : ℂ) : OnePoint ℂ)) := by
