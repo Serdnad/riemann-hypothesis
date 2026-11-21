@@ -6,6 +6,16 @@ open DirectSum MvPolynomial
 
 noncomputable section
 
+/-- A direct sum of exact pairs of linear maps is exact. -/
+theorem DirectSum.exact_lmap_of_exact {ι R : Type*} [Semiring R]
+    {A B C : ι → Type*} [∀ i, AddCommMonoid (A i)] [∀ i, AddCommMonoid (B i)]
+    [∀ i, AddCommMonoid (C i)] [∀ i, Module R (A i)] [∀ i, Module R (B i)]
+    [∀ i, Module R (C i)] {f : ∀ i, A i →ₗ[R] B i} {g : ∀ i, B i →ₗ[R] C i}
+    (h : ∀ i, Function.Exact (f i) (g i)) :
+    Function.Exact (DirectSum.lmap f) (DirectSum.lmap g) := by
+  rw [LinearMap.exact_iff, DirectSum.ker_lmap, DirectSum.range_lmap]
+  simp_rw [(h _).linearMap_ker_eq]
+
 namespace GlobalTheory
 
 open GradedHilbert
@@ -183,28 +193,32 @@ theorem exists_mem_of_mem_range {f : M →ₗ[MvPolynomial ι R] N} (hf : IsGrad
   obtain ⟨m, rfl⟩ := h
   exact ⟨proj ℳ n m, proj_mem _ _ _, by rw [← hf.proj_apply, proj_of_mem _ hy]⟩
 
+/-- Decomposition into homogeneous components identifies a graded map with
+the direct sum of its restrictions to the individual degrees. -/
+private theorem lmap_piece_comp_decompose {f : M →ₗ[MvPolynomial ι R] N}
+    (hf : IsGradedMap ℳ 𝒩 f) :
+    DirectSum.lmap hf.piece ∘ₗ (decomposeLinearEquiv ℳ).toLinearMap =
+      (decomposeLinearEquiv 𝒩).toLinearMap ∘ₗ f.restrictScalars R := by
+  ext m n
+  exact (hf.proj_apply n m).symm
+
 theorem injective_iff {f : M →ₗ[MvPolynomial ι R] N} (hf : IsGradedMap ℳ 𝒩 f) :
     Function.Injective f ↔ ∀ n, Function.Injective (hf.piece n) := by
-  refine ⟨fun h n a b hab => Subtype.ext (h (congrArg Subtype.val hab)), fun h => ?_⟩
-  rw [injective_iff_map_eq_zero]
-  intro m hm
-  obtain ⟨T, hT⟩ := exists_sum_grProj ℳ m
-  rw [← hT]
-  refine Finset.sum_eq_zero fun n _ => congrArg Subtype.val
-    ((injective_iff_map_eq_zero _).1 (h n) ⟨_, proj_mem ℳ n m⟩ (Subtype.ext ?_))
-  change f (proj ℳ n m) = 0
-  rw [← hf.proj_apply, hm, map_zero]
+  have h := iff_of_eq <| congrArg (fun g : M →ₗ[R] (⨁ n, 𝒩 n) => Function.Injective g) hf.lmap_piece_comp_decompose
+  change Function.Injective (DirectSum.lmap hf.piece ∘ decomposeLinearEquiv ℳ) ↔
+    Function.Injective (decomposeLinearEquiv 𝒩 ∘ f) at h
+  rw [Function.Injective.of_comp_iff' _ (decomposeLinearEquiv ℳ).bijective,
+    (decomposeLinearEquiv 𝒩).injective.of_comp_iff, DirectSum.lmap_injective] at h
+  exact h.symm
 
 theorem surjective_iff {f : M →ₗ[MvPolynomial ι R] N} (hf : IsGradedMap ℳ 𝒩 f) :
     Function.Surjective f ↔ ∀ n, Function.Surjective (hf.piece n) := by
-  refine ⟨fun h n y => ?_, fun h y => ?_⟩
-  · obtain ⟨m, hm, e⟩ := hf.exists_mem_of_mem_range y.2 (h y)
-    exact ⟨⟨m, hm⟩, Subtype.ext e⟩
-  · obtain ⟨T, hT⟩ := exists_sum_grProj 𝒩 y
-    rw [← hT]
-    refine (LinearMap.range f).sum_mem fun n _ => ?_
-    obtain ⟨m, hm⟩ := h n ⟨_, proj_mem 𝒩 n y⟩
-    exact ⟨m, congrArg Subtype.val hm⟩
+  have h := iff_of_eq <| congrArg (fun g : M →ₗ[R] (⨁ n, 𝒩 n) => Function.Surjective g) hf.lmap_piece_comp_decompose
+  change Function.Surjective (DirectSum.lmap hf.piece ∘ decomposeLinearEquiv ℳ) ↔
+    Function.Surjective (decomposeLinearEquiv 𝒩 ∘ f) at h
+  rw [Function.Surjective.of_comp_iff _ (decomposeLinearEquiv ℳ).surjective,
+    Function.Surjective.of_comp_iff' (decomposeLinearEquiv 𝒩).bijective, DirectSum.lmap_surjective] at h
+  exact h.symm
 
 theorem exact_piece {f : M →ₗ[MvPolynomial ι R] N} {g : N →ₗ[MvPolynomial ι R] P}
     (hf : IsGradedMap ℳ 𝒩 f) (hg : IsGradedMap 𝒩 𝒬 g) (h : Function.Exact f g) (n : ℤ) :
@@ -219,22 +233,9 @@ theorem exact_piece {f : M →ₗ[MvPolynomial ι R] N} {g : N →ₗ[MvPolynomi
 
 theorem exact_of_exact_piece [Decomposition 𝒬] {f : M →ₗ[MvPolynomial ι R] N}
     {g : N →ₗ[MvPolynomial ι R] P} (hf : IsGradedMap ℳ 𝒩 f) (hg : IsGradedMap 𝒩 𝒬 g)
-    (h : ∀ n, Function.Exact (hf.piece n) (hg.piece n)) : Function.Exact f g := by
-  intro y
-  constructor
-  · intro hy
-    obtain ⟨T, hT⟩ := exists_sum_grProj 𝒩 y
-    rw [← hT]
-    refine (LinearMap.range f).sum_mem fun n _ => ?_
-    obtain ⟨m, hm⟩ := (h n ⟨_, proj_mem 𝒩 n y⟩).1 (Subtype.ext (by
-      change g (proj 𝒩 n y) = 0
-      rw [← hg.proj_apply, hy, map_zero]))
-    exact ⟨m, congrArg Subtype.val hm⟩
-  · rintro ⟨m, rfl⟩
-    obtain ⟨T, hT⟩ := exists_sum_grProj ℳ m
-    rw [← hT, map_sum, map_sum]
-    exact Finset.sum_eq_zero fun n _ =>
-      congrArg Subtype.val ((h n).apply_apply_eq_zero ⟨_, proj_mem ℳ n m⟩)
+    (h : ∀ n, Function.Exact (hf.piece n) (hg.piece n)) : Function.Exact f g :=
+  (Function.Exact.iff_of_ladder_linearEquiv hf.lmap_piece_comp_decompose
+    hg.lmap_piece_comp_decompose).mp (DirectSum.exact_lmap_of_exact h)
 
 theorem symm {e : M ≃ₗ[MvPolynomial ι R] N} (he : IsGradedMap ℳ 𝒩 e.toLinearMap) :
     IsGradedMap 𝒩 ℳ e.symm.toLinearMap := fun n y hy => by
@@ -384,11 +385,11 @@ theorem isInternal_grQuot (ℳ : ℤ → Submodule R M) [Decomposition ℳ]
       rw [← e j hj, Submodule.Quotient.mk_eq_zero]
       exact this)
     fun y => by
-      obtain ⟨m, rfl⟩ := K.mkQ_surjective y
-      induction m using Decomposition.inductionOn ℳ with
-      | zero => rw [map_zero]; exact zero_mem _
-      | @homogeneous n m => exact Submodule.mem_iSup_of_mem n ⟨m, m.2, rfl⟩
-      | add a b ha hb => rw [map_add]; exact add_mem ha hb
+      change y ∈ ⨆ n, (ℳ n).map (K.mkQ.restrictScalars R)
+      have surj : Function.Surjective (K.mkQ.restrictScalars R) := K.mkQ_surjective
+      rw [← Submodule.map_iSup, (Decomposition.isInternal ℳ).submodule_iSup_eq_top,
+        Submodule.map_top, LinearMap.range_eq_top.mpr surj]
+      exact Submodule.mem_top
 
 @[instance_reducible]
 def grSubDecomposition (ℳ : ℤ → Submodule R M) [Decomposition ℳ]
@@ -504,7 +505,7 @@ theorem exists_graded_surjection (𝒩 : ℤ → Submodule R N) [Decomposition �
   classical
   obtain ⟨G, hG⟩ := Module.Finite.fg_top (R := MvPolynomial ι R) (M := N)
   choose T hT using exists_sum_grProj 𝒩
-  let U : Finset (N × ℤ) := G ×ˢ G.biUnion T
+  let U := G.sigma T
   let e := U.equivFin.symm
   refine ⟨U.card, fun k => (e k).1.2, Fintype.linearCombination _
     fun k => proj 𝒩 (e k).1.2 (e k).1.1,
@@ -514,7 +515,7 @@ theorem exists_graded_surjection (𝒩 : ℤ → Submodule R N) [Decomposition �
   intro g hg
   rw [← hT g]
   refine Submodule.sum_mem _ fun j hj => Submodule.subset_span
-    ⟨e.symm ⟨(g, j), Finset.mem_product.2 ⟨hg, Finset.mem_biUnion.2 ⟨g, hg, hj⟩⟩⟩, by simp⟩
+    ⟨e.symm ⟨⟨g, j⟩, Finset.mem_sigma.2 ⟨hg, hj⟩⟩, by simp⟩
 
 end Pi
 
