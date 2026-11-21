@@ -16,7 +16,45 @@ attribute [local instance] Over.cartesianMonoidalCategory
 
 namespace GlobalTheory.MulSplit
 
-open FiniteAbelianWeights in
+/-- A stable submodule is the product of its character spaces. Each
+character space may be presented by its own module. -/
+theorem nonempty_equiv_pi_character_spaces {R M G : Type} [CommRing R] [IsDomain R]
+    [AddCommGroup M] [Module R M] [CommGroup G] [Finite G]
+    {N : (G →* Rˣ) → Type} [∀ χ, AddCommGroup (N χ)] [∀ χ, Module R (N χ)]
+    (n : ℕ) [NeZero n] [HasEnoughRootsOfUnity R n] (hn : IsUnit (n : R)) (hG : ∀ g : G, g ^ n = 1)
+    (ρ : Representation R G M) (W : Submodule R M) (hW : ∀ g, ∀ v ∈ W, ρ g v ∈ W)
+    (h : ∀ χ : G →* Rˣ, ∃ f : N χ →ₗ[R] M, Function.Injective f ∧
+      ∀ v, (∃ x, f x = v) ↔ v ∈ W ∧ ∀ g, ρ g v = (χ g : R) • v) :
+    Nonempty (W ≃ₗ[R] ∀ χ, N χ) := by
+  classical
+  let ρW : Representation R G W := ρ.subrepresentation W fun g _ hw => hW g _ hw
+  let K (χ : G →* Rˣ) : Submodule R W := ⨅ g, LinearMap.ker (ρW g - (χ g : R) • LinearMap.id)
+  letI : HasEnoughRootsOfUnity R (Monoid.exponent G) :=
+    HasEnoughRootsOfUnity.of_dvd R (Monoid.exponent_dvd_of_forall_pow_eq_one hG)
+  let e := (CommGroup.monoidHom_mulEquiv_of_hasEnoughRootsOfUnity G R).some
+  letI : Finite (G →* Rˣ) := Finite.of_equiv G e.toEquiv.symm
+  letI : Fintype (G →* Rˣ) := Fintype.ofFinite _
+  letI : Fintype G := Fintype.ofFinite _
+  obtain ⟨u, hu⟩ := FiniteAbelianWeights.exists_inv_card_of_pow_eq_one n hn hG
+  letI : DirectSum.Decomposition K :=
+    (FiniteAbelianWeights.isInternal_weightSpaces ρW u hu).chooseDecomposition _
+  have memK (χ : G →* Rˣ) (v : W) :
+      v ∈ K χ ↔ ∀ g, ρW g v = (χ g : R) • v :=
+    FiniteAbelianWeights.mem_weightSpace_iff _ _ _
+  have component (χ : G →* Rˣ) : Nonempty (K χ ≃ₗ[R] N χ) := by
+    obtain ⟨f, hf, hr⟩ := h χ
+    let fW : N χ →ₗ[R] W := f.codRestrict W fun x => ((hr _).1 ⟨x, rfl⟩).1
+    let fK : N χ →ₗ[R] K χ := fW.codRestrict (K χ) fun x => (memK χ _).2 fun g =>
+      Subtype.ext (((hr _).1 ⟨x, rfl⟩).2 g)
+    have bij : Function.Bijective fK := by
+      refine ⟨fun _ _ e => hf (congrArg (fun v : K χ => ((v : W) : M)) e), fun v => ?_⟩
+      obtain ⟨x, hx⟩ := (hr _).2
+        ⟨(v : W).2, fun g => congrArg Subtype.val ((memK χ _).1 v.2 g)⟩
+      exact ⟨x, Subtype.ext (Subtype.ext hx)⟩
+    exact ⟨(LinearEquiv.ofBijective fK bij).symm⟩
+  exact ⟨DirectSum.decomposeLinearEquiv K ≪≫ₗ
+    DirectSum.linearEquivFunOnFintype R (G →* Rˣ) (fun χ => ↥(K χ)) ≪≫ₗ
+    LinearEquiv.piCongrRight (fun χ => (component χ).some)⟩
 
 theorem nonempty_equiv_pi_of_weights {R M N G : Type} [CommRing R] [IsDomain R] [AddCommGroup M] [Module R M]
     [AddCommGroup N] [Module R N] [CommGroup G] [Finite G] (n : ℕ) [NeZero n] [HasEnoughRootsOfUnity R n]
@@ -25,46 +63,11 @@ theorem nonempty_equiv_pi_of_weights {R M N G : Type} [CommRing R] [IsDomain R] 
     (h : ∀ χ : G →* Rˣ, ∃ f : N →ₗ[R] M, Function.Injective f ∧
       ∀ v, (∃ x, f x = v) ↔ v ∈ W ∧ ∀ g, ρ g v = (χ g : R) • v) :
     Nonempty (W ≃ₗ[R] (G → N)) := by
-  classical
   haveI : HasEnoughRootsOfUnity R (Monoid.exponent G) :=
     HasEnoughRootsOfUnity.of_dvd R (Monoid.exponent_dvd_of_forall_pow_eq_one hG)
   obtain ⟨e⟩ := CommGroup.monoidHom_mulEquiv_of_hasEnoughRootsOfUnity G R
-  haveI : Finite (G →* Rˣ) := Finite.of_equiv G e.toEquiv.symm
-  haveI := Fintype.ofFinite G
-  haveI := Fintype.ofFinite (G →* Rˣ)
-  obtain ⟨u, hu⟩ : ∃ u : R, u * (Fintype.card G : R) = 1 := by
-    have h1 := card_dvd_exponent_pow_rank' G hG
-    rw [Nat.card_eq_fintype_card] at h1
-    have h2 : (Fintype.card G : R) ∣ (n : R) ^ Group.rank G := by
-      exact_mod_cast Nat.cast_dvd_cast (α := R) h1
-    exact (isUnit_of_dvd_unit h2 (hn.pow _)).exists_left_inv
-  choose f hf hr using h
-  let F : ((G →* Rˣ) → N) →ₗ[R] M := ∑ χ, (f χ).comp (LinearMap.proj χ)
-  have hF : ∀ x, F x = ∑ χ, f χ (x χ) := fun x => by simp [F, LinearMap.sum_apply]
-  have hinj : Function.Injective F := by
-    rw [injective_iff_map_eq_zero]
-    intro x hx
-    funext c
-    apply hf c
-    have := congrArg (avg ρ u c) hx
-    rw [hF, map_sum, map_zero, Finset.sum_eq_single c, avg_of_weight ρ u hu c _ ((hr c _).1 ⟨_, rfl⟩).2] at this
-    · simpa using this
-    · exact fun d _ hd => avg_of_weight_ne ρ u c d hd _ ((hr d _).1 ⟨_, rfl⟩).2
-    · simp
-  have hrange : LinearMap.range F = W := by
-    apply le_antisymm
-    · rintro _ ⟨x, rfl⟩
-      rw [hF]
-      exact W.sum_mem fun c _ => ((hr c _).1 ⟨_, rfl⟩).1
-    · intro w hw
-      have : ∀ c, ∃ x, f c x = avg ρ u c w := fun c => (hr c _).2 ⟨by
-        rw [avg_apply]
-        exact W.smul_mem _ (W.sum_mem fun t _ => W.smul_mem _ (hW t w hw)), fun g => apply_avg ρ u c g w⟩
-      choose x hx using this
-      refine ⟨x, ?_⟩
-      rw [hF, Finset.sum_congr rfl fun c _ => hx c, sum_avg ρ u hu]
-  exact ⟨(LinearEquiv.ofEq _ _ hrange).symm.trans ((LinearEquiv.ofInjective F hinj).symm.trans
-    (LinearEquiv.funCongrLeft R N e.toEquiv.symm))⟩
+  obtain ⟨parts⟩ := nonempty_equiv_pi_character_spaces (N := fun _ => N) n hn hG ρ W hW h
+  exact ⟨parts ≪≫ₗ LinearEquiv.funCongrLeft R N e.toEquiv.symm⟩
 
 section Values
 

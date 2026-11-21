@@ -65,30 +65,51 @@ theorem avg_of_weight_ne [IsDomain o] (c d : T →* oˣ) (hcd : d ≠ c) (x : M)
   rw [h, zero_smul, smul_zero]
 
 theorem sum_avg [IsDomain o] [HasEnoughRootsOfUnity o (Monoid.exponent T)] [Fintype (T →* oˣ)]
-    (hu : u * (Fintype.card T : o) = 1) (x : M) : ∑ c : T →* oˣ, avg ρ u c x = x := by
-  first
-  | exact @_root_.GlobalTheory.CharacterSumInverse.main
-  | exact _root_.GlobalTheory.CharacterSumInverse.main
-  | (apply _root_.GlobalTheory.CharacterSumInverse.main <;> assumption)
-  | (intros; apply _root_.GlobalTheory.CharacterSumInverse.main <;> assumption)
-  | (intros; apply @_root_.GlobalTheory.CharacterSumInverse.main <;> first | assumption | infer_instance)
-  | (intros; exact _root_.GlobalTheory.CharacterSumInverse.main ..)
+    (hu : u * (Fintype.card T : o) = 1) (x : M) : ∑ c : T →* oˣ, avg ρ u c x = x :=
+  GlobalTheory.CharacterSumInverse.main ρ u hu x
 
 theorem baseChange_avg_of_weight (hu : u * (Fintype.card T : o) = 1) (A : Type) [CommRing A]
     [Algebra o A] (c : T →* oˣ) (x : A ⊗[o] M)
     (hx : ∀ t, (ρ t).baseChange A x = algebraMap o A (c t) • x) :
     (avg ρ u c).baseChange A x = x := by
-  have h : ∀ y : A ⊗[o] M, (avg ρ u c).baseChange A y
-      = u • ∑ t : T, (((c t)⁻¹ : oˣ) : o) • (ρ t).baseChange A y := by
-    intro y
-    induction y using TensorProduct.induction_on with
-    | zero => simp
-    | tmul a m => simp [avg_apply, TensorProduct.tmul_sum, TensorProduct.tmul_smul]
-    | add y z hy hz => simp only [map_add, hy, hz, smul_add, Finset.sum_add_distrib]
-  rw [h]
-  simp only [hx, algebraMap_smul, smul_smul, Units.inv_mul, one_smul, Finset.sum_const,
-    Finset.card_univ]
+  change (LinearMap.baseChangeHom o A M M
+    (u • ∑ t : T, (((c t)⁻¹ : oˣ) : o) • ρ t)) x = x
+  simp only [map_smul, map_sum, LinearMap.baseChangeHom_apply,
+    LinearMap.smul_apply, LinearMap.sum_apply, hx, algebraMap_smul, smul_smul,
+    Units.inv_mul, one_smul, Finset.sum_const, Finset.card_univ]
   rw [← Nat.cast_smul_eq_nsmul o, smul_smul, hu, one_smul]
+
+/-- An invertible multiple of the group exponent makes the group order invertible. -/
+theorem exists_inv_card_of_pow_eq_one (n : ℕ) (hn : IsUnit (n : o)) (hT : ∀ t : T, t ^ n = 1) :
+    ∃ u : o, u * (Fintype.card T : o) = 1 := by
+  have h := card_dvd_exponent_pow_rank' T hT
+  rw [Nat.card_eq_fintype_card] at h
+  have hd : (Fintype.card T : o) ∣ (n : o) ^ Group.rank T := by
+    exact_mod_cast Nat.cast_dvd_cast (α := o) h
+  exact (isUnit_of_dvd_unit hd (hn.pow _)).exists_left_inv
+
+theorem avg_mem_weightSpace (c : T →* oˣ) (x : M) :
+    avg ρ u c x ∈ ⨅ t, LinearMap.ker (ρ t - (c t : o) • LinearMap.id) :=
+  (mem_weightSpace_iff (fun t => ρ t) (fun t => (c t : o)) _).2 fun t => apply_avg ρ u c t x
+
+/-- The character projections give an internal direct sum decomposition. -/
+theorem isInternal_weightSpaces [IsDomain o] [HasEnoughRootsOfUnity o (Monoid.exponent T)]
+    [Fintype (T →* oˣ)] [DecidableEq (T →* oˣ)] (hu : u * (Fintype.card T : o) = 1) :
+    DirectSum.IsInternal (fun c : T →* oˣ => ⨅ t, LinearMap.ker (ρ t - (c t : o) • LinearMap.id)) := by
+  rw [DirectSum.isInternal_submodule_iff_iSupIndep_and_iSup_eq_top]
+  constructor
+  · intro c
+    rw [Submodule.disjoint_def]
+    intro x hx hx'
+    have hle : (⨆ d, ⨆ (_ : d ≠ c), ⨅ t, LinearMap.ker (ρ t - (d t : o) • LinearMap.id)) ≤
+        LinearMap.ker (avg ρ u c) :=
+      iSup₂_le fun d hd y hy => avg_of_weight_ne ρ u c d hd y ((mem_weightSpace_iff _ _ _).1 hy)
+    have hzero : avg ρ u c x = 0 := hle hx'
+    rwa [avg_of_weight ρ u hu c x ((mem_weightSpace_iff _ _ _).1 hx)] at hzero
+  · rw [eq_top_iff]
+    intro x _
+    rw [← sum_avg ρ u hu x]
+    exact Submodule.sum_mem _ fun c _ => Submodule.mem_iSup_of_mem c (avg_mem_weightSpace ρ u c x)
 
 end FiniteAbelianWeights
 
@@ -113,14 +134,6 @@ theorem finiteAbelian_weightDecomposition :
   classical
   haveI : NeZero N := ⟨hN.ne'⟩
 
-  have hunit : ∀ (G : Type) [CommGroup G] [Fintype G], (∀ g : G, g ^ N = 1) →
-      ∃ u : o, u * (Fintype.card G : o) = 1 := by
-    intro G _ _ hG
-    have h1 := card_dvd_exponent_pow_rank' G hG
-    rw [Nat.card_eq_fintype_card] at h1
-    have h2 : (Fintype.card G : o) ∣ (N : o) ^ Group.rank G := by
-      exact_mod_cast Nat.cast_dvd_cast (α := o) h1
-    exact (isUnit_of_dvd_unit h2 (hNu.pow _)).exists_left_inv
   haveI : HasEnoughRootsOfUnity o N := ⟨⟨ζ, hζ⟩, inferInstance⟩
   haveI : HasEnoughRootsOfUnity o (Monoid.exponent T) :=
     HasEnoughRootsOfUnity.of_dvd o (Monoid.exponent_dvd_of_forall_pow_eq_one hT)
@@ -128,28 +141,9 @@ theorem finiteAbelian_weightDecomposition :
     Finite.of_equiv T (CommGroup.monoidHom_mulEquiv_of_hasEnoughRootsOfUnity T o).some.toEquiv.symm
   haveI := Fintype.ofFinite T
   haveI := Fintype.ofFinite (T →* oˣ)
-  obtain ⟨u, hu⟩ := hunit T hT
-  have hmem : ∀ (c : T →* oˣ) (x : M),
-      avg ρ u c x ∈ ⨅ t, LinearMap.ker (ρ t - (c t : o) • LinearMap.id) := fun c x =>
-    (mem_weightSpace_iff (fun t => ρ t) (fun t => (c t : o)) _).2 fun t => apply_avg ρ u c t x
-  refine ⟨hfin, ?_, ?_, ?_⟩
-  · rw [DirectSum.isInternal_submodule_iff_iSupIndep_and_iSup_eq_top]
-    constructor
-    · intro c
-      rw [Submodule.disjoint_def]
-      intro x hx hx'
-      have hle : (⨆ d, ⨆ (_ : d ≠ c), ⨅ t, LinearMap.ker (ρ t - (d t : o) • LinearMap.id)) ≤
-          LinearMap.ker (avg ρ u c) := by
-        refine iSup₂_le fun d hd y hy => ?_
-        exact avg_of_weight_ne ρ u c d hd y
-          ((mem_weightSpace_iff (fun t => ρ t) (fun t => (d t : o)) _).1 hy)
-      have h0 : avg ρ u c x = 0 := hle hx'
-      rwa [avg_of_weight ρ u hu c x
-        ((mem_weightSpace_iff (fun t => ρ t) (fun t => (c t : o)) _).1 hx)] at h0
-    · rw [eq_top_iff]
-      intro x _
-      rw [← sum_avg ρ u hu x]
-      exact Submodule.sum_mem _ fun c _ => Submodule.mem_iSup_of_mem c (hmem c x)
+  obtain ⟨u, hu⟩ := exists_inv_card_of_pow_eq_one N hNu hT
+  have hmem := avg_mem_weightSpace ρ u
+  refine ⟨hfin, isInternal_weightSpaces ρ u hu, ?_, ?_⟩
   · intro T' c'
     apply le_antisymm
     · intro x hx
@@ -160,7 +154,8 @@ theorem finiteAbelian_weightDecomposition :
       · exact Submodule.mem_iSup_of_mem
           (⟨c, hc⟩ : {c : T →* oˣ // c.comp T'.subtype = c'}) (hmem c x)
       · haveI := Fintype.ofFinite T'
-        obtain ⟨v, hv⟩ := hunit T' fun g => Subtype.ext (by simpa using hT g)
+        obtain ⟨v, hv⟩ := exists_inv_card_of_pow_eq_one N hNu (T := T')
+          fun g => Subtype.ext (by simpa using hT g)
         let ρ' : Representation o T' M := ρ.comp T'.subtype
         have h1 : avg ρ' v c' (avg ρ u c x) = avg ρ u c x :=
           avg_of_weight ρ' v hv c' _ fun t => by
