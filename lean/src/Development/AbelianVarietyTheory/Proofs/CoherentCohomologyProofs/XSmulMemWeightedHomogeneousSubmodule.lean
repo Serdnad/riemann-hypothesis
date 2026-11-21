@@ -133,6 +133,27 @@ theorem exists_polynomial_of_diff_eventually {f : ℤ → K} {Q : K[X]} {d : ℕ
 
 end Difference
 
+open DirectSum in
+/-- A map which sends each component to a distinct component commutes with
+projection onto those components. -/
+theorem _root_.DirectSum.decompose_map_of_injective_index {R ι κ M N : Type*}
+    [Semiring R] [DecidableEq ι] [DecidableEq κ]
+    [AddCommMonoid M] [AddCommMonoid N] [Module R M] [Module R N]
+    (ℳ : ι → Submodule R M) [Decomposition ℳ] (𝒩 : κ → Submodule R N) [Decomposition 𝒩]
+    (f : M →ₗ[R] N) (e : ι → κ) (he : Function.Injective e)
+    (hf : ∀ i, ∀ x ∈ ℳ i, f x ∈ 𝒩 (e i)) (n : ι) (m : M) :
+    (decompose 𝒩 (f m) (e n) : N) = f (decompose ℳ m n) := by
+  induction m using Decomposition.inductionOn ℳ with
+  | zero => simp
+  | @homogeneous i x =>
+    by_cases hi : i = n
+    · subst i
+      rw [decompose_of_mem_same 𝒩 (hf n x x.2), decompose_of_mem_same ℳ x.2]
+    · rw [decompose_of_mem_ne 𝒩 (hf i x x.2) (he.ne hi),
+        decompose_of_mem_ne ℳ x.2 hi, map_zero]
+  | add x y hx hy => simp only [map_add, decompose_add, DirectSum.add_apply,
+      Submodule.coe_add, hx, hy]
+
 namespace GradedHilbert
 
 open DirectSum
@@ -161,16 +182,9 @@ theorem proj_of_mem_ne (ℳ : ℤ → Submodule R M) [Decomposition ℳ] {i n : 
 
 theorem proj_map (ℳ : ℤ → Submodule R M) [Decomposition ℳ] (𝒩 : ℤ → Submodule R N)
     [Decomposition 𝒩] (f : M →ₗ[R] N) (d : ℤ) (hf : ∀ n, ∀ m ∈ ℳ n, f m ∈ 𝒩 (n + d))
-    (n : ℤ) (m : M) : proj 𝒩 (n + d) (f m) = f (proj ℳ n m) := by
-  classical
-  conv_lhs => rw [← sum_support_decompose ℳ m]
-  rw [map_sum, map_sum, Finset.sum_eq_single n]
-  · rw [proj_of_mem 𝒩 (hf n _ (decompose ℳ m n).2), proj_apply]
-  · intro i _ hi
-    exact proj_of_mem_ne 𝒩 (hf i _ (decompose ℳ m i).2) (by omega)
-  · intro hn
-    rw [DFinsupp.notMem_support_iff.1 hn]
-    simp
+    (n : ℤ) (m : M) : proj 𝒩 (n + d) (f m) = f (proj ℳ n m) :=
+  DirectSum.decompose_map_of_injective_index ℳ 𝒩 f (· + d)
+    (fun _ _ h => add_right_cancel h) hf n m
 
 theorem exists_bound_proj (ℳ : ℤ → Submodule R M) [Decomposition ℳ] (G : Finset M) :
     ∃ b : ℤ, ∀ g ∈ G, ∀ n : ℤ, b < |n| → proj ℳ n g = 0 := by
@@ -273,67 +287,49 @@ theorem smul_mem_of_isHomogeneous {p : MvPolynomial ι R} {d : ℕ} (hp : p.IsHo
 
 variable [Decomposition ℳ]
 
+theorem proj_smul_of_isHomogeneous {p : MvPolynomial ι R} {d : ℕ} (hp : p.IsHomogeneous d)
+    (n : ℤ) (m : M) : proj ℳ n (p • m) = p • proj ℳ (n - d) m := by
+  simpa [mul] using proj_map ℳ ℳ (mul M p) (d : ℤ)
+    (smul_mem_of_isHomogeneous ℳ hX hp) (n - d) m
+
 theorem proj_X_smul (i : ι) (n : ℤ) (m : M) :
     proj ℳ n ((MvPolynomial.X i : MvPolynomial ι R) • m)
       = (MvPolynomial.X i : MvPolynomial ι R) • proj ℳ (n - 1) m := by
-  have := proj_map ℳ ℳ (mul M (MvPolynomial.X i)) 1 (fun n m hm => hX i n m hm) (n - 1) m
-  simpa [mul] using this
+  simpa using proj_smul_of_isHomogeneous ℳ hX (MvPolynomial.isHomogeneous_X (R := R) i) n m
 
 theorem finite_piece [Finite ι] [Module.Finite (MvPolynomial ι R) M] (n : ℤ) :
     Module.Finite R (ℳ n) := by
   classical
   obtain ⟨G, hG⟩ := Module.Finite.fg_top (R := MvPolynomial ι R) (M := M)
-  obtain ⟨b, hb⟩ := exists_bound_proj ℳ G
-  have hmon : Submodule.span R (Set.range (fun s : ι →₀ ℕ =>
-      (MvPolynomial.monomial s (1 : R) : MvPolynomial ι R))) = ⊤ := by
-    have := (MvPolynomial.basisMonomials ι R).span_eq
-    rwa [MvPolynomial.coe_basisMonomials] at this
-  have hS0 := Submodule.span_smul_of_span_eq_top hmon (G : Set M)
-  rw [hG, Submodule.restrictScalars_top] at hS0
-  have hS : Submodule.span R (Set.image2 (fun a b => a • b) (Set.range (fun s : ι →₀ ℕ =>
-      (MvPolynomial.monomial s (1 : R) : MvPolynomial ι R))) (G : Set M)) = ⊤ := hS0
-  have hrange : ℳ n = Submodule.map (proj ℳ n) (Submodule.span R (Set.image2 (fun a b => a • b) (Set.range (fun s : ι →₀ ℕ =>
-      (MvPolynomial.monomial s (1 : R) : MvPolynomial ι R))) (G : Set M))) := by
-    rw [hS, Submodule.map_top]
+  let monomial (s : ι →₀ ℕ) := MvPolynomial.monomial s (1 : R)
+  let S := Set.image2 (· • ·) (Set.range monomial) (G : Set M)
+  have hmon : Submodule.span R (Set.range monomial) = ⊤ := by
+    simpa only [monomial, MvPolynomial.coe_basisMonomials] using
+      (MvPolynomial.basisMonomials ι R).span_eq
+  have hS : Submodule.span R S = ⊤ := by
+    have h := Submodule.span_smul_of_span_eq_top hmon (G : Set M)
+    rwa [hG, Submodule.restrictScalars_top] at h
+  have hproj : (proj ℳ n).range = ℳ n := by
     ext x
-    rw [LinearMap.mem_range]
-    constructor
-    · intro hx
-      exact ⟨x, proj_of_mem ℳ hx⟩
-    · rintro ⟨y, rfl⟩
-      exact proj_mem ℳ n y
-  rw [Submodule.map_span] at hrange
-  have hkey : ∀ (s : ι →₀ ℕ) (g : M),
-      proj ℳ n ((MvPolynomial.monomial s (1 : R) : MvPolynomial ι R) • g)
-        = (MvPolynomial.monomial s (1 : R) : MvPolynomial ι R) • proj ℳ (n - s.degree) g := by
-    intro s g
-    have := proj_map ℳ ℳ (mul M (MvPolynomial.monomial s (1 : R))) (s.degree : ℤ)
-      (fun n' m hm => smul_mem_of_isHomogeneous ℳ hX
-        (MvPolynomial.isHomogeneous_monomial _ rfl) n' m hm) (n - s.degree) g
-    simpa [mul] using this
-  have hT : ((fun q : M × (ι →₀ ℕ) => (MvPolynomial.monomial q.2 (1 : R) : MvPolynomial ι R) •
-      proj ℳ (n - q.2.degree) q.1) ''
-        ((G : Set M) ×ˢ {s : ι →₀ ℕ | s.degree ≤ (n + b).toNat})).Finite :=
-    (G.finite_toSet.prod (Finsupp.finite_of_degree_le _)).image _
-  have hfin : (proj ℳ n '' (Set.image2 (fun a b => a • b) (Set.range (fun s : ι →₀ ℕ =>
-      (MvPolynomial.monomial s (1 : R) : MvPolynomial ι R))) (G : Set M))).Finite := by
-    refine (hT.union (Set.finite_singleton (0 : M))).subset ?_
-    rintro _ ⟨_, ⟨_, ⟨s, rfl⟩, g, hg, rfl⟩, rfl⟩
-    rw [hkey]
-    by_cases hs : s.degree ≤ (n + b).toNat
-    · exact Or.inl ⟨(g, s), ⟨hg, hs⟩, rfl⟩
-    · refine Or.inr ?_
-      have h1 : n + b < (s.degree : ℤ) := by
-        have := Int.self_le_toNat (n + b)
-        have h2 : ((n + b).toNat : ℤ) < s.degree := by exact_mod_cast not_le.1 hs
-        linarith
-      have h4 : (s.degree : ℤ) - n ≤ |n - (s.degree : ℤ)| := by
-        rw [abs_sub_comm]
-        exact le_abs_self _
-      have h3 : b < |n - (s.degree : ℤ)| := by linarith
-      rw [Set.mem_singleton_iff, hb g hg _ h3, smul_zero]
-  rw [Module.Finite.iff_fg, hrange]
-  exact Submodule.fg_span hfin
+    exact ⟨fun ⟨y, hy⟩ => hy ▸ proj_mem ℳ n y, fun hx => ⟨x, proj_of_mem ℳ hx⟩⟩
+  rw [Module.Finite.iff_fg, ← hproj, ← Submodule.map_top, ← hS, Submodule.map_span]
+  apply Submodule.fg_span
+  let degrees := G.biUnion fun g => (decompose ℳ g).support
+  let exponents := ⋃ d ∈ (degrees : Set ℤ), {s : ι →₀ ℕ | s.degree ≤ (n - d).toNat}
+  have hfin : exponents.Finite :=
+    degrees.finite_toSet.biUnion fun d _ => Finsupp.finite_of_degree_le (n - d).toNat
+  let eval (v : M × (ι →₀ ℕ)) : M := monomial v.2 • proj ℳ (n - v.2.degree) v.1
+  refine (((G.finite_toSet.prod hfin).image eval).union (Set.finite_singleton 0)).subset ?_
+  rintro _ ⟨_, ⟨_, ⟨s, rfl⟩, g, hg, rfl⟩, rfl⟩
+  have hm : (monomial s).IsHomogeneous s.degree := MvPolynomial.isHomogeneous_monomial _ rfl
+  rw [proj_smul_of_isHomogeneous ℳ hX hm]
+  by_cases hs : n - (s.degree : ℤ) ∈ (decompose ℳ g).support
+  · left
+    refine ⟨(g, s), ⟨hg, Set.mem_iUnion.2 ⟨_, Set.mem_iUnion.2 ⟨Finset.mem_biUnion.2 ⟨g, hg, hs⟩, ?_⟩⟩⟩, rfl⟩
+    change s.degree ≤ (n - (n - (s.degree : ℤ))).toNat
+    omega
+  · right
+    simp [proj_apply, DFinsupp.notMem_support_iff.1 hs]
 
 end Ring
 
