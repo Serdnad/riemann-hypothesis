@@ -17,6 +17,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 PROJECT = ROOT / "lean"
 SOURCE = PROJECT / "src"
+PACKAGE_FILES = ("lean-toolchain", "lakefile.toml", "lake-manifest.json")
 IMPORT = re.compile(rb"(?m)^(?:(?:public|private|meta)[ \t]+)*import[ \t]+([^\r\n]+)")
 SIGNATURE = re.compile(
     r"(?m)^(?:theorem|lemma)[ \t]+([^\s:({\[]+)[ \t]*:[ \t]*(.+?)[ \t]+:=[ \t]*(?:by[ \t]*)?$"
@@ -68,6 +69,42 @@ def index_sources():
         for dependency in set(imports):
             importers[dependency].append(module)
     return locations, graph, importers
+
+
+def reusable_modules(packages, locations):
+    """Find complete Lake artifacts with matching source and package settings."""
+    settings = {name: (PROJECT / name).read_bytes() for name in PACKAGE_FILES}
+    modules = {}
+    for package in packages:
+        if any(not (package / name).is_file() or (package / name).read_bytes() != content
+               for name, content in settings.items()):
+            raise SystemExit(f"Cache package settings differ from {PROJECT}: {package}")
+        build = package / ".lake" / "build"
+        library = build / "lib" / "lean"
+        for object_file in library.rglob("*.olean"):
+            module = ".".join(object_file.relative_to(library).with_suffix("").parts)
+            if module in modules or module not in locations:
+                continue
+            source = package / "src" / locations[module]
+            if (not source.is_file() or not object_file.with_suffix(".trace").is_file() or
+                    object_file.stat().st_mtime_ns < source.stat().st_mtime_ns):
+                continue
+            if source.read_bytes() == (SOURCE / locations[module]).read_bytes():
+                modules[module] = build
+    return modules
+
+
+def seed_artifacts(sandbox, dependencies, locations, reusable):
+    target = sandbox / ".lake" / "build"
+    for module in sorted(dependencies & reusable.keys()):
+        stem = locations[module].with_suffix("")
+        for folder in ("lib/lean", "ir"):
+            source = reusable[module] / folder / stem
+            for artifact in source.parent.glob(f"{stem.name}.*"):
+                if artifact.is_file() and not artifact.name.endswith(".setup.json"):
+                    destination = target / folder / stem.parent / artifact.name
+                    destination.parent.mkdir(parents=True, exist_ok=True)
+                    shutil.copy2(artifact, destination)
 
 
 def closure(graph, roots, limit=None):
@@ -135,7 +172,7 @@ def plan_row(row, locations, graph, importers, main_modules, max_closure,
 
 
 def select_migrations(inventory, locations, graph, importers, max_closure, limit,
-                      include_prefixes=(), exclude_prefixes=()):
+                      include_prefixes=(), exclude_prefixes=(), reusable=frozenset()):
     main_modules = closure(graph, ["Main"])
     with inventory.open(newline="") as rows:
         candidates = [candidate for row in csv.DictReader(rows, delimiter="\t")
@@ -144,7 +181,11 @@ def select_migrations(inventory, locations, graph, importers, max_closure, limit
     selected = []
     edited_modules = set()
     theorem_modules = set()
-    for candidate in sorted(candidates, key=lambda item: (len(item.dependencies), item.wrapper)):
+    def build_priority(item):
+        needed = (item.dependencies - reusable) | set(item.targets)
+        return len(needed), len(item.dependencies), item.wrapper
+
+    for candidate in sorted(candidates, key=build_priority):
         module_paths = {candidate.wrapper, candidate.provider}
         if edited_modules & module_paths or theorem_modules.intersection(candidate.callers):
             continue
@@ -192,13 +233,14 @@ def signature_checks(migrations):
                       "set_option relaxedAutoImplicit false", "", *blocks])
 
 
-def run_checks(sandbox, migrations, jobs, log_dir, number, runner=()):
+def run_checks(sandbox, migrations, jobs, log_dir, number, runner=(), reuse_cache=False):
     targets = sorted({f"+{module}" for item in migrations for module in item.targets})
     guard = sandbox / "CheckForwardingSignatures.lean"
     guard.write_text(signature_checks(migrations))
     shutil.copyfile(guard, log_dir / f"trial-{number:03d}.lean")
+    lake_options = ["--rehash"] if reuse_cache else []
     commands = [
-        ["lake", "--no-ansi", "build", *targets],
+        ["lake", "--no-ansi", *lake_options, "build", *targets],
         ["lake", "env", "lean", guard.name],
     ]
     env = dict(os.environ, LEAN_NUM_THREADS=str(jobs),
@@ -219,7 +261,8 @@ def run_checks(sandbox, migrations, jobs, log_dir, number, runner=()):
     return False
 
 
-def migrate(selected, locations, log_dir, jobs, apply, runner=()):
+def migrate(selected, locations, log_dir, jobs, apply, runner=(), reusable=None, save_cache=False):
+    reusable = reusable or {}
     dependencies = set().union(*(item.dependencies for item in selected))
     originals = {module: (SOURCE / locations[module]).read_bytes() for module in dependencies}
     passed = []
@@ -227,7 +270,7 @@ def migrate(selected, locations, log_dir, jobs, apply, runner=()):
     trials = 0
     with tempfile.TemporaryDirectory(prefix="rh-forwarding-") as temporary:
         sandbox = Path(temporary)
-        for filename in ("lean-toolchain", "lakefile.toml", "lake-manifest.json"):
+        for filename in PACKAGE_FILES:
             shutil.copyfile(PROJECT / filename, sandbox / filename)
         (sandbox / ".lake").mkdir()
         (sandbox / ".lake" / "packages").symlink_to(PROJECT / ".lake" / "packages", target_is_directory=True)
@@ -235,6 +278,7 @@ def migrate(selected, locations, log_dir, jobs, apply, runner=()):
         for module, path in paths.items():
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_bytes(originals[module])
+        seed_artifacts(sandbox, dependencies, locations, reusable)
 
         def try_group(group):
             nonlocal trials
@@ -245,7 +289,7 @@ def migrate(selected, locations, log_dir, jobs, apply, runner=()):
             trials += 1
             number = trials
             print(f"Trial {number}: {len(group)} migrations", flush=True)
-            if run_checks(sandbox, [*passed, *group], jobs, log_dir, number, runner):
+            if run_checks(sandbox, [*passed, *group], jobs, log_dir, number, runner, bool(reusable)):
                 passed.extend(group)
                 print(f"  passed: {len(group)}", flush=True)
                 return
@@ -260,6 +304,12 @@ def migrate(selected, locations, log_dir, jobs, apply, runner=()):
             try_group(group[middle:])
 
         try_group(selected)
+        if save_cache and passed:
+            shutil.copytree(sandbox / ".lake" / "build", log_dir / "cache" / ".lake" / "build",
+                            ignore=shutil.ignore_patterns("*.setup.json"))
+            shutil.copytree(sandbox / "src", log_dir / "cache" / "src")
+            for filename in PACKAGE_FILES:
+                shutil.copyfile(sandbox / filename, log_dir / "cache" / filename)
         if apply:
             validated_dependencies = set().union(*(item.dependencies for item in passed))
             for module in validated_dependencies:
@@ -308,17 +358,32 @@ def main():
                         help="exclude edits in a module prefix reserved for other work")
     parser.add_argument("--runner", type=shlex.split, default=[],
                         help="command prefix for the compile and signature checks")
+    parser.add_argument("--reuse-cache", type=Path, action="append", default=[],
+                        help="copy matching artifacts from this already-built Lean package")
+    parser.add_argument("--save-cache", action="store_true",
+                        help="save the source snapshot and compiled artifacts in the log folder")
+    parser.add_argument("--plan-only", action="store_true",
+                        help="report the selected batch without building or editing")
     parser.add_argument("--apply", action="store_true", help="copy only validated edits into the checkout")
     args = parser.parse_args()
     if not (PROJECT / ".lake" / "packages").is_dir():
         parser.error("Lake dependencies must be available in lean/.lake/packages")
     args.log_dir.resolve().mkdir(parents=True, exist_ok=False)
     locations, graph, importers = index_sources()
+    reusable = reusable_modules(args.reuse_cache, locations)
     selected = select_migrations(args.inventory, locations, graph, importers, args.max_closure,
-                                 args.limit, tuple(args.include_prefix), tuple(args.exclude_prefix))
+                                 args.limit, tuple(args.include_prefix), tuple(args.exclude_prefix),
+                                 reusable.keys())
     if selected:
-        print(f"Selected {len(selected)} candidates", flush=True)
-        migrate(selected, locations, args.log_dir.resolve(), args.jobs, args.apply, args.runner)
+        dependencies = set().union(*(item.dependencies for item in selected))
+        print(f"Selected {len(selected)} candidates across {len(dependencies)} project modules, "
+              f"with {len(dependencies & reusable.keys())} matching cached artifacts", flush=True)
+        if args.plan_only:
+            (args.log_dir / "plan.txt").write_text(
+                "".join(f"{item.wrapper}\n" for item in selected))
+        else:
+            migrate(selected, locations, args.log_dir.resolve(), args.jobs, args.apply, args.runner,
+                    reusable, args.save_cache)
     else:
         print("No candidates matched the current sources and limits.", flush=True)
 
