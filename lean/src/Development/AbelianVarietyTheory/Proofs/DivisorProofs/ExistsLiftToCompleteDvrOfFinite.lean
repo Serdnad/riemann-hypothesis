@@ -1,4 +1,5 @@
 import Mathlib
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RingHomExtendOfIsIntegralIsAlgClosed
 import Formalism.LocalToGlobal.GroupLattices.PerfectRings.IsLocalRingOfComplete
 open IsLocalRing
 
@@ -12,39 +13,13 @@ theorem exists_lift_to_complete_dvr_of_finite : ∀ (A R : Type) [CommRing A] [C
       Function.Injective f ∧ IsLocalHom f ∧ ρ.comp (algebraMap A R) = f.comp h := by
   intro A R _ _ _ hinj hfin V _ _ _ _ hC h
   classical
-  let p : Ideal A := RingHom.ker h
-  haveI : p.IsPrime := RingHom.ker_isPrime h
   haveI : Algebra.IsIntegral A R := Algebra.IsIntegral.of_finite A R
-  obtain ⟨Q, -, hQ, hQp⟩ := Ideal.exists_ideal_over_prime_of_isIntegral p (⊥ : Ideal R) (by
-    rw [Ideal.comap_bot_of_injective _ hinj]; exact bot_le)
   let K := FractionRing V
   let Ω := AlgebraicClosure K
-  letI : Algebra (A ⧸ p) (R ⧸ Q) := Ideal.Quotient.algebraQuotientOfLEComap (le_of_eq hQp.symm)
-  have hcomp : (algebraMap (A ⧸ p) (R ⧸ Q)).comp (Ideal.Quotient.mk p) =
-      (Ideal.Quotient.mk Q).comp (algebraMap A R) := rfl
-  haveI : Algebra.IsIntegral (A ⧸ p) (R ⧸ Q) := by
-    constructor
-    intro x
-    obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective x
-    exact IsIntegral.map_of_comp_eq (Ideal.Quotient.mk p) (Ideal.Quotient.mk Q) hcomp
-      (Algebra.IsIntegral.isIntegral r)
-  have hinj0 : Function.Injective (algebraMap (A ⧸ p) (R ⧸ Q)) :=
-    Ideal.quotientMap_injective' (le_of_eq hQp)
-  let g0 : (A ⧸ p) →+* Ω := (algebraMap K Ω).comp ((algebraMap V K).comp (RingHom.kerLift h))
-  have hg0 : Function.Injective g0 :=
-    (algebraMap K Ω).injective.comp ((IsFractionRing.injective V K).comp (RingHom.kerLift_injective h))
-  letI : Algebra (A ⧸ p) Ω := g0.toAlgebra
-  haveI : Module.IsTorsionFree (A ⧸ p) (R ⧸ Q) :=
-    Module.isTorsionFree_iff_algebraMap_injective.2 hinj0
-  haveI : Module.IsTorsionFree (A ⧸ p) Ω := Module.isTorsionFree_iff_algebraMap_injective.2 hg0
-  haveI : Algebra.IsAlgebraic (A ⧸ p) (R ⧸ Q) := Algebra.IsIntegral.isAlgebraic
-  let σ : (R ⧸ Q) →ₐ[A ⧸ p] Ω := IsAlgClosed.lift
-  let ρ1 : R →+* Ω := σ.toRingHom.comp (Ideal.Quotient.mk Q)
-  have hρ1 : ∀ a : A, ρ1 (algebraMap A R a) = algebraMap K Ω (algebraMap V K (h a)) := by
-    intro a
-    show σ (Ideal.Quotient.mk Q (algebraMap A R a)) = _
-    rw [← RingHom.comp_apply, ← hcomp, RingHom.comp_apply, σ.commutes]
-    rfl
+  obtain ⟨ρ1, hρ1comp⟩ := exists_ringHom_extension_of_injective hinj
+    ((algebraMap K Ω).comp ((algebraMap V K).comp h))
+  have hρ1 : ∀ a : A, ρ1 (algebraMap A R a) = algebraMap K Ω (algebraMap V K (h a)) :=
+    fun a => RingHom.congr_fun hρ1comp a
   obtain ⟨s, hs⟩ := hfin.fg_top
   let M : IntermediateField K Ω := IntermediateField.adjoin K (ρ1 '' (s : Set R))
   haveI : FiniteDimensional K M :=

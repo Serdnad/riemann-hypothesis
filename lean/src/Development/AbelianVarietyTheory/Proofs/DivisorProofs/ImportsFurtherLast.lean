@@ -1,33 +1,12 @@
 import Mathlib
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RingHomExtendOfIsIntegralIsAlgClosed
 
 namespace GlobalTheory.ValuationExtensionExistence
 
 theorem exists_extension {V R K : Type} [CommRing V] [CommRing R] [IsDomain R] [Field K]
     [IsAlgClosed K] [Algebra V R] [Algebra.IsIntegral V R] [FaithfulSMul V R] (ev : V →+* K) :
     ∃ ev₁ : R →+* K, ev₁.comp (algebraMap V R) = ev := by
-  classical
-
-  have : (RingHom.ker ev).IsPrime := RingHom.ker_isPrime ev
-  obtain ⟨Q, -, hQ, hQp⟩ := Ideal.exists_ideal_over_prime_of_isIntegral (S := R) (RingHom.ker ev) ⊥ (by
-    rw [Ideal.comap_bot_of_injective _ (FaithfulSMul.algebraMap_injective V R)]
-    exact bot_le)
-  have := hQ
-  have : Q.LiesOver (RingHom.ker ev) := ⟨hQp.symm⟩
-
-  let : Algebra (V ⧸ RingHom.ker ev) K := (RingHom.kerLift ev).toAlgebra
-  have : Module.IsTorsionFree (V ⧸ RingHom.ker ev) K :=
-    Module.isTorsionFree_iff_algebraMap_injective.2 (RingHom.kerLift_injective ev)
-  have : Module.IsTorsionFree (V ⧸ RingHom.ker ev) (R ⧸ Q) :=
-    Module.isTorsionFree_iff_algebraMap_injective.2 (FaithfulSMul.algebraMap_injective _ _)
-  have : Algebra.IsIntegral (V ⧸ RingHom.ker ev) (R ⧸ Q) :=
-    Ideal.Quotient.algebra_isIntegral_of_liesOver Q (RingHom.ker ev)
-  have : Algebra.IsAlgebraic (V ⧸ RingHom.ker ev) (R ⧸ Q) := Algebra.IsIntegral.isAlgebraic
-  let f : R ⧸ Q →ₐ[V ⧸ RingHom.ker ev] K := IsAlgClosed.lift
-  refine ⟨(f : R ⧸ Q →+* K).comp (Ideal.Quotient.mk Q), ?_⟩
-  ext v
-  have h := f.commutes (Ideal.Quotient.mk (RingHom.ker ev) v)
-  rw [Ideal.Quotient.algebraMap_mk_of_liesOver] at h
-  exact h.trans (RingHom.kerLift_mk ev v)
+  exact GlobalTheory.exists_ringHom_extension_of_injective (FaithfulSMul.algebraMap_injective V R) ev
 
 theorem main : ∀ (V R K : Type) [inst : CommRing V] [IsDomain V] [IsLocalRing V]
     [inst_3 : CommRing R] [IsDomain R] [IsLocalRing R] [inst_6 : Field K] [IsAlgClosed K]

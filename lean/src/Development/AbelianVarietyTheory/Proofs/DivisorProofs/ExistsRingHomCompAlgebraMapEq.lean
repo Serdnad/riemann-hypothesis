@@ -1,4 +1,5 @@
 import Mathlib
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RingHomExtendOfIsIntegralIsAlgClosed
 
 universe u_1 u_2 u_3
 
@@ -17,33 +18,6 @@ theorem exists_ringHom_comp_algebraMap_eq {R : Type u_1} {S : Type u_2} {K : Typ
     [CommRing R] [CommRing S] [Field K] [IsAlgClosed K] [Algebra R S] [Algebra.IsIntegral R S]
     (hinj : Function.Injective (algebraMap R S)) (ψ : R →+* K) :
     ∃ x : S →+* K, x.comp (algebraMap R S) = ψ := by
-  have hp : (RingHom.ker ψ).IsPrime := RingHom.ker_isPrime ψ
-  obtain ⟨Q, -, hQ, hQp⟩ := Ideal.exists_ideal_over_prime_of_isIntegral (S := S)
-    (RingHom.ker ψ) ⊥ (by
-      intro r hr
-      have h0 : algebraMap R S r = 0 := by simpa using hr
-      have : r = 0 := hinj (by simpa using h0)
-      simp [this])
-  let f : R ⧸ RingHom.ker ψ →+* S ⧸ Q := Ideal.quotientMap Q (algebraMap R S) hQp.ge
-  have hf : Function.Injective f := Ideal.quotientMap_injective' hQp.le
-  letI : Algebra (R ⧸ RingHom.ker ψ) (S ⧸ Q) := f.toAlgebra
-  letI : Algebra (R ⧸ RingHom.ker ψ) K := (RingHom.kerLift ψ).toAlgebra
-  haveI : Algebra.IsIntegral (R ⧸ RingHom.ker ψ) (S ⧸ Q) := by
-    constructor
-    intro y
-    obtain ⟨s, rfl⟩ := Ideal.Quotient.mk_surjective y
-    obtain ⟨P, hP, hs⟩ := Algebra.IsIntegral.isIntegral (R := R) s
-    refine ⟨P.map (Ideal.Quotient.mk _), hP.map _, ?_⟩
-    have hc : (algebraMap (R ⧸ RingHom.ker ψ) (S ⧸ Q)).comp (Ideal.Quotient.mk _)
-        = (Ideal.Quotient.mk Q).comp (algebraMap R S) := by
-      ext r
-      rfl
-    rw [Polynomial.eval₂_map, hc, ← Polynomial.hom_eval₂, hs, map_zero]
-  obtain ⟨g⟩ : Nonempty ((S ⧸ Q) →ₐ[R ⧸ RingHom.ker ψ] K) :=
-    exists_algHom_of_injective hf (RingHom.kerLift_injective ψ)
-  refine ⟨(g : (S ⧸ Q) →+* K).comp (Ideal.Quotient.mk Q), ?_⟩
-  ext r
-  have := g.commutes (Ideal.Quotient.mk _ r)
-  exact this
+  exact GlobalTheory.exists_ringHom_extension_of_injective hinj ψ
 
 end GlobalTheory.InjectiveAlgebraHomExistence
