@@ -1,4 +1,3 @@
-import Development.AutomorphicArithmetic.DedekindLFunctions.SplitInertia
 import Development.AutomorphicArithmetic.DedekindLFunctions.LandauTheorems.ChBalance
 
 open Finset
@@ -27,31 +26,30 @@ lemma mem_psi (A0 : AddSubgroup H) (ψ : AddChar (E0 × H) ℂ) : ψ ∈ PsiA A0
 
 lemma sum_A (A0 : AddSubgroup H) [Fintype A0] (ψ : AddChar (E0 × H) ℂ) (s t : H) (hs : s ∈ A0) :
     ∑ u : A0, ψ (-(e1 (s + (u : H) - t))) = if ψ ∈ PsiA A0 then (Fintype.card A0 : ℂ) * ψ (e1 t) else 0 := by
-  have hg : ∀ u : A0, (-(e1 (s + (u : H) - t)) : E0 × H) = e1 t + (0, -s) + (0, -(u : H)) := by
-    intro u
+  classical
+  let shift : A0 ≃ A0 := (Equiv.addLeft ⟨s, hs⟩).trans (Equiv.neg A0)
+  let φ : AddChar A0 ℂ := ψ.compAddMonoidHom ((AddMonoidHom.inr E0 H).comp A0.subtype)
+  have hshift (u : A0) : -(e1 (s + (u : H) - t)) = e1 t + (0, (shift u : H)) := by
     ext
     · simp [e1]
     · simp [e1]
-    · simp [e1]; abel
-  simp_rw [hg, AddChar.map_add_eq_mul]
-  rw [← Finset.mul_sum]
-  split_ifs with h
-  · have h' := (mem_psi A0 ψ).1 h
-    rw [h' _ (A0.neg_mem hs), Finset.sum_congr rfl (fun (u : A0) _ => h' _ (A0.neg_mem u.2))]
-    simp [mul_comm]
-  · let φ : AddChar A0 ℂ := ψ.compAddMonoidHom ((AddMonoidHom.inr E0 H).comp A0.subtype)
-    have hφ : ∀ u : A0, φ u = ψ (0, (u : H)) := fun u => rfl
-    have hne : φ ≠ 0 := by
-      intro h0
-      apply h
-      rw [mem_psi]
-      intro v hv
-      rw [← hφ ⟨v, hv⟩, h0, AddChar.zero_apply]
-    have h1 := AddChar.sum_eq_zero_iff_ne_zero.2 hne
-    have h2 : ∑ u : A0, ψ (0, -(u : H)) = ∑ u : A0, φ u := by
-      rw [← Equiv.sum_comp (Equiv.neg A0) φ]
-      rfl
-    rw [h2, h1, mul_zero]
+    · simp [e1, shift]
+      abel
+  have hφ : φ = 0 ↔ ψ ∈ PsiA A0 := by
+    rw [mem_psi]
+    constructor
+    · intro h v hv
+      change φ ⟨v, hv⟩ = 1
+      simp [h]
+    · intro h
+      ext u
+      exact h u u.2
+  simp_rw [hshift, AddChar.map_add_eq_mul]
+  change ∑ u, ψ (e1 t) * φ (shift u) = _
+  rw [← Finset.mul_sum, Equiv.sum_comp shift φ, AddChar.sum_eq_ite]
+  by_cases h : ψ ∈ PsiA A0
+  · simp [h, hφ.mpr h, mul_comm]
+  · simp [h, hφ.not.mpr h]
 
 lemma sum_Th (A0 : AddSubgroup H) [Fintype A0] (D : ArithData H) (ell : AddChar (E0 × H) ℂ → ℂ) (T2 : Finset H)
     (hT2 : ∀ s ∈ T2, s ∈ A0) (b y : ℝ) (t : H) :
