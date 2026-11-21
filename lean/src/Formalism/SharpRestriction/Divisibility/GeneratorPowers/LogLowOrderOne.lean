@@ -11,7 +11,8 @@ namespace Formalism.MainNotions.ModuliIntegralCharts.H1.CIndFrExp2a
 open MvPowerSeries ReciprocityTheory.ChartRestriction.G.Geo.Tor.Germ Formalism.FG.SolveVAux Formalism.L2.Pj
 
 open ReciprocityTheory.ChartRestriction.G.TB (dLin)
-open ReciprocityTheory.ChartRestriction.G.TB.LogPf (logOf pderiv_logOf cc_om constantCoeff_prim)
+open ReciprocityTheory.ChartRestriction.G.TB.LogPf
+  (logOf pderiv_logOf logOf_add cc_om constantCoeff_prim CZ ev_ev ev_add ev_X)
 
 variable {S : Type} [CommRing S]
 
@@ -61,6 +62,38 @@ theorem dLin_logOf (G : FGLaw S d) : ReciprocityTheory.ChartRestriction.G.TB.dLi
 
 theorem cc_logOf (G : FGLaw S d) (i : Fin d) : constantCoeff (ReciprocityTheory.ChartRestriction.G.TB.LogPf.logOf G i) = 0 := by
   exact constantCoeff_prim _
+
+/-- Evaluating the formal logarithm turns group addition of zero-constant points into addition. -/
+theorem formal_log_add_points {n : ℕ} (G : FGLaw S d) (u v : Pt S n d)
+    (hu : ∀ i, constantCoeff (u i) = 0) (hv : ∀ i, constantCoeff (v i) = 0) (i : Fin d) :
+    ev ![G.add u v] (logOf G i) = ev ![u] (logOf G i) + ev ![v] (logOf G i) := by
+  have huv : CZ (![u, v] : Fin 2 → Pt S n d) := by
+    intro j k
+    fin_cases j
+    · exact hu k
+    · exact hv k
+  have hF : CZ (![G.F] : Fin 1 → Pt S 2 d) := by
+    intro j k
+    fin_cases j
+    exact G.const k
+  have eval_point (k : Fin 2) (f : PS S 1 d) :
+      ev ![u, v] (ev ![pt S d k] f) = ev ![(![u, v] : Fin 2 → Pt S n d) k] f := by
+    have hpt : CZ (![pt S d k] : Fin 1 → Pt S 2 d) := by
+      intro j l
+      fin_cases j
+      exact constantCoeff_X _
+    rw [ev_ev huv hpt]
+    congr 1
+    funext j l
+    fin_cases j
+    exact ev_X huv k l
+  have h := congrArg (ev (![u, v] : Fin 2 → Pt S n d)) (logOf_add G i)
+  rw [ev_ev huv hF, ev_add huv, eval_point 0, eval_point 1] at h
+  refine Eq.trans ?_ h
+  congr 1
+  funext j k
+  fin_cases j
+  rfl
 
 theorem low_logOf (G : FGLaw S d) (i : Fin d) :
     Low 2 (ReciprocityTheory.ChartRestriction.G.TB.LogPf.logOf G i - X ((0 : Fin 1), i)) := by

@@ -1,4 +1,5 @@
 import Formalism.SharpRestriction.Divisibility.GeneratorPowers.CIndFrFix
+import Formalism.SharpRestriction.Divisibility.GeneratorPowers.LogLowOrderOne
 import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ThetaSwapFirstTwo
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.CalcExp
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.CalcAdd
@@ -54,10 +55,6 @@ theorem ev_bilL {n : ℕ} (G : FGLaw S d) (cc : Fin d → Fin d → S) (a : Fin 
   simp only [← ev_eq_hom a ha]
   simp only [ev_at a ha]
 
-private theorem ev_add_lemma {m n : ℕ} (a : Fin m → Pt S n d) (ha : ∀ j i, MvPowerSeries.constantCoeff (a j i) = 0)
-    (f g : PS S m d) : ev a (f + g) = ev a f + ev a g := by
-  simp only [ev_eq_hom a ha, map_add]
-
 theorem pair_property {A : Type} (P : A → Prop) {u v : Fin d → A}
     (hu : ∀ i, P (u i)) (hv : ∀ i, P (v i)) (j : Fin 2) (i : Fin d) :
     P ((![u, v] : Fin 2 → Fin d → A) j i) := by
@@ -70,20 +67,8 @@ theorem formal_log_add_points {n : ℕ} (G : FGLaw S d) (u v : Pt S n d)
     (hu : ∀ i, MvPowerSeries.constantCoeff (u i) = 0)
     (hv : ∀ i, MvPowerSeries.constantCoeff (v i) = 0) (l : Fin d) :
     ev ![G.add u v] (LogPf.logOf G l) =
-      ev ![u] (LogPf.logOf G l) + ev ![v] (LogPf.logOf G l) := by
-  have hb := pair_property (fun f => MvPowerSeries.constantCoeff f = 0) hu hv
-  have hF : ∀ (j : Fin 1) (i : Fin d), MvPowerSeries.constantCoeff ((![G.F] : Fin 1 → Pt S 2 d) j i) = 0 := by
-    intro j i
-    fin_cases j
-    exact G.const i
-  have h := congrArg (ev (![u, v] : Fin 2 → Pt S n d)) (LogPf.logOf_add (G := G) l)
-  rw [ev_ev _ _ hF hb, ev_add_lemma _ hb, ev_at _ hb, ev_at _ hb] at h
-  refine Eq.trans ?_ (h.trans ?_)
-  · congr 1
-    funext j i
-    fin_cases j
-    rfl
-  · rfl
+      ev ![u] (LogPf.logOf G l) + ev ![v] (LogPf.logOf G l) :=
+  CIndFrExp2a.formal_log_add_points G u v hu hv l
 
 theorem formal_log_add_last_two (G : FGLaw S d) (l : Fin d) :
     ev (n := 3) ![G.add (pt S d 1) (pt S d 2)] (LogPf.logOf G l) =

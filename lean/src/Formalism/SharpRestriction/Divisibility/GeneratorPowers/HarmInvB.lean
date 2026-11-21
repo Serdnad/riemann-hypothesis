@@ -1,6 +1,7 @@
 import Formalism.SharpRestriction.Divisibility.GeneratorPowers.CIndFrFix
 import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ExpOfPf
 import Formalism.SharpRestriction.Divisibility.GeneratorPowers.HarmInvA
+import Formalism.SharpRestriction.Divisibility.GeneratorPowers.LogLowOrderOne
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.CalcAdd
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.KillAdd
 
@@ -24,52 +25,18 @@ theorem logOf_props (G : FGLaw S d) :
     (∀ i, constantCoeff ((fun i => logOf G i) i) = 0) ∧ dLin (fun i => logOf G i) = 1 ∧
     comp1 (fun i => logOf G i) (G.add (pt S (n := 2) d 0) (pt S (n := 2) d 1)) =
       comp1 (fun i => logOf G i) (pt S (n := 2) d 0) + comp1 (fun i => logOf G i) (pt S (n := 2) d 1) := by
-  refine ⟨fun i => ReciprocityTheory.ChartRestriction.G.TB.LogPf.constantCoeff_prim _, ?_, ?_⟩
-  · ext i j
-    have hc := congrFun (congrFun (ReciprocityTheory.ChartRestriction.G.TB.LogPf.cc_om (G := G)) i) j
-    simp only [Matrix.map_apply] at hc
-    show coeff (Finsupp.single ((0 : Fin 1), j) 1) (logOf G i) = (1 : Matrix (Fin d) (Fin d) S) i j
-    unfold logOf
-    rw [ReciprocityTheory.ChartRestriction.G.TB.LogPf.coeff_prim, Finset.sum_eq_single ((0 : Fin 1), j)]
-    · simp [Finsupp.degree_single, MvPowerSeries.coeff_zero_eq_constantCoeff_apply, hc]
-    · intro w _ hw
-      have h0 : (Finsupp.single ((0 : Fin 1), j) 1 : Fin 1 × Fin d →₀ ℕ) w = 0 := by
-        rw [Finsupp.single_apply, if_neg (Ne.symm hw)]
-      rw [if_pos h0]
-    · intro h
-      exact absurd (Finset.mem_univ _) h
-  · funext i
-    show ev ![G.add (pt S (n := 2) d 0) (pt S (n := 2) d 1)] (logOf G i) =
-      ev ![pt S (n := 2) d 0] (logOf G i) + ev ![pt S (n := 2) d 1] (logOf G i)
-    have hF : G.add (pt S (n := 2) d 0) (pt S (n := 2) d 1) = G.F := by
-      funext l
-      show MvPowerSeries.subst (fun p : Fin 2 × Fin d =>
-        (![pt S (n := 2) d 0, pt S (n := 2) d 1] : Fin 2 → Pt S 2 d) p.1 p.2) (G.F l) = G.F l
-      have hX : (fun p : Fin 2 × Fin d =>
-          (![pt S (n := 2) d 0, pt S (n := 2) d 1] : Fin 2 → Pt S 2 d) p.1 p.2) = MvPowerSeries.X := by
-        funext p
-        rcases p with ⟨a, c⟩
-        fin_cases a <;> rfl
-      rw [hX]
-      first
-      | exact congrFun MvPowerSeries.subst_self _
-      | (rw [MvPowerSeries.subst_self]; rfl)
-      | (rw [← MvPowerSeries.map_algebraMap_eq_subst_X]; simp)
-    rw [hF]
-    exact ReciprocityTheory.ChartRestriction.G.TB.LogPf.logOf_add G i
+  refine ⟨CIndFrExp2a.cc_logOf G, CIndFrExp2a.dLin_logOf G, ?_⟩
+  funext i
+  exact CIndFrExp2a.formal_log_add_points G _ _
+    (fun j => constantCoeff_X ((0 : Fin 2), j)) (fun j => constantCoeff_X ((1 : Fin 2), j)) i
 
 end Log
 
 variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E} {Dw : Datum H}
 
 theorem hasSubst0 {σ τ : Type} [Finite σ] {a : σ → MvPowerSeries τ S}
-    (ha : ∀ i, MvPowerSeries.constantCoeff (a i) = 0) : MvPowerSeries.HasSubst a := by
-  first
-  | exact MvPowerSeries.HasSubst.of_constantCoeff_zero ha
-  | exact MvPowerSeries.hasSubst_of_constantCoeff_zero ha
-  | exact MvPowerSeries.HasSubst.of_constantCoeff_zero' ha
-  | exact MvPowerSeries.HasSubst.of_constantCoeff_nilpotent (fun s => by rw [ha s]; exact IsNilpotent.zero)
-  | exact MvPowerSeries.hasSubst_of_constantCoeff_nilpotent (fun s => by rw [ha s]; exact IsNilpotent.zero)
+    (ha : ∀ i, MvPowerSeries.constantCoeff (a i) = 0) : MvPowerSeries.HasSubst a :=
+  MvPowerSeries.hasSubst_of_constantCoeff_zero ha
 
 theorem log_expPhi (G : FGLaw S d) (uvec : Lt1 Dw → Fin d → S) (ε : Pt S 1 d)
     (hinv : IsInvPair ε (fun i => logOf G i)) (i : Fin d) :
@@ -84,23 +51,11 @@ theorem log_expPhi (G : FGLaw S d) (uvec : Lt1 Dw → Fin d → S) (ε : Pt S 1 
     rfl
   rw [hε] at h1
   have h0 : ∀ p : Fin 1 × Fin d, MvPowerSeries.constantCoeff (ε p.2) = 0 := fun p => hε0 p.2
-  have hA : MvPowerSeries.HasSubst (fun p : Fin 1 × Fin d => ε p.2) := by
-    first
-    | exact MvPowerSeries.HasSubst.of_constantCoeff_zero h0
-    | exact MvPowerSeries.hasSubst_of_constantCoeff_zero h0
-    | exact MvPowerSeries.HasSubst.of_constantCoeff_zero' h0
-    | exact MvPowerSeries.HasSubst.of_constantCoeff_nilpotent (fun s => by rw [h0 s]; exact IsNilpotent.zero)
-    | exact MvPowerSeries.hasSubst_of_constantCoeff_nilpotent (fun s => by rw [h0 s]; exact IsNilpotent.zero)
+  have hA : MvPowerSeries.HasSubst (fun p : Fin 1 × Fin d => ε p.2) := hasSubst0 h0
   have hL0 : ∀ p : Fin 1 × Fin d, MvPowerSeries.constantCoeff (linPt uvec (0 : Fin 1) p.2) = 0 := by
     intro p
     simp [Formalism.MainNotions.ModuliIntegralCharts.H1.ExpOf.linPt]
-  have hL : MvPowerSeries.HasSubst (fun p : Fin 1 × Fin d => linPt uvec (0 : Fin 1) p.2) := by
-    first
-    | exact MvPowerSeries.HasSubst.of_constantCoeff_zero hL0
-    | exact MvPowerSeries.hasSubst_of_constantCoeff_zero hL0
-    | exact MvPowerSeries.HasSubst.of_constantCoeff_zero' hL0
-    | exact MvPowerSeries.HasSubst.of_constantCoeff_nilpotent (fun s => by rw [hL0 s]; exact IsNilpotent.zero)
-    | exact MvPowerSeries.hasSubst_of_constantCoeff_nilpotent (fun s => by rw [hL0 s]; exact IsNilpotent.zero)
+  have hL : MvPowerSeries.HasSubst (fun p : Fin 1 × Fin d => linPt uvec (0 : Fin 1) p.2) := hasSubst0 hL0
   change MvPowerSeries.subst (fun p : Fin 1 × Fin d => MvPowerSeries.subst (fun q : Fin 1 × Fin d => linPt uvec (0 : Fin 1) q.2) (ε p.2)) (logOf G i) = _
   rw [← MvPowerSeries.subst_comp_subst_apply hA hL, h1, MvPowerSeries.subst_X hL]
 
@@ -114,13 +69,7 @@ theorem log_expPhi_act (G : FGLaw S d) (uvec : Lt1 Dw → Fin d → S) (ε : Pt 
     exact h
   have hE0 : ∀ p : Fin 1 × Fin d, MvPowerSeries.constantCoeff (expPhi uvec ε p.2) = 0 :=
     fun p => Formalism.MainNotions.ModuliIntegralCharts.H1.ExpOf.expPhi_const uvec ε hε0 p.2
-  have hE : MvPowerSeries.HasSubst (fun p : Fin 1 × Fin d => expPhi uvec ε p.2) := by
-    first
-    | exact MvPowerSeries.HasSubst.of_constantCoeff_zero hE0
-    | exact MvPowerSeries.hasSubst_of_constantCoeff_zero hE0
-    | exact MvPowerSeries.HasSubst.of_constantCoeff_zero' hE0
-    | exact MvPowerSeries.HasSubst.of_constantCoeff_nilpotent (fun s => by rw [hE0 s]; exact IsNilpotent.zero)
-    | exact MvPowerSeries.hasSubst_of_constantCoeff_nilpotent (fun s => by rw [hE0 s]; exact IsNilpotent.zero)
+  have hE : MvPowerSeries.HasSubst (fun p : Fin 1 × Fin d => expPhi uvec ε p.2) := hasSubst0 hE0
   have ha' : MvPowerSeries.HasSubst a := by
     first
     | exact MvPowerSeries.HasSubst.of_constantCoeff_zero ha
@@ -139,10 +88,7 @@ theorem germCompOne_identityPoint_left (φ : Pt S 1 d) : comp1 φ (pt S (n := 1)
     rw [Subsingleton.elim a 0]
     rfl
   rw [hX]
-  first
-  | exact congrFun MvPowerSeries.subst_self _
-  | (rw [MvPowerSeries.subst_self]; rfl)
-  | (rw [← MvPowerSeries.map_algebraMap_eq_subst_X]; simp)
+  exact congrFun MvPowerSeries.subst_self _
 
 theorem subst_lg (G : FGLaw S d) {τ : Type} (Bφ : Fin 2 × Fin d → MvPowerSeries τ S)
     (hB : ∀ p, MvPowerSeries.constantCoeff (Bφ p) = 0) (j : Fin 2) (i : Fin d) :
@@ -152,20 +98,8 @@ theorem subst_lg (G : FGLaw S d) {τ : Type} (Bφ : Fin 2 × Fin d → MvPowerSe
     rcases p with ⟨a, c⟩
     rw [Subsingleton.elim a 0]
     simp [ReciprocityTheory.ChartRestriction.G.Geo.Tor.Germ.pt]
-  have hA : MvPowerSeries.HasSubst (fun p : Fin 1 × Fin d => (![pt S (n := 2) d j] p.1 p.2 : MvPowerSeries (Fin 2 × Fin d) S)) := by
-    first
-    | exact MvPowerSeries.HasSubst.of_constantCoeff_zero h0
-    | exact MvPowerSeries.hasSubst_of_constantCoeff_zero h0
-    | exact MvPowerSeries.HasSubst.of_constantCoeff_zero' h0
-    | exact MvPowerSeries.HasSubst.of_constantCoeff_nilpotent (fun s => by rw [h0 s]; exact IsNilpotent.zero)
-    | exact MvPowerSeries.hasSubst_of_constantCoeff_nilpotent (fun s => by rw [h0 s]; exact IsNilpotent.zero)
-  have hBs : MvPowerSeries.HasSubst Bφ := by
-    first
-    | exact MvPowerSeries.HasSubst.of_constantCoeff_zero hB
-    | exact MvPowerSeries.hasSubst_of_constantCoeff_zero hB
-    | exact MvPowerSeries.HasSubst.of_constantCoeff_zero' hB
-    | exact MvPowerSeries.HasSubst.of_constantCoeff_nilpotent (fun s => by rw [hB s]; exact IsNilpotent.zero)
-    | exact MvPowerSeries.hasSubst_of_constantCoeff_nilpotent (fun s => by rw [hB s]; exact IsNilpotent.zero)
+  have hA : MvPowerSeries.HasSubst (fun p : Fin 1 × Fin d => (![pt S (n := 2) d j] p.1 p.2 : MvPowerSeries (Fin 2 × Fin d) S)) := hasSubst0 h0
+  have hBs : MvPowerSeries.HasSubst Bφ := hasSubst0 hB
   change MvPowerSeries.subst Bφ (MvPowerSeries.subst (fun p : Fin 1 × Fin d => (![pt S (n := 2) d j] p.1 p.2 : MvPowerSeries (Fin 2 × Fin d) S)) (logOf G i)) = _
   rw [MvPowerSeries.subst_comp_subst_apply hA hBs]
   congr 1
@@ -186,26 +120,14 @@ theorem compL_diagL {O : Type} [CommRing O] [StarRing O] (B : FB S d O) (w0 : O)
     exact h
   have hE0 : ∀ p : Fin 1 × Fin d, MvPowerSeries.constantCoeff (expPhi uvec ε p.2) = 0 :=
     fun p => Formalism.MainNotions.ModuliIntegralCharts.H1.ExpOf.expPhi_const uvec ε hε0 p.2
-  have hE : MvPowerSeries.HasSubst (fun p : Fin 1 × Fin d => expPhi uvec ε p.2) := by
-    first
-    | exact MvPowerSeries.HasSubst.of_constantCoeff_zero hE0
-    | exact MvPowerSeries.hasSubst_of_constantCoeff_zero hE0
-    | exact MvPowerSeries.HasSubst.of_constantCoeff_zero' hE0
-    | exact MvPowerSeries.HasSubst.of_constantCoeff_nilpotent (fun s => by rw [hE0 s]; exact IsNilpotent.zero)
-    | exact MvPowerSeries.hasSubst_of_constantCoeff_nilpotent (fun s => by rw [hE0 s]; exact IsNilpotent.zero)
+  have hE : MvPowerSeries.HasSubst (fun p : Fin 1 × Fin d => expPhi uvec ε p.2) := hasSubst0 hE0
   have hV0 : ∀ p : Fin 2 × Fin d, MvPowerSeries.constantCoeff ((fun p : Fin 2 × Fin d => (![pt S d 0, comp1 (B.A.act w0) (pt S d 0)] : Fin 2 → Pt S 1 d) p.1 p.2) p) = 0 := by
     intro p
     rcases p with ⟨j, c⟩
     fin_cases j
     · simp [ReciprocityTheory.ChartRestriction.G.Geo.Tor.Germ.pt]
     · simp [germCompOne_identityPoint_left, B.A.const]
-  have hV : MvPowerSeries.HasSubst (fun p : Fin 2 × Fin d => (![pt S d 0, comp1 (B.A.act w0) (pt S d 0)] : Fin 2 → Pt S 1 d) p.1 p.2) := by
-    first
-    | exact MvPowerSeries.HasSubst.of_constantCoeff_zero hV0
-    | exact MvPowerSeries.hasSubst_of_constantCoeff_zero hV0
-    | exact MvPowerSeries.HasSubst.of_constantCoeff_zero' hV0
-    | exact MvPowerSeries.HasSubst.of_constantCoeff_nilpotent (fun s => by rw [hV0 s]; exact IsNilpotent.zero)
-    | exact MvPowerSeries.hasSubst_of_constantCoeff_nilpotent (fun s => by rw [hV0 s]; exact IsNilpotent.zero)
+  have hV : MvPowerSeries.HasSubst (fun p : Fin 2 × Fin d => (![pt S d 0, comp1 (B.A.act w0) (pt S d 0)] : Fin 2 → Pt S 1 d) p.1 p.2) := hasSubst0 hV0
   change MvPowerSeries.subst (fun p : Fin 1 × Fin d => expPhi uvec ε p.2) (MvPowerSeries.subst (fun p : Fin 2 × Fin d => (![pt S d 0, comp1 (B.A.act w0) (pt S d 0)] : Fin 2 → Pt S 1 d) p.1 p.2) (bilL B.G cc)) = _
   rw [← MvPowerSeries.coe_substAlgHom hV, ← MvPowerSeries.coe_substAlgHom hE]
   simp only [Formalism.MainNotions.ModuliIntegralCharts.H1.CIndFrFix.bilL, map_sum, map_smul, map_mul]
@@ -216,21 +138,9 @@ theorem compL_diagL {O : Type} [CommRing O] [StarRing O] (B : FB S d O) (w0 : O)
   have hP0 : ∀ p : Fin 1 × Fin d, MvPowerSeries.constantCoeff (pt S (n := 1) d 0 p.2) = 0 := by
     intro p
     simp [ReciprocityTheory.ChartRestriction.G.Geo.Tor.Germ.pt]
-  have hP : MvPowerSeries.HasSubst (fun p : Fin 1 × Fin d => pt S (n := 1) d 0 p.2) := by
-    first
-    | exact MvPowerSeries.HasSubst.of_constantCoeff_zero hP0
-    | exact MvPowerSeries.hasSubst_of_constantCoeff_zero hP0
-    | exact MvPowerSeries.HasSubst.of_constantCoeff_zero' hP0
-    | exact MvPowerSeries.HasSubst.of_constantCoeff_nilpotent (fun s => by rw [hP0 s]; exact IsNilpotent.zero)
-    | exact MvPowerSeries.hasSubst_of_constantCoeff_nilpotent (fun s => by rw [hP0 s]; exact IsNilpotent.zero)
+  have hP : MvPowerSeries.HasSubst (fun p : Fin 1 × Fin d => pt S (n := 1) d 0 p.2) := hasSubst0 hP0
   have hQ0 : ∀ p : Fin 1 × Fin d, MvPowerSeries.constantCoeff (B.A.act w0 p.2) = 0 := fun p => B.A.const w0 p.2
-  have hQ : MvPowerSeries.HasSubst (fun p : Fin 1 × Fin d => B.A.act w0 p.2) := by
-    first
-    | exact MvPowerSeries.HasSubst.of_constantCoeff_zero hQ0
-    | exact MvPowerSeries.hasSubst_of_constantCoeff_zero hQ0
-    | exact MvPowerSeries.HasSubst.of_constantCoeff_zero' hQ0
-    | exact MvPowerSeries.HasSubst.of_constantCoeff_nilpotent (fun s => by rw [hQ0 s]; exact IsNilpotent.zero)
-    | exact MvPowerSeries.hasSubst_of_constantCoeff_nilpotent (fun s => by rw [hQ0 s]; exact IsNilpotent.zero)
+  have hQ : MvPowerSeries.HasSubst (fun p : Fin 1 × Fin d => B.A.act w0 p.2) := hasSubst0 hQ0
   rw [MvPowerSeries.subst_comp_subst_apply hP hE, MvPowerSeries.subst_comp_subst_apply hQ hE]
   simp only [hact]
   simp only [ReciprocityTheory.ChartRestriction.G.Geo.Tor.Germ.pt, MvPowerSeries.subst_X hE]
@@ -254,13 +164,7 @@ theorem quad_form (cc : Fin d → Fin d → S) (u : Lt1 Dw → Fin d → S) (t :
   have hT0 : ∀ q : Fin 1 × Fin (dL Dw), MvPowerSeries.constantCoeff (t q • (MvPowerSeries.X q : MvPowerSeries (Fin 1 × Fin (dL Dw)) S)) = 0 := by
     intro q
     simp [MvPowerSeries.smul_eq_C_mul]
-  have hT : MvPowerSeries.HasSubst (fun q => t q • (MvPowerSeries.X q : MvPowerSeries (Fin 1 × Fin (dL Dw)) S)) := by
-    first
-    | exact MvPowerSeries.HasSubst.of_constantCoeff_zero hT0
-    | exact MvPowerSeries.hasSubst_of_constantCoeff_zero hT0
-    | exact MvPowerSeries.HasSubst.of_constantCoeff_zero' hT0
-    | exact MvPowerSeries.HasSubst.of_constantCoeff_nilpotent (fun s => by rw [hT0 s]; exact IsNilpotent.zero)
-    | exact MvPowerSeries.hasSubst_of_constantCoeff_nilpotent (fun s => by rw [hT0 s]; exact IsNilpotent.zero)
+  have hT : MvPowerSeries.HasSubst (fun q => t q • (MvPowerSeries.X q : MvPowerSeries (Fin 1 × Fin (dL Dw)) S)) := hasSubst0 hT0
   have hsub : ∀ l, MvPowerSeries.subst (fun q => t q • (MvPowerSeries.X q : MvPowerSeries (Fin 1 × Fin (dL Dw)) S)) (linPt u (0 : Fin 1) l) =
       ∑ ℓ, (u ℓ l * t (0, ltIdx Dw ℓ)) • (MvPowerSeries.X ((0 : Fin 1), ltIdx Dw ℓ) : MvPowerSeries (Fin 1 × Fin (dL Dw)) S) := by
     intro l
