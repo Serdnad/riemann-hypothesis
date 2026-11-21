@@ -118,29 +118,65 @@ theorem frac {D W : Z.Opens} {w F : Fn Z} (hW : IsAffineOpen W) (h : IsLoc D W w
   exact ((dif_pos hw).trans ((germ_res' (Z.basicOpen_le a) y z hz).symm.trans (e.trans (congrArg (· ^ n * F z)
     ((germ_res' (Z.basicOpen_le a) a z hz).trans (ha z hw)))))).symm
 
+private def restrictFn (D : Z.Opens) : Fn Z →+* (∀ z : D, Z.presheaf.stalk z) where
+  toFun F z := F z
+  map_zero' := rfl
+  map_one' := rfl
+  map_add' _ _ := rfl
+  map_mul' _ _ := rfl
+
 theorem Gen.mono {D : Z.Opens} {S S' : Set (Fn Z)} (h : Gen D S)
     (hS : ∀ x ∈ S, ∃ b ∈ Subring.closure S', ∀ z ∈ D, x z = b z) : Gen D S' := by
   intro F hF
   obtain ⟨b, hb, e⟩ := h F hF
-  suffices ∃ b' ∈ Subring.closure S', ∀ z ∈ D, b z = b' z by
-    obtain ⟨b', hb', e'⟩ := this
-    exact ⟨b', hb', fun z hz => (e z hz).trans (e' z hz)⟩
-  clear e
-  induction hb using Subring.closure_induction with
+  have hclosure : Subring.closure (restrictFn D '' S) ≤ (Subring.closure S').map (restrictFn D) :=
+    Subring.closure_le.2 <| by
+      rintro _ ⟨x, hx, rfl⟩
+      obtain ⟨y, hy, hxy⟩ := hS x hx
+      exact ⟨y, hy, funext fun z => (hxy z z.2).symm⟩
+  obtain ⟨b', hb', e'⟩ := hclosure (Subring.mem_closure_image_of (restrictFn D) hb)
+  exact ⟨b', hb', fun z hz => (e z hz).trans (congrFun e' ⟨z, hz⟩).symm⟩
+
+/-- If powers of a denominator clear each generator, they clear the subring
+it generates. A bound on the ideal power of each numerator is preserved. -/
+theorem clear_powers_of_mem_closure {A B C : Type*} [Ring A] [CommRing B] [CommRing C]
+    (f : A →+* C) (g : B →+* C) (I : Ideal B) (w : B) (hw : w ∈ I)
+    {S : Set A} (hS : ∀ x ∈ S, ∃ n : ℕ, ∃ a ∈ I ^ n, g w ^ n * f x = g a)
+    {x : A} (hx : x ∈ Subring.closure S) :
+    ∃ n : ℕ, ∃ a ∈ I ^ n, g w ^ n * f x = g a := by
+  induction hx using Subring.closure_induction with
   | mem x hx => exact hS x hx
-  | zero => exact ⟨0, zero_mem _, fun _ _ => rfl⟩
-  | one => exact ⟨1, one_mem _, fun _ _ => rfl⟩
+  | zero => exact ⟨0, 0, zero_mem _, by simp⟩
+  | one => exact ⟨0, 1, by simp, by simp⟩
   | add x y _ _ hx hy =>
-    obtain ⟨a, ha, e⟩ := hx
-    obtain ⟨b, hb, e'⟩ := hy
-    exact ⟨a + b, add_mem ha hb, fun z hz => congrArg₂ (· + ·) (e z hz) (e' z hz)⟩
+    obtain ⟨n, a, ha, e⟩ := hx
+    obtain ⟨m, b, hb, e'⟩ := hy
+    refine ⟨n + m, a * w ^ m + w ^ n * b, ?_, ?_⟩
+    · rw [pow_add]
+      exact add_mem (Ideal.mul_mem_mul ha (Ideal.pow_mem_pow hw _))
+        (Ideal.mul_mem_mul (Ideal.pow_mem_pow hw _) hb)
+    · simp only [map_add, map_mul, map_pow, ← e, ← e']
+      ring
   | neg x _ hx =>
-    obtain ⟨a, ha, e⟩ := hx
-    exact ⟨-a, neg_mem ha, fun z hz => congrArg (- ·) (e z hz)⟩
+    obtain ⟨n, a, ha, e⟩ := hx
+    exact ⟨n, -a, neg_mem ha, by rw [map_neg, mul_neg, e, map_neg]⟩
   | mul x y _ _ hx hy =>
-    obtain ⟨a, ha, e⟩ := hx
-    obtain ⟨b, hb, e'⟩ := hy
-    exact ⟨a * b, mul_mem ha hb, fun z hz => congrArg₂ (· * ·) (e z hz) (e' z hz)⟩
+    obtain ⟨n, a, ha, e⟩ := hx
+    obtain ⟨m, b, hb, e'⟩ := hy
+    refine ⟨n + m, a * b, by rw [pow_add]; exact Ideal.mul_mem_mul ha hb, ?_⟩
+    simp only [map_mul, ← e, ← e']
+    ring
+
+theorem clear_powers_on_open (D : Z.Opens) (B : Subring (Fn Z)) (I : Ideal B)
+    (w : B) (hw : w ∈ I) {S : Set (Fn Z)}
+    (hS : ∀ x ∈ S, ∃ n : ℕ, ∃ b ∈ I ^ n, ∀ z ∈ D, w.1 z ^ n * x z = b.1 z)
+    {x : Fn Z} (hx : x ∈ Subring.closure S) :
+    ∃ n : ℕ, ∃ b ∈ I ^ n, ∀ z ∈ D, w.1 z ^ n * x z = b.1 z := by
+  obtain ⟨n, b, hb, e⟩ := clear_powers_of_mem_closure (restrictFn D)
+    ((restrictFn D).comp B.subtype) I w hw (fun x hx => by
+      obtain ⟨n, b, hb, eq⟩ := hS x hx
+      exact ⟨n, b, hb, funext fun z => eq z z.2⟩) hx
+  exact ⟨n, b, hb, fun z hz => congrFun e ⟨z, hz⟩⟩
 
 theorem Gen.loc {D W : Z.Opens} {w : Fn Z} {S : Set (Fn Z)} (hW : IsAffineOpen W) (h : IsLoc D W w) (hw : w ∈ Reg W)
     (hS : Gen W S) : Gen D (insert (inv w) S) := by
@@ -198,32 +234,10 @@ theorem local_global {W : Z.Opens} (B : Subring (Fn Z)) (hB : B ≤ Reg W) {T : 
     refine ⟨fun b hb => Ideal.le_radical ⟨0, fun z hz => by rw [hb z hz, zero_mul]; rfl⟩, ?_⟩
     rintro _ ⟨t, rfl⟩
     obtain ⟨b, hb, e⟩ := hgen t F (reg_mono (hO t).le hF)
-    obtain ⟨n, b', e'⟩ : ∃ n : ℕ, ∃ b' : B, ∀ z ∈ O t, (w t).1 z ^ n * b z = b'.1 z := by
-      clear e
-      induction hb using Subring.closure_induction with
-      | mem x hx =>
-        rcases hx with rfl | hx
-        · exact ⟨1, 1, fun z hz => by rw [pow_one]; exact Ring.mul_inverse_cancel _ ((hO t).unit hz)⟩
-        · exact ⟨0, ⟨x, hx⟩, fun z hz => by rw [pow_zero, one_mul]⟩
-      | zero => exact ⟨0, 0, fun _ _ => mul_zero _⟩
-      | one => exact ⟨0, 1, fun _ _ => by rw [pow_zero, one_mul]; rfl⟩
-      | add x y _ _ hx hy =>
-        obtain ⟨n, a, e⟩ := hx
-        obtain ⟨m, b, e'⟩ := hy
-        refine ⟨n + m, w t ^ m * a + w t ^ n * b, fun z hz => ?_⟩
-        show (w t).1 z ^ (n + m) * (x z + y z) = (w t).1 z ^ m * a.1 z + (w t).1 z ^ n * b.1 z
-        rw [← e z hz, ← e' z hz]; ring
-      | neg x _ hx =>
-        obtain ⟨n, a, e⟩ := hx
-        refine ⟨n, -a, fun z hz => ?_⟩
-        show (w t).1 z ^ n * (-x z) = -a.1 z
-        rw [← e z hz]; ring
-      | mul x y _ _ hx hy =>
-        obtain ⟨n, a, e⟩ := hx
-        obtain ⟨m, b, e'⟩ := hy
-        refine ⟨n + m, a * b, fun z hz => ?_⟩
-        show (w t).1 z ^ (n + m) * (x z * y z) = a.1 z * b.1 z
-        rw [← e z hz, ← e' z hz]; ring
+    obtain ⟨n, b', _, e'⟩ := clear_powers_on_open (O t) B ⊤ (w t) (by simp) (by
+      rintro x (rfl | hx)
+      · exact ⟨1, 1, by simp, fun z hz => by rw [pow_one]; exact Ring.mul_inverse_cancel _ ((hO t).unit hz)⟩
+      · exact ⟨0, ⟨x, hx⟩, by simp, fun z _ => by rw [pow_zero, one_mul]⟩) hb
     obtain ⟨m, hm⟩ := kill hW.isCompact (hO t) (hB (w t).2)
       (sub_mem (mul_mem (pow_mem (hB (w t).2) n) hF) (hB b'.2)) (fun z hz => by
         show (w t).1 z ^ n * F z - b'.1 z = 0
@@ -426,35 +440,10 @@ theorem extra_section {T : Type} [Finite T] {W₀ : Z.Opens} {N d : ℕ} {s : T 
   have uI : ∀ p, u p ∈ I := fun p => Ideal.subset_span (Set.mem_range_self p)
   have deep : ∀ j, ∃ e : ℕ, u (j, j) ^ e ∈ van B W ⊔ I ^ (e + 1) := fun j => by
     obtain ⟨b, hb, eb⟩ := gen j _ (hv j)
-    obtain ⟨e, x, hx, ex⟩ : ∃ e : ℕ, ∃ x ∈ I ^ e, ∀ z ∈ D j ⊓ W, u₀ (j, j) z ^ e * b z = x.1 z := by
-      clear eb
-      induction hb using Subring.closure_induction with
-      | mem x hx =>
-        rcases hx with hx | ⟨m, rfl⟩
-        · exact ⟨0, ⟨x, Subring.subset_closure (Or.inl hx)⟩, by simp, fun z _ => by rw [pow_zero, one_mul]⟩
-        · exact ⟨1, u (j, m), by rw [pow_one]; exact uI _, fun z hz => by rw [pow_one]; exact rat j m z hz⟩
-      | zero => exact ⟨0, 0, zero_mem _, fun _ _ => mul_zero _⟩
-      | one => exact ⟨0, 1, by simp, fun _ _ => by rw [pow_zero, one_mul]; rfl⟩
-      | add x y _ _ hx hy =>
-        obtain ⟨n, a, ha, e⟩ := hx
-        obtain ⟨m, b, hb, e'⟩ := hy
-        refine ⟨n + m, a * u (j, j) ^ m + u (j, j) ^ n * b, ?_, fun z hz => ?_⟩
-        · rw [pow_add]
-          exact add_mem (Ideal.mul_mem_mul ha (Ideal.pow_mem_pow (uI _) _))
-            (Ideal.mul_mem_mul (Ideal.pow_mem_pow (uI _) _) hb)
-        · show u₀ (j, j) z ^ (n + m) * (x z + y z) = a.1 z * u₀ (j, j) z ^ m + u₀ (j, j) z ^ n * b.1 z
-          rw [← e z hz, ← e' z hz]; ring
-      | neg x _ hx =>
-        obtain ⟨n, a, ha, e⟩ := hx
-        refine ⟨n, -a, neg_mem ha, fun z hz => ?_⟩
-        show u₀ (j, j) z ^ n * (-x z) = -a.1 z
-        rw [← e z hz]; ring
-      | mul x y _ _ hx hy =>
-        obtain ⟨n, a, ha, e⟩ := hx
-        obtain ⟨m, b, hb, e'⟩ := hy
-        refine ⟨n + m, a * b, by rw [pow_add]; exact Ideal.mul_mem_mul ha hb, fun z hz => ?_⟩
-        show u₀ (j, j) z ^ (n + m) * (x z * y z) = a.1 z * b.1 z
-        rw [← e z hz, ← e' z hz]; ring
+    obtain ⟨e, x, hx, ex⟩ := clear_powers_on_open (D j ⊓ W) B I (u (j, j)) (uI _) (by
+      rintro x (hx | ⟨m, rfl⟩)
+      · exact ⟨0, ⟨x, Subring.subset_closure (Or.inl hx)⟩, by simp, fun z _ => by rw [pow_zero, one_mul]⟩
+      · exact ⟨1, u (j, m), by simpa using uI (j, m), fun z hz => by rw [pow_one]; exact rat j m z hz⟩) hb
     obtain ⟨m, hm⟩ := kill cpt (l₂ j) (hB (u (j, j)).2) (hB (u (j, j) ^ e - u (j, j) * x).2) (fun z hz => by
       show u₀ (j, j) z ^ e - u₀ (j, j) z * x.1 z = 0
       rw [← ex z hz, ← eb z hz.1]
