@@ -99,8 +99,12 @@ section Comp
 
 variable {D E : ℕ}
 
-theorem hess_comp (φ : (Fin E → ℂ) → ℝ) (τ : (Fin D → ℂ) → (Fin E → ℂ))
-    (z : Fin D → ℂ) (hτ : AnalyticAt ℂ τ z) (hφ : ContDiffAt ℝ 2 φ (τ z)) (w b : Fin D → ℂ) :
+/-- The real second derivative chain rule for an analytic map between complex normed spaces. -/
+theorem hess_comp_complex {U V : Type*} [NormedAddCommGroup U] [NormedAddCommGroup V]
+    [NormedSpace ℝ U] [NormedSpace ℝ V] [NormedSpace ℂ U] [NormedSpace ℂ V]
+    [IsScalarTower ℝ ℂ U] [IsScalarTower ℝ ℂ V] [CompleteSpace V]
+    (φ : V → ℝ) (τ : U → V)
+    (z : U) (hτ : AnalyticAt ℂ τ z) (hφ : ContDiffAt ℝ 2 φ (τ z)) (w b : U) :
     fderiv ℝ (fderiv ℝ (φ ∘ τ)) z w b =
       fderiv ℝ (fderiv ℝ φ) (τ z) (fderiv ℂ τ z w) (fderiv ℂ τ z b) +
       fderiv ℝ φ (τ z) (fderiv ℂ (fun x => fderiv ℂ τ x b) z w) := by
@@ -140,6 +144,13 @@ theorem hess_comp (φ : (Fin E → ℂ) → ℝ) (τ : (Fin D → ℂ) → (Fin 
     rfl
   simp [hwR, add_comm]
 
+theorem hess_comp (φ : (Fin E → ℂ) → ℝ) (τ : (Fin D → ℂ) → (Fin E → ℂ))
+    (z : Fin D → ℂ) (hτ : AnalyticAt ℂ τ z) (hφ : ContDiffAt ℝ 2 φ (τ z)) (w b : Fin D → ℂ) :
+    fderiv ℝ (fderiv ℝ (φ ∘ τ)) z w b =
+      fderiv ℝ (fderiv ℝ φ) (τ z) (fderiv ℂ τ z w) (fderiv ℂ τ z b) +
+      fderiv ℝ φ (τ z) (fderiv ℂ (fun x => fderiv ℂ τ x b) z w) :=
+  hess_comp_complex φ τ z hτ hφ w b
+
 theorem lv_comp (φ : (Fin E → ℂ) → ℝ) (τ : (Fin D → ℂ) → (Fin E → ℂ))
     (z : Fin D → ℂ) (hτ : AnalyticAt ℂ τ z) (hφ : ContDiffAt ℝ 2 φ (τ z)) (a b : Fin D → ℂ) :
     lv (fderiv ℝ (fderiv ℝ (φ ∘ τ)) z) a b =
@@ -169,14 +180,18 @@ theorem complexHessian_comp_holomorphic_matrix (φ : (Fin E → ℂ) → ℝ) (�
     Finset.sum_mul, ← hessC_eq_lv]
   rw [Finset.sum_comm]
 
-theorem complexHessian_isHermitian_of_contDiffAt (φ : (Fin D → ℂ) → ℝ) (z : Fin D → ℂ) (hφ : ContDiffAt ℝ 2 φ z) :
+theorem complexHessian_isHermitian_of_symmetric_second_derivative (φ : (Fin D → ℂ) → ℝ) (z : Fin D → ℂ)
+    (hs : IsSymmSndFDerivAt ℝ φ z) :
     (hessC φ z).IsHermitian := by
-  have hs : IsSymmSndFDerivAt ℝ φ z := hφ.isSymmSndFDerivAt (by simp)
   refine Matrix.IsHermitian.ext fun i j => ?_
   simp only [hessC_eq_lv, lv]
   rw [hs (Pi.single j 1) (Pi.single i 1), hs (I • Pi.single j 1) (I • Pi.single i 1),
     hs (Pi.single j 1) (I • Pi.single i 1), hs (I • Pi.single j 1) (Pi.single i 1)]
   apply Complex.ext <;> simp
+
+theorem complexHessian_isHermitian_of_contDiffAt (φ : (Fin D → ℂ) → ℝ) (z : Fin D → ℂ) (hφ : ContDiffAt ℝ 2 φ z) :
+    (hessC φ z).IsHermitian :=
+  complexHessian_isHermitian_of_symmetric_second_derivative φ z (hφ.isSymmSndFDerivAt (by simp))
 
 theorem complexHessian_add_of_contDiffAt (φ ψ : (Fin D → ℂ) → ℝ) (z : Fin D → ℂ) (hφ : ContDiffAt ℝ 2 φ z)
     (hψ : ContDiffAt ℝ 2 ψ z) :
