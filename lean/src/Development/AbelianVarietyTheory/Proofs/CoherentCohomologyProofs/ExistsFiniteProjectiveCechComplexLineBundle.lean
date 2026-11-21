@@ -126,106 +126,6 @@ theorem isBaseChange_away_of_intertwine (ψ : N₀ →ₗ[R₀] N) (hψ : IsBase
 
 end
 
-theorem exists_isBaseChange_away_xProd :
-    ∀ (ι : Type) (R₀ R : Type) [CommRing R₀] [CommRing R] [Algebra R₀ R] (N₀ N : Type) [AddCommGroup N₀] [Module R₀ N₀] [Module (MvPolynomial ι R₀) N₀] [IsScalarTower R₀ (MvPolynomial ι R₀) N₀] [AddCommGroup N] [Module R N] [Module (MvPolynomial ι R) N] [IsScalarTower R (MvPolynomial ι R) N] [Module R₀ N] [IsScalarTower R₀ R N] [IsScalarTower R₀ (MvPolynomial ι R) N] (ψ : N₀ →ₗ[R₀] N) (s : Finset ι), IsBaseChange R ψ → (∀ (i : ι) y, ψ ((X i : MvPolynomial ι R₀) • y) = (X i : MvPolynomial ι R) • ψ y) → ∃ θ : LocalizedModule.Away (xProd R₀ s) N₀ →ₗ[R₀] LocalizedModule.Away (xProd R s) N, IsBaseChange R θ ∧ ∀ (k : ℕ) y, θ (awayFrac N₀ (xProd R₀ s) k y) = awayFrac N (xProd R s) k (ψ y) := by
-  intro ι R₀ R _ _ _ N₀ N _ _ _ _ _ _ _ _ _ _ _ ψ s hψ hX
-  classical
-  have h₁ (y : N₀) : ψ (xProd R₀ s • y) = xProd R s • ψ y := by
-    induction s using Finset.induction_on with
-    | empty => simp
-    | insert i s hi ih => simp only [xProd] at ih ⊢; simp only [Finset.prod_insert hi, mul_smul, hX, ih]
-  have h (k : ℕ) (y : N₀) : ψ (xProd R₀ s ^ k • y) = xProd R s ^ k • ψ y := by
-    induction k with
-    | zero => simp
-    | succ k ih => rw [pow_succ', pow_succ', mul_smul, mul_smul, h₁, ih]
-  obtain ⟨θ, hθ⟩ := exists_away_map_of_intertwine ψ _ _ h
-  exact ⟨θ, isBaseChange_away_of_intertwine ψ hψ _ _ h θ hθ, hθ⟩
-
-end GlobalTheory
-
-end
-end
-
-section
-
-open CategoryTheory CategoryTheory.Limits DirectSum MvPolynomial TensorProduct GlobalTheory
-
-namespace GlobalTheory
-
-theorem isBaseChange_gradedPiece : ∀ (R₀ R : Type) [CommRing R₀] [CommRing R] [Algebra R₀ R] (N₀ N : Type) [AddCommGroup N₀] [Module R₀ N₀] [AddCommGroup N] [Module R₀ N] [Module R N] [IsScalarTower R₀ R N] (𝒩₀ : ℤ → Submodule R₀ N₀) [Decomposition 𝒩₀] (𝒩 : ℤ → Submodule R N) [Decomposition 𝒩] (ψ : N₀ →ₗ[R₀] N) (n : ℤ) (θ : 𝒩₀ n →ₗ[R₀] 𝒩 n), IsBaseChange R ψ → (∀ j, ∀ y ∈ 𝒩₀ j, ψ y ∈ 𝒩 j) → (∀ y, (θ y : N) = ψ y) → IsBaseChange R θ := by
-  intro R₀ R _ _ _ N₀ N _ _ _ _ _ _ 𝒩₀ _ 𝒩 _ ψ n θ h hdeg hθ
-  let p₀ : N₀ →ₗ[R₀] 𝒩₀ n :=
-    DirectSum.component R₀ ℤ (fun i => 𝒩₀ i) n ∘ₗ (decomposeLinearEquiv 𝒩₀).toLinearMap
-  let p : N →ₗ[R] 𝒩 n :=
-    DirectSum.component R ℤ (fun i => 𝒩 i) n ∘ₗ (decomposeLinearEquiv 𝒩).toLinearMap
-  have hp₀ : ∀ y, p₀ y = decompose 𝒩₀ y n := fun _ => rfl
-  have hp : ∀ y, p y = decompose 𝒩 y n := fun _ => rfl
-  have hp₀i : ∀ y : 𝒩₀ n, p₀ (y : N₀) = y := fun y => by
-    apply Subtype.ext
-    rw [hp₀]
-    exact decompose_of_mem_same 𝒩₀ y.2
-  have hpi : ∀ y : 𝒩 n, p (y : N) = y := fun y => by
-    apply Subtype.ext
-    rw [hp]
-    exact decompose_of_mem_same 𝒩 y.2
-  have hcomm : ∀ y, θ (p₀ y) = p (ψ y) := by
-    intro y
-    induction y using Decomposition.inductionOn 𝒩₀ with
-    | zero => simp
-    | @homogeneous j y =>
-      by_cases hj : j = n
-      · subst hj
-        rw [hp₀i, ← hθ, hpi]
-      · have h1 : p₀ (y : N₀) = 0 := by
-          apply Subtype.ext
-          rw [hp₀]
-          exact decompose_of_mem_ne 𝒩₀ y.2 hj
-        have h2 : p (ψ y) = 0 := by
-          apply Subtype.ext
-          rw [hp]
-          exact decompose_of_mem_ne 𝒩 (hdeg j y y.2) hj
-        rw [h1, h2, map_zero]
-    | add a b ha hb => simp only [map_add, ha, hb]
-  let L : R ⊗[R₀] 𝒩₀ n →ₗ[R] 𝒩 n := LinearMap.liftBaseChange R θ
-  have hL1 : ∀ x, L (p₀.baseChange R x) = p (h.equiv x) := by
-    intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
-    | tmul r y => simp [L, hcomm]
-    | add a b ha hb => simp only [map_add, ha, hb]
-  have hL2 : ∀ x, (L x : N) = h.equiv ((𝒩₀ n).subtype.baseChange R x) := by
-    intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
-    | tmul r y => simp [L, hθ]
-    | add a b ha hb => simp only [map_add, Submodule.coe_add, ha, hb]
-  have hret : ∀ x, p₀.baseChange R ((𝒩₀ n).subtype.baseChange R x) = x := by
-    intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
-    | tmul r y => simp [hp₀i]
-    | add a b ha hb => simp only [map_add, ha, hb]
-  have hbij : Function.Bijective L := by
-    constructor
-    · intro a b hab
-      have h1 : h.equiv ((𝒩₀ n).subtype.baseChange R a)
-          = h.equiv ((𝒩₀ n).subtype.baseChange R b) := by
-        rw [← hL2, ← hL2, hab]
-      rw [← hret a, h.equiv.injective h1, hret]
-    · intro z
-      refine ⟨p₀.baseChange R (h.equiv.symm z), ?_⟩
-      rw [hL1, LinearEquiv.apply_symm_apply, hpi]
-  refine IsBaseChange.of_equiv (LinearEquiv.ofBijective L hbij) fun x => ?_
-  simp [L]
-
-end GlobalTheory
-
-end
-
-open CategoryTheory CategoryTheory.Limits DirectSum MvPolynomial TensorProduct GlobalTheory
-
-namespace GlobalTheory
-
 theorem map_xProd_pow_smul_of_X {ι R₀ R : Type} [CommRing R₀] [CommRing R] {N₀ N : Type}
     [AddCommGroup N₀] [Module (MvPolynomial ι R₀) N₀] [AddCommGroup N]
     [Module (MvPolynomial ι R) N] (ψ : N₀ → N)
@@ -241,6 +141,86 @@ theorem map_xProd_pow_smul_of_X {ι R₀ R : Type} [CommRing R₀] [CommRing R] 
   induction k with
   | zero => simp
   | succ k ih => rw [pow_succ', pow_succ', mul_smul, mul_smul, h1, ih]
+
+theorem exists_isBaseChange_away_xProd :
+    ∀ (ι : Type) (R₀ R : Type) [CommRing R₀] [CommRing R] [Algebra R₀ R] (N₀ N : Type) [AddCommGroup N₀] [Module R₀ N₀] [Module (MvPolynomial ι R₀) N₀] [IsScalarTower R₀ (MvPolynomial ι R₀) N₀] [AddCommGroup N] [Module R N] [Module (MvPolynomial ι R) N] [IsScalarTower R (MvPolynomial ι R) N] [Module R₀ N] [IsScalarTower R₀ R N] [IsScalarTower R₀ (MvPolynomial ι R) N] (ψ : N₀ →ₗ[R₀] N) (s : Finset ι), IsBaseChange R ψ → (∀ (i : ι) y, ψ ((X i : MvPolynomial ι R₀) • y) = (X i : MvPolynomial ι R) • ψ y) → ∃ θ : LocalizedModule.Away (xProd R₀ s) N₀ →ₗ[R₀] LocalizedModule.Away (xProd R s) N, IsBaseChange R θ ∧ ∀ (k : ℕ) y, θ (awayFrac N₀ (xProd R₀ s) k y) = awayFrac N (xProd R s) k (ψ y) := by
+  intro ι R₀ R _ _ _ N₀ N _ _ _ _ _ _ _ _ _ _ _ ψ s hψ hX
+  have h := map_xProd_pow_smul_of_X ψ hX s
+  obtain ⟨θ, hθ⟩ := exists_away_map_of_intertwine ψ _ _ h
+  exact ⟨θ, isBaseChange_away_of_intertwine ψ hψ _ _ h θ hθ, hθ⟩
+
+end GlobalTheory
+
+end
+end
+
+section
+
+open CategoryTheory CategoryTheory.Limits DirectSum MvPolynomial TensorProduct GlobalTheory
+
+namespace GlobalTheory
+
+/-- A retract of a base-change map is a base-change map when the
+inclusions and projections commute with the two maps. -/
+theorem _root_.IsBaseChange.of_retract {R S M M' N N' : Type*}
+    [CommRing R] [CommRing S] [Algebra R S]
+    [AddCommMonoid M] [Module R M] [AddCommMonoid M'] [Module R M']
+    [AddCommMonoid N] [Module R N] [Module S N] [IsScalarTower R S N]
+    [AddCommMonoid N'] [Module R N'] [Module S N'] [IsScalarTower R S N']
+    {f : M →ₗ[R] N} {f' : M' →ₗ[R] N'} (hf : IsBaseChange S f)
+    (i : M' →ₗ[R] M) (p : M →ₗ[R] M') (i' : N' →ₗ[S] N) (p' : N →ₗ[S] N')
+    (left : ∀ x, p (i x) = x) (right : ∀ y, p' (i' y) = y)
+    (hi : ∀ x, i' (f' x) = f (i x)) (hp : ∀ x, p' (f x) = f' (p x)) :
+    IsBaseChange S f' := by
+  apply IsBaseChange.of_lift_unique
+  intro Q _ _ _ _ g
+  let G := hf.lift (g.comp p)
+  refine ⟨G.comp i', LinearMap.ext fun x => ?_, fun H hH => ?_⟩
+  · change G (i' (f' x)) = g x
+    rw [hi, IsBaseChange.lift_eq, LinearMap.comp_apply, left]
+  · have hHG : H.comp p' = G := hf.algHom_ext _ _ fun x => by
+      change H (p' (f x)) = G (f x)
+      rw [hp, IsBaseChange.lift_eq, LinearMap.comp_apply]
+      exact LinearMap.congr_fun hH (p x)
+    ext y
+    rw [LinearMap.comp_apply, ← hHG, LinearMap.comp_apply, right]
+
+theorem isBaseChange_gradedPiece :
+    ∀ (R₀ R : Type) [CommRing R₀] [CommRing R] [Algebra R₀ R]
+      (N₀ N : Type) [AddCommGroup N₀] [Module R₀ N₀]
+      [AddCommGroup N] [Module R₀ N] [Module R N] [IsScalarTower R₀ R N]
+      (𝒩₀ : ℤ → Submodule R₀ N₀) [Decomposition 𝒩₀]
+      (𝒩 : ℤ → Submodule R N) [Decomposition 𝒩]
+      (ψ : N₀ →ₗ[R₀] N) (n : ℤ) (θ : 𝒩₀ n →ₗ[R₀] 𝒩 n),
+      IsBaseChange R ψ →
+      (∀ j, ∀ y ∈ 𝒩₀ j, ψ y ∈ 𝒩 j) →
+      (∀ y, (θ y : N) = ψ y) → IsBaseChange R θ := by
+  intro R₀ R _ _ _ N₀ N _ _ _ _ _ _ 𝒩₀ _ 𝒩 _ ψ n θ h hdeg hθ
+  let p₀ : N₀ →ₗ[R₀] 𝒩₀ n :=
+    DirectSum.component R₀ ℤ (fun i => 𝒩₀ i) n ∘ₗ (decomposeLinearEquiv 𝒩₀).toLinearMap
+  let p : N →ₗ[R] 𝒩 n :=
+    DirectSum.component R ℤ (fun i => 𝒩 i) n ∘ₗ (decomposeLinearEquiv 𝒩).toLinearMap
+  have hp₀ (y : 𝒩₀ n) : p₀ y = y := Subtype.ext (decompose_of_mem_same 𝒩₀ y.2)
+  have hp (y : 𝒩 n) : p y = y := Subtype.ext (decompose_of_mem_same 𝒩 y.2)
+  refine h.of_retract (𝒩₀ n).subtype p₀ (𝒩 n).subtype p hp₀ hp hθ fun y => ?_
+  induction y using Decomposition.inductionOn 𝒩₀ with
+  | zero => simp
+  | @homogeneous j y =>
+    by_cases hj : j = n
+    · subst hj
+      rw [hp₀, ← hθ, hp]
+    · have hx : p₀ y = 0 := Subtype.ext (decompose_of_mem_ne 𝒩₀ y.2 hj)
+      have hy : p (ψ y) = 0 := Subtype.ext (decompose_of_mem_ne 𝒩 (hdeg j y y.2) hj)
+      rw [hx, hy, map_zero]
+  | add a b ha hb => simp only [map_add, ha, hb]
+
+end GlobalTheory
+
+end
+
+open CategoryTheory CategoryTheory.Limits DirectSum MvPolynomial TensorProduct GlobalTheory
+
+namespace GlobalTheory
 
 theorem nonempty_baseChange_grCube_iso : ∀ (ι : Type) [LinearOrder ι] [Fintype ι] (R₀ R : Type) [CommRing R₀] [CommRing R] [Algebra R₀ R] (N₀ : Type) [AddCommGroup N₀] [Module R₀ N₀] [Module (MvPolynomial ι R₀) N₀] [IsScalarTower R₀ (MvPolynomial ι R₀) N₀] (𝒩₀ : ℤ → Submodule R₀ N₀) [PolyGradedSMul ι 𝒩₀] [Decomposition 𝒩₀] (N : Type) [AddCommGroup N] [Module R N] [Module (MvPolynomial ι R) N] [IsScalarTower R (MvPolynomial ι R) N] (𝒩 : ℤ → Submodule R N) [PolyGradedSMul ι 𝒩] [Decomposition 𝒩] [Module R₀ N] [IsScalarTower R₀ R N] [IsScalarTower R₀ (MvPolynomial ι R) N] (ψ : N₀ →ₗ[R₀] N) (n : ℤ), IsBaseChange R ψ → (∀ (i : ι) y, ψ ((X i : MvPolynomial ι R₀) • y) = (X i : MvPolynomial ι R) • ψ y) → (∀ j, ∀ y ∈ 𝒩₀ j, ψ y ∈ 𝒩 j) → Nonempty (Cube.baseChange R (grCube ι 𝒩₀ n) ≅ grCube ι 𝒩 n) := by
   intro ι _ _ R₀ R _ _ _ N₀ _ _ _ _ 𝒩₀ _ _ N _ _ _ _ 𝒩 _ _ _ _ _ ψ n hψ hX hgr
@@ -883,19 +863,12 @@ theorem exists_isBaseChange_coker {R₀ R A₀ A M₁ M₂ N₁ N₂ : Type*} [C
   have hq : Function.Surjective q := (LinearMap.range f).mkQ_surjective
   have hex₀ : Function.Exact (f₀.restrictScalars R₀) q₀ := LinearMap.exact_map_mkQ_range f₀
   have hex : Function.Exact (f.restrictScalars R) q := LinearMap.exact_map_mkQ_range f
-  have hker : LinearMap.ker q₀ ≤ LinearMap.ker ((q.restrictScalars R₀).comp h₂) := by
-    intro y hy
-    obtain ⟨x, rfl⟩ := (hex₀ y).1 hy
-    exact (hex _).2 ⟨h₁ x, (hcomm x).symm⟩
   let ψ : (M₂ ⧸ LinearMap.range f₀) →ₗ[R₀] (N₂ ⧸ LinearMap.range f) :=
-    ((LinearMap.ker q₀).liftQ _ hker).comp (q₀.quotKerEquivOfSurjective hq₀).symm.toLinearMap
-  have hψ : ∀ y, ψ (q₀ y) = q (h₂ y) := by
-    intro y
-    have : (q₀.quotKerEquivOfSurjective hq₀).symm (q₀ y) = Submodule.Quotient.mk y := by
-      rw [LinearEquiv.symm_apply_eq]
-      rfl
-    simp only [ψ, LinearMap.comp_apply, LinearEquiv.coe_coe, this]
-    rfl
+    ((LinearMap.range f₀).restrictScalars R₀).mapQ
+      ((LinearMap.range f).restrictScalars R₀) h₂ (by
+        rintro _ ⟨x, rfl⟩
+        exact ⟨h₁ x, (hcomm x).symm⟩)
+  have hψ : ∀ y, ψ (q₀ y) = q (h₂ y) := fun _ => rfl
   exact ⟨ψ, IsBaseChange.of_right_exact R (f := f₀.restrictScalars R₀) (g := q₀)
     (f' := f.restrictScalars R) (g' := q) h₁ h₂ ψ (LinearMap.ext hcomm) (LinearMap.ext hψ)
     b₁ b₂ hex₀ hq₀ hex hq, hψ⟩
