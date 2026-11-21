@@ -1,4 +1,5 @@
 import Mathlib
+import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.SectionLawsOfH0EqOne
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.SecBaseChangeAnySt
 import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.ForallGeometricallyIntegralOfSmoothOfGeometrical
 import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.UnramExtLaw
@@ -78,17 +79,10 @@ theorem laws_of_h0_eq_one :
   have wc := GlobalTheory.weilIs_iff_commIsOf_and_lift_subsingleton g lft sym
   have w₃ := GlobalTheory.weilIs_alternating_skew_natural g lft
   have act := GlobalTheory.thetaGrp_acts_linearly g
-  have gal := GlobalTheory.torsion_invariant_descends mulq
-  have tw := GlobalTheory.twisted_pow_translate sq mulq
-  have proj := GlobalTheory.AbLaw.polAV_veryAmpleBy pbc
   have h0 : GlobalSectionsRankAlgClosed := GlobalTheory.FinrankGrowthBounds.finrank_sections_lineBundlePow_eq_pow gi h1 rel grow mulq
   have mulN : MulNSt := GlobalTheory.mulN_of_decomposition mulq rel h0 pbc
   have h0T := (GlobalTheory.secM_invariant_eq_bot_or_univ_at_geometric_point pbc).1 h0
-  have van := GlobalTheory.AbLaw.PowVanish.first_cohomology_vanishes_powers proj GlobalTheory.T.serre_vanishing_very_ample.1 GlobalTheory.AbLaw.h1Zero_of_isIso mp mulq gal
-  obtain ⟨sbcAny, sbc⟩ := GlobalTheory.AbLaw.SecBC.secBaseChange_of_perf GlobalTheory.T.nonempty_perfectSectionsComplex_of_smooth_proj proj van
-    GlobalTheory.AbLaw.h1Zero_of_isIso GlobalTheory.exists_matrix_basis_ker_of_exact_at_point pbc h0T
-  have stw : SecTwistSt := GlobalTheory.SecTwist.secTwist_of_perf GlobalTheory.T.nonempty_perfectSectionsComplex_of_smooth_proj proj van
-    GlobalTheory.AbLaw.h1Zero_of_isIso GlobalTheory.exists_matrix_basis_ker_of_exact_at_point pbc h0T tw
+  obtain ⟨sbcAny, sbc, stw⟩ := GlobalTheory.AbLaw.section_laws_of_h0_eq_one h1
   have irred : IrredSt :=
     GlobalTheory.irredSt_of_heis act wc GlobalTheory.heisenberg_family_irreducible weil w₃ nondeg mulN h0
   have irrT := (GlobalTheory.secM_invariant_eq_bot_or_univ_at_geometric_point pbc).2 irred
