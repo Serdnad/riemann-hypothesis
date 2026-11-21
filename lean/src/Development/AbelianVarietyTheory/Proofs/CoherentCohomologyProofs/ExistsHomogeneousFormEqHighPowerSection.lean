@@ -6,6 +6,7 @@ import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.ExistsDe
 import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.ExistsXPowSmulEqZeroOfEqXSubOneSmul
 import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.ExistsSmulOfTwCoord
 import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.CubeComplexGradedModuleExactAtOfLargeDegree
+import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.PowSmulMemOfHomogeneous
 
 /-! # Representing high-degree sections by homogeneous forms -/
 
@@ -88,37 +89,26 @@ theorem exists_X_pow_smul_mem_span_of_dehomogenisation {ι : Type} {R : Type} [C
     {g : G} (hg : g ∈ 𝒢 0) (hgen : ∀ z : N, ∃ b : B, z = b • ε g)
     (K : Submodule (MvPolynomial ι R) G) (hK : g ∈ K) (y : G) :
     ∃ k : ℕ, (MvPolynomial.X i : MvPolynomial ι R) ^ k • y ∈ K := by
-  induction y using Decomposition.inductionOn 𝒢 with
-  | zero => exact ⟨0, by simp⟩
-  | add a b ha hb =>
-    obtain ⟨p, hp⟩ := ha
-    obtain ⟨q, hq⟩ := hb
-    refine ⟨p + q, ?_⟩
-    rw [smul_add]
-    refine add_mem ?_ ?_
-    · rw [add_comm, pow_add, mul_smul]
-      exact K.smul_mem _ hp
-    · rw [pow_add, mul_smul]
-      exact K.smul_mem _ hq
-  | @homogeneous n y =>
-    obtain ⟨b, hb⟩ := hgen (ε y)
-    obtain ⟨F, rfl⟩ := hπ b
-    obtain ⟨n₀, hn₀⟩ := exists_homogeneous_add_X_sub_one_smul (polyGrading ι R) i F
-    obtain ⟨F', hF', w, e⟩ := hn₀ (n + ((n₀ - n).toNat : ℕ)) (by omega)
-    have hX : (MvPolynomial.X i : MvPolynomial ι R) ^ (n₀ - n).toNat ∈
-        polyGrading ι R ((n₀ - n).toNat : ℕ) :=
-      mem_polyGrading_natCast.2 (MvPolynomial.isHomogeneous_X_pow i _)
-    have h₁ := grSMul_mem 𝒢 hX y.2
-    have h₂ := grSMul_mem 𝒢 hF' hg
-    rw [zero_add] at h₂
-    have hFF : π F = π F' := by
-      rw [e, map_add, smul_eq_mul, map_mul, map_sub, hi, map_one, sub_self, zero_mul, add_zero]
-    obtain ⟨k, hk⟩ := hker _ _ (sub_mem h₁ h₂) (by
-      rw [map_sub, map_smulₛₗ, map_smulₛₗ, map_pow, hi, one_pow, one_smul, hb, hFF, sub_self])
-    refine ⟨k + (n₀ - n).toNat, ?_⟩
-    rw [smul_sub, sub_eq_zero] at hk
-    rw [pow_add, mul_smul, hk]
-    exact K.smul_mem _ (K.smul_mem _ hK)
+  refine exists_pow_smul_mem_of_homogeneous 𝒢 K (MvPolynomial.X i) ?_ y
+  intro n y hy
+  obtain ⟨b, hb⟩ := hgen (ε y)
+  obtain ⟨F, rfl⟩ := hπ b
+  obtain ⟨n₀, hn₀⟩ := exists_homogeneous_add_X_sub_one_smul (polyGrading ι R) i F
+  obtain ⟨F', hF', w, e⟩ := hn₀ (n + ((n₀ - n).toNat : ℕ)) (by omega)
+  have hX : (MvPolynomial.X i : MvPolynomial ι R) ^ (n₀ - n).toNat ∈
+      polyGrading ι R ((n₀ - n).toNat : ℕ) :=
+    mem_polyGrading_natCast.2 (MvPolynomial.isHomogeneous_X_pow i _)
+  have h₁ := grSMul_mem 𝒢 hX hy
+  have h₂ := grSMul_mem 𝒢 hF' hg
+  rw [zero_add] at h₂
+  have hFF : π F = π F' := by
+    rw [e, map_add, smul_eq_mul, map_mul, map_sub, hi, map_one, sub_self, zero_mul, add_zero]
+  obtain ⟨k, hk⟩ := hker _ _ (sub_mem h₁ h₂) (by
+    rw [map_sub, map_smulₛₗ, map_smulₛₗ, map_pow, hi, one_pow, one_smul, hb, hFF, sub_self])
+  refine ⟨k + (n₀ - n).toNat, ?_⟩
+  rw [smul_sub, sub_eq_zero] at hk
+  rw [pow_add, mul_smul, hk]
+  exact K.smul_mem _ (K.smul_mem _ hK)
 
 namespace AbLaw
 

@@ -5,6 +5,7 @@ import Development.AbelianVarietyTheory.Definitions.ThetaMetrics.ExistsFormOfEqR
 import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.CechModulesFunctorShortExactOfIsAffineOpen
 import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.EventuallyExistsResMEqSecHomSecToPow
 import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.NonemptyBasisPolyGrading
+import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.PowSmulMemOfHomogeneous
 
 set_option autoImplicit false
 
@@ -204,42 +205,32 @@ theorem exists_pow_smul_mem_range (i : Fin (N + 1))
     (y : GammaStar R (ProjSpace.coord R N) (structureModule _) ⊤) :
     ∃ k : ℕ, (X i : MvPolynomial (Fin (N + 1)) R) ^ k • y ∈
       LinearMap.range (polyToGamma R (ProjSpace.coord R N) (O1_isLB R N)) := by
-  induction y using Decomposition.inductionOn
-    (gammaGrading R (ProjSpace.coord R N) (structureModule _) ⊤) with
-  | zero => exact ⟨0, by simp⟩
-  | add y z hy hz =>
-    obtain ⟨k, hk⟩ := hy
-    obtain ⟨l, hl⟩ := hz
-    refine ⟨k + l, ?_⟩
-    rw [smul_add]
-    refine add_mem ?_ ?_
-    · rw [add_comm k, pow_add, mul_smul]; exact Submodule.smul_mem _ _ hk
-    · rw [pow_add, mul_smul]; exact Submodule.smul_mem _ _ hl
-  | @homogeneous n y =>
-    obtain ⟨y, hy⟩ := y
-    let V := chart R N i
-    let u : Γ(PSpace R N, V ⊓ V) := sectionsOn.toΓ _ _
-      (gammaCoord R (ProjSpace.coord R N) _ V i (gammaRes R _ _ le_top y))
-    obtain ⟨d, f, hf, hu⟩ := Model.exists_formOn i (resG _ (le_inf le_rfl le_rfl) u)
-    obtain ⟨k, hk⟩ := Int.eq_ofNat_of_zero_le (a := d + n.natAbs - n) (by omega)
-    have h₁ : (X i : MvPolynomial (Fin (N + 1)) R) ^ k • y ∈
-        gammaGrading R (ProjSpace.coord R N) _ ⊤ (d + n.natAbs : ℕ) := by
-      have := grSMul_mem _ (mem_polyGrading_natCast.2 (isHomogeneous_X_pow (R := R) i k)) hy
-      rwa [show n + k = (d + n.natAbs : ℕ) by omega] at this
-    have h₃ := gammaRes_smul_sub_eq_zero R _ (O1_isLB R N) (V := V) (i := i) le_rfl h₁
-      (mem_polyGrading_natCast.2 (hf.mul (isHomogeneous_X_pow i n.natAbs))) u rfl (by
-      have e : u = formOn (V ⊓ V) i inf_le_right d f hf :=
-        ((resG_resG _ _ _).trans (resG_self _ _)).symm.trans
-          (congrArg (resG _ (inf_le_right : V ⊓ V ≤ V)) hu)
-      rw [e, formOn_eq_aeval]
-      refine (congrArg (· * _) (chartEval_coord i inf_le_right _)).trans
-        (Eq.trans ?_ (chartEval_coord i inf_le_right _).symm)
-      simp [V])
-    obtain ⟨l, hl⟩ := (eventually_xProd_pow_smul_eq_zero R (ProjSpace.coord R N) _ (O1_isLB R N)
-      (isCompact_top R N) (I := {i}) le_top (by simp [nonzeroLocus_coord, V]) _ h₃).exists
-    rw [xProd, Finset.prod_singleton, smul_sub, sub_eq_zero, ← map_smul, ← mul_smul,
-      ← pow_add] at hl
-    exact ⟨l + k, _, hl.symm⟩
+  refine exists_pow_smul_mem_of_homogeneous
+    (gammaGrading R (ProjSpace.coord R N) (structureModule _) ⊤) _ (X i) ?_ y
+  intro n y hy
+  let V := chart R N i
+  let u : Γ(PSpace R N, V ⊓ V) := sectionsOn.toΓ _ _
+    (gammaCoord R (ProjSpace.coord R N) _ V i (gammaRes R _ _ le_top y))
+  obtain ⟨d, f, hf, hu⟩ := Model.exists_formOn i (resG _ (le_inf le_rfl le_rfl) u)
+  obtain ⟨k, hk⟩ := Int.eq_ofNat_of_zero_le (a := d + n.natAbs - n) (by omega)
+  have h₁ : (X i : MvPolynomial (Fin (N + 1)) R) ^ k • y ∈
+      gammaGrading R (ProjSpace.coord R N) _ ⊤ (d + n.natAbs : ℕ) := by
+    have := grSMul_mem _ (mem_polyGrading_natCast.2 (isHomogeneous_X_pow (R := R) i k)) hy
+    rwa [show n + k = (d + n.natAbs : ℕ) by omega] at this
+  have h₃ := gammaRes_smul_sub_eq_zero R _ (O1_isLB R N) (V := V) (i := i) le_rfl h₁
+    (mem_polyGrading_natCast.2 (hf.mul (isHomogeneous_X_pow i n.natAbs))) u rfl (by
+    have e : u = formOn (V ⊓ V) i inf_le_right d f hf :=
+      ((resG_resG _ _ _).trans (resG_self _ _)).symm.trans
+        (congrArg (resG _ (inf_le_right : V ⊓ V ≤ V)) hu)
+    rw [e, formOn_eq_aeval]
+    refine (congrArg (· * _) (chartEval_coord i inf_le_right _)).trans
+      (Eq.trans ?_ (chartEval_coord i inf_le_right _).symm)
+    simp [V])
+  obtain ⟨l, hl⟩ := (eventually_xProd_pow_smul_eq_zero R (ProjSpace.coord R N) _ (O1_isLB R N)
+    (isCompact_top R N) (I := {i}) le_top (by simp [nonzeroLocus_coord, V]) _ h₃).exists
+  rw [xProd, Finset.prod_singleton, smul_sub, sub_eq_zero, ← map_smul, ← mul_smul,
+    ← pow_add] at hl
+  exact ⟨l + k, _, hl.symm⟩
 
 instance isIso_grCechMap_polyToGamma (n : ℤ) :
     IsIso (grCechMap (isGradedMap_polyToGamma R (ProjSpace.coord R N) (O1_isLB R N)) n) :=

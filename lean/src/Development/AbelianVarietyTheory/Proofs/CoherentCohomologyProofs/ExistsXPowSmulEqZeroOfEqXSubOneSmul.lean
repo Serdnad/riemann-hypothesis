@@ -15,10 +15,6 @@ variable {ι : Type} {R : Type} [CommRing R] {M : Type} [AddCommGroup M] [Module
   [Module (MvPolynomial ι R) M] [IsScalarTower R (MvPolynomial ι R) M]
   (ℳ : ℤ → Submodule R M) [PolyGradedSMul ι ℳ] [Decomposition ℳ] (i : ι)
 
-open CategoryTheory CategoryTheory.Limits DirectSum MvPolynomial TensorProduct in
-variable {ι : Type} {R : Type} [CommRing R] {M : Type} [AddCommGroup M] [Module R M]
-  [Module (MvPolynomial ι R) M] [IsScalarTower R (MvPolynomial ι R) M]
-  (ℳ : ℤ → Submodule R M) [_root_.GlobalTheory.PolyGradedSMul ι ℳ] [Decomposition ℳ] (i : ι) in
 private lemma decompose_X_smul_add_one (y : M) (m : ℤ) :
     (decompose ℳ ((X i : MvPolynomial ι R) • y) (m + 1) : M) =
       (X i : MvPolynomial ι R) • (decompose ℳ y m : M) := by
@@ -38,20 +34,12 @@ private lemma decompose_X_smul_add_one (y : M) (m : ℤ) :
   · rfl
   · rw [DFinsupp.notMem_support_iff.1 h]; simp
 
-open CategoryTheory CategoryTheory.Limits DirectSum MvPolynomial TensorProduct in
-variable {ι : Type} {R : Type} [CommRing R] {M : Type} [AddCommGroup M] [Module R M]
-  [Module (MvPolynomial ι R) M] [IsScalarTower R (MvPolynomial ι R) M]
-  (ℳ : ℤ → Submodule R M) [_root_.GlobalTheory.PolyGradedSMul ι ℳ] [Decomposition ℳ] (i : ι) in
 private lemma decompose_X_sub_one_smul_add_one (w : M) (m : ℤ) :
     (decompose ℳ ((X i - 1 : MvPolynomial ι R) • w) (m + 1) : M) =
       (X i : MvPolynomial ι R) • (decompose ℳ w m : M) - (decompose ℳ w (m + 1) : M) := by
   rw [sub_smul, one_smul, decompose_sub, DirectSum.sub_apply, Submodule.coe_sub,
     decompose_X_smul_add_one]
 
-open CategoryTheory CategoryTheory.Limits DirectSum MvPolynomial TensorProduct in
-variable {ι : Type} {R : Type} [CommRing R] {M : Type} [AddCommGroup M] [Module R M]
-  [Module (MvPolynomial ι R) M] [IsScalarTower R (MvPolynomial ι R) M]
-  (ℳ : ℤ → Submodule R M) [_root_.GlobalTheory.PolyGradedSMul ι ℳ] [Decomposition ℳ] (i : ι) in
 private lemma exists_decompose_eq_zero_of_lt (y : M) :
     ∃ N : ℤ, ∀ j < N, (decompose ℳ y j : M) = 0 := by
   classical
@@ -60,10 +48,6 @@ private lemma exists_decompose_eq_zero_of_lt (y : M) :
   have : j ∉ (decompose ℳ y).support := fun h => by have := hN h; omega
   simp [DFinsupp.notMem_support_iff.1 this]
 
-open CategoryTheory CategoryTheory.Limits DirectSum MvPolynomial TensorProduct in
-variable {ι : Type} {R : Type} [CommRing R] {M : Type} [AddCommGroup M] [Module R M]
-  [Module (MvPolynomial ι R) M] [IsScalarTower R (MvPolynomial ι R) M]
-  (ℳ : ℤ → Submodule R M) [_root_.GlobalTheory.PolyGradedSMul ι ℳ] [Decomposition ℳ] (i : ι) in
 private lemma exists_decompose_eq_zero_of_gt (y : M) :
     ∃ N : ℤ, ∀ j > N, (decompose ℳ y j : M) = 0 := by
   classical
@@ -72,10 +56,6 @@ private lemma exists_decompose_eq_zero_of_gt (y : M) :
   have : j ∉ (decompose ℳ y).support := fun h => by have := hN h; omega
   simp [DFinsupp.notMem_support_iff.1 this]
 
-open CategoryTheory CategoryTheory.Limits DirectSum MvPolynomial TensorProduct in
-variable {ι : Type} {R : Type} [CommRing R] {M : Type} [AddCommGroup M] [Module R M]
-  [Module (MvPolynomial ι R) M] [IsScalarTower R (MvPolynomial ι R) M]
-  (ℳ : ℤ → Submodule R M) [_root_.GlobalTheory.PolyGradedSMul ι ℳ] [Decomposition ℳ] (i : ι) in
 private lemma eq_zero_of_X_smul_recurrence_of_vanish_below {g : ℤ → M} {N c : ℤ} (hN : ∀ j < N, g j = 0)
     (hrec : ∀ m < c, g (m + 1) = (X i : MvPolynomial ι R) • g m) : g c = 0 := by
   have key : ∀ k : ℕ, g c = (X i : MvPolynomial ι R) ^ k • g (c - k) := by
@@ -87,10 +67,6 @@ private lemma eq_zero_of_X_smul_recurrence_of_vanish_below {g : ℤ → M} {N c 
       rw [ih, e, hrec _ (by omega), ← mul_smul, ← pow_succ]
   rw [key (c - N + 1).toNat, hN _ (by omega), smul_zero]
 
-open CategoryTheory CategoryTheory.Limits DirectSum MvPolynomial TensorProduct in
-variable {ι : Type} {R : Type} [CommRing R] {M : Type} [AddCommGroup M] [Module R M]
-  [Module (MvPolynomial ι R) M] [IsScalarTower R (MvPolynomial ι R) M]
-  (ℳ : ℤ → Submodule R M) [_root_.GlobalTheory.PolyGradedSMul ι ℳ] [Decomposition ℳ] (i : ι) in
 private lemma exists_X_pow_smul_eq_zero_of_vanish_above {g : ℤ → M} {N c : ℤ}
     (hN : ∀ j > N, g j = 0) (hrec : ∀ m ≥ c, g (m + 1) = (X i : MvPolynomial ι R) • g m) :
     ∃ k : ℕ, (X i : MvPolynomial ι R) ^ k • g c = 0 := by
@@ -102,10 +78,6 @@ private lemma exists_X_pow_smul_eq_zero_of_vanish_above {g : ℤ → M} {N c : �
       rw [Nat.cast_succ, ← add_assoc, hrec _ (by omega), ih, ← mul_smul, ← pow_succ']
   exact ⟨(N - c + 1).toNat, by rw [← key, hN _ (by omega)]⟩
 
-open CategoryTheory CategoryTheory.Limits DirectSum MvPolynomial TensorProduct in
-variable {ι : Type} {R : Type} [CommRing R] {M : Type} [AddCommGroup M] [Module R M]
-  [Module (MvPolynomial ι R) M] [IsScalarTower R (MvPolynomial ι R) M]
-  (ℳ : ℤ → Submodule R M) [_root_.GlobalTheory.PolyGradedSMul ι ℳ] [Decomposition ℳ] (i : ι) in
 
 theorem _root_.GlobalTheory.exists_X_pow_smul_eq_zero_of_eq_X_sub_one_smul {n : ℤ} {z w : M} (hz : z ∈ ℳ n)
     (h : z = (X i - 1 : MvPolynomial ι R) • w) :
@@ -132,10 +104,6 @@ theorem _root_.GlobalTheory.exists_X_pow_smul_eq_zero_of_eq_X_sub_one_smul {n : 
     (g := fun m => (decompose ℳ w m : M)) (c := n) hN₂ (fun m hm => hne m (by omega))
   exact ⟨k, by rw [hzn, smul_neg, hk, neg_zero]⟩
 
-open CategoryTheory CategoryTheory.Limits DirectSum MvPolynomial TensorProduct in
-variable {ι : Type} {R : Type} [CommRing R] {M : Type} [AddCommGroup M] [Module R M]
-  [Module (MvPolynomial ι R) M] [IsScalarTower R (MvPolynomial ι R) M]
-  (ℳ : ℤ → Submodule R M) [_root_.GlobalTheory.PolyGradedSMul ι ℳ] [Decomposition ℳ] (i : ι) in
 private lemma X_pow_smul_mem_add_of_mem {j : ℤ} {v : M} (hv : v ∈ ℳ j) (k : ℕ) :
     (X i : MvPolynomial ι R) ^ k • v ∈ ℳ (j + k) := by
   induction k with
@@ -146,10 +114,6 @@ private lemma X_pow_smul_mem_add_of_mem {j : ℤ} {v : M} (hv : v ∈ ℳ j) (k 
     convert this using 2
     push_cast; ring
 
-open CategoryTheory CategoryTheory.Limits DirectSum MvPolynomial TensorProduct in
-variable {ι : Type} {R : Type} [CommRing R] {M : Type} [AddCommGroup M] [Module R M]
-  [Module (MvPolynomial ι R) M] [IsScalarTower R (MvPolynomial ι R) M]
-  (ℳ : ℤ → Submodule R M) [_root_.GlobalTheory.PolyGradedSMul ι ℳ] [Decomposition ℳ] (i : ι) in
 private lemma exists_mem_add_X_sub_one_smul_of_mem_of_le {j n : ℤ} {v : M} (hv : v ∈ ℳ j) (hn : j ≤ n) :
     ∃ y' ∈ ℳ n, ∃ w : M, v = y' + (X i - 1 : MvPolynomial ι R) • w := by
   have hmem := X_pow_smul_mem_add_of_mem ℳ i hv (n - j).toNat
@@ -159,10 +123,6 @@ private lemma exists_mem_add_X_sub_one_smul_of_mem_of_le {j n : ℤ} {v : M} (hv
   rw [neg_smul, smul_neg, smul_smul, mul_geom_sum, sub_smul, one_smul]
   abel
 
-open CategoryTheory CategoryTheory.Limits DirectSum MvPolynomial TensorProduct in
-variable {ι : Type} {R : Type} [CommRing R] {M : Type} [AddCommGroup M] [Module R M]
-  [Module (MvPolynomial ι R) M] [IsScalarTower R (MvPolynomial ι R) M]
-  (ℳ : ℤ → Submodule R M) [_root_.GlobalTheory.PolyGradedSMul ι ℳ] [Decomposition ℳ] (i : ι) in
 
 theorem _root_.GlobalTheory.exists_homogeneous_add_X_sub_one_smul (y : M) :
     ∃ n₀ : ℤ, ∀ n, n₀ ≤ n → ∃ y' ∈ ℳ n, ∃ w : M, y = y' + (X i - 1 : MvPolynomial ι R) • w := by
@@ -186,12 +146,6 @@ theorem _root_.GlobalTheory.exists_homogeneous_add_X_sub_one_smul (y : M) :
   obtain ⟨y', hy', w, e⟩ := hn₀ n hn
   exact ⟨y', hy', w, by rw [← e, sum_support_decompose]⟩
 
-end
-
-open CategoryTheory CategoryTheory.Limits DirectSum MvPolynomial TensorProduct in
-variable {ι : Type} {R : Type} [CommRing R] {M : Type} [AddCommGroup M] [Module R M]
-  [Module (MvPolynomial ι R) M] [IsScalarTower R (MvPolynomial ι R) M]
-  (ℳ : ℤ → Submodule R M) [_root_.GlobalTheory.PolyGradedSMul ι ℳ] [Decomposition ℳ] (i : ι) in
 include ℳ in
 private lemma eq_zero_of_X_sub_one_smul_eq_zero {y : M}
     (hy : (X i - 1 : MvPolynomial ι R) • y = 0) : y = 0 := by
@@ -207,9 +161,18 @@ private lemma eq_zero_of_X_sub_one_smul_eq_zero {y : M}
   rw [← sum_support_decompose ℳ y]
   exact Finset.sum_eq_zero (fun j _ => hall j)
 
-open CategoryTheory CategoryTheory.Limits DirectSum MvPolynomial TensorProduct in
+end
 
-theorem _root_.GlobalTheory.X_sub_one_smul_graded : ∀ (ι : Type) [LinearOrder ι] [Fintype ι] (R : Type) [CommRing R] (M : Type) [AddCommGroup M] [Module R M] [Module (MvPolynomial ι R) M] [IsScalarTower R (MvPolynomial ι R) M] (ℳ : ℤ → Submodule R M) [_root_.GlobalTheory.PolyGradedSMul ι ℳ] [Decomposition ℳ] (i : ι), (∀ y : M, (X i - 1 : MvPolynomial ι R) • y = 0 → y = 0) ∧ (∀ (n : ℤ) (z w : M), z ∈ ℳ n → z = (X i - 1 : MvPolynomial ι R) • w → ∃ k : ℕ, (X i : MvPolynomial ι R) ^ k • z = 0) ∧ (∀ y : M, ∃ n₀ : ℤ, ∀ n, n₀ ≤ n → ∃ y' ∈ ℳ n, ∃ w : M, y = y' + (X i - 1 : MvPolynomial ι R) • w) := by
+theorem X_sub_one_smul_graded :
+    ∀ (ι : Type) [LinearOrder ι] [Fintype ι] (R : Type) [CommRing R]
+      (M : Type) [AddCommGroup M] [Module R M] [Module (MvPolynomial ι R) M]
+      [IsScalarTower R (MvPolynomial ι R) M]
+      (ℳ : ℤ → Submodule R M) [PolyGradedSMul ι ℳ] [Decomposition ℳ] (i : ι),
+      (∀ y : M, (X i - 1 : MvPolynomial ι R) • y = 0 → y = 0) ∧
+      (∀ (n : ℤ) (z w : M), z ∈ ℳ n → z = (X i - 1 : MvPolynomial ι R) • w →
+        ∃ k : ℕ, (X i : MvPolynomial ι R) ^ k • z = 0) ∧
+      (∀ y : M, ∃ n₀ : ℤ, ∀ n, n₀ ≤ n →
+        ∃ y' ∈ ℳ n, ∃ w : M, y = y' + (X i - 1 : MvPolynomial ι R) • w) := by
   intro ι _ _ R _ M _ _ _ _ ℳ _ _ i
   exact ⟨fun y hy => eq_zero_of_X_sub_one_smul_eq_zero ℳ i hy,
     fun n z w hz h => _root_.GlobalTheory.exists_X_pow_smul_eq_zero_of_eq_X_sub_one_smul ℳ i hz h,
