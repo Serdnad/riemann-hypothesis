@@ -43,12 +43,11 @@ theorem isAway_iff (ρ : S →ₐ[R] S') (g : S) : IsAway ρ g ↔
     obtain ⟨N, hN⟩ := h3 (a - b) (by rw [map_sub, sub_eq_zero]; exact hab)
     exact ⟨N, by rwa [mul_sub, sub_eq_zero] at hN⟩
 
-theorem isAway_awayHom (g : S) : IsAway (awayHom R g) g :=
-  (isAway_iff _ _).2 ⟨IsLocalization.Away.algebraMap_isUnit g,
-    fun z => IsLocalization.Away.surj g z, fun a ha => by
-      obtain ⟨N, hN⟩ := IsLocalization.Away.exists_of_eq (S := Localization.Away g) g (a := a)
-        (b := 0) (by rw [map_zero]; exact ha)
-      exact ⟨N, by simpa using hN⟩⟩
+theorem isAway_awayHom (g : S) : IsAway (awayHom R g) g := by
+  change @IsLocalization.Away S _ g (Localization.Away g) _
+    (algebraMap S (Localization.Away g)).toAlgebra
+  rw [toAlgebra_algebraMap]
+  infer_instance
 
 namespace IsAway
 
@@ -85,47 +84,41 @@ theorem lift (h : IsAway ρ g) (φ : S →ₐ[R] T) (hφ : IsUnit (φ g)) :
     AlgHom.ext fun a => IsLocalization.Away.lift_eq g hφ a⟩
 
 theorem ext (h : IsAway ρ g) {ψ ψ' : S' →ₐ[R] T} (e : ψ.comp ρ = ψ'.comp ρ) : ψ = ψ' := by
-  ext z
-  obtain ⟨N, a, hz⟩ := h.surj z
-  have e' : ∀ a, ψ (ρ a) = ψ' (ρ a) := fun a => AlgHom.congr_fun e a
-  have hu : IsUnit (ψ (ρ g) ^ N) := (h.unit.map ψ).pow N
-  apply hu.mul_right_cancel
-  rw [← map_pow, ← map_mul, hz, map_pow, e', e', ← map_pow, ← map_mul, hz]
+  let _ : Algebra S S' := (ρ : S →+* S').toAlgebra
+  have : IsLocalization.Away g S' := h
+  apply AlgHom.coe_ringHom_injective
+  apply IsLocalization.ringHom_ext (Submonoid.powers g)
+  exact RingHom.ext fun a => DFunLike.congr_fun e a
+
+private theorem comp_iff (h : IsAway ρ g) {ρ' : S' →ₐ[R] S''} {g' : S} :
+    IsAway ρ' (ρ g') ↔ IsAway (ρ'.comp ρ) (g * g') := by
+  let _ : Algebra S S' := (ρ : S →+* S').toAlgebra
+  let _ : Algebra S' S'' := (ρ' : S' →+* S'').toAlgebra
+  let _ : Algebra S S'' := ((ρ'.comp ρ : S →ₐ[R] S'') : S →+* S'').toAlgebra
+  have : IsScalarTower S S' S'' := IsScalarTower.of_algebraMap_eq fun _ => rfl
+  have : IsLocalization.Away g S' := h
+  constructor
+  · intro h'
+    have : IsLocalization.Away (algebraMap S S' g') S'' := h'
+    exact IsLocalization.Away.mul' S' S'' g g'
+  · intro h'
+    have : IsLocalization.Away (g * g') S'' := h'
+    have : IsLocalization.Away (algebraMap S S'' g) S'' :=
+      IsLocalization.away_of_isUnit_of_bijective _ (h.unit.map ρ') Function.bijective_id
+    have hprod : IsLocalization.Away (ρ (g * g')) S'' :=
+      IsLocalization.Away.commutes S' S'' S'' g (g * g')
+    have hassoc : Associated (ρ (g * g')) (ρ g') := by
+      rw [map_mul]
+      exact associated_unit_mul_left _ _ h.unit
+    exact (IsLocalization.Away.iff_of_associated hassoc).1 hprod
 
 theorem comp (h : IsAway ρ g) {ρ' : S' →ₐ[R] S''} {g' : S} (h' : IsAway ρ' (ρ g')) :
-    IsAway (ρ'.comp ρ) (g * g') := by
-  refine (isAway_iff _ _).2 ⟨?_, fun z => ?_, fun a ha => ?_⟩
-  · rw [map_mul]; exact (h.unit.map ρ').mul h'.unit
-  · obtain ⟨N, b, hb⟩ := h'.surj z
-    obtain ⟨M, a, ha⟩ := h.surj b
-    refine ⟨N + M, a * g ^ N * g' ^ M, ?_⟩
-    simp only [AlgHom.comp_apply, map_mul, map_pow, ← ha, ← hb]
-    ring
-  · obtain ⟨N, hN⟩ := h'.ker (a := ρ a) ha
-    rw [← map_pow, ← map_mul] at hN
-    obtain ⟨M, hM⟩ := h.ker hN
-    refine ⟨N + M, ?_⟩
-    linear_combination g ^ N * g' ^ M * hM
+    IsAway (ρ'.comp ρ) (g * g') :=
+  (comp_iff h).1 h'
 
 theorem cancel (h : IsAway ρ g) {ρ' : S' →ₐ[R] S''} {g' : S}
-    (h' : IsAway (ρ'.comp ρ) (g * g')) : IsAway ρ' (ρ g') := by
-  have hu := h'.unit
-  rw [map_mul] at hu
-  obtain ⟨w, hw⟩ := h.unit.exists_right_inv
-  refine (isAway_iff _ _).2 ⟨isUnit_of_mul_isUnit_right hu, fun z => ?_, fun b hb => ?_⟩
-  · obtain ⟨N, a, ha⟩ := h'.surj z
-    refine ⟨N, ρ a * w ^ N, ?_⟩
-    simp only [AlgHom.comp_apply, map_mul, map_pow] at ha ⊢
-    have hw' : (ρ' (ρ g) * ρ' w) ^ N = 1 := by rw [← map_mul, hw, map_one, one_pow]
-    rw [← ha]
-    linear_combination (-(z * ρ' (ρ g') ^ N)) * hw'
-  · obtain ⟨N, a, ha⟩ := h.surj b
-    obtain ⟨M, hM⟩ := h'.ker (a := a) (by rw [AlgHom.comp_apply, ← ha, map_mul, hb, zero_mul])
-    refine ⟨M, ?_⟩
-    have := congrArg ρ hM
-    simp only [map_mul, map_pow, map_zero, ← ha] at this
-    have hw' : (ρ g * w) ^ (M + N) = 1 := by rw [hw, one_pow]
-    linear_combination w ^ (M + N) * this - (ρ g' ^ M * b) * hw'
+    (h' : IsAway (ρ'.comp ρ) (g * g')) : IsAway ρ' (ρ g') :=
+  (comp_iff h).2 h'
 
 theorem swap (h : IsAway ρ g) {ρ₂ : S →ₐ[R] S''} {g' : S} (h₂ : IsAway ρ₂ g')
     {ν : S' →ₐ[R] T} {ξ : S'' →ₐ[R] T} (e : ν.comp ρ = ξ.comp ρ₂) (hξ : IsAway ξ (ρ₂ g)) :
@@ -144,12 +137,11 @@ theorem mem_map (h : IsAway ρ g) {J : Ideal S} {z : S'} (hz : z ∈ J.map ρ) :
 
 theorem pow_mul_mem (h : IsAway ρ g) {J : Ideal S} {c : S} (hc : ρ c ∈ J.map ρ) :
     ∃ N : ℕ, g ^ N * c ∈ J := by
-  obtain ⟨N, a, ha, e⟩ := h.mem_map hc
-  obtain ⟨M, hM⟩ := h.ker (a := c * g ^ N - a) (by rw [map_sub, map_mul, map_pow, e, sub_self])
-  refine ⟨M + N, ?_⟩
-  have : g ^ (M + N) * c = g ^ M * a := by linear_combination hM
-  rw [this]
-  exact J.mul_mem_left _ ha
+  let _ : Algebra S S' := (ρ : S →+* S').toAlgebra
+  have : IsLocalization.Away g S' := h
+  obtain ⟨_, ⟨n, rfl⟩, hn⟩ :=
+    (IsLocalization.algebraMap_mem_map_algebraMap_iff (Submonoid.powers g) S' J c).1 hc
+  exact ⟨n, hn⟩
 
 theorem isOpenImmersion (h : IsAway ρ g) : IsOpenImmersion (spMap ρ).left := by
   letI := (ρ : S →+* S').toAlgebra
