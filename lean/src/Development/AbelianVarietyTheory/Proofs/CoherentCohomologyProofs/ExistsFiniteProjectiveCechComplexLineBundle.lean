@@ -272,102 +272,85 @@ theorem flat_quotSMulTop_coker_of_matrix_witnesses :
   obtain ⟨c, hc⟩ := hu
   obtain ⟨Ψ, E, hΨ⟩ := hreg
   let I : Ideal S := Ideal.span (Set.range g)
-  have hgI : ∀ k, g k ∈ I := fun k => Ideal.subset_span ⟨k, rfl⟩
-  have huI : u ∈ I := by
-    rw [hc]
-    exact Ideal.sum_mem _ fun k _ => Ideal.mul_mem_left _ _ (hgI k)
-  have hmv : ∀ {m : ℕ} (A : Matrix (Fin a) (Fin m) S), (∀ j i, A j i ∈ I) →
-      ∀ y j, (Matrix.mulVec A y) j ∈ I := by
-    intro m A hA y j
-    simp only [Matrix.mulVec, dotProduct]
-    exact Ideal.sum_mem _ fun i _ => Ideal.mul_mem_right _ _ (hA j i)
+  have hgI k : g k ∈ I := Ideal.subset_span ⟨k, rfl⟩
+  have huI : u ∈ I := hc ▸ Ideal.sum_mem _ fun k _ => Ideal.mul_mem_left _ _ (hgI k)
   let K := LinearMap.range Φ.mulVecLin
   let M := (Fin a → S) ⧸ K
   let T : Submodule S M := u • (⊤ : Submodule S M)
   let pr : (Fin a → S) →ₗ[S] QuotSMulTop u M := T.mkQ ∘ₗ K.mkQ
-  have hK : ∀ y, pr (Matrix.mulVec Φ y) = 0 := by
-    intro y
-    simp only [pr, LinearMap.comp_apply, Submodule.mkQ_apply]
-    have hy : K.mkQ (Matrix.mulVec Φ y) = 0 := (Submodule.Quotient.mk_eq_zero K).2 ⟨y, rfl⟩
-    rw [hy, Submodule.Quotient.mk_zero]
-  have hU : ∀ z, pr (u • z) = 0 := by
-    intro z
-    simp only [pr, LinearMap.comp_apply, Submodule.mkQ_apply]
-    rw [map_smul, Submodule.Quotient.mk_eq_zero]
+  have hK (y : Fin b → S) : pr (Φ.mulVecLin y) = 0 := by
+    have hy : K.mkQ (Φ.mulVecLin y) = 0 := (Submodule.Quotient.mk_eq_zero K).2 ⟨y, rfl⟩
+    change T.mkQ (K.mkQ (Φ.mulVecLin y)) = 0
+    rw [hy, map_zero]
+  have hU (z : Fin a → S) : pr (u • z) = 0 := by
+    change T.mkQ (K.mkQ (u • z)) = 0
+    rw [map_smul, Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero]
     exact Submodule.smul_mem_pointwise_smul _ _ _ Submodule.mem_top
-  have hG : ∀ k x, g k • pr x = 0 := by
-    intro k x
-    obtain ⟨C, C', h⟩ := hker k
-    have hx : g k • x = Matrix.mulVec Φ (Matrix.mulVec C x) + u • Matrix.mulVec C' x := by
-      have := congrArg (fun A => Matrix.mulVec A x) h
-      simp only [Matrix.smul_mulVec, Matrix.one_mulVec, Matrix.add_mulVec,
-        ← Matrix.mulVec_mulVec] at this
-      exact this
+  have hG (k : Fin r) (x : Fin a → S) : g k • pr x = 0 := by
+    obtain ⟨C, C', eq⟩ := hker k
+    have hx : g k • x = Φ.mulVecLin (C.mulVecLin x) + u • C'.mulVecLin x := by
+      have h := congrArg (fun A => Matrix.mulVec A x) eq
+      simpa [Matrix.smul_mulVec, Matrix.add_mulVec, Matrix.mulVec_mulVec] using h
     rw [← map_smul, hx, map_add, hK, hU, add_zero]
-  have hI : ∀ s ∈ I, ∀ x, s • pr x = 0 := by
-    intro s hs x
+  have hI (s : S) (hs : s ∈ I) (x : Fin a → S) : s • pr x = 0 := by
     obtain ⟨d, rfl⟩ := (Submodule.mem_span_range_iff_exists_fun S).1 hs
     simp only [Finset.sum_smul, smul_eq_mul, mul_smul, hG, smul_zero, Finset.sum_const_zero]
-  let q : (Fin a → S) →ₗ[S] (Fin a → S ⧸ I) :=
-    LinearMap.pi fun j => (Submodule.mkQ I) ∘ₗ LinearMap.proj j
-  have hq : ∀ v, (∀ j, v j ∈ I) → q v = 0 := by
-    intro v hv
-    funext j
-    exact (Submodule.Quotient.mk_eq_zero I).2 (hv j)
-  have hqI : ∀ s ∈ I, ∀ w : Fin a → S ⧸ I, s • w = 0 := by
-    intro s hs w
-    funext j
-    obtain ⟨t, ht⟩ := Submodule.Quotient.mk_surjective I (w j)
-    rw [Pi.smul_apply, ← ht, ← Submodule.Quotient.mk_smul, Pi.zero_apply,
-      Submodule.Quotient.mk_eq_zero, smul_eq_mul]
-    exact Ideal.mul_mem_right _ _ hs
-  have hE : ∀ j i, (∑ k, g k • E k) j i ∈ I := by
-    intro j i
-    rw [Matrix.sum_apply]
-    exact Ideal.sum_mem _ fun k _ => by
-      rw [Matrix.smul_apply, smul_eq_mul]
-      exact Ideal.mul_mem_right _ _ (hgI k)
-  let f0 : (Fin a → S) →ₗ[S] (Fin a → S ⧸ I) := q ∘ₗ (LinearMap.id - (Φ * Ψ).mulVecLin)
-  have h1 : K ≤ LinearMap.ker f0 := by
+
+  -- The generators of I act trivially on the cokernel, so reduce its source modulo I.
+  let q (n : ℕ) : (Fin n → S) →ₗ[S] (Fin n → S ⧸ I) :=
+    LinearMap.pi fun j => I.mkQ ∘ₗ LinearMap.proj j
+  let p₀ (j : Fin a) : S →ₗ[S] M := K.mkQ ∘ₗ LinearMap.single S (fun _ : Fin a => S) j
+  have hp₀ (j : Fin a) : I ≤ T.comap (p₀ j) := by
+    intro s hs
+    apply (Submodule.Quotient.mk_eq_zero T).1
+    change pr (Pi.single j s) = 0
+    rw [show s = s • (1 : S) from (mul_one s).symm, Pi.single_smul', map_smul]
+    simpa only [smul_eq_mul, mul_one] using hI s hs (Pi.single j 1)
+  let p := Submodule.piQuotientLift (fun _ => I) T p₀ hp₀
+  have hpq (x : Fin a → S) : p (q a x) = pr x := by
+    change Submodule.piQuotientLift (fun _ => I) T p₀ hp₀
+      (fun j => Submodule.Quotient.mk (x j)) = T.mkQ (K.mkQ x)
+    rw [Submodule.piQuotientLift_mk]
+    simp only [LinearMap.lsum_apply, LinearMap.sum_apply, LinearMap.comp_apply,
+      LinearMap.proj_apply, p₀, LinearMap.single_apply, Submodule.mkQ_apply]
+    rw [← map_sum, Finset.univ_sum_single]
+    rfl
+
+  -- Modulo I, the generalized inverse gives a projection that kills the image of Φ'.
+  let Φ' := Φ.map (Ideal.Quotient.mk I)
+  let Ψ' := Ψ.map (Ideal.Quotient.mk I)
+  have hbar : Φ' * Ψ' * Φ' = Φ' := by
+    have hsum : (∑ k, g k • E k).map (Ideal.Quotient.mk I) = 0 := by
+      ext i j
+      simp only [Matrix.map_apply, Matrix.sum_apply, Matrix.smul_apply, Matrix.zero_apply,
+        smul_eq_mul, map_sum, map_mul, Ideal.Quotient.eq_zero_iff_mem.2 (hgI _), zero_mul,
+        Finset.sum_const_zero]
+    have h := congrArg (fun A => A.map (Ideal.Quotient.mk I)) hΨ
+    simpa only [Φ', Ψ', Matrix.map_mul, Matrix.map_add _ (map_add _), hsum, add_zero] using h
+  have hq_mulVec {m n : ℕ} (B : Matrix (Fin m) (Fin n) S) (y : Fin n → S) :
+      q m (B.mulVecLin y) = (B.map (Ideal.Quotient.mk I)).mulVecLin (q n y) :=
+    funext fun j => RingHom.map_mulVec (Ideal.Quotient.mk I) B y j
+  let f : (Fin a → S) →ₗ[S] (Fin a → S ⧸ I) :=
+    q a ∘ₗ (LinearMap.id - Φ.mulVecLin ∘ₗ Ψ.mulVecLin)
+  let f₁ : M →ₗ[S] (Fin a → S ⧸ I) := K.liftQ f (by
     rintro _ ⟨y, rfl⟩
-    rw [LinearMap.mem_ker]
-    simp only [f0, LinearMap.comp_apply]
-    apply hq
-    intro j
-    have hy : Φ.mulVecLin y - (Φ * Ψ).mulVecLin (Φ.mulVecLin y) = -(Matrix.mulVec (∑ k, g k • E k) y) := by
-      simp only [Matrix.mulVecLin_apply, Matrix.mulVec_mulVec, hΨ, Matrix.add_mulVec]
-      abel
-    rw [LinearMap.sub_apply, LinearMap.id_apply, hy, Pi.neg_apply]
-    exact Submodule.neg_mem _ (hmv _ hE y j)
-  let f1 : M →ₗ[S] (Fin a → S ⧸ I) := K.liftQ f0 h1
-  have h2 : T ≤ LinearMap.ker f1 := by
+    change q a (Φ.mulVecLin y - Φ.mulVecLin (Ψ.mulVecLin (Φ.mulVecLin y))) = 0
+    rw [map_sub, hq_mulVec, hq_mulVec, hq_mulVec, hq_mulVec]
+    change Φ'.mulVecLin (q b y) - Φ'.mulVecLin (Ψ'.mulVecLin (Φ'.mulVecLin (q b y))) = 0
+    simp only [Matrix.mulVecLin_apply, Matrix.mulVec_mulVec, ← Matrix.mul_assoc, hbar, sub_self])
+  let i : QuotSMulTop u M →ₗ[S] (Fin a → S ⧸ I) := T.liftQ f₁ (by
     intro m hm
-    obtain ⟨m', -, rfl⟩ := (Submodule.mem_smul_pointwise_iff_exists _ _ _).1 hm
+    obtain ⟨x, -, rfl⟩ := (Submodule.mem_smul_pointwise_iff_exists _ _ _).1 hm
     rw [LinearMap.mem_ker, map_smul]
-    exact hqI u huI _
-  let i : QuotSMulTop u M →ₗ[S] (Fin a → S ⧸ I) := T.liftQ f1 h2
-  let p : (Fin a → S ⧸ I) →ₗ[S] QuotSMulTop u M :=
-    ∑ j, (Submodule.liftQ I (LinearMap.toSpanSingleton S _ (pr (Pi.single j 1)))
-      (fun s hs => by
-        rw [LinearMap.mem_ker, LinearMap.toSpanSingleton_apply]
-        exact hI s hs _)) ∘ₗ LinearMap.proj j
-  have hpq : ∀ v, p (q v) = pr v := by
-    intro v
-    simp only [p, q, LinearMap.sum_apply, LinearMap.comp_apply,
-      LinearMap.proj_apply, LinearMap.pi_apply, Submodule.mkQ_apply, Submodule.liftQ_apply,
-      LinearMap.toSpanSingleton_apply]
-    conv_rhs => rw [← Finset.univ_sum_single v, map_sum]
-    refine Finset.sum_congr rfl fun j _ => ?_
-    rw [← map_smul]
-    refine congrArg pr ?_
-    funext k
-    by_cases h : k = j <;> simp [h]
+    ext j
+    change Ideal.Quotient.mk I u * f₁ x j = 0
+    rw [Ideal.Quotient.eq_zero_iff_mem.2 huI, zero_mul])
   have hpi : p ∘ₗ i = LinearMap.id := by
     refine LinearMap.ext fun n => ?_
-    obtain ⟨m, rfl⟩ := Submodule.Quotient.mk_surjective T n
-    obtain ⟨x, rfl⟩ := Submodule.Quotient.mk_surjective K m
-    show p (q (x - (Φ * Ψ).mulVecLin x)) = pr x
-    rw [hpq, map_sub, Matrix.mulVecLin_apply, ← Matrix.mulVec_mulVec, hK, sub_zero]
+    obtain ⟨m, rfl⟩ := T.mkQ_surjective n
+    obtain ⟨x, rfl⟩ := K.mkQ_surjective m
+    change p (q a (x - Φ.mulVecLin (Ψ.mulVecLin x))) = pr x
+    rw [hpq, map_sub, hK, sub_zero]
   have := hflat
   have : Module.Flat R (Fin a → S ⧸ I) :=
     Module.Flat.of_linearEquiv
