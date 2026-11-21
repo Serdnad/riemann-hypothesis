@@ -35,10 +35,12 @@ theorem fc_comp_fc (n i j : ℕ) (hji : j < i) (hi : i ≤ n + 2) :
     SimplexCategory.Hom.toOrderHom_mk, OrderHom.comp_coe, Function.comp_apply, OrderHom.coe_mk]
   split_ifs <;> omega
 
-theorem alt_double_sum {M : Type*} [AddCommGroup M] (n : ℕ)
-    (F : (SimplexCategory.mk n ⟶ SimplexCategory.mk (n + 2)) → M) :
+/-- An alternating double sum vanishes when swapping a pair of indices reverses its sign
+and preserves its value. The relation for `j < i` covers one side of each pair. -/
+theorem alternating_pairs_sum_zero {M : Type*} [AddCommGroup M] (n : ℕ) (F : ℕ → ℕ → M)
+    (hpairs : ∀ i j, i < n + 3 → j < i → F i j = F j (i - 1)) :
     ∑ i ∈ Finset.range (n + 3), ∑ j ∈ Finset.range (n + 2),
-      ((-1 : ℤ) ^ i * (-1) ^ j) • F (fc (n + 1) n j ≫ fc (n + 2) (n + 1) i) = 0 := by
+      ((-1 : ℤ) ^ i * (-1) ^ j) • F i j = 0 := by
   rw [← Finset.sum_product']
   refine Finset.sum_involution (fun x _ => if x.2 < x.1 then (x.2, x.1 - 1) else (x.2 + 1, x.1)) ?_ ?_ ?_ ?_
   · rintro ⟨i, j⟩ h
@@ -46,13 +48,13 @@ theorem alt_double_sum {M : Type*} [AddCommGroup M] (n : ℕ)
     dsimp only
     split_ifs with hji
     · dsimp only
-      rw [fc_comp_fc n i j hji (by omega), ← add_smul]
+      rw [hpairs i j (by omega) hji, ← add_smul]
       obtain ⟨i', rfl⟩ : ∃ i', i = i' + 1 := ⟨i - 1, by omega⟩
       rw [show i' + 1 - 1 = i' by omega, pow_succ]
       ring_nf
       simp
     · dsimp only
-      rw [fc_comp_fc n (j + 1) i (by omega) (by omega), show j + 1 - 1 = j by omega, ← add_smul, pow_succ]
+      rw [hpairs (j + 1) i (by omega) (by omega), show j + 1 - 1 = j by omega, ← add_smul, pow_succ]
       ring_nf
       simp
   · rintro ⟨i, j⟩ _ _
@@ -71,6 +73,14 @@ theorem alt_double_sum {M : Type*} [AddCommGroup M] (n : ℕ)
       rw [if_pos (by omega)]
       simp only [Prod.mk.injEq, and_true, true_and]
       omega
+
+theorem alt_double_sum {M : Type*} [AddCommGroup M] (n : ℕ)
+    (F : (SimplexCategory.mk n ⟶ SimplexCategory.mk (n + 2)) → M) :
+    ∑ i ∈ Finset.range (n + 3), ∑ j ∈ Finset.range (n + 2),
+      ((-1 : ℤ) ^ i * (-1) ^ j) • F (fc (n + 1) n j ≫ fc (n + 2) (n + 1) i) = 0 := by
+  refine alternating_pairs_sum_zero n (fun i j => F (fc (n + 1) n j ≫ fc (n + 2) (n + 1) i))
+    fun i j hi hji => ?_
+  exact congrArg F (fc_comp_fc n i j hji (by omega))
 
 theorem dH_comp_dH (a b x y c d : ℕ) : dH a b x y ≫ dH x y c d = 0 := by
   unfold dH
