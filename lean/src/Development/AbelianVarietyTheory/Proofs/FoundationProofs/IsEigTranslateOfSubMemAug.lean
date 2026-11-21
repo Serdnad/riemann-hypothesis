@@ -67,3 +67,6 @@ theorem isEig_translate_of_sub_mem_aug : ∀ (G V : Type) [Group G] [Topological
   rw [hE, map_smul, hS j hj, smul_comm]
 
 end GlobalTheory.PsType
+
+theorem _root_.GlobalTheory.T.isEig_apply_of_sub_mem_aug : type_of% @_root_.GlobalTheory.PsType.isEig_translate_of_sub_mem_aug :=
+  @_root_.GlobalTheory.PsType.isEig_translate_of_sub_mem_aug

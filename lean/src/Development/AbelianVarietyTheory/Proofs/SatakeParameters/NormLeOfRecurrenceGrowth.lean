@@ -90,3 +90,6 @@ theorem norm_le_of_recurrence_growth : ∀ (β : Multiset ℂ) (a : ℕ → ℂ)
   exact zero_ne_one hcauchy
 
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.norm_le_of_recurrence_growth' : type_of% @_root_.GlobalTheory.norm_le_of_recurrence_growth :=
+  @_root_.GlobalTheory.norm_le_of_recurrence_growth

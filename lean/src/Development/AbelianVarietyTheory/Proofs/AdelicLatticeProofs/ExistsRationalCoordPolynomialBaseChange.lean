@@ -56,3 +56,6 @@ theorem exists_coord_polynomial : ∀ (F β : Type) [Field F] [Algebra ℚ F] [F
     simp only [map_sum, map_mul, MvPolynomial.aeval_X, MvPolynomial.aeval_C, h1 R A b hb x]
 
 end GlobalTheory.ClassFin
+
+theorem _root_.GlobalTheory.T.exists_rational_coord_polynomial_baseChange : type_of% @_root_.GlobalTheory.ClassFin.exists_coord_polynomial :=
+  @_root_.GlobalTheory.ClassFin.exists_coord_polynomial

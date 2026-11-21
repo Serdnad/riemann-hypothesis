@@ -82,3 +82,6 @@ theorem gl1 : GLOnto 1 ∧ GLCount 1 := by
 end GlobalTheory.PMonE
 
 end
+
+theorem _root_.GlobalTheory.T.additiveSystem_generalLemma_orderOne : type_of% @_root_.GlobalTheory.PMonE.gl1 :=
+  @_root_.GlobalTheory.PMonE.gl1

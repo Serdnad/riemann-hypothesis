@@ -55,3 +55,6 @@ theorem cocycle_bound_length_le : ∀ {G : Type} [Group G] {LL : Type} [Field LL
     _ ≤ _ := Module.length_le_of_surjective ψ.rangeRestrict ψ.surjective_rangeRestrict
 
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.length_integral_cocycles_rational_coboundaries_le : type_of% @_root_.GlobalTheory.cocycle_bound_length_le :=
+  @_root_.GlobalTheory.cocycle_bound_length_le

@@ -104,3 +104,6 @@ theorem exists_adj_selfDual_step : ∀ {R X M : Type} [CommRing R] [AddCommGroup
   · exact sup_le_sup (le_inf le_sup_left hSA) (le_inf le_sup_right hTB)
 
 end GlobalTheory.FinWeil
+
+theorem _root_.GlobalTheory.T.exists_adjacent_selfDual_lattice_toward : type_of% @_root_.GlobalTheory.FinWeil.exists_adj_selfDual_step :=
+  @_root_.GlobalTheory.FinWeil.exists_adj_selfDual_step

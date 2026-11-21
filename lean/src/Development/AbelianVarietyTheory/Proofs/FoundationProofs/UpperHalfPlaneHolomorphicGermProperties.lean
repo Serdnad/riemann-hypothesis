@@ -109,3 +109,6 @@ theorem main : (∀ a b : ℂ → ℂ, DifferentiableOn ℂ a Hs → Differentia
     exact sub_eq_zero.mp (hξ' z hz)
 
 end GlobalTheory.KZ.Germ
+
+theorem _root_.GlobalTheory.T.upperHalfPlane_holomorphic_germ_properties : type_of% @_root_.GlobalTheory.KZ.Germ.main :=
+  @_root_.GlobalTheory.KZ.Germ.main

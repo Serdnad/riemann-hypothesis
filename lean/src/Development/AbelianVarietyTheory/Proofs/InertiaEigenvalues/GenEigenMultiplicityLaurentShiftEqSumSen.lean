@@ -68,3 +68,6 @@ theorem qmult_sh_range : ∀ {k : Type} [Field k] {l : ℕ} [Fact l.Prime] [Char
       (fun y hy => Window.nab_mem_sh R hg hC _ hy) (fun y hy => Window.nab_mem_sh R hg hC _ hy) hf x
 
 end GlobalTheory.PhiGam.Range
+
+theorem _root_.GlobalTheory.T.genEigenMultiplicity_laurentShift_eq_sum_sen : type_of% @_root_.GlobalTheory.PhiGam.Range.qmult_sh_range :=
+  @_root_.GlobalTheory.PhiGam.Range.qmult_sh_range

@@ -110,3 +110,6 @@ theorem csub_bridge : ∀ (K : Type) [NormedField K], (∀ (τ : Type) (s : MvPo
     fun _ _ _ a S ha => csub_eq_subst a S ha, fun _ a f ha => powerSeriesConvergentSubstMv_eq_subst a f ha⟩
 
 end GlobalTheory.ConvSer.Bridge
+
+theorem _root_.GlobalTheory.T.convergentSubst_oneVariable_and_formal_agreement : type_of% @_root_.GlobalTheory.ConvSer.Bridge.csub_bridge :=
+  @_root_.GlobalTheory.ConvSer.Bridge.csub_bridge

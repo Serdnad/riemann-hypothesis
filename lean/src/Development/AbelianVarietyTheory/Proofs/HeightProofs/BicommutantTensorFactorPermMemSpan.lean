@@ -97,3 +97,6 @@ theorem bicomm_permMat : ∀ (n d : ℕ) (M : Matrix (Fin d → Fin n) (Fin d �
     · simp
 
 end GlobalTheory.SmoothForms
+
+theorem _root_.GlobalTheory.T.bicommutant_tensorFactorPerm_mem_span : type_of% @_root_.GlobalTheory.SmoothForms.bicomm_permMat :=
+  @_root_.GlobalTheory.SmoothForms.bicomm_permMat

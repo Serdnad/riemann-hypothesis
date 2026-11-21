@@ -39,3 +39,6 @@ theorem exists_algebraMap_sub_eq_sum_conjugates : ∀ (E Ω : Type) [Field E] [N
       Multiset.dedup_eq_self.mpr hnd, Multiset.map_id', map_neg, ← nextCoeff_map_eq, ← hq, hsum, neg_neg]
 
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.exists_algebraMap_sub_eq_sum_conjugates' : type_of% @_root_.GlobalTheory.exists_algebraMap_sub_eq_sum_conjugates :=
+  @_root_.GlobalTheory.exists_algebraMap_sub_eq_sum_conjugates

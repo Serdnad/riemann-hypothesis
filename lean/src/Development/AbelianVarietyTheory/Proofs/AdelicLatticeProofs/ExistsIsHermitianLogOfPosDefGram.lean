@@ -21,3 +21,6 @@ theorem exists_isLog_gram : ∀ (ι : Type) [Fintype ι] [DecidableEq ι] (x : M
     exact hs
 
 end GlobalTheory.ClassFin
+
+theorem _root_.GlobalTheory.T.exists_isHermitianLogOfPosDef_gram : type_of% @_root_.GlobalTheory.ClassFin.exists_isLog_gram :=
+  @_root_.GlobalTheory.ClassFin.exists_isLog_gram

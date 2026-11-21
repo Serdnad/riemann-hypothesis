@@ -113,3 +113,6 @@ theorem hecke_loc_inv_mul_int : ∀ (F : Type) [Field F] [NumberField F] (v : He
   exact HeckeLocInt.inv_mul_int_of_left_congr ϖ k hϖ a a' b b' g g' ha' hai hbi hb' hsub hg hg'
 
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.heckeDoubleCoset_adicCompletion_inv_mul_integral : type_of% @_root_.GlobalTheory.hecke_loc_inv_mul_int :=
+  @_root_.GlobalTheory.hecke_loc_inv_mul_int

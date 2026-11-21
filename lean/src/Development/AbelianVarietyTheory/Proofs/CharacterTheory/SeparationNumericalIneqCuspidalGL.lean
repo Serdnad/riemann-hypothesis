@@ -117,3 +117,6 @@ theorem sep_numerical_ineq : ∀ q n : ℕ, 2 ≤ q → 0 < n → ¬ (q = 2 ∧ 
     nlinarith
 
 end GlobalTheory.CuspGL
+
+theorem _root_.GlobalTheory.T.separation_numerical_ineq_cuspidalGL : type_of% @_root_.GlobalTheory.CuspGL.sep_numerical_ineq :=
+  @_root_.GlobalTheory.CuspGL.sep_numerical_ineq

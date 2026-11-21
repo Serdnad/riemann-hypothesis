@@ -93,3 +93,6 @@ theorem rayLSeries_entire_ne_zero_one : ∀ (K : Type) [Field K] [NumberField K]
   exact lt_irrefl _ hpos
 
 end GlobalTheory.Mem
+
+theorem _root_.GlobalTheory.T.ray_L_nonvanishing_at_one : type_of% @_root_.GlobalTheory.Mem.rayLSeries_entire_ne_zero_one :=
+  @_root_.GlobalTheory.Mem.rayLSeries_entire_ne_zero_one

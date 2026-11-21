@@ -64,3 +64,6 @@ theorem conj_matrix_det_isUnit : ∀ (K K' : UQ) (d : ℕ) (φ : K.E →+* K'.E)
   rw [map_mul, ← hβ, hdetA, hdet, map_one]
 
 end GlobalTheory.UnitLemma.Unr
+
+theorem _root_.GlobalTheory.T.isUnit_det_conjugationMatrix_integralBasis : type_of% @_root_.GlobalTheory.UnitLemma.Unr.conj_matrix_det_isUnit :=
+  @_root_.GlobalTheory.UnitLemma.Unr.conj_matrix_det_isUnit

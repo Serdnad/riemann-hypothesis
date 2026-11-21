@@ -138,3 +138,6 @@ theorem casKLe_tensor_operator : ∀ (M : Type) [NormedAddCommGroup M] [InnerPro
     · rfl
 
 end GlobalTheory.TensOp
+
+theorem _root_.GlobalTheory.T.compactCasimirLe_tensorOperator_raise : type_of% @_root_.GlobalTheory.TensOp.casKLe_tensor_operator :=
+  @_root_.GlobalTheory.TensOp.casKLe_tensor_operator

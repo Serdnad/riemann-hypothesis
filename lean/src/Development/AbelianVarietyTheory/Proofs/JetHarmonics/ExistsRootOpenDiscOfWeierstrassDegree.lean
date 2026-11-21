@@ -184,3 +184,6 @@ theorem GlobalTheory.ConvSer.exists_root_of_weierstrassDegree : ∀ (K : Type) [
   have := (hI q hq').2.1
   rw [h0, zero_sub, norm_neg, hq0] at this
   exact absurd hx (not_lt.2 this)
+
+theorem _root_.GlobalTheory.T.exists_root_openDisc_of_weierstrassDegree : type_of% @_root_.GlobalTheory.ConvSer.exists_root_of_weierstrassDegree :=
+  @_root_.GlobalTheory.ConvSer.exists_root_of_weierstrassDegree

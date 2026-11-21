@@ -151,3 +151,6 @@ theorem neg_re_logDeriv_le : ∃ C : ℝ, 0 < C ∧ ∀ (q : ℕ) [NeZero q] (σ
   nlinarith
 
 end GlobalTheory.PrincipalLogDeriv
+
+theorem _root_.GlobalTheory.T.neg_re_logDeriv_principalLFunction_le : type_of% @_root_.GlobalTheory.PrincipalLogDeriv.neg_re_logDeriv_le :=
+  @_root_.GlobalTheory.PrincipalLogDeriv.neg_re_logDeriv_le

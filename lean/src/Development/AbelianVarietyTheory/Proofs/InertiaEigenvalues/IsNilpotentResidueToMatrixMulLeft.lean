@@ -55,3 +55,6 @@ theorem isNilpotent_residue_toMatrix_mulLeft : ∀ (R S : Type) [CommRing R] [Is
   exact ⟨_, (huNb.mul_left_eq_zero).1 hCH⟩
 
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.isNilpotent_residue_toMatrix_mulLeft' : type_of% @_root_.GlobalTheory.isNilpotent_residue_toMatrix_mulLeft :=
+  @_root_.GlobalTheory.isNilpotent_residue_toMatrix_mulLeft

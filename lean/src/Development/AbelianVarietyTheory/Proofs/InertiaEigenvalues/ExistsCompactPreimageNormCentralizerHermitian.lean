@@ -150,3 +150,6 @@ theorem normsec : ∀ (F E : Type) [NontriviallyNormedField F] [NontriviallyNorm
     exact h2
 
 end GlobalTheory.NormSec
+
+theorem _root_.GlobalTheory.T.exists_compact_preimage_norm_centralizer_hermitian : type_of% @_root_.GlobalTheory.NormSec.normsec :=
+  @_root_.GlobalTheory.NormSec.normsec

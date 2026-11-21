@@ -80,3 +80,6 @@ theorem theta_rankOne : ∀ (k : Type) [Field k] [ValuativeRel k] [TopologicalSp
     simp [F]
 
 end GlobalTheory.PsType
+
+theorem _root_.GlobalTheory.T.principalSeriesTypeCharacter_rankOne_perturbation : type_of% @_root_.GlobalTheory.PsType.theta_rankOne :=
+  @_root_.GlobalTheory.PsType.theta_rankOne

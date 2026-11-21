@@ -3,7 +3,7 @@ import Development.AbelianVarietyTheory.PublishedTheorems.GaloisGeometry₂.Hypo
 import Development.AbelianVarietyTheory.PublishedTheorems.GaloisGeometry₂.HoweDualityGL
 import Development.AbelianVarietyTheory.Proofs.SatakeParameters.OmQuotientTransposeInverse
 import Development.AbelianVarietyTheory.Proofs.SatakeParameters.OmQuotientTwistDetStatement
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.OmQuotientTrivialRankZeroStatement
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.OmQuotientTrivialRankZero
 
 noncomputable section
 

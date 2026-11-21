@@ -52,3 +52,6 @@ theorem gauss_extension_unique : ∀ {F : Type} [Field F] [CharZero F] [IsAlgClo
     (GlobalTheory.T.valuationSubring_le_of_residue_independent t V Φ ω hmon hcoef hroot hspan W₂ W₁ (conv W₂ h₂) (conv W₁ h₁) (key W₂ (conv W₂ h₂)))
 
 end GlobalTheory.BertiniNoether
+
+theorem _root_.GlobalTheory.T.gauss_valuation_extension_unique_bertiniNoether : type_of% @_root_.GlobalTheory.BertiniNoether.gauss_extension_unique :=
+  @_root_.GlobalTheory.BertiniNoether.gauss_extension_unique

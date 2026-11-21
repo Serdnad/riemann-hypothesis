@@ -1,6 +1,6 @@
 import Mathlib
 import Development.AbelianVarietyTheory.Proofs.ModuliProofs.CauchyRiemannIffDifferentiableOnComplexStatement
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.DbarSolveComplexTorusStatement
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.DbarSolveComplexTorus
 import Development.AbelianVarietyTheory.Proofs.ModuliProofs.PeriodicCechCocycleSmoothCoboundaryStatement
 open Complex Matrix
 open scoped ContDiff BigOperators Real Topology

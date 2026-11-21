@@ -18,3 +18,6 @@ theorem Et.kerL_eq_of_isIsom : ∀ (F E : Type) [NontriviallyNormedField F] [Non
   rw [← Algebra.smul_def, smul_mul_assoc, Algebra.trace_trace (R := F) (S := E), ← smul_eq_mul,
     ← LinearMap.map_smul, Algebra.trace_trace]
 end GlobalTheory.JR
+
+theorem _root_.GlobalTheory.T.kerL_eq_trace_dotProduct_of_isIsom : type_of% @_root_.GlobalTheory.JR.Et.kerL_eq_of_isIsom :=
+  @_root_.GlobalTheory.JR.Et.kerL_eq_of_isIsom

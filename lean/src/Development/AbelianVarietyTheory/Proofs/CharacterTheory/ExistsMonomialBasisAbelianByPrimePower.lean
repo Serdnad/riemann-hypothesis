@@ -107,3 +107,6 @@ theorem exists_monomial_basis_of_abByP : ∀ (k : Type) [Field k] (G : Type) [Gr
   exact key _ G V ρ rfl hG hc
 
 end GlobalTheory.CuspGL
+
+theorem _root_.GlobalTheory.T.exists_monomial_basis_abelianByPrimePower : type_of% @_root_.GlobalTheory.CuspGL.exists_monomial_basis_of_abByP :=
+  @_root_.GlobalTheory.CuspGL.exists_monomial_basis_of_abByP

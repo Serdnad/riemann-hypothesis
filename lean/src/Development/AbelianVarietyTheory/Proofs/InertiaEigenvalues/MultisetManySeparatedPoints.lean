@@ -57,3 +57,6 @@ theorem multiset_many_separated_points : ∀ (K : Type) [NormedAddCommGroup K] (
   exact ⟨Z, Nat.le_of_mul_le_mul_right (hAB.trans hcard) hB, hZs, hZsep⟩
 
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.exists_finset_separated_of_multiset_bounded_cluster : type_of% @_root_.GlobalTheory.multiset_many_separated_points :=
+  @_root_.GlobalTheory.multiset_many_separated_points

@@ -172,3 +172,6 @@ theorem epsteinZeta_shifted_continuation : ∀ (w₁ w₂ x₀ : ℂ), (starRing
     (fun σ hσ => summable_shiftedLattice_normSq_rpow w₁ w₂ x₀ h hσ) hc htop hbot
 
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.lattice_epstein_zeta_continuation : type_of% @_root_.GlobalTheory.epsteinZeta_shifted_continuation :=
+  @_root_.GlobalTheory.epsteinZeta_shifted_continuation

@@ -239,3 +239,6 @@ theorem relevant_cells : ∀ (g : ℕ) [Fact g.Prime] (N : ℕ), ∀ (L : Lev g 
       · omega
 
 end GlobalTheory.BadShare.Cells
+
+theorem _root_.GlobalTheory.T.exists_relevant_bruhat_cells_levelDatum : type_of% @_root_.GlobalTheory.BadShare.Cells.relevant_cells :=
+  @_root_.GlobalTheory.BadShare.Cells.relevant_cells

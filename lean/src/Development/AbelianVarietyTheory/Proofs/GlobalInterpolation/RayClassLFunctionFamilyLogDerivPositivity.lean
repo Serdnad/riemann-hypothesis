@@ -103,3 +103,6 @@ theorem positivity : ∀ (𝓕 : LFam) (χ ψ : AddChar 𝓕.G ℂ) (σ t : ℝ)
       simp only [one_re, neg_re, mul_one, mul_neg, neg_neg] <;> linarith
 
 end GlobalTheory.Hk.LFamPos
+
+theorem _root_.GlobalTheory.T.rayClassLFunctionFamily_logDeriv_positivity : type_of% @_root_.GlobalTheory.Hk.LFamPos.positivity :=
+  @_root_.GlobalTheory.Hk.LFamPos.positivity

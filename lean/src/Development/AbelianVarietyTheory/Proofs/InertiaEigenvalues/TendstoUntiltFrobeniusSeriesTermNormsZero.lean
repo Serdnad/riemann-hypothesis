@@ -51,3 +51,6 @@ theorem psers_terms_tendsto_zero : ∀ (l : ℕ) [Fact l.Prime] (h j : ℕ) (r :
       exact_mod_cast this
 
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.tendsto_untiltFrobeniusSeries_term_norms_zero : type_of% @_root_.GlobalTheory.psers_terms_tendsto_zero :=
+  @_root_.GlobalTheory.psers_terms_tendsto_zero

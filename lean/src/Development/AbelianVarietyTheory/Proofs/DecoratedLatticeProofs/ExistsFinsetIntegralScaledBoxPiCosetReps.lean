@@ -58,3 +58,6 @@ theorem exists_finset_box_reps : ∀ (k : Type) [Field k] [ValuativeRel k] [Topo
       rw [h1]
 
 end GlobalTheory.BoxReps
+
+theorem _root_.GlobalTheory.T.exists_finset_integralScaledBoxPi_coset_reps : type_of% @_root_.GlobalTheory.BoxReps.exists_finset_box_reps :=
+  @_root_.GlobalTheory.BoxReps.exists_finset_box_reps

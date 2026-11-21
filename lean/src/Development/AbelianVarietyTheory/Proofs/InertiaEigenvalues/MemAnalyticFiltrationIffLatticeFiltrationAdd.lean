@@ -104,3 +104,6 @@ theorem GlobalTheory.BK.PhiMod.mem_analytic_filtration_iff : ∀ (O K : Type) [C
     refine Submodule.mem_sup.2 ⟨y₁, Submodule.mem_inf.2 ⟨P.ext_mono (invL_A_le_Rpi l e) hy₁L,
       mem_shiftE.2 (P.Mext_mono (invL_A_le_Rpi l e) (mem_shiftE.1 hy₁M))⟩, y₂ + (x - (y₁ + y₂)),
       add_mem (mem_shiftE.2 (P.ext_mono (invL_A_le_Rpi l e) (mem_shiftE.1 hy₂))) hxy, by abel⟩
+
+theorem _root_.GlobalTheory.T.mem_analytic_filtration_iff_lattice_filtration_add : type_of% @_root_.GlobalTheory.BK.PhiMod.mem_analytic_filtration_iff :=
+  @_root_.GlobalTheory.BK.PhiMod.mem_analytic_filtration_iff

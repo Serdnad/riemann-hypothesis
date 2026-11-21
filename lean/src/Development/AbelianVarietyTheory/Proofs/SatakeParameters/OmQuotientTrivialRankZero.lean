@@ -120,3 +120,6 @@ theorem main : ∀ (k : Type) [Field k] [ValuativeRel k] [TopologicalSpace k] [I
     exact ⟨equiv_trivial_of_fixed hσ hv0 hv, ⟨eτ⟩⟩
 
 end GlobalTheory.HoweZero
+
+theorem _root_.GlobalTheory.T.om_quotient_trivial_rank_zero : type_of% @_root_.GlobalTheory.HoweZero.main :=
+  @_root_.GlobalTheory.HoweZero.main

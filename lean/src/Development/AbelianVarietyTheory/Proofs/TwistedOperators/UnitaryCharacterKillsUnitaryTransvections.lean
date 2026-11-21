@@ -105,3 +105,6 @@ theorem char_tvGen : ∀ (E : Type) [Field E] [CharZero E] (n : ℕ) (σ : E →
   exact fun m hm => (key m hm).2
 
 end GlobalTheory.UTrans.TvKill
+
+theorem _root_.GlobalTheory.T.unitaryCharacter_kills_unitaryTransvections : type_of% @_root_.GlobalTheory.UTrans.TvKill.char_tvGen :=
+  @_root_.GlobalTheory.UTrans.TvKill.char_tvGen

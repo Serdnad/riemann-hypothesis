@@ -100,3 +100,6 @@ theorem dbar_solve_complexTorus : ∀ (g : ℕ) (Λ : Submodule ℤ (Fin g → �
     simp
 
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.exists_periodic_dbar_solution : type_of% @_root_.GlobalTheory.dbar_solve_complexTorus :=
+  @_root_.GlobalTheory.dbar_solve_complexTorus

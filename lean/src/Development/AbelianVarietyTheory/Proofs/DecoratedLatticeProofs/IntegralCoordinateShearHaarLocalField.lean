@@ -72,3 +72,6 @@ theorem integral_shear : ∀ (k : Type) [Field k] [ValuativeRel k] [TopologicalS
   exact hmp.integral_comp hemb F
 
 end GlobalTheory.CoordShear
+
+theorem _root_.GlobalTheory.T.integral_coordinate_shear_haar_localField : type_of% @_root_.GlobalTheory.CoordShear.integral_shear :=
+  @_root_.GlobalTheory.CoordShear.integral_shear

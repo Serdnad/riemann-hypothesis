@@ -30,3 +30,6 @@ theorem riemann_extension_coordinate_hyperplane : ∀ (n : ℕ) (U : Set (Fin n 
     filter_upwards [hO.mem_nhds ⟨hz₀, h0⟩] with z hz
     simp [hz.2]
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.exists_differentiableOn_ext_of_bounded_off_hyperplane : type_of% @_root_.GlobalTheory.riemann_extension_coordinate_hyperplane :=
+  @_root_.GlobalTheory.riemann_extension_coordinate_hyperplane

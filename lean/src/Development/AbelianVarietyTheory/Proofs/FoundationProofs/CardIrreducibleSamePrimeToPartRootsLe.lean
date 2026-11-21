@@ -172,3 +172,6 @@ theorem card_irreducible_samePart_le : ∀ (g : ℕ) [Fact g.Prime], ∀ (N d l 
     _ = _ := by rw [← Real.rpow_add (by positivity)]; congr 1; ring
 
 end GlobalTheory.BadShare.TwoRoots
+
+theorem _root_.GlobalTheory.T.card_irreducible_samePrimeToPart_roots_le : type_of% @_root_.GlobalTheory.BadShare.TwoRoots.card_irreducible_samePart_le :=
+  @_root_.GlobalTheory.BadShare.TwoRoots.card_irreducible_samePart_le

@@ -200,3 +200,6 @@ theorem gram_minor_swap_columns : ∀ (N : ℕ) (k : Matrix (Fin N) (Fin N) ℝ)
     ring
 
 end GlobalTheory.ClassFin
+
+theorem _root_.GlobalTheory.T.gram_minor_swap_adjacent_columns : type_of% @_root_.GlobalTheory.ClassFin.gram_minor_swap_columns :=
+  @_root_.GlobalTheory.ClassFin.gram_minor_swap_columns

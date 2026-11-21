@@ -56,3 +56,6 @@ theorem residue_top_factor_through_bottom : ∀ (O : Type) [CommRing O] [IsLocal
   abel
 
 end GlobalTheory
+
+theorem _root_.GlobalTheory.T.exists_residue_first_block_factor_of_second : type_of% @_root_.GlobalTheory.residue_top_factor_through_bottom :=
+  @_root_.GlobalTheory.residue_top_factor_through_bottom
