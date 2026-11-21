@@ -18,18 +18,24 @@ open GlobalTheory GlobalTheory.AbLaw
 
 namespace GlobalTheory.PrincipalSections
 
-theorem le_one_of_convolution (a b : ℕ → ℕ) (g : ℕ)
+theorem coefficient_le_one_of_convolution (a b : ℕ → ℕ) (g i : ℕ)
     (h : ∀ n, ∑ x ∈ Finset.HasAntidiagonal.antidiagonal n, a x.1 * b x.2 = if n = g then 1 else 0) :
-    a 0 ≤ 1 := by
+    a i ≤ 1 := by
   have hg := h g
   rw [if_pos rfl] at hg
   obtain ⟨x, -, hx⟩ := Finset.exists_ne_zero_of_sum_ne_zero (hg.trans_ne one_ne_zero)
   have hb : 1 ≤ b x.2 := Nat.one_le_iff_ne_zero.2 (right_ne_zero_of_mul hx)
-  have h₁ : a 0 * b x.2 ≤ ∑ y ∈ Finset.HasAntidiagonal.antidiagonal x.2, a y.1 * b y.2 :=
-    Finset.single_le_sum (f := fun y : ℕ × ℕ => a y.1 * b y.2) (a := (0, x.2))
-      (fun _ _ => Nat.zero_le _) (by simp)
-  have h₂ : (if x.2 = g then 1 else 0) ≤ 1 := by split_ifs <;> omega
-  exact (Nat.le_mul_of_pos_right _ hb).trans (h₁.trans ((h x.2).le.trans h₂))
+  calc
+    a i ≤ a i * b x.2 := Nat.le_mul_of_pos_right _ hb
+    _ ≤ ∑ y ∈ Finset.HasAntidiagonal.antidiagonal (i + x.2), a y.1 * b y.2 :=
+      Finset.single_le_sum (f := fun y : ℕ × ℕ => a y.1 * b y.2) (a := (i, x.2))
+        (fun _ _ => Nat.zero_le _) (by simp)
+    _ ≤ 1 := by rw [h]; split <;> omega
+
+theorem le_one_of_convolution (a b : ℕ → ℕ) (g : ℕ)
+    (h : ∀ n, ∑ x ∈ Finset.HasAntidiagonal.antidiagonal n, a x.1 * b x.2 = if n = g then 1 else 0) :
+    a 0 ≤ 1 :=
+  coefficient_le_one_of_convolution a b g 0 h
 
 theorem exists_fin_affine_cover (X : Scheme.{0}) [CompactSpace X] :
     ∃ (n : ℕ) (D : Fin n → X.Opens), (∀ i, IsAffineOpen (D i)) ∧ ⨆ i, D i = ⊤ := by
@@ -86,8 +92,11 @@ noncomputable def chartTwInv {X Y : Scheme.{0}} (L : LB X) (a b : Y ⟶ X) :
       rw [zpow_neg_one, inv_inv]
       rfl }
 
-theorem finrank_secOnR_le_one (K : Type) [Field K] [IsAlgClosed K]
-    (P : PolAV (Spec (CommRingCat.of K))) : Module.finrank K (SecOnR P.A.hom P.L ⊤) ≤ 1 := by
+/-- Künneth and the Mumford bundle rank bound each Čech cohomology degree of a principal polarisation. -/
+theorem finrank_cechLB_homology_le_one (K : Type) [Field K] [IsAlgClosed K]
+    (P : PolAV (Spec (CommRingCat.of K))) {κ : Type} [LinearOrder κ] [Fintype κ]
+    (U : κ → P.A.left.Opens) (hU : ∀ i, IsAffineOpen (U i)) (hUc : ⨆ i, U i = ⊤)
+    (i : ℕ) : Module.finrank K ((cechLB P.A.hom P.L U).homology i) ≤ 1 := by
   obtain ⟨⟨hproj, hsep⟩, -⟩ := GlobalTheory.AbProj.abelian_projective_baseChange K P
   have hpb := isPullback_mul_snd P.A
   have := P.isAb.proper
@@ -96,20 +105,28 @@ theorem finrank_secOnR_le_one (K : Type) [Field K] [IsAlgClosed K]
     MorphismProperty.of_isPullback (P := @QuasiCompact) hpb hqc
   have : CompactSpace P.A.left := QuasiCompact.compactSpace_of_compactSpace P.A.hom
   have : CompactSpace (P.A ⊗ P.A).left := QuasiCompact.compactSpace_of_compactSpace (snd P.A P.A).left
-  obtain ⟨n, U, hU, hUc⟩ := exists_fin_affine_cover P.A.left
   obtain ⟨m, D, hD, hDc⟩ := exists_fin_affine_cover (P.A ⊗ P.A).left
   have hL' := isLB_pw P.isLB (-1)
-  obtain ⟨e⟩ := cechLB_homology_zero_equiv_sections K _ P.A.hom P.L _ U hUc
-  rw [← e.finrank_eq]
-  refine le_one_of_convolution (fun i => Module.finrank K ((cechLB P.A.hom P.L U).homology i))
-    (fun i => Module.finrank K ((cechLB P.A.hom (pw P.L (-1)) U).homology i)) P.g fun k => ?_
-  rw [← GlobalTheory.T.finrank_cechLB_homology_extProd_alt K _ _ _ _ _ _ _ P.L (pw P.L (-1)) hpb P.isLB hL' hsep hsep _ U _ U _ D hU hUc hU hUc
-    hD hDc (cechLB_homology_finite_of_affine_cover K _ _ _ _ U P.isLB hsep hproj hU hUc)
-    (cechLB_homology_finite_of_affine_cover K _ _ _ _ U hL' hsep hproj hU hUc) k, ← GlobalTheory.T.mumford_bundle_cech_cohomology_finrank K P _ D hD hDc k, Over.w]
+  refine coefficient_le_one_of_convolution (fun i => Module.finrank K ((cechLB P.A.hom P.L U).homology i))
+    (fun i => Module.finrank K ((cechLB P.A.hom (pw P.L (-1)) U).homology i)) P.g i fun k => ?_
+  have hfin := cechLB_homology_finite_of_affine_cover K _ _ _ _ U P.isLB hsep hproj hU hUc
+  have hfin' := cechLB_homology_finite_of_affine_cover K _ _ _ _ U hL' hsep hproj hU hUc
+  rw [← GlobalTheory.T.finrank_cechLB_homology_extProd_alt K _ _ _ _ _ _ _ P.L (pw P.L (-1))
+    hpb P.isLB hL' hsep hsep _ U _ U _ D hU hUc hU hUc hD hDc hfin hfin' k,
+    ← GlobalTheory.T.mumford_bundle_cech_cohomology_finrank K P _ D hD hDc k, Over.w]
   have hF : (translDiff P.A P.L (𝟙 P.A)).IsLB := DVR.linComb_isLB _ P.isLB _ _
   obtain ⟨w, hw⟩ := lbIso_of_chartPull (chartTwInv P.L _ _) hF
   exact (HomologicalComplex.homologyMapIso (cechLBCongr _ D
     (isLB_tw (pull_isLB P.isLB _) (pull_isLB hL' _) 1) hF w hw) k).toLinearEquiv.finrank_eq
+
+theorem finrank_secOnR_le_one (K : Type) [Field K] [IsAlgClosed K]
+    (P : PolAV (Spec (CommRingCat.of K))) : Module.finrank K (SecOnR P.A.hom P.L ⊤) ≤ 1 := by
+  have := P.isAb.proper
+  have : CompactSpace P.A.left := QuasiCompact.compactSpace_of_compactSpace P.A.hom
+  obtain ⟨n, U, hU, hUc⟩ := exists_fin_affine_cover P.A.left
+  obtain ⟨e⟩ := cechLB_homology_zero_equiv_sections K _ P.A.hom P.L _ U hUc
+  rw [← e.finrank_eq]
+  exact finrank_cechLB_homology_le_one K P U hU hUc 0
 
 noncomputable def chartPullOne {X Y : Scheme.{0}} (L : LB X) (a : Y ⟶ X) :
     ChartPull (L.pull a) (LB.LinComb L (K := Fin 1) (fun _ => a) (fun _ => 1)) (𝟙 Y) :=

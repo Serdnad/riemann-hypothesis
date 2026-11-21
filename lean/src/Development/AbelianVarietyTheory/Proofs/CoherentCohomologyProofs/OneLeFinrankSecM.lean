@@ -88,23 +88,24 @@ theorem one_le_finrank_secM :
   let f : (T ⊗ P.A).left ⟶ Spec (CommRingCat.of K) := (fst T P.A).left
   have hpb : IsPullback π f P.A.hom (𝟙 _) := (IsPullback.of_hasPullback T.hom P.A.hom).flip
   obtain ⟨N, hN, m, s, hH, hs⟩ :=
-    GlobalTheory.AbLaw.polAV_veryAmpleBy GlobalTheory.laws_without_cohomology.2.2.1 _ P K (𝟙 _) _ π f hpb
+    GlobalTheory.AbLaw.polAV_veryAmpleBy GlobalTheory.polBaseChange_holds _ P K (𝟙 _) _ π f hpb
   have hgi := GlobalTheory.forall_geometricallyIntegral_of_smooth_of_geometricallyConnected _ _ P.A.hom
     P.isAb.smooth P.isAb.geomConnected
   haveI : IsIntegral (T ⊗ P.A).left := GeometricallyIntegral.geometrically_isIntegral _ _ _ hpb
   obtain ⟨t₀, ht₀⟩ := GlobalTheory.T.exists_high_twist_section_ne_zero K _ f _ m s (P.L.pull π) hH (LB.isLB_pull P.isLB π) hs
+  -- Use a square exponent so the section splitting applies.
   obtain ⟨n, t, hn, ht, hnt⟩ := exists_sq_eq K N hN t₀
   obtain ⟨σ, i, hi⟩ := ht₀ t ht
   obtain ⟨τ, hτ⟩ := exists_sec_ne_zero P.L π P.isLB N t σ i hi
   have hbig : Nontrivial (SecM P.A P.L (1 + N * t) T) :=
     ⟨SecM.ofSec P.A τ, 0, fun h => hτ (congrArg Subtype.val h)⟩
   rw [← hnt] at hbig
-  obtain ⟨e⟩ := (GlobalTheory.AbLaw.FromCube.all_of_cubeGen CubeAssembly.cube_gen).2.2.2.2.2.2.2.2.2 K P n 1 hn le_rfl
+  obtain ⟨e⟩ := FromCube.sec_split CubeAssembly.cube_gen K P n 1 hn le_rfl
   have hone : Nontrivial (SecM P.A P.L ((1 : ℕ) : ℤ) T) := by
     by_contra h
     haveI := not_nontrivial_iff_subsingleton.1 h
     exact not_subsingleton _ e.toEquiv.subsingleton
-  have hfin := (CubeAssembly.sections_growth K P).1 1
+  have hfinite := SecGrowth.finite_secM P (CubeAssembly.sections_finite K P) 1
   letI : Field Γ(T.left, ⊤) :=
     (isField_of_isIntegral_of_subsingleton (Spec (CommRingCat.of K))).toField
   exact Module.finrank_pos (R := Γ(T.left, ⊤)) (M := SecM P.A P.L ((1 : ℕ) : ℤ) T)
