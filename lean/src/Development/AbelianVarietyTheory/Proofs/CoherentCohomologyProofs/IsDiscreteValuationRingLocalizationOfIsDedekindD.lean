@@ -1,4 +1,5 @@
 import Mathlib
+import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.LengthQuotientSpanSingleton
 
 namespace GlobalTheory
 
@@ -15,43 +16,13 @@ lemma length_quot_span_singleton (a : R) :
     Module.length R (R ⧸ Ideal.span {a}) = addVal R a := Ring.ord_eq_addVal a
 
 lemma addVal_prod {ι : Type*} (s : Finset ι) (a : ι → R) :
-    addVal R (∏ i ∈ s, a i) = ∑ i ∈ s, addVal R (a i) := by
-  classical
-  induction s using Finset.induction_on with
-  | empty => simp
-  | insert i s hi ih => rw [Finset.prod_insert hi, Finset.sum_insert hi, addVal_mul, ih]
+    addVal R (∏ i ∈ s, a i) = ∑ i ∈ s, addVal R (a i) :=
+  LengthQuotientValuationDet.addVal_prod s a
 
 lemma addVal_det_of_injective (f : M →ₗ[R] M) (hf : Function.Injective f) :
-    addVal R (LinearMap.det f) = Module.length R (M ⧸ LinearMap.range f) := by
-  classical
-  let N := LinearMap.range f
-  let e : M ≃ₗ[R] N := LinearEquiv.ofInjective f hf
-  let b := Module.Free.chooseBasis R M
-  have h : Module.finrank R N = Module.finrank R M := e.symm.finrank_eq
-  let a := Submodule.smithNormalFormCoeffs b h
-  let b' := Submodule.smithNormalFormTopBasis b h
-  let ab := Submodule.smithNormalFormBotBasis b h
-  have ab_eq := Submodule.smithNormalFormBotBasis_def b h
-  let e' : M ≃ₗ[R] N := b'.equiv ab (Equiv.refl _)
-  let g : M →ₗ[R] M := N.subtype.comp (e' : M →ₗ[R] N)
-  have hfe : f = N.subtype.comp (e : M →ₗ[R] N) := by ext x; rfl
-  have hass : Associated (LinearMap.det f) (LinearMap.det g) := by
-    rw [hfe]; exact LinearMap.associated_det_comp_equiv _ _ _
-  have ha : ∀ i, g (b' i) = a i • b' i := by
-    intro i
-    change ((b'.equiv ab (Equiv.refl _) (b' i) : N) : M) = _
-    rw [b'.equiv_apply, Equiv.refl_apply]
-    exact ab_eq i
-  have hg : LinearMap.toMatrix b' b' g = Matrix.diagonal a := by
-    ext i j
-    rw [LinearMap.toMatrix_apply, ha, map_smul, Basis.repr_self, Finsupp.smul_single,
-      smul_eq_mul, mul_one]
-    by_cases h : i = j
-    · rw [h, Matrix.diagonal_apply_eq, Finsupp.single_eq_same]
-    · rw [Matrix.diagonal_apply_ne _ h, Finsupp.single_eq_of_ne h]
-  rw [(addVal_eq_iff_associated _ _).2 hass, ← LinearMap.det_toMatrix b', hg, Matrix.det_diagonal,
-    addVal_prod, (N.quotientEquivPiSpan b h).length_eq, Module.length_pi_of_fintype]
-  exact Finset.sum_congr rfl fun i _ => (length_quot_span_singleton _).symm
+    addVal R (LinearMap.det f) = Module.length R (M ⧸ LinearMap.range f) :=
+  (LengthQuotientValuationDet.length_quotient_eq_addVal_det
+    (LinearMap.range f) (LinearEquiv.ofInjective f hf)).symm
 
 lemma length_quot_range_of_not_injective (f : M →ₗ[R] M) (hf : ¬ Function.Injective f) :
     Module.length R (M ⧸ LinearMap.range f) = ⊤ := by

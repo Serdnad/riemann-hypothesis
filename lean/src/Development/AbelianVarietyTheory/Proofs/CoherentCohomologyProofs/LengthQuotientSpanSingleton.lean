@@ -16,11 +16,8 @@ theorem addVal_prod {ι : Type*} (s : Finset ι) (f : ι → R) :
   | insert j s hj ih => rw [Finset.prod_insert hj, Finset.sum_insert hj, AddValuation.map_mul, ih]
 
 theorem length_quotient_span_singleton {x : R} (hx : x ≠ 0) :
-    Module.length R (R ⧸ Ideal.span ({x} : Set R)) = addVal R x := by
-  obtain ⟨ϖ, hϖ⟩ := exists_irreducible R
-  obtain ⟨n, u, rfl⟩ := eq_unit_mul_pow_irreducible hx hϖ
-  rw [Ideal.span_singleton_mul_left_unit u.isUnit, ← Ideal.span_singleton_pow,
-    ← hϖ.maximalIdeal_eq, length_quotient_pow_maximalIdeal, addVal_def' u hϖ]
+    Module.length R (R ⧸ Ideal.span ({x} : Set R)) = addVal R x :=
+  Ring.ord_eq_addVal x
 
 theorem length_quotient_eq_addVal_det {R : Type u_1} [CommRing R] [IsDomain R]
     [IsDiscreteValuationRing R] {M : Type u_2} [AddCommGroup M] [Module R M]
