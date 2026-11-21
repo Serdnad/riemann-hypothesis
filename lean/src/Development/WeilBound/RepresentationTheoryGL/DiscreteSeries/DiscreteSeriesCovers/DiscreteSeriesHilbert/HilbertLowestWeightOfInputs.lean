@@ -34,39 +34,34 @@ theorem hloweq_brIdx {n : ℕ} (c : Fin n → Fin n → ℕ) :
   rw [← this, Finset.mul_sum]
   refine Finset.sum_congr rfl fun i _ => by ring
 
+/-- The root index sum strictly decreases along a nontrivial positive-root cone. -/
+theorem brIdxSum_lt_of_inCone {n : ℕ} {ν Λ : Fin n → ℝ}
+    (h : InCone Λ ν) (hne : ν ≠ Λ) : brIdxSum ν < brIdxSum Λ := by
+  obtain ⟨c, hc, heq⟩ := h
+  have hterm_lt {a b} (hab : c a b ≠ 0) :
+      (c a b : ℝ) * ((a : ℕ) - (b : ℕ) : ℝ) < 0 := by
+    have hindex : ((a : ℕ) : ℝ) < (b : ℕ) := by exact_mod_cast hc a b hab
+    exact mul_neg_of_pos_of_neg (Nat.cast_pos.mpr (Nat.pos_of_ne_zero hab)) (sub_neg.mpr hindex)
+  have hterm_le (a b : Fin n) : (c a b : ℝ) * ((a : ℕ) - (b : ℕ) : ℝ) ≤ 0 := by
+    by_cases hab : c a b = 0
+    · simp [hab]
+    · exact (hterm_lt hab).le
+  have hnonzero : ∃ a b, c a b ≠ 0 := by
+    by_contra! hzero
+    exact hne (by simpa [hzero] using heq)
+  obtain ⟨a, b, hab⟩ := hnonzero
+  have hsum : brIdxSum (ν - Λ) < 0 := by
+    rw [heq, add_sub_cancel_left, hloweq_brIdx]
+    exact Finset.sum_neg' (fun i _ => Finset.sum_nonpos fun j _ => hterm_le i j)
+      ⟨a, Finset.mem_univ _, Finset.sum_neg' (fun j _ => hterm_le a j)
+        ⟨b, Finset.mem_univ _, hterm_lt hab⟩⟩
+  rwa [brIdxSum_sub, sub_neg] at hsum
+
 theorem hloweq_eq_of_cone {n : ℕ} {ε : Fin n → Bool} {ν Λ : Fin n → ℝ} (h1 : InCone Λ ν)
     (h2 : Formalism.MainNotions.S.CDom ε ν Λ) : ν = Λ := by
   have hle := brIdxSum_nonpos_of_cdom h2
-  obtain ⟨c, hc, heq⟩ := h1
-  have hterm : ∀ a b, (c a b : ℝ) * ((a : ℕ) - (b : ℕ) : ℝ) ≤ 0 := by
-    intro a b
-    by_cases h : c a b = 0
-    · simp [h]
-    · have hab := hc a b h
-      have : ((a : ℕ) : ℝ) < (b : ℕ) := by exact_mod_cast hab
-      exact mul_nonpos_of_nonneg_of_nonpos (by positivity) (by linarith)
-  have hs : brIdxSum (ν - Λ) = ∑ a, ∑ b, (c a b : ℝ) * ((a : ℕ) - (b : ℕ) : ℝ) := by
-    rw [heq, add_sub_cancel_left, hloweq_brIdx]
-  have hneg : brIdxSum (ν - Λ) = - brIdxSum (Λ - ν) := by
-    rw [brIdxSum_sub, brIdxSum_sub]; ring
-  have hz : ∑ a, ∑ b, (c a b : ℝ) * ((a : ℕ) - (b : ℕ) : ℝ) = 0 := by
-    have : ∑ a, ∑ b, (c a b : ℝ) * ((a : ℕ) - (b : ℕ) : ℝ) ≤ 0 :=
-      Finset.sum_nonpos fun a _ => Finset.sum_nonpos fun b _ => hterm a b
-    linarith
-  have hc0 : ∀ a b, c a b = 0 := by
-    intro a b
-    by_contra hne
-    have hlt : (c a b : ℝ) * ((a : ℕ) - (b : ℕ) : ℝ) < 0 := by
-      have hab := hc a b hne
-      have : ((a : ℕ) : ℝ) < (b : ℕ) := by exact_mod_cast hab
-      have hpos : (0 : ℝ) < c a b := by exact_mod_cast Nat.pos_of_ne_zero hne
-      exact mul_neg_of_pos_of_neg hpos (by linarith)
-    have hall := (Finset.sum_eq_zero_iff_of_nonpos
-      (fun a _ => Finset.sum_nonpos fun b _ => hterm a b)).1 hz a (Finset.mem_univ _)
-    have hall2 := (Finset.sum_eq_zero_iff_of_nonpos (fun b _ => hterm a b)).1 hall b (Finset.mem_univ _)
-    linarith
-  rw [heq]
-  simp [hc0]
+  rw [brIdxSum_sub, sub_nonpos] at hle
+  exact by_contra fun hne => (not_lt_of_ge hle) (brIdxSum_lt_of_inCone h1 hne)
 
 theorem hilbert_lowest_weight_of_inputs : StepStable → StepMoll → StepWtSpan → StepDatum → StepLowEq := by
   intro hSt hMo hWt hDa n ε lam T Ψ _hHC hPsi hKey S hSH hSK
