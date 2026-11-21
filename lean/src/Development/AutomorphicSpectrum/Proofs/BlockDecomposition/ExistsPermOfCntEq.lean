@@ -1,5 +1,5 @@
 import Mathlib
-import Development.AbelianVarietyTheory.Definitions.Divisors.NefFibOfIsNef
+import Formalism.DegreeFormula.FlagDegFormula
 open MvPolynomial
 
 namespace GlobalTheory.CompanionTheory.Polarisation

@@ -1,5 +1,6 @@
 import Mathlib
 import Development.AbelianVarietyTheory.Definitions.Divisors.NefFibOfIsNef
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HomogeneousFormPowersLinear
 
 noncomputable section
 
@@ -134,108 +135,14 @@ theorem eq_zero_of_pow {ι : Type} [Fintype ι] (d : ℕ) (Φ : MvPolynomial ι 
     (h : ∀ n : ι → ℤ, Φ (lin (fun i => (n i : ℝ)) ^ d) = 0)
     (h' : ∀ (P : MvPolynomial ι ℝ) (e : ℕ), e ≠ d → P.IsHomogeneous e → Φ P = 0) : Φ = 0 := by
   classical
-  let Q : MvPolynomial ι ℝ := ∑ a ∈ (Finset.univ : Finset ι).piAntidiag d,
-    monomial (Finsupp.equivFunOnFinite.symm a) ((Nat.multinomial Finset.univ a : ℝ) *
-      Φ (monomial (Finsupp.equivFunOnFinite.symm a) 1))
-  have hQ (x : ι → ℝ) : eval x Q = Φ (lin x ^ d) := by
-    rw [lin, Finset.sum_pow_eq_sum_piAntidiag, map_sum, map_sum]
-    refine Finset.sum_congr rfl fun a _ => ?_
-    have e : (Nat.multinomial Finset.univ a : MvPolynomial ι ℝ) * ∏ i, (C (x i) * MvPolynomial.X i) ^ a i =
-        ((Nat.multinomial Finset.univ a : ℝ) * ∏ i, x i ^ a i) • monomial (Finsupp.equivFunOnFinite.symm a) (1 : ℝ) := by
-      rw [monomial_eq, Finsupp.prod_fintype _ _ (by simp), smul_eq_C_mul]
-      simp [mul_pow, Finset.prod_mul_distrib, mul_assoc]
-    rw [e, map_smul, eval_monomial, Finsupp.prod_fintype _ _ (by simp)]
-    simp only [Finsupp.coe_equivFunOnFinite_symm, smul_eq_mul]
-    ring
-  have h0 : Q = 0 := by
-    refine funext_set (fun _ => Set.range (Int.cast : ℤ → ℝ))
-      (fun _ => Set.infinite_range_of_injective Int.cast_injective) fun x hx => ?_
-    choose n hn using fun i => hx i trivial
-    rw [hQ, map_zero, ← h n]
-    congr 3
-    exact funext fun i => (hn i).symm
   refine (basisMonomials ι ℝ).ext fun a => ?_
-  rw [coe_basisMonomials]
+  simp only [coe_basisMonomials, LinearMap.zero_apply]
   by_cases ha : a.degree = d
-  · have := congrArg (coeff a) h0
-    simp only [Q, coeff_sum, coeff_monomial, Equiv.symm_apply_eq, Finset.sum_ite_eq', coeff_zero] at this
-    rw [if_pos (by simp [← ha, Finsupp.degree_eq_sum])] at this
-    simpa [(Nat.multinomial_pos _ _).ne'] using this
+  · obtain ⟨s, c, hc⟩ := IntLinPow.homogeneous_eq_sum_intLinearPowers
+      (isHomogeneous_monomial (1 : ℝ) ha)
+    rw [hc, map_sum]
+    simp only [map_smul, h, smul_zero, Finset.sum_const_zero]
   · exact h' _ _ ha (isHomogeneous_monomial _ rfl)
-
-open CategoryTheory AlgebraicGeometry TopologicalSpace Filter Topology MvPolynomial in
-variable {L M : _root_.GlobalTheory.HermLB (𝟙 (_root_.ReciprocityTheory.ChartRestriction.G.Geo.Tor.Sp ℤ))} {s t : ℝ} in
-private theorem lin_pow_eq_eval_sum_multinomial {ι : Type} [Fintype ι] [DecidableEq ι]
-    (Ψ : MvPolynomial ι ℝ →ₗ[ℝ] ℝ) (m : ℕ) (r : ι → ℝ) :
-    Ψ (_root_.GlobalTheory.ArInt.lin r ^ m) =
-      MvPolynomial.eval r (∑ k ∈ (Finset.univ : Finset ι).piAntidiag m,
-        MvPolynomial.monomial (Finsupp.equivFunOnFinite.symm k)
-          ((Nat.multinomial Finset.univ k : ℝ) *
-            Ψ (MvPolynomial.monomial (Finsupp.equivFunOnFinite.symm k) 1))) := by
-  unfold _root_.GlobalTheory.ArInt.lin
-  rw [Finset.sum_pow_eq_sum_piAntidiag, map_sum, map_sum]
-  refine Finset.sum_congr rfl fun k _ => ?_
-  have hk : ∏ i, (MvPolynomial.C (r i) * MvPolynomial.X i) ^ k i =
-      MvPolynomial.C (∏ i, r i ^ k i) *
-        MvPolynomial.monomial (Finsupp.equivFunOnFinite.symm k) (1 : ℝ) := by
-    rw [MvPolynomial.monomial_eq, Finsupp.prod_fintype _ _ (fun _ => pow_zero _)]
-    simp [mul_pow, Finset.prod_mul_distrib, map_prod]
-  rw [hk, MvPolynomial.eval_monomial, Finsupp.prod_fintype _ _ (fun _ => pow_zero _)]
-  rw [← mul_assoc, ← map_natCast (MvPolynomial.C : ℝ →+* MvPolynomial ι ℝ), ← map_mul,
-    ← MvPolynomial.smul_eq_C_mul, map_smul, smul_eq_mul]
-  simp
-  ring
-
-open CategoryTheory AlgebraicGeometry TopologicalSpace Filter Topology MvPolynomial in
-variable {L M : _root_.GlobalTheory.HermLB (𝟙 (_root_.ReciprocityTheory.ChartRestriction.G.Geo.Tor.Sp ℤ))} {s t : ℝ} in
-private theorem eq_zero_of_isHomogeneous_of_forall_lin_pow_eq_zero {ι : Type} [Fintype ι]
-    (Ψ : MvPolynomial ι ℝ →ₗ[ℝ] ℝ) (m : ℕ)
-    (hΨ : ∀ n : ι → ℤ, Ψ (_root_.GlobalTheory.ArInt.lin (fun i => (n i : ℝ)) ^ m) = 0)
-    {P : MvPolynomial ι ℝ} (hP : P.IsHomogeneous m) : Ψ P = 0 := by
-  classical
-  set Q : MvPolynomial ι ℝ := ∑ k ∈ (Finset.univ : Finset ι).piAntidiag m,
-    MvPolynomial.monomial (Finsupp.equivFunOnFinite.symm k)
-      ((Nat.multinomial Finset.univ k : ℝ) *
-        Ψ (MvPolynomial.monomial (Finsupp.equivFunOnFinite.symm k) 1)) with hQdef
-  have hQ : Q = 0 := by
-    refine MvPolynomial.funext_set (fun _ => Set.range (Int.cast : ℤ → ℝ))
-      (fun _ => Set.infinite_range_of_injective Int.cast_injective) fun x hx => ?_
-    choose n hn using fun i => hx i (Set.mem_univ i)
-    have hxn : x = fun i => (n i : ℝ) := funext fun i => (hn i).symm
-    rw [map_zero, hxn, hQdef, ← lin_pow_eq_eval_sum_multinomial, hΨ]
-  have hmon : ∀ d : ι →₀ ℕ, (Finsupp.weight 1) d = m →
-      Ψ (MvPolynomial.monomial d 1) = 0 := by
-    intro d hd
-    have hmem : ⇑d ∈ (Finset.univ : Finset ι).piAntidiag m := by
-      rw [Finset.mem_piAntidiag]
-      refine ⟨?_, fun i _ => Finset.mem_univ i⟩
-      rw [← hd, Finsupp.weight_apply, Finsupp.sum_fintype _ _ (by simp)]
-      simp
-    have hc := congrArg (MvPolynomial.coeff d) hQ
-    rw [hQdef, MvPolynomial.coeff_sum, Finset.sum_eq_single (⇑d)] at hc
-    · rw [Finsupp.equivFunOnFinite_symm_coe, MvPolynomial.coeff_monomial, if_pos rfl,
-        MvPolynomial.coeff_zero] at hc
-      have hne : (Nat.multinomial Finset.univ ⇑d : ℝ) ≠ 0 := by
-        exact_mod_cast (Nat.multinomial_pos _ _).ne'
-      exact (mul_eq_zero.mp hc).resolve_left hne
-    · intro b _ hb
-      rw [MvPolynomial.coeff_monomial, if_neg]
-      intro heq
-      apply hb
-      rw [← heq]
-      simp
-    · intro h
-      exact absurd hmem h
-  rw [P.as_sum, map_sum]
-  refine Finset.sum_eq_zero fun d hd => ?_
-  have hw := hP (MvPolynomial.mem_support_iff.mp hd)
-  have hsm : MvPolynomial.monomial d (MvPolynomial.coeff d P) =
-      MvPolynomial.coeff d P • MvPolynomial.monomial d (1 : ℝ) := by
-    rw [MvPolynomial.smul_monomial, smul_eq_mul, mul_one]
-  rw [hsm, map_smul, hmon d hw, smul_zero]
-
-open CategoryTheory AlgebraicGeometry TopologicalSpace Filter Topology MvPolynomial in
-variable {L M : _root_.GlobalTheory.HermLB (𝟙 (_root_.ReciprocityTheory.ChartRestriction.G.Geo.Tor.Sp ℤ))} {s t : ℝ} in
 
 theorem _root_.GlobalTheory.ArInt.Model.isArFun_unique {k : Type} [CommRing k] {X : Scheme.{0}}
     [IsIntegral X] {p : X ⟶ _root_.ReciprocityTheory.ChartRestriction.G.Geo.Tor.Sp k} {D E : ℕ} (hX : _root_.GlobalTheory.IsArithVar p E)
@@ -243,24 +150,12 @@ theorem _root_.GlobalTheory.ArInt.Model.isArFun_unique {k : Type} [CommRing k] {
     {Φ Φ' : MvPolynomial ι ℝ →ₗ[ℝ] ℝ} (h : _root_.GlobalTheory.ArInt.IsArFun L D Φ)
     (h' : _root_.GlobalTheory.ArInt.IsArFun L D Φ') :
     Φ = Φ' := by
-  obtain ⟨h1, h2⟩ := h
-  obtain ⟨h1', h2'⟩ := h'
-  have hpow : ∀ n : ι → ℤ,
-      (Φ - Φ') (_root_.GlobalTheory.ArInt.lin (fun i => (n i : ℝ)) ^ (D + 1)) = 0 := by
-    intro n
-    rw [LinearMap.sub_apply, sub_eq_zero]
-    exact _root_.GlobalTheory.HermLB.IsSelfInter.unique hX
-      (h1 n) (h1' n)
-  have hhom : ∀ (P : MvPolynomial ι ℝ) (d : ℕ), P.IsHomogeneous d → Φ P = Φ' P := by
-    intro P d hP
-    by_cases hd : d = D + 1
-    · subst hd
-      exact sub_eq_zero.mp (eq_zero_of_isHomogeneous_of_forall_lin_pow_eq_zero (Φ - Φ') (D + 1) hpow hP)
-    · rw [h2 P d hd hP, h2' P d hd hP]
-  refine LinearMap.ext fun P => ?_
-  rw [← MvPolynomial.sum_homogeneousComponent P, map_sum, map_sum]
-  exact Finset.sum_congr rfl fun j _ =>
-    hhom _ j (MvPolynomial.homogeneousComponent_isHomogeneous j P)
+  apply sub_eq_zero.1
+  refine eq_zero_of_pow (D + 1) (Φ - Φ') ?_ ?_
+  · intro n
+    exact sub_eq_zero.2 (HermLB.IsSelfInter.unique hX (h.1 n) (h'.1 n))
+  · intro P e he hP
+    exact sub_eq_zero.2 ((h.2 P e he hP).trans (h'.2 P e he hP).symm)
 
 theorem isGeoFun_unique {k : Type} [CommRing k] {X : Scheme.{0}} {p : X ⟶ Sp k} {D : ℕ}
     {ι : Type} [Fintype ι] {L : ι → HermLB p} {Φ Φ' : MvPolynomial ι ℝ →ₗ[ℝ] ℝ} (h : IsGeoFun L D Φ) (h' : IsGeoFun L D Φ') :

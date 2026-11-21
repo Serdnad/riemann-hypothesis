@@ -1,4 +1,5 @@
 import Mathlib
+import Formalism.DegreeFormula.FlagDegFormula
 import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsIsClosedImmersionGenericPoint
 import Development.AbelianVarietyTheory.Definitions.Divisors.LineBundleGlobalSectionsDimCongrPicardClass
 
@@ -15,8 +16,6 @@ def zp (L : HermLB p) (n : ℤ) : HermLB p := (L.pow n.toNat).tens (L.pow (-n).t
 
 def comb (L : ι → HermLB p) (n : ι → ℤ) : HermLB p :=
   (Finset.univ : Finset ι).toList.foldr (fun i M => (zp (L i) (n i)).tens M) (HermLB.triv p)
-
-def lin (n : ι → ℝ) : MvPolynomial ι ℝ := ∑ i, C (n i) * MvPolynomial.X i
 
 def fnB (u : ∀ σ : k →+* ℂ, CxPts p σ → ℝ) (hu : ∀ σ y, CxPts.CInfAt (u σ) y)
     (hc : ∀ σ σ', (Weight.ofFun (u σ)).IsConj (Weight.ofFun (u σ'))) : HermLB p where

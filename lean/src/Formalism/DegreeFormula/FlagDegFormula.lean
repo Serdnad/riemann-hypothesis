@@ -4,6 +4,13 @@ noncomputable section
 
 open MvPolynomial
 
+namespace GlobalTheory.ArInt
+
+def lin {ι : Type} [Fintype ι] (n : ι → ℝ) : MvPolynomial ι ℝ :=
+  ∑ i, C (n i) * X i
+
+end GlobalTheory.ArInt
+
 namespace Formalism.DegreeFormula
 
 def dimFl (ι : Type) [Fintype ι] (N : ℕ) : ℕ := Fintype.card ι * (N * (N - 1) / 2)
