@@ -2,7 +2,7 @@ import Mathlib
 import GroundTheory.LocalFields.LowerIndex
 import GroundTheory.LocalFields.IntermediateField
 import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.RamificationLowerIndex
-import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.CapelliComplements.GeneralBFactAlt
+import Lemmata.GeneralBFactLast.Imports
 
 noncomputable section
 
@@ -12,7 +12,7 @@ open ValuativeRel IsLocalRing IsDiscreteValuationRing Polynomial
 
 theorem addVal_prod {R : Type*} [CommRing R] [IsDomain R] [IsDiscreteValuationRing R] {ι : Type*}
     (s : Finset ι) (f : ι → R) : addVal R (∏ i ∈ s, f i) = ∑ i ∈ s, addVal R (f i) :=
-  _root_.Bl.general_b_fact'''''''.goal1 s f
+  map_prod (AddValuation.toValuation (addVal R)) f s
 
 section Restrict
 

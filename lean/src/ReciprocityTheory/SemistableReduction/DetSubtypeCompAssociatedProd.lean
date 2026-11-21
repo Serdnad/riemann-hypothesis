@@ -18,8 +18,8 @@ theorem det_subtype_comp_associated_prod {R M : Type*} [CommRing R] [IsDomain R]
 theorem addVal_prod {O : Type*} [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
     {ι : Type*} (s : Finset ι) (a : ι → O) :
     IsDiscreteValuationRing.addVal O (∏ i ∈ s, a i) =
-      ∑ i ∈ s, IsDiscreteValuationRing.addVal O (a i) := by
-  first | exact Bl.general_b_fact'''''''.goal1 .. | (apply Bl.general_b_fact'''''''.goal1 <;> assumption) | (intros; apply Bl.general_b_fact'''''''.goal1 <;> assumption)
+      ∑ i ∈ s, IsDiscreteValuationRing.addVal O (a i) :=
+  map_prod (AddValuation.toValuation (IsDiscreteValuationRing.addVal O)) a s
 
 theorem gaugeSplitting_holds : NormLengthStatement := by
   intro O B _ _ _ _ _ _ _ _ g hg
