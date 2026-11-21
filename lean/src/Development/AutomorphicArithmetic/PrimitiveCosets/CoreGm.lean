@@ -9,10 +9,11 @@ import Development.AutomorphicArithmetic.DedekindLFunctions.LandauTheorems.ChCor
 open UpperTheory.Comparison₂ Deduction.CH Formalism Formalism.HC Formalism.D5 Formalism.RankGapBounds.WeightedMeanData Formalism.LFunctionChainParameters.WeightedSlopeBounds Formalism.LFunctionChainParameters.characterSumData Formalism.LFunctionChainParameters.ThickSetMeanBounds Formalism.LFunctionChainParameters.LErr
   Formalism.LFunctionChainParameters.LChain Formalism.LFunctionChainParameters.LHost
 
-theorem UpperTheory.Comparison₂.core_gm :
+/-- The final lower-order contribution can be absorbed into any positive power of `x`. -/
+theorem UpperTheory.Comparison₂.core_gm_with_slack (δ : ℝ) (hδ : 0 < δ) :
     ∀ (Λ : Level) (eD eL K cHH eK C eps : ℝ), 0 < eps → ∃ x1 : ℝ, ∀ x ≥ x1, ∀ (φ : Frame) (H : HostAx φ) (TT : Finset φ.A),
       EAtH Λ H.toHostRaw TT x eps C → CoreAtH H.toHostRaw TT eD eL K cHH eK eps x →
-        Λ.Gm x ≤ x ^ ((1 : ℝ) / 2 + (eD + eL + 7) * eps) := by
+        Λ.Gm x ≤ x ^ ((1 : ℝ) / 2 + (eD + eL + 6) * eps + δ) := by
   intro Λ eD eL K cHH eK C eps heps
   have ho : (0 : ℝ) ≤ Λ.o := Nat.cast_nonneg _
   have hc : |(3 * (Λ.o : ℝ) + 1)⁻¹| ≤ 1 := by
@@ -22,7 +23,7 @@ theorem UpperTheory.Comparison₂.core_gm :
     (by positivity) heps hc
   obtain ⟨x₂, hx₂⟩ := large_x_eventually eps K cHH eK heps
   obtain ⟨x₃, hx₃⟩ := Filter.eventually_atTop.1
-    ((tendsto_rpow_atTop heps).eventually_ge_atTop (1 + 4 * (Λ.o : ℝ)))
+    ((tendsto_rpow_atTop hδ).eventually_ge_atTop (1 + 4 * (Λ.o : ℝ)))
   refine ⟨max x₁ (max x₂ x₃), fun x hx φ H TT hE hCore => ?_⟩
   have g1 : x₁ ≤ x := le_trans (le_max_left _ _) hx
   have g2 : x₂ ≤ x := le_trans (le_trans (le_max_left _ _) (le_max_right _ _)) hx
@@ -60,15 +61,33 @@ theorem UpperTheory.Comparison₂.core_gm :
         (mul_le_mul_of_nonneg_right hExp hBr))
   rw [gmA_eq Λ φ H TT _ _ C ell hE hell] at hmain
   have hs := sigA_le Λ φ H TT _ _ C ell hx0 hE hell
-  have h1 : Dd.x ^ ((1 : ℝ) / 2 + Dd.ε) ≤ Dd.x ^ ((1 : ℝ) / 2 + (eD + eL + 3 + 3) * Dd.ε) :=
-    Real.rpow_le_rpow_of_exponent_le w1 (by nlinarith)
-  have h2 : Dd.x ^ ((1 : ℝ) / 2 + (eD + eL + 7) * Dd.ε)
-      = Dd.x ^ Dd.ε * Dd.x ^ ((1 : ℝ) / 2 + (eD + eL + 3 + 3) * Dd.ε) := by
-    rw [← Real.rpow_add hx0]
-    congr 1
-    ring
-  have h3 := mul_le_mul_of_nonneg_right (hx₃ _ g3)
-    (Real.rpow_nonneg hx0.le ((1 : ℝ) / 2 + (eD + eL + 3 + 3) * Dd.ε))
-  have h4 := mul_le_mul_of_nonneg_left h1 (show 0 ≤ 4 * (Λ.o : ℝ) by positivity)
-  rw [h2]
-  linarith
+  let β : ℝ := 1 / 2 + (eD + eL + 3 + 3) * Dd.ε
+  have hErr : Dd.x ^ ((1 : ℝ) / 2 + Dd.ε) ≤ Dd.x ^ β :=
+    Real.rpow_le_rpow_of_exponent_le w1 (by dsimp [β]; nlinarith)
+  calc
+    Λ.Gm Dd.x ≤ Dd.x ^ β + 4 * (Λ.o : ℝ) * Dd.x ^ β :=
+      hmain.trans (add_le_add le_rfl (hs.trans (mul_le_mul_of_nonneg_left hErr (by positivity))))
+    _ = (1 + 4 * (Λ.o : ℝ)) * Dd.x ^ β := by ring
+    _ ≤ Dd.x ^ δ * Dd.x ^ β :=
+      mul_le_mul_of_nonneg_right (hx₃ _ g3) (Real.rpow_nonneg hx0.le _)
+    _ = _ := by rw [← Real.rpow_add hx0]; congr 1; dsimp [β]; ring
+
+theorem UpperTheory.Comparison₂.core_gm :
+    ∀ (Λ : Level) (eD eL K cHH eK C eps : ℝ), 0 < eps → ∃ x1 : ℝ, ∀ x ≥ x1, ∀ (φ : Frame) (H : HostAx φ) (TT : Finset φ.A),
+      EAtH Λ H.toHostRaw TT x eps C → CoreAtH H.toHostRaw TT eD eL K cHH eK eps x →
+        Λ.Gm x ≤ x ^ ((1 : ℝ) / 2 + (eD + eL + 7) * eps) := by
+  intro Λ eD eL K cHH eK C eps heps
+  simpa only [show (1 : ℝ) / 2 + (eD + eL + 6) * eps + eps =
+    1 / 2 + (eD + eL + 7) * eps by ring] using
+    UpperTheory.Comparison₂.core_gm_with_slack eps heps Λ eD eL K cHH eK C eps heps
+
+/-- A large point in the window only needs one host to supply both pointwise bounds. -/
+theorem UpperTheory.Comparison₂.window_bound_of_pointwise_hosts {Λ : Level} {S : Set ℝ}
+    {x0 eD eL K cHH eK C eps : ℝ} (heps : 0 < eps)
+    (hosts : ∀ x ≥ x0, x ∈ S → ∃ (φ : Frame) (H : HostAx φ) (TT : Finset φ.A),
+      EAtH Λ H.toHostRaw TT x eps C ∧ CoreAtH H.toHostRaw TT eD eL K cHH eK eps x) :
+    ∃ x1 : ℝ, ∀ x ≥ x1, x ∈ S → Λ.Gm x ≤ x ^ ((1 : ℝ) / 2 + (eD + eL + 7) * eps) := by
+  obtain ⟨y, bound⟩ := UpperTheory.Comparison₂.core_gm Λ eD eL K cHH eK C eps heps
+  refine ⟨max x0 y, fun x hx hw => ?_⟩
+  obtain ⟨φ, H, TT, hE, hCore⟩ := hosts x (le_of_max_le_left hx) hw
+  exact bound x (le_of_max_le_right hx) φ H TT hE hCore
