@@ -9,6 +9,10 @@ From the Lean package directory, run
 
   lake env lean --tstack=400000 --run ../tools/ReplayProofSlice.lean MODULE THEOREM
 
+Use `--batch TARGETS.tsv` to check several module and declaration pairs. Put one
+tab-separated pair on each line. Each replay runs in its own Lean process to
+release the imported environment before starting the next target.
+
 The source module must already be compiled. Nested inductives and axioms
 outside Mathlib are reported as errors.
 -/
@@ -106,12 +110,8 @@ partial def replay (source : Environment) (target : Name) : StateT ReplayState I
       checked := state.checked ++ decl.getNames.toArray
       inProgress := names.toArray.foldl (fun names name => names.erase name) state.inProgress }
 
-def main (args : List String) : IO Unit := do
-  let (sourceModule, theoremName, output) ← match args with
-    | [sourceModule, theoremName] => pure (sourceModule, theoremName, none)
-    | [sourceModule, theoremName, output] =>
-      pure (sourceModule, theoremName, some (⟨output⟩ : System.FilePath))
-    | _ => throw (IO.userError "usage: ReplayProofSlice.lean SOURCE_MODULE THEOREM [OUTPUT.olean]")
+def checkTarget (sourceModule theoremName : String)
+    (output : Option System.FilePath := none) : IO Unit := do
   initSearchPath (← findSysroot)
   let source ← importModules #[{ module := sourceModule.toName }] {}
   let base ← importModules #[{ module := `Mathlib }] {}
@@ -121,12 +121,16 @@ def main (args : List String) : IO Unit := do
   let original ← findChecked source theoremName.toName
   unless result.type == original.type do
     throw (IO.userError "The target type changed")
-  IO.println s!"Kernel replay passed for {theoremName}"
+  let baseModules := NameSet.ofList base.header.moduleNames.toList
+  let imported := source.header.moduleNames.filter fun name => !baseModules.contains name
+  IO.println s!"Kernel replay passed for {theoremName} from {sourceModule}"
+  IO.println s!"Original modules loaded outside Mathlib: {imported.size}"
   IO.println s!"Fresh declarations checked: {state.checked.size}"
   IO.println s!"Original project modules supplying declarations: {state.owners.size}"
   IO.println "Base imports: Mathlib. No additional axioms were introduced."
   for mod in state.owners.toArray.qsort Name.lt do
     IO.println s!"  {mod}"
+  (← IO.getStdout).flush
   if let some output := output then
     let some stem := output.fileStem
       | throw (IO.userError "Missing output module name")
@@ -142,3 +146,40 @@ def main (args : List String) : IO Unit := do
       extraConstNames := #[]
       entries := #[]
     }
+
+elab "replaySourceFile" : term => return mkStrLit (← getFileName)
+
+def checkBatch (path : System.FilePath) : IO UInt32 := do
+  let lean ← IO.appPath
+  let mut exitCode := 0
+  for line in (← IO.FS.readFile path).splitOn "\n" do
+    let line := line.trimAscii.toString
+    unless line.isEmpty || line.startsWith "#" do
+      match line.splitOn "\t" with
+      | [sourceModule, theoremName] =>
+        let child ← IO.Process.spawn {
+          cmd := lean.toString
+          args := #["--tstack=400000", "--run", replaySourceFile, sourceModule, theoremName]
+          stdin := .null
+        }
+        let status ← child.wait
+        if status != 0 then
+          IO.eprintln s!"Kernel replay failed for {theoremName} from {sourceModule} (exit {status})"
+          exitCode := 1
+      | _ =>
+        IO.eprintln s!"Expected a tab-separated module and declaration: {line}"
+        exitCode := 1
+  return exitCode
+
+def main (args : List String) : IO UInt32 := do
+  match args with
+  | ["--batch", path] => checkBatch ⟨path⟩
+  | [sourceModule, theoremName] =>
+    checkTarget sourceModule theoremName
+    return 0
+  | [sourceModule, theoremName, output] =>
+    checkTarget sourceModule theoremName (some ⟨output⟩)
+    return 0
+  | _ =>
+    throw (IO.userError
+      "usage: ReplayProofSlice.lean SOURCE_MODULE THEOREM [OUTPUT.olean] | --batch TARGETS.tsv")
