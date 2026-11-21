@@ -1,4 +1,5 @@
 import Mathlib
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.CountVolumePowerComparison
 import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ModelSmall
 import Development.AutomorphicSpectrum.Statements.TowerExistence.GoodTowerExistsX
 import Development.AutomorphicSpectrum.Definitions.MetricPeriods.VolumeInputs
@@ -10,6 +11,7 @@ import Development.AutomorphicSpectrum.Proofs.MetricProofs.HermitianLineShiftPro
 import Development.AutomorphicSpectrum.Proofs.MetricProofs.ShiftHEqTensorConstLine
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.StrictWeightGrowthBoundStatement
 import Development.AbelianVarietyTheory.Definitions.ArchimedeanThetaValues.OneAddZeta21PowSevenAddPowFourteenEqZero
+open scoped ENNReal
 open NumberField IsDedekindDomain Filter Topology
 open Formalism.L2.Pj ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Geo ReciprocityTheory.ChartRestriction.G.Geo.Tor ReciprocityTheory.ChartRestriction.G.FD Formalism.BasicNotions Formalism.MainNotions
 open GlobalTheory.CompanionTheory.Ar GlobalTheory.CompanionTheory.Ar.Rec GlobalTheory.CompanionTheory.Ar.Plug
@@ -41,76 +43,38 @@ theorem arithmeticVolume_div_le_countingVolume {Ω : Type} [Field Ω] (Pr : ℕ 
     (hcount : ∀ τ, ((Nat.card {s : La τ // Pr τ (s : Ω)} : ℕ) : ℕ∞) ≤ m (8 * (r * τ))) :
     ENNReal.ofReal (arVolP Pr La 1 D / (((D : ℝ) + 1) * d * ((8 * r : ℕ) : ℝ) ^ (D + 1))) ≤
       GlobalTheory.CompHt.countVol D d 8 m := by
-  have hdR : (0 : ℝ) < d := by exact_mod_cast hd
-  have hrR : (0 : ℝ) < r := by exact_mod_cast hr
-  obtain ⟨c, hcdef⟩ : ∃ c : ℝ, c = ((D : ℝ) + 1) * d * ((8 * r : ℕ) : ℝ) ^ (D + 1) := ⟨_, rfl⟩
-  have hc : 0 < c := by rw [hcdef]; push_cast; positivity
-  rw [← hcdef]
-  obtain ⟨x, hxdef⟩ : ∃ x : ℕ → ℝ, x = fun k : ℕ => smallSectionCount Pr La (1 * k) /
-      (((1 * k : ℕ) : ℝ) ^ (D + 1) / ((D + 1).factorial : ℝ)) := ⟨_, rfl⟩
-  have hx : ∀ τ, 0 ≤ x τ := fun τ => by
-    rw [hxdef]
-    exact div_nonneg (Real.log_natCast_nonneg _) (by positivity)
-  have h1 := ofReal_limsup_div_le x hx c hc
-  have hav : arVolP Pr La 1 D = limsup x atTop := by rw [hxdef]; rfl
-  rw [hav]
-  refine h1.trans ?_
-  obtain ⟨f, hfdef⟩ : ∃ f : ℕ → ENNReal, f = fun k : ℕ => (D.factorial : ENNReal) * GlobalTheory.CompHt.logCard (m (8 * k)) /
-      ((d : ENNReal) * ((8 * k : ℕ) : ENNReal) ^ (D + 1)) := ⟨_, rfl⟩
-  have hcv : GlobalTheory.CompHt.countVol D d 8 m = limsup f atTop := by rw [hfdef]; rfl
-  rw [hcv]
-  have h2 : ∀ τ, ENNReal.ofReal (x τ / c) ≤ f (r * τ) := by
-    intro τ
-    rcases Nat.eq_zero_or_pos τ with rfl | hτ
-    · have : x 0 = 0 := by rw [hxdef]; simp
-      simp [this]
-    · have hτR : (0 : ℝ) < τ := by exact_mod_cast hτ
-      obtain ⟨W, hW⟩ : ∃ W : ℕ, W = d * (8 * (r * τ)) ^ (D + 1) := ⟨_, rfl⟩
-      have hWpos : 0 < W := by rw [hW]; positivity
-      have hWR : (0 : ℝ) < W := by exact_mod_cast hWpos
-      have hle : ENNReal.ofReal (Real.log (Nat.card {s : La τ // Pr τ (s : Ω)})) ≤
-          GlobalTheory.CompHt.logCard (m (8 * (r * τ))) := by
-        rw [← GlobalTheory.CompHt.logCard_coe]
-        exact EReal.toENNReal_le_toENNReal (ENNReal.log_monotone (ENat.toENNReal_le.2 (hcount τ)))
-      have hlog : smallSectionCount Pr La (1 * τ) = Real.log (Nat.card {s : La τ // Pr τ (s : Ω)}) := by
-        rw [one_mul]; rfl
-      have hxe : x τ / c = Real.log (Nat.card {s : La τ // Pr τ (s : Ω)}) * ((D.factorial : ℝ) / W) := by
-        rw [hxdef, hcdef, hW]
-        simp only [hlog]
-        generalize Real.log (Nat.card {s : La τ // Pr τ (s : Ω)}) = large₂
-        simp only [one_mul, Nat.factorial_succ]
-        push_cast
-        field_simp
-        ring
-      have hfe : f (r * τ) = GlobalTheory.CompHt.logCard (m (8 * (r * τ))) * ((D.factorial : ENNReal) / W) := by
-        have : (d : ENNReal) * ((8 * (r * τ) : ℕ) : ENNReal) ^ (D + 1) = W := by
-          rw [hW]; push_cast; rfl
-        rw [hfdef]
-        simp only [this]
-        rw [mul_comm, mul_div_assoc]
-      rw [hxe, hfe, ENNReal.ofReal_mul (Real.log_natCast_nonneg _),
-        ENNReal.ofReal_div_of_pos hWR, ENNReal.ofReal_natCast, ENNReal.ofReal_natCast]
-      gcongr
+  let c : ℝ := ((D : ℝ) + 1) * d * ((8 * r : ℕ) : ℝ) ^ (D + 1)
+  let x (τ : ℕ) : ℝ := smallSectionCount Pr La (1 * τ) /
+    (((1 * τ : ℕ) : ℝ) ^ (D + 1) / ((D + 1).factorial : ℝ))
+  let f (k : ℕ) : ℝ≥0∞ := (D.factorial : ℝ≥0∞) * GlobalTheory.CompHt.logCard (m (8 * k)) /
+    ((d : ℝ≥0∞) * ((8 * k : ℕ) : ℝ≥0∞) ^ (D + 1))
+  have hc : 0 < c := by dsimp [c]; positivity
+  have hx (τ : ℕ) : 0 ≤ x τ := div_nonneg (Real.log_natCast_nonneg _) (by positivity)
+  have hleft : arVolP Pr La 1 D = limsup x atTop := rfl
+  have hright : GlobalTheory.CompHt.countVol D d 8 m = limsup f atTop := by
+    unfold GlobalTheory.CompHt.countVol f
+    rfl
+  rw [hleft, hright]
+  refine (ofReal_limsup_div_le x hx c hc).trans ?_
   have hm : Tendsto (fun τ : ℕ => r * τ) atTop atTop := tendsto_id.const_mul_atTop' hr
-  calc limsup (fun τ => ENNReal.ofReal (x τ / c)) atTop
-      ≤ limsup (fun τ => f (r * τ)) atTop := limsup_le_limsup (Eventually.of_forall h2)
-    _ = limsup f (map (fun τ : ℕ => r * τ) atTop) := by
-        rw [limsup, limsup, map_map]; rfl
+  calc
+    _ ≤ limsup (fun τ => f (r * τ)) atTop := by
+      refine limsup_le_limsup ?_
+      filter_upwards [eventually_gt_atTop 0] with τ hτ
+      simp only [x, c, f, one_mul]
+      rw [smallSectionCount, count_term_natCard_at_dilation D d (8 * r) τ _ hd (by positivity) hτ, Nat.mul_assoc]
+      exact ENNReal.div_le_div_right (mul_le_mul_right (logCard_mono (hcount τ)) _) _
+    _ = limsup f (map (fun τ : ℕ => r * τ) atTop) := by rw [limsup, limsup, map_map]; rfl
     _ ≤ limsup f atTop := limsup_le_limsup_of_le hm
 
 theorem card_le_encard_of_mul {Ω : Type} [Field Ω] (L : AddSubgroup Ω) (Pr : Ω → Prop) (S : Set Ω) (θ : Ω)
     (hθ : θ ≠ 0) (h : ∀ σ ∈ L, Pr σ → σ * θ ∈ S) :
     ((Nat.card {s : L // Pr (s : Ω)} : ℕ) : ℕ∞) ≤ S.encard := by
-  by_cases hS : S.Finite
-  · haveI : Finite S := hS
-    let f : {s : L // Pr (s : Ω)} → S := fun s => ⟨(s.1 : Ω) * θ, h _ s.1.2 s.2⟩
-    have hf : Function.Injective f := fun a b hab => by
-      have h1 : (a.1 : Ω) * θ = (b.1 : Ω) * θ := congrArg Subtype.val hab
-      exact Subtype.ext (Subtype.ext (mul_right_cancel₀ hθ h1))
-    rw [← hS.cast_ncard_eq, ← Nat.card_coe_set_eq]
-    exact_mod_cast Nat.card_le_card_of_injective f hf
-  · rw [Set.Infinite.encard_eq hS]
-    exact le_top
+  let f : {s : L // Pr (s : Ω)} → S := fun s => ⟨(s.1 : Ω) * θ, h _ s.1.2 s.2⟩
+  have hf : Function.Injective f := fun a b hab =>
+    Subtype.ext (Subtype.ext (mul_right_cancel₀ hθ (congrArg Subtype.val hab)))
+  rw [Nat.card, ← Cardinal.toNat_toENat]
+  exact (ENat.natCast_toNat_le_self _).trans (ENat.card_le_card_of_injective hf)
 
 theorem le_countVol_of_nef {Ψ : Type} [Fintype Ψ] {N : ℕ} (h6 : BirationalPullbackPushforwardFormula) (RM : Top.RootModel Ψ N)
     (hD : 1 ≤ Top.dimFl Ψ N) (II : IntersectionSystem) (hII : IsIntersectionSystem II) (A : HermLine RM.ι)
