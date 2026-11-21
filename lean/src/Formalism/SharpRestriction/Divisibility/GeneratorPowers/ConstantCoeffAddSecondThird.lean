@@ -58,14 +58,25 @@ private theorem ev_add_lemma {m n : ℕ} (a : Fin m → Pt S n d) (ha : ∀ j i,
     (f g : PS S m d) : ev a (f + g) = ev a f + ev a g := by
   simp only [ev_eq_hom a ha, map_add]
 
-theorem formal_log_add_last_two (G : FGLaw S d) (l : Fin d) :
-    ev (n := 3) ![G.add (pt S d 1) (pt S d 2)] (LogPf.logOf G l) =
-      ev (n := 3) ![pt S d 1] (LogPf.logOf G l) + ev (n := 3) ![pt S d 2] (LogPf.logOf G l) := by
-  have hb : ∀ (j : Fin 2) (i : Fin d), MvPowerSeries.constantCoeff ((![pt S d 1, pt S d 2] : Fin 2 → Pt S 3 d) j i) = 0 := by
-    intro j i; fin_cases j <;> simp [pt]
+theorem pair_property {A : Type} (P : A → Prop) {u v : Fin d → A}
+    (hu : ∀ i, P (u i)) (hv : ∀ i, P (v i)) (j : Fin 2) (i : Fin d) :
+    P ((![u, v] : Fin 2 → Fin d → A) j i) := by
+  fin_cases j
+  · exact hu i
+  · exact hv i
+
+/-- The formal logarithm carries addition of zero-constant points to addition of series. -/
+theorem formal_log_add_points {n : ℕ} (G : FGLaw S d) (u v : Pt S n d)
+    (hu : ∀ i, MvPowerSeries.constantCoeff (u i) = 0)
+    (hv : ∀ i, MvPowerSeries.constantCoeff (v i) = 0) (l : Fin d) :
+    ev ![G.add u v] (LogPf.logOf G l) =
+      ev ![u] (LogPf.logOf G l) + ev ![v] (LogPf.logOf G l) := by
+  have hb := pair_property (fun f => MvPowerSeries.constantCoeff f = 0) hu hv
   have hF : ∀ (j : Fin 1) (i : Fin d), MvPowerSeries.constantCoeff ((![G.F] : Fin 1 → Pt S 2 d) j i) = 0 := by
-    intro j i; fin_cases j; simpa using G.const i
-  have h := congrArg (ev (![pt S d 1, pt S d 2] : Fin 2 → Pt S 3 d)) (LogPf.logOf_add (G := G) l)
+    intro j i
+    fin_cases j
+    exact G.const i
+  have h := congrArg (ev (![u, v] : Fin 2 → Pt S n d)) (LogPf.logOf_add (G := G) l)
   rw [ev_ev _ _ hF hb, ev_add_lemma _ hb, ev_at _ hb, ev_at _ hb] at h
   refine Eq.trans ?_ (h.trans ?_)
   · congr 1
@@ -73,6 +84,11 @@ theorem formal_log_add_last_two (G : FGLaw S d) (l : Fin d) :
     fin_cases j
     rfl
   · rfl
+
+theorem formal_log_add_last_two (G : FGLaw S d) (l : Fin d) :
+    ev (n := 3) ![G.add (pt S d 1) (pt S d 2)] (LogPf.logOf G l) =
+      ev (n := 3) ![pt S d 1] (LogPf.logOf G l) + ev (n := 3) ![pt S d 2] (LogPf.logOf G l) := by
+  exact formal_log_add_points G _ _ (cc_pt' 1) (cc_pt' 2) l
 
 private theorem cc_ev_lemma {m n : ℕ} (a : Fin m → Pt S n d) (ha : ∀ j i, MvPowerSeries.constantCoeff (a j i) = 0)
     (f : PS S m d) (hf : MvPowerSeries.constantCoeff f = 0) : MvPowerSeries.constantCoeff (ev a f) = 0 :=
@@ -88,8 +104,15 @@ theorem cc_bilL (G : FGLaw S d) (cc : Fin d → Fin d → S) : MvPowerSeries.con
   refine Finset.sum_eq_zero fun l _ => ?_
   rw [← smul_mul_assoc, map_mul, h1, mul_zero]
 
+theorem constantCoeff_add_points {n : ℕ} (G : FGLaw S d) (u v : Pt S n d)
+    (hu : ∀ i, MvPowerSeries.constantCoeff (u i) = 0)
+    (hv : ∀ i, MvPowerSeries.constantCoeff (v i) = 0) (i : Fin d) :
+    MvPowerSeries.constantCoeff (G.add u v i) = 0 :=
+  cc_ev_lemma ![u, v] (pair_property (fun f => MvPowerSeries.constantCoeff f = 0) hu hv)
+    (G.F i) (G.const i)
+
 theorem constantCoeff_add_second_third (G : FGLaw S d) (i : Fin d) : MvPowerSeries.constantCoeff (G.add (pt S (n := 3) d 1) (pt S d 2) i) = 0 := by
-  exact cc_ev_lemma (![pt S (n := 3) d 1, pt S d 2] : Fin 2 → Pt S 3 d) (fun j k => by fin_cases j <;> simp [pt]) (G.F i) (G.const i)
+  exact constantCoeff_add_points G _ _ (cc_pt' 1) (cc_pt' 2) i
 
 set_option maxHeartbeats 800000 in
 
@@ -104,29 +127,63 @@ theorem ev_expP {n : ℕ} (a : Fin 2 → Pt S n d) (ha : ∀ j i, MvPowerSeries.
   have key := subst_exp (k := S) (σ := Fin 2 × Fin d) (τ := Fin n × Fin d) (fun p => a p.1 p.2) (fun p => ha p.1 p.2) h0
   exact key
 
-theorem twist_mul_second_argument (G : FGLaw S d) (cc : Fin d → Fin d → S) :
-    ev (n := 3) ![pt S d 0, G.add (pt S d 1) (pt S d 2)] (expP (-bilL G cc)) =
-      ev (n := 3) ![pt S d 0, pt S d 1] (expP (-bilL G cc)) * ev (n := 3) ![pt S d 0, pt S d 2] (expP (-bilL G cc)) := by
-  have ha : ∀ (j : Fin 2) (i : Fin d), MvPowerSeries.constantCoeff ((![pt S d 0, G.add (pt S d 1) (pt S d 2)] : Fin 2 → Pt S 3 d) j i) = 0 := by
-    intro j i; fin_cases j
-    · simp [pt]
-    · simpa using constantCoeff_add_second_third G i
-  have hb : ∀ (j : Fin 2) (i : Fin d), MvPowerSeries.constantCoeff ((![pt S d 0, pt S d 1] : Fin 2 → Pt S 3 d) j i) = 0 := by
-    intro j i; fin_cases j <;> simp [pt]
-  have hc : ∀ (j : Fin 2) (i : Fin d), MvPowerSeries.constantCoeff ((![pt S d 0, pt S d 2] : Fin 2 → Pt S 3 d) j i) = 0 := by
-    intro j i; fin_cases j <;> simp [pt]
-  have hsum : ev (![pt S d 0, G.add (pt S d 1) (pt S d 2)] : Fin 2 → Pt S 3 d) (bilL G cc) =
-      ev (![pt S d 0, pt S d 1] : Fin 2 → Pt S 3 d) (bilL G cc) + ev (![pt S d 0, pt S d 2] : Fin 2 → Pt S 3 d) (bilL G cc) := by
-    rw [ev_bilL G cc _ ha, ev_bilL G cc _ hb, ev_bilL G cc _ hc]
-    simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons]
-    rw [← Finset.sum_add_distrib]
-    refine Finset.sum_congr rfl fun i _ => ?_
-    rw [← Finset.sum_add_distrib]
-    refine Finset.sum_congr rfl fun l _ => ?_
-    rw [formal_log_add_last_two G l, mul_add, smul_add]
+theorem ev_expP_mul_of_add {n : ℕ} (G : FGLaw S d) (cc : Fin d → Fin d → S)
+    (a b c : Fin 2 → Pt S n d)
+    (ha : ∀ j i, MvPowerSeries.constantCoeff (a j i) = 0)
+    (hb : ∀ j i, MvPowerSeries.constantCoeff (b j i) = 0)
+    (hc : ∀ j i, MvPowerSeries.constantCoeff (c j i) = 0)
+    (hsum : ev a (bilL G cc) = ev b (bilL G cc) + ev c (bilL G cc)) :
+    ev a (expP (-bilL G cc)) = ev b (expP (-bilL G cc)) * ev c (expP (-bilL G cc)) := by
   rw [ev_expP _ ha, ev_expP _ hb, ev_expP _ hc, hsum, neg_add]
   exact exp_add (by rw [map_neg, cc_ev_lemma _ hb _ (cc_bilL G cc), neg_zero])
     (by rw [map_neg, cc_ev_lemma _ hc _ (cc_bilL G cc), neg_zero])
+
+theorem twist_mul_first_points {n : ℕ} (G : FGLaw S d) (cc : Fin d → Fin d → S)
+    (x y z : Pt S n d)
+    (hx : ∀ i, MvPowerSeries.constantCoeff (x i) = 0)
+    (hy : ∀ i, MvPowerSeries.constantCoeff (y i) = 0)
+    (hz : ∀ i, MvPowerSeries.constantCoeff (z i) = 0) :
+    ev ![G.add x y, z] (expP (-bilL G cc)) =
+      ev ![x, z] (expP (-bilL G cc)) * ev ![y, z] (expP (-bilL G cc)) := by
+  have ha : ∀ j i, MvPowerSeries.constantCoeff ((![G.add x y, z] : Fin 2 → Pt S n d) j i) = 0 :=
+    pair_property (fun f : PS S n d => MvPowerSeries.constantCoeff f = 0)
+      (u := G.add x y) (v := z) (constantCoeff_add_points G x y hx hy) hz
+  have hb : ∀ j i, MvPowerSeries.constantCoeff ((![x, z] : Fin 2 → Pt S n d) j i) = 0 :=
+    pair_property (fun f : PS S n d => MvPowerSeries.constantCoeff f = 0)
+      (u := x) (v := z) hx hz
+  have hc : ∀ j i, MvPowerSeries.constantCoeff ((![y, z] : Fin 2 → Pt S n d) j i) = 0 :=
+    pair_property (fun f : PS S n d => MvPowerSeries.constantCoeff f = 0)
+      (u := y) (v := z) hy hz
+  apply ev_expP_mul_of_add G cc _ _ _ ha hb hc
+  rw [ev_bilL G cc _ ha, ev_bilL G cc _ hb, ev_bilL G cc _ hc]
+  simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons]
+  simp_rw [formal_log_add_points G x y hx hy, add_mul, smul_add, Finset.sum_add_distrib]
+
+theorem twist_mul_second_points {n : ℕ} (G : FGLaw S d) (cc : Fin d → Fin d → S)
+    (x y z : Pt S n d)
+    (hx : ∀ i, MvPowerSeries.constantCoeff (x i) = 0)
+    (hy : ∀ i, MvPowerSeries.constantCoeff (y i) = 0)
+    (hz : ∀ i, MvPowerSeries.constantCoeff (z i) = 0) :
+    ev ![z, G.add x y] (expP (-bilL G cc)) =
+      ev ![z, x] (expP (-bilL G cc)) * ev ![z, y] (expP (-bilL G cc)) := by
+  have ha : ∀ j i, MvPowerSeries.constantCoeff ((![z, G.add x y] : Fin 2 → Pt S n d) j i) = 0 :=
+    pair_property (fun f : PS S n d => MvPowerSeries.constantCoeff f = 0)
+      (u := z) (v := G.add x y) hz (constantCoeff_add_points G x y hx hy)
+  have hb : ∀ j i, MvPowerSeries.constantCoeff ((![z, x] : Fin 2 → Pt S n d) j i) = 0 :=
+    pair_property (fun f : PS S n d => MvPowerSeries.constantCoeff f = 0)
+      (u := z) (v := x) hz hx
+  have hc : ∀ j i, MvPowerSeries.constantCoeff ((![z, y] : Fin 2 → Pt S n d) j i) = 0 :=
+    pair_property (fun f : PS S n d => MvPowerSeries.constantCoeff f = 0)
+      (u := z) (v := y) hz hy
+  apply ev_expP_mul_of_add G cc _ _ _ ha hb hc
+  rw [ev_bilL G cc _ ha, ev_bilL G cc _ hb, ev_bilL G cc _ hc]
+  simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons]
+  simp_rw [formal_log_add_points G x y hx hy, mul_add, smul_add, Finset.sum_add_distrib]
+
+theorem twist_mul_second_argument (G : FGLaw S d) (cc : Fin d → Fin d → S) :
+    ev (n := 3) ![pt S d 0, G.add (pt S d 1) (pt S d 2)] (expP (-bilL G cc)) =
+      ev (n := 3) ![pt S d 0, pt S d 1] (expP (-bilL G cc)) * ev (n := 3) ![pt S d 0, pt S d 2] (expP (-bilL G cc)) := by
+  exact twist_mul_second_points G cc _ _ _ (cc_pt' 1) (cc_pt' 2) (cc_pt' 0)
 
 theorem jetSubstP_psJet {n n' : ℕ} (m : ℕ) (φ : Fin n × Fin d → MvPolynomial (Fin n' × Fin d) S) (a : Fin n → Pt S n' d)
     (ha : ∀ p : Fin n × Fin d, MvPowerSeries.constantCoeff (a p.1 p.2) = 0)
@@ -201,6 +258,59 @@ theorem mk_psIn_psJet {n n' : ℕ} (m : ℕ) (σ : Fin n → Fin n') (f : PS S n
   erw [Ideal.Quotient.lift_mk]
   simp only [AlgHom.coe_toRingHom, AlgHom.comp_apply, hr, Ideal.Quotient.mkₐ_eq_mk]
 
+/-- A coordinatewise polynomial representative of a point in the truncated series ring. -/
+def RepresentsPointJet {n : ℕ} (m : ℕ)
+    (φ : Fin d → MvPolynomial (Fin n × Fin d) S) (u : Pt S n d) : Prop :=
+  ∀ i, constantCoeff (φ i) = 0 ∧ MvPowerSeries.constantCoeff (u i) = 0 ∧
+    Ideal.Quotient.mk (orig S (Fin n × Fin d) ^ (m + 1)) (φ i) = psJet m (u i)
+
+theorem standard_point_jet {n : ℕ} (m : ℕ) (k : Fin n) :
+    RepresentsPointJet m (fun i => X (k, i)) (pt S d k) :=
+  fun i => ⟨constantCoeff_X S _, cc_pt' k i, mk_X_psJet m (k, i)⟩
+
+theorem psIn_point_jet {n n' : ℕ} (m : ℕ) (σ : Fin n → Fin n') (u : Pt S n d)
+    (hu : ∀ i, MvPowerSeries.constantCoeff (u i) = 0) :
+    RepresentsPointJet m (fun i => psIn d m σ (u i)) (fun i => ev (fun j => pt S d (σ j)) (u i)) := by
+  intro i
+  refine ⟨?_, cc_ev_lemma _ (fun j k => cc_pt' (σ j) k) _ (hu i), mk_psIn_psJet m σ (u i)⟩
+  rw [FBIdPh.cc_psIn, hu]
+
+theorem add_point_jet {n : ℕ} (G : FGLaw S d) (m : ℕ) (k l : Fin n) :
+    RepresentsPointJet m (fun i => psIn d m ![k, l] (G.F i)) (G.add (pt S d k) (pt S d l)) := by
+  have hpoints : (fun i => pt S d ((![k, l] : Fin 2 → Fin n) i)) = ![pt S d k, pt S d l] := by
+    funext i
+    fin_cases i <;> rfl
+  have h := psIn_point_jet m (![k, l] : Fin 2 → Fin n) G.F G.const
+  rw [hpoints] at h
+  exact h
+
+theorem comp_point_jet {n : ℕ} (m : ℕ) (k : Fin n) (u : Pt S 1 d)
+    (hu : ∀ i, MvPowerSeries.constantCoeff (u i) = 0) :
+    RepresentsPointJet m (fun i => psIn d m ![k] (u i)) (comp1 u (pt S d k)) := by
+  have hpoints : (fun i => pt S d ((![k] : Fin 1 → Fin n) i)) = ![pt S d k] := by
+    funext i
+    fin_cases i
+    rfl
+  have h := psIn_point_jet m (![k] : Fin 1 → Fin n) u hu
+  rw [hpoints] at h
+  exact h
+
+theorem jetSubstP_pair {n : ℕ} (m : ℕ)
+    {φ ψ : Fin d → MvPolynomial (Fin n × Fin d) S} {u v : Pt S n d}
+    (hu : RepresentsPointJet m φ u) (hv : RepresentsPointJet m ψ v) (f : PS S 2 d) :
+    jetSubstP m (fun p : Fin 2 × Fin d =>
+      (![φ, ψ] : Fin 2 → Fin d → MvPolynomial (Fin n × Fin d) S) p.1 p.2) (psJet m f) =
+      psJet m (ev ![u, v] f) := by
+  apply jetSubstP_psJet
+  · exact fun p => pair_property (fun f : PS S n d => MvPowerSeries.constantCoeff f = 0)
+      (fun i => (hu i).2.1) (fun i => (hv i).2.1) p.1 p.2
+  · exact fun p => pair_property (fun f : MvPolynomial (Fin n × Fin d) S => constantCoeff f = 0)
+      (fun i => (hu i).1) (fun i => (hv i).1) p.1 p.2
+  · rintro ⟨k, i⟩
+    fin_cases k
+    · exact (hu i).2.2
+    · exact (hv i).2.2
+
 theorem twist_mul_second_argument_jet (G : FGLaw S d) (cc : Fin d → Fin d → S) (m : ℕ) :
     jetSubstP m (fun p : Fin 2 × Fin d => (![fun j => X ((0 : Fin 3), j), fun j => psIn d m ![1, 2] (G.F j)] :
         Fin 2 → Fin d → MvPolynomial (Fin 3 × Fin d) S) p.1 p.2) (psJet m (expP (-bilL G cc))) =
@@ -208,37 +318,9 @@ theorem twist_mul_second_argument_jet (G : FGLaw S d) (cc : Fin d → Fin d → 
         Fin 2 → Fin d → MvPolynomial (Fin 3 × Fin d) S) p.1 p.2) (psJet m (expP (-bilL G cc))) *
       jetSubstP m (fun p : Fin 2 × Fin d => (![fun j => X ((0 : Fin 3), j), fun j => X ((2 : Fin 3), j)] :
         Fin 2 → Fin d → MvPolynomial (Fin 3 × Fin d) S) p.1 p.2) (psJet m (expP (-bilL G cc))) := by
-  have hrel : (![pt S d 1, pt S d 2] : Fin 2 → Pt S 3 d) = fun i => pt S d ((![1, 2] : Fin 2 → Fin 3) i) := by
-    funext i; fin_cases i <;> rfl
-  have hφ3 : ∀ p : Fin 2 × Fin d, constantCoeff ((![fun j => X ((0 : Fin 3), j), fun j => psIn d m ![1, 2] (G.F j)] :
-      Fin 2 → Fin d → MvPolynomial (Fin 3 × Fin d) S) p.1 p.2) = 0 := by
-    rintro ⟨i, j⟩
-    fin_cases i
-    · simp
-    · show constantCoeff (psIn d m ![1, 2] (G.F j)) = 0
-      rw [FBIdPh.cc_psIn, G.const]
-  have ha3 : ∀ p : Fin 2 × Fin d, MvPowerSeries.constantCoeff
-      ((![pt S d 0, G.add (pt S d 1) (pt S d 2)] : Fin 2 → Pt S 3 d) p.1 p.2) = 0 := by
-    rintro ⟨i, j⟩
-    fin_cases i
-    · exact cc_pt' _ j
-    · exact constantCoeff_add_second_third G j
-  rw [jetSubstP_psJet m _ (![pt S d 0, G.add (pt S d 1) (pt S d 2)] : Fin 2 → Pt S 3 d) ha3 hφ3
-      (fun p => by
-        obtain ⟨i, j⟩ := p
-        fin_cases i
-        · exact mk_X_psJet m _
-        · show _ = psJet m (ev (n := 3) ![pt S d 1, pt S d 2] (G.F j))
-          rw [hrel]
-          exact mk_psIn_psJet m _ _),
-    jetSubstP_psJet m _ (![pt S d 0, pt S d 1] : Fin 2 → Pt S 3 d)
-      (fun p => by obtain ⟨i, j⟩ := p; fin_cases i <;> exact cc_pt' _ j)
-      (fun p => by obtain ⟨i, j⟩ := p; fin_cases i <;> simp)
-      (fun p => by obtain ⟨i, j⟩ := p; fin_cases i <;> exact mk_X_psJet m _),
-    jetSubstP_psJet m _ (![pt S d 0, pt S d 2] : Fin 2 → Pt S 3 d)
-      (fun p => by obtain ⟨i, j⟩ := p; fin_cases i <;> exact cc_pt' _ j)
-      (fun p => by obtain ⟨i, j⟩ := p; fin_cases i <;> simp)
-      (fun p => by obtain ⟨i, j⟩ := p; fin_cases i <;> exact mk_X_psJet m _),
+  have hX (k : Fin 3) := standard_point_jet (S := S) (d := d) m k
+  rw [jetSubstP_pair m (hX 0) (add_point_jet G m 1 2),
+    jetSubstP_pair m (hX 0) (hX 1), jetSubstP_pair m (hX 0) (hX 2),
     twist_mul_second_argument, FBIdJet.psJet_mul]
 
 theorem bal_sum {R : Type} [CommRing R] [Algebra S R] (cc M N : Matrix (Fin d) (Fin d) S)
@@ -372,61 +454,9 @@ theorem twist_bal_jet {O : Type} [CommRing O] [StarRing O] (B : FB S d O) (cc : 
         Fin 2 → Fin d → MvPolynomial (Fin 2 × Fin d) S) p.1 p.2) (psJet m (expP (-bilL B.G cc))) =
       jetSubstP m (fun p : Fin 2 × Fin d => (![fun j => X ((0 : Fin 2), j), fun j => psIn d m ![1] (B.A.act b j)] :
         Fin 2 → Fin d → MvPolynomial (Fin 2 × Fin d) S) p.1 p.2) (psJet m (expP (-bilL B.G cc))) := by
-  have hT : ∀ g : PS S 1 d, MvPowerSeries.constantCoeff g = 0 → MvPolynomial.constantCoeff (psTrunc m g) = 0 := by
-    intro g hg
-    unfold psTrunc
-    rw [map_sum]
-    refine Finset.sum_eq_zero fun e _ => ?_
-    rw [MvPolynomial.constantCoeff_monomial]
-    split_ifs with he
-    · subst he; simpa using hg
-    · rfl
-  have h0 : ∀ (j : Fin 2) (k : Fin d), MvPowerSeries.constantCoeff ((![comp1 (B.A.act a) (pt S d 0), pt S d 1] : Fin 2 → Pt S 2 d) j k) = 0 := by
-    intro j k; fin_cases j
-    · exact cc_ev_lemma (![pt S d 0] : Fin 1 → Pt S 2 d) (fun j' k' => by fin_cases j' <;> simp [pt]) _ (B.A.const a k)
-    · simp [pt]
-  have h1 : ∀ (j : Fin 2) (k : Fin d), MvPowerSeries.constantCoeff ((![pt S d 0, comp1 (B.A.act b) (pt S d 1)] : Fin 2 → Pt S 2 d) j k) = 0 := by
-    intro j k; fin_cases j
-    · simp [pt]
-    · exact cc_ev_lemma (![pt S d 1] : Fin 1 → Pt S 2 d) (fun j' k' => by fin_cases j' <;> simp [pt]) _ (B.A.const b k)
-  have e0 : (fun i => pt S d ((![0] : Fin 1 → Fin 2) i)) = (![pt S d 0] : Fin 1 → Pt S 2 d) := by
-    funext i; fin_cases i; rfl
-  have e1 : (fun i => pt S d ((![1] : Fin 1 → Fin 2) i)) = (![pt S d 1] : Fin 1 → Pt S 2 d) := by
-    funext i; fin_cases i; rfl
-  have cA : ∀ p : Fin 2 × Fin d, MvPolynomial.constantCoeff ((![fun j => psIn d m ![0] (B.A.act a j), fun j => X ((1 : Fin 2), j)] :
-      Fin 2 → Fin d → MvPolynomial (Fin 2 × Fin d) S) p.1 p.2) = 0 := by
-    rintro ⟨j, k⟩; fin_cases j
-    · show MvPolynomial.constantCoeff (psIn d m (![0] : Fin 1 → Fin 2) (B.A.act a k)) = 0
-      unfold psIn
-      rw [MvPolynomial.constantCoeff_rename]
-      exact hT _ (B.A.const a k)
-    · simp
-  have cB : ∀ p : Fin 2 × Fin d, MvPolynomial.constantCoeff ((![fun j => X ((0 : Fin 2), j), fun j => psIn d m ![1] (B.A.act b j)] :
-      Fin 2 → Fin d → MvPolynomial (Fin 2 × Fin d) S) p.1 p.2) = 0 := by
-    rintro ⟨j, k⟩; fin_cases j
-    · simp
-    · show MvPolynomial.constantCoeff (psIn d m (![1] : Fin 1 → Fin 2) (B.A.act b k)) = 0
-      unfold psIn
-      rw [MvPolynomial.constantCoeff_rename]
-      exact hT _ (B.A.const b k)
-  have mA : ∀ p : Fin 2 × Fin d, Ideal.Quotient.mk (Formalism.L2.Pj.orig S (Fin 2 × Fin d) ^ (m + 1))
-      ((![fun j => psIn d m ![0] (B.A.act a j), fun j => X ((1 : Fin 2), j)] : Fin 2 → Fin d → MvPolynomial (Fin 2 × Fin d) S) p.1 p.2) =
-      psJet m ((![comp1 (B.A.act a) (pt S d 0), pt S d 1] : Fin 2 → Pt S 2 d) p.1 p.2) := by
-    rintro ⟨j, k⟩; fin_cases j
-    · have h := mk_psIn_psJet m (![0] : Fin 1 → Fin 2) (B.A.act a k)
-      rw [e0] at h
-      exact h
-    · exact mk_X_psJet m ((1 : Fin 2), k)
-  have mB : ∀ p : Fin 2 × Fin d, Ideal.Quotient.mk (Formalism.L2.Pj.orig S (Fin 2 × Fin d) ^ (m + 1))
-      ((![fun j => X ((0 : Fin 2), j), fun j => psIn d m ![1] (B.A.act b j)] : Fin 2 → Fin d → MvPolynomial (Fin 2 × Fin d) S) p.1 p.2) =
-      psJet m ((![pt S d 0, comp1 (B.A.act b) (pt S d 1)] : Fin 2 → Pt S 2 d) p.1 p.2) := by
-    rintro ⟨j, k⟩; fin_cases j
-    · exact mk_X_psJet m ((0 : Fin 2), k)
-    · have h := mk_psIn_psJet m (![1] : Fin 1 → Fin 2) (B.A.act b k)
-      rw [e1] at h
-      exact h
-  rw [jetSubstP_psJet m _ (![comp1 (B.A.act a) (pt S d 0), pt S d 1] : Fin 2 → Pt S 2 d) (fun p => h0 p.1 p.2) cA mA,
-    jetSubstP_psJet m _ (![pt S d 0, comp1 (B.A.act b) (pt S d 1)] : Fin 2 → Pt S 2 d) (fun p => h1 p.1 p.2) cB mB,
+  have hX (k : Fin 2) := standard_point_jet (S := S) (d := d) m k
+  rw [jetSubstP_pair m (comp_point_jet m 0 (B.A.act a) (B.A.const a)) (hX 1),
+    jetSubstP_pair m (hX 0) (comp_point_jet m 1 (B.A.act b) (B.A.const b)),
     twist_bal B cc a b hbal]
 
 end Formalism.MainNotions.ModuliIntegralCharts.H1.CIndFrFix2b
