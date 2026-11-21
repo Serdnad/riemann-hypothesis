@@ -4,6 +4,8 @@ import Lean
 Recheck a compiled theorem's dependency closure against Mathlib. Each declaration
 outside that base is passed through the kernel, and the resulting theorem type
 must match the input type. The optional output path saves the checked slice.
+With `--manifest PATH`, report the owner and source range of each replayed
+declaration. Ranges borrowed from an enclosing declaration are marked as such.
 
 From the Lean package directory, run
 
@@ -110,8 +112,35 @@ partial def replay (source : Environment) (target : Name) : StateT ReplayState I
       checked := state.checked ++ decl.getNames.toArray
       inProgress := names.toArray.foldl (fun names name => names.erase name) state.inProgress }
 
-def checkTarget (sourceModule theoremName : String)
-    (output : Option System.FilePath := none) : IO Unit := do
+def moduleOf? (env : Environment) (name : Name) : Option Name := do
+  let index ← env.getModuleIdxFor? name
+  env.header.moduleNames[index.toNat]?
+
+partial def sourceRange? (env : Environment) (module name : Name) :
+    Option (Name × DeclarationRange) := do
+  if name.isAnonymous || moduleOf? env name != some module then none
+  else
+    match declRangeExt.find? (level := .server) env name with
+    | some ranges => some (name, ranges.range)
+    | none => sourceRange? env module name.getPrefix
+
+def writeManifest (source : Environment) (checked : Array Name) (path : System.FilePath) :
+    IO Unit := do
+  IO.FS.withFile path .write fun output => do
+    output.putStrLn "module\tdeclaration\tanchor\tstart_line\tstart_column\tend_line\tend_column"
+    for name in checked do
+      let owner := moduleOf? source name
+      let fields := [owner.map Name.toString |>.getD "", name.toString]
+      let location := owner.bind (fun module => sourceRange? source module name)
+      let columns := match location with
+        | some (anchor, range) =>
+          [anchor.toString, toString range.pos.line, toString range.pos.column,
+            toString range.endPos.line, toString range.endPos.column]
+        | none => ["", "", "", "", ""]
+      output.putStrLn (String.intercalate "\t" (fields ++ columns))
+
+def checkTarget (sourceModule theoremName : String) (output : Option System.FilePath := none)
+    (manifest : Option System.FilePath := none) : IO Unit := do
   initSearchPath (← findSysroot)
   let source ← importModules #[{ module := sourceModule.toName }] {}
   let base ← importModules #[{ module := `Mathlib }] {}
@@ -131,6 +160,8 @@ def checkTarget (sourceModule theoremName : String)
   for mod in state.owners.toArray.qsort Name.lt do
     IO.println s!"  {mod}"
   (← IO.getStdout).flush
+  if let some manifest := manifest then
+    writeManifest source state.checked manifest
   if let some output := output then
     let some stem := output.fileStem
       | throw (IO.userError "Missing output module name")
@@ -180,6 +211,9 @@ def main (args : List String) : IO UInt32 := do
   | [sourceModule, theoremName, output] =>
     checkTarget sourceModule theoremName (some ⟨output⟩)
     return 0
+  | [sourceModule, theoremName, "--manifest", path] =>
+    checkTarget sourceModule theoremName none (some ⟨path⟩)
+    return 0
   | _ =>
     throw (IO.userError
-      "usage: ReplayProofSlice.lean SOURCE_MODULE THEOREM [OUTPUT.olean] | --batch TARGETS.tsv")
+      "usage: ReplayProofSlice.lean SOURCE_MODULE THEOREM [OUTPUT.olean | --manifest PATH] | --batch TARGETS.tsv")
