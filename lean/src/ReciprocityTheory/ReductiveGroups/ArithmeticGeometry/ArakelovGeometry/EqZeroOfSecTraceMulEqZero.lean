@@ -1,4 +1,5 @@
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.ProjDefs
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.LemCone
 
 noncomputable section
 
@@ -52,6 +53,21 @@ private theorem eval_coneMap {A R σ : Type*} [CommRing A] [CommRing R] [Algebra
     rw [map_mul, map_mul, map_mul, hp]
     simp [coneMap]
 
+private theorem aeval_homogeneous_mul {A R σ : Type*} [CommRing A] [CommRing R] [Algebra A R]
+    (y : σ → R) (t : R) {f : MvPolynomial σ A} {n : ℕ} (hf : f.IsHomogeneous n) :
+    MvPolynomial.aeval (fun i => y i * t) f = MvPolynomial.aeval y f * t ^ n := by
+  calc
+    MvPolynomial.aeval (fun i => y i * t) f = Polynomial.evalRingHom t (coneMap A y f) :=
+      (eval_coneMap y t f).symm
+    _ = MvPolynomial.aeval y f * t ^ n := by
+      rw [Geo.coneMap_of_isHomogeneous A y hf, map_mul, map_pow]
+      simp only [Polynomial.coe_evalRingHom, Polynomial.eval_C, Polynomial.eval_X]
+
+private theorem aeval_homogeneous_div {A K σ : Type*} [CommRing A] [Field K] [Algebra A K]
+    (y : σ → K) (t : K) {f : MvPolynomial σ A} {n : ℕ} (hf : f.IsHomogeneous n) :
+    MvPolynomial.aeval (fun i => y i / t) f = MvPolynomial.aeval y f / t ^ n := by
+  simpa only [div_eq_mul_inv, inv_pow] using aeval_homogeneous_mul y t⁻¹ hf
+
 theorem div_isIntegral (x : κ → Ω) (e : Fin (D + 1) → κ) (h : IsRatProjFrame x e) (i : κ) :
     IsIntegral (fnField (x ∘ e)) (x i / x (e 0)) := by
   set y := x ∘ e with hy
@@ -86,16 +102,7 @@ theorem mul_mem_sec {o : Type*} [CommRing o] [Algebra o Ω] {ι : Type*} (x : ι
 theorem aeval_smul_homog {o ι : Type*} [Fintype ι] [CommRing o] [Algebra o Ω]
     {f : MvPolynomial ι o} {d : ℕ} (hf : f.IsHomogeneous d) (c : Ω) (v : ι → Ω) :
     MvPolynomial.aeval (fun i => c * v i) f = c ^ d * MvPolynomial.aeval v f := by
-  classical
-  rw [MvPolynomial.aeval_def, MvPolynomial.aeval_def, MvPolynomial.eval₂_eq', MvPolynomial.eval₂_eq',
-    Finset.mul_sum]
-  refine Finset.sum_congr rfl fun m hm => ?_
-  have hd : ∑ i, m i = d := by
-    have := hf (MvPolynomial.mem_support_iff.mp hm)
-    rw [← this, Finsupp.weight_apply, Finsupp.sum_fintype _ _ (by simp)]
-    simp
-  simp only [mul_pow, Finset.prod_mul_distrib, Finset.prod_pow_eq_pow_sum, hd]
-  ring
+  simpa only [mul_comm] using aeval_homogeneous_mul v c hf
 
 theorem sec_div_mem [Fintype κ] (x : κ → Ω) (j : κ) {d : ℕ} {s : Ω}
     (hs : s ∈ sec ℤ x d) : s / x j ^ d ∈ fnField x := by
@@ -363,45 +370,6 @@ theorem chartGen_indep (x : κ → Ω) (e : Fin (D + 1) → κ) (hfree : coordId
   classical
   have hne : x (e l) ≠ 0 := coord_ne_zero (x ∘ e) hfree l
 
-  have hdehom : ∀ (F : MvPolynomial (Fin (D + 1)) ℤ) (n : ℕ), F.IsHomogeneous n →
-      MvPolynomial.aeval (fun i => (x ∘ e) i / x (e l)) F =
-        MvPolynomial.aeval (x ∘ e) F / x (e l) ^ n := by
-    intro F n hF
-    rw [MvPolynomial.aeval_def, MvPolynomial.aeval_def, MvPolynomial.eval₂_eq',
-      MvPolynomial.eval₂_eq', Finset.sum_div]
-    refine Finset.sum_congr rfl fun d hd => ?_
-    have h1 := hF (MvPolynomial.mem_support_iff.1 hd)
-    have hdeg : ∑ i, d i = n := by
-      rw [← h1]
-      first
-        | simp [Finsupp.weight_apply, Finsupp.sum_fintype]
-        | simp [Finsupp.degree_eq_sum]
-        | exact (Finsupp.sum_fintype _ _ (by simp)).symm
-        | simp [Finsupp.degree, Finsupp.sum_fintype]
-    rw [mul_div_assoc]
-    congr 1
-    simp_rw [div_pow]
-    rw [Finset.prod_div_distrib, Finset.prod_pow_eq_pow_sum, hdeg]
-
-  have hform : ∀ (F : MvPolynomial (Fin (D + 1)) ℤ) (n : ℕ), F.IsHomogeneous n →
-      coneMap ℤ (x ∘ e) F = Polynomial.C (MvPolynomial.aeval (x ∘ e) F) * Polynomial.X ^ n := by
-    intro F n hF
-    unfold coneMap
-    rw [MvPolynomial.aeval_def, MvPolynomial.aeval_def, MvPolynomial.eval₂_eq',
-      MvPolynomial.eval₂_eq', map_sum, Finset.sum_mul]
-    refine Finset.sum_congr rfl fun d hd => ?_
-    have h1 := hF (MvPolynomial.mem_support_iff.1 hd)
-    have hdeg : ∑ i, d i = n := by
-      rw [← h1]
-      first
-        | simp [Finsupp.weight_apply, Finsupp.sum_fintype]
-        | simp [Finsupp.degree_eq_sum]
-        | exact (Finsupp.sum_fintype _ _ (by simp)).symm
-        | simp [Finsupp.degree, Finsupp.sum_fintype]
-    rw [← hdeg]
-    simp only [mul_pow, Finset.prod_mul_distrib, Finset.prod_pow_eq_pow_sum, eq_intCast, map_mul,
-      map_prod, map_pow, map_intCast]
-    ring
   rw [algebraicIndependent_iff_injective_aeval, injective_iff_map_eq_zero]
   intro P hP
   have hPΩ : MvPolynomial.aeval (fun k : {k // k ≠ l} => x (e k) / x (e l)) P = 0 := by
@@ -429,7 +397,7 @@ theorem chartGen_indep (x : κ → Ω) (e : Fin (D + 1) → κ) (hfree : coordId
     intro n hn
     have hn' : n ≤ Q.totalDegree := Nat.lt_succ_iff.1 (Finset.mem_range.1 hn)
     rw [map_mul, map_pow, MvPolynomial.aeval_X,
-      hdehom _ n (MvPolynomial.homogeneousComponent_isHomogeneous n Q)]
+      aeval_homogeneous_div _ _ (MvPolynomial.homogeneousComponent_isHomogeneous n Q)]
     conv_rhs => rw [← Nat.add_sub_of_le hn', pow_add]
     have hc := pow_ne_zero n hne
     simp only [Function.comp_apply]
@@ -441,12 +409,7 @@ theorem chartGen_indep (x : κ → Ω) (e : Fin (D + 1) → κ) (hfree : coordId
     have h3 : MvPolynomial.aeval ((fun i => (x ∘ e) i / x (e l)) ∘ Subtype.val) P = 0 := hPΩ
     rw [h3, mul_zero]
   have hH0 : H = 0 := by
-    have hc : coneMap ℤ (x ∘ e) H = 0 := by
-      rw [hform H _ hHhom, hHy, map_zero, zero_mul]
-    have hk : H ∈ coordIdeal ℤ (x ∘ e) := by
-      unfold coordIdeal
-      rw [RingHom.mem_ker]
-      exact hc
+    have hk := Geo.mem_coordIdeal_of_isHomogeneous ℤ (x ∘ e) hHhom hHy
     rw [hfree, Ideal.mem_bot] at hk
     exact hk
 
@@ -590,22 +553,7 @@ theorem sec_div_isIntegral (x : κ → Ω) (e : Fin (D + 1) → κ) [Fintype κ]
 
   have hhom : MvPolynomial.aeval (fun i => x i / x (e l)) p = s / x (e l) ^ n := by
     rw [← hps]
-    show MvPolynomial.aeval (fun i => x i / x (e l)) p = MvPolynomial.aeval x p / x (e l) ^ n
-    rw [MvPolynomial.aeval_def, MvPolynomial.aeval_def, MvPolynomial.eval₂_eq',
-      MvPolynomial.eval₂_eq', Finset.sum_div]
-    refine Finset.sum_congr rfl fun d hd => ?_
-    have h1 := hph (MvPolynomial.mem_support_iff.1 hd)
-    have hdeg : ∑ i, d i = n := by
-      rw [← h1]
-      first
-        | simp [Finsupp.weight_apply, Finsupp.sum_fintype]
-        | simp [Finsupp.degree_eq_sum]
-        | exact (Finsupp.sum_fintype _ _ (by simp)).symm
-        | simp [Finsupp.degree, Finsupp.sum_fintype]
-    rw [mul_div_assoc]
-    congr 1
-    simp_rw [div_pow]
-    rw [Finset.prod_div_distrib, Finset.prod_pow_eq_pow_sum, hdeg]
+    exact aeval_homogeneous_div x _ hph
   have hΩ : IsIntegral (chartRing x e l) (s / x (e l) ^ n) := by
     let S := (integralClosure (chartRing x e l) Ω).restrictScalars ℤ
     have hy : ∀ i, x i / x (e l) ∈ S := fun i => coord_div_isIntegral x e h l i
@@ -685,24 +633,6 @@ theorem X_pow_dvd_homogeneous_one_var {H : MvPolynomial (Fin (0 + 1)) ℤ} {M m 
   rw [Finsupp.degree_eq_sum, Fin.sum_univ_one] at hdeg
   omega
 
-private theorem coneMap_of_isHomogeneous_arakelov_geometry {n : ℕ} (y : Fin (D + 1) → Ω) (P : MvPolynomial (Fin (D + 1)) ℤ)
-    (hP : P.IsHomogeneous n) :
-    coneMap ℤ y P = Polynomial.C (MvPolynomial.aeval y P) * Polynomial.X ^ n := by
-  classical
-  conv_lhs => rw [P.as_sum]
-  conv_rhs => rw [P.as_sum]
-  simp only [map_sum, Finset.sum_mul]
-  refine Finset.sum_congr rfl fun d hd => ?_
-  have hdeg : d.degree = n := by
-    by_contra hne
-    exact (MvPolynomial.mem_support_iff.mp hd) (hP.coeff_eq_zero hne)
-  rw [← hdeg, Finsupp.degree_eq_sum]
-  simp only [coneMap, MvPolynomial.aeval_monomial]
-  rw [Finsupp.prod_fintype _ _ (fun _ => pow_zero _), Finsupp.prod_fintype _ _ (fun _ => pow_zero _)]
-  simp only [mul_pow, Finset.prod_mul_distrib, Finset.prod_pow_eq_pow_sum, ← map_pow, ← map_prod, map_mul,
-    eq_intCast, map_intCast]
-  ring
-
 theorem X_zero_pow_dvd_of_isHomogeneous_aeval (y : Fin (D + 1) → Ω) (hfree : coordIdeal ℤ y = ⊥) (u : Ω) (n m : ℕ)
     (H : Fin (D + 1) → MvPolynomial (Fin (D + 1)) ℤ) (hH : ∀ l, (H l).IsHomogeneous (m + n))
     (hu : ∀ l, y l ^ m * u = MvPolynomial.aeval y (H l)) : MvPolynomial.X 0 ^ m ∣ H 0 := by
@@ -718,10 +648,7 @@ theorem X_zero_pow_dvd_of_isHomogeneous_aeval (y : Fin (D + 1) → Ω) (hfree : 
     ring
   have hP0 : (MvPolynomial.X ⟨1, by omega⟩ ^ m * H 0 - MvPolynomial.X 0 ^ m * H ⟨1, by omega⟩ :
       MvPolynomial (Fin (D + 1)) ℤ) = 0 := by
-    have hmem : (MvPolynomial.X ⟨1, by omega⟩ ^ m * H 0 - MvPolynomial.X 0 ^ m * H ⟨1, by omega⟩ :
-        MvPolynomial (Fin (D + 1)) ℤ) ∈ coordIdeal ℤ y := by
-      rw [coordIdeal, RingHom.mem_ker, coneMap_of_isHomogeneous_arakelov_geometry y _ hPh, hPy]
-      simp
+    have hmem := Geo.mem_coordIdeal_of_isHomogeneous ℤ y hPh hPy
     rw [hfree, Ideal.mem_bot] at hmem
     exact hmem
   have hPeq := sub_eq_zero.mp hP0
