@@ -1,4 +1,5 @@
 import Mathlib
+import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.WeylAntisymmetrization
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.FinrankRiemannRochNsmulHyperplane
 import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsIsClosedImmersionGenericPoint
 import Development.AbelianVarietyTheory.Definitions.Divisors.ExtFormAdjEqNegSecondForm
@@ -137,29 +138,8 @@ def HasChernIntegral (R : MvPolynomial (ι × ℕ) ℝ) (t : ℝ) : Prop :=
 
 end Metric
 
-abbrev Root (m : ι → ℕ) : Type := Σ τ, Fin (m τ)
-
 def IsGraded {Y : Var F} (E' : Fr (ratOf Y) m m) (gr : Root m → Y.Dv) : Prop :=
   ∃ B ∈ E'.S (genericPoint Y.X), ∀ (y : Y.X) (x : Root m), ∃ A ∈ E'.S y, ∃ t : Y.Fnˣ,
     (B * A⁻¹) x.1 x.2 x.2 = t ∧ (gr x).IsEqn y t
-
-variable (m)
-
-def chernRoots : MvPolynomial (ι × ℕ) ℝ →ₐ[ℝ] MvPolynomial (Root m) ℝ :=
-  aeval fun x => rename (Sigma.mk x.1) (esymm (Fin (m x.1)) ℝ x.2)
-
-variable [Fintype ι]
-
-def fibrePoint : MvPolynomial (Root m) ℝ := ∏ x : Root m, (-X x) ^ (m x.1 - 1 - x.2)
-
-def rootDiscr : MvPolynomial (Root m) ℝ :=
-  ∏ τ, ∏ j : Fin (m τ), ∏ i ∈ Finset.Iio j, (X ⟨τ, j⟩ - X ⟨τ, i⟩)
-
-variable {m} in
-open Classical in
-
-def antisymm (Q : MvPolynomial (Root m) ℝ) : MvPolynomial (Root m) ℝ :=
-  ∑ w : ∀ τ, Equiv.Perm (Fin (m τ)),
-    ((∏ τ, Equiv.Perm.sign (w τ) : ℤˣ) : ℤ) • rename (fun x : Root m => (⟨x.1, w x.1 x.2⟩ : Root m)) Q
 
 end GlobalTheory.GoodMetric
