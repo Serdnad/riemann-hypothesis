@@ -1,3 +1,4 @@
+import Statements
 import Development.AutomorphicArithmetic.CharacterBoxes.HalfPlane
 import Development.AutomorphicArithmetic.CharacterBoxes.RiemannHypothesisOfEveryCharacter
 
@@ -52,16 +53,18 @@ theorem gamma_ne_zero {M : ℕ} [NeZero M] (φ : DirichletCharacter ℂ M) {t : 
     DirichletCharacter.gammaFactor φ t ≠ 0 :=
   Formalism.VW.gammaFactor_ne_zero φ ht
 
+private theorem primitive_inv {M : ℕ} [NeZero M] {ψ : DirichletCharacter ℂ M}
+    (hψ : ψ.IsPrimitive) : ψ⁻¹.IsPrimitive := by
+  rwa [DirichletCharacter.isPrimitive_def, DirichletCharacter.conductor_inv]
+
 /-- Completion makes zero reflection unconditional for a primitive character. -/
 theorem completed_zero_iff_reflect {M : ℕ} [NeZero M] (ψ : DirichletCharacter ℂ M)
     (hψ : ψ.IsPrimitive) {s : ℂ} :
     DirichletCharacter.completedLFunction ψ s = 0 ↔
       DirichletCharacter.completedLFunction ψ⁻¹ (1 - s) = 0 := by
-  have hinv : ψ⁻¹.IsPrimitive := by
-    rwa [DirichletCharacter.isPrimitive_def, DirichletCharacter.conductor_inv]
   constructor
   · intro hz
-    rw [hinv.completedLFunction_one_sub, inv_inv, hz, mul_zero]
+    rw [(primitive_inv hψ).completedLFunction_one_sub, inv_inv, hz, mul_zero]
   · intro hz
     rw [← sub_sub_cancel (1 : ℂ) s, hψ.completedLFunction_one_sub, hz, mul_zero]
 
@@ -85,22 +88,6 @@ theorem prim_reflect {M : ℕ} [NeZero M] (ψ : DirichletCharacter ℂ M) (hψ :
     (Or.inl (sub_ne_zero.mpr fun e => by simp [← e] at hs1))
     (gamma_ne_zero ψ hs0) h
 
-theorem strip (h : HalfPlane) : Strip := by
-  unfold HalfPlane at h
-  intro N _ χ s hs0 hs1 hz
-  have hs : s ≠ 1 := fun e => by rw [e, Complex.one_re] at hs1; exact lt_irrefl _ hs1
-  have hs0' : s ≠ 0 := fun e => by rw [e, Complex.zero_re] at hs0; exact lt_irrefl _ hs0
-  rcases lt_trichotomy s.re (1 / 2) with hlt | heq | hgt
-  · exfalso
-    have : NeZero χ.conductor := ⟨χ.conductor_ne_zero⟩
-    have hp := prim_zero χ hs0 hs1 hz
-    have hr := prim_reflect χ.primitiveCharacter χ.primitiveCharacter_isPrimitive hs0 hs1 hp
-    have ht : (1 : ℂ) - s ≠ 1 := fun e => hs0' (sub_eq_self.mp e)
-    exact h χ.conductor χ.primitiveCharacter⁻¹ (1 - s)
-      (by rw [Complex.sub_re, Complex.one_re]; linarith) (Or.inr ht) hr
-  · exact heq
-  · exact absurd hz (h N χ s hgt (Or.inr hs))
-
 /-- It suffices to establish nonvanishing for primitive characters in the right half of
 the open critical strip. Mathlib handles the closed half-plane at and to the right of 1. -/
 theorem halfPlane_iff_primitive_right_strip :
@@ -117,6 +104,41 @@ theorem halfPlane_iff_primitive_right_strip :
       exact h χ.conductor χ.primitiveCharacter χ.primitiveCharacter_isPrimitive s hhalf h1
         (prim_zero χ (by linarith) h1 hz)
     · exact χ.LFunction_ne_zero_of_one_le_re hχs (le_of_not_gt h1)
+
+/-- Pass to the primitive character, then use the functional equation to bring any
+zero left of the critical line into the right half of the strip. -/
+theorem strip_of_primitive_right_strip (h : PrimitiveDirichletLNonvanishingInRightStrip) :
+    Strip := by
+  intro N _ χ s hs0 hs1 hz
+  have : NeZero χ.conductor := ⟨χ.conductor_ne_zero⟩
+  have hχ := χ.primitiveCharacter_isPrimitive
+  have hzero := prim_zero χ hs0 hs1 hz
+  refine le_antisymm (le_of_not_gt fun hright => h _ _ hχ s hright hs1 hzero) ?_
+  refine le_of_not_gt fun hleft => ?_
+  have hright : 1 / 2 < (1 - s).re := by rw [sub_re, one_re]; linarith
+  have h1 : (1 - s).re < 1 := by rw [sub_re, one_re]; linarith
+  exact h _ _ (primitive_inv hχ) (1 - s) hright h1 (prim_reflect _ hχ hs0 hs1 hzero)
+
+theorem strip (h : HalfPlane) : Strip :=
+  strip_of_primitive_right_strip (halfPlane_iff_primitive_right_strip.mp h)
+
+theorem primitive_strip (h : Strip) : PrimitiveDirichletLZerosOnLine :=
+  fun N _ χ _ => h N χ
+
+theorem primitive_strip_iff_primitive_right_strip :
+    PrimitiveDirichletLZerosOnLine ↔ PrimitiveDirichletLNonvanishingInRightStrip := by
+  refine ⟨?_, fun h => primitive_strip (strip_of_primitive_right_strip h)⟩
+  intro h N _ χ hχ s hright hs1 hz
+  have hs0 : 0 < s.re := (by norm_num : (0 : ℝ) < 1 / 2).trans hright
+  exact hright.ne' (h N χ hχ s hs0 hs1 hz)
+
+theorem strip_iff_primitive_strip : Strip ↔ PrimitiveDirichletLZerosOnLine :=
+  ⟨primitive_strip, fun h => strip_of_primitive_right_strip
+    (primitive_strip_iff_primitive_right_strip.mp h)⟩
+
+theorem halfPlane_iff_strip : HalfPlane ↔ Strip :=
+  ⟨strip, fun h => halfPlane_iff_primitive_right_strip.mpr
+    (primitive_strip_iff_primitive_right_strip.mp (primitive_strip h))⟩
 
 theorem zeta (h : HalfPlane) : Zeta :=
   UpperTheory.riemannHypothesis_of_everyCharacter h
