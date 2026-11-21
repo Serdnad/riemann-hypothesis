@@ -1,6 +1,6 @@
 import Mathlib
 import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.InstBorelGL
-import Development.AutomorphicSpectrum.Proofs.GlobalProofs.MatrixAdditiveHaarNormalizedStatement
+import Development.AutomorphicSpectrum.Proofs.GlobalProofs.MatrixAdditiveHaarNormalized
 import Development.AutomorphicSpectrum.Proofs.GlobalProofs.MatrixHaarRightTranslateStatement
 
 open MeasureTheory Matrix GlobalTheory.CompanionTheory.QL

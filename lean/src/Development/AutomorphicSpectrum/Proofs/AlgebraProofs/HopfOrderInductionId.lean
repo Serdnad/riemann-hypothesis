@@ -9,3 +9,6 @@ theorem indOrder_id_eq_of_isHopfOrder : ∀ (R : Type) [CommRing R] (T : Type) [
   PositivityTheory.HtPt.Mh.ind_id
 
 end GlobalTheory.CompanionTheory.Ar.BT
+
+theorem _root_.GlobalTheory.T.hopf_order_induction_id : type_of% @_root_.GlobalTheory.CompanionTheory.Ar.BT.indOrder_id_eq_of_isHopfOrder :=
+  @_root_.GlobalTheory.CompanionTheory.Ar.BT.indOrder_id_eq_of_isHopfOrder

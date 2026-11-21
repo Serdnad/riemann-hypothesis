@@ -11,3 +11,6 @@ theorem eig_dual_deg : ∀ (K : Type) [Field K] (C : ACurve K) (d : ℕ) (L : C.
   PositivityTheory.HtPt.Ci.eig_dual
 
 end GlobalTheory.CompanionTheory.Ar.Crv.EigDual
+
+theorem _root_.GlobalTheory.T.dual_eigen_sub_degree_transpose : type_of% @_root_.GlobalTheory.CompanionTheory.Ar.Crv.EigDual.eig_dual_deg :=
+  @_root_.GlobalTheory.CompanionTheory.Ar.Crv.EigDual.eig_dual_deg

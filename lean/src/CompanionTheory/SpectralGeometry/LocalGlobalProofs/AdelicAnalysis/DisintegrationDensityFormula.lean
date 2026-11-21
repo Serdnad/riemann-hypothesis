@@ -417,3 +417,6 @@ theorem exists_isFibreFamily_openOrbit : ∀ (V X Y : Type) [TopologicalSpace V]
   · exact fun φ hφ hφc _ => integrable_and_continuous hg ho hw m hφ hφc
 
 end GlobalTheory.CompanionTheory.SW.Slice
+
+theorem _root_.GlobalTheory.T.exists_fibre_family_on_open_orbit : type_of% @_root_.GlobalTheory.CompanionTheory.SW.Slice.exists_isFibreFamily_openOrbit :=
+  @_root_.GlobalTheory.CompanionTheory.SW.Slice.exists_isFibreFamily_openOrbit

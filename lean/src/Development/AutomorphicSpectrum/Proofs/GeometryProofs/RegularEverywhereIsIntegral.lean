@@ -85,3 +85,6 @@ theorem isIntegral_and_isAlgebraic_of_regular : ∀ (X : Scheme.{0}) (Ω : Type)
     rw [← hga, ← map_mul, Units.inv_mul, map_one]
 
 end GlobalTheory.CompanionTheory.Ar.Flat
+
+theorem _root_.GlobalTheory.T.regular_everywhere_isIntegral : type_of% @_root_.GlobalTheory.CompanionTheory.Ar.Flat.isIntegral_and_isAlgebraic_of_regular :=
+  @_root_.GlobalTheory.CompanionTheory.Ar.Flat.isIntegral_and_isAlgebraic_of_regular

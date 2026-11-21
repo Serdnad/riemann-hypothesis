@@ -136,3 +136,6 @@ theorem inv_differentiable_line : ∀ (X : Type) [NormedAddCommGroup X] [NormedS
   exact (hd.2.differentiableAt).const_smul (((2 * Real.pi) ^ 2 : ℂ)⁻¹)
 
 end GlobalTheory.CompanionTheory.TubeFourier.InvLine
+
+theorem _root_.GlobalTheory.T.inverse_transform_holomorphic_lines : type_of% @_root_.GlobalTheory.CompanionTheory.TubeFourier.InvLine.inv_differentiable_line :=
+  @_root_.GlobalTheory.CompanionTheory.TubeFourier.InvLine.inv_differentiable_line

@@ -89,3 +89,6 @@ theorem smooth_locSub_closure : ∀ {Ω K : Type} [Field Ω] [Field K] [Algebra 
       exact ⟨1, by rw [hinj (congrArg Subtype.val hxy)]⟩
 
 end GlobalTheory.CompanionTheory.Ar.FlagBun.Sm.Cell
+
+theorem _root_.GlobalTheory.T.localization_closure_smooth : type_of% @_root_.GlobalTheory.CompanionTheory.Ar.FlagBun.Sm.Cell.smooth_locSub_closure :=
+  @_root_.GlobalTheory.CompanionTheory.Ar.FlagBun.Sm.Cell.smooth_locSub_closure

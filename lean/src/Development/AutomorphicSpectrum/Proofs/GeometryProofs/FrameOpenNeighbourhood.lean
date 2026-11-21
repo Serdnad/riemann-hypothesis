@@ -13,3 +13,6 @@ theorem frame_spread_near : ∀ (X : Scheme.{0}) (Ω : Type) [Field Ω] (ξ : Sp
   PositivityTheory.HtPt.Mc.frame_spread
 
 end GlobalTheory.CompanionTheory.Ar
+
+theorem _root_.GlobalTheory.T.frame_open_neighbourhood : type_of% @_root_.GlobalTheory.CompanionTheory.Ar.frame_spread_near :=
+  @_root_.GlobalTheory.CompanionTheory.Ar.frame_spread_near

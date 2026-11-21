@@ -4,7 +4,7 @@ import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.StatementsF
 import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.CycNumIntAndComb
 import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.CycleNumberMulExpandStatement
 import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.CycleNumberRenameStatement
-import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.FibreComponentDivisorPropertiesStatement
+import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.FibreComponentDivisorProperties
 
 open MvPolynomial GroundTheory.Heights₂.Heights.NumbersDVR GlobalTheory.CompanionTheory.Ar.Num
 

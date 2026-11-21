@@ -194,3 +194,6 @@ theorem isHopfOrder_indOrder : ∀ (R : Type) [CommRing R] [IsDomain R] (T : Typ
     exact hinv _ (hf t⁻¹)
 
 end GlobalTheory.CompanionTheory.Ar.BT.Induced
+
+theorem _root_.GlobalTheory.T.hopf_order_induction_injective : type_of% @_root_.GlobalTheory.CompanionTheory.Ar.BT.Induced.isHopfOrder_indOrder :=
+  @_root_.GlobalTheory.CompanionTheory.Ar.BT.Induced.isHopfOrder_indOrder

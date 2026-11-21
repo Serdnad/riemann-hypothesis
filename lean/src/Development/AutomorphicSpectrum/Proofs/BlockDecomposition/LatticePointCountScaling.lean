@@ -236,3 +236,6 @@ theorem main : ∀ (G : Type) [AddCommGroup G] [TopologicalSpace G] [IsTopologic
   nlinarith
 
 end GlobalTheory.CompanionTheory.RiemannCore
+
+theorem _root_.GlobalTheory.T.lattice_point_count_scaling : type_of% @_root_.GlobalTheory.CompanionTheory.RiemannCore.main :=
+  @_root_.GlobalTheory.CompanionTheory.RiemannCore.main

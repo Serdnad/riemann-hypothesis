@@ -13,3 +13,6 @@ theorem dense_forall_coord_ne_zero : ∀ n : ℕ, Dense {z : Fin n → ℂ | ∀
   exact dense_pi Set.univ (fun _ _ => dense_compl_singleton 0)
 
 end GlobalTheory.CompanionTheory.Ar.PB.Flat
+
+theorem _root_.GlobalTheory.T.dense_coordinate_torus : type_of% @_root_.GlobalTheory.CompanionTheory.Ar.PB.Flat.dense_forall_coord_ne_zero :=
+  @_root_.GlobalTheory.CompanionTheory.Ar.PB.Flat.dense_forall_coord_ne_zero

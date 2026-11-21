@@ -9,3 +9,6 @@ theorem main : ∀ {o Ω C : Type} [CommRing o] [Field Ω] [Field C] [Algebra o 
   @PositivityTheory.Xgn.t_graph_restrict_bc
 
 end GlobalTheory.CompanionTheory.Ar.GraphRestrict
+
+theorem _root_.GlobalTheory.T.locally_free_base_change_quotient : type_of% @_root_.GlobalTheory.CompanionTheory.Ar.GraphRestrict.main :=
+  @_root_.GlobalTheory.CompanionTheory.Ar.GraphRestrict.main

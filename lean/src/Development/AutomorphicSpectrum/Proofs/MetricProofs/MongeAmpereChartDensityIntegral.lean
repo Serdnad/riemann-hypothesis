@@ -84,3 +84,6 @@ theorem param_chart_changeOfVariables : ∀ (e : ℕ) (X : Type) [TopologicalSpa
     exact setIntegral_congr_fun hB hpt
 
 end GlobalTheory.CompanionTheory.Ar.PB
+
+theorem _root_.GlobalTheory.T.monge_ampere_chart_density_integral : type_of% @_root_.GlobalTheory.CompanionTheory.Ar.PB.param_chart_changeOfVariables :=
+  @_root_.GlobalTheory.CompanionTheory.Ar.PB.param_chart_changeOfVariables

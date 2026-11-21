@@ -8,3 +8,6 @@ theorem two_unimodular_isometric_padic : ∀ (E : Type) [Field E] [NumberField E
   @PositivityTheory.UnitarySelfGeneration.tw_g_padic
 
 end GlobalTheory.CompanionTheory.TwGenus
+
+theorem _root_.GlobalTheory.T.cm_projective_module_pairing_p : type_of% @_root_.GlobalTheory.CompanionTheory.TwGenus.two_unimodular_isometric_padic :=
+  @_root_.GlobalTheory.CompanionTheory.TwGenus.two_unimodular_isometric_padic

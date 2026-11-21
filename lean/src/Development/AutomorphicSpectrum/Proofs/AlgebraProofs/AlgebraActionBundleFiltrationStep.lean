@@ -201,3 +201,6 @@ theorem subDeg_step : ∀ (K : Type) [Field K] (C : ACurve K) (V : Type) [AddCom
   exact (deg_shortExact K C _ _ _ _ _ _ _ _ hB hS).2.2
 
 end GlobalTheory.CompanionTheory.Ar.Flat.DegCurve.FiltStep
+
+theorem _root_.GlobalTheory.T.algebra_action_bundle_filtration_step : type_of% @_root_.GlobalTheory.CompanionTheory.Ar.Flat.DegCurve.FiltStep.subDeg_step :=
+  @_root_.GlobalTheory.CompanionTheory.Ar.Flat.DegCurve.FiltStep.subDeg_step

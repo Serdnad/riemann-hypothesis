@@ -11,3 +11,6 @@ theorem deg_le_deg_of_le : ∀ (K : Type) [Field K] (C : ACurve K) (V : Type) [A
   @PositivityTheory.HtPt.Ch.deg_mono
 
 end GlobalTheory.CompanionTheory.Ar.Crv
+
+theorem _root_.GlobalTheory.T.degree_mono_lattice_le : type_of% @_root_.GlobalTheory.CompanionTheory.Ar.Crv.deg_le_deg_of_le :=
+  @_root_.GlobalTheory.CompanionTheory.Ar.Crv.deg_le_deg_of_le

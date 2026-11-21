@@ -75,3 +75,6 @@ theorem exists_global_generator : ∀ (F Ω X : Type) [Field F] [NumberField F] 
       exact (R x).mul_mem ((R x).pow_mem h2 M) hβ2
 
 end GlobalTheory.CompanionTheory.Ar.Flat
+
+theorem _root_.GlobalTheory.T.exists_pow_section_associated_global_element : type_of% @_root_.GlobalTheory.CompanionTheory.Ar.Flat.exists_global_generator :=
+  @_root_.GlobalTheory.CompanionTheory.Ar.Flat.exists_global_generator

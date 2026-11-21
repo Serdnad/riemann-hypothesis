@@ -6,7 +6,7 @@ import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.LinearIndependentMap
 import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.SubDegreeMonoInjectiveHomStatement
 import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.SubDegreeBotAndMaxExistsStatement
 import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.ShortExactSubDegreeBoundStatement
-import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.DotDualSubDegreeAnnihilatorStatement
+import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.DotDualSubDegreeAnnihilator
 
 open GlobalTheory.CompanionTheory.Ar.Crv
 

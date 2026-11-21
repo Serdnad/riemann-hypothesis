@@ -47,3 +47,6 @@ theorem one_le_detW : ∀ (n : ℕ) (b : Matrix (Fin n) (Fin n) ℂ), b.IsHermit
     _ ≤ _ := Finset.prod_le_prod (fun _ _ => zero_le_one) this
 
 end GlobalTheory.CompanionTheory.SiegelND.Integ.Arch.HuaInt
+
+theorem _root_.GlobalTheory.T.one_le_detW_of_isHermitian : type_of% @_root_.GlobalTheory.CompanionTheory.SiegelND.Integ.Arch.HuaInt.one_le_detW :=
+  @_root_.GlobalTheory.CompanionTheory.SiegelND.Integ.Arch.HuaInt.one_le_detW

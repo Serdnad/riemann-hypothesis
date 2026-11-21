@@ -175,3 +175,6 @@ theorem isCot_of_lifting : âˆ€ (R : Type) [CommRing R] (X : Scheme.{0}) (s : X â
       rfl
 
 end GlobalTheory.CompanionTheory.CotLift
+
+theorem _root_.GlobalTheory.T.closed_immersion_universal_square_zero : type_of% @_root_.GlobalTheory.CompanionTheory.CotLift.isCot_of_lifting :=
+  @_root_.GlobalTheory.CompanionTheory.CotLift.isCot_of_lifting

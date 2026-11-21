@@ -11,3 +11,6 @@ theorem subDeg_dotDual_orth : ∀ (K : Type) [Field K] (C : ACurve K) (d : ℕ) 
   PositivityTheory.HtPt.Ch.subdeg_orth
 
 end GlobalTheory.CompanionTheory.Ar.Crv
+
+theorem _root_.GlobalTheory.T.dot_dual_sub_degree_annihilator : type_of% @_root_.GlobalTheory.CompanionTheory.Ar.Crv.subDeg_dotDual_orth :=
+  @_root_.GlobalTheory.CompanionTheory.Ar.Crv.subDeg_dotDual_orth

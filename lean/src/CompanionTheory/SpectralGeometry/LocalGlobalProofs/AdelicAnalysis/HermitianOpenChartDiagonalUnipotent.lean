@@ -361,3 +361,6 @@ theorem ldl_isOpenEmbedding : ∀ (F E : Type) [Field F] [NumberField F] [Field 
   exact gram_eq _ _ d u
 
 end GlobalTheory.CompanionTheory.SW.LDL
+
+theorem _root_.GlobalTheory.T.hermitian_open_chart_diagonal_unipotent : type_of% @_root_.GlobalTheory.CompanionTheory.SW.LDL.ldl_isOpenEmbedding :=
+  @_root_.GlobalTheory.CompanionTheory.SW.LDL.ldl_isOpenEmbedding

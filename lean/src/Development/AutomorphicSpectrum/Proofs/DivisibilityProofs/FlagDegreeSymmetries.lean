@@ -9,3 +9,6 @@ theorem flag_integral_permutations : ∀ (Ψ : Type) [Fintype Ψ] [DecidableEq �
   @RootFieldNumerics.degFl_symmetry_invariance
 
 end GlobalTheory.CompanionTheory.Ar.Top
+
+theorem _root_.GlobalTheory.T.flag_degree_symmetries : type_of% @_root_.GlobalTheory.CompanionTheory.Ar.Top.flag_integral_permutations :=
+  @_root_.GlobalTheory.CompanionTheory.Ar.Top.flag_integral_permutations

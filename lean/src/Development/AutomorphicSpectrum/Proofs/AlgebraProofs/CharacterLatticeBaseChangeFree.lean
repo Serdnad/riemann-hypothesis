@@ -2,7 +2,7 @@ import Mathlib
 import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.LieLatticeData
 import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.LocFreeMapMkQIff
 import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.LatticeGoodBaseChangeStatement
-import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.LocallyFreeBaseChangeQuotientStatement
+import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.LocallyFreeBaseChangeQuotient
 import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.SmulMemSpanOver
 import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Imports
 

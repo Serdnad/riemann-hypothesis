@@ -183,3 +183,6 @@ theorem char_on_tangent_linear : ∀ (R : Type) [CommRing R] [IsDomain R] (T : T
     · simp
 
 end GlobalTheory.CompanionTheory.Ar.BT.HTLinear
+
+theorem _root_.GlobalTheory.T.character_section_tangent_functional : type_of% @_root_.GlobalTheory.CompanionTheory.Ar.BT.HTLinear.char_on_tangent_linear :=
+  @_root_.GlobalTheory.CompanionTheory.Ar.BT.HTLinear.char_on_tangent_linear

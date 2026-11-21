@@ -268,3 +268,6 @@ theorem exists_std : ∀ {R : Type} [CommRing R] [TopologicalSpace R] [IsTopolog
     simp [ind, Set.indicator_apply] at h5
 
 end GlobalTheory.CompanionTheory.StdLattice
+
+theorem _root_.GlobalTheory.T.schrodinger_model_selfDual_lattice : type_of% @_root_.GlobalTheory.CompanionTheory.StdLattice.exists_std :=
+  @_root_.GlobalTheory.CompanionTheory.StdLattice.exists_std

@@ -6,7 +6,7 @@ import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.LinearIndependentMap
 import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.IsSplitInjectiveAndExists
 import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.ShortExactEigenSubDegreeStatement
 import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.EigenspaceFrobeniusTwistStatement
-import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.DualEigenSubDegreeTransposeStatement
+import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.DualEigenSubDegreeTranspose
 
 open GlobalTheory.CompanionTheory.Ar.Crv
 

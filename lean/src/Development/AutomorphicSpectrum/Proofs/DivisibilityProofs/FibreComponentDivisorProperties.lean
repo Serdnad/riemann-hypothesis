@@ -181,3 +181,6 @@ theorem fibre_comp : ∀ (O : Type) [CommRing O] [IsDomain O] [IsDiscreteValuati
     · exact key f hfP W hfW hϖW
 
 end GlobalTheory.CompanionTheory.Ar.Num.FibreComp
+
+theorem _root_.GlobalTheory.T.fibre_component_divisor_properties : type_of% @_root_.GlobalTheory.CompanionTheory.Ar.Num.FibreComp.fibre_comp :=
+  @_root_.GlobalTheory.CompanionTheory.Ar.Num.FibreComp.fibre_comp

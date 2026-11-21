@@ -9,3 +9,6 @@ theorem summand_of_locFree_quot : ∀ {o Ω : Type} [CommRing o] [Field Ω] [Alg
   @PositivityTheory.Xgn.summand_iff_locFree_quot
 
 end GlobalTheory.CompanionTheory.Ar.Num
+
+theorem _root_.GlobalTheory.T.locally_free_summand_criterion : type_of% @_root_.GlobalTheory.CompanionTheory.Ar.Num.summand_of_locFree_quot :=
+  @_root_.GlobalTheory.CompanionTheory.Ar.Num.summand_of_locFree_quot

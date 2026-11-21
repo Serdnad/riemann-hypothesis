@@ -4,7 +4,7 @@ import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.LocFreeMapMkQIff
 import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.SmulMemSpanOver
 import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.LatticeGoodBaseChangeStatement
 import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.LocallyFreeBaseChangeSummandStatement
-import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.LocallyFreeSummandCriterionStatement
+import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.LocallyFreeSummandCriterion
 
 noncomputable section
 

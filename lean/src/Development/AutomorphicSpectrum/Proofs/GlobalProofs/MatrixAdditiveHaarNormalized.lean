@@ -69,3 +69,6 @@ theorem haarAdd_intMat : ∀ {F : Type} [Field F] [ValuativeRel F] [TopologicalS
     rw [key dx hi h, key dy hj h']
 
 end GlobalTheory.CompanionTheory.QLHaarAdd
+
+theorem _root_.GlobalTheory.T.matrix_additive_haar_normalized : type_of% @_root_.GlobalTheory.CompanionTheory.QLHaarAdd.haarAdd_intMat :=
+  @_root_.GlobalTheory.CompanionTheory.QLHaarAdd.haarAdd_intMat

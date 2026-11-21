@@ -13,3 +13,6 @@ theorem chRing_basicOpen_basis : ∀ (o : Type) [CommRing o] (Ω : Type) [Field 
   @PositivityTheory.HtPt.Ma.basic
 
 end GlobalTheory.CompanionTheory.Ar
+
+theorem _root_.GlobalTheory.T.chart_unit_basic_open : type_of% @_root_.GlobalTheory.CompanionTheory.Ar.chRing_basicOpen_basis :=
+  @_root_.GlobalTheory.CompanionTheory.Ar.chRing_basicOpen_basis

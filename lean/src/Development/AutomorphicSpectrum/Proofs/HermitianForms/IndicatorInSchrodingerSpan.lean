@@ -146,3 +146,6 @@ theorem GlobalTheory.CompanionTheory.SDPadic.exists_selfDual : ∀ (V : Type) [A
   have := hone n
   calc μ.real (D n) * (ε / 2) * μ.real (L n) = (μ.real (L n) * μ.real (D n)) * (ε / 2) := by ring
     _ < ε := by rw [this]; linarith
+
+theorem _root_.GlobalTheory.T.self_dual_lattice_filtration_character : type_of% @_root_.GlobalTheory.CompanionTheory.SDPadic.exists_selfDual :=
+  @_root_.GlobalTheory.CompanionTheory.SDPadic.exists_selfDual

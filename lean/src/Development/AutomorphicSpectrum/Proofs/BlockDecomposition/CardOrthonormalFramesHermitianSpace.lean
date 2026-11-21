@@ -89,3 +89,6 @@ theorem card_orthonormal_tuples : ∀ (E : Type) [CommRing E] (τ : E →+* E) (
     simp [Nat.add_sub_add_right]
 
 end GlobalTheory.CompanionTheory.UnrDens
+
+theorem _root_.GlobalTheory.T.card_orthonormal_frames_hermitian_space : type_of% @_root_.GlobalTheory.CompanionTheory.UnrDens.card_orthonormal_tuples :=
+  @_root_.GlobalTheory.CompanionTheory.UnrDens.card_orthonormal_tuples

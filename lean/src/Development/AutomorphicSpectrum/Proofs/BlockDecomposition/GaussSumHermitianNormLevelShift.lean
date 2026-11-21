@@ -252,3 +252,6 @@ theorem GlobalTheory.CompanionTheory.GaussRec.gauss_recursion : ∀ (R : Type) [
   simpa [gaussTerm] using h3
 
 end
+
+theorem _root_.GlobalTheory.T.gauss_sum_hermitian_norm_level_shift : type_of% @_root_.GlobalTheory.CompanionTheory.GaussRec.gauss_recursion :=
+  @_root_.GlobalTheory.CompanionTheory.GaussRec.gauss_recursion

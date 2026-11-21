@@ -61,3 +61,6 @@ theorem normDegree_le_rank_mul_of_slopeMax_le : ∀ (K : Type) [Field K] [Number
     linarith
 
 end GlobalTheory.CompanionTheory.Ar.DegSlope
+
+theorem _root_.GlobalTheory.T.normalized_degree_le_rank_mul_slope : type_of% @_root_.GlobalTheory.CompanionTheory.Ar.DegSlope.normDegree_le_rank_mul_of_slopeMax_le :=
+  @_root_.GlobalTheory.CompanionTheory.Ar.DegSlope.normDegree_le_rank_mul_of_slopeMax_le

@@ -3,7 +3,7 @@ import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.LieLattice
 import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.LocFreeMapMkQIff
 import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.LatticeGoodBaseChangeStatement
 import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.KernelGraphBaseChangeHoldsStatement
-import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.LocallyFreeBaseChangeQuotientStatement
+import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.LocallyFreeBaseChangeQuotient
 import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Imports
 
 open GlobalTheory.CompanionTheory.Ar.Num

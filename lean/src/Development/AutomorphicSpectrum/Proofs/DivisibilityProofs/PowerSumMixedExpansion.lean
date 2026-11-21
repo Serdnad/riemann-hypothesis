@@ -44,3 +44,6 @@ theorem isMixExpansion_psum_mul : ∀ (σ : Type) [Fintype σ] [DecidableEq σ] 
   · exact (IsHomogeneous.sum _ _ _ fun a _ => isHomogeneous_rename_map_psumExpansion r k e a).mul hG
 
 end GlobalTheory.CompanionTheory.Ar.Num
+
+theorem _root_.GlobalTheory.T.power_sum_mixed_expansion : type_of% @_root_.GlobalTheory.CompanionTheory.Ar.Num.isMixExpansion_psum_mul :=
+  @_root_.GlobalTheory.CompanionTheory.Ar.Num.isMixExpansion_psum_mul

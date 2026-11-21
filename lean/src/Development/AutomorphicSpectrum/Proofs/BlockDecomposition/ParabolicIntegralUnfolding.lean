@@ -65,3 +65,6 @@ theorem aedisjoint_smul_image_prod : ∀ (P G₁ : Type) [Group P] [TopologicalS
     exact measure_mono_null hsub hmap
 
 end GlobalTheory.CompanionTheory.SplitExtLat
+
+theorem _root_.GlobalTheory.T.parabolic_integral_unfolding : type_of% @_root_.GlobalTheory.CompanionTheory.SplitExtLat.aedisjoint_smul_image_prod :=
+  @_root_.GlobalTheory.CompanionTheory.SplitExtLat.aedisjoint_smul_image_prod

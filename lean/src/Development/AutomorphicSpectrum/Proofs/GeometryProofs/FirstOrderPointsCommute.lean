@@ -333,3 +333,6 @@ theorem sqzero_add : ∀ (S : Scheme.{0}) (G : Over S) [GrpObj G] (B : Type) [Co
     ((μ : G ⊗ G ⟶ G).left ⁻¹ᵁ V) o1 o2 o3 o4 _
 
 end GlobalTheory.CompanionTheory.Ar
+
+theorem _root_.GlobalTheory.T.first_order_points_commute : type_of% @_root_.GlobalTheory.CompanionTheory.Ar.sqzero_add :=
+  @_root_.GlobalTheory.CompanionTheory.Ar.sqzero_add

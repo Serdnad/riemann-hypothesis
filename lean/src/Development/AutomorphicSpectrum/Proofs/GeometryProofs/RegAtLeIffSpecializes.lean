@@ -12,3 +12,6 @@ theorem regAt_le_regAt_iff_specializes : ∀ (o : Type) [CommRing o] (Ω : Type)
   @PositivityTheory.HtPt.Ma.reg_le_spec
 
 end GlobalTheory.CompanionTheory.Ar
+
+theorem _root_.GlobalTheory.T.regAt_le_iff_specializes : type_of% @_root_.GlobalTheory.CompanionTheory.Ar.regAt_le_regAt_iff_specializes :=
+  @_root_.GlobalTheory.CompanionTheory.Ar.regAt_le_regAt_iff_specializes

@@ -166,3 +166,6 @@ theorem deg_of_local_formulas : ∀ (k E : Type) [Field k] [NumberField k] [Fiel
     ring
 
 end GlobalTheory.CompanionTheory.Ar.Fl.LocalSum
+
+theorem _root_.GlobalTheory.T.hermitian_log_norm_local_sum : type_of% @_root_.GlobalTheory.CompanionTheory.Ar.Fl.LocalSum.deg_of_local_formulas :=
+  @_root_.GlobalTheory.CompanionTheory.Ar.Fl.LocalSum.deg_of_local_formulas
