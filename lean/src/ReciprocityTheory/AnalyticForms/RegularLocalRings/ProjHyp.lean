@@ -2,9 +2,279 @@ import ReciprocityTheory.AnalyticForms.RegularLocalRings.ProjDehom
 import ReciprocityTheory.AnalyticForms.RegularLocalRings.LogResStC
 import ReciprocityTheory.AnalyticForms.RegularLocalRings.FinTypeQE
 import ReciprocityTheory.AnalyticForms.RegularLocalRings.ProjHypA
-import ReciprocityTheory.AnalyticForms.RegularLocalRings.ProjHypStalk
-import ReciprocityTheory.AnalyticForms.RegularLocalRings.ProjHypB
+import ReciprocityTheory.AnalyticForms.RegularLocalRings.FromSpecResidueFieldAppTopIso
+import ReciprocityTheory.AnalyticForms.RegularLocalRings.StalkLoc
 import ReciprocityTheory.AnalyticForms.RegularLocalRings.ProjHypC
+
+/-! # Projection on affine charts and stalks -/
+
+section ProjHypStalk
+
+namespace ReciprocityTheory.AnForm.R
+
+open MvPolynomial AlgebraicGeometry CategoryTheory
+
+noncomputable section
+
+section Loc
+
+variable {σ : Type}
+
+def kerPt (z : σ → ℂ) : Ideal (MvPolynomial σ ℂ) :=
+  RingHom.ker (MvPolynomial.eval z : MvPolynomial σ ℂ →+* ℂ)
+
+instance kerPt_isPrime (z : σ → ℂ) : (kerPt z).IsPrime :=
+  RingHom.ker_isPrime _
+
+def kerPtQ (I : Ideal (MvPolynomial σ ℂ)) (z : σ → ℂ) : Ideal (MvPolynomial σ ℂ ⧸ I) :=
+  (kerPt z).map (Ideal.Quotient.mk I)
+
+theorem mk_mem_kerPtQ {I : Ideal (MvPolynomial σ ℂ)} {z : σ → ℂ} (hI : I ≤ kerPt z)
+    (f : MvPolynomial σ ℂ) : Ideal.Quotient.mk I f ∈ kerPtQ I z ↔ f ∈ kerPt z :=
+  Ideal.mem_quotient_iff_mem hI
+
+theorem kerPtQ_isPrime {I : Ideal (MvPolynomial σ ℂ)} {z : σ → ℂ} (hI : I ≤ kerPt z) :
+    (kerPtQ I z).IsPrime :=
+  Ideal.map_isPrime_of_surjective Ideal.Quotient.mk_surjective (by rw [Ideal.mk_ker]; exact hI)
+
+abbrev locQ (I : Ideal (MvPolynomial σ ℂ)) (z : σ → ℂ) : Type :=
+  Localization.AtPrime (kerPt z) ⧸
+    Ideal.map (algebraMap (MvPolynomial σ ℂ) (Localization.AtPrime (kerPt z))) I
+
+theorem algebraMap_locQ_mk (I : Ideal (MvPolynomial σ ℂ)) (z : σ → ℂ) (f : MvPolynomial σ ℂ) :
+    algebraMap (MvPolynomial σ ℂ ⧸ I) (locQ I z) (Ideal.Quotient.mk I f) =
+      algebraMap _ (locQ I z) f := by
+  rw [Ideal.Quotient.algebraMap_quotient_map_quotient, Ideal.Quotient.mk_algebraMap]
+
+theorem isLocalization_locQ {I : Ideal (MvPolynomial σ ℂ)} {z : σ → ℂ} (hI : I ≤ kerPt z) :
+    letI := kerPtQ_isPrime hI; IsLocalization.AtPrime (locQ I z) (kerPtQ I z) := by
+  let _ := kerPtQ_isPrime hI
+  set P := kerPt z
+  have hmem : ∀ f, Ideal.Quotient.mk I f ∈ (kerPtQ I z).primeCompl ↔ f ∈ P.primeCompl :=
+    fun f => not_congr (mk_mem_kerPtQ hI f)
+  refine ⟨⟨?_, ?_, ?_⟩⟩
+  · rintro ⟨y, hy⟩
+    obtain ⟨f, rfl⟩ := Ideal.Quotient.mk_surjective y
+    rw [algebraMap_locQ_mk, ← Ideal.Quotient.mk_algebraMap]
+    exact (IsLocalization.map_units (Localization.AtPrime P) (⟨f, (hmem f).1 hy⟩ : P.primeCompl)).map _
+  · intro w
+    obtain ⟨s, rfl⟩ := Ideal.Quotient.mk_surjective w
+    obtain ⟨⟨a, b⟩, hab⟩ := IsLocalization.surj P.primeCompl s
+    refine ⟨(Ideal.Quotient.mk I a, ⟨Ideal.Quotient.mk I b, (hmem b).2 b.2⟩), ?_⟩
+    simp only [algebraMap_locQ_mk, ← Ideal.Quotient.mk_algebraMap, ← map_mul]
+    exact congrArg _ hab
+  · intro u v huv
+    obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective u
+    obtain ⟨b, rfl⟩ := Ideal.Quotient.mk_surjective v
+    rw [algebraMap_locQ_mk, algebraMap_locQ_mk, ← Ideal.Quotient.mk_algebraMap,
+      ← Ideal.Quotient.mk_algebraMap, Ideal.Quotient.eq, ← map_sub] at huv
+    obtain ⟨⟨k, s⟩, hks⟩ :=
+      (IsLocalization.mem_map_algebraMap_iff (M := P.primeCompl) (S := Localization.AtPrime P)).1 huv
+    rw [← map_mul, IsLocalization.eq_iff_exists P.primeCompl] at hks
+    obtain ⟨c, hc⟩ := hks
+    refine ⟨⟨Ideal.Quotient.mk I s, (hmem s).2 s.2⟩, ?_⟩
+    have hc0 : (c : MvPolynomial σ ℂ) ≠ 0 := fun h => c.2 (h ▸ P.zero_mem)
+    have hk : (a - b) * s = k := mul_left_cancel₀ hc0 hc
+    show Ideal.Quotient.mk I s * Ideal.Quotient.mk I a = Ideal.Quotient.mk I s * Ideal.Quotient.mk I b
+    rw [← sub_eq_zero, ← mul_sub, ← map_sub, ← map_mul, Ideal.Quotient.eq_zero_iff_mem, mul_comm, hk]
+    exact k.2
+
+end Loc
+
+variable {K : Type} [Fintype K] [Nonempty K] {ι : K → Type} [∀ k, Fintype (ι k)]
+
+theorem exists_closedPoint_stalk' {P : Ideal (MvPolynomial (Σ k, ι k) ℂ)} (hP : IsMultiHomogIdeal P)
+    (p : (k : K) → ι k) (x : projX P hP) (hx : x ∈ (chartOpen hP p).1)
+    (hc : IsClosed ({x} : Set (projX P hP))) :
+    ∃ y : (Σ k, ι k) → ℂ, (∀ h ∈ chartIdeal P p, eval y h = 0) ∧
+      (∀ q, val (toSpecC hP) (chartCoord hP p q) x hx = y q) ∧
+      Nonempty ((projX P hP).presheaf.stalk x ≃+* locQ (chartIdeal P p) y) := by
+  have hU : IsAffineOpen (chartOpen hP p).1 := (chartOpen hP p).2
+  obtain ⟨φ, hφ⟩ := val_ringHom (toSpecC hP) (chartOpen hP p).1 x hx hc
+  let e := gammaChart hP p
+  let y : (Σ k, ι k) → ℂ := fun q => val (toSpecC hP) (chartCoord hP p q) x hx
+  have hψ : φ.comp (e.symm.toRingHom.comp (Ideal.Quotient.mk (chartIdeal P p))) = eval y := by
+    apply MvPolynomial.ringHom_ext
+    · intro c
+      simp only [RingHom.comp_apply, RingEquiv.toRingHom_eq_coe, RingEquiv.coe_toRingHom, eval_C]
+      rw [gammaChart_symm_C, hφ, val_const (toSpecC hP) _ x hx hc]
+    · intro q
+      simp only [RingHom.comp_apply, RingEquiv.toRingHom_eq_coe, RingEquiv.coe_toRingHom, eval_X]
+      rw [hφ]
+      rfl
+  have hev : ∀ f, φ (e.symm (Ideal.Quotient.mk _ f)) = eval y f := fun f => RingHom.congr_fun hψ f
+  have hzero : ∀ h ∈ chartIdeal P p, eval y h = 0 := by
+    intro h hh
+    rw [← hev, Ideal.Quotient.eq_zero_iff_mem.2 hh, map_zero, map_zero]
+  have hI : chartIdeal P p ≤ kerPt y := fun h hh => (RingHom.mem_ker).2 (hzero h hh)
+  refine ⟨y, hzero, fun q => rfl, ?_⟩
+  let _ := TopCat.Presheaf.algebra_section_stalk (projX P hP).presheaf (⟨x, hx⟩ : (chartOpen hP p).1)
+  have := hU.isLocalization_stalk ⟨x, hx⟩
+  set Q := (hU.primeIdealOf ⟨x, hx⟩).asIdeal
+  let _ := kerPtQ_isPrime hI
+  have hloc := isLocalization_locQ hI
+  have hQ : ∀ a, a ∈ Q ↔ φ a = 0 := by
+    intro a
+    rw [← IsLocalization.AtPrime.to_map_mem_maximal_iff ((projX P hP).presheaf.stalk x) Q, hφ,
+      val_eq_zero_iff (toSpecC hP) a x hx hc, ← Scheme.germ_residue, CommRingCat.comp_apply]
+    exact (IsLocalRing.residue_eq_zero_iff _).symm
+  have key : ∀ f, e.symm (Ideal.Quotient.mk _ f) ∈ Q ↔
+      Ideal.Quotient.mk (chartIdeal P p) f ∈ kerPtQ (chartIdeal P p) y := by
+    intro f
+    rw [hQ, hev, mk_mem_kerPtQ hI]
+    rfl
+  have H : Q.primeCompl.map e.toMonoidHom = (kerPtQ (chartIdeal P p) y).primeCompl := by
+    ext b
+    constructor
+    · rintro ⟨a, ha, rfl⟩
+      show e a ∉ kerPtQ _ y
+      obtain ⟨f, hf⟩ := Ideal.Quotient.mk_surjective (e a)
+      have ha' : a = e.symm (Ideal.Quotient.mk _ f) := by rw [hf, e.symm_apply_apply]
+      rw [← hf, ← key f, ← ha']
+      exact ha
+    · intro hb
+      obtain ⟨f, rfl⟩ := Ideal.Quotient.mk_surjective b
+      refine ⟨e.symm (Ideal.Quotient.mk _ f), ?_, e.apply_symm_apply _⟩
+      show _ ∉ Q
+      rw [key]
+      exact hb
+  exact ⟨IsLocalization.ringEquivOfRingEquiv ((projX P hP).presheaf.stalk x)
+    (locQ (chartIdeal P p) y) e H⟩
+
+end
+
+end ReciprocityTheory.AnForm.R
+
+end ProjHypStalk
+
+section ProjHypB
+
+namespace ReciprocityTheory.AnForm.R
+
+open MvPolynomial
+
+noncomputable section
+
+variable {K : Type} [Fintype K] [Nonempty K] {ι : K → Type} [∀ k, Fintype (ι k)]
+
+theorem exists_relevant_minimalPrime_of_chart {P D : Ideal (MvPolynomial (Σ k, ι k) ℂ)}
+    (hP : IsMultiHomogIdeal P) (hD : IsMultiHomogIdeal D) (p : (k : K) → ι k)
+    (M : Ideal (MvPolynomial (Σ k, ι k) ℂ)) (hM : M ∈ (chartIdeal P p).minimalPrimes)
+    (hDM : D ≤ M) :
+    ∃ q ∈ P.minimalPrimes, IsRelevant q ∧ D ≤ q := by
+  classical
+  set R := MvPolynomial (Σ k, ι k) ℂ
+  have hMp : M.IsPrime := hM.1.1
+  have hcM : chartIdeal P p ≤ M := hM.1.2
+  have hX1 : ∀ k, (X ⟨k, p k⟩ - 1 : R) ∈ M := fun k =>
+    hcM (Ideal.mem_sup_right (Ideal.subset_span ⟨k, rfl⟩))
+  have hXM : ∀ k, (X ⟨k, p k⟩ : R) ∉ M := fun k h =>
+    hMp.ne_top ((Ideal.eq_top_iff_one _).mpr (by
+      have := M.sub_mem h (hX1 k); simpa using this))
+  obtain ⟨q, hq, hqM⟩ := Ideal.exists_minimalPrimes_le (le_sup_left.trans hcM : P ≤ M)
+  have hqp : q.IsPrime := hq.1.1
+  have hPq : P ≤ q := hq.1.2
+  set s : R := ∏ k, X ⟨k, p k⟩
+  have hsq : s ∉ q := by
+    intro h
+    obtain ⟨k, -, hk⟩ := (Ideal.IsPrime.prod_mem_iff (p := q)).mp h
+    exact hXM k (hqM hk)
+  have hdis : Disjoint (Submonoid.powers s : Set R) ↑q :=
+    (Ideal.disjoint_powers_iff_notMem_of_isPrime s).mpr hsq
+  let A := Localization.Away s
+  have hu : ∀ k, IsUnit (algebraMap R A (X ⟨k, p k⟩)) := fun k =>
+    isUnit_of_dvd_unit (map_dvd (algebraMap R A)
+      (Finset.dvd_prod_of_mem (fun k => (X ⟨k, p k⟩ : R)) (Finset.mem_univ k)))
+      (IsLocalization.Away.algebraMap_isUnit (S := A) s)
+  let u : K → A := fun k => ((hu k).unit⁻¹ : Aˣ)
+  have hu1 : ∀ k, u k * algebraMap R A (X ⟨k, p k⟩) = 1 := fun k => (hu k).val_inv_mul
+  let σ : R →+* A := eval₂Hom (algebraMap ℂ A) (fun r => u r.1 * algebraMap R A (X r))
+  have hσ : ∀ (f : R) (a : K → ℕ), IsMultiHomog f a →
+      σ f = (∏ k, u k ^ a k) * algebraMap R A f := by
+    intro f a hf
+    show eval₂ (algebraMap ℂ A) (fun r => u r.1 * algebraMap R A (X r)) f = _
+    rw [eval₂_smul_of_isMultiHomog' (algebraMap ℂ A) hf u (fun r => algebraMap R A (X r))]
+    congr 1
+    conv_rhs => rw [← eval₂_eta f, eval₂_comp_left]
+    congr 1
+  let Q : Ideal A := Ideal.map (algebraMap R A) q
+  have hQp : Q.IsPrime := IsLocalization.isPrime_of_isPrime_disjoint (Submonoid.powers s) A q hqp hdis
+  have hQq : Q.comap (algebraMap R A) = q :=
+    IsLocalization.under_map_of_isPrime_disjoint (Submonoid.powers s) A hqp hdis
+  let M' : Ideal R := Q.comap σ
+  have : M'.IsPrime := Ideal.comap_isPrime σ Q
+
+  have hs1 : IsUnit (Ideal.Quotient.mk M s) := by
+    have : ∀ k, Ideal.Quotient.mk M (X ⟨k, p k⟩) = 1 := fun k => by
+      rw [← sub_eq_zero, ← map_one (Ideal.Quotient.mk M), ← map_sub,
+        Ideal.Quotient.eq_zero_iff_mem]; exact hX1 k
+    simp [s, map_prod, this]
+  let φ : A →+* R ⧸ M := IsLocalization.Away.lift s hs1
+  have hφa : ∀ x : R, φ (algebraMap R A x) = Ideal.Quotient.mk M x := fun x =>
+    IsLocalization.Away.lift_eq s hs1 x
+  have hφu : ∀ k, φ (u k) = 1 := fun k => by
+    have h := congrArg φ (hu1 k)
+    rw [map_mul, map_one, hφa] at h
+    have hx : Ideal.Quotient.mk M (X ⟨k, p k⟩) = 1 := by
+      rw [← sub_eq_zero, ← map_one (Ideal.Quotient.mk M), ← map_sub,
+        Ideal.Quotient.eq_zero_iff_mem]; exact hX1 k
+    rw [hx, mul_one] at h; exact h
+  have hφσ : φ.comp σ = Ideal.Quotient.mk M := by
+    apply MvPolynomial.ringHom_ext
+    · intro c
+      simp [σ, IsScalarTower.algebraMap_apply ℂ R A, hφa]; rfl
+    · intro r
+      simp [σ, hφa, hφu]
+  have hM'M : M' ≤ M := by
+    intro g hg
+    have hQ : Q ≤ (⊥ : Ideal (R ⧸ M)).comap φ := by
+      rw [Ideal.map_le_iff_le_comap]
+      intro x hx
+      simp only [Ideal.mem_comap, hφa, Ideal.mem_bot, Ideal.Quotient.eq_zero_iff_mem]
+      exact hqM hx
+    have h0 := hQ hg
+    simp only [Ideal.mem_comap, Ideal.mem_bot] at h0
+    have : Ideal.Quotient.mk M g = 0 := by rw [← hφσ]; exact h0
+    exact Ideal.Quotient.eq_zero_iff_mem.mp this
+
+  have hcM' : chartIdeal P p ≤ M' := by
+    refine sup_le ?_ ?_
+    · obtain ⟨S, hS, hPS⟩ := hP
+      rw [hPS, Ideal.span_le]
+      intro f hfS
+      obtain ⟨a, ha⟩ := hS f hfS
+      show σ f ∈ Q
+      rw [hσ f a ha]
+      exact Q.mul_mem_left _ (Ideal.mem_map_of_mem _ (hPq (hPS ▸ Ideal.subset_span hfS)))
+    · rw [Ideal.span_le]
+      rintro _ ⟨k, rfl⟩
+      show σ _ ∈ Q
+      have : σ (X ⟨k, p k⟩ - 1) = 0 := by
+        have hσX : σ (X ⟨k, p k⟩) = u k * algebraMap R A (X ⟨k, p k⟩) := eval₂_X _ _ _
+        rw [map_sub, map_one, hσX, hu1, sub_self]
+      rw [this]; exact Q.zero_mem
+  have hMM' : M ≤ M' := hM.2 ⟨inferInstance, hcM'⟩ hM'M
+  refine ⟨q, hq, fun k => ⟨p k, fun h => hXM k (hqM h)⟩, ?_⟩
+  obtain ⟨T, hT, hDT⟩ := hD
+  rw [hDT, Ideal.span_le]
+  intro f hfT
+  obtain ⟨a, ha⟩ := hT f hfT
+  have hfM' : σ f ∈ Q := hMM' (hDM (hDT ▸ Ideal.subset_span hfT))
+  rw [hσ f a ha] at hfM'
+  have hunit : IsUnit (∏ k, u k ^ a k) :=
+    IsUnit.prod_univ_iff.mpr fun k => ((hu k).unit⁻¹).isUnit.pow _
+  have : algebraMap R A f ∈ Q := by
+    have := Q.mul_mem_left (hunit.unit⁻¹ : Aˣ).1 hfM'
+    rwa [← mul_assoc, hunit.val_inv_mul, one_mul] at this
+  rw [← hQq]; exact this
+
+end
+
+end ReciprocityTheory.AnForm.R
+
+end ProjHypB
+
+section ProjHyp
 
 namespace ReciprocityTheory.AnForm.R
 
@@ -206,3 +476,5 @@ theorem interior_projB {P D : Ideal (MvPolynomial (Σ k, ι k) ℂ)} (hP : IsMul
 end
 
 end ReciprocityTheory.AnForm.R
+
+end ProjHyp
