@@ -46,8 +46,12 @@ def unitsV (T : CDVR) : Submonoid T.Fr where
   one_mem' := ⟨one_ne_zero, by simp [vV]⟩
   mul_mem' := fun {a b} ha hb => ⟨mul_ne_zero ha.1 hb.1, by rw [vV_mul ha.1 hb.1, ha.2, hb.2, add_zero]⟩
 
-theorem twSec_flat_val (hP : GlobalTheory.CovTop.Hypotheses2) (hL : Laws U x) (hFE : FlatExists U x) (Z : Comp Xo c)
-    (w : Psi H → ℤ) : ∃ t : TwSec U x Z (wtOf Dw (parWt Dw w) 0), ∀ (T : CDVR) (io : c.F →+* T.Fr)
+theorem twSec_flat_val_of_boundary_nval (hL : Laws U x) (hFE : FlatExists U x) (Z : Comp Xo c)
+    (w : Psi H → ℤ)
+    (boundary_nval : ∀ (τ : Psi H) (s : FlatSec U x Z τ) (T : CDVR)
+      (io : c.F →+* T.Fr) (y : IntFr Xo c T io),
+      (∀ a, a ≠ 0 → vV T.V (io a) = 0) → (letI := io.toAlgebra; LiesOn Z y.1) →
+      nval T.V 1 (evI y s.sig) = 0) : ∃ t : TwSec U x Z (wtOf Dw (parWt Dw w) 0), ∀ (T : CDVR) (io : c.F →+* T.Fr)
       (y : IntFr Xo c T io), (∀ a, a ≠ 0 → vV T.V (io a) = 0) → evI y (idem Z) ≠ 0 → vV T.V (evI y t.sig) = 0 := by
   have hp : HasPts U Z := GlobalTheory.FlatLine.hasPts U hL.pos hL.good hL.unf Z
   let sF : ∀ τ, FlatSec U x Z τ := fun τ => (hFE.nonempty Z τ).some
@@ -71,14 +75,13 @@ theorem twSec_flat_val (hP : GlobalTheory.CovTop.Hypotheses2) (hL : Laws U x) (h
   let ev : Rul Xo c →* T.Fr :=
     ⟨⟨evI y, by rw [← mul_one (evI y 1), ← hid, ← evI_mul, one_mul]⟩, evI_mul y⟩
   have hsig : ∀ τ, ev (sF τ).sig ∈ unitsV T := fun τ => by
-    have hn := GlobalTheory.FlatCore.Bdry.nval_evI_eq_zero hP hP.q2 hP.q3 E H Dw l Xo c r U x hL Z τ
-      (ArchSec.ofConst (sF τ)) T io y hio hLies
+    have hn := boundary_nval τ (sF τ) T io y hio hLies
     have hev0 : evI y (sF τ).sig ≠ 0 := by
       intro h0
-      rw [show (ArchSec.ofConst (sF τ)).sig = (sF τ).sig from rfl, h0, nval_zero] at hn
+      rw [h0, nval_zero] at hn
       exact EReal.top_ne_zero hn
     refine ⟨hev0, ?_⟩
-    rw [show (ArchSec.ofConst (sF τ)).sig = (sF τ).sig from rfl, nval_of_ne hev0] at hn
+    rw [nval_of_ne hev0] at hn
     have : ((vV T.V (evI y (sF τ).sig) : ℝ) / ((1 : ℕ) : ℝ) : ℝ) = 0 := by exact_mod_cast hn
     show vV T.V (evI y (sF τ).sig) = 0
     simpa using this
@@ -98,6 +101,38 @@ theorem twSec_flat_val (hP : GlobalTheory.CovTop.Hypotheses2) (hL : Laws U x) (h
     exact (unitsV T).mul_mem (by rw [show ev (idem Z) = 1 from hid]; exact (unitsV T).one_mem)
       ((unitsV T).mul_mem ((unitsV T).pow_mem (hsig τ) _) ((unitsV T).pow_mem (hinv τ) _))
   exact hprod.2
+
+theorem twSec_flat_val (hP : GlobalTheory.CovTop.Hypotheses2) (hL : Laws U x) (hFE : FlatExists U x) (Z : Comp Xo c)
+    (w : Psi H → ℤ) : ∃ t : TwSec U x Z (wtOf Dw (parWt Dw w) 0), ∀ (T : CDVR) (io : c.F →+* T.Fr)
+      (y : IntFr Xo c T io), (∀ a, a ≠ 0 → vV T.V (io a) = 0) → evI y (idem Z) ≠ 0 → vV T.V (evI y t.sig) = 0 :=
+  twSec_flat_val_of_boundary_nval hL hFE Z w (fun τ s T io y hv hy =>
+    GlobalTheory.FlatCore.Bdry.nval_evI_eq_zero hP hP.q2 hP.q3 E H Dw l Xo c r U x hL Z
+      τ (ArchSec.ofConst s) T io y hv hy)
+
+/-- The map of constants through a frame that factors through the integral stalk
+has valuation zero on nonzero constants. -/
+theorem integral_frame_map_vV_eq_zero (Z : Comp Xo c) (TF : TorFlag Xo c)
+    (y : Y₀ TF.X Z) (T : CDVR) (io : c.F →+* T.Fr) (y' : IntFr Xo c T io)
+    (g : (Y₀ TF.X Z).presheaf.stalk y →+* T.V)
+    (hpt : letI := io.toAlgebra
+      TF.X.ptY y'.1 = Spec.map (CommRingCat.ofHom ((algebraMap T.V T.Fr).comp g)) ≫
+        (Y₀ TF.X Z).fromSpecStalk y ≫ inc₀ TF.X Z) :
+    ∀ a, a ≠ 0 → vV T.V (io a) = 0 := by
+  intro a ha
+  have ho : ∀ a, io a ∈ (algebraMap T.V T.Fr).range := fun a => by
+    letI := io.toAlgebra
+    have h1 := ptY_str TF.X y'.1
+    rw [hpt, CommRingCat.ofHom_comp, Spec.map_comp, Category.assoc, Category.assoc] at h1
+    obtain ⟨b, hb⟩ := Spec.map_surjective
+      (Spec.map (CommRingCat.ofHom g) ≫ ((Y₀ TF.X Z).fromSpecStalk y ≫ inc₀ TF.X Z) ≫ flagStr TF.X)
+    rw [← hb, ← Spec.map_comp] at h1
+    exact ⟨b.hom a, congrArg (fun q => CommRingCat.Hom.hom q a) (Spec.map_injective h1)⟩
+  have ha' : io a ≠ 0 := (map_ne_zero io).2 ha
+  have h1 := (GlobalTheory.KeyValZero.mem_range_iff T _).1 (ho a)
+  have h2 := (GlobalTheory.KeyValZero.mem_range_iff T _).1 (ho a⁻¹)
+  have h3 := vV_mul (V := T.V) ha' ((map_ne_zero io).2 (inv_ne_zero ha))
+  rw [← map_mul, mul_inv_cancel₀ ha, map_one, show vV T.V (1 : T.Fr) = 0 by simp [vV]] at h3
+  omega
 
 end Gen
 
@@ -120,20 +155,6 @@ theorem GlobalTheory.FlatValZero.flat_val_zero : Hypotheses2 → DeepGood → Si
   have hFE := (hB i hi Y hY).2.2.1
   have hL := GlobalTheory.LawsDeep.laws_deep _ p.T _ Y _ _ p.fw.laws ⟨Nat.le_add_left _ _, i.2⟩ hY.1
   obtain ⟨t, ht⟩ := GlobalTheory.FlatValZero.twSec_flat_val hP hL hFE Z w
-  refine ⟨t, ht T io y' (fun a ha => ?_) hZ⟩
-  have ho : ∀ a, io a ∈ (algebraMap T.V T.Fr).range := fun a => by
-    letI := io.toAlgebra
-    have h1 := ptY_str TF.X y'.1
-    rw [hpt, CommRingCat.ofHom_comp, Spec.map_comp, Category.assoc, Category.assoc] at h1
-    obtain ⟨b, hb⟩ := Spec.map_surjective
-      (Spec.map (CommRingCat.ofHom g) ≫ ((Y₀ TF.X Z).fromSpecStalk y ≫ inc₀ TF.X Z) ≫ flagStr TF.X)
-    rw [← hb, ← Spec.map_comp] at h1
-    exact ⟨b.hom a, congrArg (fun q => CommRingCat.Hom.hom q a) (Spec.map_injective h1)⟩
-  have ha' : io a ≠ 0 := (map_ne_zero io).2 ha
-  have h1 := (GlobalTheory.KeyValZero.mem_range_iff T _).1 (ho a)
-  have h2 := (GlobalTheory.KeyValZero.mem_range_iff T _).1 (ho a⁻¹)
-  have h3 := vV_mul (V := T.V) ha' ((map_ne_zero io).2 (inv_ne_zero ha))
-  rw [← map_mul, mul_inv_cancel₀ ha, map_one, show vV T.V (1 : T.Fr) = 0 by simp [vV]] at h3
-  omega
+  exact ⟨t, ht T io y' (integral_frame_map_vV_eq_zero Z TF y T io y' g hpt) hZ⟩
 
 end
