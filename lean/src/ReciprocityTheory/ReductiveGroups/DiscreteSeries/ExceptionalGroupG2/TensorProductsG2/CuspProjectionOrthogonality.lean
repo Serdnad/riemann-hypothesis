@@ -1,3 +1,4 @@
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TensorRepresentations.CuspProjectionOrthogonality
 import ReciprocityTheory.ReductiveGroups.DiscreteSeries.ExceptionalGroupG2.TensorProductsG2.PosSemidefWeightedInnerNonneg
 import ReciprocityTheory.ReductiveGroups.DiscreteSeries.ExceptionalGroupG2.StdGap
 import ReciprocityTheory.ReductiveGroups.DiscreteSeries.ExceptionalGroupG2.ExistenceG2.AnyDec
@@ -31,37 +32,21 @@ theorem psi_twist_coef_memLp (dual : Bool) (hP : IsPsiFor ε lam T Ψ)
     (hWT : ∀ v w : T.V, MemLp (fun g : Formalism.REAL.UJ ε => ((Real.sqrt (S7.hs (Formalism.MainNotions.S.umat g)) : ℝ) : ℂ) *
       inner ℂ w (Ψ (Formalism.MainNotions.S.umat g) v)) 2 (Formalism.REAL.muG ε)) (ξ ζ : Fin n → T.V) :
     MemLp (fun g : Formalism.REAL.UJ ε => ob2PsiCoef dual Ψ ξ ζ (Formalism.MainNotions.S.umat g)) 2 (Formalism.REAL.muG ε) := by
-  simp_rw [psi_coef_expand]
-  refine memLp_finsetSum _ fun c _ => memLp_finsetSum _ fun d _ => ?_
-  refine (hWT (ζ d) (ξ c)).of_le ?_ (Filter.Eventually.of_forall fun g => ?_)
-  · exact ((continuous_tensor_phi dual c d).mul (continuous_const.inner
-      ((continuous_spherical_psi hP).clm_apply continuous_const))).aestronglyMeasurable
-  · rw [norm_mul, norm_mul, Complex.norm_real, Real.norm_of_nonneg (Real.sqrt_nonneg _)]
-    exact mul_le_mul_of_nonneg_right (norm_tensor_phi_le_sqrt_hs g.2 dual c d) (norm_nonneg _)
+  exact ReciprocityTheory.ChartRestriction.DS.psi_twist_coef_memLp dual hP hWT ξ ζ
 
 theorem psi_term_integrable (dual : Bool) (hP : IsPsiFor ε lam T Ψ) (hP' : IsPsiFor ε lam' T' Ψ')
     (hWT : ∀ v w : T.V, MemLp (fun g : Formalism.REAL.UJ ε => ((Real.sqrt (S7.hs (Formalism.MainNotions.S.umat g)) : ℝ) : ℂ) *
       inner ℂ w (Ψ (Formalism.MainNotions.S.umat g) v)) 2 (Formalism.REAL.muG ε)) (ξ ζ : Fin n → T.V) (u v : T'.V) :
     Integrable (fun g : Formalism.REAL.UJ ε => starRingEnd ℂ (ob2PsiCoef dual Ψ ξ ζ (Formalism.MainNotions.S.umat g)) *
       inner ℂ u (Ψ' (Formalism.MainNotions.S.umat g) v)) (Formalism.REAL.muG ε) := by
-  have h1 := (psi_twist_coef_memLp dual hP hWT ξ ζ).star
-  have h2 : MemLp (fun g : Formalism.REAL.UJ ε => inner ℂ u (Ψ' (Formalism.MainNotions.S.umat g) v)) 2 (Formalism.REAL.muG ε) :=
-    memLp_muG_of_haar ε (fun x => inner ℂ u (Ψ' x v)) 2
-      (fun μ hμ => (pdA_coef u v).comp_memLp' (hP'.2.2.2.2 μ hμ))
-  exact h1.integrable_mul h2
+  exact ReciprocityTheory.ChartRestriction.DS.psi_term_integrable dual hP hP' hWT ξ ζ u v
 
 end Psi
 
 theorem psi_twist_at_one (dual : Bool) {ε : Fin n → Bool} {Λ : Fin n → ℝ} {T : S7.KType ε Λ}
     (Ψ : Matrix (Fin n) (Fin n) ℂ → (T.V →L[ℂ] T.V)) (hΨ : Ψ 1 = 1) (u : Fin n → T.V) :
     ob2B dual Ψ 1 u = u := by
-  funext c
-  have hφ : ∀ d, oa1Phi dual 1 c d = if c = d then 1 else 0 := by
-    intro d
-    cases dual
-    · simp [oa1Phi, Matrix.one_apply]
-    · simp [oa1Phi, Matrix.one_apply, eq_comm]
-  simp [ob2B, hφ, hΨ, ite_smul]
+  exact ReciprocityTheory.ChartRestriction.DS.psi_twist_at_one dual Ψ hΨ u
 
 section Main
 

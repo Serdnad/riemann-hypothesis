@@ -1,3 +1,4 @@
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TensorRepresentations.CoefBTensSubKStable
 import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TensorRepresentations.HidaSetting
 import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TensorRepresentations.TensorV
 import ReciprocityTheory.ReductiveGroups.DiscreteSeries.CasimirAlgebra.CasimirKKhwVec
@@ -119,9 +120,7 @@ theorem coefTr_apply (A : Module.End ℂ (Fin n → D)) (u : WithLp 2 (Fin n →
 
 theorem coefTr_casimirK (ε : Fin n → Bool) (A : Fin n → Fin n → Module.End ℂ (Fin n → D)) :
     casimirK ε (fun a b => coefTr (A a b)) = coefTr (casimirK ε A) := by
-  refine LinearMap.ext fun u => ?_
-  simp only [casimirK, LinearMap.sum_apply, Module.End.mul_apply, coefTr_apply, WithLp.ofLp_toLp,
-    WithLp.toLp_sum]
+  exact ReciprocityTheory.ChartRestriction.DS.coefTr_casimirK ε A
 
 theorem coefB_sum_ite_left (a : Fin n) (x : D) (v : Fin n → D) :
     ∑ c, inner ℂ (if c = a then x else 0) (v c) = inner ℂ x (v a) := by
@@ -135,13 +134,7 @@ theorem coefB_sum_ite_right (a : Fin n) (x : D) (v : Fin n → D) :
 
 theorem coefB_isKUnitary (dual : Bool) {ε : Fin n → Bool} {E : Fin n → Fin n → Module.End ℂ D}
     (hU : IsKUnitary ε E) : IsKUnitary ε (fun a b => coefTr (tensF dual E a b)) := by
-  intro a b hab u v
-  simp only [coefTr_apply, PiLp.inner_apply, PiLp.toLp_apply]
-  cases dual
-  · simp only [tensF, cond_false, tensV_coord, inner_add_left, inner_add_right,
-      Finset.sum_add_distrib, hU a b hab, coefB_sum_ite_left, coefB_sum_ite_right]
-  · simp only [tensF, cond_true, tensVd_coord, inner_sub_left, inner_sub_right,
-      Finset.sum_sub_distrib, hU a b hab, coefB_sum_ite_left, coefB_sum_ite_right]
+  exact ReciprocityTheory.ChartRestriction.DS.coefB_isKUnitary dual hU
 
 end Tr
 
@@ -153,45 +146,22 @@ variable {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℂ H] {ε : Fin 
 
 theorem coefB_tensSub_kStable (dual : Bool) {S : Submodule ℂ D} (hS : IsKStableSub ε E S) :
     IsKStableSub ε (tensF dual E) (tensSub S) := by
-  intro a b hab u hu
-  have hu' : ∀ c, u c ∈ S := fun c => (Submodule.mem_pi.1 hu) c (Set.mem_univ c)
-  refine Submodule.mem_pi.2 fun c _ => ?_
-  cases dual
-  · simp only [tensF, cond_false, tensV_coord]
-    refine S.add_mem (hS a b hab _ (hu' c)) ?_
-    split_ifs
-    · exact hu' b
-    · exact S.zero_mem
-  · simp only [tensF, cond_true, tensVd_coord]
-    refine S.sub_mem (hS a b hab _ (hu' c)) ?_
-    split_ifs
-    · exact hu' a
-    · exact S.zero_mem
+  exact ReciprocityTheory.ChartRestriction.DS.coefB_tensSub_kStable dual hS
 
 theorem coefB_casimirK_mem {X : Type*} [AddCommGroup X] [Module ℂ X]
     {A : Fin n → Fin n → Module.End ℂ X} {S : Submodule ℂ X} (hS : IsKStableSub ε A S) {x : X}
     (hx : x ∈ S) : casimirK ε A x ∈ S := by
-  unfold casimirK
-  simp only [LinearMap.sum_apply, Module.End.mul_apply]
-  refine Submodule.sum_mem _ fun a _ => Submodule.sum_mem _ fun b hb => ?_
-  have hb' : ε b = ε a := (Finset.mem_filter.mp hb).2
-  exact hS a b hb'.symm _ (hS b a hb' _ hx)
+  exact ReciprocityTheory.ChartRestriction.DS.coefB_casimirK_mem hS hx
 
 theorem coefB_locFin (hE : IsGlRep E) {V : Submodule ℂ D} (hVf : FiniteDimensional ℂ V)
     (hVk : IsKStableSub ε E V) : CoefLocFin (casimirK ε E) (genSub E V) := by
-  intro y hy
-  obtain ⟨m, hm⟩ := exists_layer_of_mem_genSub hE hVk hy
-  exact ⟨layer ε E V m, finiteDimensional_layer hVf m, layer_le_genSub m,
-    fun x hx => casimirK_mem_of_kStable (layer_kStable hE hVk m) hx, hm⟩
+  exact ReciprocityTheory.ChartRestriction.DS.coefB_locFin hE hVf hVk
 
 theorem coefB_ι_casimirK (dual : Bool) {S' : Submodule ℂ D} {ι : D →ₗ[ℂ] (Fin n → D)}
     (hS' : ∀ a b, ∀ v ∈ S', E a b v ∈ S')
     (hι : ∀ a b, ∀ x ∈ S', ι (E a b x) = tensF dual E a b (ι x)) {y : D} (hy : y ∈ S') :
     ι (casimirK ε E y) = casimirK ε (tensF dual E) (ι y) := by
-  unfold casimirK
-  simp only [LinearMap.sum_apply, Module.End.mul_apply, map_sum]
-  refine Finset.sum_congr rfl fun a _ => Finset.sum_congr rfl fun b _ => ?_
-  rw [hι a b _ (hS' b a y hy), hι b a y hy]
+  exact ReciprocityTheory.ChartRestriction.DS.coefB_ι_casimirK dual hS' hι hy
 
 theorem coefB_toSum_exists (dual : Bool) (hσ : IsURepOn (UJset ε) σ) (hD : IsDerivedOn ε σ D E)
     {lam' : Fin n → ℝ} {V V' : Submodule ℂ D} (hVf : FiniteDimensional ℂ V)
