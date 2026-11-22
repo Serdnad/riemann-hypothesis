@@ -147,93 +147,6 @@ theorem memLp_of_ne (hone : ρ 1 = 1) (hmul : ∀ a b, ρ (a * b) = (ρ a).comp 
     (hirr : ∀ S : Submodule ℂ H, IsClosed (S : Set H) → (∀ g, ∀ v ∈ S, ρ g v ∈ S) → S = ⊥ ∨ S = ⊤)
     (w₀ x₀ : H) (hx₀ : x₀ ≠ 0) (h0 : MemLp (fun g => ⟪w₀, ρ g x₀⟫_ℂ) 2 μ) (x : H) :
     MemLp (fun g => ⟪w₀, ρ g x⟫_ℂ) 2 μ := by
-  have schur : ∀ B : H →L[ℂ] H, IsSelfAdjoint B → (∀ g, Commute B (ρ g)) →
-      ∃ c : ℝ, B = algebraMap ℝ (H →L[ℂ] H) c := by
-    intro B hB hc
-    have hker : ∀ X : H →L[ℂ] H, (∀ g, Commute X (ρ g)) → X = 0 ∨ Function.Injective X := by
-      intro X hX
-      have hinv : ∀ g, ∀ v ∈ LinearMap.ker (X : H →ₗ[ℂ] H), ρ g v ∈ LinearMap.ker (X : H →ₗ[ℂ] H) := by
-        intro g v hv
-        rw [LinearMap.mem_ker, ContinuousLinearMap.coe_coe] at hv ⊢
-        have := congrArg (fun Y : H →L[ℂ] H => Y v) (hX g).eq
-        simp only [ContinuousLinearMap.mul_apply, hv, map_zero] at this
-        exact this
-      rcases hirr (LinearMap.ker (X : H →ₗ[ℂ] H)) X.isClosed_ker hinv with h | h
-      · right
-        intro a b hab
-        have hm : a - b ∈ LinearMap.ker (X : H →ₗ[ℂ] H) := by rw [LinearMap.mem_ker, ContinuousLinearMap.coe_coe, map_sub, hab, sub_self]
-        rw [h] at hm
-        exact sub_eq_zero.mp ((Submodule.mem_bot ℂ).mp hm)
-      · left
-        ext v
-        have hv : v ∈ LinearMap.ker (X : H →ₗ[ℂ] H) := by rw [h]; trivial
-        rw [LinearMap.mem_ker, ContinuousLinearMap.coe_coe] at hv
-        rw [hv, ContinuousLinearMap.zero_apply]
-    have hcf : ∀ f : ℝ → ℝ, ∀ g, Commute (cfc f B) (ρ g) := by
-      intro f g
-      first
-      | exact (hc g).cfc_real f
-      | exact hB.commute_cfc (hc g) f
-      | exact Commute.cfc_real (hc g) f
-      | exact (hc g).cfc (by rw [hB.star_eq]; exact hc g) f
-    have hsub : ∀ a ∈ spectrum ℝ B, ∀ b ∈ spectrum ℝ B, a = b := by
-      intro a ha b hb
-      by_contra hab
-      wlog hlt : a < b generalizing a b
-      · exact this b hb a ha (Ne.symm hab) (lt_of_le_of_ne (not_lt.mp hlt) (Ne.symm hab))
-      obtain ⟨m, hm1, hm2⟩ : ∃ m : ℝ, a < m ∧ m < b := ⟨(a + b) / 2, by linarith, by linarith⟩
-      have hf : Continuous (fun x : ℝ => max (x - m) 0) := (continuous_id.sub continuous_const).max continuous_const
-      have hg : Continuous (fun x : ℝ => max (m - x) 0) := (continuous_const.sub continuous_id).max continuous_const
-      have hfne : cfc (fun x : ℝ => max (x - m) 0) B ≠ 0 := by
-        intro h0
-        have h1 : max (b - m) 0 = 0 := by
-          first
-          | exact (eqOn_of_cfc_eq_cfc (h0.trans (cfc_zero ℝ B).symm) (hf := hf.continuousOn) (hg := continuousOn_const) (ha := hB)) hb
-          | exact (eqOn_of_cfc_eq_cfc (h0.trans (cfc_const_zero ℝ B).symm) (hf := hf.continuousOn) (hg := continuousOn_const) (ha := hB)) hb
-          | exact eqOn_of_cfc_eq_cfc (h0.trans (cfc_zero (R := ℝ) B).symm) (hf := hf.continuousOn) (ha := hB) hb
-          | exact eqOn_of_cfc_eq_cfc (h0.trans (cfc_const_zero (R := ℝ) B).symm) (hf := hf.continuousOn) (ha := hB) hb
-        have h2 : b - m ≤ 0 := by rw [← h1]; exact le_max_left _ _
-        linarith
-      have hgne : cfc (fun x : ℝ => max (m - x) 0) B ≠ 0 := by
-        intro h0
-        have h1 : max (m - a) 0 = 0 := by
-          first
-          | exact (eqOn_of_cfc_eq_cfc (h0.trans (cfc_zero ℝ B).symm) (hf := hg.continuousOn) (hg := continuousOn_const) (ha := hB)) ha
-          | exact (eqOn_of_cfc_eq_cfc (h0.trans (cfc_const_zero ℝ B).symm) (hf := hg.continuousOn) (hg := continuousOn_const) (ha := hB)) ha
-          | exact eqOn_of_cfc_eq_cfc (h0.trans (cfc_zero (R := ℝ) B).symm) (hf := hg.continuousOn) (ha := hB) ha
-          | exact eqOn_of_cfc_eq_cfc (h0.trans (cfc_const_zero (R := ℝ) B).symm) (hf := hg.continuousOn) (ha := hB) ha
-        have h2 : m - a ≤ 0 := by rw [← h1]; exact le_max_left _ _
-        linarith
-      have hfg : cfc (fun x : ℝ => max (x - m) 0) B * cfc (fun x : ℝ => max (m - x) 0) B = 0 := by
-        rw [← cfc_mul (fun x : ℝ => max (x - m) 0) (fun x : ℝ => max (m - x) 0) B
-          (hf := hf.continuousOn) (hg := hg.continuousOn)]
-        have h3 : (fun x : ℝ => max (x - m) 0 * max (m - x) 0) = fun _ => (0 : ℝ) := by
-          funext x
-          rcases le_total x m with h | h
-          · rw [max_eq_right (by linarith : x - m ≤ 0), zero_mul]
-          · rw [max_eq_right (by linarith : m - x ≤ 0), mul_zero]
-        rw [h3]
-        first
-        | exact cfc_const_zero ℝ B
-        | exact cfc_zero ℝ B
-        | simp
-      rcases hker _ (hcf (fun x : ℝ => max (x - m) 0)) with h1 | h1
-      · exact hfne h1
-      · apply hgne
-        ext v
-        apply h1
-        simp only [ContinuousLinearMap.zero_apply, map_zero]
-        rw [← ContinuousLinearMap.mul_apply, hfg, ContinuousLinearMap.zero_apply]
-    by_cases hne : (spectrum ℝ B).Nonempty
-    · obtain ⟨c, hc'⟩ := hne
-      refine ⟨c, ?_⟩
-      calc B = cfc (id : ℝ → ℝ) B := (cfc_id ℝ B hB).symm
-        _ = cfc (fun _ : ℝ => c) B := cfc_congr (fun x hx => hsub x hx c hc')
-        _ = algebraMap ℝ (H →L[ℂ] H) c := cfc_const c B hB
-    · refine ⟨0, ?_⟩
-      calc B = cfc (id : ℝ → ℝ) B := (cfc_id ℝ B hB).symm
-        _ = cfc (fun _ : ℝ => (0 : ℝ)) B := cfc_congr (fun x hx => absurd ⟨x, hx⟩ hne)
-        _ = algebraMap ℝ (H →L[ℂ] H) 0 := cfc_const 0 B hB
   haveI : CompleteSpace (graph μ ρ w₀) := (graph_isClosed ρ w₀).completeSpace_coe
   have hmemP : ∀ z, (graph μ ρ w₀).starProjection z ∈ graph μ ρ w₀ := by
     intro z
@@ -312,7 +225,14 @@ theorem memLp_of_ne (hone : ρ 1 = 1) (hmul : ∀ a b, ρ (a * b) = (ρ a).comp 
     rw [hf0, hs0] at e1
     simp only [inner_zero_left, add_zero] at e1
     exact hx₀ (inner_self_eq_zero.mp e1.symm)
-  obtain ⟨c, hc⟩ := schur (bop (graph μ ρ w₀)) hSA hcomm
+  obtain ⟨c, hc₀⟩ := Formalism.MainNotions.BridgeCSchur.schur_selfAdjoint (Set.range ρ)
+    (fun S hS hSstable => hirr S hS fun g => hSstable (ρ g) ⟨g, rfl⟩)
+    (bop (graph μ ρ w₀)) hSA (by
+      rintro U ⟨g, rfl⟩
+      exact hcomm g)
+  have hc : bop (graph μ ρ w₀) = algebraMap ℝ (H →L[ℂ] H) c := by
+    rw [hc₀, Algebra.algebraMap_eq_smul_one]
+    exact Complex.coe_smul c _
   have hc0 : c ≠ 0 := by
     rintro rfl
     apply hne0
