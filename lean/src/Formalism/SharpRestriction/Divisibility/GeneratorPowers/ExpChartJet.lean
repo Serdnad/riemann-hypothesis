@@ -20,20 +20,7 @@ variable {R : Type} [CommRing R]
 
 private lemma cc_psTrunc_lemma {κ : Type} [Fintype κ] [DecidableEq κ] (m : ℕ) (f : MvPowerSeries κ R) :
     MvPolynomial.constantCoeff (psTrunc m f) = MvPowerSeries.constantCoeff f := by
-  unfold psTrunc
-  rw [map_sum, Finset.sum_eq_single 0]
-  · rw [MvPolynomial.constantCoeff_monomial, if_pos rfl]
-    first | rfl | simp
-  · intro e _ he
-    rw [MvPolynomial.constantCoeff_monomial, if_neg he]
-  · intro h0
-    exfalso
-    apply h0
-    unfold degLE
-    rw [Finset.mem_filter, Finset.mem_image]
-    refine ⟨⟨fun _ => 0, Finset.mem_univ _, ?_⟩, by simp⟩
-    ext i
-    simp
+  rw [FBIdJet.psTrunc_eq, MvPowerSeries.constantCoeff_truncTotal_eq_ite, if_pos (Nat.zero_lt_succ m)]
 
 theorem const_coeff_coe_zero {κ : Type} (P : MvPolynomial κ R) (hP : MvPolynomial.constantCoeff P = 0) :
     MvPowerSeries.constantCoeff (P : MvPowerSeries κ R) = 0 := by
@@ -44,48 +31,10 @@ theorem const_coeff_coe_zero {κ : Type} (P : MvPolynomial κ R) (hP : MvPolynom
      rw [MvPolynomial.coeff_coe]; exact hP)
   | simpa using hP
 
-private lemma mono_mem_lemma_2 {κ : Type} (m : ℕ) (e : κ →₀ ℕ) (c : R) (he : m + 1 ≤ e.sum fun _ k => k) :
-    MvPolynomial.monomial e c ∈ orig R κ ^ (m + 1) := by
-  have hX : ∀ j, (MvPolynomial.X j : MvPolynomial κ R) ∈ orig R κ := fun j => by
-    unfold orig
-    exact Ideal.subset_span ⟨j, rfl⟩
-  rw [MvPolynomial.monomial_eq]
-  apply Ideal.mul_mem_left
-  refine Ideal.pow_le_pow_right he ?_
-  rw [Finsupp.prod, Finsupp.sum, ← Finset.prod_pow_eq_pow_sum]
-  exact Ideal.prod_mem_prod fun j _ => Ideal.pow_mem_pow (hX j) _
-
 private lemma mem_of_coeff_lemma_3 {κ : Type} (m : ℕ) (Q : MvPolynomial κ R)
-    (h : ∀ e : κ →₀ ℕ, (e.sum fun _ k => k) ≤ m → MvPolynomial.coeff e Q = 0) : Q ∈ orig R κ ^ (m + 1) := by
-  rw [MvPolynomial.as_sum Q]
-  refine Ideal.sum_mem _ fun e he => mono_mem_lemma_2 m e _ ?_
-  by_contra hlt
-  exact (MvPolynomial.mem_support_iff.mp he) (h e (by omega))
-
-private lemma mem_degLE_lemma_5 {κ : Type} [Fintype κ] [DecidableEq κ] (m : ℕ) (e : κ →₀ ℕ) :
-    e ∈ degLE m ↔ (e.sum fun _ k => k) ≤ m := by
-  unfold degLE
-  rw [Finset.mem_filter, Finset.mem_image]
-  constructor
-  · exact fun h => h.2
-  · intro h
-    refine ⟨⟨fun i => ⟨e i, ?_⟩, Finset.mem_univ _, ?_⟩, h⟩
-    · have hi : e i ≤ e.sum fun _ k => k := by
-        by_cases hs : i ∈ e.support
-        · exact Finset.single_le_sum (f := fun j => e j) (fun j _ => Nat.zero_le _) hs
-        · have h0 : e i = 0 := by simpa using hs
-          omega
-      omega
-    · ext i
-      simp
-
-private lemma coeff_psTrunc_lemma_4 {κ : Type} [Fintype κ] [DecidableEq κ] (m : ℕ) (f : MvPowerSeries κ R)
-    (e : κ →₀ ℕ) :
-    MvPolynomial.coeff e (psTrunc m f) = if e ∈ degLE m then MvPowerSeries.coeff e f else 0 := by
-  unfold psTrunc
-  rw [MvPolynomial.coeff_sum]
-  simp only [MvPolynomial.coeff_monomial]
-  rw [Finset.sum_ite_eq']
+    (h : ∀ e : κ →₀ ℕ, (e.sum fun _ k => k) ≤ m → MvPolynomial.coeff e Q = 0) : Q ∈ orig R κ ^ (m + 1) :=
+  (MvPolynomial.mem_pow_idealOfVars_iff' (m + 1) Q).2 fun e he =>
+    h e (Nat.le_of_lt_succ he)
 
 theorem jetSubstPS_eq {κ κ' : Type} [Fintype κ'] [DecidableEq κ'] (m : ℕ) (g : κ → MvPowerSeries κ' R)
     (hg : ∀ i, MvPowerSeries.constantCoeff (g i) = 0) :
@@ -122,7 +71,7 @@ theorem jetSubstP_eq_jetSubstPS {κ κ' : Type} [Fintype κ'] [DecidableEq κ'] 
   rw [Ideal.Quotient.eq]
   apply mem_of_coeff_lemma_3
   intro e he
-  simp [MvPolynomial.coeff_sub, coeff_psTrunc_lemma_4, (mem_degLE_lemma_5 m e).mpr he, MvPolynomial.coeff_coe,
+  simp [MvPolynomial.coeff_sub, GermFun.coeff_psTrunc m _ e he, MvPolynomial.coeff_coe,
     cc_psTrunc_lemma, hP, fun i => const_coeff_coe_zero _ (hP i)]
 
 private lemma jetSubstPS_X_lemma_6 {κ κ' : Type} [Fintype κ'] [DecidableEq κ'] (m : ℕ) (g : κ → MvPowerSeries κ' R)
@@ -149,8 +98,8 @@ theorem jetSubstPS_trunc' {κ κ' : Type} [Fintype κ'] [DecidableEq κ'] (m : �
   | (erw [Ideal.Quotient.factor_mk, Ideal.Quotient.factor_mk]; rw [jetSubstPS_X_lemma_6, Ideal.Quotient.eq])
   apply mem_of_coeff_lemma_3
   intro e he
-  simp [MvPolynomial.coeff_sub, coeff_psTrunc_lemma_4, (mem_degLE_lemma_5 m e).mpr he,
-    (mem_degLE_lemma_5 (m + 1) e).mpr (by omega)]
+  simp [MvPolynomial.coeff_sub, GermFun.coeff_psTrunc m _ e he,
+    GermFun.coeff_psTrunc (m + 1) _ e (Nat.le_trans he (Nat.le_succ m))]
 
 theorem aug_psJet {κ : Type} [Fintype κ] [DecidableEq κ] (m : ℕ) (f : MvPowerSeries κ R) :
     (jetAug : Jet R κ m →ₐ[R] R) (psJet m f) = MvPowerSeries.constantCoeff f := by
@@ -170,6 +119,11 @@ theorem aug_comp_jetSubstPS {κ κ' : Type} [Fintype κ'] [DecidableEq κ'] (m :
   rw [jetSubstPS_mk m g hg i, aug_psJet, hg i]
   unfold jetAug
   simp [liftJet]
+
+-- Retain the arithmetic lemma exported by the original truncation proof.
+theorem jetSubstPS_trunc'._proof_1_1 {κ' : Type} (m : ℕ) (e : κ' →₀ ℕ)
+    (he : (e.sum fun _ k => k) ≤ m) : (¬ (e.sum fun _ k => k) ≤ m + 1) → False :=
+  fun h => h (he.trans (Nat.le_succ m))
 
 end Jets
 
@@ -229,7 +183,7 @@ theorem jetCopy_eq {d n : ℕ} (m : ℕ) (i : Fin n) :
   rw [Ideal.Quotient.eq]
   apply mem_of_coeff_lemma_3
   intro e he
-  rw [MvPolynomial.coeff_sub, MvPolynomial.coeff_sub, coeff_psTrunc_lemma_4, if_pos ((mem_degLE_lemma_5 m e).mpr he),
+  rw [MvPolynomial.coeff_sub, MvPolynomial.coeff_sub, GermFun.coeff_psTrunc m _ e he,
     cc_psTrunc_lemma, MvPowerSeries.constantCoeff_X, map_zero, MvPolynomial.coeff_zero, sub_zero,
     ← MvPolynomial.coe_X, MvPolynomial.coeff_coe, sub_self]
 

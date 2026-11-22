@@ -1,4 +1,5 @@
 import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GaugeUniqA
+import Formalism.SharpRestriction.Divisibility.GeneratorPowers.FBIdJet
 
 set_option autoImplicit false
 
@@ -12,25 +13,12 @@ namespace GaugeR
 
 variable {R ι : Type} [CommRing R]
 
-theorem monomial_mem_orig_pow (e : ι →₀ ℕ) (a : R) : monomial e a ∈ orig R ι ^ e.degree := by
-  rw [monomial_eq]
-  apply Ideal.mul_mem_left
-  unfold Finsupp.prod
-  have hpow : orig R ι ^ e.degree = ∏ i ∈ e.support, orig R ι ^ e i := by
-    rw [Finset.prod_pow_eq_pow_sum]
-    rfl
-  rw [hpow]
-  exact Ideal.prod_mem_prod (fun i _ => Ideal.pow_mem_pow (show (X i : MvPolynomial ι R) ∈ orig R ι from Ideal.subset_span (Set.mem_range_self i)) _)
+theorem monomial_mem_orig_pow (e : ι →₀ ℕ) (a : R) : monomial e a ∈ orig R ι ^ e.degree :=
+  GermD.monomial_mem_orig_pow e a
 
 theorem mem_orig_pow_of_coeff (n : ℕ) (p : MvPolynomial ι R) (h : ∀ e, e.degree < n → coeff e p = 0) :
-    p ∈ orig R ι ^ n := by
-  rw [p.as_sum]
-  refine Ideal.sum_mem _ (fun e he => ?_)
-  have hn : n ≤ e.degree := by
-    by_contra hlt
-    push_neg at hlt
-    exact (mem_support_iff.mp he) (h e hlt)
-  exact Ideal.pow_le_pow_right hn (monomial_mem_orig_pow e _)
+    p ∈ orig R ι ^ n :=
+  (MvPolynomial.mem_pow_idealOfVars_iff' n p).2 h
 
 variable [Fintype ι] [DecidableEq ι]
 
@@ -43,21 +31,11 @@ theorem psJet_eq_mk (m : ℕ) (f : MvPowerSeries ι R) (p : MvPolynomial ι R)
   intro e he
   rw [coeff_sub, GermFun.coeff_psTrunc m f e (by omega), h e (by omega), sub_self]
 
-theorem psJet_mul (m : ℕ) (f g : MvPowerSeries ι R) : psJet m (f * g) = psJet m f * psJet m g := by
-  have key : psJet m (f * g) = Ideal.Quotient.mk _ (psTrunc m f * psTrunc m g) := by
-    refine psJet_eq_mk m _ _ (fun e he => ?_)
-    rw [MvPolynomial.coeff_mul, MvPowerSeries.coeff_mul]
-    refine Finset.sum_congr rfl (fun x hx => ?_)
-    have hx' := Finset.HasAntidiagonal.mem_antidiagonal.mp hx
-    have hd : x.1.degree + x.2.degree ≤ m := by
-      rw [← map_add Finsupp.degree, hx']
-      exact he
-    rw [GermFun.coeff_psTrunc m f x.1 (by omega), GermFun.coeff_psTrunc m g x.2 (by omega)]
-  rw [key, map_mul]
-  rfl
+theorem psJet_mul (m : ℕ) (f g : MvPowerSeries ι R) : psJet m (f * g) = psJet m f * psJet m g :=
+  FBIdJet.psJet_mul m f g
 
-theorem psJet_one (m : ℕ) : psJet m (1 : MvPowerSeries ι R) = 1 := by
-  rw [psJet_eq_mk m 1 1 (fun e _ => by rw [MvPolynomial.coeff_one, MvPowerSeries.coeff_one]; exact if_congr eq_comm rfl rfl), map_one]
+theorem psJet_one (m : ℕ) : psJet m (1 : MvPowerSeries ι R) = 1 :=
+  FBIdJet.psJet_one m
 
 theorem psJet_pow (m : ℕ) (f : MvPowerSeries ι R) (k : ℕ) : psJet m (f ^ k) = psJet m f ^ k := by
   induction k with
@@ -111,29 +89,27 @@ theorem jetAug_psJet (m : ℕ) (f : MvPowerSeries ι R) :
   rfl
 
 theorem exists_ps_of_compat (ρ : ∀ m, Jet R ι m) (h : ∀ m, jetTrunc (ρ (m + 1)) = ρ m) :
-    ∃ r : MvPowerSeries ι R, ∀ m, psJet m r = ρ m := by
-  classical
-  choose P hP using fun m => Ideal.Quotient.mk_surjective (ρ m)
-  have hstep : ∀ m, P (m + 1) - P m ∈ orig R ι ^ (m + 1) := by
-    intro m
-    rw [← Ideal.Quotient.eq]
-    have h1 := h m
-    rw [← hP (m + 1), ← hP m] at h1
-    exact h1
-  have hcoef : ∀ n k (e : ι →₀ ℕ), e.degree ≤ n → coeff e (P (n + k)) = coeff e (P n) := by
-    intro n k e he
-    induction k with
-    | zero => rfl
-    | succ k ih =>
-      rw [← ih, ← sub_eq_zero, ← coeff_sub]
-      exact GermFun.coeff_eq_zero_of_mem (hstep (n + k)) (by omega)
-  refine ⟨fun e => coeff e (P e.degree), fun m => ?_⟩
-  rw [← hP m]
-  refine psJet_eq_mk m _ _ (fun e he => ?_)
-  have h2 := hcoef e.degree (m - e.degree) e le_rfl
-  rw [show e.degree + (m - e.degree) = m by omega] at h2
-  rw [h2]
-  rfl
+    ∃ r : MvPowerSeries ι R, ∀ m, psJet m r = ρ m :=
+  GermD.exists_ps_of_jets ρ h
+
+-- Retain the arithmetic lemmas exported by the original jet proofs.
+theorem psJet_mul._proof_1_1 {ι : Type} (m : ℕ) (e : ι →₀ ℕ)
+    (x : (ι →₀ ℕ) × (ι →₀ ℕ)) (hd : Finsupp.degree x.1 + Finsupp.degree x.2 ≤ m) :
+    (¬ Finsupp.degree x.1 ≤ m) → False :=
+  fun h => h ((Nat.le_add_right _ _).trans hd)
+
+theorem psJet_mul._proof_1_2 {ι : Type} (m : ℕ) (e : ι →₀ ℕ)
+    (x : (ι →₀ ℕ) × (ι →₀ ℕ)) (hd : Finsupp.degree x.1 + Finsupp.degree x.2 ≤ m) :
+    (¬ Finsupp.degree x.2 ≤ m) → False :=
+  fun h => h ((Nat.le_add_left _ _).trans hd)
+
+theorem exists_ps_of_compat._proof_1_1 {ι : Type} (n : ℕ) (e : ι →₀ ℕ)
+    (he : Finsupp.degree e ≤ n) (k : ℕ) : (¬ Finsupp.degree e < n + k + 1) → False :=
+  fun h => h (Nat.lt_succ_of_le (Nat.le_add_right_of_le he))
+
+theorem exists_ps_of_compat._proof_1_2 {ι : Type} (m : ℕ) (e : ι →₀ ℕ)
+    (he : Finsupp.degree e ≤ m) : (¬ Finsupp.degree e + (m - Finsupp.degree e) = m) → False :=
+  fun h => h (Nat.add_sub_of_le he)
 
 end GaugeR
 
