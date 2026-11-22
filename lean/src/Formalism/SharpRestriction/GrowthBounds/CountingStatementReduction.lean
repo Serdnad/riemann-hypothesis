@@ -208,6 +208,49 @@ theorem spec_alg {A : Type} [CommRing A] [Algebra O A] (b g : Matrix (Fin n) (Fi
 
 end Universal
 
+theorem HB_of_universal (O : Type) [CommRing O] [IsDomain O] (r : ℕ) (c : ℤ) (ka : Fin r → ℤ)
+    (f₁ : GLCoord O (r + 1))
+    (hG0 : IsUnit (aeval (fun x : Fin (r + 1) × Fin (r + 1) => G0 O (r + 1) x.1 x.2) (genMat O (r + 1)).det))
+    (hBG0 : IsUnit (aeval (fun x : Fin (r + 1) × Fin (r + 1) => (B0 O (r + 1) * G0 O (r + 1)) x.1 x.2)
+      (genMat O (r + 1)).det))
+    (hE : evalG (R := O) (B0 O (r + 1) * G0 O (r + 1)) hBG0 f₁ =
+      (chiB c ka (fun i => (lower_triangular_base_diag_isUnit O (r + 1) i).unit) : UA O (r + 1)) * evalG (R := O) (G0 O (r + 1)) hG0 f₁) :
+    f₁ ∈ HB O r c ka := by
+  intro A _ _ b g u hg hbg hlow hdiag
+  let U0 : Fin (r + 1) → (UA O (r + 1))ˣ := fun i => (lower_triangular_base_diag_isUnit O (r + 1) i).unit
+  have hdetg : IsUnit g.det := by rwa [aeval_genMat_det] at hg
+  have hbu : ∀ i, IsUnit (b i i) := fun i => by rw [hdiag i]; exact Units.isUnit _
+  let φ := spec O (r + 1) b g hbu hdetg
+  have hφB : (B0 O (r + 1)).map φ = b := by
+    ext i j
+    simp only [Matrix.map_apply, B0, uB]
+    rw [spec_alg]
+    split_ifs with h
+    · rw [aeval_X]; rfl
+    · rw [map_zero, hlow i j (not_le.mp h)]
+  have hφG : (G0 O (r + 1)).map φ = g := by
+    ext i j
+    simp only [Matrix.map_apply, G0, uG]
+    rw [spec_alg, aeval_X]; rfl
+  have hφBG : (B0 O (r + 1) * G0 O (r + 1)).map φ = b * g := by
+    rw [Matrix.map_mul, hφB, hφG]
+  have hφU : (fun i => Units.map ((φ : UA O (r + 1) →+* A) : UA O (r + 1) →* A) (U0 i)) = u := by
+    funext i
+    apply Units.ext
+    have : φ (B0 O (r + 1) i i) = b i i := by
+      have := congrFun (congrFun hφB i) i
+      simpa using this
+    rw [← hdiag i, ← this]
+    rfl
+  have h1 := congrArg φ hE
+  rw [map_mul, evalG_map φ _ hBG0 (by rw [hφBG]; exact hbg), evalG_map φ _ hG0 (by rw [hφG]; exact hg),
+    evalG_congr hφBG _ hbg, evalG_congr hφG _ hg] at h1
+  rw [h1]
+  congr 1
+  have h2 := chiB_map (φ : UA O (r + 1) →+* A) c ka U0
+  rw [hφU] at h2
+  exact h2
+
 theorem key_positivity_condition (D : Formalism.BasicNotions.D7) : ArchimedeanSignatureMatching D := by
   intro O _ _ _ r c ka f _ hf hdvd
   obtain ⟨f₁, rfl⟩ := hdvd
@@ -244,39 +287,7 @@ theorem key_positivity_condition (D : Formalism.BasicNotions.D7) : ArchimedeanSi
     apply mul_left_cancel₀ hne
     rw [h0]; ring
 
-  intro A _ _ b g u hg hbg hlow hdiag
-  have hdetg : IsUnit g.det := by rwa [aeval_genMat_det] at hg
-  have hbu : ∀ i, IsUnit (b i i) := fun i => by rw [hdiag i]; exact Units.isUnit _
-  let φ := spec O (r + 1) b g hbu hdetg
-  have hφB : (B0 O (r + 1)).map φ = b := by
-    ext i j
-    simp only [Matrix.map_apply, B0, uB]
-    rw [spec_alg]
-    split_ifs with h
-    · rw [aeval_X]; rfl
-    · rw [map_zero, hlow i j (not_le.mp h)]
-  have hφG : (G0 O (r + 1)).map φ = g := by
-    ext i j
-    simp only [Matrix.map_apply, G0, uG]
-    rw [spec_alg, aeval_X]; rfl
-  have hφBG : (B0 O (r + 1) * G0 O (r + 1)).map φ = b * g := by
-    rw [Matrix.map_mul, hφB, hφG]
-  have hφU : (fun i => Units.map ((φ : UA O (r + 1) →+* A) : UA O (r + 1) →* A) (U0 i)) = u := by
-    funext i
-    apply Units.ext
-    have : φ (B0 O (r + 1) i i) = b i i := by
-      have := congrFun (congrFun hφB i) i
-      simpa using this
-    rw [← hdiag i, ← this]
-    rfl
-  have h1 := congrArg φ hE
-  rw [map_mul, evalG_map φ _ hBG0 (by rw [hφBG]; exact hbg), evalG_map φ _ hG0 (by rw [hφG]; exact hg),
-    evalG_congr hφBG _ hbg, evalG_congr hφG _ hg] at h1
-  rw [h1]
-  congr 1
-  have h2 := chiB_map (φ : UA O (r + 1) →+* A) (c - 1) ka U0
-  rw [hφU] at h2
-  exact h2
+  exact HB_of_universal O r (c - 1) ka f₁ hG0 hBG0 hE
 
 end Formalism.MainNotions.G.CountingStatementReduction
 
@@ -784,49 +795,6 @@ theorem res_coeff (O : Type) [CommRing O] (r : ℕ) (c : ℤ) (ka : Fin (r + 1) 
   have := congrArg (fun P => coeff m P) key
   simp only [coeff_map, coeff_C_mul] at this
   exact this
-
-theorem HB_of_universal (O : Type) [CommRing O] [IsDomain O] (r : ℕ) (c : ℤ) (ka : Fin r → ℤ)
-    (f₁ : GLCoord O (r + 1))
-    (hG0 : IsUnit (aeval (fun x : Fin (r + 1) × Fin (r + 1) => G0 O (r + 1) x.1 x.2) (genMat O (r + 1)).det))
-    (hBG0 : IsUnit (aeval (fun x : Fin (r + 1) × Fin (r + 1) => (B0 O (r + 1) * G0 O (r + 1)) x.1 x.2)
-      (genMat O (r + 1)).det))
-    (hE : evalG (R := O) (B0 O (r + 1) * G0 O (r + 1)) hBG0 f₁ =
-      (chiB c ka (fun i => (lower_triangular_base_diag_isUnit O (r + 1) i).unit) : UA O (r + 1)) * evalG (R := O) (G0 O (r + 1)) hG0 f₁) :
-    f₁ ∈ HB O r c ka := by
-  intro A _ _ b g u hg hbg hlow hdiag
-  let U0 : Fin (r + 1) → (UA O (r + 1))ˣ := fun i => (lower_triangular_base_diag_isUnit O (r + 1) i).unit
-  have hdetg : IsUnit g.det := by rwa [aeval_genMat_det] at hg
-  have hbu : ∀ i, IsUnit (b i i) := fun i => by rw [hdiag i]; exact Units.isUnit _
-  let φ := spec O (r + 1) b g hbu hdetg
-  have hφB : (B0 O (r + 1)).map φ = b := by
-    ext i j
-    simp only [Matrix.map_apply, B0, uB]
-    rw [spec_alg]
-    split_ifs with h
-    · rw [aeval_X]; rfl
-    · rw [map_zero, hlow i j (not_le.mp h)]
-  have hφG : (G0 O (r + 1)).map φ = g := by
-    ext i j
-    simp only [Matrix.map_apply, G0, uG]
-    rw [spec_alg, aeval_X]; rfl
-  have hφBG : (B0 O (r + 1) * G0 O (r + 1)).map φ = b * g := by
-    rw [Matrix.map_mul, hφB, hφG]
-  have hφU : (fun i => Units.map ((φ : UA O (r + 1) →+* A) : UA O (r + 1) →* A) (U0 i)) = u := by
-    funext i
-    apply Units.ext
-    have : φ (B0 O (r + 1) i i) = b i i := by
-      have := congrFun (congrFun hφB i) i
-      simpa using this
-    rw [← hdiag i, ← this]
-    rfl
-  have h1 := congrArg φ hE
-  rw [map_mul, evalG_map φ _ hBG0 (by rw [hφBG]; exact hbg), evalG_map φ _ hG0 (by rw [hφG]; exact hg),
-    evalG_congr hφBG _ hbg, evalG_congr hφG _ hg] at h1
-  rw [h1]
-  congr 1
-  have h2 := chiB_map (φ : UA O (r + 1) →+* A) c ka U0
-  rw [hφU] at h2
-  exact h2
 
 theorem HB_of_smul (O : Type) [CommRing O] [IsDomain O] (r : ℕ) (c : ℤ) (ka : Fin r → ℤ) (a : O) (ha : a ≠ 0)
     (f₁ : GLCoord O (r + 1)) (hf : algebraMap O (GLCoord O (r + 1)) a * f₁ ∈ HB O r c ka) : f₁ ∈ HB O r c ka := by
