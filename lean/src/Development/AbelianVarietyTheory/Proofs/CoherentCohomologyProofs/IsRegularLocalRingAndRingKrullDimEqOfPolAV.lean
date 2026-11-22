@@ -5,7 +5,7 @@ import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.CubeTotalC
 import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.ForallGeometricallyIntegralOfSmoothOfGeometrical
 import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.IsRegularRingOfSmooth
 import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.TrdegEqOfLocallyIsStandardSmoothOfRelativeDimens
-import ReciprocityTheory.CommutativeAlgebra.PolynomialHeights.HeightAddRingKrullDimQuotientMvPolynomialField
+import ReciprocityTheory.CommutativeAlgebra.PolynomialHeights.MaximalHeightOfTrdeg
 
 open CategoryTheory CategoryTheory.Limits MonoidalCategory CartesianMonoidalCategory MonObj AlgebraicGeometry DirectSum TensorProduct
 open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Out ReciprocityTheory.ChartRestriction.G.Semi
@@ -35,7 +35,7 @@ theorem isRegularLocalRing_and_ringKrullDim_eq_of_polAV :
   have hs : Smooth (Spec.map φ) := hφ ▸ inferInstance
   have hs' : Algebra.Smooth K R := (HasRingHomProperty.Spec_iff (P := @Smooth)).1 hs
   have hreg : IsRegularRing R := isRegularRing_of_smooth K R
-  have hh := ReciprocityTheory.CA.height_eq_of_isMaximal_of_trdeg_eq_field P.g htr m
+  have hh := ReciprocityTheory.CA.height_eq_of_isMaximal_of_trdeg_eq P.g htr m
   refine ⟨?_, ?_⟩
   · have := isRegularRing_iff.mp hreg m
     exact IsRegularLocalRing.of_ringEquiv (IsLocalization.algEquiv m.primeCompl
