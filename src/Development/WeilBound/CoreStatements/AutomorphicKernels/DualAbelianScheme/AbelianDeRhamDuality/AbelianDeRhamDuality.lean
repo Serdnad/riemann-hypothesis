@@ -7,8 +7,6 @@ public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AbelianDeRha
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CrystallineSmoothLiftOfRelations
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RigidOfFreeOfCrystallineDeRham
 public import Development.WeilBound.CoreStatements.AbelianHeightsDuality.DividedPowerAlgebras.CrystallineDeRham
-import Development.WeilBound.CoreStatements.AutomorphicKernels.AbelianDeRham.AbelianHodgeDeRham.AbelianHodgeDeRham
-public import Development.WeilBound.CoreStatements.PublishedTheorems.PoincareDeRhamDuality.DeRhamPerfectPairing.PoincareDeRhamDualityOfCube
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -53,7 +51,7 @@ namespace PositivityTheory.DualRT
 
 theorem surjAll : CrystallinePoints.Pd.SurjAll :=
   surjAll_of_hodge GlobalTheory.SmoothLift.crystallineSmoothLift_of_relations
-    MainStatements.Hodge.Free.abelianHodgeDeRham
+    GlobalTheory.T.abelianScheme_deRham_locallyFree_hodgeDegenerates
 
 theorem duality : GlobalTheory.Published.AbelianDeRham.Duality :=
   GlobalTheory.abelianDeRham.2.2.2.2
