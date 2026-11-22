@@ -1,4 +1,3 @@
-import Mathlib
 import ReciprocityTheory.AnalyticForms.MaIntEmpty
 
 namespace ReciprocityTheory.AnForm.A

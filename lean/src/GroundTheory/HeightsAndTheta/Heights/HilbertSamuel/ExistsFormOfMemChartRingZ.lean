@@ -1,4 +1,4 @@
-import Mathlib
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.SectionNormSquares.ChartForms
 import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsArith
 import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsEmbeddingWeight
 import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsTwistIntersectionInt
@@ -17,64 +17,25 @@ namespace ArithmeticVolumeMultiplicative
 variable {K : Type} [Fintype K] {ι : K → Type} [∀ k, Fintype (ι k)]
 
 theorem mh_mul {f g : MRing ι} {a b : K → ℕ} (hf : IsMultiHomog f a) (hg : IsMultiHomog g b) :
-    IsMultiHomog (f * g) (a + b) := by
-  classical
-  intro m hm k
-  obtain ⟨m1, hm1, m2, hm2, rfl⟩ := Finset.mem_add.mp (MvPolynomial.support_mul f g hm)
-  simp only [Finsupp.add_apply, Finset.sum_add_distrib, Pi.add_apply, hf m1 hm1 k, hg m2 hm2 k]
+    IsMultiHomog (f * g) (a + b) :=
+  SectionNormSqExtension.homog_mul hf hg
 
 theorem mh_add {f g : MRing ι} {a : K → ℕ} (hf : IsMultiHomog f a) (hg : IsMultiHomog g a) :
-    IsMultiHomog (f + g) a := by
-  classical
-  intro m hm k
-  rcases Finset.mem_union.mp (MvPolynomial.support_add hm) with h | h
-  · exact hf m h k
-  · exact hg m h k
+    IsMultiHomog (f + g) a :=
+  SectionNormSqExtension.homog_add hf hg
 
-theorem mh_C (r : ℤ) : IsMultiHomog (C r : MRing ι) 0 := by
-  classical
-  intro m hm k
-  have h0 : m = 0 := by
-    by_contra h
-    rw [MvPolynomial.mem_support_iff, MvPolynomial.coeff_C, if_neg (Ne.symm h)] at hm
-    exact hm rfl
-  subst h0
-  simp
+theorem mh_C (r : ℤ) : IsMultiHomog (C r : MRing ι) 0 :=
+  SectionNormSqExtension.homog_C r
 
 open Classical in
-theorem mh_X (k : K) (i : ι k) : IsMultiHomog (X ⟨k, i⟩ : MRing ι) (Pi.single k 1) := by
-  classical
-  intro m hm k'
-  rw [MvPolynomial.support_X, Finset.mem_singleton] at hm
-  subst hm
-  by_cases h : k' = k
-  · subst h
-    simp [Finsupp.single_apply]
-  · have : ∀ j : ι k', (⟨k, i⟩ : Σ k, ι k) ≠ ⟨k', j⟩ := fun j e => h (congrArg Sigma.fst e).symm
-    simp [Finsupp.single_apply, this, h, Pi.single_apply]
+theorem mh_X (k : K) (i : ι k) : IsMultiHomog (X ⟨k, i⟩ : MRing ι) (Pi.single k 1) :=
+  SectionNormSqExtension.homog_X ⟨k, i⟩
 
-theorem mh_pow {f : MRing ι} {a : K → ℕ} (hf : IsMultiHomog f a) (n : ℕ) : IsMultiHomog (f ^ n) (n • a) := by
-  induction n with
-  | zero => simpa using mh_C (ι := ι) 1
-  | succ n ih =>
-    rw [pow_succ, succ_nsmul]
-    exact mh_mul ih hf
+theorem mh_pow {f : MRing ι} {a : K → ℕ} (hf : IsMultiHomog f a) (n : ℕ) : IsMultiHomog (f ^ n) (n • a) :=
+  SectionNormSqExtension.homog_pow hf n
 
-theorem mh_coordProd (c : ∀ k, ι k) (d : K → ℕ) : IsMultiHomog (∏ k, (X ⟨k, c k⟩ : MRing ι) ^ d k) d := by
-  classical
-  have key : ∀ s : Finset K, IsMultiHomog (∏ k ∈ s, (X ⟨k, c k⟩ : MRing ι) ^ d k)
-      (∑ k ∈ s, d k • Pi.single k 1) := by
-    intro s
-    induction s using Finset.induction_on with
-    | empty => simpa using mh_C (ι := ι) 1
-    | insert k s hk ih =>
-      rw [Finset.prod_insert hk, Finset.sum_insert hk]
-      exact mh_mul (mh_pow (mh_X k (c k)) _) ih
-  have e : (∑ k, d k • (Pi.single k 1 : K → ℕ)) = d := by
-    ext k
-    simp [Finset.sum_apply, Pi.single_apply]
-  have := key Finset.univ
-  rwa [e] at this
+theorem mh_coordProd (c : ∀ k, ι k) (d : K → ℕ) : IsMultiHomog (∏ k, (X ⟨k, c k⟩ : MRing ι) ^ d k) d :=
+  SectionNormSqExtension.homog_chartMon c d
 
 theorem coordProd_add (c : ∀ k, ι k) (d e : K → ℕ) :
     (∏ k, (X ⟨k, c k⟩ : MRing ι) ^ (d + e) k) =
@@ -88,49 +49,12 @@ theorem exists_form_of_mem_chartRingZ {Ω : Type} [Field Ω] {y : (Σ k, ι k) �
     (hc : ∀ k, y ⟨k, c k⟩ ≠ 0) {s : Ω} (hs : s ∈ chartRingZ y c) :
     ∃ (d : K → ℕ) (G : MRing ι), IsMultiHomog G d ∧
       aeval y G = s * aeval y (∏ k, (X ⟨k, c k⟩ : MRing ι) ^ d k) := by
-  classical
-  unfold chartRingZ at hs
-  induction hs using Algebra.adjoin_induction with
-  | mem x hx =>
-    obtain ⟨p, rfl⟩ := hx
-    obtain ⟨k, i⟩ := p
-    refine ⟨Pi.single k 1, X ⟨k, i⟩, mh_X k i, ?_⟩
-    have hm : aeval y (∏ k', (X ⟨k', c k'⟩ : MRing ι) ^ (Pi.single k 1 : K → ℕ) k') = y ⟨k, c k⟩ := by
-      rw [map_prod, Finset.prod_eq_single k]
-      · simp
-      · intro b _ hb
-        simp [Pi.single_eq_of_ne hb]
-      · simp
-    rw [hm, aeval_X, div_mul_cancel₀ _ (hc k)]
-  | algebraMap r =>
-    exact ⟨0, C r, mh_C r, by simp⟩
-  | add s t _ _ hs ht =>
-    obtain ⟨d1, G1, hG1, e1⟩ := hs
-    obtain ⟨d2, G2, hG2, e2⟩ := ht
-    refine ⟨d1 + d2, G1 * (∏ k, X ⟨k, c k⟩ ^ d2 k) + G2 * (∏ k, X ⟨k, c k⟩ ^ d1 k), ?_, ?_⟩
-    · refine mh_add (mh_mul hG1 (mh_coordProd c d2)) ?_
-      rw [add_comm d1 d2]
-      exact mh_mul hG2 (mh_coordProd c d1)
-    · rw [coordProd_add, map_add, map_mul, map_mul, map_mul, e1, e2]
-      ring
-  | mul s t _ _ hs ht =>
-    obtain ⟨d1, G1, hG1, e1⟩ := hs
-    obtain ⟨d2, G2, hG2, e2⟩ := ht
-    refine ⟨d1 + d2, G1 * G2, mh_mul hG1 hG2, ?_⟩
-    rw [coordProd_add, map_mul, map_mul, e1, e2]
-    ring
+  simpa only [map_prod, map_pow, aeval_X] using SectionNormSqExtension.exists_form_of_mem_chartRingZ y c hc hs
 
 theorem exists_chart {Ω : Type} [Field Ω] {y : (Σ k, ι k) → Ω} {z : (Σ k, ι k) → ℂ}
     (hz : z ∈ mcPts (mCoordIdeal y)) : ∃ c : ∀ k, ι k, (∀ k, z ⟨k, c k⟩ ≠ 0) ∧ ∀ k, y ⟨k, c k⟩ ≠ 0 := by
-  have hz1 : ∀ k, ∃ i, z ⟨k, i⟩ ≠ 0 := hz.1
-  choose c hc using hz1
-  refine ⟨c, hc, fun k hy => hc k ?_⟩
-  have hX : (X ⟨k, c k⟩ : MRing ι) ∈ mCoordIdeal y := by
-    unfold mCoordIdeal
-    rw [RingHom.mem_ker]
-    simp only [mConeMap, aeval_X, hy, map_zero, zero_mul]
-  have := hz.2 _ hX
-  simpa using this
+  choose c hc using hz.1
+  exact ⟨c, hc, fun k => SectionNormSqExtension.y_ne_zero hz (hc k)⟩
 
 theorem mul_mem_chartLat {Ω : Type} [Field Ω] {y : (Σ k, ι k) → Ω} {θ s : Ω} {a : K → ℤ} {τ : ℕ}
     (hθ : ∀ c : ∀ k, ι k, (∀ k, y ⟨k, c k⟩ ≠ 0) → θ ∈ chartRingZ y c) (hs : s ∈ chartLat y a τ) :

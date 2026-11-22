@@ -327,6 +327,16 @@ def toLL : LetA O n →+* (ZMod n → PowerSeries LL) :=
 
 def qp (W : LocWach PD LL O v n) : LetA O n := W.π₀ + ((PD.p : ℕ) : LetA O n)
 
+structure lifta_Ring (W : LocWach PD LL O v n) : Prop where
+  πΔ : W.π₀ ∈ W.AΔ
+  πU : IsUnit (algebraMap (LetA O n) W.EE W.π₀)
+  qU : IsUnit (algebraMap (LetA O n) W.EE (qp W))
+  ππ : ∃ w : (LetA O n)ˣ, W.π₀ = (w : LetA O n) * letπ ^ (PD.p - 1)
+  qq : ∃ w : (LetA O n)ˣ, W.q = (w : LetA O n) * qp W
+  φπ : ∃ t ∈ W.AΔ, W.φA W.π₀ = W.π₀ * qp W ^ (PD.p - 1) * t
+  γπ : ∃ t ∈ W.AΔ, W.γA W.gam W.π₀ = W.π₀ * (algebraMap O (LetA O n) (u₁ W) + W.π₀ * t)
+  γq : ∃ t ∈ W.AΔ, W.γA W.gam (qp W) = (1 + W.π₀ * t) * qp W
+
 def pk (W : LocWach PD LL O v n) (k : ℕ) : LetA O n := (W.φA ^ k) (qp W)
 
 def JJ (W : LocWach PD LL O v n) (j y M' : ℕ) : LetA O n :=

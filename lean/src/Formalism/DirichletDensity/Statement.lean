@@ -1,4 +1,3 @@
-import Mathlib
 import Formalism.CMTypeGalois.StatementField
 
 open NumberField Ideal Filter Topology Finset Formalism.Q3

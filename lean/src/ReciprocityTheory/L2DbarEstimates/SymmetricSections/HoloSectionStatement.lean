@@ -1,4 +1,3 @@
-import Mathlib
 import ReciprocityTheory.L2DbarEstimates.IsLocalHomeomorph
 
 namespace ReciprocityTheory.L2DbarEstimates.Norm

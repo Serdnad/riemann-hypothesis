@@ -287,4 +287,6 @@ theorem heightComparison : HeightComparison.Statement := by
 
 end
 
+theorem HeightComparison.main : HeightComparison.Statement := heightComparison
+
 end GroundTheory.Heights₂.Heights

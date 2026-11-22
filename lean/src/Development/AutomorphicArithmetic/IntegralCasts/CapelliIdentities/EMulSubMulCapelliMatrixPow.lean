@@ -1,416 +1,78 @@
 import Mathlib
 
-@[reducible] noncomputable def UpperTheory.Reformulated.B.Qk36.gl :
-    Nat → Type :=
-    fun (n : Nat) ↦ Matrix (Fin n) (Fin n) Complex
+namespace UpperTheory.Reformulated.B.Qk36
 
-@[reducible] noncomputable def UpperTheory.Reformulated.B.Qk36.U :
-    Nat → Type :=
-    fun (n : Nat) ↦
-      @UniversalEnvelopingAlgebra Complex (UpperTheory.Reformulated.B.Qk36.gl n) Complex.commRing
-        (@LieRing.ofAssociativeRing (UpperTheory.Reformulated.B.Qk36.gl n)
-          (@Matrix.instRing (Fin n) Complex (Fin.fintype n) (instDecidableEqFin n) Complex.instRing))
-        (@LieAlgebra.ofAssociativeAlgebra (UpperTheory.Reformulated.B.Qk36.gl n)
-          (@Matrix.instRing (Fin n) Complex (Fin.fintype n) (instDecidableEqFin n) Complex.instRing) Complex
-          Complex.commRing
-          (@Matrix.instAlgebra (Fin n) Complex Complex (Fin.fintype n) (instDecidableEqFin n)
-            (@CommRing.toCommSemiring Complex Complex.commRing) (@Ring.toSemiring Complex Complex.instRing)
-            (@Algebra.id Complex (@CommRing.toCommSemiring Complex Complex.commRing))))
+noncomputable section
 
-noncomputable def UpperTheory.Reformulated.B.Qk36.E :
-    {n : Nat} → Prod (Fin n) (Fin n) → UpperTheory.Reformulated.B.Qk36.gl n :=
-    fun {n : Nat} (a : Prod (Fin n) (Fin n)) ↦
-      @Matrix.single (Fin n) (Fin n) Complex (instDecidableEqFin n) (instDecidableEqFin n) Complex.instZero
-        (@Prod.fst (Fin n) (Fin n) a) (@Prod.snd (Fin n) (Fin n) a)
-        (@OfNat.ofNat Complex (nat_lit 1) (@One.toOfNat1 Complex Complex.instOne))
+@[reducible] def gl (n : ℕ) := Matrix (Fin n) (Fin n) ℂ
 
-noncomputable def UpperTheory.Reformulated.B.Qk36.e :
-    {n : Nat} → Prod (Fin n) (Fin n) → UpperTheory.Reformulated.B.Qk36.U n :=
-    fun {n : Nat} (a : Prod (Fin n) (Fin n)) ↦
-      @DFunLike.coe
-        (@LieHom Complex (UpperTheory.Reformulated.B.Qk36.gl n)
-          (@UniversalEnvelopingAlgebra Complex (UpperTheory.Reformulated.B.Qk36.gl n) Complex.commRing
-            (@LieRing.ofAssociativeRing (UpperTheory.Reformulated.B.Qk36.gl n)
-              (@Matrix.instRing (Fin n) Complex (Fin.fintype n) (instDecidableEqFin n) Complex.instRing))
-            (@LieAlgebra.ofAssociativeAlgebra (UpperTheory.Reformulated.B.Qk36.gl n)
-              (@Matrix.instRing (Fin n) Complex (Fin.fintype n) (instDecidableEqFin n) Complex.instRing) Complex
-              Complex.commRing
-              (@Matrix.instAlgebra (Fin n) Complex Complex (Fin.fintype n) (instDecidableEqFin n)
-                (@CommRing.toCommSemiring Complex Complex.commRing) (@Ring.toSemiring Complex Complex.instRing)
-                (@Algebra.id Complex (@CommRing.toCommSemiring Complex Complex.commRing)))))
-          Complex.commRing
-          (@LieRing.ofAssociativeRing (UpperTheory.Reformulated.B.Qk36.gl n)
-            (@Matrix.instRing (Fin n) Complex (Fin.fintype n) (instDecidableEqFin n) Complex.instRing))
-          (@LieAlgebra.ofAssociativeAlgebra (UpperTheory.Reformulated.B.Qk36.gl n)
-            (@Matrix.instRing (Fin n) Complex (Fin.fintype n) (instDecidableEqFin n) Complex.instRing) Complex
-            Complex.commRing
-            (@Matrix.instAlgebra (Fin n) Complex Complex (Fin.fintype n) (instDecidableEqFin n)
-              (@CommRing.toCommSemiring Complex Complex.commRing) (@Ring.toSemiring Complex Complex.instRing)
-              (@Algebra.id Complex (@CommRing.toCommSemiring Complex Complex.commRing))))
-          (@LieRing.ofAssociativeRing
-            (@UniversalEnvelopingAlgebra Complex (UpperTheory.Reformulated.B.Qk36.gl n) Complex.commRing
-              (@LieRing.ofAssociativeRing (UpperTheory.Reformulated.B.Qk36.gl n)
-                (@Matrix.instRing (Fin n) Complex (Fin.fintype n) (instDecidableEqFin n) Complex.instRing))
-              (@LieAlgebra.ofAssociativeAlgebra (UpperTheory.Reformulated.B.Qk36.gl n)
-                (@Matrix.instRing (Fin n) Complex (Fin.fintype n) (instDecidableEqFin n) Complex.instRing) Complex
-                Complex.commRing
-                (@Matrix.instAlgebra (Fin n) Complex Complex (Fin.fintype n) (instDecidableEqFin n)
-                  (@CommRing.toCommSemiring Complex Complex.commRing) (@Ring.toSemiring Complex Complex.instRing)
-                  (@Algebra.id Complex (@CommRing.toCommSemiring Complex Complex.commRing)))))
-            (@instRingUniversalEnvelopingAlgebra Complex (UpperTheory.Reformulated.B.Qk36.gl n) Complex.commRing
-              (@LieRing.ofAssociativeRing (UpperTheory.Reformulated.B.Qk36.gl n)
-                (@Matrix.instRing (Fin n) Complex (Fin.fintype n) (instDecidableEqFin n) Complex.instRing))
-              (@LieAlgebra.ofAssociativeAlgebra (UpperTheory.Reformulated.B.Qk36.gl n)
-                (@Matrix.instRing (Fin n) Complex (Fin.fintype n) (instDecidableEqFin n) Complex.instRing) Complex
-                Complex.commRing
-                (@Matrix.instAlgebra (Fin n) Complex Complex (Fin.fintype n) (instDecidableEqFin n)
-                  (@CommRing.toCommSemiring Complex Complex.commRing) (@Ring.toSemiring Complex Complex.instRing)
-                  (@Algebra.id Complex (@CommRing.toCommSemiring Complex Complex.commRing))))))
-          (@LieAlgebra.ofAssociativeAlgebra
-            (@UniversalEnvelopingAlgebra Complex (UpperTheory.Reformulated.B.Qk36.gl n) Complex.commRing
-              (@LieRing.ofAssociativeRing (UpperTheory.Reformulated.B.Qk36.gl n)
-                (@Matrix.instRing (Fin n) Complex (Fin.fintype n) (instDecidableEqFin n) Complex.instRing))
-              (@LieAlgebra.ofAssociativeAlgebra (UpperTheory.Reformulated.B.Qk36.gl n)
-                (@Matrix.instRing (Fin n) Complex (Fin.fintype n) (instDecidableEqFin n) Complex.instRing) Complex
-                Complex.commRing
-                (@Matrix.instAlgebra (Fin n) Complex Complex (Fin.fintype n) (instDecidableEqFin n)
-                  (@CommRing.toCommSemiring Complex Complex.commRing) (@Ring.toSemiring Complex Complex.instRing)
-                  (@Algebra.id Complex (@CommRing.toCommSemiring Complex Complex.commRing)))))
-            (@instRingUniversalEnvelopingAlgebra Complex (UpperTheory.Reformulated.B.Qk36.gl n) Complex.commRing
-              (@LieRing.ofAssociativeRing (UpperTheory.Reformulated.B.Qk36.gl n)
-                (@Matrix.instRing (Fin n) Complex (Fin.fintype n) (instDecidableEqFin n) Complex.instRing))
-              (@LieAlgebra.ofAssociativeAlgebra (UpperTheory.Reformulated.B.Qk36.gl n)
-                (@Matrix.instRing (Fin n) Complex (Fin.fintype n) (instDecidableEqFin n) Complex.instRing) Complex
-                Complex.commRing
-                (@Matrix.instAlgebra (Fin n) Complex Complex (Fin.fintype n) (instDecidableEqFin n)
-                  (@CommRing.toCommSemiring Complex Complex.commRing) (@Ring.toSemiring Complex Complex.instRing)
-                  (@Algebra.id Complex (@CommRing.toCommSemiring Complex Complex.commRing)))))
-            Complex Complex.commRing
-            (@instAlgebraUniversalEnvelopingAlgebra Complex (UpperTheory.Reformulated.B.Qk36.gl n) Complex.commRing
-              (@LieRing.ofAssociativeRing (UpperTheory.Reformulated.B.Qk36.gl n)
-                (@Matrix.instRing (Fin n) Complex (Fin.fintype n) (instDecidableEqFin n) Complex.instRing))
-              (@LieAlgebra.ofAssociativeAlgebra (UpperTheory.Reformulated.B.Qk36.gl n)
-                (@Matrix.instRing (Fin n) Complex (Fin.fintype n) (instDecidableEqFin n) Complex.instRing) Complex
-                Complex.commRing
-                (@Matrix.instAlgebra (Fin n) Complex Complex (Fin.fintype n) (instDecidableEqFin n)
-                  (@CommRing.toCommSemiring Complex Complex.commRing) (@Ring.toSemiring Complex Complex.instRing)
-                  (@Algebra.id Complex (@CommRing.toCommSemiring Complex Complex.commRing)))))))
-        (UpperTheory.Reformulated.B.Qk36.gl n)
-        (fun (x : UpperTheory.Reformulated.B.Qk36.gl n) ↦
-          @UniversalEnvelopingAlgebra Complex (UpperTheory.Reformulated.B.Qk36.gl n) Complex.commRing
-            (@LieRing.ofAssociativeRing (UpperTheory.Reformulated.B.Qk36.gl n)
-              (@Matrix.instRing (Fin n) Complex (Fin.fintype n) (instDecidableEqFin n) Complex.instRing))
-            (@LieAlgebra.ofAssociativeAlgebra (UpperTheory.Reformulated.B.Qk36.gl n)
-              (@Matrix.instRing (Fin n) Complex (Fin.fintype n) (instDecidableEqFin n) Complex.instRing) Complex
-              Complex.commRing
-              (@Matrix.instAlgebra (Fin n) Complex Complex (Fin.fintype n) (instDecidableEqFin n)
-                (@CommRing.toCommSemiring Complex Complex.commRing) (@Ring.toSemiring Complex Complex.instRing)
-                (@Algebra.id Complex (@CommRing.toCommSemiring Complex Complex.commRing)))))
-        (@LieHom.instFunLike Complex (UpperTheory.Reformulated.B.Qk36.gl n)
-          (@UniversalEnvelopingAlgebra Complex (UpperTheory.Reformulated.B.Qk36.gl n) Complex.commRing
-            (@LieRing.ofAssociativeRing (UpperTheory.Reformulated.B.Qk36.gl n)
-              (@Matrix.instRing (Fin n) Complex (Fin.fintype n) (instDecidableEqFin n) Complex.instRing))
-            (@LieAlgebra.ofAssociativeAlgebra (UpperTheory.Reformulated.B.Qk36.gl n)
-              (@Matrix.instRing (Fin n) Complex (Fin.fintype n) (instDecidableEqFin n) Complex.instRing) Complex
-              Complex.commRing
-              (@Matrix.instAlgebra (Fin n) Complex Complex (Fin.fintype n) (instDecidableEqFin n)
-                (@CommRing.toCommSemiring Complex Complex.commRing) (@Ring.toSemiring Complex Complex.instRing)
-                (@Algebra.id Complex (@CommRing.toCommSemiring Complex Complex.commRing)))))
-          Complex.commRing
-          (@LieRing.ofAssociativeRing (UpperTheory.Reformulated.B.Qk36.gl n)
-            (@Matrix.instRing (Fin n) Complex (Fin.fintype n) (instDecidableEqFin n) Complex.instRing))
-          (@LieAlgebra.ofAssociativeAlgebra (UpperTheory.Reformulated.B.Qk36.gl n)
-            (@Matrix.instRing (Fin n) Complex (Fin.fintype n) (instDecidableEqFin n) Complex.instRing) Complex
-            Complex.commRing
-            (@Matrix.instAlgebra (Fin n) Complex Complex (Fin.fintype n) (instDecidableEqFin n)
-              (@CommRing.toCommSemiring Complex Complex.commRing) (@Ring.toSemiring Complex Complex.instRing)
-              (@Algebra.id Complex (@CommRing.toCommSemiring Complex Complex.commRing))))
-          (@LieRing.ofAssociativeRing
-            (@UniversalEnvelopingAlgebra Complex (UpperTheory.Reformulated.B.Qk36.gl n) Complex.commRing
-              (@LieRing.ofAssociativeRing (UpperTheory.Reformulated.B.Qk36.gl n)
-                (@Matrix.instRing (Fin n) Complex (Fin.fintype n) (instDecidableEqFin n) Complex.instRing))
-              (@LieAlgebra.ofAssociativeAlgebra (UpperTheory.Reformulated.B.Qk36.gl n)
-                (@Matrix.instRing (Fin n) Complex (Fin.fintype n) (instDecidableEqFin n) Complex.instRing) Complex
-                Complex.commRing
-                (@Matrix.instAlgebra (Fin n) Complex Complex (Fin.fintype n) (instDecidableEqFin n)
-                  (@CommRing.toCommSemiring Complex Complex.commRing) (@Ring.toSemiring Complex Complex.instRing)
-                  (@Algebra.id Complex (@CommRing.toCommSemiring Complex Complex.commRing)))))
-            (@instRingUniversalEnvelopingAlgebra Complex (UpperTheory.Reformulated.B.Qk36.gl n) Complex.commRing
-              (@LieRing.ofAssociativeRing (UpperTheory.Reformulated.B.Qk36.gl n)
-                (@Matrix.instRing (Fin n) Complex (Fin.fintype n) (instDecidableEqFin n) Complex.instRing))
-              (@LieAlgebra.ofAssociativeAlgebra (UpperTheory.Reformulated.B.Qk36.gl n)
-                (@Matrix.instRing (Fin n) Complex (Fin.fintype n) (instDecidableEqFin n) Complex.instRing) Complex
-                Complex.commRing
-                (@Matrix.instAlgebra (Fin n) Complex Complex (Fin.fintype n) (instDecidableEqFin n)
-                  (@CommRing.toCommSemiring Complex Complex.commRing) (@Ring.toSemiring Complex Complex.instRing)
-                  (@Algebra.id Complex (@CommRing.toCommSemiring Complex Complex.commRing))))))
-          (@LieAlgebra.ofAssociativeAlgebra
-            (@UniversalEnvelopingAlgebra Complex (UpperTheory.Reformulated.B.Qk36.gl n) Complex.commRing
-              (@LieRing.ofAssociativeRing (UpperTheory.Reformulated.B.Qk36.gl n)
-                (@Matrix.instRing (Fin n) Complex (Fin.fintype n) (instDecidableEqFin n) Complex.instRing))
-              (@LieAlgebra.ofAssociativeAlgebra (UpperTheory.Reformulated.B.Qk36.gl n)
-                (@Matrix.instRing (Fin n) Complex (Fin.fintype n) (instDecidableEqFin n) Complex.instRing) Complex
-                Complex.commRing
-                (@Matrix.instAlgebra (Fin n) Complex Complex (Fin.fintype n) (instDecidableEqFin n)
-                  (@CommRing.toCommSemiring Complex Complex.commRing) (@Ring.toSemiring Complex Complex.instRing)
-                  (@Algebra.id Complex (@CommRing.toCommSemiring Complex Complex.commRing)))))
-            (@instRingUniversalEnvelopingAlgebra Complex (UpperTheory.Reformulated.B.Qk36.gl n) Complex.commRing
-              (@LieRing.ofAssociativeRing (UpperTheory.Reformulated.B.Qk36.gl n)
-                (@Matrix.instRing (Fin n) Complex (Fin.fintype n) (instDecidableEqFin n) Complex.instRing))
-              (@LieAlgebra.ofAssociativeAlgebra (UpperTheory.Reformulated.B.Qk36.gl n)
-                (@Matrix.instRing (Fin n) Complex (Fin.fintype n) (instDecidableEqFin n) Complex.instRing) Complex
-                Complex.commRing
-                (@Matrix.instAlgebra (Fin n) Complex Complex (Fin.fintype n) (instDecidableEqFin n)
-                  (@CommRing.toCommSemiring Complex Complex.commRing) (@Ring.toSemiring Complex Complex.instRing)
-                  (@Algebra.id Complex (@CommRing.toCommSemiring Complex Complex.commRing)))))
-            Complex Complex.commRing
-            (@instAlgebraUniversalEnvelopingAlgebra Complex (UpperTheory.Reformulated.B.Qk36.gl n) Complex.commRing
-              (@LieRing.ofAssociativeRing (UpperTheory.Reformulated.B.Qk36.gl n)
-                (@Matrix.instRing (Fin n) Complex (Fin.fintype n) (instDecidableEqFin n) Complex.instRing))
-              (@LieAlgebra.ofAssociativeAlgebra (UpperTheory.Reformulated.B.Qk36.gl n)
-                (@Matrix.instRing (Fin n) Complex (Fin.fintype n) (instDecidableEqFin n) Complex.instRing) Complex
-                Complex.commRing
-                (@Matrix.instAlgebra (Fin n) Complex Complex (Fin.fintype n) (instDecidableEqFin n)
-                  (@CommRing.toCommSemiring Complex Complex.commRing) (@Ring.toSemiring Complex Complex.instRing)
-                  (@Algebra.id Complex (@CommRing.toCommSemiring Complex Complex.commRing)))))))
-        (@UniversalEnvelopingAlgebra.ι Complex (UpperTheory.Reformulated.B.Qk36.gl n) Complex.commRing
-          (@LieRing.ofAssociativeRing (UpperTheory.Reformulated.B.Qk36.gl n)
-            (@Matrix.instRing (Fin n) Complex (Fin.fintype n) (instDecidableEqFin n) Complex.instRing))
-          (@LieAlgebra.ofAssociativeAlgebra (UpperTheory.Reformulated.B.Qk36.gl n)
-            (@Matrix.instRing (Fin n) Complex (Fin.fintype n) (instDecidableEqFin n) Complex.instRing) Complex
-            Complex.commRing
-            (@Matrix.instAlgebra (Fin n) Complex Complex (Fin.fintype n) (instDecidableEqFin n)
-              (@CommRing.toCommSemiring Complex Complex.commRing) (@Ring.toSemiring Complex Complex.instRing)
-              (@Algebra.id Complex (@CommRing.toCommSemiring Complex Complex.commRing)))))
-        (@UpperTheory.Reformulated.B.Qk36.E n a)
+@[reducible] def U (n : ℕ) : Type :=
+  @UniversalEnvelopingAlgebra ℂ (gl n) _ LieRing.ofAssociativeRing _
 
-noncomputable def UpperTheory.Reformulated.B.Qk36.capelliMatrix :
-    {n : Nat} → Matrix (Fin n) (Fin n) (UpperTheory.Reformulated.B.Qk36.U n) :=
-    fun {n : Nat} (i j : Fin n) ↦ @UpperTheory.Reformulated.B.Qk36.e n (@Prod.mk (Fin n) (Fin n) i j)
+def E {n : ℕ} (a : Fin n × Fin n) : gl n := Matrix.single a.1 a.2 1
 
-private theorem UpperTheory.Reformulated.B.Qk36.commutator_matrix_pow {R : Type*} [Ring R] {n : Nat}
-    (M : Matrix (Fin n) (Fin n) R) (x : R) (a b : Fin n)
+def e {n : ℕ} (a : Fin n × Fin n) : U n :=
+  (@UniversalEnvelopingAlgebra.ι ℂ (gl n) _ LieRing.ofAssociativeRing _) (E a)
+
+def capelliMatrix {n : ℕ} : Matrix (Fin n) (Fin n) (U n) := fun i j => e (i, j)
+
+/-- A matrix-unit commutator identity for the entries of a matrix extends to all its powers. -/
+theorem commutator_matrix_pow {R : Type*} [Ring R] {ι : Type*} [Fintype ι] [DecidableEq ι]
+    (M : Matrix ι ι R) (x : R) (a b : ι)
     (h : ∀ c d, x * M c d - M c d * x
       = (if b = c then M a d else 0) - (if d = a then M c b else 0))
-    (k : Nat) (c d : Fin n) :
+    (k : Nat) (c d : ι) :
     x * (M ^ k) c d - (M ^ k) c d * x
       = (if b = c then (M ^ k) a d else 0) - (if d = a then (M ^ k) c b else 0) := by
-  induction k generalizing d with
-  | zero =>
-    simp only [pow_zero, Matrix.one_apply, mul_ite, ite_mul, mul_one, one_mul, mul_zero, zero_mul,
-      sub_self]
-    by_cases h1 : b = c <;> by_cases h2 : d = a <;> simp [h1, h2, eq_comm (a := a), eq_comm (a := c)]
-  | succ k ih =>
-    have key : ∀ j, x * ((M ^ k) c j * M j d) - (M ^ k) c j * M j d * x
-        = ((if b = c then (M ^ k) a j else 0) - (if j = a then (M ^ k) c b else 0)) * M j d
-          + (M ^ k) c j * ((if b = j then M a d else 0) - (if d = a then M j b else 0)) := by
-      intro j
-      rw [← ih j, ← h j d]
-      noncomm_ring
-    simp only [pow_succ, Matrix.mul_apply]
-    rw [Finset.mul_sum, Finset.sum_mul, ← Finset.sum_sub_distrib,
-      Finset.sum_congr rfl (fun j _ => key j)]
-    simp only [sub_mul, mul_sub, Finset.sum_add_distrib, Finset.sum_sub_distrib, ite_mul, mul_ite,
-      zero_mul, mul_zero, Finset.sum_ite_eq, Finset.sum_ite_eq', Finset.mem_univ, if_true]
-    by_cases h1 : b = c <;> by_cases h2 : d = a <;>
-      simp only [h1, h2, if_true, if_false, Finset.sum_const_zero] <;> abel
+  let D := Matrix.diagonal (fun _ : ι => x) - Matrix.single b a (1 : R)
+  have entry (N : Matrix ι ι R) (i j : ι) :
+      (D * N) i j = (N * D) i j ↔
+        x * N i j - N i j * x = (if b = i then N a j else 0) - (if j = a then N i b else 0) := by
+    simp only [D, sub_mul, mul_sub, Matrix.sub_apply, Matrix.diagonal_mul, Matrix.mul_diagonal]
+    have leftEntry : (Matrix.single b a (1 : R) * N) i j = if b = i then N a j else 0 := by
+      by_cases hi : i = b
+      · subst i; simp
+      · simp [hi, Ne.symm hi]
+    have rightEntry : (N * Matrix.single b a (1 : R)) i j = if j = a then N i b else 0 := by
+      by_cases hj : j = a
+      · subst j; simp
+      · simp [hj]
+    rw [leftEntry, rightEntry, sub_eq_sub_iff_add_eq_add, sub_eq_sub_iff_add_eq_add]
+    simp only [add_comm]
+  have comm : Commute D M := Matrix.ext fun i j => (entry M i j).2 (h i j)
+  exact (entry (M ^ k) c d).1 (congrArg (fun A : Matrix ι ι R => A c d) (comm.pow_right k).eq)
 
-private theorem UpperTheory.Reformulated.B.Qk36.E_comm {n : Nat} (a b c d : Fin n) :
-    UpperTheory.Reformulated.B.Qk36.E (a, b) * UpperTheory.Reformulated.B.Qk36.E (c, d)
-        - UpperTheory.Reformulated.B.Qk36.E (c, d) * UpperTheory.Reformulated.B.Qk36.E (a, b)
-      = (if b = c then UpperTheory.Reformulated.B.Qk36.E (a, d) else 0)
-        - (if d = a then UpperTheory.Reformulated.B.Qk36.E (c, b) else 0) := by
-  have h : ∀ p q r s : Fin n, UpperTheory.Reformulated.B.Qk36.E (p, q) * UpperTheory.Reformulated.B.Qk36.E (r, s)
-      = if q = r then UpperTheory.Reformulated.B.Qk36.E (p, s) else 0 := by
+private theorem E_comm {n : Nat} (a b c d : Fin n) :
+    E (a, b) * E (c, d)
+        - E (c, d) * E (a, b)
+      = (if b = c then E (a, d) else 0)
+        - (if d = a then E (c, b) else 0) := by
+  have h : ∀ p q r s : Fin n, E (p, q) * E (r, s)
+      = if q = r then E (p, s) else 0 := by
     intro p q r s
-    unfold UpperTheory.Reformulated.B.Qk36.E
+    unfold E
     split_ifs with hqr
     · subst hqr
       simp
     · exact Matrix.single_mul_single_of_ne _ _ _ _ hqr _
   rw [h, h]
 
-private theorem UpperTheory.Reformulated.B.Qk36.e_comm {n : Nat} (a b c d : Fin n) :
-    UpperTheory.Reformulated.B.Qk36.e (a, b) * UpperTheory.Reformulated.B.Qk36.e (c, d)
-        - UpperTheory.Reformulated.B.Qk36.e (c, d) * UpperTheory.Reformulated.B.Qk36.e (a, b)
-      = (if b = c then UpperTheory.Reformulated.B.Qk36.e (a, d) else 0)
-        - (if d = a then UpperTheory.Reformulated.B.Qk36.e (c, b) else 0) := by
-  letI : LieRing (UpperTheory.Reformulated.B.Qk36.gl n) := LieRing.ofAssociativeRing
-  letI : LieRing (UpperTheory.Reformulated.B.Qk36.U n) := LieRing.ofAssociativeRing
-  unfold UpperTheory.Reformulated.B.Qk36.e
+private theorem e_comm {n : Nat} (a b c d : Fin n) :
+    e (a, b) * e (c, d)
+        - e (c, d) * e (a, b)
+      = (if b = c then e (a, d) else 0)
+        - (if d = a then e (c, b) else 0) := by
+  letI : LieRing (gl n) := LieRing.ofAssociativeRing
+  letI : LieRing (U n) := LieRing.ofAssociativeRing
+  unfold e
   rw [← LieRing.of_associative_ring_bracket, ← LieHom.map_lie,
-    LieRing.of_associative_ring_bracket, UpperTheory.Reformulated.B.Qk36.E_comm, map_sub]
+    LieRing.of_associative_ring_bracket, E_comm, map_sub]
   congr 1 <;> split_ifs <;> first | rfl | exact map_zero _
 
-theorem UpperTheory.Reformulated.B.Qk36.e_mul_sub_mul_capelliMatrix_pow :
-    ∀ {n : Nat} (a b : Fin n) (k : Nat) (c d : Fin n),
-      @Eq (UpperTheory.Reformulated.B.Qk36.U n)
-        (@HSub.hSub (UpperTheory.Reformulated.B.Qk36.U n) (UpperTheory.Reformulated.B.Qk36.U n) (UpperTheory.Reformulated.B.Qk36.U n)
-          (@instHSub (UpperTheory.Reformulated.B.Qk36.U n)
-            (@SubNegMonoid.toSub (UpperTheory.Reformulated.B.Qk36.U n)
-              (@AddGroup.toSubNegMonoid (UpperTheory.Reformulated.B.Qk36.U n)
-                (@AddGroupWithOne.toAddGroup (UpperTheory.Reformulated.B.Qk36.U n)
-                  (@Ring.toAddGroupWithOne (UpperTheory.Reformulated.B.Qk36.U n)
-                    (@instRingUniversalEnvelopingAlgebra Complex (UpperTheory.Reformulated.B.Qk36.gl n) Complex.commRing
-                      (@LieRing.ofAssociativeRing (UpperTheory.Reformulated.B.Qk36.gl n)
-                        (@Matrix.instRing (Fin n) Complex (Fin.fintype n) (instDecidableEqFin n) Complex.instRing))
-                      (@LieAlgebra.ofAssociativeAlgebra (UpperTheory.Reformulated.B.Qk36.gl n)
-                        (@Matrix.instRing (Fin n) Complex (Fin.fintype n) (instDecidableEqFin n) Complex.instRing) Complex
-                        Complex.commRing
-                        (@Matrix.instAlgebra (Fin n) Complex Complex (Fin.fintype n) (instDecidableEqFin n)
-                          (@CommRing.toCommSemiring Complex Complex.commRing) (@Ring.toSemiring Complex Complex.instRing)
-                          (@Algebra.id Complex (@CommRing.toCommSemiring Complex Complex.commRing))))))))))
-          (@HMul.hMul (UpperTheory.Reformulated.B.Qk36.U n) (UpperTheory.Reformulated.B.Qk36.U n) (UpperTheory.Reformulated.B.Qk36.U n)
-            (@instHMul (UpperTheory.Reformulated.B.Qk36.U n)
-              (@Distrib.toMul (UpperTheory.Reformulated.B.Qk36.U n)
-                (@instDistribOfSemiring (UpperTheory.Reformulated.B.Qk36.U n)
-                  (@Ring.toSemiring (UpperTheory.Reformulated.B.Qk36.U n)
-                    (@instRingUniversalEnvelopingAlgebra Complex (UpperTheory.Reformulated.B.Qk36.gl n) Complex.commRing
-                      (@LieRing.ofAssociativeRing (UpperTheory.Reformulated.B.Qk36.gl n)
-                        (@Matrix.instRing (Fin n) Complex (Fin.fintype n) (instDecidableEqFin n) Complex.instRing))
-                      (@LieAlgebra.ofAssociativeAlgebra (UpperTheory.Reformulated.B.Qk36.gl n)
-                        (@Matrix.instRing (Fin n) Complex (Fin.fintype n) (instDecidableEqFin n) Complex.instRing) Complex
-                        Complex.commRing
-                        (@Matrix.instAlgebra (Fin n) Complex Complex (Fin.fintype n) (instDecidableEqFin n)
-                          (@CommRing.toCommSemiring Complex Complex.commRing) (@Ring.toSemiring Complex Complex.instRing)
-                          (@Algebra.id Complex (@CommRing.toCommSemiring Complex Complex.commRing)))))))))
-            (@UpperTheory.Reformulated.B.Qk36.e n (@Prod.mk (Fin n) (Fin n) a b))
-            (@HPow.hPow (Matrix (Fin n) (Fin n) (UpperTheory.Reformulated.B.Qk36.U n)) Nat (Matrix (Fin n) (Fin n) (UpperTheory.Reformulated.B.Qk36.U n))
-              (@instHPow (Matrix (Fin n) (Fin n) (UpperTheory.Reformulated.B.Qk36.U n)) Nat
-                (@NPow.toPow (Matrix (Fin n) (Fin n) (UpperTheory.Reformulated.B.Qk36.U n))
-                  (@Monoid.toNPow (Matrix (Fin n) (Fin n) (UpperTheory.Reformulated.B.Qk36.U n))
-                    (@Semiring.toMonoid (Matrix (Fin n) (Fin n) (UpperTheory.Reformulated.B.Qk36.U n))
-                      (@Matrix.semiring (Fin n) (UpperTheory.Reformulated.B.Qk36.U n)
-                        (@Ring.toSemiring (UpperTheory.Reformulated.B.Qk36.U n)
-                          (@instRingUniversalEnvelopingAlgebra Complex (UpperTheory.Reformulated.B.Qk36.gl n) Complex.commRing
-                            (@LieRing.ofAssociativeRing (UpperTheory.Reformulated.B.Qk36.gl n)
-                              (@Matrix.instRing (Fin n) Complex (Fin.fintype n) (instDecidableEqFin n) Complex.instRing))
-                            (@LieAlgebra.ofAssociativeAlgebra (UpperTheory.Reformulated.B.Qk36.gl n)
-                              (@Matrix.instRing (Fin n) Complex (Fin.fintype n) (instDecidableEqFin n) Complex.instRing)
-                              Complex Complex.commRing
-                              (@Matrix.instAlgebra (Fin n) Complex Complex (Fin.fintype n) (instDecidableEqFin n)
-                                (@CommRing.toCommSemiring Complex Complex.commRing)
-                                (@Ring.toSemiring Complex Complex.instRing)
-                                (@Algebra.id Complex (@CommRing.toCommSemiring Complex Complex.commRing))))))
-                        (Fin.fintype n) (instDecidableEqFin n))))))
-              (@UpperTheory.Reformulated.B.Qk36.capelliMatrix n) k c d))
-          (@HMul.hMul (UpperTheory.Reformulated.B.Qk36.U n) (UpperTheory.Reformulated.B.Qk36.U n) (UpperTheory.Reformulated.B.Qk36.U n)
-            (@instHMul (UpperTheory.Reformulated.B.Qk36.U n)
-              (@Distrib.toMul (UpperTheory.Reformulated.B.Qk36.U n)
-                (@instDistribOfSemiring (UpperTheory.Reformulated.B.Qk36.U n)
-                  (@Ring.toSemiring (UpperTheory.Reformulated.B.Qk36.U n)
-                    (@instRingUniversalEnvelopingAlgebra Complex (UpperTheory.Reformulated.B.Qk36.gl n) Complex.commRing
-                      (@LieRing.ofAssociativeRing (UpperTheory.Reformulated.B.Qk36.gl n)
-                        (@Matrix.instRing (Fin n) Complex (Fin.fintype n) (instDecidableEqFin n) Complex.instRing))
-                      (@LieAlgebra.ofAssociativeAlgebra (UpperTheory.Reformulated.B.Qk36.gl n)
-                        (@Matrix.instRing (Fin n) Complex (Fin.fintype n) (instDecidableEqFin n) Complex.instRing) Complex
-                        Complex.commRing
-                        (@Matrix.instAlgebra (Fin n) Complex Complex (Fin.fintype n) (instDecidableEqFin n)
-                          (@CommRing.toCommSemiring Complex Complex.commRing) (@Ring.toSemiring Complex Complex.instRing)
-                          (@Algebra.id Complex (@CommRing.toCommSemiring Complex Complex.commRing)))))))))
-            (@HPow.hPow (Matrix (Fin n) (Fin n) (UpperTheory.Reformulated.B.Qk36.U n)) Nat (Matrix (Fin n) (Fin n) (UpperTheory.Reformulated.B.Qk36.U n))
-              (@instHPow (Matrix (Fin n) (Fin n) (UpperTheory.Reformulated.B.Qk36.U n)) Nat
-                (@NPow.toPow (Matrix (Fin n) (Fin n) (UpperTheory.Reformulated.B.Qk36.U n))
-                  (@Monoid.toNPow (Matrix (Fin n) (Fin n) (UpperTheory.Reformulated.B.Qk36.U n))
-                    (@Semiring.toMonoid (Matrix (Fin n) (Fin n) (UpperTheory.Reformulated.B.Qk36.U n))
-                      (@Matrix.semiring (Fin n) (UpperTheory.Reformulated.B.Qk36.U n)
-                        (@Ring.toSemiring (UpperTheory.Reformulated.B.Qk36.U n)
-                          (@instRingUniversalEnvelopingAlgebra Complex (UpperTheory.Reformulated.B.Qk36.gl n) Complex.commRing
-                            (@LieRing.ofAssociativeRing (UpperTheory.Reformulated.B.Qk36.gl n)
-                              (@Matrix.instRing (Fin n) Complex (Fin.fintype n) (instDecidableEqFin n) Complex.instRing))
-                            (@LieAlgebra.ofAssociativeAlgebra (UpperTheory.Reformulated.B.Qk36.gl n)
-                              (@Matrix.instRing (Fin n) Complex (Fin.fintype n) (instDecidableEqFin n) Complex.instRing)
-                              Complex Complex.commRing
-                              (@Matrix.instAlgebra (Fin n) Complex Complex (Fin.fintype n) (instDecidableEqFin n)
-                                (@CommRing.toCommSemiring Complex Complex.commRing)
-                                (@Ring.toSemiring Complex Complex.instRing)
-                                (@Algebra.id Complex (@CommRing.toCommSemiring Complex Complex.commRing))))))
-                        (Fin.fintype n) (instDecidableEqFin n))))))
-              (@UpperTheory.Reformulated.B.Qk36.capelliMatrix n) k c d)
-            (@UpperTheory.Reformulated.B.Qk36.e n (@Prod.mk (Fin n) (Fin n) a b))))
-        (@HSub.hSub (UpperTheory.Reformulated.B.Qk36.U n) (UpperTheory.Reformulated.B.Qk36.U n) (UpperTheory.Reformulated.B.Qk36.U n)
-          (@instHSub (UpperTheory.Reformulated.B.Qk36.U n)
-            (@SubNegMonoid.toSub (UpperTheory.Reformulated.B.Qk36.U n)
-              (@AddGroup.toSubNegMonoid (UpperTheory.Reformulated.B.Qk36.U n)
-                (@AddGroupWithOne.toAddGroup (UpperTheory.Reformulated.B.Qk36.U n)
-                  (@Ring.toAddGroupWithOne (UpperTheory.Reformulated.B.Qk36.U n)
-                    (@instRingUniversalEnvelopingAlgebra Complex (UpperTheory.Reformulated.B.Qk36.gl n) Complex.commRing
-                      (@LieRing.ofAssociativeRing (UpperTheory.Reformulated.B.Qk36.gl n)
-                        (@Matrix.instRing (Fin n) Complex (Fin.fintype n) (instDecidableEqFin n) Complex.instRing))
-                      (@LieAlgebra.ofAssociativeAlgebra (UpperTheory.Reformulated.B.Qk36.gl n)
-                        (@Matrix.instRing (Fin n) Complex (Fin.fintype n) (instDecidableEqFin n) Complex.instRing) Complex
-                        Complex.commRing
-                        (@Matrix.instAlgebra (Fin n) Complex Complex (Fin.fintype n) (instDecidableEqFin n)
-                          (@CommRing.toCommSemiring Complex Complex.commRing) (@Ring.toSemiring Complex Complex.instRing)
-                          (@Algebra.id Complex (@CommRing.toCommSemiring Complex Complex.commRing))))))))))
-          (@ite (UpperTheory.Reformulated.B.Qk36.U n) (@Eq (Fin n) b c) (instDecidableEqFin n b c)
-            (@HPow.hPow (Matrix (Fin n) (Fin n) (UpperTheory.Reformulated.B.Qk36.U n)) Nat (Matrix (Fin n) (Fin n) (UpperTheory.Reformulated.B.Qk36.U n))
-              (@instHPow (Matrix (Fin n) (Fin n) (UpperTheory.Reformulated.B.Qk36.U n)) Nat
-                (@NPow.toPow (Matrix (Fin n) (Fin n) (UpperTheory.Reformulated.B.Qk36.U n))
-                  (@Monoid.toNPow (Matrix (Fin n) (Fin n) (UpperTheory.Reformulated.B.Qk36.U n))
-                    (@Semiring.toMonoid (Matrix (Fin n) (Fin n) (UpperTheory.Reformulated.B.Qk36.U n))
-                      (@Matrix.semiring (Fin n) (UpperTheory.Reformulated.B.Qk36.U n)
-                        (@Ring.toSemiring (UpperTheory.Reformulated.B.Qk36.U n)
-                          (@instRingUniversalEnvelopingAlgebra Complex (UpperTheory.Reformulated.B.Qk36.gl n) Complex.commRing
-                            (@LieRing.ofAssociativeRing (UpperTheory.Reformulated.B.Qk36.gl n)
-                              (@Matrix.instRing (Fin n) Complex (Fin.fintype n) (instDecidableEqFin n) Complex.instRing))
-                            (@LieAlgebra.ofAssociativeAlgebra (UpperTheory.Reformulated.B.Qk36.gl n)
-                              (@Matrix.instRing (Fin n) Complex (Fin.fintype n) (instDecidableEqFin n) Complex.instRing)
-                              Complex Complex.commRing
-                              (@Matrix.instAlgebra (Fin n) Complex Complex (Fin.fintype n) (instDecidableEqFin n)
-                                (@CommRing.toCommSemiring Complex Complex.commRing)
-                                (@Ring.toSemiring Complex Complex.instRing)
-                                (@Algebra.id Complex (@CommRing.toCommSemiring Complex Complex.commRing))))))
-                        (Fin.fintype n) (instDecidableEqFin n))))))
-              (@UpperTheory.Reformulated.B.Qk36.capelliMatrix n) k a d)
-            (@OfNat.ofNat (UpperTheory.Reformulated.B.Qk36.U n) (nat_lit 0)
-              (@Zero.toOfNat0 (UpperTheory.Reformulated.B.Qk36.U n)
-                (@MulZeroClass.toZero (UpperTheory.Reformulated.B.Qk36.U n)
-                  (@instMulZeroClassOfSemiring (UpperTheory.Reformulated.B.Qk36.U n)
-                    (@Ring.toSemiring (UpperTheory.Reformulated.B.Qk36.U n)
-                      (@instRingUniversalEnvelopingAlgebra Complex (UpperTheory.Reformulated.B.Qk36.gl n) Complex.commRing
-                        (@LieRing.ofAssociativeRing (UpperTheory.Reformulated.B.Qk36.gl n)
-                          (@Matrix.instRing (Fin n) Complex (Fin.fintype n) (instDecidableEqFin n) Complex.instRing))
-                        (@LieAlgebra.ofAssociativeAlgebra (UpperTheory.Reformulated.B.Qk36.gl n)
-                          (@Matrix.instRing (Fin n) Complex (Fin.fintype n) (instDecidableEqFin n) Complex.instRing) Complex
-                          Complex.commRing
-                          (@Matrix.instAlgebra (Fin n) Complex Complex (Fin.fintype n) (instDecidableEqFin n)
-                            (@CommRing.toCommSemiring Complex Complex.commRing) (@Ring.toSemiring Complex Complex.instRing)
-                            (@Algebra.id Complex (@CommRing.toCommSemiring Complex Complex.commRing)))))))))))
-          (@ite (UpperTheory.Reformulated.B.Qk36.U n) (@Eq (Fin n) d a) (instDecidableEqFin n d a)
-            (@HPow.hPow (Matrix (Fin n) (Fin n) (UpperTheory.Reformulated.B.Qk36.U n)) Nat (Matrix (Fin n) (Fin n) (UpperTheory.Reformulated.B.Qk36.U n))
-              (@instHPow (Matrix (Fin n) (Fin n) (UpperTheory.Reformulated.B.Qk36.U n)) Nat
-                (@NPow.toPow (Matrix (Fin n) (Fin n) (UpperTheory.Reformulated.B.Qk36.U n))
-                  (@Monoid.toNPow (Matrix (Fin n) (Fin n) (UpperTheory.Reformulated.B.Qk36.U n))
-                    (@Semiring.toMonoid (Matrix (Fin n) (Fin n) (UpperTheory.Reformulated.B.Qk36.U n))
-                      (@Matrix.semiring (Fin n) (UpperTheory.Reformulated.B.Qk36.U n)
-                        (@Ring.toSemiring (UpperTheory.Reformulated.B.Qk36.U n)
-                          (@instRingUniversalEnvelopingAlgebra Complex (UpperTheory.Reformulated.B.Qk36.gl n) Complex.commRing
-                            (@LieRing.ofAssociativeRing (UpperTheory.Reformulated.B.Qk36.gl n)
-                              (@Matrix.instRing (Fin n) Complex (Fin.fintype n) (instDecidableEqFin n) Complex.instRing))
-                            (@LieAlgebra.ofAssociativeAlgebra (UpperTheory.Reformulated.B.Qk36.gl n)
-                              (@Matrix.instRing (Fin n) Complex (Fin.fintype n) (instDecidableEqFin n) Complex.instRing)
-                              Complex Complex.commRing
-                              (@Matrix.instAlgebra (Fin n) Complex Complex (Fin.fintype n) (instDecidableEqFin n)
-                                (@CommRing.toCommSemiring Complex Complex.commRing)
-                                (@Ring.toSemiring Complex Complex.instRing)
-                                (@Algebra.id Complex (@CommRing.toCommSemiring Complex Complex.commRing))))))
-                        (Fin.fintype n) (instDecidableEqFin n))))))
-              (@UpperTheory.Reformulated.B.Qk36.capelliMatrix n) k c b)
-            (@OfNat.ofNat (UpperTheory.Reformulated.B.Qk36.U n) (nat_lit 0)
-              (@Zero.toOfNat0 (UpperTheory.Reformulated.B.Qk36.U n)
-                (@MulZeroClass.toZero (UpperTheory.Reformulated.B.Qk36.U n)
-                  (@instMulZeroClassOfSemiring (UpperTheory.Reformulated.B.Qk36.U n)
-                    (@Ring.toSemiring (UpperTheory.Reformulated.B.Qk36.U n)
-                      (@instRingUniversalEnvelopingAlgebra Complex (UpperTheory.Reformulated.B.Qk36.gl n) Complex.commRing
-                        (@LieRing.ofAssociativeRing (UpperTheory.Reformulated.B.Qk36.gl n)
-                          (@Matrix.instRing (Fin n) Complex (Fin.fintype n) (instDecidableEqFin n) Complex.instRing))
-                        (@LieAlgebra.ofAssociativeAlgebra (UpperTheory.Reformulated.B.Qk36.gl n)
-                          (@Matrix.instRing (Fin n) Complex (Fin.fintype n) (instDecidableEqFin n) Complex.instRing) Complex
-                          Complex.commRing
-                          (@Matrix.instAlgebra (Fin n) Complex Complex (Fin.fintype n) (instDecidableEqFin n)
-                            (@CommRing.toCommSemiring Complex Complex.commRing) (@Ring.toSemiring Complex Complex.instRing)
-                            (@Algebra.id Complex (@CommRing.toCommSemiring Complex Complex.commRing)))))))))))) := by
-  intro n a b k c d
-  exact UpperTheory.Reformulated.B.Qk36.commutator_matrix_pow UpperTheory.Reformulated.B.Qk36.capelliMatrix _ a b
-    (fun c d => UpperTheory.Reformulated.B.Qk36.e_comm a b c d) k c d
+theorem e_mul_sub_mul_capelliMatrix_pow {n : ℕ} (a b : Fin n) (k : ℕ) (c d : Fin n) :
+    e (a, b) * (capelliMatrix ^ k) c d - (capelliMatrix ^ k) c d * e (a, b) =
+      (if b = c then (capelliMatrix ^ k) a d else 0) - (if d = a then (capelliMatrix ^ k) c b else 0) :=
+  commutator_matrix_pow capelliMatrix _ a b (e_comm a b) k c d
+
+end
+end UpperTheory.Reformulated.B.Qk36

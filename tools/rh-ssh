@@ -1,0 +1,30 @@
+#!/bin/bash
+set -euo pipefail
+
+project=andres-personal-tools
+if [[ ${1:-} == --help ]]; then
+  echo "Usage: tools/rh-ssh [gcloud compute ssh options]"
+  echo "Set RH_VM_NAME and optionally RH_VM_ZONE to select a specific VM."
+  exit 0
+fi
+if [[ -n ${RH_VM_NAME:-} && -n ${RH_VM_ZONE:-} ]]; then
+  name=$RH_VM_NAME
+  zone=$RH_VM_ZONE
+else
+  instances=$(gcloud compute instances list --project="$project" \
+    --filter='status=RUNNING' --format='value(name,zone.basename())')
+  candidates=()
+  while read -r instance location; do
+    [[ -n $instance ]] || continue
+    [[ -z ${RH_VM_NAME:-} || $instance == "$RH_VM_NAME" ]] || continue
+    [[ -z ${RH_VM_ZONE:-} || $location == "$RH_VM_ZONE" ]] || continue
+    candidates+=("$instance $location")
+  done <<< "$instances"
+  case ${#candidates[@]} in
+    0) echo "No matching running VM in $project." >&2; exit 1 ;;
+    1) read -r name zone <<< "${candidates[0]}" ;;
+    *) printf 'Select a VM with RH_VM_NAME and, if needed, RH_VM_ZONE:\n' >&2
+       printf '  %s\n' "${candidates[@]}" >&2; exit 1 ;;
+  esac
+fi
+exec gcloud compute ssh "$name" --project="$project" --zone="$zone" "$@"

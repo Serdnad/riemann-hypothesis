@@ -128,4 +128,8 @@ theorem flagDegreeBound : FlagDegreeBound.Statement := by
 
 end
 
+theorem HeightMetricChange.main : HeightMetricChange.Statement := heightMetricChange
+
+theorem FlagDegreeBound.main : FlagDegreeBound.Statement := flagDegreeBound
+
 end GroundTheory.Heights₂.Heights

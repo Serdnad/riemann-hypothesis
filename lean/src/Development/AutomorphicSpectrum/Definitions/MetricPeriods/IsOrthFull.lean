@@ -1,5 +1,8 @@
 import Mathlib
-import GroundTheory.HeightsAndTheta.Heights.HeightsOfSets.HeightsSetAll
+import GroundTheory.HeightsAndTheta.Heights.HeightsOfSets.FieldChange
+import GroundTheory.HeightsAndTheta.Heights.HeightsOfSets.Comparison
+import GroundTheory.HeightsAndTheta.Heights.HeightsOfSets.DenseBoundedHeight
+import GroundTheory.HeightsAndTheta.Heights.HeightsOfSets.DegreeTopEqArithDegree
 
 noncomputable section
 

@@ -1,25 +1,9 @@
-import Mathlib
-import Development.AbelianVarietyTheory.Definitions.Divisors.CharZeroFunctionField
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsSeparatedSetCoversSeminormBall
-
-set_option autoImplicit false
-
-open Filter Topology GlobalTheory.VolBr
+import Development.AbelianVarietyTheory.Definitions.Divisors.SeminormBallFamily
 
 namespace GlobalTheory.VolBr
 
-set_option autoImplicit false in
-open Filter Topology in
-private lemma isBallFam_mono {G : Type} [AddCommGroup G] {Λ : AddSubgroup G} {B : ℝ → Set G}
-    (hB : _root_.GlobalTheory.VolBr.IsBallFam Λ B) {r r' : ℝ} (hrr' : r ≤ r') : B r ⊆ B r' := by
-  intro x hx
-  have := hB.sub_mem r (r' - r) x 0 hx (hB.zero_mem _ (sub_nonneg.2 hrr'))
-  simpa using this
-
-set_option autoImplicit false in
-open Filter Topology in
-private lemma encard_mul_encard_le_isBallFam {G : Type} [AddCommGroup G] {Λ : AddSubgroup G}
-    {B : ℝ → Set G} (hB : _root_.GlobalTheory.VolBr.IsBallFam Λ B) {a b : ℝ} {m : ℕ} (hm : 0 < m)
+theorem IsBallFam.encard_mul_le {G : Type} [AddCommGroup G] {Λ : AddSubgroup G}
+    {B : ℝ → Set G} (hB : IsBallFam Λ B) {a b : ℝ} {m : ℕ} (hm : 0 < m)
     (hbm : b + b ≤ m) (hfa : (B a).Finite) (hfb : (B b).Finite) (hf1 : (B 1).Finite) :
     (B a).encard * (B b).encard ≤ (B 1).encard * (B (m * a + b)).encard := by
   classical
@@ -39,7 +23,7 @@ private lemma encard_mul_encard_le_isBallFam {G : Type} [AddCommGroup G] {Λ : A
     obtain ⟨p₀, hp₀, rfl⟩ := Finset.mem_image.1 hw
     refine Finset.card_le_card_of_injOn (fun p ↦ p₀.1 - p.1) ?_ ?_
     · intro p hp
-      simp only [Finset.coe_filter, Set.mem_setOf_eq, Finset.mem_filter] at hp
+      simp only [Finset.coe_filter, Set.mem_ofPred_eq] at hp
       obtain ⟨hpS, hfp⟩ := hp
       have hp₀' := hp₀
       rw [hS, Finset.mem_product, Set.Finite.mem_toFinset, Set.Finite.mem_toFinset] at hpS hp₀'
@@ -50,10 +34,10 @@ private lemma encard_mul_encard_le_isBallFam {G : Type} [AddCommGroup G] {Λ : A
         abel
       have hΛ : p₀.1 - p.1 ∈ Λ := Λ.sub_mem (hB.subset a hp₀'.1) (hB.subset a hpS.1)
       have h2 : p.2 - p₀.2 ∈ B ((m : ℝ) * 1) :=
-        isBallFam_mono hB (by simpa using hbm) (hB.sub_mem _ _ _ _ hpS.2 hp₀'.2)
+        hB.mono (by simpa using hbm) (hB.sub_mem _ _ _ _ hpS.2 hp₀'.2)
       exact (hB.nsmul_iff m 1 _ hm hΛ).1 (hd ▸ h2)
     · intro p hp q hq hpq
-      simp only [Finset.coe_filter, Set.mem_setOf_eq] at hp hq
+      simp only [Finset.coe_filter, Set.mem_ofPred_eq] at hp hq
       have h1 : p.1 = q.1 := by simpa using hpq
       have h2 : p.2 = q.2 := by
         have := hp.2.trans hq.2.symm
@@ -73,18 +57,15 @@ private lemma encard_mul_encard_le_isBallFam {G : Type} [AddCommGroup G] {Λ : A
         push_cast
         gcongr
 
-set_option autoImplicit false in
-open Filter Topology in
-
-theorem _root_.GlobalTheory.VolBr.isBallFam_encard_mul_le : ∀ (G : Type) [AddCommGroup G]
-    (Λ : AddSubgroup G) (B : ℝ → Set G), _root_.GlobalTheory.VolBr.IsBallFam Λ B → ∀ n : ℕ, 0 < n →
+theorem isBallFam_encard_mul_le : ∀ (G : Type) [AddCommGroup G]
+    (Λ : AddSubgroup G) (B : ℝ → Set G), IsBallFam Λ B → ∀ n : ℕ, 0 < n →
     (B n).Finite →
     (B n).encard * (B (n / 2)).encard ≤ (B 1).encard * (B (n ^ 2 + n / 2)).encard := by
   intro G _ Λ B hB n hn hfin
   have hn1 : (1 : ℝ) ≤ n := by exact_mod_cast hn
-  have h1 : (B 1).Finite := hfin.subset (isBallFam_mono hB hn1)
-  have h2 : (B (n / 2)).Finite := hfin.subset (isBallFam_mono hB (by linarith))
-  have := encard_mul_encard_le_isBallFam hB (a := n) (b := n / 2) hn (by linarith) hfin h2 h1
+  have h1 : (B 1).Finite := hfin.subset (hB.mono hn1)
+  have h2 : (B (n / 2)).Finite := hfin.subset (hB.mono (by linarith))
+  have := hB.encard_mul_le (a := n) (b := n / 2) hn (by linarith) hfin h2 h1
   rw [sq]
   exact this
 

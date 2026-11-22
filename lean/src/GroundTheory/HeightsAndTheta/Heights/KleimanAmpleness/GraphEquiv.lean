@@ -1,10 +1,12 @@
-import Mathlib
+import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.PCechDoubleStair
 import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.KerAltSucc
 set_option maxSynthPendingDepth 1
 
 namespace GroundTheory.Heights₂.Heights.Kleiman.SectionsOverLocalization
 
 namespace Staircase
+
+open GroundTheory.Heights₂.Heights.Kleiman.CechDouble
 
 structure DblData (R : Type) [CommRing R] where
   D : ℕ → ℕ → Type
@@ -39,6 +41,21 @@ structure DblData.Good (X : DblData R) : Prop where
   rv : ∀ p q, LinearMap.ker (X.v (p + 1) q) = LinearMap.range (X.v p q)
 
 namespace DblData
+
+private abbrev toStair (X : DblData R) : Stair.DblData R where
+  D := X.D
+  v := X.v
+  h := X.h
+  comm := X.comm
+  A := X.A
+  dA := X.dA
+  a := X.a
+  C := X.C
+  dC := X.dC
+  c := X.c
+
+private theorem toStair_good {X : DblData R} (hX : X.Good) : X.toStair.Good :=
+  ⟨hX.ha, hX.hc, hX.ka, hX.ra, hX.rh, hX.kc, hX.rc, hX.rv⟩
 
 theorem comm_apply (X : DblData R) (p q : ℕ) (z : X.D p q) :
     X.v p (q + 1) (X.h p q z) = X.h (p + 1) q (X.v p q z) :=
@@ -95,43 +112,43 @@ theorem c_injective {X : DblData R} (hX : X.Good) (q : ℕ) : Function.Injective
   LinearMap.ker_eq_bot.mp (hX.kc q)
 
 theorem ex_a {X : DblData R} (hX : X.Good) (p : ℕ) {z : X.D p 0} (hz : X.h p 0 z = 0) :
-    ∃ x, X.a p x = z := by
-  have hm : z ∈ LinearMap.ker (X.h p 0) := LinearMap.mem_ker.mpr hz
-  rw [hX.ra p] at hm
-  exact LinearMap.mem_range.mp hm
+    ∃ x, X.a p x = z :=
+  (toStair_good hX).ex_a p hz
 
 theorem ex_h {X : DblData R} (hX : X.Good) (p q : ℕ) {z : X.D p (q + 1)} (hz : X.h p (q + 1) z = 0) :
-    ∃ w, X.h p q w = z := by
-  have hm : z ∈ LinearMap.ker (X.h p (q + 1)) := LinearMap.mem_ker.mpr hz
-  rw [hX.rh p q] at hm
-  exact LinearMap.mem_range.mp hm
+    ∃ w, X.h p q w = z :=
+  (toStair_good hX).ex_h p q hz
 
 theorem ex_c {X : DblData R} (hX : X.Good) (q : ℕ) {z : X.D 0 q} (hz : X.v 0 q z = 0) :
-    ∃ y, X.c q y = z := by
-  have hm : z ∈ LinearMap.ker (X.v 0 q) := LinearMap.mem_ker.mpr hz
-  rw [hX.rc q] at hm
-  exact LinearMap.mem_range.mp hm
+    ∃ y, X.c q y = z :=
+  (toStair_good hX).ex_c q hz
 
-theorem hh {X : DblData R} (hX : X.Good) (p q : ℕ) (z : X.D p q) : X.h p (q + 1) (X.h p q z) = 0 := by
-  have hm : X.h p q z ∈ LinearMap.ker (X.h p (q + 1)) := by
-    rw [hX.rh p q]; exact LinearMap.mem_range_self _ z
-  exact LinearMap.mem_ker.mp hm
+theorem hh {X : DblData R} (hX : X.Good) (p q : ℕ) (z : X.D p q) : X.h p (q + 1) (X.h p q z) = 0 :=
+  (toStair_good hX).hh p q z
 
-theorem ha0 {X : DblData R} (hX : X.Good) (p : ℕ) (x : X.A p) : X.h p 0 (X.a p x) = 0 := by
-  have hm : X.a p x ∈ LinearMap.ker (X.h p 0) := by
-    rw [hX.ra p]; exact LinearMap.mem_range_self _ x
-  exact LinearMap.mem_ker.mp hm
+theorem ha0 {X : DblData R} (hX : X.Good) (p : ℕ) (x : X.A p) : X.h p 0 (X.a p x) = 0 :=
+  (toStair_good hX).ha0 p x
 
-theorem vc0 {X : DblData R} (hX : X.Good) (q : ℕ) (y : X.C q) : X.v 0 q (X.c q y) = 0 := by
-  have hm : X.c q y ∈ LinearMap.ker (X.v 0 q) := by
-    rw [hX.rc q]; exact LinearMap.mem_range_self _ y
-  exact LinearMap.mem_ker.mp hm
+theorem vc0 {X : DblData R} (hX : X.Good) (q : ℕ) (y : X.C q) : X.v 0 q (X.c q y) = 0 :=
+  (toStair_good hX).vc0 q y
 
 end Good
 
 def Rel : (n : ℕ) → (X : DblData R) → X.A n → X.C n → Prop
   | 0, X => fun x y => X.a 0 x = X.c 0 y
   | n + 1, X => fun x y => ∃ z : X.D 0 n, X.h 0 n z = X.c (n + 1) y ∧ Rel n X.shift x (X.up n z)
+
+private theorem rel_toStair : ∀ (n : ℕ) (X : DblData R) (x : X.A n) (y : X.C n),
+    Rel n X x y ↔ Stair.DblData.Rel n X.toStair x y
+  | 0, _, _, _ => Iff.rfl
+  | n + 1, X, x, y => by
+    apply exists_congr
+    intro z
+    exact and_congr_right fun _ => rel_toStair n X.shift x (X.up n z)
+
+private theorem bdry_eq_stair {A : ℕ → Type} [∀ n, AddCommGroup (A n)] [∀ n, Module R (A n)]
+    (d : ∀ n, A n →ₗ[R] A (n + 1)) (n : ℕ) : bdry d n = Stair.bdry d n := by
+  cases n <;> rfl
 
 theorem rel_zero {X : DblData R} {x : X.A 0} {y : X.C 0} : Rel 0 X x y ↔ X.a 0 x = X.c 0 y := Iff.rfl
 
@@ -168,150 +185,33 @@ def relSub (n : ℕ) (X : DblData R) : Submodule R (X.A n × X.C n) where
   zero_mem' := Rel.zero n X
   smul_mem' r _ hp := Rel.smul n X r hp
 
-theorem cocycle : ∀ (n : ℕ) (X : DblData R), X.Good → ∀ x y, Rel n X x y → X.dA n x = 0 ∧ X.dC n y = 0 := by
-  intro n
-  induction n with
-  | zero =>
-    intro X hX x y hr
-    have hr' := rel_zero.mp hr
-    refine ⟨hX.a_injective 1 ?_, hX.c_injective 1 ?_⟩
-    · rw [hX.a_d, hr', hX.vc0, map_zero]
-    · rw [hX.c_d, ← hr', hX.ha0, map_zero]
-  | succ n ih =>
-    intro X hX x y hr
-    obtain ⟨z, hz, hr⟩ := rel_succ.mp hr
-    refine ⟨(ih X.shift hX.shift x (X.up n z) hr).1, hX.c_injective (n + 2) ?_⟩
-    rw [hX.c_d, ← hz, hX.hh, map_zero]
+theorem cocycle : ∀ (n : ℕ) (X : DblData R), X.Good → ∀ x y, Rel n X x y → X.dA n x = 0 ∧ X.dC n y = 0 :=
+  fun n X hX x y => by
+    simpa only [rel_toStair, bdry_eq_stair, toStair] using Stair.DblData.cocycle n X.toStair (toStair_good hX) x y
 
-theorem exA : ∀ (n : ℕ) (X : DblData R), X.Good → ∀ x, X.dA n x = 0 → ∃ y, Rel n X x y := by
-  intro n
-  induction n with
-  | zero =>
-    intro X hX x hx
-    have hv : X.v 0 0 (X.a 0 x) = 0 := by rw [← hX.a_d, hx, map_zero]
-    obtain ⟨y, hy⟩ := hX.ex_c 0 hv
-    exact ⟨y, rel_zero.mpr hy.symm⟩
-  | succ n ih =>
-    intro X hX x hx
-    obtain ⟨w, hw⟩ := ih X.shift hX.shift x hx
-    obtain ⟨z, rfl⟩ := X.up_surj n w
-    have hc := (cocycle n X.shift hX.shift x (X.up n z) hw).2
-    have h1 : X.h 1 n (X.v 0 n z) = 0 := by
-      have := congrArg (X.shift.c (n + 1)) hc
-      rw [map_zero] at this
-      exact this
-    have h2 : X.v 0 (n + 1) (X.h 0 n z) = 0 := by rw [X.comm_apply]; exact h1
-    obtain ⟨y, hy⟩ := hX.ex_c (n + 1) h2
-    exact ⟨y, rel_succ.mpr ⟨z, hy.symm, hw⟩⟩
+theorem exA : ∀ (n : ℕ) (X : DblData R), X.Good → ∀ x, X.dA n x = 0 → ∃ y, Rel n X x y :=
+  fun n X hX x => by
+    simpa only [rel_toStair, bdry_eq_stair, toStair] using Stair.DblData.exA n X.toStair (toStair_good hX) x
 
-theorem exC : ∀ (n : ℕ) (X : DblData R), X.Good → ∀ y, X.dC n y = 0 → ∃ x, Rel n X x y := by
-  intro n
-  induction n with
-  | zero =>
-    intro X hX y hy
-    have hh0 : X.h 0 0 (X.c 0 y) = 0 := by rw [← hX.c_d, hy, map_zero]
-    obtain ⟨x, hx⟩ := hX.ex_a 0 hh0
-    exact ⟨x, rel_zero.mpr hx⟩
-  | succ n ih =>
-    intro X hX y hy
-    have hh0 : X.h 0 (n + 1) (X.c (n + 1) y) = 0 := by rw [← hX.c_d, hy, map_zero]
-    obtain ⟨z, hz⟩ := hX.ex_h 0 n hh0
-    have hd : X.shift.dC n (X.up n z) = 0 := by
-      apply hX.shift.c_injective (n + 1)
-      rw [map_zero]
-      show X.h 1 n (X.v 0 n z) = 0
-      rw [← X.comm_apply, hz, hX.vc0]
-    obtain ⟨x, hx⟩ := ih X.shift hX.shift (X.up n z) hd
-    exact ⟨x, rel_succ.mpr ⟨z, hz, hx⟩⟩
+theorem exC : ∀ (n : ℕ) (X : DblData R), X.Good → ∀ y, X.dC n y = 0 → ∃ x, Rel n X x y :=
+  fun n X hX y => by
+    simpa only [rel_toStair, bdry_eq_stair, toStair] using Stair.DblData.exC n X.toStair (toStair_good hX) y
 
-theorem bdA : ∀ (n : ℕ) (X : DblData R), X.Good → ∀ x₀ : X.A n, Rel (n + 1) X (X.dA n x₀) 0 := by
-  intro n
-  induction n with
-  | zero =>
-    intro X hX x₀
-    refine rel_succ.mpr ⟨X.a 0 x₀, by rw [hX.ha0, map_zero], rel_zero.mpr ?_⟩
-    exact hX.a_d 0 x₀
-  | succ n ih =>
-    intro X hX x₀
-    refine rel_succ.mpr ⟨0, by rw [map_zero, map_zero], ?_⟩
-    rw [map_zero]
-    exact ih X.shift hX.shift x₀
+theorem bdA : ∀ (n : ℕ) (X : DblData R), X.Good → ∀ x₀ : X.A n, Rel (n + 1) X (X.dA n x₀) 0 :=
+  fun n X hX x₀ => by
+    simpa only [rel_toStair, bdry_eq_stair, toStair] using Stair.DblData.bdA n X.toStair (toStair_good hX) x₀
 
-theorem bdC (n : ℕ) (X : DblData R) (hX : X.Good) (y₀ : X.C n) : Rel (n + 1) X 0 (X.dC n y₀) := by
-  refine rel_succ.mpr ⟨X.c n y₀, (hX.c_d n y₀).symm, ?_⟩
-  have hu : X.up n (X.c n y₀) = 0 := by
-    apply hX.shift.c_injective n
-    rw [map_zero]
-    exact hX.vc0 n y₀
-  rw [hu]
-  exact Rel.zero n X.shift
+theorem bdC (n : ℕ) (X : DblData R) (hX : X.Good) (y₀ : X.C n) : Rel (n + 1) X 0 (X.dC n y₀) :=
+  by
+    simpa only [rel_toStair, toStair] using Stair.DblData.bdC n X.toStair (toStair_good hX) y₀
 
-theorem kerC : ∀ (n : ℕ) (X : DblData R), X.Good → ∀ y, Rel n X 0 y → y ∈ bdry X.dC n := by
-  intro n
-  induction n with
-  | zero =>
-    intro X hX y hr
-    have hr' := rel_zero.mp hr
-    rw [map_zero] at hr'
-    exact (Submodule.mem_bot R).mpr (hX.c_injective 0 (by rw [← hr', map_zero]))
-  | succ n ih =>
-    intro X hX y hr
-    obtain ⟨z, hz, hr⟩ := rel_succ.mp hr
-    have hb := ih X.shift hX.shift (X.up n z) hr
-    show y ∈ LinearMap.range (X.dC n)
-    rcases n with _ | m
-    · have hb0 : X.up 0 z = 0 := (Submodule.mem_bot R).mp hb
-      have hv : X.v 0 0 z = 0 := by
-        have := congrArg (X.shift.c 0) hb0
-        rw [map_zero] at this
-        exact this
-      obtain ⟨y₀, hy₀⟩ := hX.ex_c 0 hv
-      refine LinearMap.mem_range.mpr ⟨y₀, hX.c_injective 1 ?_⟩
-      rw [hX.c_d, hy₀, hz]
-    · have hb' : X.up (m + 1) z ∈ LinearMap.range (X.shift.dC m) := hb
-      obtain ⟨w, hw⟩ := LinearMap.mem_range.mp hb'
-      obtain ⟨z', rfl⟩ := X.up_surj m w
-      have e : X.v 0 (m + 1) (X.h 0 m z') = X.v 0 (m + 1) z := by
-        rw [X.comm_apply]
-        exact congrArg (X.shift.c (m + 1)) hw
-      obtain ⟨y₀, hy₀⟩ := hX.ex_c (m + 1) (show X.v 0 (m + 1) (z - X.h 0 m z') = 0 by rw [map_sub, e, sub_self])
-      refine LinearMap.mem_range.mpr ⟨y₀, hX.c_injective (m + 2) ?_⟩
-      rw [hX.c_d, hy₀, map_sub, hX.hh, sub_zero, hz]
+theorem kerC : ∀ (n : ℕ) (X : DblData R), X.Good → ∀ y, Rel n X 0 y → y ∈ bdry X.dC n :=
+  fun n X hX y => by
+    simpa only [rel_toStair, bdry_eq_stair, toStair] using Stair.DblData.kerC n X.toStair (toStair_good hX) y
 
-theorem kerA : ∀ (n : ℕ) (X : DblData R), X.Good → ∀ x, Rel n X x 0 → x ∈ bdry X.dA n := by
-  intro n
-  induction n with
-  | zero =>
-    intro X hX x hr
-    have hr' := rel_zero.mp hr
-    rw [map_zero] at hr'
-    exact (Submodule.mem_bot R).mpr (hX.a_injective 0 (by rw [hr', map_zero]))
-  | succ n ih =>
-    intro X hX x hr
-    obtain ⟨z, hz, hr⟩ := rel_succ.mp hr
-    have hz0 : X.h 0 n z = 0 := by rw [hz, map_zero]
-    show x ∈ LinearMap.range (X.dA n)
-    rcases n with _ | m
-    · obtain ⟨x₀, hx₀⟩ := hX.ex_a 0 hz0
-      have hr' := rel_zero.mp hr
-      refine LinearMap.mem_range.mpr ⟨x₀, hX.a_injective 1 ?_⟩
-      rw [hX.a_d, hx₀]
-      exact hr'.symm
-    · obtain ⟨z', hz'⟩ := hX.ex_h 0 m hz0
-      have hu : X.up (m + 1) z = X.shift.dC m (X.up m z') := by
-        apply hX.shift.c_injective (m + 1)
-        show X.v 0 (m + 1) z = X.h 1 m (X.v 0 m z')
-        rw [← hz', X.comm_apply]
-      rw [hu] at hr
-      have h0 := bdC m X.shift hX.shift (X.up m z')
-      have hs : Rel (m + 1) X.shift x 0 := by
-        have h1 : (x, X.shift.dC m (X.up m z')) ∈ relSub (m + 1) X.shift := hr
-        have h2 : ((0 : X.shift.A (m + 1)), X.shift.dC m (X.up m z')) ∈ relSub (m + 1) X.shift := h0
-        have h3 : Rel (m + 1) X.shift (x - (0 : X.A (m + 1 + 1))) (X.shift.dC m (X.up m z') - X.shift.dC m (X.up m z')) :=
-          (relSub (m + 1) X.shift).sub_mem h1 h2
-        rw [sub_zero, sub_self] at h3
-        exact h3
-      exact ih X.shift hX.shift x hs
+theorem kerA : ∀ (n : ℕ) (X : DblData R), X.Good → ∀ x, Rel n X x 0 → x ∈ bdry X.dA n :=
+  fun n X hX x => by
+    simpa only [rel_toStair, bdry_eq_stair, toStair] using Stair.DblData.kerA n X.toStair (toStair_good hX) x
 
 end DblData
 
@@ -325,57 +225,8 @@ theorem graph_equiv {M N M' N' : Type} [AddCommGroup M] [Module R M] [AddCommGro
     (hBM : ∀ x ∈ BM, (x, (0 : N)) ∈ G) (hBN : ∀ y ∈ BN, ((0 : M), y) ∈ G)
     (hKM : ∀ x, (x, (0 : N)) ∈ G → x ∈ BM) (hKN : ∀ y, ((0 : M), y) ∈ G → y ∈ BN) :
     Nonempty ((LinearMap.ker dM ⧸ BM.comap (LinearMap.ker dM).subtype) ≃ₗ[R]
-      (LinearMap.ker dN ⧸ BN.comap (LinearMap.ker dN).subtype)) := by
-  classical
-  choose f hf using fun x : LinearMap.ker dM => hM x.1 (LinearMap.mem_ker.mp x.2)
-  have hfz : ∀ x, f x ∈ LinearMap.ker dN := fun x => LinearMap.mem_ker.mpr (hZ _ _ (hf x)).2
-  let g : LinearMap.ker dM → LinearMap.ker dN ⧸ BN.comap (LinearMap.ker dN).subtype :=
-    fun x => Submodule.Quotient.mk ⟨f x, hfz x⟩
-  have key : ∀ (x : LinearMap.ker dM) (y : LinearMap.ker dN), ((x : M), (y : N)) ∈ G →
-      g x = Submodule.Quotient.mk y := by
-    intro x y hxy
-    refine (Submodule.Quotient.eq _).mpr ?_
-    rw [Submodule.mem_comap]
-    apply hKN
-    have := G.sub_mem (hf x) hxy
-    rw [Prod.mk_sub_mk, sub_self] at this
-    exact this
-  let F : LinearMap.ker dM →ₗ[R] LinearMap.ker dN ⧸ BN.comap (LinearMap.ker dN).subtype :=
-    { toFun := g
-      map_add' := fun x₁ x₂ => by
-        rw [key (x₁ + x₂) (⟨f x₁, hfz x₁⟩ + ⟨f x₂, hfz x₂⟩) (G.add_mem (hf x₁) (hf x₂))]
-        rfl
-      map_smul' := fun r x => by
-        rw [key (r • x) (r • ⟨f x, hfz x⟩) (G.smul_mem r (hf x))]
-        rfl }
-  have hQ : BM.comap (LinearMap.ker dM).subtype ≤ LinearMap.ker F := by
-    intro x hx
-    rw [LinearMap.mem_ker]
-    change g x = 0
-    rw [key x 0 (hBM x.1 hx)]
-    rfl
-  let Φ := (BM.comap (LinearMap.ker dM).subtype).liftQ F hQ
-  have inj : Function.Injective Φ := by
-    rw [← LinearMap.ker_eq_bot, Submodule.eq_bot_iff]
-    intro q hq
-    obtain ⟨x, rfl⟩ := Submodule.Quotient.mk_surjective _ q
-    rw [LinearMap.mem_ker] at hq
-    change g x = 0 at hq
-    have hq' : f x ∈ BN := by
-      have := (Submodule.Quotient.mk_eq_zero _).mp hq
-      exact this
-    rw [Submodule.Quotient.mk_eq_zero, Submodule.mem_comap]
-    apply hKM
-    have := G.sub_mem (hf x) (hBN _ hq')
-    rw [Prod.mk_sub_mk, sub_zero, sub_self] at this
-    exact this
-  have surj : Function.Surjective Φ := by
-    intro q
-    obtain ⟨y, rfl⟩ := Submodule.Quotient.mk_surjective _ q
-    obtain ⟨x, hx⟩ := hN y.1 (LinearMap.mem_ker.mp y.2)
-    refine ⟨Submodule.Quotient.mk ⟨x, LinearMap.mem_ker.mpr (hZ _ _ hx).1⟩, ?_⟩
-    exact key _ y hx
-  exact ⟨LinearEquiv.ofBijective Φ ⟨inj, surj⟩⟩
+      (LinearMap.ker dN ⧸ BN.comap (LinearMap.ker dN).subtype)) :=
+  Stair.graph_equiv dM dN BM BN G hZ hM hN hBM hBN hKM hKN
 
 namespace DblData
 

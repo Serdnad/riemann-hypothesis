@@ -1,3 +1,4 @@
+import Formalism.LocalToGlobal.ProjectiveLattices.FrameBaseChange
 import Mathlib
 import Development.AbelianVarietyTheory.Definitions.ExistenceOfLattices.UnivFrame
 import Formalism.LocalToGlobal.ProjectiveLattices.AllTest
@@ -14,45 +15,15 @@ namespace GlobalTheory.Frames.ChgBC
 variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E} {Dw : Datum H} {l : Level H}
 variable {Xo : Moduli Dw l}
 
-theorem spMap_comp_ring {A B C : Type} [CommRing A] [CommRing B] [CommRing C] (f : B →+* C) (g : A →+* B) :
-    spMap f ≫ spMap g = spMap (f.comp g) := by
-  simp only [spMap, ← Spec.map_comp, ← CommRingCat.ofHom_comp]
+alias spMap_comp_ring := Formalism.L2.Pj.FrameBaseChange.spMap_comp_ring
 
-theorem spMap_id (A : Type) [CommRing A] : spMap (RingHom.id A) = 𝟙 (Sp A) := by
-  simp only [spMap, CommRingCat.ofHom_id, Spec.map_id]
+alias spMap_id := Formalism.L2.Pj.FrameBaseChange.spMap_id
 
-theorem dualMap_alg {S T : Type} [CommRing S] [CommRing T] (φ : S →+* T) :
-    (dualMap φ).comp (algebraMap S (DualNumber S)) = (algebraMap T (DualNumber T)).comp φ :=
-  RingHom.ext fun a => by
-    ext <;> simp [dualMap, TrivSqZeroExt.algebraMap_eq_inl]
+alias dualMap_alg := Formalism.L2.Pj.FrameBaseChange.dualMap_alg
 
-theorem dualMap_eps {S T : Type} [CommRing S] [CommRing T] (φ : S →+* T) (a : S) :
-    (dualMap φ).comp (epsMul a) = (epsMul (φ a)).comp (dualMap φ) :=
-  RingHom.ext fun x => by
-    ext <;> simp [dualMap, epsMul, mul_comm]
+alias dualMap_eps := Formalism.L2.Pj.FrameBaseChange.dualMap_eps
 
-theorem isCombAt_pull {S T : Type} [CommRing S] [CommRing T] (φ : S →+* T) {x : Sp S ⟶ Xo.X}
-    {x' : Sp T ⟶ Xo.X} (hx : x' = spMap φ ≫ x) {m : ℕ} {v : Fin m → (Sp (DualNumber S) ⟶ Xo.univ.t.G.left)}
-    {v' : Fin m → (Sp (DualNumber T) ⟶ Xo.univ.t.G.left)} (hv : ∀ j, v' j = spMap (dualMap φ) ≫ v j)
-    {cf : Fin m → S} {w : Sp (DualNumber S) ⟶ Xo.univ.t.G.left} {w' : Sp (DualNumber T) ⟶ Xo.univ.t.G.left}
-    (hw : w' = spMap (dualMap φ) ≫ w) (h : IsCombAt x v cf w) : IsCombAt x' v' (fun j => φ (cf j)) w' := by
-  obtain ⟨u, hu, hprod⟩ := h
-  let D : tEps x' ⟶ tEps x := Over.homMk (spMap (dualMap φ)) (by
-    show spMap (dualMap φ) ≫ spMap (algebraMap S (DualNumber S)) ≫ x = spMap (algebraMap T (DualNumber T)) ≫ x'
-    rw [hx, ← Category.assoc, ← Category.assoc, spMap_comp_ring, spMap_comp_ring, dualMap_alg])
-  have hL : ∀ L : List (tEps x ⟶ Xo.univ.t.G), (L.map (D ≫ ·)).prod = D ≫ L.prod := by
-    intro L
-    induction L with
-    | nil => simp [MonObj.comp_one]
-    | cons a L ih => rw [List.map_cons, List.prod_cons, List.prod_cons, ih, MonObj.comp_mul]
-  refine ⟨fun j => D ≫ u j, fun j => ?_, ?_⟩
-  · show spMap (dualMap φ) ≫ (u j).left = spMap (epsMul (φ (cf j))) ≫ v' j
-    rw [hu j, hv j, ← Category.assoc, ← Category.assoc, spMap_comp_ring, spMap_comp_ring, dualMap_eps]
-  · have e : (List.ofFn fun j => D ≫ u j) = (List.ofFn u).map (D ≫ ·) := by
-      rw [List.map_ofFn]
-      rfl
-    rw [e, hL, Over.comp_left, hprod, hw]
-    rfl
+alias isCombAt_pull := Formalism.L2.Pj.FrameBaseChange.isCombAt_pull
 
 theorem isCombAt_unique {S : Type} [CommRing S] {x : Sp S ⟶ Xo.X} {m : ℕ}
     {v : Fin m → (Sp (DualNumber S) ⟶ Xo.univ.t.G.left)} {cf : Fin m → S}
@@ -62,66 +33,13 @@ theorem isCombAt_unique {S : Type} [CommRing S] {x : Sp S ⟶ Xo.X} {m : ℕ}
   have e : u = u' := funext fun i => Over.OverMorphism.ext ((hu i).trans (hu' i).symm)
   rw [← hprod, ← hprod', e]
 
-theorem ppx_le_cov {S T : Type} [CommRing S] [CommRing T] {x : Sp S ⟶ Xo.X} {x' : Sp T ⟶ Xo.X}
-    (pm : Gx x' ⟶ Gx x)
-    (hs : pm ≫ (snd (Over.mk x) Xo.univ.t.G).left = (snd (Over.mk x') Xo.univ.t.G).left)
-    (i : Fin 1 → Xo.univ.t.PP.L.ι) : (PPx x').U i ≤ pm ⁻¹ᵁ (PPx x).U i := by
-  intro p hp
-  have hp' : ∀ k, p ∈ (snd (Over.mk x') Xo.univ.t.G).left.base ⁻¹' (Xo.univ.t.PP.L.U (i k) : Set _) :=
-    Set.mem_iInter.1 hp
-  have e := congrArg (fun f : Gx x' ⟶ Xo.univ.t.G.left => f.base p) hs
-  show pm.base p ∈ ⋂ k, (snd (Over.mk x) Xo.univ.t.G).left.base ⁻¹' (Xo.univ.t.PP.L.U (i k) : Set _)
-  refine Set.mem_iInter.2 fun k => ?_
-  show (pm ≫ (snd (Over.mk x) Xo.univ.t.G).left).base p ∈ (Xo.univ.t.PP.L.U (i k) : Set _)
-  rw [e]
-  exact hp' k
+alias ppx_le_cov := Formalism.L2.Pj.FrameBaseChange.ppx_le_cov
 
-theorem scal_pull {S T : Type} [CommRing S] [CommRing T] (φ : S →+* T) {x : Sp S ⟶ Xo.X} {x' : Sp T ⟶ Xo.X}
-    (pm : Gx x' ⟶ Gx x)
-    (hf : pm ≫ (fst (Over.mk x) Xo.univ.t.G).left = (fst (Over.mk x') Xo.univ.t.G).left ≫ spMap φ)
-    (i : Fin 1 → Xo.univ.t.PP.L.ι) (h : (PPx x').U i ≤ pm ⁻¹ᵁ (PPx x).U i) (a : S) :
-    (pm.appLE _ _ h).hom (scal x a i) = scal x' (φ a) i := by
-  have key : ∀ (q : Gx x' ⟶ Sp S), q = (fst (Over.mk x') Xo.univ.t.G).left ≫ spMap φ →
-      ∀ e : (PPx x').U i ≤ q ⁻¹ᵁ ⊤,
-      q.appLE ⊤ ((PPx x').U i) e = (spMap φ).appTop ≫ (fst (Over.mk x') Xo.univ.t.G).left.appLE ⊤ _ (le_top) := by
-    rintro q rfl e
-    exact Scheme.Hom.comp_appLE _ _ _ _ _
-  have M : (fst (Over.mk x) Xo.univ.t.G).left.appTop ≫ (Gx x).presheaf.map (homOfLE le_top).op ≫ pm.appLE _ _ h =
-      (spMap φ).appTop ≫ (fst (Over.mk x') Xo.univ.t.G).left.appTop ≫ (Gx x').presheaf.map (homOfLE le_top).op := by
-    rw [Scheme.Hom.map_appLE]
-    have e1 : (fst (Over.mk x) Xo.univ.t.G).left.appTop =
-        (fst (Over.mk x) Xo.univ.t.G).left.appLE ⊤ ⊤ le_top := (Scheme.Hom.appLE_eq_app _).symm
-    rw [e1]
-    exact (Scheme.Hom.appLE_comp_appLE _ _ _ _ _ _ _).trans ((key _ hf _).trans rfl)
-  have M' := congrArg (fun f => f.hom (toΓ S a)) M
-  simp only [CommRingCat.hom_comp, RingHom.comp_apply] at M'
-  have N := congrArg (fun f => f.hom a) (Scheme.ΓSpecIso_inv_naturality (CommRingCat.ofHom φ))
-  simp only [CommRingCat.hom_comp, RingHom.comp_apply, CommRingCat.hom_ofHom] at N
-  show (pm.appLE _ _ h).hom (((Gx x).presheaf.map (homOfLE le_top).op).hom
-      ((fst (Over.mk x) Xo.univ.t.G).left.appTop.hom (toΓ S a))) =
-    ((Gx x').presheaf.map (homOfLE le_top).op).hom ((fst (Over.mk x') Xo.univ.t.G).left.appTop.hom (toΓ T (φ a)))
-  rw [M']
-  congr 2
-  exact N.symm
+alias scal_pull := Formalism.L2.Pj.FrameBaseChange.scal_pull
 
-theorem can_exists {S T : Type} [CommRing S] [CommRing T] (φ : S →+* T) {x : Sp S ⟶ Xo.X} {x' : Sp T ⟶ Xo.X}
-    (hx : x' = spMap φ ≫ x) :
-    ∃ pm : Gx x' ⟶ Gx x, pm ≫ (snd (Over.mk x) Xo.univ.t.G).left = (snd (Over.mk x') Xo.univ.t.G).left ∧
-      pm ≫ (fst (Over.mk x) Xo.univ.t.G).left = (fst (Over.mk x') Xo.univ.t.G).left ≫ spMap φ := by
-  let pm : Gx x' ⟶ Gx x :=
-    pullback.lift (pullback.fst (Over.mk x').hom Xo.univ.t.G.hom ≫ spMap φ)
-      (pullback.snd (Over.mk x').hom Xo.univ.t.G.hom)
-      (by
-        show pullback.fst (Over.mk x').hom Xo.univ.t.G.hom ≫ spMap φ ≫ x =
-          pullback.snd (Over.mk x').hom Xo.univ.t.G.hom ≫ Xo.univ.t.G.hom
-        rw [← hx]
-        exact pullback.condition)
-  exact ⟨pm, pullback.lift_snd _ _ _, pullback.lift_fst _ _ _⟩
+alias can_exists := Formalism.L2.Pj.FrameBaseChange.can_exists
 
-theorem gx_ext {S : Type} [CommRing S] {x : Sp S ⟶ Xo.X} {Z : Scheme.{0}} {p q : Z ⟶ Gx x}
-    (hs : p ≫ (snd (Over.mk x) Xo.univ.t.G).left = q ≫ (snd (Over.mk x) Xo.univ.t.G).left)
-    (hf : p ≫ (fst (Over.mk x) Xo.univ.t.G).left = q ≫ (fst (Over.mk x) Xo.univ.t.G).left) : p = q :=
-  pullback.hom_ext (f := (Over.mk x).hom) (g := Xo.univ.t.G.hom) hf hs
+alias gx_ext := Formalism.L2.Pj.FrameBaseChange.gx_ext
 
 theorem square {S T : Type} [CommRing S] [CommRing T] (φ : S →+* T) (a : S) {y y' : Sp S ⟶ Xo.X}
     {z z' : Sp T ⟶ Xo.X} (pmA : Gx z ⟶ Gx y) (pmB : Gx z' ⟶ Gx y') (pmC : Gx y' ⟶ Gx y) (pm : Gx z' ⟶ Gx z)

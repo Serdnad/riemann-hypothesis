@@ -5,9 +5,5 @@ import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.T
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsHolPeriods
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ThetaUnifAV
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.UnifUniqSt
-open CategoryTheory CategoryTheory.Limits MonoidalCategory CartesianMonoidalCategory MonObj AlgebraicGeometry NumberField
-open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Out ReciprocityTheory.ChartRestriction.G.Geo.Tor
-open scoped CategoryTheory.Obj
-set_option maxHeartbeats 1000000 in
-theorem _root_.GlobalTheory.T.siegelFamilies_exist : N0 := by
-  first | exact @GlobalTheory.Moduli.siegelFamilies_closed | exact GlobalTheory.Moduli.siegelFamilies_closed | (intros; apply GlobalTheory.Moduli.siegelFamilies_closed <;> assumption)
+
+alias GlobalTheory.T.siegelFamilies_exist := GlobalTheory.Moduli.siegelFamilies_closed

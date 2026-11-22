@@ -1,6 +1,5 @@
 import Mathlib
 import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LatticeCosetScaledRiemannSum
-import Mathlib
 import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CosetOff
 import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LatticePointCountScaling
 import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ArchimedeanFundamentalDomainIntegersStatement

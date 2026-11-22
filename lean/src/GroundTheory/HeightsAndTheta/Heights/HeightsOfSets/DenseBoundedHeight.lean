@@ -57,4 +57,6 @@ theorem denseBoundedHeight : DenseBoundedHeight.Statement := by
 
 end
 
+theorem DenseBoundedHeight.main : DenseBoundedHeight.Statement := denseBoundedHeight
+
 end GroundTheory.Heights₂.Heights

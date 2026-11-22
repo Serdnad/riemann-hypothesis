@@ -1159,16 +1159,6 @@ theorem lifta_reg (W : LocWach PD LL O v n) (a x y : LetA O n)
   apply h.mul_left_cancel
   rw [← map_mul, ← map_mul, hxy]
 
-structure lifta_Ring (W : LocWach PD LL O v n) : Prop where
-  πΔ : W.π₀ ∈ W.AΔ
-  πU : IsUnit (algebraMap (LetA O n) W.EE W.π₀)
-  qU : IsUnit (algebraMap (LetA O n) W.EE (qp W))
-  ππ : ∃ w : (LetA O n)ˣ, W.π₀ = (w : LetA O n) * letπ ^ (PD.p - 1)
-  qq : ∃ w : (LetA O n)ˣ, W.q = (w : LetA O n) * qp W
-  φπ : ∃ t ∈ W.AΔ, W.φA W.π₀ = W.π₀ * qp W ^ (PD.p - 1) * t
-  γπ : ∃ t ∈ W.AΔ, W.γA W.gam W.π₀ = W.π₀ * (algebraMap O (LetA O n) (u₁ W) + W.π₀ * t)
-  γq : ∃ t ∈ W.AΔ, W.γA W.gam (qp W) = (1 + W.π₀ * t) * qp W
-
 theorem lifta_qΔ (W : LocWach PD LL O v n) (hπ : W.π₀ ∈ W.AΔ) : qp W ∈ W.AΔ :=
   W.AΔ.add_mem hπ (natCast_mem W.AΔ PD.p)
 

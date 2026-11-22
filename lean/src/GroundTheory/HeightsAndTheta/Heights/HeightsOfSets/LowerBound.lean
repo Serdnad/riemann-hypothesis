@@ -261,4 +261,6 @@ theorem heightLowerBound : HeightLowerBound.Statement := by
 
 end
 
+theorem HeightLowerBound.main : HeightLowerBound.Statement := heightLowerBound
+
 end GroundTheory.Heights₂.Heights

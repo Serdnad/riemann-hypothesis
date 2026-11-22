@@ -1,4 +1,4 @@
-import Mathlib
+import Development.AbelianVarietyTheory.Proofs.GenericRegularity.RegularAtCentre
 import Formalism.LocalToGlobal.ProjectiveLattices.RegModelC
 import Development.AbelianVarietyTheory.Definitions.RegularCharts.SCharts
 import Formalism.LocalToGlobal.ProjectiveLattices.FrameCharts
@@ -17,130 +17,15 @@ namespace GlobalTheory.Reg.ChartInt
 
 open IsLocalRing Formalism.L2.PjFree
 
-section Values
-variable {V : Type} [CommRing V] [IsDomain V] [IsDiscreteValuationRing V]
-
-theorem vV_nonneg (w : V) (hw : w ≠ 0) : 0 ≤ vV V (algebraMap V (FractionRing V) w) := by
-  have hw' : algebraMap V (FractionRing V) w ≠ 0 := by
-    intro h; apply hw; exact IsFractionRing.injective V (FractionRing V) (by rw [h, map_zero])
-  have h1 := IsDedekindDomain.HeightOneSpectrum.valuation_le_one
-    (IsDiscreteValuationRing.maximalIdeal V) (K := FractionRing V) w
-  have h0 : valV V (algebraMap V (FractionRing V) w) ≠ 0 := valV_ne_zero hw'
-  have h2 : WithZero.log (valV V (algebraMap V (FractionRing V) w)) ≤ WithZero.log (1 : WithZero (Multiplicative ℤ)) :=
-    (WithZero.log_le_log h0 one_ne_zero).2 h1
-  rw [WithZero.log_one] at h2
-  unfold vV
-  omega
-
-theorem vV_unit (u : V) (hu : u ∉ maximalIdeal V) : vV V (algebraMap V (FractionRing V) u) = 0 := by
-  have h1 : (IsDiscreteValuationRing.maximalIdeal V).valuation (FractionRing V) (algebraMap V _ u) = 1 :=
-    (IsDedekindDomain.HeightOneSpectrum.valuation_eq_one_iff_notMem (K := FractionRing V)
-      (IsDiscreteValuationRing.maximalIdeal V)).2 hu
-  unfold vV valV
-  rw [h1, WithZero.log_one, neg_zero]
-
-theorem mem_of_vV_nonneg (y : FractionRing V) (hy : y ≠ 0) (h : 0 ≤ vV V y) :
-    ∃ w : V, algebraMap V (FractionRing V) w = y := by
-  have h0 : valV V y ≠ 0 := valV_ne_zero hy
-  have hle : valV V y ≤ 1 := by
-    rw [← WithZero.log_le_log h0 one_ne_zero, WithZero.log_one]
-    unfold vV at h
-    omega
-  obtain ⟨w, hw⟩ := IsDedekindDomain.HeightOneSpectrum.mem_integers_of_valuation_le_one (R := V)
-    (K := FractionRing V) y (fun v => by
-      have hv : v = IsDiscreteValuationRing.maximalIdeal V := by
-        have hm : v.asIdeal.IsMaximal := v.isPrime.isMaximal v.ne_bot
-        ext1
-        exact IsLocalRing.eq_maximalIdeal hm
-      rw [hv]
-      exact hle)
-  exact ⟨w, hw⟩
-
-theorem nval_nonneg (e : ℕ) (w : V) : 0 ≤ nval V e (algebraMap V (FractionRing V) w) := by
-  by_cases hw : w = 0
-  · rw [hw, map_zero, nval_zero]
-    exact le_top
-  · have hw' : algebraMap V (FractionRing V) w ≠ 0 := by
-      intro h; apply hw; exact IsFractionRing.injective V (FractionRing V) (by rw [h, map_zero])
-    rw [nval_of_ne hw']
-    exact EReal.coe_nonneg.2 (div_nonneg (by exact_mod_cast vV_nonneg w hw) (Nat.cast_nonneg e))
-
-theorem nval_unit (e : ℕ) (u : V) (hu : u ∉ maximalIdeal V) : nval V e (algebraMap V (FractionRing V) u) = 0 := by
-  have hu0 : u ≠ 0 := fun h => hu (h ▸ (maximalIdeal V).zero_mem)
-  have hu' : algebraMap V (FractionRing V) u ≠ 0 := by
-    intro h; apply hu0; exact IsFractionRing.injective V (FractionRing V) (by rw [h, map_zero])
-  rw [nval_of_ne hu', vV_unit u hu]
-  simp
-
-theorem ne_zero_map {x : V} (hx : x ≠ 0) : algebraMap V (FractionRing V) x ≠ 0 := by
-  intro h; apply hx; exact IsFractionRing.injective V (FractionRing V) (by rw [h, map_zero])
-
-variable {A : Type} [CommRing A] [IsDomain A]
-
-theorem chval_eq (φ : A →+* V) (e : ℕ) (f : FractionRing A) (r : EReal) (h : ChV φ e f r) (a b : A)
-    (hab : f * algebraMap A (FractionRing A) b = algebraMap A (FractionRing A) a) (hb : φ b ≠ 0) :
-    r = nval V e (algebraMap V (FractionRing V) (φ a)) - nval V e (algebraMap V (FractionRing V) (φ b)) := by
-  obtain ⟨x, s, hs, hfs, rfl⟩ := h
-  have has : a * s = x * b := by
-    apply IsFractionRing.injective A (FractionRing A)
-    rw [map_mul, map_mul, ← hab, ← hfs]
-    ring
-  have hφ : φ a * φ s = φ x * φ b := by rw [← map_mul, ← map_mul, has]
-  by_cases ha : φ a = 0
-  · have hx : φ x = 0 := by
-      rw [ha, zero_mul] at hφ
-      exact (mul_eq_zero.1 hφ.symm).resolve_right hb
-    rw [ha, hx, map_zero, nval_zero, nval_of_ne (ne_zero_map hs), nval_of_ne (ne_zero_map hb),
-      EReal.top_sub_coe, EReal.top_sub_coe]
-  · have hx : φ x ≠ 0 := by
-      intro hx
-      rw [hx, zero_mul] at hφ
-      exact mul_ne_zero ha hs hφ
-    have hv := congrArg (vV V) (congrArg (algebraMap V (FractionRing V)) hφ)
-    rw [map_mul, map_mul, vV_mul (ne_zero_map ha) (ne_zero_map hs),
-      vV_mul (ne_zero_map hx) (ne_zero_map hb)] at hv
-    rw [nval_of_ne (ne_zero_map ha), nval_of_ne (ne_zero_map hb), nval_of_ne (ne_zero_map hx),
-      nval_of_ne (ne_zero_map hs), ← EReal.coe_sub, ← EReal.coe_sub, div_sub_div_same, div_sub_div_same]
-    congr 2
-    have : ((vV V (algebraMap V (FractionRing V) (φ x)) : ℤ) : ℝ) -
-        (vV V (algebraMap V (FractionRing V) (φ s)) : ℤ) =
-        ((vV V (algebraMap V (FractionRing V) (φ a)) : ℤ) : ℝ) - (vV V (algebraMap V (FractionRing V) (φ b)) : ℤ) := by
-      have : (vV V (algebraMap V (FractionRing V) (φ x)) : ℤ) - vV V (algebraMap V (FractionRing V) (φ s)) =
-          vV V (algebraMap V (FractionRing V) (φ a)) - vV V (algebraMap V (FractionRing V) (φ b)) := by omega
-      exact_mod_cast this
-    exact this
-
-theorem chval_div (φ : A →+* V) (e : ℕ) (he : 0 < e) (f : FractionRing A) (r : EReal) (h : ChV φ e f r)
-    (hr : 0 ≤ r) (a b : A) (hab : f * algebraMap A (FractionRing A) b = algebraMap A (FractionRing A) a)
-    (hb : φ b ≠ 0) : ∃ w : V, φ a = w * φ b := by
-  by_cases ha : φ a = 0
-  · exact ⟨0, by rw [ha, zero_mul]⟩
-  rw [chval_eq φ e f r h a b hab hb, nval_of_ne (ne_zero_map ha), nval_of_ne (ne_zero_map hb),
-    ← EReal.coe_sub, EReal.coe_nonneg, div_sub_div_same] at hr
-  have he' : (0 : ℝ) < e := by exact_mod_cast he
-  have hle : (vV V (algebraMap V (FractionRing V) (φ b)) : ℝ) ≤ vV V (algebraMap V (FractionRing V) (φ a)) := by
-    have := (div_nonneg_iff.1 hr)
-    rcases this with ⟨h1, -⟩ | ⟨-, h2⟩
-    · linarith
-    · linarith
-  have hle' : vV V (algebraMap V (FractionRing V) (φ b)) ≤ vV V (algebraMap V (FractionRing V) (φ a)) := by
-    exact_mod_cast hle
-  set y := algebraMap V (FractionRing V) (φ a) / algebraMap V (FractionRing V) (φ b)
-  have hy0 : y ≠ 0 := div_ne_zero (ne_zero_map ha) (ne_zero_map hb)
-  have hyv : vV V y + vV V (algebraMap V (FractionRing V) (φ b)) = vV V (algebraMap V (FractionRing V) (φ a)) := by
-    rw [← vV_mul hy0 (ne_zero_map hb), div_mul_cancel₀ _ (ne_zero_map hb)]
-  obtain ⟨w, hw⟩ := mem_of_vV_nonneg y hy0 (by omega)
-  refine ⟨w, IsFractionRing.injective V (FractionRing V) ?_⟩
-  rw [map_mul, hw, div_mul_cancel₀ _ (ne_zero_map hb)]
-
-theorem chval_nonneg (φ : A →+* V) (e : ℕ) (f : FractionRing A) (r : EReal) (h : ChV φ e f r) (a s : A)
-    (hfs : f * algebraMap A (FractionRing A) s = algebraMap A (FractionRing A) a) (hs : φ s ∉ maximalIdeal V) :
-    0 ≤ r := by
-  have hs0 : φ s ≠ 0 := fun h0 => hs (h0 ▸ (maximalIdeal V).zero_mem)
-  rw [chval_eq φ e f r h a s hfs hs0, nval_unit e _ hs, sub_zero]
-  exact nval_nonneg e _
-
-end Values
+alias vV_nonneg := Transfer.vV_nonneg
+alias vV_unit := Transfer.vV_unit
+alias mem_of_vV_nonneg := Transfer.mem_of_vV_nonneg
+alias nval_nonneg := Transfer.nval_nonneg
+alias nval_unit := Transfer.nval_unit
+alias ne_zero_map := Transfer.ne_zero_map
+alias chval_eq := Transfer.chval_eq
+alias chval_div := Transfer.chval_div
+alias chval_nonneg := Transfer.chval_nonneg
 
 section Charts
 variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E} {Dw : Datum H} {l : Level H}

@@ -1,4 +1,4 @@
-import Mathlib
+import Development.AbelianVarietyTheory.Definitions.Degenerations.LabKerUnique
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.LinCombTrivG
 import Development.AbelianVarietyTheory.Definitions.Degenerations.RigGen
 import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.SecEqOfSecConst
@@ -14,16 +14,9 @@ open ReciprocityTheory.ChartRestriction.G.Out Classical
 namespace DimZero
 open Inh
 
-theorem res_one {X : Scheme.{0}} {U V : X.Opens} (h : V ≤ U) : res h (1 : Γ(X, U)ˣ) = 1 := map_one _
-
-theorem pullU_one {X Y : Scheme.{0}} (f : Y ⟶ X) (U : X.Opens) : pullU f U (1 : Γ(X, U)ˣ) = 1 := map_one _
-
-theorem res_res {X : Scheme.{0}} {U V W : X.Opens} (h : V ≤ U) (h' : W ≤ V) (u : Γ(X, U)ˣ) :
-    res h' (res h u) = res (h'.trans h) u := by
-  ext
-  simp only [res, Units.coe_map, MonoidHom.coe_coe]
-  rw [← CommRingCat.comp_apply, ← Functor.map_comp]
-  rfl
+alias res_one := RealModel.res_one
+alias pullU_one := RealModel.pullU_one
+alias res_res := RealModel.res_res
 
 def oneG {X Y : Scheme.{0}} {K : Type} [Fintype K] (φ : K → (Y ⟶ X)) (ε : K → ℤ) :
     LB.Gen (LB.LinComb (trivLB X) φ ε) := ⟨fun _ => 1⟩
@@ -36,117 +29,26 @@ def oneS {X Y : Scheme.{0}} {K : Type} [Fintype K] (φ : K → (Y ⟶ X)) (ε : 
     LB.Sec (LB.LinComb (trivLB X) φ ε) := ⟨fun _ => 1, by
   intro i j; rw [linComb_triv_g, Units.val_one, _root_.one_mul]; exact (map_one _).trans (map_one _).symm⟩
 
-theorem wchart_triv {X Y : Scheme.{0}} {K : Type} [Fintype K] (φ : K → (Y ⟶ X)) (j : K → (trivLB X).ι) :
-    LB.wchart (trivLB X) φ j = ⊤ := by
-  apply top_unique
-  intro x _
-  exact Set.mem_iInter.2 fun _ => trivial
-
-theorem corr_of_one {X Y : Scheme.{0}} (L : LB X) {K K' : Type} [Fintype K] [Fintype K'] (φ : K → (Y ⟶ X)) (ε : K → ℤ)
-    (φ' : K' → (Y ⟶ X)) (ε' : K' → ℤ) (t : LB.Gen (LB.LinComb L φ ε)) (t' : LB.Gen (LB.LinComb L φ' ε'))
-    (h : ∀ j, t.s j = 1) (h' : ∀ j, t'.s j = 1) : LB.Gen.Corr L φ ε φ' ε' t t' := by
-  intro j j' _ _ _
-  exact ((congrArg _ (h j)).trans (res_one _)).trans ((congrArg _ (h' j')).trans (res_one _)).symm
-
-theorem isoOne {X : Scheme.{0}} (L M : LB X) (hL : ∀ i j, L.g i j = 1) (hM : ∀ i j, M.g i j = 1) : LBIso L M :=
-  ⟨⟨fun _ => 1⟩, by
-    intro i j
-    have : (LB.div M L).g i j = 1 := by
-      simp only [LB.div, hL, hM]
-      erw [res_one, res_one]; simp; rfl
-    rw [this, _root_.one_mul]; exact (res_one _).trans (res_one _).symm⟩
+alias wchart_triv := RealModel.wchart_triv
+alias corr_of_one := RealModel.corr_of_one
+alias isoOne := RealModel.isoOne
 
 variable (B : Scheme.{0})
 
-theorem hypS_zero : HypS (zeroPolAV B).A (zeroPolAV B).L := by
-  refine ⟨𝟙 _, 𝟙 _, inferInstance, inferInstance, toUnit_unique _ _, ?_, ?_⟩
-  · exact isoOne _ _ (fun _ _ => rfl) (fun _ _ => linComb_triv_g _ _ _ _)
-  · exact isoOne _ _ (fun _ _ => linComb_triv_g _ _ _ _) (fun _ _ => linComb_triv_g _ _ _ _)
-
-theorem liftFun_bij (T : Over B) (W : (T ⊗ (zeroPolAV B).A).left.Opens) (hW : W = ⊤) :
-    Function.Bijective (liftFun (zeroPolAV B).A (T := T) W) := by
-  subst hW
-  haveI : IsIso (fst T (zeroPolAV B).A) := by
-    show IsIso (fst T (𝟙_ (Over B)))
-    rw [← rightUnitor_hom]; infer_instance
-  haveI : IsIso (fst T (zeroPolAV B).A).left := inferInstanceAs (IsIso ((Over.forget B).map (fst T (zeroPolAV B).A)))
-  have h := ConcreteCategory.bijective_of_isIso ((fst T (zeroPolAV B).A).left.app ⊤)
-  have e : liftFun (zeroPolAV B).A (T := T) ⊤ = (fst T (zeroPolAV B).A).left.appTop.hom := by
-    funext r
-    simp only [liftFun]
-    have : (homOfLE (le_top : (⊤ : (T ⊗ (zeroPolAV B).A).left.Opens) ≤ ⊤)).op = 𝟙 _ := rfl
-    rw [this, CategoryTheory.Functor.map_id]; rfl
-  rw [e]; exact h
-
-theorem translT_id {T : Over B} (x : T ⟶ (zeroPolAV B).A) : (translT (zeroPolAV B).A x).left = 𝟙 _ := by
-  have : translT (zeroPolAV B).A x = 𝟙 _ := by
-    apply CartesianMonoidalCategory.hom_ext
-    · simp [translT]
-    · exact toUnit_unique _ _
-  rw [this]; rfl
-
-theorem corr_comm {X Y : Scheme.{0}} {K : Type} [Fintype K] (φ φ' : K → (Y ⟶ X)) (ε : K → ℤ)
-    (a : LB.Gen (LB.LinComb (trivLB X) φ ε)) (b : LB.Gen (LB.LinComb (trivLB X) φ' ε)) (h h' : Y ⟶ Y)
-    (hh : h = 𝟙 Y) (hh' : h' = 𝟙 Y)
-    (c : LB.Gen (LB.LinComb (trivLB X) (Y := Y) (K := PEmpty) PEmpty.elim PEmpty.elim)) (hc : ∀ j, c.s j = 1) :
-    LB.Gen.Corr (trivLB X) _ _ _ _ (LB.mulGen _ _ _ _ _ a (LB.pullGen _ _ _ b h))
-      (LB.mulGen _ _ _ _ _ (LB.mulGen _ _ _ _ _ b (LB.pullGen _ _ _ a h')) c) := by
-  subst hh hh'
-  intro j j' _ _ _
-  let d : K → (trivLB X).ι := fun _ => PUnit.unit
-  have ha : ⊤ ≤ LB.wchart (trivLB X) φ d := by rw [wchart_triv]
-  have hb : ⊤ ≤ LB.wchart (trivLB X) φ' d := by rw [wchart_triv]
-  have e1 : ∀ (V W : Y.Opens) (h1 : V ≤ W) (U U' : Y.Opens) (h2 : W ≤ U) (h3 : W ≤ U') (u : Γ(Y, U)ˣ) (v : Γ(Y, U')ˣ),
-      res h1 (res h2 u * res h3 v) = res (h1.trans h2) u * res (h1.trans h3) v := by
-    intros; rw [map_mul, res_res, res_res]
-  refine (e1 _ _ _ _ _ _ _ _ _).trans (Eq.trans ?_ (e1 _ _ _ _ _ _ _ _ _).symm)
-  refine Eq.trans ?_ (congrArg₂ (· * ·) (e1 _ _ _ _ _ _ _ _ _) ((congrArg _ (hc _)).trans (res_one _))).symm
-  rw [_root_.mul_one, _root_.mul_comm]
-  refine congrArg₂ (· * ·) ?_ ?_
-  · exact (res_res _ _ _)
-  · exact (res_res _ _ _).symm
-
-theorem weil_zero (k : ℤ) {T : Over B} (x y : T ⟶ (zeroPolAV B).A) :
-    WeilIs (zeroPolAV B).A (zeroPolAV B).L k x y 1 := by
-  intro p
-  refine ⟨⊤, trivial, ⟨⟨_, oneG _ _, oneG_gen _ _⟩, ⟨_, oneG _ _, oneG_gen _ _⟩, rfl, rfl⟩, ?_⟩
-  intro θx θy _ _
-  have hc : unitRes (T := T) ⊤ 1 = 1 := map_one _
-  rw [hc]
-  exact corr_comm _ _ _ _ _ _ _ (translT_id B _) (translT_id B _) _
-    (fun j => (congrArg _ (map_one _)).trans (res_one _))
+alias hypS_zero := RealModel.hypS_zero
+alias liftFun_bij := RealModel.liftFun_bij
+alias translT_id := RealModel.translT_id
+alias corr_comm := RealModel.corr_comm
+alias weil_zero := RealModel.weil_zero
 
 variable {o Ω : Type} [CommRing o] [Field Ω] [Algebra o Ω]
 
 def sys0 (ζ : o) (hζ : IsPrimitiveRoot ζ ((3 * 81) ^ 2)) (hu : IsUnit ((3 * 81 : ℕ) : o)) (R : Subalgebra o Ω)
-    (fg : R.FG) (frac : ∀ x : Ω, ∃ a ∈ R, ∃ b ∈ R, x = a / b) : ThetaSys o Ω where
-  g := 0
-  N := 81
-  r := 3
-  N_ge := by norm_num
-  r_pos := by norm_num
-  ζ := ζ
-  prim := hζ
-  unit := hu
-  J := Unit
-  ρ := fun _ => 1
-  ρ_one := fun _ _ => Subsingleton.elim _ _ |> fun (_ : () = ()) => by ext i j; simp [Matrix.one_apply]
-  ρ_mul := fun _ _ => ⟨0, by simp⟩
-  ρ_add := fun _ _ _ => by simp
-  th := fun _ => 1
-  ev := fun _ _ => 1
-  R := R
-  fg := fg
-  frac := frac
-  th_mem := fun _ => R.one_mem
-  ev_mem := fun _ _ => R.one_mem
-  supp := by simp
-  th_ne := ⟨0, one_ne_zero⟩
+    (fg : R.FG) (frac : ∀ x : Ω, ∃ a ∈ R, ∃ b ∈ R, x = a / b) : ThetaSys o Ω :=
+  RealModel.sys0 ζ hζ hu R fg frac
 
-theorem fn_one {R : Type} [CommRing R] : fn (1 : R) = 1 := map_one _
-
-theorem liftFun_one {T : Over B} (A : Over B) (W : (T ⊗ A).left.Opens) : liftFun A (T := T) W 1 = 1 := by
-  simp only [liftFun, map_one]
+alias fn_one := RealModel.fn_one
+alias liftFun_one := RealModel.liftFun_one
 
 theorem basis_zero (T : Over B) (k : ℤ) (J : Type) [Fintype J] [Unique J] (σ : LB.Sec (LPow (zeroPolAV B).A (zeroPolAV B).L k T)) :
     ∃! c : J → Γ(T.left, ⊤), ∀ j, σ.f j = ∑ i, liftFun (zeroPolAV B).A _ (c i) *
@@ -170,18 +72,9 @@ theorem value_one (k : ℤ) {T : Over B} (z : T ⟶ (zeroPolAV B).A)
   rw [map_one, _root_.one_mul]
   exact (congrArg Units.val (hτ j)).symm
 
-theorem mul_s_one {X Y : Scheme.{0}} (L : LB X) {K K' : Type} [Fintype K] [Fintype K'] (φ : K → (Y ⟶ X)) (ε : K → ℤ)
-    (φ' : K' → (Y ⟶ X)) (ε' : K' → ℤ) (t : LB.Gen (LB.LinComb L φ ε)) (t' : LB.Gen (LB.LinComb L φ' ε'))
-    (h : ∀ j, t.s j = 1) (h' : ∀ j, t'.s j = 1) (j) : (LB.mulGen L φ ε φ' ε' t t').s j = 1 :=
-  (congrArg₂ (· * ·) ((congrArg _ (h _)).trans (res_one _)) ((congrArg _ (h' _)).trans (res_one _))).trans (_root_.one_mul _)
-
-theorem pull_s_one {X Y Z : Scheme.{0}} (L : LB X) {K : Type} [Fintype K] (φ : K → (Y ⟶ X)) (ε : K → ℤ)
-    (t : LB.Gen (LB.LinComb L φ ε)) (f : Z ⟶ Y) (h : ∀ j, t.s j = 1) (j) : (LB.pullGen L φ ε t f).s j = 1 :=
-  (congrArg _ ((congrArg _ (h _)).trans (pullU_one _ _))).trans (res_one _)
-
-theorem inv_s_one {X Y : Scheme.{0}} (L : LB X) {K : Type} [Fintype K] (φ : K → (Y ⟶ X)) (ε : K → ℤ)
-    (t : LB.Gen (LB.LinComb L φ ε)) (h : ∀ j, t.s j = 1) (j) : (LB.invGen L φ ε t).s j = 1 :=
-  (congrArg (·⁻¹) (h j)).trans inv_one
+alias mul_s_one := RealModel.mul_s_one
+alias pull_s_one := RealModel.pull_s_one
+alias inv_s_one := RealModel.inv_s_one
 
 theorem rigT_one (T : Over B) (k : ℤ) (j) : (rigT (zeroPolAV B).A (zeroPolAV B).L (oneG _ _) T k).s j = 1 :=
   (congrArg (· ^ k) ((congrArg _ (pullU_one _ _)).trans (res_one _))).trans (one_zpow _)
@@ -225,61 +118,8 @@ theorem act_one {T : Over B} (x : T ⟶ (zeroPolAV B).A) (k : ℤ) (σ : LB.Sec 
   exact key _ _ _ _ (wchart_triv _ _) (wchart_triv _ _) _ h1
 
 def real0 (ζ : o) (hζ : IsPrimitiveRoot ζ ((3 * 81) ^ 2)) (hu : IsUnit ((3 * 81 : ℕ) : o)) (R : Subalgebra o Ω)
-    (fg : R.FG) (frac : ∀ x : Ω, ∃ a ∈ R, ∃ b ∈ R, x = a / b) : (sys0 ζ hζ hu R fg frac).Real where
-  P := zeroPolAV _
-  g_eq := rfl
-  hypS := hypS_zero _
-  n := 3
-  n_prime := Nat.prime_three
-  n_odd := by decide
-  k := 2
-  two_le := le_rfl
-  N_eq := rfl
-  r_eq := ⟨1, le_rfl, rfl⟩
-  card := rfl
-  pt := fun _ => 1
-  pt_add := fun _ _ => (_root_.mul_one _).symm
-  pt_bij := fun K _ _ x z _ => ⟨0, toUnit_unique _ _, fun a _ => funext fun i => by
-    rcases i with i | i <;> exact i.elim0⟩
-  weil := fun a b c hc => by
-    have h0 : eStd (sys0 ζ hζ hu R fg frac).g _ a b = 0 := Finset.sum_eq_zero fun i _ => i.elim0
-    rw [h0, ZMod.val_zero, Nat.mul_zero, pow_zero, map_one] at hc
-    have : c = 1 := Units.ext hc
-    subst this
-    have : unitOn (1 : ((sys0 ζ hζ hu R fg frac).R)ˣ) = 1 := map_one _
-    rw [this]
-    exact weil_zero _ _ _ _
-  rig := oneG _ _
-  rig_gen := oneG_gen _ _
-  th₁ := oneS _ _
-  th₁_basis := fun σ => basis_zero _ _ _ (Fin 1) σ
-  fr := fun _ => oneG _ _
-  fr_tors := fun _ => tors_zero _ _ _
-  th_val := fun _ => by
-    refine (congrArg _ fn_one).mpr ?_
-    exact value_one _ _ _ _ fun _ => rfl
-  s := fun _ => oneS _ _
-  s_basis := fun σ => basis_zero _ _ _ Unit σ
-  ev_val := fun _ _ => by
-    refine (congrArg _ fn_one).mpr ?_
-    exact value_one _ _ _ _ fun _ => one_zpow _
-  i₀ := ()
-  α := oneG _ _
-  α_gen := oneG_gen _ _
-  α_norm := corr_of_one _ _ _ _ _ _ _ (pull_s_one _ _ _ _ _ fun _ => rfl)
-    (mul_s_one _ _ _ _ _ _ _ (rigT_one _ _ _) (rigT_one _ _ _))
-  s_zero := twist_one _ _ _ _ _ _
-  U := fun _ => ⟨1, oneG _ _, oneG_gen _ _⟩
-  U_sym := fun _ => symLift_zero _ _ _ _
-  U_act := fun a i σ h j => by
-    refine (act_one _ _ _ σ h j).trans ?_
-    have : ∀ l : Unit, (1 : Matrix Unit Unit o) l i = 1 := fun l => Matrix.one_apply_eq _
-    refine Eq.symm ((Finset.sum_eq_single_of_mem () (Finset.mem_univ _) (fun _ _ h => absurd rfl h)).trans ?_)
-    refine (_root_.mul_one _).trans ?_
-    refine (congrArg _ ((congrArg fn ((congrArg _ (this _)).trans (map_one _))).trans fn_one)).trans (liftFun_one _ _ _)
-  orbit := fun i => ⟨0, 0, fun l => by
-    refine Eq.trans ?_ ((if_pos rfl).trans (pow_zero _)).symm
-    exact @Matrix.one_apply_eq Unit o instDecidableEqPUnit _ _ ()⟩
+    (fg : R.FG) (frac : ∀ x : Ω, ∃ a ∈ R, ∃ b ∈ R, x = a / b) : (sys0 ζ hζ hu R fg frac).Real :=
+  RealModel.real0 ζ hζ hu R fg frac
 
 section Padic
 variable (p : ℕ) [Fact p.Prime]

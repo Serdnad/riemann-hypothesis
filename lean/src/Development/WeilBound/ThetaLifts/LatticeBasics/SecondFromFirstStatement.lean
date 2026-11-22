@@ -1,4 +1,3 @@
-import Mathlib
 import Development.WeilBound.ThetaLifts.LatticeBasics.BoxSecX
 
 noncomputable section

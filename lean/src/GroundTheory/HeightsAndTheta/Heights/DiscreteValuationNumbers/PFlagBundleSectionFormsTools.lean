@@ -18,33 +18,54 @@ variable {F : Type} [Field F] {Ω : Type} [Field Ω] [Algebra F Ω]
 def chartPow (y : (Σ k, ι k) → Ω) (c : ∀ k, ι k) (d : K → ℤ) : Ω :=
   ∏ k, y ⟨k, c k⟩ ^ d k
 
-theorem chartPow_add {y : (Σ k, ι k) → Ω} {c : ∀ k, ι k} (hY : ∀ k, y ⟨k, c k⟩ ≠ 0) (d d' : K → ℤ) :
+omit [∀ k, Fintype (ι k)] in
+theorem General.chartPow_add {y : (Σ k, ι k) → Ω} {c : ∀ k, ι k} (hY : ∀ k, y ⟨k, c k⟩ ≠ 0) (d d' : K → ℤ) :
     chartPow y c (d + d') = chartPow y c d * chartPow y c d' := by
   simp [chartPow, zpow_add₀ (hY _), Finset.prod_mul_distrib]
 
-theorem chartPow_ne_zero {y : (Σ k, ι k) → Ω} {c : ∀ k, ι k} (hY : ∀ k, y ⟨k, c k⟩ ≠ 0) (d : K → ℤ) :
+theorem chartPow_add {y : (Σ k, ι k) → Ω} {c : ∀ k, ι k} (hY : ∀ k, y ⟨k, c k⟩ ≠ 0) (d d' : K → ℤ) :
+    chartPow y c (d + d') = chartPow y c d * chartPow y c d' :=
+  General.chartPow_add hY d d'
+
+omit [∀ k, Fintype (ι k)] in
+theorem General.chartPow_ne_zero {y : (Σ k, ι k) → Ω} {c : ∀ k, ι k} (hY : ∀ k, y ⟨k, c k⟩ ≠ 0) (d : K → ℤ) :
     chartPow y c d ≠ 0 :=
   Finset.prod_ne_zero_iff.2 fun k _ => zpow_ne_zero _ (hY k)
 
-theorem chartPow_natCast (y : (Σ k, ι k) → Ω) (c : ∀ k, ι k) (α : K → ℕ) :
+theorem chartPow_ne_zero {y : (Σ k, ι k) → Ω} {c : ∀ k, ι k} (hY : ∀ k, y ⟨k, c k⟩ ≠ 0) (d : K → ℤ) :
+    chartPow y c d ≠ 0 :=
+  General.chartPow_ne_zero hY d
+
+omit [∀ k, Fintype (ι k)] in
+theorem General.chartPow_natCast (y : (Σ k, ι k) → Ω) (c : ∀ k, ι k) (α : K → ℕ) :
     chartPow y c (fun k => (α k : ℤ)) = ∏ k, y ⟨k, c k⟩ ^ α k := by
   simp [chartPow]
 
-theorem segreVec_pow (y : (Σ k, ι k) → Ω) (c : ∀ k, ι k) (n : ℕ) :
+theorem chartPow_natCast (y : (Σ k, ι k) → Ω) (c : ∀ k, ι k) (α : K → ℕ) :
+    chartPow y c (fun k => (α k : ℤ)) = ∏ k, y ⟨k, c k⟩ ^ α k :=
+  General.chartPow_natCast y c α
+
+omit [∀ k, Fintype (ι k)] in
+theorem General.segreVec_pow (y : (Σ k, ι k) → Ω) (c : ∀ k, ι k) (n : ℕ) :
     segreVec y c ^ n = chartPow y c (fun _ => (n : ℤ)) := by
   simp [segreVec, chartPow, Finset.prod_pow]
+
+theorem segreVec_pow (y : (Σ k, ι k) → Ω) (c : ∀ k, ι k) (n : ℕ) :
+    segreVec y c ^ n = chartPow y c (fun _ => (n : ℤ)) :=
+  General.segreVec_pow y c n
 
 section Dual
 
 variable {N : ℕ} {E : Type} [AddCommGroup E] [Module Ω E]
 
-theorem exists_flag_dual (y : (Σ k, ι k) → Ω) (B : ChartBundle F (segreVec y) N E)
+omit [∀ k, Fintype (ι k)] in
+theorem General.exists_flag_dual (y : (Σ k, ι k) → Ω) (B : ChartBundle F (segreVec y) N E)
     (w : Module.Basis (Fin N) Ω E) (b : Fin N → K → ℤ) (hfl : IsFlagFrame y B w b)
     (c : ∀ k, ι k) (hc : segreVec y c ≠ 0) (i : Fin N) :
     ∃ ψ : Module.Dual Ω E, (∀ v ∈ B.lat c, ψ v ∈ chartRing F (segreVec y) c) ∧
       (∀ j, j < i → ψ (w j) = 0) ∧ ψ (w i) = (chartPow y c (b i))⁻¹ := by
   have hY : ∀ k, y ⟨k, c k⟩ ≠ 0 := fun k => (Finset.prod_ne_zero_iff.1 hc) k (Finset.mem_univ _)
-  have hp : ∀ j, chartPow y c (b j) ≠ 0 := fun j => chartPow_ne_zero hY _
+  have hp : ∀ j, chartPow y c (b j) ≠ 0 := fun j => General.chartPow_ne_zero hY _
   have hgr : ∀ (j : Fin N) (s : Ω), (∃ v ∈ B.lat c, (∀ m, j < m → w.repr v m = 0) ∧ w.repr v j = s) ↔
       ∃ r ∈ chartRing F (segreVec y) c, s = r * chartPow y c (b j) := fun j s => by
     have h := hfl.graded c hc j
@@ -149,6 +170,13 @@ theorem exists_flag_dual (y : (Σ k, ι k) → Ω) (B : ChartBundle F (segreVec 
       hself, hvan _ (hx i)]
     simp
 
+theorem exists_flag_dual (y : (Σ k, ι k) → Ω) (B : ChartBundle F (segreVec y) N E)
+    (w : Module.Basis (Fin N) Ω E) (b : Fin N → K → ℤ) (hfl : IsFlagFrame y B w b)
+    (c : ∀ k, ι k) (hc : segreVec y c ≠ 0) (i : Fin N) :
+    ∃ ψ : Module.Dual Ω E, (∀ v ∈ B.lat c, ψ v ∈ chartRing F (segreVec y) c) ∧
+      (∀ j, j < i → ψ (w j) = 0) ∧ ψ (w i) = (chartPow y c (b i))⁻¹ :=
+  General.exists_flag_dual y B w b hfl c hc i
+
 end Dual
 
 section Forms
@@ -160,7 +188,8 @@ def liftNat (α : K → ℕ) : Option K → ℕ := fun o => Option.elim o 0 α
 def chartMono (M : ℕ) (c : ∀ k, ι k) (α : K → ℕ) : MRing (bundleIdx ι M) F :=
   ∏ k, X (⟨some k, c k⟩ : Σ o, bundleIdx ι M o) ^ α k
 
-theorem chartMono_homog (M : ℕ) (c : ∀ k, ι k) (α : K → ℕ) :
+omit [∀ k, Fintype (ι k)] in
+theorem General.chartMono_homog (M : ℕ) (c : ∀ k, ι k) (α : K → ℕ) :
     IsMultiHomog (chartMono (F := F) M c α) (liftNat α) := by
   have h := IsWeightedHomogeneous.prod (R := F) Finset.univ
     (fun k => X (⟨some k, c k⟩ : Σ o, bundleIdx ι M o) ^ α k)
@@ -174,13 +203,25 @@ theorem chartMono_homog (M : ℕ) (c : ∀ k, ι k) (α : K → ℕ) :
   rw [IsMultiHomog, chartMono, hw]
   exact h
 
-theorem eval_chartMono (y : (Σ k, ι k) → Ω) (w : Module.Basis (Fin N) Ω E) (φ : Fin M → Module.Dual Ω E)
+theorem chartMono_homog (M : ℕ) (c : ∀ k, ι k) (α : K → ℕ) :
+    IsMultiHomog (chartMono (F := F) M c α) (liftNat α) :=
+  General.chartMono_homog M c α
+
+omit [∀ k, Fintype (ι k)] in
+theorem General.eval_chartMono (y : (Σ k, ι k) → Ω) (w : Module.Basis (Fin N) Ω E) (φ : Fin M → Module.Dual Ω E)
     (t : Fin N → Φ) (c : ∀ k, ι k) (α : K → ℕ) :
     eval₂ ((algebraMap Ω Φ).comp (algebraMap F Ω)) (projCoord y w φ t) (chartMono M c α) =
       algebraMap Ω Φ (∏ k, y ⟨k, c k⟩ ^ α k) := by
   simp [chartMono, eval₂_prod, eval₂_pow, eval₂_X, projCoord, map_prod]
 
-theorem chartRing_forms (y : (Σ k, ι k) → Ω) (w : Module.Basis (Fin N) Ω E)
+theorem eval_chartMono (y : (Σ k, ι k) → Ω) (w : Module.Basis (Fin N) Ω E) (φ : Fin M → Module.Dual Ω E)
+    (t : Fin N → Φ) (c : ∀ k, ι k) (α : K → ℕ) :
+    eval₂ ((algebraMap Ω Φ).comp (algebraMap F Ω)) (projCoord y w φ t) (chartMono M c α) =
+      algebraMap Ω Φ (∏ k, y ⟨k, c k⟩ ^ α k) :=
+  General.eval_chartMono y w φ t c α
+
+omit [∀ k, Fintype (ι k)] in
+theorem General.chartRing_forms (y : (Σ k, ι k) → Ω) (w : Module.Basis (Fin N) Ω E)
     (φ : Fin M → Module.Dual Ω E) (t : Fin N → Φ) (c : ∀ k, ι k) (hc : segreVec y c ≠ 0) {u : Ω}
     (hu : u ∈ chartRing F (segreVec y) c) :
     ∃ (n : ℕ) (U : MRing (bundleIdx ι M) F), IsMultiHomog U (liftNat fun _ => n) ∧
@@ -191,12 +232,12 @@ theorem chartRing_forms (y : (Σ k, ι k) → Ω) (w : Module.Basis (Fin N) Ω E
   have hQ : ∀ n : ℕ, eval₂ ((algebraMap Ω Φ).comp (algebraMap F Ω)) (projCoord y w φ t)
       (chartMono M c (fun _ => n)) = algebraMap Ω Φ (segreVec y c ^ n) := by
     intro n
-    rw [eval_chartMono, segreVec, Finset.prod_pow]
+    rw [General.eval_chartMono, segreVec, Finset.prod_pow]
   induction hu using Algebra.adjoin_induction with
   | mem z hz =>
     obtain ⟨j, rfl⟩ := hz
-    refine ⟨1, chartMono M j (fun _ => 1), chartMono_homog M j _, ?_⟩
-    rw [eval_chartMono, pow_one, div_mul_cancel₀ _ hc]
+    refine ⟨1, chartMono M j (fun _ => 1), General.chartMono_homog M j _, ?_⟩
+    rw [General.eval_chartMono, pow_one, div_mul_cancel₀ _ hc]
     simp [segreVec]
   | algebraMap r =>
     refine ⟨0, C r, ?_, ?_⟩
@@ -209,9 +250,9 @@ theorem chartRing_forms (y : (Σ k, ι k) → Ω) (w : Module.Basis (Fin N) Ω E
     obtain ⟨n', U', hU', hUe'⟩ := hz'
     refine ⟨n + n', U * chartMono M c (fun _ => n') + U' * chartMono M c (fun _ => n), ?_, ?_⟩
     · rw [hlift]
-      refine (hU.mul (chartMono_homog M c _)).add ?_
+      refine (hU.mul (General.chartMono_homog M c _)).add ?_
       rw [add_comm]
-      exact hU'.mul (chartMono_homog M c _)
+      exact hU'.mul (General.chartMono_homog M c _)
     · rw [eval₂_add, eval₂_mul, eval₂_mul, hUe, hUe', hQ, hQ, ← map_mul, ← map_mul, ← map_add]
       congr 1
       ring
@@ -225,7 +266,16 @@ theorem chartRing_forms (y : (Σ k, ι k) → Ω) (w : Module.Basis (Fin N) Ω E
       congr 1
       ring
 
-theorem eval_eq_zero_of_mem_projIdeal (y : (Σ k, ι k) → Ω) (w : Module.Basis (Fin N) Ω E)
+theorem chartRing_forms (y : (Σ k, ι k) → Ω) (w : Module.Basis (Fin N) Ω E)
+    (φ : Fin M → Module.Dual Ω E) (t : Fin N → Φ) (c : ∀ k, ι k) (hc : segreVec y c ≠ 0) {u : Ω}
+    (hu : u ∈ chartRing F (segreVec y) c) :
+    ∃ (n : ℕ) (U : MRing (bundleIdx ι M) F), IsMultiHomog U (liftNat fun _ => n) ∧
+      eval₂ ((algebraMap Ω Φ).comp (algebraMap F Ω)) (projCoord y w φ t) U =
+        algebraMap Ω Φ (u * segreVec y c ^ n) :=
+  General.chartRing_forms y w φ t c hc hu
+
+omit [∀ k, Fintype (ι k)] in
+theorem General.eval_eq_zero_of_mem_projIdeal (y : (Σ k, ι k) → Ω) (w : Module.Basis (Fin N) Ω E)
     (φ : Fin M → Module.Dual Ω E) (t : Fin N → Φ) {f : MRing (bundleIdx ι M) F}
     (hf : f ∈ projIdeal F y w φ t) :
     eval₂ ((algebraMap Ω Φ).comp (algebraMap F Ω)) (projCoord y w φ t) f = 0 := by
@@ -238,6 +288,12 @@ theorem eval_eq_zero_of_mem_projIdeal (y : (Σ k, ι k) → Ω) (w : Module.Basi
     · intro p; simp
   rw [projIdeal, RingHom.mem_ker] at hf
   rw [← coe_eval₂Hom, ← h, RingHom.comp_apply, hf, map_zero]
+
+theorem eval_eq_zero_of_mem_projIdeal (y : (Σ k, ι k) → Ω) (w : Module.Basis (Fin N) Ω E)
+    (φ : Fin M → Module.Dual Ω E) (t : Fin N → Φ) {f : MRing (bundleIdx ι M) F}
+    (hf : f ∈ projIdeal F y w φ t) :
+    eval₂ ((algebraMap Ω Φ).comp (algebraMap F Ω)) (projCoord y w φ t) f = 0 :=
+  General.eval_eq_zero_of_mem_projIdeal y w φ t hf
 
 end Forms
 

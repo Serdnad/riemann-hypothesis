@@ -247,4 +247,8 @@ theorem heightPullback : HeightPullback.Statement := by
 
 end
 
+theorem HeightLocalAgreement.main : HeightLocalAgreement.Statement := heightLocalAgreement
+
+theorem HeightPullback.main : HeightPullback.Statement := heightPullback
+
 end GroundTheory.Heights₂.Heights

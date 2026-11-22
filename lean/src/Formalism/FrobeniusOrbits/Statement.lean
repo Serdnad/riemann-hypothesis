@@ -1,4 +1,3 @@
-import Mathlib
 import Formalism.TameInertiaTowers.StatementField
 
 open NumberField IntermediateField Ideal

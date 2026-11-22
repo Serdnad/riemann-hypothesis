@@ -20,7 +20,7 @@ theorem corGK_of (hH : UpperTheory.V.Af.HypothesesH') : U3.CorGK :=
 theorem litN : GlobalTheory.Mem.LiteralAutomorphy.LiteratureRankNHypothesis :=
   have O : UpperTheory.LiteratureTheorems.OpenImageCondition := UpperTheory.LiteratureTheorems.OpenImageCondition.mk UpperTheory.Gal.Int.galoisLocalGlobalStrong_recParameter
   ⟨UpperTheory.One.Join.local_inputs_from_literature O, UpperTheory.One.Join.automorphic_inputs_from_literature O UpperTheory.BaseChangeIdentities.baseChangeN UpperTheory.Gal.Int.galoisLocalGlobalStrong_recParameter,
-    UpperTheory.LiteratureTheorems.galois_cohomology_from_literature O, UpperTheory.One.Join.cm_abelian_inputs_from_literature O⟩
+    UpperTheory.LiteratureTheorems.galois_cohomology_from_literature O⟩
 
 theorem corGK : U3.CorGK := corGK_of (UpperTheory.V.HV.DescentVanishingReductions.published_hypotheses_from_patching_alt litN UpperTheory.V.Z.Tf.SR.descWeak)
 

@@ -1,3 +1,4 @@
+import Formalism.LocalToGlobal.ProjectiveLattices.FrameBaseChange
 import Formalism.LocalToGlobal.ProjectiveLattices.UnitIndepOfCharts
 
 set_option autoImplicit false
@@ -108,96 +109,23 @@ section Frames
 
 variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E} {Dw : Datum H} {l : Level H}
 
-theorem spMap_algHom_comp {K : Type} [Field K] {S T U : Type} [CommRing S] [Algebra K S] [CommRing T] [Algebra K T]
-    [CommRing U] [Algebra K U] (φ : S →ₐ[K] T) (ψ : T →ₐ[K] U) :
-    spMap (ψ.comp φ).toRingHom = spMap ψ.toRingHom ≫ spMap φ.toRingHom := by
-  simp only [spMap, ← Spec.map_comp, ← CommRingCat.ofHom_comp]
-  rfl
+alias spMap_algHom_comp := Formalism.L2.Pj.FrameBaseChange.spMap_algHom_comp
 
-theorem dualMap_comp {S T U : Type} [CommRing S] [CommRing T] [CommRing U] (φ : S →+* T) (ψ : T →+* U) :
-    dualMap (ψ.comp φ) = (dualMap ψ).comp (dualMap φ) :=
-  RingHom.ext fun x => by
-    ext <;> simp [dualMap]
+alias dualMap_comp := Formalism.L2.Pj.FrameBaseChange.dualMap_comp
 
-theorem spMap_dual_comp {K : Type} [Field K] {S T U : Type} [CommRing S] [Algebra K S] [CommRing T] [Algebra K T]
-    [CommRing U] [Algebra K U] (φ : S →ₐ[K] T) (ψ : T →ₐ[K] U) :
-    spMap (dualMap (ψ.comp φ).toRingHom) = spMap (dualMap ψ.toRingHom) ≫ spMap (dualMap φ.toRingHom) := by
-  have e : (ψ.comp φ).toRingHom = ψ.toRingHom.comp φ.toRingHom := rfl
-  rw [e, dualMap_comp]
-  simp only [spMap, ← Spec.map_comp, ← CommRingCat.ofHom_comp]
+alias spMap_dual_comp := Formalism.L2.Pj.FrameBaseChange.spMap_dual_comp
 
 variable {Xo : Moduli Dw l}
 
-theorem ppx_le_cov {S T : Type} [CommRing S] [CommRing T] {x : Sp S ⟶ Xo.X} {x' : Sp T ⟶ Xo.X}
-    (pm : Gx x' ⟶ Gx x)
-    (hs : pm ≫ (snd (Over.mk x) Xo.univ.t.G).left = (snd (Over.mk x') Xo.univ.t.G).left)
-    (i : Fin 1 → Xo.univ.t.PP.L.ι) : (PPx x').U i ≤ pm ⁻¹ᵁ (PPx x).U i := by
-  intro p hp
-  have hp' : ∀ k, p ∈ (snd (Over.mk x') Xo.univ.t.G).left.base ⁻¹' (Xo.univ.t.PP.L.U (i k) : Set _) :=
-    Set.mem_iInter.1 hp
-  have e := congrArg (fun f : Gx x' ⟶ Xo.univ.t.G.left => f.base p) hs
-  show pm.base p ∈ ⋂ k, (snd (Over.mk x) Xo.univ.t.G).left.base ⁻¹' (Xo.univ.t.PP.L.U (i k) : Set _)
-  refine Set.mem_iInter.2 fun k => ?_
-  show (pm ≫ (snd (Over.mk x) Xo.univ.t.G).left).base p ∈ (Xo.univ.t.PP.L.U (i k) : Set _)
-  rw [e]
-  exact hp' k
+alias ppx_le_cov := Formalism.L2.Pj.FrameBaseChange.ppx_le_cov
 
 variable {c : Coeff l}
 
-theorem frMap_trans : MapTrans (K := c.F) (fun S _ _ => FrPt Xo c S) (fun φ y z => FrMap φ y z) := by
-  intro S T U _ _ _ _ _ _ φ ψ y z w h₁ h₂
-  obtain ⟨hx1, hu1, pm1, hs1, hf1, ha1⟩ := h₁
-  obtain ⟨hx2, hu2, pm2, hs2, hf2, ha2⟩ := h₂
-  refine ⟨?_, ?_, pm2 ≫ pm1, ?_, ?_, ?_⟩
-  · rw [hx2, hx1, spMap_algHom_comp, Category.assoc]
-  · intro τ i
-    rw [hu2 τ i, hu1 τ i, spMap_dual_comp, Category.assoc]
-  · rw [Category.assoc, hs1, hs2]
-  · rw [Category.assoc, hf1, ← Category.assoc, hf2, Category.assoc, spMap_algHom_comp]
-  · intro i h
-    have h1' := ppx_le_cov pm1 hs1 i
-    have h2' := ppx_le_cov pm2 hs2 i
-    have e : (pm2 ≫ pm1).appLE _ _ h = pm1.appLE _ _ h1' ≫ pm2.appLE _ _ h2' :=
-      (Scheme.Hom.appLE_comp_appLE pm2 pm1 _ _ _ h1' h2').symm
-    rw [e, CommRingCat.hom_comp, RingHom.comp_apply, ha1 i h1', ha2 i h2']
+theorem frMap_trans : MapTrans (K := c.F) (fun S _ _ => FrPt Xo c S) (fun φ y z => FrMap φ y z) :=
+  fun _ _ _ _ _ _ _ _ _ φ ψ _ _ _ => FrameBaseChange.trans φ ψ
 
-theorem frMap_cancel : MapCancel (K := c.F) (fun S _ _ => FrPt Xo c S) (fun φ y z => FrMap φ y z) := by
-  intro S T U _ _ _ _ _ _ φ ψ y z w h₁ h₂
-  obtain ⟨hx1, hu1, pm1, hs1, hf1, ha1⟩ := h₁
-  obtain ⟨hx2, hu2, pm2, hs2, hf2, ha2⟩ := h₂
-  have hxw : w.x = spMap ψ.toRingHom ≫ z.x := by
-    rw [hx2, hx1, spMap_algHom_comp, Category.assoc]
-  let pm : Gx w.x ⟶ Gx z.x :=
-    pullback.lift (pullback.fst (Over.mk w.x).hom Xo.univ.t.G.hom ≫ spMap ψ.toRingHom) (pullback.snd (Over.mk w.x).hom Xo.univ.t.G.hom)
-      (by
-        show pullback.fst (Over.mk w.x).hom Xo.univ.t.G.hom ≫ spMap ψ.toRingHom ≫ z.x = pullback.snd (Over.mk w.x).hom Xo.univ.t.G.hom ≫ Xo.univ.t.G.hom
-        rw [← hxw]
-        exact pullback.condition)
-  have pfst : pm ≫ pullback.fst (Over.mk z.x).hom Xo.univ.t.G.hom = pullback.fst (Over.mk w.x).hom Xo.univ.t.G.hom ≫ spMap ψ.toRingHom :=
-    pullback.lift_fst _ _ _
-  have psnd : pm ≫ pullback.snd (Over.mk z.x).hom Xo.univ.t.G.hom = pullback.snd (Over.mk w.x).hom Xo.univ.t.G.hom :=
-    pullback.lift_snd _ _ _
-  have hs1' : pm1 ≫ pullback.snd (Over.mk y.x).hom Xo.univ.t.G.hom = pullback.snd (Over.mk z.x).hom Xo.univ.t.G.hom := hs1
-  have hf1' : pm1 ≫ pullback.fst (Over.mk y.x).hom Xo.univ.t.G.hom = pullback.fst (Over.mk z.x).hom Xo.univ.t.G.hom ≫ spMap φ.toRingHom := hf1
-  have hs2' : pm2 ≫ pullback.snd (Over.mk y.x).hom Xo.univ.t.G.hom = pullback.snd (Over.mk w.x).hom Xo.univ.t.G.hom := hs2
-  have hf2' : pm2 ≫ pullback.fst (Over.mk y.x).hom Xo.univ.t.G.hom =
-      pullback.fst (Over.mk w.x).hom Xo.univ.t.G.hom ≫ spMap (ψ.comp φ).toRingHom := hf2
-  have hcomp : pm ≫ pm1 = pm2 := by
-    apply pullback.hom_ext
-    · rw [Category.assoc, hf1', ← Category.assoc, pfst, hf2', spMap_algHom_comp, Category.assoc]
-    · rw [Category.assoc, hs1', psnd, hs2']
-  refine ⟨hxw, ?_, pm, psnd, pfst, ?_⟩
-  · intro τ i
-    rw [hu2 τ i, hu1 τ i, spMap_dual_comp, Category.assoc]
-  · intro i h
-    have h1' := ppx_le_cov pm1 hs1 i
-    have key : ∀ (q : Gx w.x ⟶ Gx y.x), q = pm2 → ∀ hh : (PPx w.x).U i ≤ q ⁻¹ᵁ (PPx y.x).U i,
-        (q.appLE _ _ hh).hom (y.s.f i) = w.s.f i := by
-      rintro q rfl hh
-      exact ha2 i hh
-    have e := (Scheme.Hom.appLE_comp_appLE pm pm1 _ _ _ h1' h).symm
-    rw [← ha1 i h1', ← RingHom.comp_apply, ← CommRingCat.hom_comp, ← e]
-    exact key _ hcomp _
+theorem frMap_cancel : MapCancel (K := c.F) (fun S _ _ => FrPt Xo c S) (fun φ y z => FrMap φ y z) :=
+  fun _ _ _ _ _ _ _ _ _ φ ψ _ _ _ => FrameBaseChange.cancel φ ψ
 
 end Frames
 
@@ -240,70 +168,15 @@ open MonObj
 variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E} {Dw : Datum H} {l : Level H}
 variable {Xo : Moduli Dw l} {c : Coeff l}
 
-theorem spMap_comp_ring {A B C : Type} [CommRing A] [CommRing B] [CommRing C] (f : B →+* C) (g : A →+* B) :
-    spMap f ≫ spMap g = spMap (f.comp g) := by
-  simp only [spMap, ← Spec.map_comp, ← CommRingCat.ofHom_comp]
+alias spMap_comp_ring := Formalism.L2.Pj.FrameBaseChange.spMap_comp_ring
 
-theorem dualMap_alg {S T : Type} [CommRing S] [CommRing T] (φ : S →+* T) :
-    (dualMap φ).comp (algebraMap S (DualNumber S)) = (algebraMap T (DualNumber T)).comp φ :=
-  RingHom.ext fun a => by
-    ext <;> simp [dualMap, TrivSqZeroExt.algebraMap_eq_inl]
+alias dualMap_alg := Formalism.L2.Pj.FrameBaseChange.dualMap_alg
 
-theorem dualMap_eps {S T : Type} [CommRing S] [CommRing T] (φ : S →+* T) (a : S) :
-    (dualMap φ).comp (epsMul a) = (epsMul (φ a)).comp (dualMap φ) :=
-  RingHom.ext fun x => by
-    ext <;> simp [dualMap, epsMul, mul_comm]
+alias dualMap_eps := Formalism.L2.Pj.FrameBaseChange.dualMap_eps
 
-theorem isCombAt_pull {S T : Type} [CommRing S] [CommRing T] (φ : S →+* T) {x : Sp S ⟶ Xo.X}
-    {x' : Sp T ⟶ Xo.X} (hx : x' = spMap φ ≫ x) {m : ℕ} {v : Fin m → (Sp (DualNumber S) ⟶ Xo.univ.t.G.left)}
-    {v' : Fin m → (Sp (DualNumber T) ⟶ Xo.univ.t.G.left)} (hv : ∀ j, v' j = spMap (dualMap φ) ≫ v j)
-    {cf : Fin m → S} {w : Sp (DualNumber S) ⟶ Xo.univ.t.G.left} {w' : Sp (DualNumber T) ⟶ Xo.univ.t.G.left}
-    (hw : w' = spMap (dualMap φ) ≫ w) (h : IsCombAt x v cf w) : IsCombAt x' v' (fun j => φ (cf j)) w' := by
-  obtain ⟨u, hu, hprod⟩ := h
-  let D : tEps x' ⟶ tEps x := Over.homMk (spMap (dualMap φ)) (by
-    show spMap (dualMap φ) ≫ spMap (algebraMap S (DualNumber S)) ≫ x = spMap (algebraMap T (DualNumber T)) ≫ x'
-    rw [hx, ← Category.assoc, ← Category.assoc, spMap_comp_ring, spMap_comp_ring, dualMap_alg])
-  have hL : ∀ L : List (tEps x ⟶ Xo.univ.t.G), (L.map (D ≫ ·)).prod = D ≫ L.prod := by
-    intro L
-    induction L with
-    | nil => simp [MonObj.comp_one]
-    | cons a L ih => rw [List.map_cons, List.prod_cons, List.prod_cons, ih, MonObj.comp_mul]
-  refine ⟨fun j => D ≫ u j, fun j => ?_, ?_⟩
-  · show spMap (dualMap φ) ≫ (u j).left = spMap (epsMul (φ (cf j))) ≫ v' j
-    rw [hu j, hv j, ← Category.assoc, ← Category.assoc, spMap_comp_ring, spMap_comp_ring, dualMap_eps]
-  · have e : (List.ofFn fun j => D ≫ u j) = (List.ofFn u).map (D ≫ ·) := by
-      rw [List.map_ofFn]
-      rfl
-    rw [e, hL, Over.comp_left, hprod, hw]
-    rfl
+alias isCombAt_pull := Formalism.L2.Pj.FrameBaseChange.isCombAt_pull
 
-theorem scal_pull {S T : Type} [CommRing S] [CommRing T] (φ : S →+* T) {x : Sp S ⟶ Xo.X} {x' : Sp T ⟶ Xo.X}
-    (pm : Gx x' ⟶ Gx x)
-    (hf : pm ≫ (fst (Over.mk x) Xo.univ.t.G).left = (fst (Over.mk x') Xo.univ.t.G).left ≫ spMap φ)
-    (i : Fin 1 → Xo.univ.t.PP.L.ι) (h : (PPx x').U i ≤ pm ⁻¹ᵁ (PPx x).U i) (a : S) :
-    (pm.appLE _ _ h).hom (scal x a i) = scal x' (φ a) i := by
-  have key : ∀ (q : Gx x' ⟶ Sp S), q = (fst (Over.mk x') Xo.univ.t.G).left ≫ spMap φ →
-      ∀ e : (PPx x').U i ≤ q ⁻¹ᵁ ⊤,
-      q.appLE ⊤ ((PPx x').U i) e = (spMap φ).appTop ≫ (fst (Over.mk x') Xo.univ.t.G).left.appLE ⊤ _ (le_top) := by
-    rintro q rfl e
-    exact Scheme.Hom.comp_appLE _ _ _ _ _
-  have M : (fst (Over.mk x) Xo.univ.t.G).left.appTop ≫ (Gx x).presheaf.map (homOfLE le_top).op ≫ pm.appLE _ _ h =
-      (spMap φ).appTop ≫ (fst (Over.mk x') Xo.univ.t.G).left.appTop ≫ (Gx x').presheaf.map (homOfLE le_top).op := by
-    rw [Scheme.Hom.map_appLE]
-    have e1 : (fst (Over.mk x) Xo.univ.t.G).left.appTop =
-        (fst (Over.mk x) Xo.univ.t.G).left.appLE ⊤ ⊤ le_top := (Scheme.Hom.appLE_eq_app _).symm
-    rw [e1]
-    exact (Scheme.Hom.appLE_comp_appLE _ _ _ _ _ _ _).trans ((key _ hf _).trans rfl)
-  have M' := congrArg (fun f => f.hom (toΓ S a)) M
-  simp only [CommRingCat.hom_comp, RingHom.comp_apply] at M'
-  have N := congrArg (fun f => f.hom a) (Scheme.ΓSpecIso_inv_naturality (CommRingCat.ofHom φ))
-  simp only [CommRingCat.hom_comp, RingHom.comp_apply, CommRingCat.hom_ofHom] at N
-  show (pm.appLE _ _ h).hom (((Gx x).presheaf.map (homOfLE le_top).op).hom
-      ((fst (Over.mk x) Xo.univ.t.G).left.appTop.hom (toΓ S a))) =
-    ((Gx x').presheaf.map (homOfLE le_top).op).hom ((fst (Over.mk x') Xo.univ.t.G).left.appTop.hom (toΓ T (φ a)))
-  rw [M']
-  congr 2
-  exact N.symm
+alias scal_pull := Formalism.L2.Pj.FrameBaseChange.scal_pull
 
 theorem frBorBC : FrBorBCF Xo c := by
   intro S T _ _ _ _ φ t y y' z z' hb hz hz'

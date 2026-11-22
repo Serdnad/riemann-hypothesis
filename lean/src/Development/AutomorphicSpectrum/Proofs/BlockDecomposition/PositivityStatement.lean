@@ -1,4 +1,3 @@
-import Mathlib
 import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.JpUnif
 
 noncomputable section

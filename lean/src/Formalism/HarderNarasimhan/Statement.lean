@@ -1,4 +1,3 @@
-import Mathlib
 import Formalism.LatticeSlopes.Statement
 
 open Module Submodule

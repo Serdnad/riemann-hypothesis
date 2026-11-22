@@ -1,4 +1,4 @@
-import Mathlib
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.SectionNormSquares.ChartForms
 import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsSectionRing
 set_option maxSynthPendingDepth 1
 
@@ -58,20 +58,8 @@ theorem sum_single_apply (k' : K) (j : ι k') (b : ℕ) (k : K) :
 def chartMono (c : ∀ k, ι k) (d : K → ℕ) : MRing ι :=
   ∏ k, X ⟨k, c k⟩ ^ d k
 
-theorem isMultiHomog_chartMono (c : ∀ k, ι k) (d : K → ℕ) : IsMultiHomog (chartMono c d) d := by
-  classical
-  have h : chartMono c d = monomial (∑ k, Finsupp.single (⟨k, c k⟩ : Σ k, ι k) (d k)) (1 : ℤ) := by
-    rw [chartMono, monomial_sum_one]
-    exact Finset.prod_congr rfl fun k _ => X_pow_eq_monomial
-  have hd : (fun k => ∑ i, (∑ k', Finsupp.single (⟨k', c k'⟩ : Σ k, ι k) (d k')) ⟨k, i⟩) = d := by
-    funext k
-    simp only [Finsupp.finsetSum_apply]
-    rw [Finset.sum_comm]
-    simp only [sum_single_apply, Finset.sum_ite_eq', Finset.mem_univ, if_true]
-  rw [h]
-  have hm := isMultiHomog_monomial (ι := ι) (∑ k, Finsupp.single (⟨k, c k⟩ : Σ k, ι k) (d k)) (1 : ℤ)
-  rw [hd] at hm
-  exact hm
+theorem isMultiHomog_chartMono (c : ∀ k, ι k) (d : K → ℕ) : IsMultiHomog (chartMono c d) d :=
+  SectionNormSqExtension.homog_chartMon c d
 
 omit [∀ k, Fintype (ι k)] in
 
@@ -92,71 +80,16 @@ theorem mem_mCoordIdeal_of_aeval_eq_zero (y : (Σ k, ι k) → Ω) {g : MRing ι
 
 theorem exists_form_of_mem_chartRingZ (y : (Σ k, ι k) → Ω) (c : ∀ k, ι k) (hc : ∀ k, y ⟨k, c k⟩ ≠ 0) {x : Ω}
     (hx : x ∈ chartRingZ y c) :
-    ∃ (δ : K → ℕ) (e : MRing ι), IsMultiHomog e δ ∧ aeval y e = x * ∏ k, y ⟨k, c k⟩ ^ δ k := by
-  classical
-  have hpow : ∀ δ₁ δ₂ : K → ℕ, ∏ k, y ⟨k, c k⟩ ^ (δ₁ + δ₂) k =
-      (∏ k, y ⟨k, c k⟩ ^ δ₁ k) * ∏ k, y ⟨k, c k⟩ ^ δ₂ k := fun δ₁ δ₂ => by
-    rw [← Finset.prod_mul_distrib]
-    exact Finset.prod_congr rfl fun k _ => by rw [Pi.add_apply, pow_add]
-  rw [chartRingZ] at hx
-  induction hx using Algebra.adjoin_induction with
-  | mem x hx =>
-    obtain ⟨p, rfl⟩ := hx
-    obtain ⟨k₀, j⟩ := p
-    refine ⟨fun k => ∑ i, (Finsupp.single (⟨k₀, j⟩ : Σ k, ι k) 1) ⟨k, i⟩, X ⟨k₀, j⟩, ?_, ?_⟩
-    · have h := isMultiHomog_monomial (ι := ι) (Finsupp.single (⟨k₀, j⟩ : Σ k, ι k) 1) 1
-      rwa [← X] at h
-    · have h1 : ∏ k, y ⟨k, c k⟩ ^ (∑ i, (Finsupp.single (⟨k₀, j⟩ : Σ k, ι k) 1) ⟨k, i⟩) = y ⟨k₀, c k₀⟩ := by
-        simp only [sum_single_apply]
-        rw [Finset.prod_eq_single k₀ (fun k _ hk => by rw [if_neg (Ne.symm hk), pow_zero])
-          (fun h => absurd (Finset.mem_univ _) h)]
-        simp
-      rw [aeval_X, h1, div_mul_cancel₀ _ (hc k₀)]
-  | algebraMap r =>
-    refine ⟨fun _ => 0, C r, ?_, by simp⟩
-    have h := isMultiHomog_monomial (ι := ι) 0 r
-    simpa using h
-  | add x w _ _ hx hw =>
-    obtain ⟨δ₁, e₁, h₁, v₁⟩ := hx
-    obtain ⟨δ₂, e₂, h₂, v₂⟩ := hw
-    refine ⟨δ₁ + δ₂, e₁ * chartMono c δ₂ + e₂ * chartMono c δ₁, ?_, ?_⟩
-    · intro m hm
-      rcases Finset.mem_union.mp (support_add hm) with hm | hm
-      · exact isMultiHomog_mul h₁ (isMultiHomog_chartMono c δ₂) m hm
-      · rw [add_comm δ₁]
-        exact isMultiHomog_mul h₂ (isMultiHomog_chartMono c δ₁) m hm
-    · rw [map_add, map_mul, map_mul, v₁, v₂, aeval_chartMono, aeval_chartMono, hpow]
-      ring
-  | mul x w _ _ hx hw =>
-    obtain ⟨δ₁, e₁, h₁, v₁⟩ := hx
-    obtain ⟨δ₂, e₂, h₂, v₂⟩ := hw
-    refine ⟨δ₁ + δ₂, e₁ * e₂, isMultiHomog_mul h₁ h₂, ?_⟩
-    rw [map_mul, v₁, v₂, hpow]
-    ring
+    ∃ (δ : K → ℕ) (e : MRing ι), IsMultiHomog e δ ∧ aeval y e = x * ∏ k, y ⟨k, c k⟩ ^ δ k :=
+  SectionNormSqExtension.exists_form_of_mem_chartRingZ y c hc hx
 
 theorem exists_chartForm (y : (Σ k, ι k) → Ω) (a : K → ℤ) (n : ℕ) {s : Ω} (hs : s ∈ chartLat y a n)
     (c : ∀ k, ι k) (hc : ∀ k, y ⟨k, c k⟩ ≠ 0) :
     ∃ (N dg : K → ℕ) (g : MRing ι), IsMultiHomog g dg ∧ (∀ k, (dg k : ℤ) = N k + n * a k) ∧
       aeval y g = s * aeval y (chartMono c N) := by
-  have hx : s * ∏ k, y ⟨k, c k⟩ ^ (-((n : ℤ) * a k)) ∈ chartRingZ y c := hs c hc
-  obtain ⟨δ, e, he, hv⟩ := exists_form_of_mem_chartRingZ y c hc hx
-  set ex : K → ℕ := fun k => ((n : ℤ) * a k + ((n : ℤ) * a k).natAbs).toNat with hex
-  have hexk : ∀ k, (ex k : ℤ) = (n : ℤ) * a k + ((n : ℤ) * a k).natAbs := fun k => by
-    rw [hex]
-    exact Int.toNat_of_nonneg (by omega)
-  refine ⟨fun k => δ k + ((n : ℤ) * a k).natAbs, δ + ex, e * chartMono c ex,
-    isMultiHomog_mul he (isMultiHomog_chartMono c ex), fun k => ?_, ?_⟩
-  · simp only [Pi.add_apply, Nat.cast_add, hexk k]
-    ring
-  · rw [map_mul, hv, aeval_chartMono, aeval_chartMono, mul_assoc, mul_assoc, ← Finset.prod_mul_distrib,
-      ← Finset.prod_mul_distrib]
-    congr 1
-    refine Finset.prod_congr rfl fun k _ => ?_
-    have h0 := hc k
-    rw [← zpow_natCast, ← zpow_natCast, ← zpow_natCast, ← zpow_add₀ h0, ← zpow_add₀ h0, hexk k]
-    congr 1
-    push_cast
-    ring
+  obtain ⟨N, dg, g, hg, hdeg, hval⟩ := SectionNormSqExtension.exists_chartForm y c hc
+    (fun k => (n : ℤ) * a k) (hs c hc)
+  exact ⟨N, dg, g, hg, fun k => (hdeg k).trans (add_comm _ _), by rwa [aeval_chartMono]⟩
 
 end SectionBoundedMul
 
@@ -165,15 +98,7 @@ open SectionBoundedMul in
 theorem SectionBoundedMul.proof : SectionBoundedMul.Statement := by
   intro K _ ι _ Ω _ y A n m C C' s t hs ht hbs hbt dg dh g h z hg hh hdeg he hz
   choose c hc using hz.1
-  have hy : ∀ k, y ⟨k, c k⟩ ≠ 0 := by
-    intro k h0
-    have hX : IsMultiHomog (X ⟨k, c k⟩ : MRing ι) _ :=
-      (by have h := isMultiHomog_monomial (ι := ι) (Finsupp.single (⟨k, c k⟩ : Σ k, ι k) 1) 1
-          rwa [← X] at h)
-    have hmem := mem_mCoordIdeal_of_aeval_eq_zero y hX (by rw [aeval_X, h0])
-    have hz0 := hz.2 _ hmem
-    simp only [map_X, eval_X] at hz0
-    exact hc k hz0
+  have hy : ∀ k, y ⟨k, c k⟩ ≠ 0 := fun k => SectionNormSqExtension.y_ne_zero hz (hc k)
   obtain ⟨N, dgs, gs, hgs, hdgs, hvs⟩ := exists_chartForm y A.a n hs c hy
   obtain ⟨M, dgt, gt, hgt, hdgt, hvt⟩ := exists_chartForm y A.a m ht c hy
   have bs := hbs dgs N gs (chartMono c N) z hgs (isMultiHomog_chartMono c N) hdgs hvs hz

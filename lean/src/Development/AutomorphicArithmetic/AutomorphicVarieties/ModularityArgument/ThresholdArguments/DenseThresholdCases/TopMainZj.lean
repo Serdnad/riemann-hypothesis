@@ -1,9 +1,4 @@
 import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.DiscreteSeriesCoefficientsCuspidal
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AbelianDualCrystalOfHyp
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CrystallineSmoothLiftOfRelations
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PeriodComparisonHolds
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ImportsSideExtra
-import Development.AutomorphicArithmetic.ThetaCorrespondence.GoodReduction.SerreTate
 import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.TemperedProductOfSquareIntegrable
 import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.LitAut
 import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.WindowBoundOfLiteratureLevel
@@ -52,24 +47,11 @@ theorem UpperTheory.One.Join.automorphic_inputs_from_literature (O : _root_.Uppe
   chA := (_root_.UpperTheory.LiteratureTheorems.hecke_ladic_character_above_of_open O)
   chW := (_root_.UpperTheory.LiteratureTheorems.algebraic_character_wd_of_open O)
   berger := (_root_.UpperTheory.LiteratureTheorems.de_rham_pot_semistable_of_open O)
-theorem UpperTheory.One.Join.v_window_of_depth_zero_residual_bc_cm (O : _root_.UpperTheory.LiteratureTheorems.OpenImageCondition)
- (bc : _root_.PositivityTheory.Rg.BcN.BaseChangeIsobaricN) (gal : _root_.UpperTheory.V.Z.Win.RowT) (cm : _root_.GlobalTheory.Mem.LiteralAutomorphy.LiteratureCMHypothesis) :
-    UpperTheory.Top.VWin :=
-  _root_.UpperTheory.V.v_window_of_literal_automorphy_n ⟨_root_.UpperTheory.One.Join.local_inputs_from_literature O, _root_.UpperTheory.One.Join.automorphic_inputs_from_literature O bc gal, _root_.UpperTheory.LiteratureTheorems.galois_cohomology_from_literature O, cm⟩
-theorem UpperTheory.One.Join.cm_abelian_inputs_from_literature (O : _root_.UpperTheory.LiteratureTheorems.OpenImageCondition) : _root_.GlobalTheory.Mem.LiteralAutomorphy.LiteratureCMHypothesis where
-  gm := (_root_.UpperTheory.LiteratureTheorems.grothendieck_deformation_of_open O)
-  dr := (_root_.UpperTheory.LiteratureTheorems.abelian_de_rham_of_open O)
-  dual := (GlobalTheory.abelianDualCrystal_of_dual_of_smoothLift (_root_.UpperTheory.LiteratureTheorems.dual_abelian_scheme_of_open O) (GlobalTheory.SmoothLift.crystallineSmoothLift_of_relations))
-  per := (GlobalTheory.PeriodFamily.periodComparison_holds)
-  gmp := (GlobalTheory.GaussManinTop.main)
-  st := (UpperTheory.Lit.serreTateGoodReduction)
-  cm := (_root_.UpperTheory.LiteratureTheorems.elliptic_main_theorem_cm_of_open O)
-  hj := (_root_.UpperTheory.LiteratureTheorems.hilbert_class_field_j_of_open O)
-  dri := (_root_.UpperTheory.LiteratureTheorems.siegel_klingen_deligne_ribet_of_open O)
-  pz := (_root_.UpperTheory.LiteratureTheorems.partial_zeta_functional_equation_of_open O)
-  fe := (_root_.UpperTheory.LiteratureTheorems.hecke_tate_functional_equation_of_open O)
 theorem UpperTheory.One.Join.automorphic_window_of_inputs (O : _root_.UpperTheory.LiteratureTheorems.OpenImageCondition)
  (bc : _root_.PositivityTheory.Rg.BcN.BaseChangeIsobaricN) (gal : _root_.UpperTheory.V.Z.Win.RowT) :
     UpperTheory.Top.VWin :=
-  _root_.UpperTheory.One.Join.v_window_of_depth_zero_residual_bc_cm O bc gal (_root_.UpperTheory.One.Join.cm_abelian_inputs_from_literature O)
+  _root_.UpperTheory.V.v_window_of_literal_automorphy_n
+    ⟨_root_.UpperTheory.One.Join.local_inputs_from_literature O,
+      _root_.UpperTheory.One.Join.automorphic_inputs_from_literature O bc gal,
+      _root_.UpperTheory.LiteratureTheorems.galois_cohomology_from_literature O⟩
 end

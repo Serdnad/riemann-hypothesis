@@ -1,4 +1,3 @@
-import Mathlib
 import CompanionTheory.RealGroups.UnitaryAdmissibility.ArchimedeanUnitaryDual.StSandwich
 
 noncomputable section

@@ -4,9 +4,7 @@ import Development.AbelianVarietyTheory.Definitions.Divisors.DiscreteSeriesHermi
 section
 namespace GlobalTheory.FunPr
 structure ThetaLocalInputs : Prop where
-  greenSeriesSt : GlobalTheory.Published.GreenSeriesSt
   linnik : GlobalTheory.Published.Linnik
-  complexMultiplicationJSt : GlobalTheory.Published.ComplexMultiplicationJSt
   cuspidalMirabolic : GlobalTheory.Published.CuspidalMirabolic
   weylBranching : GlobalTheory.Published.WeylBranching
   bernsteinUnitaryProductIrreducible : GlobalTheory.Published.BernsteinUnitaryProductIrreducible
@@ -25,11 +23,8 @@ structure ThetaLocalInputs : Prop where
   dixmierMalliavinFactorisation : GlobalTheory.Published.DixmierMalliavinFactorisation
   schurOrthogonalitySquareIntegrable : GlobalTheory.Published.SchurOrthogonalitySquareIntegrable
   heckeLPartialContinuation : GlobalTheory.Published.HeckeLPartialContinuation
-  logDerOne : GlobalTheory.Mem.An.LogDerOne
   kFiniteVectorsUnitary : GlobalTheory.Published.KFiniteVectorsUnitary
   discreteSeriesLowestKType : GlobalTheory.Published.DiscreteSeriesLowestKType
-  holomorphicDiscreteSeries : GlobalTheory.Published.HolomorphicDiscreteSeries
-  gKGlobalisation : GlobalTheory.Published.GKGlobalisation
   cuspBounded : GlobalTheory.Published.CuspBounded
   strongApproxSU : GlobalTheory.Published.StrongApproxSU
   heckeLEntireAndNonzeroAtOne : GlobalTheory.Published.HeckeLEntireAndNonzeroAtOne
@@ -37,10 +32,8 @@ structure ThetaLocalInputs : Prop where
   cuspDecayBound : GlobalTheory.Published.CuspDecayBound
   gLHoweDuality : GlobalTheory.Published.GLHoweDuality
   kudlaSplittingSplitUnitary : GlobalTheory.Published.KudlaSplittingSplitUnitary
-  metaplecticRepresentation : GlobalTheory.Published.MetaplecticRepresentation
   harishChandraModules : GlobalTheory.Published.HarishChandraModules
   discreteSeriesCover : GlobalTheory.Published.DiscreteSeriesCover
-  idealInvariantsOneOrbitSt : GlobalTheory.Published.IdealInvariantsOneOrbitSt
   hermitianHassePrinciple : GlobalTheory.Published.HermitianHassePrinciple
   stoneVonNeumann : GlobalTheory.Published.StoneVonNeumann
   discreteSeriesUpqExists : GlobalTheory.Published.DiscreteSeriesUpqExists

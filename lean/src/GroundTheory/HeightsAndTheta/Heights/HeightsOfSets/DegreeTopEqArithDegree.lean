@@ -100,4 +100,6 @@ theorem slopeMaxExtension : SlopeMaxExtension.Statement := by
 
 end
 
+theorem SlopeMaxExtension.main : SlopeMaxExtension.Statement := slopeMaxExtension
+
 end GroundTheory.Heights₂.Heights
