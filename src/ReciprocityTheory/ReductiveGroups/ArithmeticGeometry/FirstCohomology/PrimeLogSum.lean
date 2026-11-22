@@ -52,6 +52,7 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 public import Mathlib.NumberTheory.Padics.PadicVal.Basic
 public import Mathlib.NumberTheory.Primorial
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.SumPrimeLogDivPredLeLogAdd
 
 @[expose] public section
 
@@ -296,85 +297,8 @@ lemma primeLogSum_small :
 
 lemma primeLogSum_nat (N : ℕ) (hN : 1 ≤ N) :
     ∑ p ∈ (Finset.Iic N).filter Nat.Prime, Real.log p / ((p : ℝ) - 1) ≤ Real.log N + 2.2 := by
-  rcases (show N = 1 ∨ 2 ≤ N by omega) with h1 | hN2
-  · subst h1
-    have h0 : ∑ p ∈ (Finset.Iic 1).filter Nat.Prime, Real.log p / ((p : ℝ) - 1) = 0 := by
-      apply Finset.sum_eq_zero
-      intro p hp
-      obtain ⟨hp1, hp2⟩ := Finset.mem_filter.mp hp
-      have hp3 := Finset.mem_Iic.mp hp1
-      exact absurd hp2.two_le (by omega)
-    rw [h0]
-    norm_num
-  · have hsplit : ∑ p ∈ (Finset.Iic N).filter Nat.Prime, Real.log p / ((p : ℝ) - 1) =
-        ∑ p ∈ (Finset.Iic N).filter Nat.Prime, Real.log p / (p : ℝ) +
-          ∑ p ∈ (Finset.Iic N).filter Nat.Prime, Real.log p / ((p : ℝ) * ((p : ℝ) - 1)) := by
-      rw [← Finset.sum_add_distrib]
-      apply Finset.sum_congr rfl
-      intro p hp
-      have hp2 : (2:ℝ) ≤ p := by exact_mod_cast (Finset.mem_filter.mp hp).2.two_le
-      have h0 : (p:ℝ) ≠ 0 := (show (0:ℝ) < p by linarith).ne'
-      have h1 : (p:ℝ) - 1 ≠ 0 := (show (0:ℝ) < (p:ℝ) - 1 by linarith).ne'
-      first
-      | (field_simp; ring)
-    have hX : (N:ℝ) * ∑ p ∈ (Finset.Iic N).filter Nat.Prime, Real.log p / (p : ℝ) ≤
-        ((N:ℝ) + 1) * Real.log N - N + 1 + Real.log 4 * N := by
-      rw [Finset.mul_sum]
-      calc ∑ p ∈ (Finset.Iic N).filter Nat.Prime, (N:ℝ) * (Real.log p / (p : ℝ))
-          ≤ ∑ p ∈ (Finset.Iic N).filter Nat.Prime,
-              (((N.factorial.factorization p : ℕ) : ℝ) * Real.log p + Real.log p) := by
-            apply Finset.sum_le_sum
-            intro p hp
-            obtain ⟨hp1, hp2⟩ := Finset.mem_filter.mp hp
-            exact primeLogSum_point N p hp2 (Finset.mem_Iic.mp hp1)
-        _ = Real.log ((N.factorial : ℕ) : ℝ) + ∑ p ∈ (Finset.Iic N).filter Nat.Prime, Real.log p := by
-            rw [Finset.sum_add_distrib, primeLogSum_log_factorial_eq]
-        _ ≤ ((N:ℝ) + 1) * Real.log N - N + 1 + Real.log 4 * N := by
-            linarith [primeLogSum_log_factorial_le (show 1 ≤ N by omega), primeLogSum_theta N]
-    have hS2 : ∑ p ∈ (Finset.Iic N).filter Nat.Prime, Real.log p / ((p : ℝ) * ((p : ℝ) - 1)) ≤
-        Real.log 2 * (1 / 2 + 2 / 6 + 3 / 20 + 3 / 42 + 4 / 110 + 4 / 156 + 5 / 272 + 5 / 342 +
-          5 / 506 + 5 / 812) + (5 * Real.log 2 + 1) / 29 := by
-      have hsub : (Finset.Iic N).filter Nat.Prime ⊆
-          (Finset.Iic 30).filter Nat.Prime ∪ Finset.Icc 31 N := by
-        intro p hp
-        obtain ⟨hp1, hp2⟩ := Finset.mem_filter.mp hp
-        have hpN := Finset.mem_Iic.mp hp1
-        rw [Finset.mem_union]
-        by_cases h : p ≤ 30
-        · left
-          exact Finset.mem_filter.mpr ⟨Finset.mem_Iic.mpr h, hp2⟩
-        · right
-          exact Finset.mem_Icc.mpr ⟨by omega, hpN⟩
-      have hdisj : Disjoint ((Finset.Iic 30).filter Nat.Prime) (Finset.Icc 31 N) := by
-        rw [Finset.disjoint_left]
-        intro p h1 h2
-        have h3 := Finset.mem_Iic.mp (Finset.mem_filter.mp h1).1
-        have h4 := (Finset.mem_Icc.mp h2).1
-        omega
-      calc ∑ p ∈ (Finset.Iic N).filter Nat.Prime, Real.log p / ((p : ℝ) * ((p : ℝ) - 1))
-          ≤ ∑ p ∈ (Finset.Iic 30).filter Nat.Prime ∪ Finset.Icc 31 N,
-              Real.log p / ((p : ℝ) * ((p : ℝ) - 1)) :=
-            Finset.sum_le_sum_of_subset_of_nonneg hsub (fun i _ _ => primeLogSum_f_nonneg i)
-        _ = ∑ p ∈ (Finset.Iic 30).filter Nat.Prime, Real.log p / ((p : ℝ) * ((p : ℝ) - 1)) +
-              ∑ p ∈ Finset.Icc 31 N, Real.log p / ((p : ℝ) * ((p : ℝ) - 1)) :=
-            Finset.sum_union hdisj
-        _ ≤ _ := add_le_add primeLogSum_small (primeLogSum_tail N)
-    rw [hsplit]
-    have hx2 : (2:ℝ) ≤ N := by exact_mod_cast hN2
-    have hlogN : Real.log N ≤ Real.log 2 + (N:ℝ) / 2 - 1 := by
-      have h := Real.log_le_sub_one_of_pos (show (0:ℝ) < (N:ℝ) / 2 by linarith)
-      rw [Real.log_div (show (0:ℝ) < N by linarith).ne' (by norm_num)] at h
-      linarith
-    have hlog4 : Real.log 4 = 2 * Real.log 2 := by
-      rw [show (4:ℝ) = 2 * 2 by norm_num, Real.log_mul (by norm_num) (by norm_num)]
-      ring
-    rw [hlog4] at hX
-    have hL := Real.log_two_lt_d9
-    have hL0 : 0 < Real.log 2 := Real.log_pos (by norm_num)
-    have hS2' := mul_le_mul_of_nonneg_left hS2 (show (0:ℝ) ≤ N by linarith)
-    have hLx := mul_le_mul_of_nonneg_right hL.le (show (0:ℝ) ≤ N by linarith)
-    refine le_of_mul_le_mul_left ?_ (show (0:ℝ) < N by linarith)
-    first
-    | linarith
+  have h : Finset.Iic N = Finset.range (N + 1) := by ext; simp [Nat.lt_succ_iff]
+  rw [h]
+  exact GlobalTheory.PrimeLogSum.sum_log_div_pred_le N
 
 end ReciprocityTheory.ChartRestriction.G.H1
