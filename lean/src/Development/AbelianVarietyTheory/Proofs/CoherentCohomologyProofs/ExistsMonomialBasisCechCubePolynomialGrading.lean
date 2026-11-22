@@ -9,44 +9,47 @@ open CategoryTheory CategoryTheory.Limits DirectSum MvPolynomial TensorProduct G
 
 namespace GlobalTheory
 
+/-- A finite family of Laurent monomials has a common denominator. -/
+theorem exists_common_laurent_numerators {ι κ : Type*} [DecidableEq ι] [Fintype ι] [Fintype κ]
+    (s : Finset ι) (a : κ → ι → ℤ) (ha : ∀ j i, i ∉ s → 0 ≤ a j i) :
+    ∃ (k : ℕ) (m : κ → ι →₀ ℕ), ∀ j i, (m j i : ℤ) = a j i + if i ∈ s then (k : ℤ) else 0 := by
+  let k := Finset.univ.sup fun j => Finset.univ.sup fun i => (a j i).natAbs
+  refine ⟨k, fun j => Finsupp.equivFunOnFinite.symm
+    (fun i => (a j i + if i ∈ s then (k : ℤ) else 0).toNat), fun j i => Int.toNat_of_nonneg ?_⟩
+  by_cases hi : i ∈ s
+  · have hk : (a j i).natAbs ≤ k :=
+      (Finset.le_sup (f := fun i => (a j i).natAbs) (Finset.mem_univ i)).trans
+        (Finset.le_sup (f := fun j => Finset.univ.sup fun i => (a j i).natAbs) (Finset.mem_univ j))
+    rw [if_pos hi]
+    omega
+  · simpa [hi] using ha j i hi
+
+theorem exists_laurent_numerator {ι : Type} [DecidableEq ι] [Fintype ι] (s : Finset ι)
+    (a : ι → ℤ) (ha : ∀ i, i ∉ s → 0 ≤ a i) :
+    ∃ (k : ℕ) (m : ι →₀ ℕ), ∀ i, (m i : ℤ) = a i + if i ∈ s then (k : ℤ) else 0 := by
+  obtain ⟨k, m, hm⟩ := exists_common_laurent_numerators s (fun _ : Unit => a) (fun _ => ha)
+  exact ⟨k, m (), hm ()⟩
+
 theorem linearIndependent_laurentMonomial :
     ∀ (ι : Type) [LinearOrder ι] [Fintype ι] (R : Type) [CommRing R] (s : Finset ι) (n : ℤ) (v : {a : ι → ℤ // ∑ i, a i = n ∧ ∀ i, i ∉ s → 0 ≤ a i} → LocalizedModule.Away (xProd R s) (MvPolynomial ι R)), (∀ a (k : ℕ) (m : ι →₀ ℕ), (∀ i, (m i : ℤ) = a.1 i + if i ∈ s then (k : ℤ) else 0) → v a = awayFrac (MvPolynomial ι R) (xProd R s) k (monomial m 1)) → LinearIndependent R v := by
   intro ι _ _ R _ s n v hv
-  rw [linearIndependent_iff']
-  intro T g hg j hj
-  let k : ℕ := T.sup fun a => Finset.univ.sup fun i => (a.1 i).natAbs
-  let m : {a : ι → ℤ // ∑ i, a i = n ∧ ∀ i, i ∉ s → 0 ≤ a i} → (ι →₀ ℕ) := fun a =>
-    Finsupp.equivFunOnFinite.symm fun i => (a.1 i + if i ∈ s then (k : ℤ) else 0).toNat
-  have hm : ∀ a ∈ T, ∀ i, (m a i : ℤ) = a.1 i + if i ∈ s then (k : ℤ) else 0 := by
-    intro a ha i
-    have hk : (a.1 i).natAbs ≤ k :=
-      (Finset.le_sup (f := fun i => (a.1 i).natAbs) (Finset.mem_univ i)).trans
-        (Finset.le_sup (f := fun a : {a : ι → ℤ // ∑ i, a i = n ∧ ∀ i, i ∉ s → 0 ≤ a i} =>
-          Finset.univ.sup fun i => (a.1 i).natAbs) ha)
-    refine Int.toNat_of_nonneg ?_
-    split_ifs with hi
-    · omega
-    · simpa using a.2.2 i hi
-  have hinj : ∀ a ∈ T, m a = m j → a = j := by
-    intro a ha e
-    refine Subtype.ext (funext fun i => ?_)
-    have h1 := hm a ha i
-    have h2 := hm j hj i
-    rw [e, h2] at h1
-    exact (add_right_cancel h1).symm
-  have h0 : awayFrac (MvPolynomial ι R) (xProd R s) k
-      (∑ a ∈ T, g a • monomial (m a) (1 : R)) = 0 := by
-    rw [map_sum, ← hg]
-    refine Finset.sum_congr rfl fun a ha => ?_
-    rw [hv a k (m a) (hm a ha), LinearMap.map_smul_of_tower]
-  have h1 := congrArg (coeff (m j))
-    ((map_eq_zero_iff _ (awayFrac_injective (xProd_smul_injective s) k)).1 h0)
-  rw [coeff_sum, Finset.sum_eq_single j, coeff_smul, coeff_monomial, if_pos rfl, coeff_zero,
-    smul_eq_mul, mul_one] at h1
-  · exact h1
-  · intro a ha hne
-    rw [coeff_smul, coeff_monomial, if_neg fun e => hne (hinj a ha e), smul_zero]
-  · exact fun h => absurd hj h
+  rw [linearIndependent_iff_finset_linearIndependent]
+  intro T
+  obtain ⟨k, m, hm⟩ :=
+    exists_common_laurent_numerators s (fun a : T => a.1.1) (fun a => a.1.2.2)
+  have hinj : Function.Injective m := by
+    intro a b e
+    apply Subtype.ext
+    apply Subtype.ext
+    funext i
+    simpa only [hm, add_left_inj] using congrArg (fun d : ι →₀ ℕ => (d i : ℤ)) e
+  let F := (awayFrac (MvPolynomial ι R) (xProd R s) k).restrictScalars R
+  have hF : LinearMap.ker F = ⊥ := LinearMap.ker_eq_bot.mpr
+    (awayFrac_injective (xProd_smul_injective s) k)
+  have hrestrict : v ∘ (Subtype.val : T → _) = F ∘ (MvPolynomial.basisMonomials ι R) ∘ m :=
+    funext fun a => hv a.1 k (m a) (hm a)
+  rw [hrestrict]
+  exact ((MvPolynomial.basisMonomials ι R).linearIndependent.comp m hinj).map' F hF
 
 end GlobalTheory
 
@@ -73,18 +76,7 @@ theorem span_laurentMonomial_eq_homLoc :
   apply le_antisymm
   · rw [Submodule.span_le]
     rintro _ ⟨a, rfl⟩
-    let k : ℕ := ∑ i, (a.1 i).natAbs
-    have hk (i : ι) : 0 ≤ a.1 i + if i ∈ s then (k : ℤ) else 0 := by
-      split_ifs with h
-      · have : (a.1 i).natAbs ≤ k :=
-          Finset.single_le_sum (f := fun i => (a.1 i).natAbs) (fun _ _ => Nat.zero_le _)
-            (Finset.mem_univ i)
-        omega
-      · simpa using a.2.2 i h
-    let m : ι →₀ ℕ := Finsupp.equivFunOnFinite.symm
-      fun i => (a.1 i + if i ∈ s then (k : ℤ) else 0).toNat
-    have hm (i : ι) : (m i : ℤ) = a.1 i + if i ∈ s then (k : ℤ) else 0 :=
-      Int.toNat_of_nonneg (hk i)
+    obtain ⟨k, m, hm⟩ := exists_laurent_numerator s a.1 a.2.2
     rw [hv a k m hm]
     refine awayFrac_mem_homLoc (monomial_mem_polyGrading m 1) ?_
     rw [hdeg, Finset.sum_congr rfl fun i _ => hm i, Finset.sum_add_distrib, a.2.1, hsum]
@@ -136,17 +128,6 @@ theorem awayFrac_monomial_congr {ι : Type} [DecidableEq ι] (R : Type) [CommRin
   have h3 := hm i
   have h4 := hm' i
   split_ifs at h1 h2 h3 h4 <;> omega
-
-theorem exists_laurent_numerator {ι : Type} [DecidableEq ι] [Fintype ι] (s : Finset ι)
-    (a : ι → ℤ) (ha : ∀ i, i ∉ s → 0 ≤ a i) :
-    ∃ (k : ℕ) (m : ι →₀ ℕ), ∀ i, (m i : ℤ) = a i + if i ∈ s then (k : ℤ) else 0 := by
-  refine ⟨Finset.univ.sup fun i => (a i).natAbs, Finsupp.equivFunOnFinite.symm fun i =>
-    (a i + if i ∈ s then ((Finset.univ.sup fun i => (a i).natAbs : ℕ) : ℤ) else 0).toNat,
-    fun i => Int.toNat_of_nonneg ?_⟩
-  have hk := Finset.le_sup (f := fun i => (a i).natAbs) (Finset.mem_univ i)
-  split_ifs with hi
-  · omega
-  · simpa using ha i hi
 
 theorem exists_basis_grCube_polyGrading :
     ∀ (ι : Type) [LinearOrder ι] [Fintype ι] (R : Type) [CommRing R] (n : ℤ), ∃ b : ∀ s : Finset ι, Module.Basis {a : {a : ι → ℤ // ∑ i, a i = n} // Finset.univ.filter (fun i => a.1 i < 0) ⊆ s} R ((grCube ι (polyGrading ι R) n).obj s), ∀ (s t : Finset ι) (h : s ⊆ t) (a : {a : {a : ι → ℤ // ∑ i, a i = n} // Finset.univ.filter (fun i => a.1 i < 0) ⊆ s}), Cube.res (grCube ι (polyGrading ι R) n) h (b s a) = b t ⟨a.1, a.2.trans h⟩ := by
