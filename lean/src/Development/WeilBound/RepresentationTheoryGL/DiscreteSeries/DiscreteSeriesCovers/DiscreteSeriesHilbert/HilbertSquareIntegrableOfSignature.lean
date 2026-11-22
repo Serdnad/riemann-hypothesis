@@ -1,5 +1,5 @@
 import Development.WeilBound.RepresentationTheoryGL.DiscreteSeries.DiscreteSeriesCovers.DiscreteSeriesHilbert.StepSqInt
-import ReciprocityTheory.ReductiveGroups.DiscreteSeries.DiscreteSeriesExistence.SigLamMemLpOfNe
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.DiscreteSeriesExistence.MatrixCoefficientPropagation
 
 noncomputable section
 
@@ -15,8 +15,9 @@ section SquareIntegrability
 variable {n : ℕ} {ε : Fin n → Bool} {lam : Fin n → ℝ} {T : S7.KType ε (lowK ε lam)}
   {Ψ : Matrix (Fin n) (Fin n) ℂ → (T.V →L[ℂ] T.V)}
 
-theorem hq_umem (g : Formalism.REAL.UJ ε) : Formalism.MainNotions.S.umat g ∈ UJset ε :=
-  ReciprocityTheory.ChartRestriction.DS.umat_mem_UJset ε g
+theorem hq_umem (g : Formalism.REAL.UJ ε) : Formalism.MainNotions.S.umat g ∈ UJset ε := by
+  rw [← mir_UJset_eq]
+  exact g.2
 
 theorem hq_one (hrep : IsURepOn (UJset ε) (sigLam ε Ψ T.w)) :
     sigLam ε Ψ T.w (Formalism.MainNotions.S.umat (1 : Formalism.REAL.UJ ε)) = 1 := by
@@ -58,6 +59,20 @@ theorem hq_w_ne (hP : IsPsiFor ε lam T Ψ) : uniformisationL2 ε Ψ T.w T.w ≠
     exact zero_ne_one h1
   exact datumEmbedding_self_ne_zero hP hw
 
+private theorem hq_highest_coefficient_memLp (hP : IsPsiFor ε lam T Ψ)
+    (hcoe : ∀ g ∈ UJset ε, ∀ x : Hlam ε Ψ T.w,
+      ((sigLam ε Ψ T.w g x : Hlam ε Ψ T.w) : L2 ε) = rreg ε g x)
+    (hF : ∀ g ∈ UJset ε,
+      inner ℂ (uniformisationL2 ε Ψ T.w T.w) (rreg ε g (uniformisationL2 ε Ψ T.w T.w)) =
+        ((‖uniformisationL2 ε Ψ T.w T.w‖ ^ 2 : ℝ) : ℂ) * inner ℂ T.w (Ψ g T.w))
+    (w₀ : Hlam ε Ψ T.w) (hw₀ : (w₀ : L2 ε) = uniformisationL2 ε Ψ T.w T.w) :
+    MemLp (fun g : Formalism.REAL.UJ ε =>
+      ⟪w₀, sigLam ε Ψ T.w (Formalism.MainNotions.S.umat g) w₀⟫_ℂ) 2 (Formalism.REAL.muG ε) := by
+  convert (dt_memLp hP T.w T.w).const_mul ((‖uniformisationL2 ε Ψ T.w T.w‖ ^ 2 : ℝ) : ℂ) using 1
+  funext g
+  rw [hq_inner hcoe, hw₀, hF _ (hq_umem g)]
+  rfl
+
 theorem hq_coef_all (hP : IsPsiFor ε lam T Ψ)
     (hcoe : ∀ g ∈ UJset ε, ∀ x : Hlam ε Ψ T.w, ((sigLam ε Ψ T.w g x : Hlam ε Ψ T.w) : L2 ε) = rreg ε g x)
     (hrep : IsURepOn (UJset ε) (sigLam ε Ψ T.w))
@@ -67,27 +82,30 @@ theorem hq_coef_all (hP : IsPsiFor ε lam T Ψ)
     (hirr : Formalism.MainNotions.S.IsIrredOn (Formalism.MainNotions.S.UJset ε) (sigLam ε Ψ T.w)) (x : Hlam ε Ψ T.w) :
     MemLp (fun g : Formalism.REAL.UJ ε =>
       inner ℂ (uniformisationL2 ε Ψ T.w T.w) (rreg ε (Formalism.MainNotions.S.umat g) (x : L2 ε))) 2 (Formalism.REAL.muG ε) := by
-  obtain ⟨w₀, hw₀⟩ : ∃ w₀ : Hlam ε Ψ T.w, (w₀ : L2 ε) = uniformisationL2 ε Ψ T.w T.w := ⟨⟨_, datumEmbedding_mem_Hlam hP T.w⟩, rfl⟩
-  have hne : w₀ ≠ 0 := by
-    intro h
-    apply hq_w_ne hP
-    rw [← hw₀, h]
-    rfl
-  have e0 : (fun g : Formalism.REAL.UJ ε => ⟪w₀, sigLam ε Ψ T.w (Formalism.MainNotions.S.umat g) w₀⟫_ℂ) =
-      fun g => ((‖uniformisationL2 ε Ψ T.w T.w‖ ^ 2 : ℝ) : ℂ) * jfun Ψ T.w T.w (Formalism.MainNotions.S.umat g) := by
-    funext g
-    rw [hq_inner hcoe, hw₀, hF _ (hq_umem g)]
-    rfl
-  have h0 : MemLp (fun g : Formalism.REAL.UJ ε => ⟪w₀, sigLam ε Ψ T.w (Formalism.MainNotions.S.umat g) w₀⟫_ℂ) 2 (Formalism.REAL.muG ε) := by
-    rw [e0]
-    exact (dt_memLp hP T.w T.w).const_mul _
-  have h1 := hq_memLp_of_ne hrep hirr w₀ w₀ hne h0 x
-  have e1 : (fun g : Formalism.REAL.UJ ε => ⟪w₀, sigLam ε Ψ T.w (Formalism.MainNotions.S.umat g) x⟫_ℂ) =
-      fun g => inner ℂ (uniformisationL2 ε Ψ T.w T.w) (rreg ε (Formalism.MainNotions.S.umat g) (x : L2 ε)) := by
-    funext g
-    rw [hq_inner hcoe, hw₀]
-  rw [e1] at h1
-  exact h1
+  let w₀ : Hlam ε Ψ T.w := ⟨_, datumEmbedding_mem_Hlam hP T.w⟩
+  have hne : w₀ ≠ 0 := fun h => hq_w_ne hP (congrArg Subtype.val h)
+  have h₀ := hq_highest_coefficient_memLp hP hcoe (fun g hg => hF g hg T.w T.w) w₀ rfl
+  have h := hq_memLp_of_ne hrep hirr w₀ w₀ hne h₀ x
+  convert h using 1
+  exact funext fun g => (hq_inner hcoe w₀ x g).symm
+
+/-- The highest-weight diagonal coefficient alone suffices for square integrability. -/
+theorem hq_sqInt_of_highest_coefficient (hP : IsPsiFor ε lam T Ψ)
+    (hcoe : ∀ g ∈ UJset ε, ∀ x : Hlam ε Ψ T.w,
+      ((sigLam ε Ψ T.w g x : Hlam ε Ψ T.w) : L2 ε) = rreg ε g x)
+    (hrep : IsURepOn (UJset ε) (sigLam ε Ψ T.w))
+    (hF : ∀ g ∈ UJset ε,
+      inner ℂ (uniformisationL2 ε Ψ T.w T.w) (rreg ε g (uniformisationL2 ε Ψ T.w T.w)) =
+        ((‖uniformisationL2 ε Ψ T.w T.w‖ ^ 2 : ℝ) : ℂ) * inner ℂ T.w (Ψ g T.w))
+    (hirr : Formalism.MainNotions.S.IsIrredOn (Formalism.MainNotions.S.UJset ε) (sigLam ε Ψ T.w)) :
+    Formalism.MainNotions.S.IsSqIntOn ε (sigLam ε Ψ T.w) := by
+  intro v w
+  let w₀ : Hlam ε Ψ T.w := ⟨_, datumEmbedding_mem_Hlam hP T.w⟩
+  have hne : w₀ ≠ 0 := fun h => hq_w_ne hP (congrArg Subtype.val h)
+  exact GraphTrick.memLp_matrixCoefficients_of_one (measurePreserving_mul_right ε)
+    (Measure.measurePreserving_inv (Formalism.REAL.muG ε)) (hq_one hrep) (hq_mul hrep) (hq_iso hrep)
+    (Formalism.MainNotions.BridgeCSchur.irr_of hirr)
+    hne hne (hq_highest_coefficient_memLp hP hcoe hF w₀ rfl) w v
 
 theorem hq_sqInt (hP : IsPsiFor ε lam T Ψ)
     (hcoe : ∀ g ∈ UJset ε, ∀ x : Hlam ε Ψ T.w, ((sigLam ε Ψ T.w g x : Hlam ε Ψ T.w) : L2 ε) = rreg ε g x)
@@ -96,40 +114,8 @@ theorem hq_sqInt (hP : IsPsiFor ε lam T Ψ)
       inner ℂ (uniformisationL2 ε Ψ T.w v') (rreg ε g (uniformisationL2 ε Ψ T.w v)) =
         ((‖uniformisationL2 ε Ψ T.w T.w‖ ^ 2 : ℝ) : ℂ) * inner ℂ v' (Ψ g v))
     (hirr : Formalism.MainNotions.S.IsIrredOn (Formalism.MainNotions.S.UJset ε) (sigLam ε Ψ T.w)) :
-    Formalism.MainNotions.S.IsSqIntOn ε (sigLam ε Ψ T.w) := by
-  intro v w
-  show MemLp (fun g : Formalism.REAL.UJ ε => ⟪w, sigLam ε Ψ T.w (Formalism.MainNotions.S.umat g) v⟫_ℂ) 2 (Formalism.REAL.muG ε)
-  by_cases hw : w = 0
-  · have e : (fun g : Formalism.REAL.UJ ε => ⟪w, sigLam ε Ψ T.w (Formalism.MainNotions.S.umat g) v⟫_ℂ) = 0 := by
-      funext g
-      rw [hw, inner_zero_left]
-      rfl
-    rw [e]
-    exact (Lp.memLp (0 : Lp ℂ 2 (Formalism.REAL.muG ε))).ae_eq (Lp.coeFn_zero ℂ 2 _)
-  obtain ⟨w₀, hw₀⟩ : ∃ w₀ : Hlam ε Ψ T.w, (w₀ : L2 ε) = uniformisationL2 ε Ψ T.w T.w := ⟨⟨_, datumEmbedding_mem_Hlam hP T.w⟩, rfl⟩
-  have hne : w₀ ≠ 0 := by
-    intro h
-    apply hq_w_ne hP
-    rw [← hw₀, h]
-    rfl
-  have hFw : MemLp (fun g : Formalism.REAL.UJ ε => ⟪w₀, sigLam ε Ψ T.w (Formalism.MainNotions.S.umat g) w⟫_ℂ) 2 (Formalism.REAL.muG ε) := by
-    have e1 : (fun g : Formalism.REAL.UJ ε => ⟪w₀, sigLam ε Ψ T.w (Formalism.MainNotions.S.umat g) w⟫_ℂ) =
-        fun g => inner ℂ (uniformisationL2 ε Ψ T.w T.w) (rreg ε (Formalism.MainNotions.S.umat g) (w : L2 ε)) := by
-      funext g
-      rw [hq_inner hcoe, hw₀]
-    rw [e1]
-    exact hq_coef_all hP hcoe hrep hF hirr w
-  have hinv := (hFw.comp_measurePreserving (Measure.measurePreserving_inv (Formalism.REAL.muG ε))).star
-  have e2 : star ((fun g : Formalism.REAL.UJ ε => ⟪w₀, sigLam ε Ψ T.w (Formalism.MainNotions.S.umat g) w⟫_ℂ) ∘ Inv.inv) =
-      fun g : Formalism.REAL.UJ ε => ⟪w, sigLam ε Ψ T.w (Formalism.MainNotions.S.umat g) w₀⟫_ℂ := by
-    funext g
-    have hs : star (sigLam ε Ψ T.w (Formalism.MainNotions.S.umat g⁻¹)) = sigLam ε Ψ T.w (Formalism.MainNotions.S.umat g⁻¹⁻¹) :=
-      GraphTrick.star_eq (ρ := fun g : Formalism.REAL.UJ ε => sigLam ε Ψ T.w (Formalism.MainNotions.S.umat g))
-        (hq_one hrep) (hq_mul hrep) (hq_iso hrep) g⁻¹
-    simp only [Pi.star_apply, Function.comp_apply, RCLike.star_def, inner_conj_symm]
-    rw [← ContinuousLinearMap.adjoint_inner_right, ← ContinuousLinearMap.star_eq_adjoint, hs, inv_inv]
-  rw [e2] at hinv
-  exact hq_memLp_of_ne hrep hirr w w₀ hne hinv v
+    Formalism.MainNotions.S.IsSqIntOn ε (sigLam ε Ψ T.w) :=
+  hq_sqInt_of_highest_coefficient hP hcoe hrep (fun g hg => hF g hg T.w T.w) hirr
 
 end SquareIntegrability
 
