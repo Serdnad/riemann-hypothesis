@@ -9,7 +9,6 @@ import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.FiniteA
 public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.MobiusActionUpperHalfPlaneStatement
 public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.SL2BruhatDecompositionIdentitiesStatement
 public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.WeilRepresentationQuadraticDatumStatement
-public import Development.WeilBound.CoreStatements.ThetaDilations.SqPosOfNe
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -58,6 +57,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
+public import Development.WeilBound.CoreStatements.ThetaDilations.IsOpenCoset
 
 @[expose] public section
 
