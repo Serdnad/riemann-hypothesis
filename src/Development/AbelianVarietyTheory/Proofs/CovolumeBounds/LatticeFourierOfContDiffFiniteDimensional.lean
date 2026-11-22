@@ -1,4 +1,10 @@
-import Mathlib
+import Mathlib.Algebra.Group.ForwardDiff
+import Mathlib.Algebra.Module.ZLattice.Covolume
+import Mathlib.Algebra.Module.ZLattice.Summable
+import Mathlib.Analysis.Fourier.AddCircleMulti
+import Mathlib.Analysis.LocallyConvex.SeparatingDual
+import Mathlib.LinearAlgebra.BilinearForm.DualLattice
+import Mathlib.MeasureTheory.Measure.Haar.Unique
 
 open MeasureTheory Module Set
 open scoped RealInnerProductSpace Real Pointwise ContDiff
