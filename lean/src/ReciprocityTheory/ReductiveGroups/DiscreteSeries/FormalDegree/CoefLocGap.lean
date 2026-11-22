@@ -10,29 +10,25 @@ open Formalism.MainNotions.CayleySignature
 theorem lt_sub_of_increments {m : ℕ} (b : Fin m → ℝ) (G : ℝ) (hG : 0 < G)
     (h : ∀ (j : Fin m) (hj : j.val + 1 < m), G < b ⟨j.val + 1, hj⟩ - b j) :
     ∀ i j : Fin m, i < j → G < b j - b i := by
-  intro i j hij
-  obtain ⟨i, hi⟩ := i
-  obtain ⟨j, hj⟩ := j
-  have hij' : i < j := hij
-  clear hij
-  induction j with
-  | zero => omega
-  | succ j ih =>
-    have h1 : G < b ⟨j + 1, hj⟩ - b ⟨j, by omega⟩ := h ⟨j, by omega⟩ hj
-    rcases Nat.lt_succ_iff_lt_or_eq.mp hij' with hlt | heq
-    · have h2 := ih (by omega) hlt
-      linarith
-    · subst heq
-      exact h1
+  cases m with
+  | zero => exact fun i => Fin.elim0 i
+  | succ m =>
+    have increasing : StrictMono b := Fin.strictMono_iff_lt_succ.2 fun a =>
+      sub_pos.mp (hG.trans (h a.castSucc (Nat.succ_lt_succ a.isLt)))
+    intro i j hij
+    have next_le : i.val + 1 ≤ j.val := Nat.succ_le_of_lt hij
+    exact (h i (next_le.trans_lt j.isLt)).trans_le
+      (sub_le_sub_right (increasing.monotone (Fin.le_iff_val_le_val.2 next_le)) _)
+
 
 theorem lt_abs_sub_of_increments {m : ℕ} (b : Fin m → ℝ) (G : ℝ) (hG : 0 < G)
     (h : ∀ (j : Fin m) (hj : j.val + 1 < m), G < b ⟨j.val + 1, hj⟩ - b j)
     (i j : Fin m) (hij : i ≠ j) : G < |b i - b j| := by
-  rcases lt_or_gt_of_ne hij with hlt | hlt
-  · have := lt_sub_of_increments b G hG h i j hlt
-    exact lt_abs.mpr (Or.inr (by linarith))
-  · have := lt_sub_of_increments b G hG h j i hlt
-    exact lt_abs.mpr (Or.inl (by linarith))
+  rcases lt_or_gt_of_ne hij with hij | hji
+  · rw [abs_sub_comm]
+    exact (lt_sub_of_increments b G hG h i j hij).trans_le (le_abs_self _)
+  · exact (lt_sub_of_increments b G hG h j i hji).trans_le (le_abs_self _)
+
 
 theorem cayley_weight_high_index (k r : ℕ) (v : Fin (k - 1) → ℝ) (b : Fin (2 * r + 2) → ℝ)
     (i : Fin (2 * r + k + 1)) (hi : ¬ i.val < k - 1) :
@@ -57,32 +53,22 @@ theorem gapAtLeast_of_increments (k r : ℕ) (v : Fin (k - 1) → ℝ) (b : Fin 
     refine le_trans ?_ (le_abs_self _)
     linarith
   intro a c hac
-  by_cases ha : a.val < k - 1 <;> by_cases hc : c.val < k - 1
-  · exfalso; apply hac; simp only [eps48, if_pos ha, if_pos hc]
-  · have hp : (c.val - (k - 1)) % 2 = 1 := by
+  wlog horder : a ≤ c generalizing a c
+  · simpa only [abs_sub_comm] using this c a hac.symm (le_of_not_ge horder)
+  by_cases ha : a.val < k - 1
+  · by_cases hc : c.val < k - 1
+    · exact (hac (by simp only [eps48, if_pos ha, if_pos hc])).elim
+    have hp : (c.val - (k - 1)) % 2 = 1 := by
       by_contra hne
-      apply hac
-      simp only [eps48, if_pos ha, if_neg hc]
-      simp [show (c.val - (k - 1)) % 2 = 0 by omega]
+      exact hac (by simp [eps48, ha, hc, show (c.val - (k - 1)) % 2 = 0 by omega])
     exact key a c ha hc hp
-  · have hp : (a.val - (k - 1)) % 2 = 1 := by
-      by_contra hne
-      apply hac
-      simp only [eps48, if_pos hc, if_neg ha]
-      simp [show (a.val - (k - 1)) % 2 = 0 by omega]
-    rw [abs_sub_comm]; exact key c a hc ha hp
-  · rw [cayley_weight_high_index k r v b a ha, cayley_weight_high_index k r v b c hc]
-    have hne : (⟨c.val - (k - 1), by have := c.isLt; omega⟩ : Fin (2 * r + 2)) ≠
-        ⟨a.val - (k - 1), by have := a.isLt; omega⟩ := by
-      intro heq
-      apply hac
-      have hv : c.val - (k - 1) = a.val - (k - 1) := congrArg Fin.val heq
-      simp only [eps48, if_neg ha, if_neg hc]
-      rw [hv]
-    have := lt_abs_sub_of_increments b G hG hb _ _ hne
-    rw [show -b ⟨a.val - (k - 1), by have := a.isLt; omega⟩ - -b ⟨c.val - (k - 1), by have := c.isLt; omega⟩ =
-      b ⟨c.val - (k - 1), by have := c.isLt; omega⟩ - b ⟨a.val - (k - 1), by have := a.isLt; omega⟩ by ring]
-    exact this.le
+  · have hc : ¬ c.val < k - 1 := fun h => ha (lt_of_le_of_lt horder h)
+    rw [cayley_weight_high_index k r v b a ha, cayley_weight_high_index k r v b c hc, neg_sub_neg]
+    refine (lt_abs_sub_of_increments b G hG hb _ _ ?_).le
+    intro heq
+    have hv := congrArg Fin.val heq
+    exact hac (congrArg (eps48 k r) (Fin.ext (by simp only at hv; omega)))
+
 
 theorem q_le_of_cayley_signature (k r : ℕ) : qOf (eps48 k r) ≤ r + 1 := by
   have hodd : ∀ x : Fin (2 * r + k + 1), eps48 k r x = false →
@@ -128,6 +114,24 @@ theorem cubic_bound_of_gap_nat (n r t M : ℕ) (hM : M = n + (2 * r + 2) * t) (h
     _ ≤ 2 * ((n + X) * (n + X) * (n + X)) := by gcongr
     _ = 2 * (n + X) ^ 3 := by ring
 
+/-- The operator-norm integrability threshold is largest at the upper bound
+for the split rank. -/
+theorem weighted_gap_threshold_le (n q r : ℝ) (hq : 0 ≤ q) (hqr : q ≤ r)
+    (hr : 1 ≤ r) (hn : r ≤ n) :
+    8 * Real.sqrt (2 * q) * (4 * n ^ 2 * Real.sqrt (2 * r) + 2 * n * q) ≤ 96 * n ^ 2 * r := by
+  let s := Real.sqrt (2 * r)
+  have hs : 0 ≤ s := Real.sqrt_nonneg _
+  have hs_sq : s ^ 2 = 2 * r := Real.sq_sqrt (by linarith)
+  have hs_one : 1 ≤ s := by nlinarith
+  have hn_nonneg : 0 ≤ n := by linarith
+  have hs_le : Real.sqrt (2 * q) ≤ s := Real.sqrt_le_sqrt (by linarith)
+  have hq_le : q ≤ n * s := (hqr.trans hn).trans (le_mul_of_one_le_right hn_nonneg hs_one)
+  calc
+    _ ≤ 8 * s * (6 * n ^ 2 * s) :=
+      mul_le_mul (by gcongr) (by nlinarith [mul_le_mul_of_nonneg_left hq_le hn_nonneg])
+        (by positivity) (by positivity)
+    _ = _ := by linear_combination 48 * n ^ 2 * hs_sq
+
 theorem cayley_weight_gap (k r : ℕ) (v : Fin (k - 1) → ℝ) (b : Fin (2 * r + 2) → ℝ)
     (hlam : Formalism.QuantumDeterminants.IsHCParam (Formalism.MainNotions.CayleySignature.lam48 k r v b)) (hgap : Formalism.MainNotions.CayleySignature.GapBig k r b) :
     ∃ h : ℝ, Formalism.QuantumDeterminants.GapAtLeast (Formalism.MainNotions.CayleySignature.eps48 k r) (Formalism.MainNotions.CayleySignature.lam48 k r v b) h ∧
@@ -164,27 +168,10 @@ theorem cayley_weight_gap (k r : ℕ) (v : Fin (k - 1) → ℝ) (b : Fin (2 * r 
       exact_mod_cast hnat2
     have hM3 : (0 : ℝ) ≤ (M : ℝ) ^ 3 := by positivity
     refine ⟨by linarith, ?_⟩
-    have hN0 : (0 : ℝ) ≤ ((2 * r + k + 1 : ℕ) : ℝ) := Nat.cast_nonneg _
-    have hQ0 : (0 : ℝ) ≤ (S7.q0 (eps48 k r) : ℝ) := Nat.cast_nonneg _
-    have hR1 : (1 : ℝ) ≤ ((r + 1 : ℕ) : ℝ) := by exact_mod_cast (by omega : 1 ≤ r + 1)
-    have hRN : ((r + 1 : ℕ) : ℝ) ≤ ((2 * r + k + 1 : ℕ) : ℝ) := by exact_mod_cast (by omega : r + 1 ≤ 2 * r + k + 1)
-    have hQR : (S7.q0 (eps48 k r) : ℝ) ≤ ((r + 1 : ℕ) : ℝ) := by exact_mod_cast hq0
-    have hs0 := Real.sqrt_nonneg (2 * (S7.q0 (eps48 k r) : ℝ))
-    have hu0 := Real.sqrt_nonneg (2 * ((r + 1 : ℕ) : ℝ))
-    have hu2 : Real.sqrt (2 * ((r + 1 : ℕ) : ℝ)) ^ 2 = 2 * ((r + 1 : ℕ) : ℝ) := Real.sq_sqrt (by positivity)
-    have hsu : Real.sqrt (2 * (S7.q0 (eps48 k r) : ℝ)) ≤ Real.sqrt (2 * ((r + 1 : ℕ) : ℝ)) :=
-      Real.sqrt_le_sqrt (by linarith)
-    have hu1' : 1 ≤ Real.sqrt (2 * ((r + 1 : ℕ) : ℝ)) := by nlinarith
-    have hu1 : Real.sqrt (2 * ((r + 1 : ℕ) : ℝ)) ≤ 2 * ((r + 1 : ℕ) : ℝ) := by nlinarith
-    have hsu' : Real.sqrt (2 * (S7.q0 (eps48 k r) : ℝ)) * Real.sqrt (2 * ((r + 1 : ℕ) : ℝ)) ≤
-        2 * ((r + 1 : ℕ) : ℝ) := by
-      nlinarith [mul_le_mul_of_nonneg_right hsu hu0]
-    have hQs : (S7.q0 (eps48 k r) : ℝ) * Real.sqrt (2 * (S7.q0 (eps48 k r) : ℝ)) ≤
-        ((r + 1 : ℕ) : ℝ) * (2 * ((r + 1 : ℕ) : ℝ)) :=
-      mul_le_mul hQR (hsu.trans hu1) hs0 (by linarith)
-    have p1 := mul_le_mul_of_nonneg_left hsu' (sq_nonneg ((2 * r + k + 1 : ℕ) : ℝ))
-    have p2 := mul_le_mul_of_nonneg_left hQs hN0
-    have p3 := mul_le_mul_of_nonneg_left hRN (mul_nonneg hN0 (by linarith : (0 : ℝ) ≤ ((r + 1 : ℕ) : ℝ)))
-    nlinarith [p1, p2, p3, c2]
+    refine (weighted_gap_threshold_le _ _ _ (by positivity) ?_ ?_ ?_).trans_lt (by linarith)
+    · exact_mod_cast hq0
+    · exact_mod_cast (show 1 ≤ r + 1 by omega)
+    · exact_mod_cast (show r + 1 ≤ 2 * r + k + 1 by omega)
+
 
 end ReciprocityTheory.ChartRestriction.DS
