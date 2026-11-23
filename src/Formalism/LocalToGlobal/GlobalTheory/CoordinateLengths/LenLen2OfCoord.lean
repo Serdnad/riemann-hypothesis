@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.GlobalTheory.CoordinateLengths.PairingAdjointness
+public import Formalism.LocalToGlobal.GlobalTheory.CoordinateLengths.Bundle001
 public import Formalism.LocalToGlobal.GlobalTheory.CoordinateLengths.PairingContinuityBound
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,8 +1,8 @@
 module
 
-public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.StatementAB
-public import Formalism.GrowthSums.FactorialBaseGrowth.PathBasisOfCount
-public import Formalism.GrowthSums.FactorialBaseGrowth.QuadraticExponentIdentity
+public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.Bundle002
+public import Formalism.GrowthSums.FactorialBaseGrowth.Bundle002
+public import Formalism.GrowthSums.FactorialBaseGrowth.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

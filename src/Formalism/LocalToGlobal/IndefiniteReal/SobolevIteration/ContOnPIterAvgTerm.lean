@@ -1,8 +1,7 @@
 module
 
 public import Formalism.LocalToGlobal.IndefiniteReal.SobolevIteration.PdsEqIteratedFDeriv
-import Formalism.LocalToGlobal.IndefiniteReal.SobolevIteration.ArvOSobPfA
-import Formalism.LocalToGlobal.IndefiniteReal.SobolevIteration.ArvOSobPfAs
+import Formalism.LocalToGlobal.IndefiniteReal.SobolevIteration.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

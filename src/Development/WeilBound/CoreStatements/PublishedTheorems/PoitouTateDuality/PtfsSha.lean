@@ -1,6 +1,6 @@
 module
 
-public import Development.WeilBound.CoreStatements.PublishedTheorems.PoitouTateDuality.PtfsDefs
+public import Development.WeilBound.CoreStatements.PublishedTheorems.PoitouTateDuality.Bundle001
 public import GroundTheory.ProfiniteCohomology.PoitouTate.PtCompactDualMapEqZeroOfPtCompactToGlobalEqZero
 public import GroundTheory.ProfiniteCohomology.RestrictedRamification.BaseDefs
 public import GroundTheory.ProfiniteCohomology.PoitouTate.PoitouTateNineTermGs

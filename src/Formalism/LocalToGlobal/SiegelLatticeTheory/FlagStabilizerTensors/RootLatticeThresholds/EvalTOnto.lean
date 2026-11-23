@@ -42,7 +42,7 @@ import Mathlib.Topology.Sheaves.Init
 public import Formalism.LocalRingCardinality.DataTheta
 public import Formalism.LocalToGlobal.BesselHermitianTheta.IsAutFunDef
 import Formalism.LocalToGlobal.BesselHermitianTheta.NoncompactGapAtLeastRange
-import Formalism.LocalToGlobal.IndefiniteReal.AutomorphicEvaluation
+import Formalism.LocalToGlobal.IndefiniteReal.Bundle017
 public import Formalism.LocalToGlobal.IndefiniteReal.ScalarOnPartsFull
 
 @[expose] public section

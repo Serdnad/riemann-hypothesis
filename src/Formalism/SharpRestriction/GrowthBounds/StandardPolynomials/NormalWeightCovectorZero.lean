@@ -3,7 +3,7 @@ module
 public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.IdentityLiftWeightedHomog
 import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.HookKeyOrderGeOne
 public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.KeyMinorDvd
-public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.PsiRes0Ne
+public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.Bundle009
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -44,8 +44,8 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.LiftSubstStart
-public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.Loc4DivOf
+public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.Bundle006
+public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.Bundle007
 
 @[expose] public section
 

@@ -2,10 +2,10 @@ module
 
 public import CompanionTheory.SpectralGeometry.CountingDefinitions.AdelicEulerProducts.CountData
 public import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.GenusMassVolumes
-public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.FiniteAdeleTopologyStatement
+public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.Bundle047
 public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.SchurFunctionSmoothRightInvariant
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.EventuallyFinEqOne
-public import GroundTheory.GlobalFields.TateThesis.ArchCharsUnitary
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle072
+public import GroundTheory.GlobalFields.TateThesis.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -46,8 +46,8 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.PublishedTheorems.GlobalTheta.IsSchwartzBruhatOfProd
-import Development.AutomorphicSpectrum.Proofs.GlobalProofs.IsCovolOne
+import Development.AbelianVarietyTheory.PublishedTheorems.GlobalTheta.Bundle002
+import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle053
 
 @[expose] public section
 

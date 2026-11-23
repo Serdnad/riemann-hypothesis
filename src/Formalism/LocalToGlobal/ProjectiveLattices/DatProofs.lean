@@ -1,12 +1,12 @@
 module
 
-public import Formalism.LocalToGlobal.ProjectiveLattices.DatumOfRecordSignature
-public import Formalism.LocalToGlobal.ProjectiveLattices.DatMat
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle036
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle002
 public import Formalism.LocalToGlobal.ProjectiveLattices.DatTheta
 import Formalism.LocalRingCardinality.ConjSqrtMinusD
-public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.FactPrincipalDatum
-import Formalism.LocalToGlobal.ProjectiveLattices.HostRank
-public import Formalism.LocalToGlobal.ProjectiveLattices.SumEmbeddingsEq
+public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.Bundle002
+import Formalism.LocalToGlobal.ProjectiveLattices.Bundle017
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,11 +1,11 @@
 module
 
 import Development.AbelianVarietyTheory.Proofs.FlagMeasures.KTypeGeneratedByHighest
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.ActSingleNeZero
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle007
 public import Formalism.SharpRestriction.CuspSpanNormBounds.RelevantZeroGramTerms
 public import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
 public import Formalism.RealPlaceAnalysis.FinalF
-public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.CompactExponentialSurjective
+public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

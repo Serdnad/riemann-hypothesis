@@ -1,10 +1,10 @@
 module
 
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.CIndFrFix
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.CalcAdd
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle014
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.Bundle002
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.FBIdJet
-import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermDJet
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ThetaSwapFirstTwo
+import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle013
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle022
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

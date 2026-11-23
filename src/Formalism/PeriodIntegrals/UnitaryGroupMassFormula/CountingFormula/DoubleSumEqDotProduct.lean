@@ -1,8 +1,8 @@
 module
 
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CountingFormula.DensGSC
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CountingFormula.DensGS
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CountingFormula.DensGSO
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CountingFormula.Bundle002
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CountingFormula.Bundle008
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CountingFormula.Bundle010
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -52,7 +52,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Formalism.SharpRestriction.CuspSpanNormBounds.Point
+import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle001
 
 @[expose] public section
 

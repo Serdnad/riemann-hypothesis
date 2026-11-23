@@ -1,9 +1,9 @@
 module
 
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.EigenvalueSeparation.StableEigenspaces.InterpolationL2Bound
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CentralEigenExponential
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LieCentralElementTrace
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.TraceOperatorEigenvalueSum
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle404
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle401
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle415
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

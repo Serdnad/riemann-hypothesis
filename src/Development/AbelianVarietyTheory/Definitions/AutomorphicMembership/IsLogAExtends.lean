@@ -1,8 +1,8 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsCrisP
-public import ReciprocityTheory.DualLattices.ExistsPrimitiveRoot
-public import Development.AbelianVarietyTheory.CrystallinePeriods.AdicMaps
+public import ReciprocityTheory.DualLattices.Bundle003
+public import Development.AbelianVarietyTheory.CrystallinePeriods.Bundle001
 public import Development.AbelianVarietyTheory.CrystallinePeriods.CrisMapsLoc
 public import Development.AbelianVarietyTheory.CrystallinePeriods.RingBasics
 public import Development.AbelianVarietyTheory.CrystallinePeriods.RingIface

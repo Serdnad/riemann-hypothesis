@@ -3,7 +3,7 @@ module
 public import Formalism.UnipotentAdelicQuotients.SWXSDefs
 public import GroundTheory.GlobalFields.IdeleGroups.IdeleNorms
 public import GroundTheory.IdeleRoots.TorusPowers.HeckeTensor
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IdeleModuleConjugationInvariant
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle734
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -43,7 +43,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.MatrixTransvectionDiagonalDecomposition
+import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.Bundle001
 import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.OfE
 import Development.WeilBound.RepresentationTheoryGL.SiegelWeilProof.BaseOneSide.PsiSide
 

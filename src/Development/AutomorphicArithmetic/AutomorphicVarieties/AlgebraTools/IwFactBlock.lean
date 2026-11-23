@@ -1,7 +1,7 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.HeckePairTop
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.IwFactTorus
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.Bundle017
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.Bundle030
 import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.IwMemIwC
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

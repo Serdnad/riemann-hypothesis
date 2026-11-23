@@ -1,7 +1,7 @@
 module
 
-public import ReciprocityTheory.ClassFieldTheory.LocalClassField.UnitsHerbrandF
-public import ReciprocityTheory.ClassFieldTheory.LocalClassField.HerbrandB
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.Bundle009
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -45,7 +45,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 import ReciprocityTheory.ClassFieldTheory.LocalClassField.GalBasic
-public import ReciprocityTheory.ClassFieldTheory.LocalClassField.UnitsHerbrandE
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.Bundle005
 
 @[expose] public section
 

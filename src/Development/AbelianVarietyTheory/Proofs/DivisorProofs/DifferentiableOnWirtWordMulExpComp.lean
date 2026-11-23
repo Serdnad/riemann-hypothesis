@@ -47,9 +47,9 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.DefiningCoordinates
+import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.Bundle007
 import Development.AbelianVarietyTheory.Definitions.Divisors.EntireEqOfHalfPlane
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DifferentiableRisingS
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle589
 
 @[expose] public section
 

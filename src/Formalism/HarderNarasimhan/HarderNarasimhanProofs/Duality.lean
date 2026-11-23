@@ -1,11 +1,11 @@
 module
 
 public import Formalism.HarderNarasimhan.Statement
-public import Formalism.LatticeSlopes.LatticeSlopesProofs.CovolEqGram
+public import Formalism.LatticeSlopes.LatticeSlopesProofs.Bundle001
 public import Formalism.LatticeSlopes.LatticeSlopesProofs.CovolPos
 public import Formalism.LatticeSlopes.LatticeSlopesProofs.DegQuot
 public import Formalism.LatticeSlopes.LatticeSlopesProofs.OrthSum
-public import Formalism.LatticeSlopes.LatticeSlopesProofs.SaturationProperties
+public import Formalism.LatticeSlopes.LatticeSlopesProofs.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

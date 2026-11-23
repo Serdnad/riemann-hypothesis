@@ -1,7 +1,7 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsFinsetTypesOfBoundedBases
-public import ReciprocityTheory.SemistableReduction.LatSemiSt
+public import ReciprocityTheory.SemistableReduction.Bundle010
 public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.CmApproximationTransference
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsThickPointHyperbolic
 import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.TraceHermNondegenerate
@@ -53,12 +53,11 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.PackingSeparation
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.DiscriminantEstimates.DiscriminantTheorems.ScaledBoundInequality
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.Bundle016
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.DiscriminantEstimates.DiscriminantTheorems.Bundle001
 public import ReciprocityTheory.SemistableReduction.SemiAll
-import ReciprocityTheory.SemistableReduction.SemiDegAA
-import ReciprocityTheory.SemistableReduction.SemiDegH
-import ReciprocityTheory.SemistableReduction.SemiDegZ
+import ReciprocityTheory.SemistableReduction.Bundle009
+import ReciprocityTheory.SemistableReduction.Bundle027
 
 @[expose] public section
 

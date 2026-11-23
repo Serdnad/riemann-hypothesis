@@ -1,16 +1,16 @@
 module
 
 public import Development.WeilBound.ThetaLifts.EigenvalueEndgame.EigenKilling.ConeIntegralFactorisation
-public import Development.WeilBound.ThetaLifts.FrameEstimates.HodgeTateFromSandwich
+public import Development.WeilBound.ThetaLifts.FrameEstimates.Bundle002
 public import Development.WeilBound.ThetaLifts.LocalTheory.UnramifiedDeterminedBySpherical
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsNatMulIntegralOfIsCompact
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HermitianSelfDualLatticeSpaceFormHermitianNondeg
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.PureEqPureA
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1259
+public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle049
 public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.ContinuousFinId
 public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.SoStatement
-public import Development.WeilBound.ThetaLifts.CartanFactorisation.IntegrableOnRight
+public import Development.WeilBound.ThetaLifts.CartanFactorisation.Bundle001
 public import Development.WeilBound.ThetaLifts.ConeHypotheses.PureEqPureA
-import Formalism.LocalToGlobal.IndefiniteReal.PHeisFC
+import Formalism.LocalToGlobal.IndefiniteReal.Bundle014
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

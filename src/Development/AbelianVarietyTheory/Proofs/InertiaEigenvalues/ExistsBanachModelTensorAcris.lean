@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.ConvZero
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle006
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.PowMulMemLatIff
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsAddValuationFinExt
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsCoeffTensorAcrisWithFrobeniusGaloisStatement
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle279
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle437
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsNormedAway
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.MemDeRhamFiltrationOfForallAinfLattice
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle409
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

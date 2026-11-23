@@ -4,7 +4,7 @@ public import Mathlib.RingTheory.AlgebraicIndependent.Defs
 public import Mathlib.RingTheory.Ideal.Quotient.Operations
 public import Mathlib.RingTheory.IntegralClosure.IsIntegral.Defs
 public import Mathlib.RingTheory.MvPolynomial.Homogeneous
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ImportsTailMore
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle016
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

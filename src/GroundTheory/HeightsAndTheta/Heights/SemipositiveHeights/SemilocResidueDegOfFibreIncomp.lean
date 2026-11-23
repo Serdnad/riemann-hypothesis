@@ -1,23 +1,23 @@
 module
 
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArithmeticIntersection.MixedFieldContraction.ContractMixedFieldStatement
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.StatementsFibreIncomp
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.StatementsSemilocResidueDeg
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArithmeticIntersection.MultihomogeneousIdeals.ExistsUniqueStatement
-public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.Assembly
-public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.PContractRelDimLe
-public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.PDivPushForward
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle030
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle033
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArithmeticIntersection.MultihomogeneousIdeals.Bundle002
+public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.Bundle014
+public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.Bundle007
+public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.Bundle010
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.Assembly
-import GroundTheory.HeightsAndTheta.Heights.Intersections.PFibreDivSupp
-import GroundTheory.HeightsAndTheta.Heights.Intersections.PFibreOverFinite
+import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle034
+import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle039
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.PSemilocMaxIdeals
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.PSemilocResidueAdjoin
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.PSemilocResidueDeg
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.PSemilocResidueFibreDim
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle038
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle042
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.PSemilocResidueFrac
 public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.PFnDegRelDeg
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.ProjDeg
-public import GroundTheory.HeightsAndTheta.Heights.SemipositiveHeights.NumericalSegre
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle022
+public import GroundTheory.HeightsAndTheta.Heights.SemipositiveHeights.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

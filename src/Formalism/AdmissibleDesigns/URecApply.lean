@@ -1,8 +1,8 @@
 module
 
-public import Formalism.AdmissibleDesigns.KoEquivSmul
+public import Formalism.AdmissibleDesigns.Bundle001
 public import Formalism.AdmissibleDesigns.FiniteClassesContinuousLattice
-public import Formalism.AdmissibleDesigns.BlockTwistedCyclotomic
+public import Formalism.AdmissibleDesigns.Bundle002
 public import Formalism.AdmissibleDesigns.ExistsWildInertiaCyclotomicGenerator
 import Formalism.SharpRestriction.LevelLetterCocycles.ExistsInertiaCharpolyFactorOfTameType
 import Mathlib.Algebra.Order.Floor.Extended

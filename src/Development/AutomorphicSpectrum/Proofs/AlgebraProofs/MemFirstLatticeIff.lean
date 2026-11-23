@@ -1,8 +1,8 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.LieLatticeData
-public import Development.AutomorphicSpectrum.Statements.AlgebraStatements.PolarisedFlagStatement
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.MemFlagSubIff
+public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.Bundle002
+public import Development.AutomorphicSpectrum.Statements.AlgebraStatements.Bundle001
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle051
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

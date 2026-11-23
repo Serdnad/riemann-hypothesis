@@ -2,13 +2,13 @@ module
 
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TwistedLocalOrbits.Match
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TwistedLocalOrbits.HoweSpace
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.TraceFormula.OrbitalIntegrals.TwistedOrbitalIntegrals.ExtCont
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.TraceFormula.OrbitalIntegrals.TwistedOrbitalIntegrals.Bundle001
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.TraceFormula.OrbitalIntegrals.TwistedOrbitalIntegrals.HeckeRepresentationSatake
-public import Development.AutomorphicArithmetic.Foundations.Convolution.TwistedLocalOrbits.Bridge
+public import Development.AutomorphicArithmetic.Foundations.Convolution.TwistedLocalOrbits.Bundle003
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TwistedLocalOrbits.NearCore
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TwistedLocalOrbits.OpenNear
 import Development.AutomorphicArithmetic.Foundations.Convolution.TwistedLocalOrbits.RigidNear
-import Development.AutomorphicArithmetic.Foundations.Convolution.TwistedLocalOrbits.ValuationNatCastLeOne
+import Development.AutomorphicArithmetic.Foundations.Convolution.TwistedLocalOrbits.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -59,7 +59,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Algebra.Group.Units
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.IwahoriDoubleCosets
+import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.Bundle004
 
 @[expose] public section
 
@@ -180,7 +180,7 @@ theorem UpperTheory.ConvolutionTheory.Loc.nearUp :
   have hs0 : r * valuation E (Module.finrank k E : E) ≠ 0 := (mul_pos hr0 (hr0.trans hr)).ne'
   obtain ⟨ρ, hρ, hρb⟩ := small (k := k) (n := n) hs0
   refine ⟨ρ, hρ, fun f hf hs => ?_⟩
-  set K := ballSub n r hr1 with hK
+  set K := _root_.UpperTheory.ConvolutionTheory.Loc.BallG.ballSub n r hr1 with hK
   have hKo : IsOpen (K : Set (GL (Fin n) E)) := isOpen_ball hr0.ne'
   have hKc : IsCompact (K : Set (GL (Fin n) E)) := isCompact_ball hr1
   set K' : Subgroup (GL (Fin n) k) := K.comap (incl : GL (Fin n) k →* GL (Fin n) E) with hK'

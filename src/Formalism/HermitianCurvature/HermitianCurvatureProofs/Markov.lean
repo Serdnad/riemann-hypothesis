@@ -1,6 +1,6 @@
 module
 
-public import Formalism.HermitianCurvature.StatementE
+public import Formalism.HermitianCurvature.Bundle001
 public import Mathlib.LinearAlgebra.Lagrange
 public import Mathlib.RingTheory.Polynomial.Chebyshev
 import Mathlib.Algebra.Order.Archimedean.Real.Hom

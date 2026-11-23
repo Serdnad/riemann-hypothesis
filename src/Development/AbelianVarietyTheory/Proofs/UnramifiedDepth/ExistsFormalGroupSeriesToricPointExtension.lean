@@ -1,9 +1,9 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.TeichmullerDepth.IsEigBasisIff
-public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.ExistsPowerSeriesOfNaturalNilpotentPoints
-import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.NEvalSqZero
-public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.PowerSeriesEqOfEvalAtNilpotentPointsEq
+public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.Bundle042
+import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.Bundle036
+public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.Bundle037
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

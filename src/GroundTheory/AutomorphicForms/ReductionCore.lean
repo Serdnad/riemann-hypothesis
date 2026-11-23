@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.AutomorphicForms.ReductionIwasawa
-public import GroundTheory.AutomorphicForms.ReductionBlock
+public import GroundTheory.AutomorphicForms.Bundle003
 public import GroundTheory.AutomorphicForms.ReductionDirichlet
 public import GroundTheory.AutomorphicForms.ReductionFinite
 import Mathlib.Algebra.Order.Floor.Extended

@@ -1,23 +1,19 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.EntryAgree
-public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.NormalRepresentationLattice
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.CompletionRepresentativeMemPreviousIndexSetStatement
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.CompletionRepresentativesNormalFormModUnipotentStatement
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.EqOfSameDoubleCosetCompletionRowRepresentativesStatement
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsRationalDoubleCosetRepresentativeBoundsStatement
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsTwistIndexRepresentativeOfBoundsStatement
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsUniqueCompletionMatrixOfRationalTwistAutStatement
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.FirstStepCompletionRepresentativesEqOneStatement
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ParahoricLevelsCharactersDoubleCosetsAgreeRationStatement
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.TwistParahoricChainLastStepsAgreeColumnsStatement
+public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.Bundle005
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle270
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle058
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle063
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle057
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle083
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.PadicIsNonarchimedeanLocalField
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsConjReferenceChartIndex
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.UnfoldedDatumNeZeroIffDoubleCosetStatement
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.LatticeClasses
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.TwistSupportPeriodicLevels
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle400
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle395
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle070
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle064
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ZpowMulMemPow
-import Formalism.LocalToGlobal.Columns.ChainLawLev
+import Formalism.LocalToGlobal.Columns.Bundle021
 import Formalism.LocalToGlobal.Columns.ChainTwOk
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -124,7 +120,7 @@ theorem continuous_of_cond {ψ : AddChar k Circle} (h : HasConductor ψ 1) : Con
 
 end Normal
 
-open NumberField IsDedekindDomain MeasureTheory ValuativeRel Matrix Formalism.BasicNotions Formalism.HermitianLatticesTheory Formalism.L2.DIV Formalism.L2.Col GlobalTheory.SplitWeil GlobalTheory.RootEx GlobalTheory.StepData GlobalTheory.TwBridge
+open NumberField IsDedekindDomain MeasureTheory ValuativeRel Matrix Formalism.BasicNotions Formalism.HermitianLatticesTheory Formalism.L2.DIV _root_.Formalism.L2.Col GlobalTheory.SplitWeil GlobalTheory.RootEx GlobalTheory.StepData GlobalTheory.TwBridge
 
 variable {X : Fields} {Pr : Primes X} {R : Ranks} {Ch : Chars X Pr R.m}
   {sel : HeightOneSpectrum (𝓞 X.F) → HeightOneSpectrum (𝓞 X.E)} {S₀ : Set ℕ} {mu : Tup X.F X.E X.K S₀}

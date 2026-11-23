@@ -1,11 +1,10 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsBlockResolutionMixedBridge
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsResolutionMixedBridge
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.PullBad
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle046
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle042
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle014
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.AssemblyBase
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PBlockResolutionMixedBridge
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PResolutionMixedBridge
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle094
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.ImportsExtra
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

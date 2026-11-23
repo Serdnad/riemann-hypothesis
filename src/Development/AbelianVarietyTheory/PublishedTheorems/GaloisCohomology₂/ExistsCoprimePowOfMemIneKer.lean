@@ -6,10 +6,10 @@ public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership
 public import ReciprocityTheory.GaloisValuations.GlobalB
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.WeilDeligneParamMonodromyEqZeroIff
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsTameGenAtOfValuationSubring
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ValuationPowApplyDivSubOneLt
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsPowCardEq
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle124
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle026
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsCongOfCongOnFixed
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ValuationApplyOfWild
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle078
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,7 +1,7 @@
 module
 
-public import Development.AutomorphicArithmetic.Foundations.Convolution.HermitianDescent.NormAlmostAll
-public import Development.AutomorphicArithmetic.Foundations.Convolution.HermitianDescent.GalField
+public import Development.AutomorphicArithmetic.Foundations.Convolution.HermitianDescent.Bundle001
+public import Development.AutomorphicArithmetic.Foundations.Convolution.HermitianDescent.Bundle002
 public import Development.AutomorphicArithmetic.Foundations.Convolution.HermitianDescent.HasseEt
 public import Development.AutomorphicArithmetic.Foundations.Convolution.HermitianDescent.RootMapRoot
 import Mathlib.Algebra.Order.Floor.Extended

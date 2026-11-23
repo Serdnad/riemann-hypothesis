@@ -1,9 +1,8 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.GlobalEulerCharacteristic.GlobalEulerFormulaInf
-public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.Scalars
-public import GroundTheory.ProfiniteCohomology.EulerChar
-public import GroundTheory.ProfiniteCohomology.GlobalEulerCharacteristic.RealHerbrand
+public import GroundTheory.ProfiniteCohomology.GlobalEulerCharacteristic.Bundle002
+public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.Bundle002
+public import GroundTheory.ProfiniteCohomology.Bundle010
 public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.Coprime
 public import GroundTheory.ProfiniteCohomology.RestrictedRamification.Finite
 import Mathlib.Algebra.Order.Floor.Extended

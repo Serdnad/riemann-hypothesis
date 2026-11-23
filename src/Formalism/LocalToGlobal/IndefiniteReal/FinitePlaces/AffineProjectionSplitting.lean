@@ -2,11 +2,11 @@ module
 
 public import Formalism.LocalToGlobal.IndefiniteReal.LocalNewformFunction
 public import Formalism.LocalToGlobal.BesselHermitianTheta.LemmasWeil
-public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.CharLem
+public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.Bundle008
 public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.FourUniq
-public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.PlaceAt
-import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.PlaceInst
-import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.GrowthNorm
+public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.Bundle013
+import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.Bundle012
+import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -50,8 +50,8 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.FourModel
-public import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.IsThetaFunOPull
+public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.Bundle001
+public import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.Bundle010
 
 @[expose] public section
 

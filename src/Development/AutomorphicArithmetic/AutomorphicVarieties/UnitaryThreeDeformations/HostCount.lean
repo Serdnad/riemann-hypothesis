@@ -1,20 +1,19 @@
 module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.IsHostFrame
-public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.PoitouTateNormalised
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.DvrFacts
+public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.Bundle003
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.Bundle008
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.DyadicCharacterPowerNeOne
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.ExistsAbsGaloisFixingSqrtNegOneCyclotomicNeOne
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.Bundle013
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.FinrankGradedPieceAndComplexConjugationInvariant
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.FinrankUnramifiedCocyclesEqFinrankInvariants
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.GlobalCohomologyFiniteSet
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.Bundle011
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.Bundle012
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.GlobalEulerCharacteristicRationalsOddPrime
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.HostLocVan
 import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.HostOk
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.LocalEulerCharacteristicRationals
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.SelmerComplexFiniteAndEulerCharacteristic
-import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeGroups.AdRepBaseLiftApply
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.HcAvg
+import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeGroups.Bundle001
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle042
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -64,6 +63,10 @@ import Mathlib.Topology.Separation.CompletelyRegular
 
 @[expose] public section
 
+local instance (priority := 2000) ratFieldIsTorsionFreeForHostCount (Ω : Type)
+    [Field Ω] [CharZero Ω] : Module.IsTorsionFree ℚ Ω :=
+  DivisionSemiring.to_moduleIsTorsionFree
+
 open Matrix IsLocalRing ReciprocityTheory.Gal UpperTheory.V.HV UpperTheory.V.U3 UpperTheory.V.Alg UpperTheory.V.UnitaryThreeInertia Module
 
 section Abs
@@ -72,6 +75,7 @@ variable {k D M : Type} [Field k] [Group D] [TopologicalSpace D] [AddCommGroup M
   [TopologicalSpace M] [DiscreteTopology M] (ρ : Representation k D M)
 
 private theorem rank_coboundaries_invariants : finrank k (B1 ρ) + finrank k (H0 ρ) = finrank k M := by
+  haveI : Nonempty D := ⟨1⟩
   have h : LinearMap.ker (d0 ρ) = H0 ρ := by
     ext m
     rw [LinearMap.mem_ker, mem_riemannRochSpace_iff_regularAt_everywhere, funext_iff]
@@ -377,8 +381,11 @@ theorem UpperTheory.V.UnitaryThreeInertia.hostFrame_count :
     have hp : Prime ((l : ℕ) : NumberField.RingOfIntegers ℚ) := by
       rw [e]
       exact (MulEquiv.prime_iff Rat.ringOfIntegersEquiv.symm.toMulEquiv).mpr h
+    have hdim : Ring.DimensionLEOne (NumberField.RingOfIntegers ℚ) :=
+      (NumberField.RingOfIntegers.instIsDedekindDomain ℚ).toIsDedekindRing.toDimensionLEOne
     have hm : (Ideal.span {((l : ℕ) : NumberField.RingOfIntegers ℚ)}).IsMaximal :=
-      ((Ideal.span_singleton_prime hp.ne_zero).2 hp).isMaximal (by simpa using hl.out.ne_zero)
+      hdim.maximalOfPrime (Ideal.span_singleton_eq_bot.not.mpr hp.ne_zero)
+        ((Ideal.span_singleton_prime hp.ne_zero).2 hp)
     refine Subtype.ext (IsDedekindDomain.HeightOneSpectrum.ext ?_)
     rw [← hm.eq_of_le v.1.isPrime.ne_top ((Ideal.span_singleton_le_iff_mem _).2 hv),
       ← hm.eq_of_le F.vl.1.isPrime.ne_top ((Ideal.span_singleton_le_iff_mem _).2 hF.vl)]

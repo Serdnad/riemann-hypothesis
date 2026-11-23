@@ -2,7 +2,7 @@ module
 
 public import GroundTheory.GlobalFields.NormResidueSymbol.RangeIdeleNormLeKerIdeleSymbol
 public import GroundTheory.GlobalFields.IdeleClassGroup.InvariantsGalois
-public import GroundTheory.GlobalFields.NormResidueSymbol.RestrictNormalInfiniteLocalSymbol
+public import GroundTheory.GlobalFields.NormResidueSymbol.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -43,7 +43,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
 public import GroundTheory.GlobalFields.IdeleClassGroup.IdeleClassMapIdeleClassMap
-public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.IdeleLimits
+public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.Bundle001
 
 @[expose] public section
 

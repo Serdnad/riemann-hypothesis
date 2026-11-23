@@ -1,7 +1,7 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.HermiteNormalForms.SmulStrictMono
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.HermiteNormalForms.Hnfone
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.HermiteNormalForms.Bundle001
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.HermiteNormalForms.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

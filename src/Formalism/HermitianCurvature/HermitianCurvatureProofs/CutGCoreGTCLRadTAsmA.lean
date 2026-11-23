@@ -1,8 +1,8 @@
 module
 
 public import Formalism.HermitianCurvature.StatementNF
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.NFRadRedA
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.NFRadRedF
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle082
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle135
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

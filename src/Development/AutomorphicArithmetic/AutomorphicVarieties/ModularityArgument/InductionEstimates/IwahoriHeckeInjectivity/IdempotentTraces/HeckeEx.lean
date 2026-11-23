@@ -2,7 +2,7 @@ module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.InductionEstimates.IwahoriHeckeInjectivity.HeckeInj
 import Development.AbelianVarietyTheory.Definitions.Foundations.MeasurePreservingRmulQuotMeas
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.InductionEstimates.IwahoriBlocks.IwahoriCentralBorel.LevLaws
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.InductionEstimates.IwahoriBlocks.IwahoriCentralBorel.Bundle003
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.InductionEstimates.IwahoriBlocks.IwahoriCentralBorel.RepsSmul
 import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.InductionEstimates.UnipotentBlockMatrices.ClosedKernelMinors.HpSpec
 import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.KernelTransforms.LocEmb
@@ -298,17 +298,17 @@ theorem UpperTheory.V.Z.InvariantSubmoduleMonicPolynomial.E.heckeEx :
     rw [← hy, ← hy']
     exact (UpperTheory.ConvolutionTheory.Tf.locEmb K (2 + 2) w).2.2.2.1 w' hne.symm y y'
   · have hf := dbl_finite hL h
-    have hsupp : ∀ g, tens b φ g ≠ 0 → finPart K (2 + 2) (g : AdelicGLn.AdelicGL K (2 + 2)) ∈ levOn S U := by
+    have hsupp : ∀ g, _root_.UpperTheory.ConvolutionTheory.tens b φ g ≠ 0 → finPart K (2 + 2) (g : AdelicGLn.AdelicGL K (2 + 2)) ∈ levOn S U := by
       intro g hg
       by_cases hc : Continuous (tensFun b φ) ∧ HasCompactSupport (tensFun b φ)
-      · have h1 : tens b φ g = tensFun b φ g := by
-          rw [tens, dite_eq_left hc]
+      · have h1 : _root_.UpperTheory.ConvolutionTheory.tens b φ g = tensFun b φ g := by
+          rw [_root_.UpperTheory.ConvolutionTheory.tens, dite_eq_left hc]
           rfl
         rw [h1, tensFun, hφ] at hg
         by_contra hn
         exact hg (by rw [Set.indicator_of_notMem (show _ ∉ (levOn S U : Set (FA K (2 + 2))) from hn), mul_zero])
-      · have h1 : tens b φ g = 0 := by
-          rw [tens, dite_eq_right hc]
+      · have h1 : _root_.UpperTheory.ConvolutionTheory.tens b φ g = 0 := by
+          rw [_root_.UpperTheory.ConvolutionTheory.tens, dite_eq_right hc]
           rfl
         exact absurd h1 hg
     have hAB := hAct.2.2 0
@@ -317,14 +317,14 @@ theorem UpperTheory.V.Z.InvariantSubmoduleMonicPolynomial.E.heckeEx :
     funext x
     rw [hM (PositivityTheory.Rg.Tf.IntegralApplyAeEq.symb β 0 v), ← hAB (M v) x, hop_eq, ops_sum hf]
     have h2 : ∀ c : FA K (2 + 2) ⧸ levOn S U, flat 0 (A.sec (PositivityTheory.Rg.Tf.IntegralApplyAeEq.symb β 0 v)) (x * fin1 c.out) =
-        ∫ g, tens b φ g * flat 0 (A.sec v) (x * fin1 c.out * g) ∂μ := fun c => (hAB v _).symm
+        ∫ g, _root_.UpperTheory.ConvolutionTheory.tens b φ g * flat 0 (A.sec v) (x * fin1 c.out * g) ∂μ := fun c => (hAB v _).symm
     simp only [h2]
-    have hint : ∀ c : FA K (2 + 2) ⧸ levOn S U, Integrable (fun g => tens b φ g * flat 0 (A.sec v) (x * fin1 c.out * g)) μ :=
-      fun c => ((tens b φ).continuous.mul ((hTc v).comp (continuous_const.mul continuous_id))).integrable_of_hasCompactSupport
-        (tens b φ).hasCompactSupport.mul_right
+    have hint : ∀ c : FA K (2 + 2) ⧸ levOn S U, Integrable (fun g => _root_.UpperTheory.ConvolutionTheory.tens b φ g * flat 0 (A.sec v) (x * fin1 c.out * g)) μ :=
+      fun c => ((_root_.UpperTheory.ConvolutionTheory.tens b φ).continuous.mul ((hTc v).comp (continuous_const.mul continuous_id))).integrable_of_hasCompactSupport
+        (_root_.UpperTheory.ConvolutionTheory.tens b φ).hasCompactSupport.mul_right
     rw [← integral_finsetSum _ fun c _ => hint c]
     refine integral_congr_ae (Eventually.of_forall fun g => ?_)
-    by_cases hg : tens b φ g = 0
+    by_cases hg : _root_.UpperTheory.ConvolutionTheory.tens b φ g = 0
     · simp [hg]
     have hu := hsupp g hg
     have hd := norm_one_adelic_split_arch_finite g (hLle hu)

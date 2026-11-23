@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.StatementsDimX
+public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.Bundle003
 public import GroundTheory.HeightsAndTheta.Heights.WeightedHomogeneous.PIntDomainDim
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

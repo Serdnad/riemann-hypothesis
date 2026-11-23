@@ -43,8 +43,8 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-import ReciprocityTheory.L2DbarEstimates.IsLocalHomeomorph
-import ReciprocityTheory.L2DbarEstimates.PlurisubharmonicCharts.FamilyLeCoords
+import ReciprocityTheory.L2DbarEstimates.Bundle001
+import ReciprocityTheory.L2DbarEstimates.PlurisubharmonicCharts.Bundle002
 
 @[expose] public section
 

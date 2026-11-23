@@ -2,7 +2,7 @@ module
 
 public import Formalism.SharpRestriction.GrowthBounds.FormalGroupSystem
 public import Formalism.SharpRestriction.GrowthBounds.LatticeSystems
-import Formalism.SubspaceCounting.SubspaceCountingProofs.ManyOrbits
+import Formalism.SubspaceCounting.SubspaceCountingProofs.Bundle001
 public import Formalism.ThetaLogCoordinates.ProductIdealMonotone.ProductIdealProofs.ElementarySymmetricExpBound
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,14 +1,13 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.StatementsStokesLimitTVb
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ExistsMeasurableDominatingFunctionStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.LocalHolomorphicSectionOfPotentialStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.LocalSectionOfPotentialOnModelStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.MixedIntegralModelFormulaStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.MixedIntegralTendstoOffDivisorStatement
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.RegularChartDataPropertiesStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.RegularizedWeightPshAndBoundsStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.RegularizedWeightTendstoC2Statement
+public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.Bundle020
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle141
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle089
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle152
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle144
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle023
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle139
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle101
 import GroundTheory.HeightsAndTheta.Heights.ElementarySymmetric.PNbarLeviChartReg
 import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.PMuRegSmooth
 import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.PNbarSmooth
@@ -60,7 +59,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import ReciprocityTheory.AnalyticForms.PotentialTheory.ContDiffAtOfIsPotential
+import ReciprocityTheory.AnalyticForms.PotentialTheory.Bundle003
 import ReciprocityTheory.AnalyticForms.PotentialTheory.PshShiftA
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterBridgeB
 import Std.Tactic.BVDecide.Normalize.Prop

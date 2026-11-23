@@ -1,17 +1,15 @@
 module
 
 public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.FullOfSoLoc
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FibRepApply
-import Development.AbelianVarietyTheory.Definitions.Foundations.SecondCountableAndT2LocalField
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HermitianSelfDualLatticeSpaceFormHermitianNondeg
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsOpenNormalisedSubgroupSubset
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.LeviIntegralFacts
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SmIndCoinvariants
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FibreRepresentationSmoothStatement
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.OmegaEquivInducedFibreStatement
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle122
+import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle006
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1259
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle039
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle062
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle071
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle155
 import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.ContinuousFinId
-import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.ExistsExtZ
-import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.ExistsFull
+import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.Bundle002
 import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.LocConstChar
 public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.PfDict
 import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.PfSurj
@@ -115,9 +113,9 @@ theorem irr_gen (NB : NarrowBernstein) (n t : ℕ) {μ : kˣ →* ℂˣ} (hμ : 
   have hρ : IsSmooth ρ := isSmooth_comp hτ _ ((continuous_apply false).prodMk (continuous_apply true))
   have hI : (parInd (two e) ρD).IsIrreducible :=
     NB k n t 1 μ (by unfold IsSmoothChar; simp) hμ (fun _ => by simp) hu (Or.inr hμ1.symm)
-  let σ := (twist ρ (deltaHalf k (Two (Fin n) (Fin t)))).comp (leviProj k (two e))
+  let σ := (_root_.GlobalTheory.SmGL.twist ρ (deltaHalf k (Two (Fin n) (Fin t)))).comp (leviProj k (two e))
   have hσ : IsSmooth σ := isSmooth_comp (isSmooth_twist hρ (isSmoothChar_deltaHalf k)) _ hcont
-  let α : Representation.IntertwiningMap σ ((twist ρD (deltaHalf k (Two (Fin n) (Fin t)))).comp (leviProj k (two e))) :=
+  let α : Representation.IntertwiningMap σ ((_root_.GlobalTheory.SmGL.twist ρD (deltaHalf k (Two (Fin n) (Fin t)))).comp (leviProj k (two e))) :=
     compMap (twistMap q _) _
   let T : Γ → Representation.IntertwiningMap σ σ := fun γ =>
     compMap (twistMap (actFst τ γ) (deltaHalf k (Two (Fin n) (Fin t)))) (leviProj k (two e))

@@ -1,8 +1,8 @@
 module
 
 import Development.AbelianVarietyTheory.Proofs.FlagMeasures.SmulMemOfOne
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.RowMinor
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsIntegerAddStarEqOneOfIsCMUnram
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle012
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle058
 public import Formalism.HermitianLattices.HermitianLatticesProofs.GenusBasic
 import Formalism.HermitianLattices.HermitianLatticesProofs.IsomAct
 import Mathlib.Algebra.AffineMonoid.Basic

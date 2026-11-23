@@ -1,12 +1,12 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsTransition
-public import Development.AutomorphicSpectrum.Definitions.AdelicLattices.FactPrimes
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle014
+public import Development.AutomorphicSpectrum.Definitions.AdelicLattices.Bundle001
 public import Development.AbelianVarietyTheory.Statements.PlaceShiftStatements.PointShiftStOfPlaceShiftSt
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.SesqSesquilinearSkewHermitianStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.SesqUnimodularDualStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.UltrametricDetNormLeStatement
-public import Development.WeilBound.CoreStatements.SesquilinearFractions.DTrans
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle050
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle053
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle013
+public import Development.WeilBound.CoreStatements.SesquilinearFractions.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

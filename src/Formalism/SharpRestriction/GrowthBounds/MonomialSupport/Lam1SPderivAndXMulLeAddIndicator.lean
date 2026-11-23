@@ -1,7 +1,7 @@
 module
 
 public import Formalism.SharpRestriction.GrowthBounds.PlaneCoefficients.NoOpStep
-public import Formalism.SharpRestriction.GrowthBounds.GLWeightTheory
+public import Formalism.SharpRestriction.GrowthBounds.Bundle007
 public import Formalism.SharpRestriction.GrowthBounds.MonomialSupport.SupportSubNuSet
 public import Formalism.SharpRestriction.GrowthBounds.TwistedSubstitution.JointEIntList
 public import Formalism.SharpRestriction.GrowthBounds.TwistedSubstitution.TwistedMonomialFiltration.MaxTwistDegreePderivLeAddOne

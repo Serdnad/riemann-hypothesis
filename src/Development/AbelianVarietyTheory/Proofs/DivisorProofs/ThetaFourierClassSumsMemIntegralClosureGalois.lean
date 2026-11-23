@@ -1,19 +1,19 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.LabRange
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CongModOfMkEq
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsDiagEndIsMonHom
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsFinitePoint
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsIsHom
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsIsLab
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle071
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3411
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2931
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3363
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2642
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3377
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IntegralClosureStalkFibre
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsLabOntoAndKer
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LabelsLift
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LatticeEquivOfSameCentre
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LbIsoPullComp
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MemOOfPowEqOne
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PrimeEqOfNatCastEqZero
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ThetaSetupStalkNoetherianNormalFractionRing
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2929
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3289
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3369
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3157
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3442
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2640
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2792
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

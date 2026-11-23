@@ -1,22 +1,22 @@
 module
 
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalGaloisCompatibility.Chl
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.BzfinHolds
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GeometricLemmaFiltrationHolds
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HeckeCharCMEtaLocalEqNegOnePowValInert
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsSubquotSmIndCongr
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsSubquotientProdIrrUc
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsUnitarisableOfIsLocCompCusp
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1763
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2161
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1583
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle456
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2363
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2350
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.HasSatakeGLOfIsSatVecGL
 import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsEquivProdIrrTw
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsIsUnitaryTwistAbsPow
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsGenericOfIsLocComp
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LanglandsQuotientOfSpehTypeProductIsL
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle544
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle785
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle466
 import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NontrivialTwJacquetOfSurjective
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsPolarizedTwistAbsPow
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.SupercuspidalSupportTwistNuCharacters
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.GeometricLemmaOfFiltration
-import Development.AutomorphicSpectrum.Proofs.GlobalProofs.HasSupportOfIsSubquotientProdIrr
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle293
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle554
+import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle067
 import GroundTheory.LocalFields.PadicLogSeries
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -54,7 +54,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
-import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.RestrictsSelf
+import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle013
 
 @[expose] public section
 

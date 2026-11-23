@@ -2,7 +2,7 @@ module
 
 public import GroundTheory.ArithmeticGeometry.AbelianVarieties.DualIsogeny
 public import GroundTheory.ArithmeticGeometry.AbelianVarieties.DivisorsTranslate
-public import GroundTheory.ArithmeticGeometry.AbelianVarieties.WeilFixedField
+public import GroundTheory.ArithmeticGeometry.AbelianVarieties.Bundle004
 public import GroundTheory.ArithmeticGeometry.AbelianVarieties.WeilTranslate
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,9 +1,9 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.IsPartPartSec
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsPowEqTorus
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsUniqueIsRatio
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.GroupAlgebraSingleOneMemOfSpan
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle043
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle089
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

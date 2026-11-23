@@ -1,9 +1,9 @@
 module
 
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalMassType.CongruenceLiftOfBasis
-public import Formalism.LocalRingCardinality.DataLevel
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.OneAddPowOfMulSelfEqZero
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ClosureUpperUni
+public import Formalism.LocalRingCardinality.Bundle002
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle008
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle049
 public import Lemmata.GeneralBFactLeftTail.Imports
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

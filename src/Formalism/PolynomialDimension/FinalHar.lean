@@ -1,8 +1,8 @@
 module
 
-public import Formalism.PolynomialDimension.StatementHar
+public import Formalism.PolynomialDimension.Bundle001
 import Formalism.PolynomialDimension.MultinomialDepth.HarmonicDecompositionHolds
-public import Formalism.PolynomialDimension.MultinomialDepth.PairingAdjointLaplacianHolds
+public import Formalism.PolynomialDimension.MultinomialDepth.Bundle001
 public import Formalism.PolynomialDimension.MultinomialDepth.SqrtFockGaussLatticeComparisonHolds
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

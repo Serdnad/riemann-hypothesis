@@ -1,7 +1,7 @@
 module
 
-public import Formalism.HermitianCurvature.ArchimedeanUniformConstantsCompactSupport
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.BuiltBoundsCompact
+public import Formalism.HermitianCurvature.Bundle008
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle249
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

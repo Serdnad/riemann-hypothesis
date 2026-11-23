@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.L2DbarEstimates.IsLocalHomeomorph
+public import ReciprocityTheory.L2DbarEstimates.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -40,7 +40,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.L2DbarEstimates.WeakHolomorphy.HoloContDiffAtComplex
+public import ReciprocityTheory.L2DbarEstimates.WeakHolomorphy.Bundle006
 
 @[expose] public section
 

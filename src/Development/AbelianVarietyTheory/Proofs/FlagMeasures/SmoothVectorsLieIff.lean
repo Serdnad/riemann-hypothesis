@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.LinMulti
-public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.ISmulOneMemUnitaryLie
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle006
+public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

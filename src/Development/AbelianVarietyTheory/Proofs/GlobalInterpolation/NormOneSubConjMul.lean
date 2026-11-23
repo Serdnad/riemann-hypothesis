@@ -3,7 +3,7 @@ module
 public import Mathlib.Analysis.Analytic.Order
 public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Mathlib.Analysis.SpecialFunctions.Log.Basic
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExistsFactorOrder
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

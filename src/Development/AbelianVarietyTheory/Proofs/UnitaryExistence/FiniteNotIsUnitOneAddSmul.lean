@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.BlockTheory.ExistenceTori.AdmissibleHarmonicLattice
+public import Development.AbelianVarietyTheory.BlockTheory.ExistenceTori.Bundle003
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.FiniteResidueFieldAdicCompletionIntegers
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsForallAbvSubLt
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

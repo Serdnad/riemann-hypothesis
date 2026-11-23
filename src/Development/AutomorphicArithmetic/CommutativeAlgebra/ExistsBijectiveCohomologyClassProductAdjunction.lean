@@ -1,6 +1,6 @@
 module
 
-public import Development.AutomorphicArithmetic.CommutativeAlgebra.BconeDefs
+public import Development.AutomorphicArithmetic.CommutativeAlgebra.Bundle010
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsZeroChains
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

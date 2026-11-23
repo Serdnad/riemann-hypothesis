@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.ArithmeticGeometry.AbelianVarieties.DualIsogeny
-public import GroundTheory.ArithmeticGeometry.AbelianVarieties.ReductionTorsion
+public import GroundTheory.ArithmeticGeometry.AbelianVarieties.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -5,7 +5,7 @@ public import GroundTheory.AutomorphicForms.AutomorphicFormSpaces.ConstantTerm
 public import GroundTheory.AutomorphicForms.Reduction
 public import GroundTheory.AutomorphicForms.AutomorphicFormSpaces
 public import GroundTheory.AutomorphicForms.CuspidalDiscreteness.Unimodular
-import GroundTheory.AutomorphicForms.HilbertSchmidtKernel
+import GroundTheory.AutomorphicForms.Bundle003
 import GroundTheory.GlobalFields.Adele.Topology
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

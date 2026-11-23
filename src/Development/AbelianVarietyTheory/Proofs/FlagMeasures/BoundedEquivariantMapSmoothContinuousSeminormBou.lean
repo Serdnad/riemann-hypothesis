@@ -1,12 +1,10 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.MatrixOfBesselTwoSidedAction
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.BallMeanContinuousLinearFunctionalStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsContinuousLimitUniformCauchyStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.SmoothFunctionalOrbitSmoothVectorStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.SobolevIneqTranslateCompactStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.SobolevInequalityAtIdentityBesselModelUnitaryGroStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.TendstoAverageL2CompactStatement
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle263
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle262
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle284
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle340
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

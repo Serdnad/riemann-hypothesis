@@ -46,7 +46,7 @@ import ReciprocityTheory.ReductiveGroups.DiscreteSeries.BochnerInequality.CrossO
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.BochnerInequality.LayerWeight
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.BochnerInequality.SchPhiOneApply
 import ReciprocityTheory.ReductiveGroups.DiscreteSeries.BochnerInequality.Weights
-import ReciprocityTheory.ReductiveGroups.DiscreteSeries.CasimirAlgebra.CasimirKKhwVec
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.CasimirAlgebra.Bundle001
 
 @[expose] public section
 

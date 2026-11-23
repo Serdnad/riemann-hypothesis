@@ -4,7 +4,7 @@ public import Mathlib
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.PullbackAndTensorModule
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.FormalTwistingNeTrivial
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsGrpPullbackAbVarModel
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsRigidifiedIso
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle033
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.ChartPullbacks.UniformBaseChange.PullGt
 
 @[expose] public section

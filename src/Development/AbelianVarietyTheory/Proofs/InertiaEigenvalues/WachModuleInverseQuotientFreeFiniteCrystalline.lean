@@ -1,13 +1,13 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.NotFullBot
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle005
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.MemEurOfTeichmullerSeries
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.MkMemAdmissibleAtIffCocycle
 public import Formalism.SharpRestriction.LevelLetterCocycles.DeltaInvariantLattices
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.DvrComplete
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle155
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.GeomSumOneAddPrime
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.RingsCyclotomic
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SaturatedAndIsogenyInvariant
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle429
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle288
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WachInclusionXQFrobenius
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

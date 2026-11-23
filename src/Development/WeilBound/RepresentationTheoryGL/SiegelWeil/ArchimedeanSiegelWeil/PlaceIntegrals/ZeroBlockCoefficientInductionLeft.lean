@@ -1,24 +1,24 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FreeCell
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsCovolOne
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.TrMMemFramesEIff
-public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.AdelicUnitaryGroupLocallyCompactStatement
-public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.CoordinateHaarMeasureStatement
-public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.DisintegrationDensityExists
-public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.HermitianMatricesLocallyCompactBorelStatement
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle107
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle089
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle430
+public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.Bundle024
+public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.Bundle032
+public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.Bundle013
+public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.Bundle028
 import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.TensorLocallyCompactRingStatement
-public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.UnitsOpenEmbeddingLocalTensor
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FreeCellOpenIndependentStatement
+public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.Bundle031
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle625
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.GlobalVolumeRankOneProduct
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HyperbolicSumNondegenerateFrame
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LinearlyIndependentFramesOpenStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LocalGramFibrationDisintegration
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LocalWittIsotropicToE0Statement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.OrbitIntegralInvariantE0Statement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.UnitaryMovingUnitVectorStatement
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle453
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle605
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle616
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle649
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle509
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle488
 public import Development.WeilBound.RepresentationTheoryGL.SiegelWeil.ArchimedeanSiegelWeil.PlaceIntegrals.LocalGramFibreIntegralEq
-import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerOrbitVolume.DetAdmA
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerOrbitVolume.Bundle009
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -340,3 +340,19 @@ theorem local_stages : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [Num
     exact tsum_congr hterm
 
 end GlobalTheory.CompanionTheory.WeilSiegel.HypStage
+
+end
+end
+
+section
+
+@[expose] public section
+
+open HeckeCharacterZeroLocus.SiegelWeilU GlobalTheory.CompanionTheory.SW NumberField IsDedekindDomain MeasureTheory Topology
+open scoped TensorProduct ENNReal NNReal Matrix
+open GlobalTheory.CompanionTheory.WeilSiegel.Frame GlobalTheory.CompanionTheory.WeilSiegel.Free GlobalTheory.CompanionTheory.WeilSiegel.HypStep
+theorem _root_.GlobalTheory.T.zero_block_coefficient_induction_left : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E), IsCMExt F E σ → ∀ (M : ℕ) (J : Matrix (Fin M) (Fin M) E), IsHermND σ J → ∀ n : ℕ, 1 ≤ n → 2 * n < M → ∀ (h₀ : ∀ a b : Fin n, σ ((0 : Matrix (Fin n) (Fin n) E) b a) = (0 : Matrix (Fin n) (Fin n) E) a b) (h₁ : ∀ a b : Fin (n + 1), σ ((0 : Matrix (Fin (n + 1)) (Fin (n + 1)) E) b a) = (0 : Matrix (Fin (n + 1)) (Fin (n + 1)) E) a b) (h₂ : ∀ a b : Fin 1, σ ((0 : Matrix (Fin 1) (Fin 1) E) b a) = (0 : Matrix (Fin 1) (Fin 1) E) a b) (R : Type) [CommRing R] [Algebra F R] [TopologicalSpace R] [MeasurableSpace R] [BorelSpace R], IsLocR R → ∀ (d : ℕ) (b : Module.Basis (Fin d) F E) (lam : Measure R), lam.IsAddHaarMeasure → ∀ m m₁ m', IsGramFibFree R σ (hypOne J) (n + 1) (coordW R b lam (n + 1) (M + 2)) (coordHerm R σ b lam (n + 1)) m → IsGramFibFree R σ (hypOne J) 1 (coordW R b lam 1 (M + 2)) (coordHerm R σ b lam 1) m₁ → IsGramFibFree R σ J n (coordW R b lam n M) (coordHerm R σ b lam n) m' → ∀ φ : (Fin (n + 1) → Fin (M + 2) → R ⊗[F] E) → ℝ≥0∞, Measurable φ → ∃ Ψ : (Fin 1 → Fin (M + 2) → R ⊗[F] E) → ℝ≥0∞, Measurable Ψ ∧ (∀ g : HA R σ (hypOne J), Ψ (actW R σ (hypOne J) g (e0 _ M)) = stageInt R σ J b lam (m' (hermOf R σ (0 : Matrix (Fin n) (Fin n) E) h₀)) φ g) ∧ ∫⁻ X, φ X ∂(m (hermOf R σ (0 : Matrix (Fin (n + 1)) (Fin (n + 1)) E) h₁)) = ∫⁻ y, Ψ y ∂(m₁ (hermOf R σ (0 : Matrix (Fin 1) (Fin 1) E) h₂)) := by
+  first | exact @GlobalTheory.CompanionTheory.WeilSiegel.HypStage.local_stages | exact GlobalTheory.CompanionTheory.WeilSiegel.HypStage.local_stages
+
+end
+end

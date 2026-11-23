@@ -1,7 +1,7 @@
 module
 
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.HighestWeights.ModelInner
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.HighestWeights.ModelGen
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.HighestWeights.Bundle003
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.HighestWeights.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

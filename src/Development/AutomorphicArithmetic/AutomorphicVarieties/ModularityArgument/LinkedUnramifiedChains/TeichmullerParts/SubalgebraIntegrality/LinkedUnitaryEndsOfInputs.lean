@@ -1,12 +1,11 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.LinkedUnramifiedChains.TeichmullerParts.UnramifiedTrivialInertialType
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.IsSplitAtOfDecompositionLeRestrictionRange
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.OrdinaryHeckeCharacters.CLocConjAlt
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.LinkedUnramifiedChains.TeichmullerParts.Bundle001
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.Bundle037
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.OrdinaryHeckeCharacters.Bundle010
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.OrdinaryHeckeCharacters.GlBridge
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.OrdinaryHeckeCharacters.InfRepFin
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.OrdinaryHeckeCharacters.Bundle009
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.OrdinaryHeckeCharacters.PartUR2AtW
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.OrdinaryHeckeCharacters.PartUR2MemSpan
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -81,16 +80,16 @@ private theorem zd_dec (D : J → Submodule ℂ M) {F : M} (h : F ∈ ⨆ i, D i
   classical
   induction h using Submodule.iSup_induction' with
   | mem i y hy =>
-    refine ⟨Pi.single i y, fun j => ?_, by simp⟩
+    refine ⟨Pi.single i y, fun j => ?_, Fintype.sum_pi_single' i y⟩
     by_cases hj : j = i
     · subst hj
       simpa using hy
     · simp [Pi.single_eq_of_ne hj]
-  | zero => exact ⟨0, fun _ => zero_mem _, by simp⟩
+  | zero => exact ⟨0, fun _ => zero_mem _, by simp only [Pi.zero_apply, Finset.sum_const_zero]⟩
   | add y z _ _ hy hz =>
     obtain ⟨a, ha, rfl⟩ := hy
     obtain ⟨b, hb, rfl⟩ := hz
-    exact ⟨a + b, fun i => add_mem (ha i) (hb i), by simp [Finset.sum_add_distrib]⟩
+    exact ⟨a + b, fun i => add_mem (ha i) (hb i), by simp only [Pi.add_apply, Finset.sum_add_distrib]⟩
 
 private theorem zd_pow (T : Module.End ℂ M) (a : ℂ) (Y : Submodule ℂ M) (h : ∀ y ∈ Y, T y ∈ Y) (k : ℕ) :
     ∀ y ∈ Y, ((T - a • 1) ^ k) y ∈ Y := by
@@ -119,20 +118,22 @@ private theorem zd_rank (E : J → Submodule ℂ M) (hE : iSupIndep E) (Z : Subm
     intro s
     induction s using Finset.induction_on with
     | empty =>
-      have h0 : (⨆ i ∈ (∅ : Finset J), E i) = ⊥ := by simp
-      rw [h0]
-      simp
+      have h0 : (⨆ i ∈ (∅ : Finset J), E i) = ⊥ :=
+        le_antisymm (iSup₂_le fun i hi => (Finset.notMem_empty i hi).elim) bot_le
+      rw [h0, finrank_bot, Finset.sum_empty]
     | insert a s ha ih =>
       have hs : (⨆ i ∈ s, E i) ≤ Z := iSup₂_le fun i _ => hZ i
       haveI : FiniteDimensional ℂ ↥(E a) := Submodule.finiteDimensional_of_le (hZ a)
       haveI : FiniteDimensional ℂ ↥(⨆ i ∈ s, E i) := Submodule.finiteDimensional_of_le hs
-      have hd : Disjoint (E a) (⨆ i ∈ s, E i) := by
-        simpa using hE.disjoint_biSup (y := (s : Set J)) (by simpa using ha)
+      have hd : Disjoint (E a) (⨆ i ∈ s, E i) :=
+        hE.disjoint_biSup (y := (s : Set J)) ha
       have h := Submodule.finrank_sup_add_finrank_inf_eq (E a) (⨆ i ∈ s, E i)
       rw [hd.eq_bot, finrank_bot, add_zero, ih] at h
       rw [Finset.iSup_insert, Finset.sum_insert ha]
       exact h
-  have h1 : (⨆ i ∈ (Finset.univ : Finset J), E i) = ⨆ i, E i := by simp
+  have h1 : (⨆ i ∈ (Finset.univ : Finset J), E i) = ⨆ i, E i :=
+    le_antisymm (iSup₂_le fun i _ => le_iSup E i)
+      (iSup_le fun i => le_iSup_of_le i (le_iSup_of_le (Finset.mem_univ i) le_rfl))
   rw [← h1]
   exact key Finset.univ
 
@@ -184,10 +185,12 @@ private theorem zd_pi {I : Type} [Fintype I] [DecidableEq I] {G : I → Type} [�
     ∀ g, ∀ y ∈ Y, π g y ∈ Y := by
   let S : Subgroup (∀ j, G j) :=
     { carrier := {g | (∀ y ∈ Y, π g y ∈ Y) ∧ ∀ y ∈ Y, π g⁻¹ y ∈ Y}
-      one_mem' := by simp
+      one_mem' :=
+        ⟨fun y hy => by simpa only [map_one, Module.End.one_apply] using hy,
+          fun y hy => by simpa only [inv_one, map_one, Module.End.one_apply] using hy⟩
       mul_mem' := fun {a b} ha hb => ⟨fun y hy => by rw [map_mul]; exact ha.1 _ (hb.1 y hy),
         fun y hy => by rw [mul_inv_rev, map_mul]; exact hb.2 _ (ha.2 y hy)⟩
-      inv_mem' := fun {a} ha => ⟨ha.2, by simpa using ha.1⟩ }
+      inv_mem' := fun {a} ha => ⟨ha.2, by simpa only [inv_inv] using ha.1⟩ }
   intro g
   have : g ∈ S := Subgroup.pi_mem_of_mulSingle_mem g fun j => ⟨h j _, by rw [← Pi.mulSingle_inv]; exact h j _⟩
   exact this.1

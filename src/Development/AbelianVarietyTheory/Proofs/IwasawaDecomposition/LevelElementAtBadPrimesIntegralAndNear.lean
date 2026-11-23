@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LiftsInvOne
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle463
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ResidueEqZeroIff
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.NeZeroTop
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsTwIffCanonEq
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.AdelicMatrixCongruenceBadPrimeIffCompletion
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LevelFrameCharacterMulMovedPoint
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle334
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle027
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle476
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle390
 import Formalism.LocalRingCardinality.SpanPowerMembership.LocAtA
 import Formalism.LocalToGlobal.Columns.AdelicLemmas
 import Mathlib.Algebra.Order.Floor.Extended

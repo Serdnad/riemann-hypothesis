@@ -1,17 +1,17 @@
 module
 
-public import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.SplitColumnClasses
+public import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.Bundle004
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.FramePositiveSum
 public import Development.AbelianVarietyTheory.Definitions.Foundations.NotIsSplitOfIsInertAt
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.IsSumFrame
 public import Formalism.LocalToGlobal.Divisibility.DefGroup
 public import Formalism.LocalToGlobal.HeckeThetaElements.IsHeckeElt
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsUnifUnit
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.IdeleCharacterEqOneIntegralUnitsUnramifiedAdelic
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle144
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle178
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsIrreducible
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.LevelPrimeSplitsCompletelyInCmField
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.NcardPrimesOverOfStabilizer
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.PlaceIdempotentUnderEqOfLiesOver
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle256
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle159
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -50,9 +50,9 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.ChainParSucc
-public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.FrameTop
+public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.Bundle022
 import Development.AbelianVarietyTheory.Definitions.LatticeFrames.JointSmooth
-import Development.AbelianVarietyTheory.Definitions.LatticeFrames.OnesRepresent
+import Development.AbelianVarietyTheory.Definitions.LatticeFrames.Bundle001
 
 @[expose] public section
 

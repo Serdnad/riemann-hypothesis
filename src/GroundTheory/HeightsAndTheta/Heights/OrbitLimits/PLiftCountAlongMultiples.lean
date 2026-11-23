@@ -1,10 +1,10 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsSupBoundCount
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsSmallPacking
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.StatementsLiftBlockDatum
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.StatementsLiftCountAlongMultiples
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.AevalMulMemChartRingZ
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle056
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle018
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle031
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle015
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle025
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PSectionLatticeFinite
 public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.LiftBlockSections
 import Mathlib.Algebra.Order.Floor.Extended
@@ -83,7 +83,7 @@ theorem LiftCountAlongMultiples.proof (hDat : LiftBlockDatum.Statement) (hTop : 
     refine Fintype.sum_equiv (Fintype.equivFin ι').symm _ _ fun j => ?_
     simp [v, liftCoords]
   have hsmooth : IsSmoothHerm N := hsemi.1
-  have hB : d.A.a = unitDeg (none : Option K) := by rw [d.deg, hdk]
+  have hB : d.A.a = _root_.ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.unitDeg (none : Option K) := by rw [d.deg, hdk]
 
   have htop : II (Option K) (addIdx ι (Fintype.card ι')) (mCoordIdeal d.y) (D + 1) (fun _ => d.A) =
       (a : ℝ) ^ (D + 1) * II K ι (mCoordIdeal y) (D + 1) (fun _ => N) := by
@@ -124,7 +124,7 @@ theorem LiftCountAlongMultiples.proof (hDat : LiftBlockDatum.Statement) (hTop : 
       nlinarith
     have hc2 : c ^ 2 = C' ^ 2 * (n : ℝ) ^ D := by
       rw [hc, mul_pow, Real.sq_sqrt (by positivity)]
-    have hbound : ∀ f : MRing (addIdx ι (Fintype.card ι')), IsMultiHomog f (blockDeg d.k₀ n) →
+    have hbound : ∀ f : MRing (addIdx ι (Fintype.card ι')), _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog f (blockDeg d.k₀ n) →
         ∀ z ∈ mcPts (mCoordIdeal d.y),
           ‖eval z (map (Int.castRingHom ℂ) f)‖ / d.A.h z ^ n ≤ c * blockL2Norm d n f := by
       intro f hf z hz

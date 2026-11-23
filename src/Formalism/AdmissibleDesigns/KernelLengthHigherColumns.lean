@@ -1,7 +1,7 @@
 module
 
 public import Formalism.AdmissibleDesigns.HigherColumnInvariantsBound
-public import Formalism.SharpRestriction.LevelLetterCocycles.RingDataOfIdempotents
+public import Formalism.SharpRestriction.LevelLetterCocycles.Bundle011
 public import Formalism.WachLatticeTwists.RamifiedBlockRings.DistinctEigenvalueCornerPerturbation
 public import Formalism.WachLatticeTwists.RealClassMaps.RealClassMapTheorem
 public import Formalism.AdmissibleDesigns.H1MapMemLcH1
@@ -43,7 +43,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Topology.Sheaves.Init
-public import Formalism.AdmissibleDesigns.BlockTwistedCyclotomic
+public import Formalism.AdmissibleDesigns.Bundle002
 
 @[expose] public section
 

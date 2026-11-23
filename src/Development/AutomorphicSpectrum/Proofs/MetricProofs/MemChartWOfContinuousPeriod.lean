@@ -1,8 +1,8 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ExistsIsChart
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.SiegelLimitImagBoundStatement
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.ImLowerOnKernel
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle080
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle025
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle002
 import Development.AutomorphicSpectrum.Proofs.MetricProofs.MulVecEqZeroOfPair
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

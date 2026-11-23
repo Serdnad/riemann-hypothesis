@@ -1,8 +1,8 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsBlockImageArith
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle064
 public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PCoordConeArithVar
-import GroundTheory.HeightsAndTheta.Heights.WeightedHomogeneous.PConeTrdeg
+import GroundTheory.HeightsAndTheta.Heights.WeightedHomogeneous.Bundle006
 public import GroundTheory.HeightsAndTheta.Heights.WeightedHomogeneous.PIntDomainDim
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

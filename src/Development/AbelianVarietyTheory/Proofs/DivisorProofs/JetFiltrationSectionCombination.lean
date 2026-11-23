@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TangentLinearCombinationIsTangent
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2611
 public import Development.AbelianVarietyTheory.Definitions.Degenerations.PullChartIsLB
-public import Development.AbelianVarietyTheory.Proofs.ToricGeometry.MemSpanOfCardLe
+public import Development.AbelianVarietyTheory.Proofs.ToricGeometry.Bundle012
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -55,7 +55,7 @@ import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AbelianVarietyTheory.Definitions.Divisors.P22
 import Development.AbelianVarietyTheory.Definitions.Divisors.TorusExt
 import Development.AbelianVarietyTheory.Definitions.ThetaMetrics.IsRegularFnIffOfIsAffineOpen
-import ReciprocityTheory.GeometryOfNumbers.LatticeCovolumes.EllipsoidStA
+import ReciprocityTheory.GeometryOfNumbers.LatticeCovolumes.Bundle001
 
 @[expose] public section
 

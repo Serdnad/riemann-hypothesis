@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.GlobalFields.IdeleGroups.ClassGroup
-public import GroundTheory.GlobalFields.TateThesis.ConductorIdeal
+public import GroundTheory.GlobalFields.TateThesis.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

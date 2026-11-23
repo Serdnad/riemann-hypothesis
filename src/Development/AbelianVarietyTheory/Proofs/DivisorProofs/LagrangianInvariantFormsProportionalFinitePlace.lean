@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ContinuousAtPlace
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.SchwartzBruhatLinearFunctional
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SchroedingerOperatorHeisenbergInnerPreserving
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1199
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle028
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1483
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PDualStackedExcChart
+public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.Bundle043
 public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PDualStackedExcGeoFirst
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -124,7 +124,7 @@ theorem graphMap_secondForm {F' : HermLattice K i} (b' : Module.Basis T ℤ (dua
       C (Ideal.Quotient.mk (dualIdeal b') (linD fun t => d t * a t)) * X () := by
   have h : ∀ t, linForm (stackedDiag a) ⟨(), t⟩ = (C (a t) * X ⟨(), t⟩ : MRing (dualBlocks T)) := by
     intro t
-    simp [linForm, stackedDiag]
+    simp [ReciprocityTheory.ChartRestriction.G.AI.I4.linForm, stackedDiag]
   have h2 : ∀ t, graphMap (dualIdeal b') (linForm (stackedDiag a)) (graphSecond t) =
       C (Ideal.Quotient.mk (dualIdeal b') (C (a t) * X ⟨(), t⟩)) * X () := by
     intro t

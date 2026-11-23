@@ -3,7 +3,7 @@ module
 public import Mathlib.Algebra.Module.SpanRank
 public import Mathlib.RingTheory.KrullDimension.Basic
 public import Mathlib.RingTheory.LocalRing.MaximalIdeal.Defs
-public import GroundTheory.ArithmeticGeometry.SchemeCohomology.RegularLocalDomain
+public import GroundTheory.ArithmeticGeometry.SchemeCohomology.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

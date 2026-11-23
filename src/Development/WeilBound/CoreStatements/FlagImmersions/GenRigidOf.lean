@@ -1,16 +1,15 @@
 module
 
 public import Development.WeilBound.CoreStatements.FlagImmersions.Transport
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.CuspCorrespondenceBoundStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle149
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.EigenLatticeVectorBundle
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsLieModel
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GramMatrixTwoFrames
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle266
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeCptFiniteExtension
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.InteriorPointLatticeDataStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle267
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsExcisionNbhdAway
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieModelPullbackCorrespondence
-public import Development.WeilBound.CoreStatements.FlagImmersions.MemFlagOfRel
-public import Development.WeilBound.CoreStatements.FlagImmersions.OfForall
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle074
+public import Development.WeilBound.CoreStatements.FlagImmersions.Bundle018
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -2,11 +2,11 @@ module
 
 public import Development.AutomorphicArithmetic.Foundations.EtaleClopenDescent.EFam
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Edge1
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CechIsCxOfMono
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.KahlerFormsOverSubalgebraClosureProperties
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.DeRhamPullbackAlongSecondMapSmulIotaMultiKaehler
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.FiniteEtaleFunctionFieldIntegralClosureDifferentStatement
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.OmegaPullId
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle334
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle399
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle038
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle250
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle047
 public import Development.AutomorphicArithmetic.CommutativeAlgebra.EtaleCorrespondenceFunctionFieldStatementOne
 public import Development.AutomorphicArithmetic.CommutativeAlgebra.EtaleCorrespondenceFunctionFieldStatementTwo
 public import Development.AutomorphicArithmetic.Foundations.EtaleClopenDescent.ExistsComparisonFamilyNatural
@@ -48,7 +48,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Std.Tactic.BVDecide.Normalize.Prop
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.GermCompatId
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle045
 
 @[expose] public section
 

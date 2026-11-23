@@ -2,9 +2,8 @@ module
 
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GGMirabolic
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.MirabolicBound.CardNonzero
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.MirabolicBound.CharSumOne
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.MirabolicBound.Bundle001
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.MirabolicBound.LastRowMul
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.MirabolicBound.RowExists
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

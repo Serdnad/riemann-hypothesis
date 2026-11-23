@@ -1,14 +1,14 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicCases.AutomorphyClauseStatement
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicCases.Bundle001
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.FiniteResidue
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CyclotomicCharInertiaSurjective
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.CharacterLevelBounds.ClsFacts
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle182
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.CharacterLevelBounds.Bundle001
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CharacterLevelBounds.PlacesQ
-import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.DvrFacts
+import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.Bundle008
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.DyadicCharacterPowerNeOne
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.GaussianFieldRangeEqKerQuarticChar
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.DiagonalMultiplication
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle038
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -125,7 +125,7 @@ private theorem unit_sep {R : Type} [CommRing R] [IsLocalRing R] (u : Rˣ) (hu :
 private theorem key {O K G Γ ι A : Type} [CommRing O] [IsLocalRing O] [Field K] [Algebra O K] [Group G] [Group Γ]
     [TopologicalSpace Γ] (F : Frame O G Γ ι) (g₁ : Γ) (r : Γ →* GG (m := 3) (R := K)) [CommRing A] [IsLocalRing A] [Algebra O A]
     [IsLocalHom (algebraMap O A)] (val : A →ₐ[O] K) (hval : Function.Injective val) (t : Kˣ) (r' : Γ →* GG (m := 3) (R := A))
-    (hpt : F.IsPt g₁ r') (hpush : push val r' = conjBy (tor K t) r) (γ : Γ) :
+    (hpt : F.IsPt g₁ r') (hpush : _root_.UpperTheory.V.UnitaryThreeInertia.push val r' = conjBy (tor K t) r) (γ : Γ) :
     ∃ P : GL (Fin 3) K, ∀ d : F.D F.vl, F.ηv _ d = 1 → ∀ X, X = P * (r (γ * F.loc _ d * γ⁻¹)).left * P⁻¹ →
       (∀ i j, j < i → X i j = 0) ∧ (d ∈ F.Iv _ → ∀ a, X a a = algebraMap O K (psi (F.Ψv _) a d)) ∧
       (IsUnit ((F.Ψv _ d : O) ^ 2 - 1) → ∀ u : O, u - 1 ∈ maximalIdeal O → ∀ i j, i ≠ j →

@@ -1,8 +1,8 @@
 module
 
-public import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.MRatSpanOfWeak
-public import Formalism.PeriodIntegrals.WeakApproxDVR
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.WeakApproxDVR
+public import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.Bundle011
+public import Formalism.PeriodIntegrals.Bundle011
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

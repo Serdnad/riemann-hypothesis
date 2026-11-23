@@ -47,7 +47,7 @@ import Development.AutomorphicArithmetic.Foundations.Convolution.PowerSumTraces.
 import GroundTheory.AutomorphicForms.AutomorphicFormSpaces.Archimedean
 import GroundTheory.AutomorphicForms.CuspidalDiscreteness.Counting
 import GroundTheory.AutomorphicForms.QuotientMeasure
-import GroundTheory.AutomorphicForms.ReductionBlock
+import GroundTheory.AutomorphicForms.Bundle003
 import GroundTheory.AutomorphicForms.WhittakerRelevance
 public import Mathlib.Algebra.MvPolynomial.Eval
 

@@ -2,7 +2,7 @@ module
 
 public import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.InvarianceUnderIsomorphism
 import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.MarkedBlowupSequence.IsoInvariance
-import Development.ResolutionOfSingularities.Foundations.Blowup.BlowupBasic
+import Development.ResolutionOfSingularities.Foundations.Blowup.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

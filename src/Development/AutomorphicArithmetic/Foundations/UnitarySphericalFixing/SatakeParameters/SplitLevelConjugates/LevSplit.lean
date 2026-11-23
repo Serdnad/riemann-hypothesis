@@ -1,13 +1,13 @@
 module
 
 public import Development.AutomorphicArithmetic.Foundations.UnitarySphericalFixing.SatakeParameters.SplitLevelConjugates.IsPrincipalCongruenceAt
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ConjSPV
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.StandardFrameNonsplitMaxCompactInLevel
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsSplitReductionStandardFrameConj
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.G0LiftUnitaryCentralFrame
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.JumpsCardOfBuilt
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ConjugateSplitPlaceUnitaryLocEqTransposeInv
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.DatumLevelHyperspecialOffFinitePlaces
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle016
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle937
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle464
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle565
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle558
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle259
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle257
 import Formalism.LocalRingCardinality.SpanPowerMembership.ExampleLayerExistsGenerators
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -45,7 +45,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.RowsRestWordColumnUnitBaseTupleAlt
-import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.StrictHenselianAcyclic
+import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle036
 
 @[expose] public section
 

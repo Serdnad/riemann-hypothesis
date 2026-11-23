@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.BelowFiniteNonempty
+public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.Bundle008
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.StandardRankOneLatticeOfLocal
-import Formalism.HermitianLattices.HermitianLatticesProofs.NeighbourConstruct
+import Formalism.HermitianLattices.HermitianLatticesProofs.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

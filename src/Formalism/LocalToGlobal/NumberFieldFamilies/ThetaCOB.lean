@@ -2,7 +2,7 @@ module
 
 public import Formalism.LocalRingCardinality.DataTheta
 public import Formalism.LocalToGlobal.NumberFieldFamilies.ThetaCF
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.SignatureConjugationInvariant
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

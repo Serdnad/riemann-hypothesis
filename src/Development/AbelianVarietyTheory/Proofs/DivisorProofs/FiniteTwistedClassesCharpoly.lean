@@ -1,13 +1,13 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.SimpleTwistedTraceFormulaStable
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsAevalEqOfSeparable
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FiniteSqEqOneOfFiniteAlgebra
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle183
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle046
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsNormalisedThetaSub
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.UnitsModSqFiniteOfFields
-import Formalism.PadicSubsetSums.StableGradedCounts.ExistsNeZeroAevalEqZero
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle031
+import Formalism.PadicSubsetSums.StableGradedCounts.Bundle004
 import GroundTheory.GlobalFields.LocalFieldAtPlace
-public import GroundTheory.LocalFields.FiniteExtension
+public import GroundTheory.LocalFields.Bundle001
 public import GroundTheory.LocalFields.UnitsPowers
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

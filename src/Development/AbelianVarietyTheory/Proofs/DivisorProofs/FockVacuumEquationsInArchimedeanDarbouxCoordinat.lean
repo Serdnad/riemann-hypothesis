@@ -1,9 +1,9 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsFockMap
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TrPairApply
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EqZeroOfAtOfPiInf
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsAtEvIPiInfEq
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1193
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1394
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1556
 import Mathlib.Algebra.Order.Archimedean.Real.Hom
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

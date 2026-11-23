@@ -2,7 +2,7 @@ module
 
 public import GroundTheory.AutomorphicForms.AutomorphicFormSpaces.ConstantTerm
 public import GroundTheory.AutomorphicForms.FourierWhittaker.PartialCoeffDiagonalBlockGLEqVecCoeff
-import GroundTheory.AutomorphicForms.ReductionMeasure
+import GroundTheory.AutomorphicForms.Bundle012
 import GroundTheory.GlobalFields.Adele.Topology
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

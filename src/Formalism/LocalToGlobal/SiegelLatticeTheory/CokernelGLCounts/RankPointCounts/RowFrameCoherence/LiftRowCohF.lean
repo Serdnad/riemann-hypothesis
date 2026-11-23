@@ -112,8 +112,8 @@ theorem ff_hyp {p q : Fin r → S.V} (hp : ∀ a b, S.hT (p a) (p b) = 0) (hq : 
 
 theorem ff_split_eval {H : Submodule E S.V} {w w' P P' : S.V} (hw : w ∈ orth S H) (hw' : w' ∈ orth S H)
     (hP : P ∈ H) (hP' : P' ∈ H) : S.hT (w + P) (w' + P') = S.hT w w' + S.hT P P' := by
-  have h1 : S.hT w P' = 0 := ff_swap (mem_orth_iff.1 hw P' hP')
-  have h2 : S.hT P w' = 0 := mem_orth_iff.1 hw' P hP
+  have h1 : S.hT w P' = 0 := ff_swap (_root_.PI.DCRelEquiv.UnitaryGroupMassFormula.mem_orth_iff.1 hw P' hP')
+  have h2 : S.hT P w' = 0 := _root_.PI.DCRelEquiv.UnitaryGroupMassFormula.mem_orth_iff.1 hw' P hP
   simp only [map_add (f := _), LinearMap.add_apply, h1, h2]
   ring
 
@@ -140,7 +140,7 @@ theorem ff_orth_part (hee : ∀ a b, S.hT (e a) (e b) = 0) (hff : ∀ a b, S.hT 
     (hef : ∀ a b, S.hT (e a) (f b) = if a = b then 1 else 0)
     (hfe : ∀ a b, S.hT (f a) (e b) = if a = b then 1 else 0) (v : S.V) :
     v - ffP e f (ffC f v) (ffC e v) ∈ orth S (ffH e f) := by
-  rw [mem_orth_iff]
+  rw [_root_.PI.DCRelEquiv.UnitaryGroupMassFormula.mem_orth_iff]
   intro y hy
   have key : ffH e f ≤ LinearMap.ker (S.hT.flip (v - ffP e f (ffC f v) (ffC e v))) := by
     refine Submodule.span_le.2 (Set.union_subset ?_ ?_) <;> rintro _ ⟨b, rfl⟩ <;>
@@ -371,13 +371,13 @@ theorem frameCorrection_holds : FrameFixNeed X Y u u' := by
       (VS D).hT v w = 0 := fun v hv w hw => ff_iso_span hee hv hw
   have hμo : ∀ v ∈ orth (VS D) (Xsp (lf D (X.Fu u'))), μ v - v ∈ Xsp (lf D (X.Fu u')) := by
     intro v hv
-    have h2 : ∀ a, (VS D).hT (e a) v = 0 := fun a => mem_orth_iff.1 hv (e a) (Submodule.subset_span ⟨a, rfl⟩)
+    have h2 : ∀ a, (VS D).hT (e a) v = 0 := fun a => _root_.PI.DCRelEquiv.UnitaryGroupMassFormula.mem_orth_iff.1 hv (e a) (Submodule.subset_span ⟨a, rfl⟩)
     rw [hμ, ffMu_sub_e h2, hA]
     exact Submodule.sum_mem _ fun a _ => Submodule.smul_mem _ _
       (Submodule.sub_mem _ (hxA a) (Submodule.subset_span ⟨a, rfl⟩))
   have hμX : ∀ v ∈ Xsp (lf D (X.Fu u')), μ v ∈ Xsp (lf D (X.Fu u')) := by
     intro v hv
-    have ho : v ∈ orth (VS D) (Xsp (lf D (X.Fu u'))) := mem_orth_iff.2 fun w hw => hAiso w hw v hv
+    have ho : v ∈ orth (VS D) (Xsp (lf D (X.Fu u'))) := _root_.PI.DCRelEquiv.UnitaryGroupMassFormula.mem_orth_iff.2 fun w hw => hAiso w hw v hv
     have := Submodule.add_mem _ (hμo v ho) hv
     rwa [sub_add_cancel] at this
 

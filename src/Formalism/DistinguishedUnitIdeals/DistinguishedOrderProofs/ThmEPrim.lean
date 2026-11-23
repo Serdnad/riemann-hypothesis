@@ -1,11 +1,11 @@
 module
 
 public import Formalism.DistinguishedUnitIdeals.FrobeniusCoboundedArc
-public import Formalism.DistinguishedUnitIdeals.DistinguishedOrderProofs.Descent
+public import Formalism.DistinguishedUnitIdeals.DistinguishedOrderProofs.Bundle001
 public import Formalism.DistinguishedUnitIdeals.DistinguishedOrderProofs.GoodOf
 public import Formalism.DistinguishedUnitIdeals.DistinguishedOrderProofs.LemmaC
 public import Formalism.DistinguishedUnitIdeals.DistinguishedOrderProofs.LemmaCFull
-public import Formalism.DistinguishedUnitIdeals.DistinguishedOrderProofs.ThmEFull
+public import Formalism.DistinguishedUnitIdeals.DistinguishedOrderProofs.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

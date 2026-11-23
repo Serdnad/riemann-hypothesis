@@ -2,10 +2,10 @@ module
 
 public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.IoBlockNeZero
 public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.NdHomSingle
-public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.TopKeyFormSelfSoft
-public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.ColsDef
+public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.Bundle008
+public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.Bundle003
 public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.GenWh
-import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.IoDScalLast
+import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.Bundle009
 public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.MonomialWeightedHomogeneous
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

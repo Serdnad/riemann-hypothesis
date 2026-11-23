@@ -1,11 +1,10 @@
 module
 
-public import Development.AutomorphicSpectrum.Statements.AlgebraStatements.HodgeTateDatumStatement
-public import Development.AutomorphicSpectrum.Statements.AlgebraStatements.OrdinaryCurveStatement
+public import Development.AutomorphicSpectrum.Statements.AlgebraStatements.Bundle001
 public import Development.AutomorphicSpectrum.Statements.AlgebraStatements.PolarisedAFStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.OrderPSquaredExtremalColengthStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.PolarisedAbelianVarietyPTorsionStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.PolarisedAugmentationTheoremStatement
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle059
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle072
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle054
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -49,7 +48,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import ReciprocityTheory.DualLattices.IsLocalOfIntegers
-import ReciprocityTheory.DualLattices.MemAugIdeal
+import ReciprocityTheory.DualLattices.Bundle014
 import ReciprocityTheory.DualLattices.ProdDvdOfIso
 
 @[expose] public section

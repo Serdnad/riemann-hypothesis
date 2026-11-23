@@ -1,7 +1,7 @@
 module
 
-public import Formalism.LocalToGlobal.NormalizedHeckeFactors.HeckeStdTwOfStd
-public import Formalism.LocalToGlobal.NormalizedHeckeFactors.CoverThm
+public import Formalism.LocalToGlobal.NormalizedHeckeFactors.Bundle004
+public import Formalism.LocalToGlobal.NormalizedHeckeFactors.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

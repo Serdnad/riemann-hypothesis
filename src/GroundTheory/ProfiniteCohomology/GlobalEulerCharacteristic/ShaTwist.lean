@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.ProfiniteCohomology.GlobalEulerCharacteristic.ShaDescent
-public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.CoprimeTwist
+public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.Bundle005
 public import Mathlib.LinearAlgebra.FreeModule.PID
 public import Mathlib.RingTheory.Flat.TorsionFree
 public import Mathlib.RingTheory.Henselian

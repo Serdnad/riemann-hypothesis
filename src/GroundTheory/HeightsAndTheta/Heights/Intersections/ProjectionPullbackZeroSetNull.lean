@@ -1,9 +1,8 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.StatementsBlockGenFinite
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.PullBad
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle014
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.HasStrictFDerivAtEquiv
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.PullWMemFibre
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle047
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -44,11 +43,11 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import ReciprocityTheory.AnalyticForms.AnalyticCharts.NullZero
+import ReciprocityTheory.AnalyticForms.AnalyticCharts.Bundle001
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterBridgeB
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterBridgeK
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterBridgeL
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterFib
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle015
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle009
 
 @[expose] public section
 

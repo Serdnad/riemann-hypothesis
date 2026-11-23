@@ -1,14 +1,12 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.H1MapSubgroup
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsPlaceEmb
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle014
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle194
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.FiniteContinuousCocyclesLocalGaloisRep
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.FinrankDdRFinsum
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.GaloisEmbeddingCount
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsIntegralOfNormLeOne
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ValuationLtOneIff
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FiniteQuotientPow
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FixingSubgroupEquivBicontinuous
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle255
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle261
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IntegralNormLe
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
@@ -61,8 +59,8 @@ import Mathlib.Topology.MetricSpace.Ultra.Pi
 import Mathlib.Topology.MetricSpace.Ultra.TotallySeparated
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.ContinuousCycMod
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.LocalGaloisRepInvariantsFromFractionRing
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.NatCastPowNeZero
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle195
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle204
 
 @[expose] public section
 

@@ -1,17 +1,16 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.FormalDegreeUpperC
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GalLiftOfOneMap
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CentralShiftPhaseConjReadingsFiveClausesStatement
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle050
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1529
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2282
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CoefMapNormEquivariantBasisOfFive
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ConjugateCharactersEmbeddingsOfCharacterisationStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ConjugateLiftOfCharacterisationClausesStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ConjugateLiftUniqueAndBaseDatumStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsIoConjOfFive
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsPsiOfOverK
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.OscillatorModelsWeightCompat
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.EvInjOfIsModelsOfTie
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.JEvExistsAndJEvBar
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2549
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1838
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2387
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1484
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1758
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle220
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle530
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -72,7 +71,7 @@ theorem oneMapConj5 : ∀ {D : D7} {G : Type} [Group G] [Fintype G] {Pl0 T0 : Ty
     have h1 := hL.2.1.theta 1
     have e : (1 : PolF D (Wc D i).rank (Vc D i).rank) = MvPolynomial.basisMonomials _ ℂ 0 := by
       rw [MvPolynomial.coe_basisMonomials]; rfl
-    rw [e, ptAt, pureTensorO, pureTensorL, Module.Basis.constr_basis] at h1
+    rw [e, GlobalTheory.GalLift.ptAt, pureTensorO, pureTensorL, Module.Basis.constr_basis] at h1
     simpa [opPow] using h1
   exact oneMap_of_ext_ofFive hR tie (O i) hO.2 hJ.1 hc hσ' (GlobalTheory.GalOne.Facts.factsAt_ofFive T R F κ v₀ hR tie i (O i) hO.2 σ σ' hσ' hσ).1 hV hj
     ⟨hσ, hμ, hη, hL.1, hL.2.1.vec, hth⟩ hL

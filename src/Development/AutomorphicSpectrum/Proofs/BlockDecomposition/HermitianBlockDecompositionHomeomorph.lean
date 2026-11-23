@@ -1,9 +1,9 @@
 module
 
 public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.CoordinateHaarMeasure
-public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.HermitianMatricesLocallyCompactBorelStatement
+public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.Bundle028
 import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.TensorLocallyCompactRingStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FreeCell
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle107
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -48,8 +48,8 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsCovolOne
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.TrMMemFramesEIff
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle089
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle430
 
 @[expose] public section
 

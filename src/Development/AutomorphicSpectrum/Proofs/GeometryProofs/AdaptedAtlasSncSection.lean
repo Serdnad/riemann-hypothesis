@@ -1,7 +1,7 @@
 module
 
-public import ReciprocityTheory.AnalyticForms.LeviForms.IsRegFamilyInhabitStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ExistsSncAdaptedChartAtPoint
+public import ReciprocityTheory.AnalyticForms.LeviForms.Bundle001
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle028
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -45,11 +45,11 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.AnalyticForms.PotentialTheory.ContDiffMulOfTsupport
-import ReciprocityTheory.AnalyticForms.PotentialTheory.Partition
+public import ReciprocityTheory.AnalyticForms.PotentialTheory.Bundle008
+import ReciprocityTheory.AnalyticForms.PotentialTheory.Bundle004
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.FnAlgClosedOfFixedPoints
 import Development.AbelianVarietyTheory.Definitions.Divisors.IsProperToroidalModelStructureMap
-import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ConjugateHermitianLineIsometries
+import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle006
 import Development.AutomorphicSpectrum.Definitions.MetricPeriods.PairRelationOfScaledRatio
 import Formalism.LocalToGlobal.ProjectiveLattices.ErealAddIInf
 import Mathlib.Topology.Sheaves.Presheaf

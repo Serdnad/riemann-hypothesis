@@ -1,11 +1,11 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.ConcreteLevelAdelicSubset
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.GoodAtOfFixRed
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle284
 public import Formalism.SharpRestriction.Divisibility.LiftErrorLocal
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.ExistsReduction
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ConjLevelConjCharacterSymmetricLevelStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsFixedBasisReductionMapConjStatement
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle527
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle302
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.UpperLeftBlockEqOneIffOfFullRank
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

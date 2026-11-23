@@ -1,8 +1,8 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.LinkedUnramifiedChains.TeichmullerParts.UnramifiedTrivialInertialType
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.LinkedUnramifiedChains.TeichmullerParts.Bundle001
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.HidaCompleteRings.LocFree
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.LocalRingsCompletion.dvrFinite
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.LocalRingsCompletion.Bundle002
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.OrdinaryHeckeCharacters.HiComm
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.UpOperatorEigenvalues.EigChar
 import Mathlib.Algebra.Order.Floor.Extended
@@ -220,6 +220,7 @@ private theorem abs_main {l : ℕ} [Fact l.Prime] {A M J E : Type} [CommRing A] 
     simp [pr, h1]
   haveI hZfin : Module.Finite A Z := Module.Finite.of_surjective pr fun v => ⟨_, LinearMap.congr_fun hpr v⟩
   haveI : Module.Projective A Z := Module.Projective.of_split _ _ hpr
+  haveI : Module.Flat A Z := Module.Flat.of_projective
   haveI hZfree : Module.Free A Z := Module.free_of_flat_of_isLocalRing
   have hboth : ∀ (κ κ' : Type) (bL : Module.Basis κ A (locPart Y op a)) (bZ : Module.Basis κ' A Z),
       LinearIndependent ℂ (Sum.elim (fun i => sp (bL i)) (fun j => sp (bZ j))) := by
@@ -412,7 +413,7 @@ private theorem abs_cong {l : ℕ} [Fact l.Prime] {A M J : Type} [CommRing A] [I
   have hz' : Polynomial.aeval (t ^ N) p = 0 := by
     apply Subtype.ext
     rw [Polynomial.aeval_subalgebra_coe]
-    simpa [D] using hz
+    exact hz
   have hu : p.eval₂ x (y (t ^ N)) = 0 := by
     have h1 := congrArg y hz'
     rw [map_zero, Polynomial.aeval_def, Polynomial.hom_eval₂] at h1
@@ -442,6 +443,8 @@ theorem UpperTheory.V.Z.J.D.locSp :
     obtain ⟨o, ho⟩ := Alg.IsCO.res_surj (O := c.O) b
     have h1 : ‖x (algebraMap c.O A o)‖ ≤ 1 := by
       rw [x.commutes]
+      haveI : Module.Finite ℤ_[l] c.O := c.fin
+      haveI : Algebra.IsIntegral ℤ_[l] c.O := Algebra.IsIntegral.of_finite ℤ_[l] c.O
       exact (Up.intIff _).1 ((Algebra.IsIntegral.isIntegral (R := ℤ_[l]) o).map c.O.val)
     have h2 : x.toRingHom b = x.toRingHom (b - algebraMap c.O A o) + x (algebraMap c.O A o) := by simp
     rw [h2]

@@ -1,12 +1,12 @@
 module
 
-public import Development.AbelianVarietyTheory.Statements.CuspidalUnitaryTwists.TwNewQ
+public import Development.AbelianVarietyTheory.Statements.CuspidalUnitaryTwists.Bundle002
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.ClassFieldRamification.KwAbs
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.KatoQuadraticCharacters.AdmissibleTwistByDet
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.KatoQuadraticCharacters.NewformTwistNorms.NewformUnitRootNotRootOfUnityOddWeight
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.KatoQuadraticCharacters.NewformTwistNorms.PowEqOneOfKills
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.KatoQuadraticCharacters.NewformTwistNorms.UnramifiedAlgebraicWeights
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.KatoQuadraticCharacters.SphericalDecomposition.SphOfWit
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.KatoQuadraticCharacters.SphericalDecomposition.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -41,8 +41,8 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
-public import Development.AbelianVarietyTheory.Definitions.Foundations.FinalTheorems
-public import Development.AbelianVarietyTheory.Definitions.Foundations.VanishOrdL
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle016
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle017
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.GalUnitary
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.KatoQuadraticCharacters.KatoTwoSOfTwo
 
@@ -124,7 +124,7 @@ private theorem sources_of_spherical (P : Af.HypothesesH) (hT : TwNewQ) (hF : Up
     obtain ⟨m, hm, hχm⟩ := pow_eq_one_of_kills hl0 hχ
     obtain ⟨t, ht, htk⟩ := cyc_inf hA
     obtain ⟨h0, h1⟩ := hk ⟨t, Ine_le_Dec A ht⟩ ht
-    rcases eps_mem hA hA' hfl hfl' hn with hc | hc
+    rcases _root_.GlobalTheory.Ord2.SrcForm.eps_mem hA hA' hfl hfl' hn with hc | hc
     · rw [← hc] at h0
       simp only at h0
       have he1 : e = 1 := by

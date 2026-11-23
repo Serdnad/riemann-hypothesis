@@ -1,17 +1,17 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.LamHomApply
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ThPDatumEq
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle280
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle247
 public import Formalism.LocalToGlobal.IndefiniteReal.SubgroupCharExtensionOneApply
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.MemRangeOfOneTmulMem
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.SmulMemLatO
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle063
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle064
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.EqZeroOrEqOfPlaceIdem
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsNonvanishingFiniteDatumDefiniteLift
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle501
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsNsmulIntMemLatO
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.GramMapMulInv
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle305
 public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.CompletedTensorLatticeStrongApproxOpenCompact
 public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.TensorLatticeSelfDualSemicharacterIndex
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsEqMulOfResSNeOne
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle554
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -48,7 +48,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RevPosRevPos
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle236
 import Formalism.LocalToGlobal.IndefiniteReal.ExistsChosenExtremalVector
 
 @[expose] public section

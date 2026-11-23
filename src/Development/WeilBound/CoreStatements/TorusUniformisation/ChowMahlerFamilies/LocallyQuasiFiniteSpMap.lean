@@ -1,12 +1,11 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsFlatAnIffIsConstMul
-public import Development.AbelianVarietyTheory.Definitions.KeyFormula.GeomIntSelf
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle011
+public import Development.AbelianVarietyTheory.Definitions.KeyFormula.Bundle001
 public import Development.AbelianVarietyTheory.Definitions.ShimuraVarieties.IsOpenOfMemIrreducibleComponentsOfFinite
 public import Mathlib.AlgebraicGeometry.Morphisms.QuasiFinite
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.IsDomainAndIsIntegrallyClosedAtPrimeOfSmoothOfCo
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.LiftIdempotentEqOfSameComplexComponent
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.SameCompOfIsHolTo
+public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle017
 public import Development.AbelianVarietyTheory.Proofs.ToricGeometry.ExistsContraction
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

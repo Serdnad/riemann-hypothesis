@@ -1,7 +1,7 @@
 module
 
 public import Formalism.DistinguishedUnitIdeals.GammaCongruentArcFromStart
-public import Formalism.DistinguishedUnitIdeals.PhiFreeOfBasis
+public import Formalism.DistinguishedUnitIdeals.Bundle004
 public import Mathlib.Data.Int.Interval
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

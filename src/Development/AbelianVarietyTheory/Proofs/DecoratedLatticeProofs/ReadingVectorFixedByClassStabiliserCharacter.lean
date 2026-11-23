@@ -1,12 +1,12 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.LevChiEqOne
+public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.Bundle018
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.NotBadPrimeBase
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsMemMultT
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle138
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.TopLevExists
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.SurjectiveTopMap
-import Development.AbelianVarietyTheory.Proofs.HeightProofs.AdelicUnitaryRealPointsStructureRealPlaces
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContinuousOnAtTau
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle169
+import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle048
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle313
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HermitianFormLastCoordinateUniformizerVectorSelf
 import Formalism.LocalToGlobal.Columns.PolyFnLemmas
 import Formalism.LocalToGlobal.Divisibility.CoefModLemmas
@@ -54,7 +54,7 @@ noncomputable section
 namespace GlobalTheory.AdForm.StabInv
 
 section Pair
-open Formalism.BasicNotions Formalism.L2.Col Formalism.L2.DIV Formalism.L2.Forms GlobalTheory.Mem.ColAd Matrix
+open Formalism.BasicNotions _root_.Formalism.L2.Col Formalism.L2.DIV Formalism.L2.Forms GlobalTheory.Mem.ColAd Matrix
 
 variable {ι : Type} [Fintype ι] {n : ℕ}
 
@@ -139,7 +139,7 @@ theorem coset_law_moved (hθ : IsInfFam θ) (hj : IsJ u M j) {b : GA D D.sp.X'} 
 end Law
 
 section Chi
-open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.MainNotions Formalism.L2.Col Formalism.L2.DIV Formalism.L2.Ker Formalism.UG Formalism.L2.Forms GlobalTheory.Mem GlobalTheory.Mem.Chr GlobalTheory.Mem.Col2
+open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.MainNotions _root_.Formalism.L2.Col Formalism.L2.DIV Formalism.L2.Ker Formalism.UG Formalism.L2.Forms GlobalTheory.Mem GlobalTheory.Mem.Chr GlobalTheory.Mem.Col2
   GlobalTheory.Mem.Col2.TC Matrix
 attribute [local instance] GlobalTheory.Mem.Col2.starE Formalism.BasicNotions.Host.cmStar
 

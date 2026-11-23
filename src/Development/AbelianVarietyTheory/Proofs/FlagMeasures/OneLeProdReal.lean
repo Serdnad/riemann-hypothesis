@@ -1,9 +1,9 @@
 module
 
 public import Formalism.SharpRestriction.CuspSpanNormBounds.CongruenceAtSplitFrobeniusHolds
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.CountTermsGramClassOverSublatticeStatement
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle410
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsPartnerLift
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsUniquePlace
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle256
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IdxNOneMulAbsNorm
 import Development.AbelianVarietyTheory.Proofs.FlagMeasures.MemOfPerpPerp
 import Development.AbelianVarietyTheory.Proofs.FlagMeasures.StandardBaseFlagComplementIntegralLattice
@@ -46,7 +46,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.RowMinor
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle012
 
 @[expose] public section
 
@@ -255,7 +255,7 @@ theorem partners_le : ∀ Cg cb Cu cT CT C0 A : ℝ, ∃ C : ℝ, ∀ (D : D7) (
   have hTne : ((Tu D u : ℕ) : D.host.E) ≠ 0 := Nat.cast_ne_zero.2 (by omega)
   have hTne' : ((Tu D u' : ℕ) : D.host.E) ≠ 0 := Nat.cast_ne_zero.2 (by omega)
   have hg : gS D ≠ 0 := by
-    unfold gS
+    unfold _root_.Formalism.MainNotions.S.Lat.gS
     exact Nat.mul_ne_zero hg0.ne_zero hg1.ne_zero
   have hk1 : 1 ≤ D.R.k := by have := D.R.m_add_three_le_k; omega
   have hΛ' := hΛ

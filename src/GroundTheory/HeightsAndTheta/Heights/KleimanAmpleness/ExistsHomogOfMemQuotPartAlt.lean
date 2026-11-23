@@ -1,7 +1,7 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.CellMeets
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.KleimanNefness.ModelSt
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle016
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.KleimanNefness.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

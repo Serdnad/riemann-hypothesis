@@ -4,12 +4,12 @@ public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Tri
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.IsAdditiveOfUniversal
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.AbelianSchemeLawsWithoutCohomology
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.ExistsGenOfSmallExtension
-public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.ExistsKerIffMinors
+public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle007
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.ExistsKernelVector
-import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.ForallGeometricallyIntegralOfSmoothOfGeometrical
+import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle005
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.IsAffineOpenInfOfIsSeparated
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.TrivBasicOpenOfTrivFibre
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsProjOverOfIsProjOverBase
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle311
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.BiadditiveOfTrivAxes
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -51,9 +51,9 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.AbelianSchemeGerms
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.RosVal
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.LBLocal
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.Bundle001
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.LBPull
-import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.GoodClass
+import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.Bundle001
 
 @[expose] public section
 
@@ -187,6 +187,10 @@ theorem triv_of_faces (hG : Out.GlobalFnsSt) (hA : IsAbelianScheme A)
   · rw [Category.assoc, ← Over.comp_left, e₀, Category.assoc]
     rfl
   · obtain ⟨q, hq, -⟩ := exists_cube_chart A V.ι
+    letI : (Over.pullback (V.ι ≫ A.hom)).Monoidal :=
+      (Over.instBraidedPullback (f := V.ι ≫ A.hom)).toMonoidal
+    letI : GrpObj ((Over.pullback (V.ι ≫ A.hom)).obj A) :=
+      Functor.grpObjObj (F := Over.pullback (V.ι ≫ A.hom))
     have hB := isAb_baseChange hA (V.ι ≫ A.hom)
     refine ⟨_, q, _, hq, ?_⟩
     rw [← Over.w (snd _ _)]

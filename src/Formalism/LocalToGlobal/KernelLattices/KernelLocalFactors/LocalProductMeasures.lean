@@ -1,22 +1,20 @@
 module
 
-public import Formalism.LocalToGlobal.KernelLattices.MuProd
+public import Formalism.LocalToGlobal.KernelLattices.Bundle002
 public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.LocalProductMeasures.AbsoluteValueInertPrimes
 public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.LocalProductMeasures.TwistComponentsCompatibleSystem
 public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.LocalProductMeasures.TwistValueAtUniformizer
 public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.LocalProductMeasures.XiProd
-public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.LocalProductMeasures.HeckeCharacterCompatibleSystem
+public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.LocalProductMeasures.Bundle001
 public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.LocalProductMeasures.MlZFacSupport
 public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.LocalProductMeasures.HilbertNinetyNormOne
-public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.LocalProductMeasures.MqRowSGUnif
-public import Formalism.LocalToGlobal.Columns.HeckeExHost
-public import Formalism.LocalToGlobal.KernelLattices.ColInst
+public import Formalism.LocalToGlobal.Columns.Bundle001
 import Formalism.LocalToGlobal.Columns.AdelicLemmas
 import Formalism.LocalToGlobal.Columns.BaseLemmas
 import Formalism.LocalToGlobal.Columns.ChainInst
-public import Formalism.LocalToGlobal.Columns.DetChrJoint
-import Formalism.LocalToGlobal.Columns.RowFormsSel
-import Formalism.LocalToGlobal.Divisibility.TuplesLemmas
+public import Formalism.LocalToGlobal.Columns.Bundle016
+import Formalism.LocalToGlobal.Columns.Bundle011
+import Formalism.LocalToGlobal.Divisibility.Bundle001
 import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.PenultimateKernelDiamondInvariant
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

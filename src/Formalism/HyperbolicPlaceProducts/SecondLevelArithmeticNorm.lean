@@ -1,9 +1,8 @@
 module
 
-public import Formalism.HyperbolicPlaceProducts.Statement
-public import Formalism.HyperbolicPlaceProducts.SubgroupIndexCounts.CardEqCardRangeNsmulMulCardKer
+public import Formalism.HyperbolicPlaceProducts.Bundle001
+public import Formalism.HyperbolicPlaceProducts.SubgroupIndexCounts.Bundle001
 import Formalism.HyperbolicPlaceProducts.SubgroupIndexCounts.CountO
-public import Formalism.HyperbolicPlaceProducts.SubgroupIndexCounts.DedekindLFunctions
 import Formalism.HyperbolicPlaceProducts.SubgroupIndexCounts.OmegaPow
 public import Formalism.HyperbolicPlaceProducts.SubgroupIndexCounts.SesquilinearDeterminantHolds
 import Mathlib.Algebra.Order.Floor.Extended

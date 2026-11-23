@@ -1,11 +1,11 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsProjFrameFibrePt
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle024
 public import Aesop.BuiltinRules
 public import Mathlib.FieldTheory.RatFunc.AsPolynomial
 public import Mathlib.RingTheory.SimpleRing.Principal
-public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.POneBlockPointDeg
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.ProjFrameGraphChart
+public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.Bundle030
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle023
 import Mathlib.Algebra.AffineMonoid.UniqueSums
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -53,8 +53,8 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.StepTStB
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.LemCone
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.Bundle006
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle005
 
 @[expose] public section
 

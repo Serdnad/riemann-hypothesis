@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsLieBasis
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle004
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsUnivRingBc
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -46,7 +46,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.BCTools
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsLieBasisBaseChange
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle017
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.ChartPullbacks.UniversalCharts.AlgChart
 
 @[expose] public section
@@ -59,7 +59,7 @@ namespace GlobalTheory.LieChart
 
 open CategoryTheory Limits AlgebraicGeometry MonoidalCategory CartesianMonoidalCategory MonObj
 open ReciprocityTheory.ChartRestriction.G.Chart
-open ReciprocityTheory.ChartRestriction.G.Geo.Tor hiding spMap spMap_comp
+open ReciprocityTheory.ChartRestriction.G.Geo.Tor hiding spMap spMap_comp JetR jetTruncR jetZeroR zR
 open scoped CategoryTheory.Obj
 
 theorem algChart_of_isStandardSmooth {R : Type} [CommRing R] (B : Type) [CommRing B] [Algebra R B]
@@ -318,7 +318,8 @@ theorem exists_affine_lieBasis_baseChange (X : Scheme.{0}) (G : Over X) [GrpObj 
   obtain ⟨C, hC⟩ := LieChart.exists_chart_pullback G hU hV e hs h G₀ _ hφ₀
   obtain ⟨n, y, hy⟩ := LieChart.univChart_of_chart G₀ C hC
   refine ⟨U, hU, hxU, hUW, n,
-    fun j => (ReciprocityTheory.ChartRestriction.G.Chart.tvec (x := y) (Pi.single j 1)).left ≫ pullback.fst G.hom i, ?_⟩
+    fun j => (ReciprocityTheory.ChartRestriction.G.Chart.tvec (G := G₀) (x := y) (Pi.single j 1)).left ≫
+      pullback.fst G.hom i, ?_⟩
   intro R' _ f G' _ φ hφ
   let _ := f.toAlgebra
   obtain ⟨y', hy', e'⟩ := LieChart.univChart_baseChange_of_chart (R' := R') G₀ C n y hy

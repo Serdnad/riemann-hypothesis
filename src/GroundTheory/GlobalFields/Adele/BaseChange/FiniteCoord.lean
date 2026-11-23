@@ -1,8 +1,8 @@
 module
 
-public import GroundTheory.GlobalFields.SemilocalAlgebras.Finite
+public import GroundTheory.GlobalFields.SemilocalAlgebras.Bundle002
 public import GroundTheory.GlobalFields.CompletionAtPlace.Integers
-public import GroundTheory.GlobalFields.SemilocalAlgebras.NormTrace
+public import GroundTheory.GlobalFields.SemilocalAlgebras.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

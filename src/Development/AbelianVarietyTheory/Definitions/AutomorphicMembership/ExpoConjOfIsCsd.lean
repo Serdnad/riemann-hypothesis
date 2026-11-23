@@ -1,12 +1,12 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.ContinuousConjFin
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsIrreducibleIff
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle001
 public import Development.AutomorphicArithmetic.IntegralCasts.AlgebraicInfinityType.InfinityType
 public import Mathlib.Topology.Algebra.Group.Units
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HeckeCharacterUnramifiedAeAndExistsLevel
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.EvalProd
-public import Development.AutomorphicArithmetic.IntegralCasts.RegAlgFam
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle118
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle011
+public import Development.AutomorphicArithmetic.IntegralCasts.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

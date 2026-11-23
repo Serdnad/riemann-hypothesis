@@ -1,15 +1,15 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.ConjScalarThm
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ReadingsExistRow
+public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.Bundle002
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1389
 public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisGeometry₂.HoweUnram
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TypePartBase
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1158
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.CardKerSubspacesAndHeckePolyOfConvolution
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.SphericalThetaCorrespondenceInertPlaceOfHoweStatement
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ThetaVacuumHeckeIdentitySplitPlace
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ConjugateSplittingUnramifiedHyperspecialFixStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ConjugateThetaLiftMatchedHeckeCombinationStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ThetaFormEigenMemSinglePartStatement
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle244
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle247
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle575
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle356
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle557
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -100,7 +100,7 @@ theorem hkF_evC (V : HSp D) {W : Type} [AddCommGroup W] [Module ℂ W] (P : Pl D
       rw [Finsupp.sum_single_index (by simp), one_smul] at this
       rw [if_pos hd, this]; rfl
     · rw [if_neg hd, rep_of_not hd, Finset.sum_empty, zero_smul]
-  simp only [hkF, evC, Finsupp.sum, Pi.smul_apply, Finset.sum_smul, e, smul_smul]
+  simp only [hkF, GlobalTheory.Hk3.evC, Finsupp.sum, Pi.smul_apply, Finset.sum_smul, e, smul_smul]
   refine Finset.sum_congr rfl fun d _ => ?_
   split_ifs <;> simp
 

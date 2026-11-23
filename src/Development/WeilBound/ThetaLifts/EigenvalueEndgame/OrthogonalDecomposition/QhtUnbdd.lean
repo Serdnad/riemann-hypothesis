@@ -1,10 +1,10 @@
 module
 
-public import Development.WeilBound.ThetaLifts.TowerModels.PlaneHerm
-public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.RightOnto
-public import Development.WeilBound.ThetaLifts.EigenvalueEndgame.OrthogonalDecomposition.HodgeTateFromSandwich
+public import Development.WeilBound.ThetaLifts.TowerModels.Bundle003
+public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.Bundle001
+public import Development.WeilBound.ThetaLifts.EigenvalueEndgame.OrthogonalDecomposition.Bundle001
 public import Development.WeilBound.ThetaLifts.FrameEstimates.SquareIntegrableWeilRange
-public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.ExistsFull
+public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.Bundle002
 public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.IndicatorMem
 public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.PfSurj
 public import Development.WeilBound.ThetaLifts.EigenvalueEndgame.OrthogonalDecomposition.ActsOfReads

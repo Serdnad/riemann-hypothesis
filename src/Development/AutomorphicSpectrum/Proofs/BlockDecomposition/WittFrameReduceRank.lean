@@ -1,6 +1,6 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.RatVInjective
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle669
 import Development.WeilBound.ThetaLifts.FrameEstimates.LeHeightOfIsTorusElt
 import Development.WeilBound.ThetaLifts.Reductions.SiegelAbs
 import Mathlib.Algebra.Order.Floor.Extended

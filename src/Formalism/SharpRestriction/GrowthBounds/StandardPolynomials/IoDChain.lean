@@ -1,12 +1,10 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.ColsS
+public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.Bundle002
 public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.IdentityLiftWeightedHomog
-public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.TCoreDef
-public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.YcondFactor
 import Formalism.SharpRestriction.GrowthBounds.ProjectionOfIsotypicDecomposition
 public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.ColXSeg
-public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.HomGMonomial
+public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

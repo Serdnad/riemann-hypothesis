@@ -1,9 +1,9 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.CountDefs
+public import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.Bundle003
 public import Formalism.SharpRestriction.GrowthBounds.PolBridge
-public import Formalism.SharpRestriction.GrowthBounds.RootWeights.GlOperatorPreservesMultidegree
-import Formalism.SharpRestriction.GrowthBounds.RootWeights.IntegralEnvelopingPreservesStable
+public import Formalism.SharpRestriction.GrowthBounds.RootWeights.Bundle010
+import Formalism.SharpRestriction.GrowthBounds.RootWeights.Bundle009
 import Formalism.SharpRestriction.GrowthBounds.ValuationLowestDegreeMapFractionField
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

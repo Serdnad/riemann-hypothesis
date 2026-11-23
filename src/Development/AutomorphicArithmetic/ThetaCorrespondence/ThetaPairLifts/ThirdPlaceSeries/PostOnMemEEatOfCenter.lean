@@ -1,10 +1,10 @@
 module
 
-public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.FormsAtZero
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsSmoothAutomorphicRightTranslateFinite
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.PostOnMemEEatOfCenter
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.PostOnMemGoodPart
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.MultiplicityInnerProductUnitTwistedRightTranslat
+public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.Bundle068
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle137
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle279
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle290
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle161
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -39,7 +39,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Development.AbelianVarietyTheory.Definitions.LatticeFrames.MiStarOfMid
-import Development.AbelianVarietyTheory.Definitions.LatticeFrames.PairForm
+import Development.AbelianVarietyTheory.Definitions.LatticeFrames.Bundle019
 
 @[expose] public section
 

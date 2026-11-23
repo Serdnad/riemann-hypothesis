@@ -1,13 +1,13 @@
 module
 
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerPairs.IsUnitDetOfMemGV
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.IsNormalFormStabilizerMeasure
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.GramSchmidtLengths
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle010
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle169
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsotropicLeviEmbeddingHomomorphismProperties
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsotropicStabilizerRadicalStructure
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.MajorantFlagLengthsInvarianceTorusPositivity
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.NormDetInnerLeOfDetEqOne
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.NormLeadingMinorMonomial
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle020
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle144
 import Formalism.FormalDegreeBessel.FinalG
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -291,7 +291,9 @@ lemma Dmin_eq {k r j : ℕ} (hj : j ≤ r) (z z' : Fin (2 * r + k + 1) → ℂ) 
   have ha := a.2
   have hb := b.2
   simp only at ha hb
-  simp only [Matrix.submatrix_apply, Zhat, fvec]
+  simp only [Matrix.submatrix_apply]
+  unfold _root_.Formalism.QuantumDeterminants.Zhat
+  simp only [_root_.Formalism.QuantumDeterminants.fvec]
   rw [dite_eq_left (by simp; omega), dite_eq_left (by simp; omega), herm_e]
   simp only [bvec, Matrix.mulVec_single_one, Matrix.col_apply, Zr]
   rfl

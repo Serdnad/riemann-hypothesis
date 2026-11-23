@@ -1,17 +1,17 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TprodMemDegLE
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TprodMemTensSpan
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1367
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1373
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CharacterPartTensorSpan
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsCommonIrreducibleQuotient
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsHarmonicHighestWeight
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FockHarmonicHomogeneousOfKType
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1265
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1243
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle865
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FockHarmonicsGradedCompactStable
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FockPolynomialsLocallyFiniteRationalWeights
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle744
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GlBlockFiniteDimModuleStructure
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LowestDegreeComponentInvariant
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1456
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MinFirst
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ThetaKernelReal
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2323
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

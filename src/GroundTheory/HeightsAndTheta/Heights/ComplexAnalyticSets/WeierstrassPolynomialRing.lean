@@ -1,10 +1,10 @@
 module
 
 public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PAnalyticGermsNoetherian
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StGermWeierstrassPreparation
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle017
 public import Mathlib.Topology.Germ
-import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PHolGermsDomain
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.WeierstrassRemainderUnique
+import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle038
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle041
 import Mathlib.Algebra.AffineMonoid.UniqueSums
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

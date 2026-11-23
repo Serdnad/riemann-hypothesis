@@ -3,10 +3,10 @@ module
 public import Formalism.SharpRestriction.Divisibility.JetPolynomialLogs.DworkPowerSeriesWeights
 public import Mathlib.RingTheory.MvPowerSeries.Rename
 import Formalism.GaussJetBounds.GaussJetProofs.ConstantCoeffAevalLinP
-import Formalism.GaussJetBounds.GaussJetProofs.FJEval
+import Formalism.GaussJetBounds.GaussJetProofs.Bundle004
 import Formalism.GaussJetBounds.GaussJetProofs.LogarithmWeightComparison
 import Formalism.GaussJetBounds.GaussJetProofs.OneGauss
-public import Formalism.GaussJetBounds.GaussJetProofs.OrbMul
+public import Formalism.GaussJetBounds.GaussJetProofs.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

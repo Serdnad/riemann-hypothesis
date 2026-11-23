@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalToGlobal.ProjectiveLattices.SumT0MulRatioEqOne
-public import Formalism.LocalToGlobal.ProjectiveLattices.TieInst
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle048
 public import Formalism.LocalToGlobal.ProjectiveLattices.TotalDegreePderivLt
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

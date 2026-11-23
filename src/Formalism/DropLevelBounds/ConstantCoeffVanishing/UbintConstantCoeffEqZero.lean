@@ -1,7 +1,7 @@
 module
 
-public import Formalism.IncomingBounds.StatementThmP
-public import Formalism.IncomingBounds.FlowDegreeBounds.ThmPExp
+public import Formalism.IncomingBounds.Bundle002
+public import Formalism.IncomingBounds.FlowDegreeBounds.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

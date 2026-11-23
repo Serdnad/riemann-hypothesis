@@ -3,7 +3,7 @@ module
 public import Formalism.LocalRingCardinality.DataForms
 public import Formalism.LocalToGlobal.Columns.CoefficientsModP.NablaIndependenceHolds
 public import Formalism.LocalToGlobal.Columns.PolyFn
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LClosedeqLemmas
+import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle002
 import Formalism.LocalToGlobal.Columns.CoefficientsModP.LatticeBasisExistsHolds
 public import Formalism.LocalToGlobal.Columns.CoefficientsModP.PairBDual
 import Formalism.LocalToGlobal.Columns.CoefficientsModP.TauLatticeLatticeHolds

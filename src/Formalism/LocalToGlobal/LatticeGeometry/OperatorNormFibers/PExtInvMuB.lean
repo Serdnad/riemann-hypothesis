@@ -1,7 +1,7 @@
 module
 
-public import Formalism.HarderNarasimhan.StatementPl
-public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.SizeMu
+public import Formalism.HarderNarasimhan.Bundle001
+public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -48,8 +48,8 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 import Formalism.HermitianLattices.StatementLat
-import Formalism.LocalToGlobal.GlobalTheory.HLatOps
-import Formalism.LocalToGlobal.LatticeGeometry.OperatorNormFibers.StExtInv
+import Formalism.LocalToGlobal.GlobalTheory.Bundle001
+import Formalism.LocalToGlobal.LatticeGeometry.OperatorNormFibers.Bundle001
 import Formalism.SharpRestriction.LevelLetterCocycles.DataNLoc
 
 @[expose] public section

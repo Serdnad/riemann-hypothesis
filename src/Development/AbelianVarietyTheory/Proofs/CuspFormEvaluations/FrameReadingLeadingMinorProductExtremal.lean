@@ -2,7 +2,7 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.ThetaValues.LetAct
 public import Formalism.LocalToGlobal.Divisibility.CoefMod
-public import Formalism.LocalToGlobal.ProjectiveLattices.ThClass
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle035
 public import Development.AbelianVarietyTheory.Counterexamples.LevelGroupExamples.TotalDegreeEqOfMemHarmA
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

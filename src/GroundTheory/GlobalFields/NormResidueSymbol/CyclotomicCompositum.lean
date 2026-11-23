@@ -4,7 +4,7 @@ public import GroundTheory.GlobalFields.IdeleClassGroup.InvariantsGalois
 public import GroundTheory.GlobalFields.NormResidueSymbol.RangeIdeleNormLeKerIdeleSymbol
 import GroundTheory.GlobalFields.CyclotomicCharacters.Character
 public import GroundTheory.GlobalFields.NormResidueSymbol.Functorial
-public import GroundTheory.GlobalFields.NormResidueSymbol.Surjective
+public import GroundTheory.GlobalFields.NormResidueSymbol.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

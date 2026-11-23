@@ -1,9 +1,9 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.StatementsConeFibreAverage
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PConeIntegralMass
+public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle012
+public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle016
 public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.LogIntPoly
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PPointLine
+public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,13 +1,12 @@
 module
 
 public import Formalism.LocalToGlobal.IndefiniteForms.IndefiniteTree.ExampleSatisfiesConditionsAtFive
-public import Formalism.PeriodIntegrals.MirabIndex
+public import Formalism.PeriodIntegrals.Bundle007
 public import Mathlib.NumberTheory.Cyclotomic.Basic
-public import Formalism.MirabolicMackeyTheory.MirabolicMackeyProofs.IsMackeyPiUpperUnipotentProdCharacter
+public import Formalism.MirabolicMackeyTheory.MirabolicMackeyProofs.Bundle002
 import Formalism.MirabolicMackeyTheory.MirabolicMackeyProofs.Mirabolic
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.IndexUBound
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.MirabIndex
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.UnipVal
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle001
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle003
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.MirabolicIndex.RowMulOfMirab
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,9 +1,9 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FinStable
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.AdelicGLIwasawaDecompositionStandardParabolic
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ConstantTermAuxiliaryStatementA
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsUnipLevIntegral
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle547
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle529
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle536
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle506
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

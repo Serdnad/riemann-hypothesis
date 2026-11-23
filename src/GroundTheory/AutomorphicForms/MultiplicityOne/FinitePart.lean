@@ -44,7 +44,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 import GroundTheory.AutomorphicForms.CuspidalDiscreteness.Counting
-public import GroundTheory.AutomorphicForms.MultiplicityOne.FiniteFactor
+public import GroundTheory.AutomorphicForms.MultiplicityOne.Bundle002
 
 @[expose] public section
 

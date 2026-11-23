@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ConvUAbsU
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MemShellUIffDepth
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsIdealWeight
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1180
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1181
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle576
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AntiJMulApply
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SwapLtSwapIffOfAddTwo
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsOpenIsCompactUnitaryIntegralPoints
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1254
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle306
 public import Formalism.DoubleCosetMeasures.LowerUnipotentOrbits.RelIndexMulMeasure
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -55,8 +55,8 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.Definitions.Divisors.EqOfHasValueAtInfinite
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.HasBoundedSumsOne
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle010
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle038
 
 @[expose] public section
 

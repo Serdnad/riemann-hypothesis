@@ -1,15 +1,13 @@
 module
 
-public import Formalism.LocalToGlobal.GroupLattices.PerfectRings.ExtWRec
-public import Formalism.LocalRingCardinality.DataKerI
-public import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.ClsStab
-public import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.TiedRec
-public import Formalism.LocalToGlobal.GroupLattices.LevelGatherings.RepTie
+public import Formalism.LocalToGlobal.GroupLattices.PerfectRings.Bundle001
+public import Formalism.LocalRingCardinality.Bundle008
+public import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.Bundle007
+public import Formalism.LocalToGlobal.GroupLattices.LevelGatherings.Bundle004
 public import Formalism.SharpRestriction.GrowthBounds.Joints
 public import Formalism.SharpRestriction.GrowthBounds.PlaneCountTheoremWithConstants
-public import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.ClsGat
-public import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.ClsRec
-public import Formalism.LocalToGlobal.GroupLattices.LevelGatherings.GramDetIsUnit
+public import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.Bundle008
+public import Formalism.LocalToGlobal.GroupLattices.LevelGatherings.Bundle003
 public import Formalism.LocalToGlobal.GroupLattices.LevelGatherings.StdSub
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

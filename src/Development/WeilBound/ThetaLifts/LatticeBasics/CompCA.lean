@@ -1,8 +1,8 @@
 module
 
 public import Development.WeilBound.ThetaLifts.LocalTheory.ConeShifts.MemIntLocOfIdem
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsIntAddConjEqOneOfBaseGood
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PlaceSplitOrInert
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1873
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1557
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsIsLatticeFrameIsMajorantFrame
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsUniqueIsConjAt
 import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.VaceigenDual
@@ -163,7 +163,7 @@ theorem exists_beta {B : Base F E} (hB : B.IsGood σ) {X : Spc F E n} {r s : ℕ
     (h1 : a₁ ∈ Pres v X) (h2 : a₂ ∈ Pres v X) (h : a₁ * x + a₂ * y = 1) (ax : At (evFin F v) (x - 1)) (ay : At (evFin F v) (y - 1)) :
     ∃ b b' t', Adj (cA σ) (incM F X.J) b b' ∧ b + b' = -1 ∧ b ∈ Pres v X ∧ t' ∈ Pres v X ∧ (y + b * (y - x)) * t' = 1 := by
   have hσ := cm_conj_conj hB.cm
-  have cc := cA_cA (F := F) hσ
+  have cc := PositivityTheory.ThK.Vac.cA_cA (F := F) hσ
   have hL := hX.lat
   obtain ⟨K, _, ρ, r1, r2, r3⟩ := exists_res hB v
   obtain ⟨P, p1, p2⟩ := Frames.exists_rational_frame X.L v

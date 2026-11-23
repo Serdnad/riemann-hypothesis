@@ -61,20 +61,20 @@ structure Dat (Ω : Type) [Field Ω] [CharZero Ω] [IsAlgClosure ℚ Ω] (l : �
   m : ℕ
   big : 2 * m + 3 ≤ k
   cong : k - 1 ≡ D.e [MOD l - 1]
-  δ : G ℚ Ω →* c.Oˣ
+  δ : _root_.Formalism.ConjugateSelfDual.G ℚ Ω →* c.Oˣ
   tw : Tw4 T₀ k δ
-  θ : G ℚ Ω →* (Qbar l)ˣ
-  ρ : G ℚ Ω →* GL (Fin 2) (Qbar l)
+  θ : _root_.Formalism.ConjugateSelfDual.G ℚ Ω →* (Qbar l)ˣ
+  ρ : _root_.Formalism.ConjugateSelfDual.G ℚ Ω →* GL (Fin 2) (Qbar l)
   eis : EisRep ι (toB (phi D T₀.pr)) θ k ρ
   irr : IrrOpen ρ
   c₁ : Coef l
   h : c.O ≤ c₁.O
-  ρ₁ : G ℚ Ω →* M2 c₁.O
+  ρ₁ : _root_.Formalism.ConjugateSelfDual.G ℚ Ω →* M2 c₁.O
   x : ValuationSubring Ω → c₁.O
   mod : Mod4 D T₀.pr θ k (resQ T₀.F T₀.g0) ρ h ρ₁ x
-  τ : G ℚ Ω →* M2 c₁.O
+  τ : _root_.Formalism.ConjugateSelfDual.G ℚ Ω →* M2 c₁.O
   s : ValuationSubring Ω → c₁.O
-  κ : G K' Ω →* (Qbar l)ˣ
+  κ : _root_.Formalism.ConjugateSelfDual.G K' Ω →* (Qbar l)ˣ
   tau : TauDat ι K' (resQ T₀.F T₀.g0) m c₁ τ s κ
   aut : AutOffS ι K' ρ (tenB ρ₁ τ)
   w : ℕ
@@ -86,7 +86,7 @@ attribute [instance] Dat.nK
 
 variable {Ω : Type} [Field Ω] [CharZero Ω] [IsAlgClosure ℚ Ω] {l : ℕ} [Fact l.Prime]
 
-def Dat.Q (d : Dat Ω l) (T : Tower d.D) : PD T.ι (G T.F Ω) d.c₁.O :=
+def Dat.Q (d : Dat Ω l) (T : Tower d.D) : PD T.ι (_root_.Formalism.ConjugateSelfDual.G T.F Ω) d.c₁.O :=
   ⟨(rep4 (toC d.h d.δ) d.ρ₁ d.τ).comp (resQ T.F), fun v => flg (d.x (T.pl v)) (d.s (T.pl v))⟩
 
 def TwEx4 : Prop :=
@@ -117,7 +117,7 @@ def OverOf4 : Prop :=
     d.T₀.OverT hT ((d.Q d.T₀).map f) ((d.Q T).map f)
 
 def WtsOf4 : Prop :=
-  ∀ (Ω : Type) [Field Ω] [CharZero Ω] [IsAlgClosure ℚ Ω] (l : ℕ) [Fact l.Prime] (d : Dat Ω l) (T : Tower d.D) (U : Subgroup (G ℚ Ω)) (j : ℤ), IsOpen (U : Set (G ℚ Ω)) → (∀ g ∈ U, d.δ g ^ 2 = chiO ℚ Ω l d.c.O g ^ j) →
+  ∀ (Ω : Type) [Field Ω] [CharZero Ω] [IsAlgClosure ℚ Ω] (l : ℕ) [Fact l.Prime] (d : Dat Ω l) (T : Tower d.D) (U : Subgroup (_root_.Formalism.ConjugateSelfDual.G ℚ Ω)) (j : ℤ), IsOpen (U : Set (_root_.Formalism.ConjugateSelfDual.G ℚ Ω)) → (∀ g ∈ U, d.δ g ^ 2 = chiO ℚ Ω l d.c.O g ^ j) →
     T.Wts (fun i => j + 2 * ![(d.k : ℤ) - 1 + d.m, (d.k : ℤ) - 1 - d.m, d.m, -(d.m : ℤ)] i)
       ((d.Q T).map (algebraMap d.c₁.O (PadicAlgCl l)))
 

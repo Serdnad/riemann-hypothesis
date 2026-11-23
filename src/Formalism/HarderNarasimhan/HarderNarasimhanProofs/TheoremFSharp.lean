@@ -1,14 +1,13 @@
 module
 
-public import Formalism.HarderNarasimhan.StatementFrameF
-public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.FrameHermSharpB
+public import Formalism.HarderNarasimhan.Bundle002
+public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.Bundle005
 public import Mathlib.CategoryTheory.Category.Basic
 public import Mathlib.RingTheory.Coalgebra.IsFrobenius
 public import Mathlib.RingTheory.HopfAlgebra.Basic
-public import Formalism.CorankShare.CorankShareProofs.LayerCakeFormula
+public import Formalism.CorankShare.CorankShareProofs.Bundle001
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.DiscreteSpanOfLinIndep
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.FrameLinearAlgebraFirst
-public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.HNExtreme
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.PlaceSplit
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.SlopeIneqMean
 import Mathlib.Algebra.Order.Floor.Extended

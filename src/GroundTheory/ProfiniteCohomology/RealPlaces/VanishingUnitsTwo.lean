@@ -1,10 +1,10 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.CartierDualDefs
+public import GroundTheory.ProfiniteCohomology.Bundle010
 public import GroundTheory.ProfiniteCohomology.RealPlaces.VanishingUnits
-public import GroundTheory.ProfiniteCohomology.RestrictedRamification.Dimension
+public import GroundTheory.ProfiniteCohomology.RestrictedRamification.Bundle009
 import GroundTheory.ProfiniteCohomology.LocalClassFormation.FiniteVanishing.Vanishing
-public import GroundTheory.ProfiniteCohomology.RealPlaces.VanishingCriterion
+public import GroundTheory.ProfiniteCohomology.RealPlaces.Bundle001
 public import GroundTheory.ProfiniteCohomology.RealPlaces.VanishingUnitsDiv
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

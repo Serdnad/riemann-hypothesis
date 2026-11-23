@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.IdeleLimits.NormalFixingSubgroupGaloisClosure
-public import GroundTheory.ProfiniteCohomology.RestrictedRamification.LocalMaps
+public import GroundTheory.ProfiniteCohomology.RestrictedRamification.Bundle003
 public import GroundTheory.GlobalFields.IdeleGroups.LocalHerbrand
 public import GroundTheory.ProfiniteCohomology.GaloisModules.Discrete
 import Mathlib.Algebra.Order.Floor.Extended

@@ -8,7 +8,7 @@ public import Mathlib.NumberTheory.NumberField.DirichletDensity
 public import Mathlib.RingTheory.Frobenius
 public import GroundTheory.GlobalFields.GlobalReciprocity.Frobenius
 public import GroundTheory.GlobalFields.GlobalReciprocity.General
-import GroundTheory.GlobalFields.NormResidueSymbol.Surjective
+import GroundTheory.GlobalFields.NormResidueSymbol.Bundle003
 public import GroundTheory.GlobalFields.TateThesis.DegreeOneDensity
 public import GroundTheory.GlobalFields.TateThesis.RayClassDensity
 import Mathlib.Algebra.Order.Floor.Extended

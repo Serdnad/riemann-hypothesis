@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsPrimitiveValueOfRingElementPsiRelation
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2847
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.PhiGenPf
-import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.NonemptyFiniteNormalising
+import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle018
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -40,7 +40,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.LBPull
-import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsToricRankOne
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle069
 
 @[expose] public section
 
@@ -352,3 +352,23 @@ theorem expand_of_tauBimult : ∀ (R : Type) [CommRing R] [IsDomain R] (D : DegP
   fun _ _ _ _ hB _ _ n _ x y => ExpandPf.expand_all x y hB n
 
 end GlobalTheory.Mum.PowData
+
+end
+end
+
+section
+
+@[expose] public section
+
+open AlgebraicGeometry CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj IsLocalRing
+open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Out ReciprocityTheory.ChartRestriction.G.Geo.Tor
+open scoped CategoryTheory.Obj
+attribute [local instance] Over.cartesianMonoidalCategory
+open GlobalTheory.UT GlobalTheory.Mum GlobalTheory.Mum.Two GlobalTheory.PolDeg GlobalTheory.CechPic
+open GlobalTheory.Mum.PowData
+
+theorem _root_.GlobalTheory.T.isBiextensionExpansionGenerator_of_tauBimult : ∀ (R : Type) [CommRing R] [IsDomain R] (D : DegPre R), D.TauBimult → ∀ (K : Type) [Fintype K] (n : K → ℤ) (T : Over (Sp R)) (x : T ⟶ D.P.A) (y : K → (T ⟶ D.P.A)), Expand D n x y := by
+  first | exact @GlobalTheory.Mum.PowData.expand_of_tauBimult | exact GlobalTheory.Mum.PowData.expand_of_tauBimult | (intros; apply GlobalTheory.Mum.PowData.expand_of_tauBimult <;> assumption)
+
+end
+end

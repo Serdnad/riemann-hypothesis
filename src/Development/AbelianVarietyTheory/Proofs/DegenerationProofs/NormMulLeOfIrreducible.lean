@@ -1,9 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Degenerations.ArithBase
-public import Development.AbelianVarietyTheory.Definitions.Degenerations.Ser
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.AddHomExtSingle
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsAdaptedBasisTestLattice
+public import Development.AbelianVarietyTheory.Definitions.Degenerations.Bundle003
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle057
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle066
 import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsBasisLatticeNear
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

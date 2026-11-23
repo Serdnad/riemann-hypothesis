@@ -2,9 +2,9 @@ module
 
 import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.PfDictMod
 public import Development.AbelianVarietyTheory.Definitions.Divisors.HilbertNinetyQuotientHomEqIff
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsLocallyConstantAddChar
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle345
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.PadicIsNonarchimedeanLocalField
-public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.DualNumberGraphFiltrationIsotropicOfSkew
+public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.Bundle005
 public import Development.WeilBound.CoreStatements.LocalThetaKernels.EvlLoc
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -97,12 +97,12 @@ theorem exists_compact_ann (hc : Continuous ψ) (h1 : ψ ≠ 1) {U : Set (ι →
 omit [ValuativeRel k] [TopologicalSpace k] [IsNonarchimedeanLocalField k] in
 theorem schr_add {w w' : (κ → k) × (κ → k)} (h : w.1 ⬝ᵥ w'.2 = w'.1 ⬝ᵥ w.2) (φ : (κ → k) → ℂ) :
     schr ψ w (schr ψ w' φ) = schr ψ (w + w') φ := by
-  rw [schr_schr, h, sub_self, mul_zero, AddChar.map_zero_eq_one, one_smul]
+  rw [_root_.GlobalTheory.WeilM.schr_schr, h, sub_self, mul_zero, AddChar.map_zero_eq_one, one_smul]
 
 omit [ValuativeRel k] [TopologicalSpace k] [IsNonarchimedeanLocalField k] in
 theorem schr_comm (w w' : (κ → k) × (κ → k)) (φ : (κ → k) → ℂ) :
     schr ψ w (schr ψ w' φ) = ψ (w.1 ⬝ᵥ w'.2 - w'.1 ⬝ᵥ w.2) • schr ψ w' (schr ψ w φ) := by
-  rw [schr_schr, schr_schr, smul_smul, ← AddChar.map_add_eq_mul, add_comm w]
+  rw [_root_.GlobalTheory.WeilM.schr_schr, _root_.GlobalTheory.WeilM.schr_schr, smul_smul, ← AddChar.map_add_eq_mul, add_comm w]
   congr 2
   have h2 : ⅟(2 : k) * 2 = 1 := invOf_mul_self _
   linear_combination (w.1 ⬝ᵥ w'.2 - w'.1 ⬝ᵥ w.2) * h2

@@ -1,8 +1,8 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.AdelicLattices.FactPrimes
+public import Development.AutomorphicSpectrum.Definitions.AdelicLattices.Bundle001
 public import Mathlib.RingTheory.Ideal.Norm.AbsNorm
-public import Development.AutomorphicSpectrum.Proofs.AdelicProofs.LogIdealMulSpanMapStatement
+public import Development.AutomorphicSpectrum.Proofs.AdelicProofs.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

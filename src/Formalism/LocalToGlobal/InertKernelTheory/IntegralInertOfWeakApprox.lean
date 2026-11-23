@@ -1,9 +1,9 @@
 module
 
-public import Formalism.LocalToGlobal.InertKernelTheory.DefsMMOnb
+public import Formalism.LocalToGlobal.InertKernelTheory.Bundle004
 public import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.IntWeak
-public import Formalism.LocalToGlobal.InertKernelTheory.OneCopyTh1S
-public import Formalism.LocalToGlobal.InertKernelTheory.StatementInt
+public import Formalism.LocalToGlobal.InertKernelTheory.Bundle007
+public import Formalism.LocalToGlobal.InertKernelTheory.Bundle003
 public import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.AlgKleinPf
 public import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.GlobalOrthonormalBasisFour
 public import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.IntAsm
@@ -11,10 +11,10 @@ public import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.IntEa
 public import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.IntPull
 import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.IntStd
 public import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.MMFour
-public import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.OneCopyTh1SOfIsom
+public import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.Bundle008
 public import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.ThFourIntOf
 public import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.UnitSubstOfLoc
-public import Formalism.LocalToGlobal.InertKernelTheory.IntegralInertOfWeakApproxTheta
+public import Formalism.LocalToGlobal.InertKernelTheory.Bundle014
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

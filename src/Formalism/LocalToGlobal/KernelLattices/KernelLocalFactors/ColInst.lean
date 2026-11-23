@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.KernelLattices.ColInst
+public import Formalism.LocalToGlobal.KernelLattices.Bundle002
 public import Formalism.LocalToGlobal.KernelLattices.FirstKernelLawReading
 import Formalism.HermitianLattices.HermitianLatticesProofs.DualBasic
 public import Formalism.HermitianLattices.HermitianLatticesProofs.IndexBasic
@@ -52,8 +52,8 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Presheaf
-public import Formalism.LocalRingCardinality.SpanPowerMembership.ExampleRanksRankComplement
-public import Formalism.LocalToGlobal.Columns.CyclotomicIsCyclotomicExtension
+public import Formalism.LocalRingCardinality.SpanPowerMembership.Bundle004
+public import Formalism.LocalToGlobal.Columns.Bundle017
 
 @[expose] public section
 

@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.JacobiThetaHalfCharacteristic
+public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.Bundle007
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.OddThetaNormUnimodularLattice
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.AreaBoundedOfDiscrEqOne
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.OddThetaFunctionExistenceUniqueness
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle223
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle231
 import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.DifferentiableAtDerivAtZero
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

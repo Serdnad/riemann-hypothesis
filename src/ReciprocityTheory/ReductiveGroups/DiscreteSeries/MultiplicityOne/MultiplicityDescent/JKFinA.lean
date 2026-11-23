@@ -47,7 +47,7 @@ import Mathlib.Topology.Sheaves.Init
 import Formalism.FormalDegreeBessel.StatementWR
 import Formalism.HermitianCurvature.StatementB
 import Formalism.HermitianCurvature.WeylElementCommutesLevelOne
-import ReciprocityTheory.ReductiveGroups.DiscreteSeries.MultiplicityOne.JBeEquivA
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.MultiplicityOne.Bundle006
 
 @[expose] public section
 

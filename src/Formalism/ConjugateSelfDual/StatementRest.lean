@@ -1,6 +1,6 @@
 module
 
-public import Formalism.ConjugateSelfDual.Statement
+public import Formalism.ConjugateSelfDual.Bundle001
 public import Mathlib.NumberTheory.DirichletCharacter.Basic
 public import Mathlib.NumberTheory.ModularForms.QExpansion
 import Mathlib.Algebra.Order.Floor.Extended

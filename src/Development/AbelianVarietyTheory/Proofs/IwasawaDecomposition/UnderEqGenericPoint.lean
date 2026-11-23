@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.EqOfIsometricTrivShift
+public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.Bundle014
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -309,13 +309,13 @@ theorem step_of_linear {R : Type*} [CommRing R] [Algebra ℝ R] (Φ : R →ₗ[�
   have h₂ (b : ℤ) : (P b).coeff 1 = (D + 1) * c := by
     rw [finsetSum_coeff, Finset.sum_eq_single 1 (fun _ _ hj => coeff_monomial_of_ne _ hj.symm) (by simp),
       coeff_monomial_same, pow_one, Nat.add_sub_cancel, hc, Nat.choose_one_right, Nat.cast_succ]
-  have h₃ (b : ℤ) : P b = taylor (b : ℝ) (P 0) := eq_of_infinite_eval_eq _ _ (hinf.mono (by
+  have h₃ (b : ℤ) : P b = _root_.Polynomial.taylor (b : ℝ) (P 0) := eq_of_infinite_eval_eq _ _ (hinf.mono (by
     rintro _ ⟨a, rfl⟩
-    rw [Set.mem_ofPred_eq, taylor_eval, h₁, ← Int.cast_add, h₁, add_zero]))
+    rw [Set.mem_ofPred_eq, _root_.Polynomial.taylor_eval, h₁, ← Int.cast_add, h₁, add_zero]))
   have h₄ : derivative (P 0 - C ((D + 1) * c) * X) = 0 := eq_of_infinite_eval_eq _ _ (hinf.mono (by
     rintro _ ⟨b, rfl⟩
     have := h₂ b
-    rw [h₃, taylor_coeff_one] at this
+    rw [h₃, _root_.Polynomial.taylor_coeff_one] at this
     simp [this]))
   have h₅ := eq_C_of_derivative_eq_zero h₄
   have e₀ := congrArg (eval ((0 : ℤ) : ℝ)) h₅

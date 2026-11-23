@@ -1,11 +1,11 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsLatFlagPair
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.ChartRingLocalizationMembershipStatement
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle011
+public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle015
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsChartBundle
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.PrimeChartExistsUniquePointStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.RegAtIffChartLocalizationStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.RegAtIsLocalRingIsFractionRingStalk
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle029
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle052
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle011
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

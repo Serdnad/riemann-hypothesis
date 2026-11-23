@@ -1,12 +1,12 @@
 module
 
 public import Development.AutomorphicSpectrum.Definitions.DivisibilityTowers.GoodOrigin
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IntegralClosureHeightEqOneOfLiesOver
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle011
 public import GroundTheory.HeightsAndTheta.Heights.IntegralModels.Statements
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.DualMapCompStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.RootModelFlagCompareStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.RootOriginCompareThirdStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.RootTowerUniformHeightBoundStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle207
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle224
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle164
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle307
 public import GroundTheory.HeightsAndTheta.Heights.IntegralModels.Assembly
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -129,6 +129,8 @@ theorem dualMap_comp {A B C : Type} [CommRing A] [CommRing B] [CommRing C] (f : 
 theorem spMap_comp {A B C : Type} [CommRing A] [CommRing B] [CommRing C] (f : A →+* B) (g : B →+* C) :
     spMap (g.comp f) = spMap g ≫ spMap f := by
   simp [spMap, CommRingCat.ofHom_comp]
+
+attribute [-instance] GlobalTheory.CompHt.fintypePsi
 
 variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E} {D : Datum H} {l : Level H}
   {Xo : Moduli D l} {c : Coeff l} {Y : Model Xo c (algebraMap (𝓞 c.F) c.F)}

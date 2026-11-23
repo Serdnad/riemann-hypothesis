@@ -1,0 +1,372 @@
+module
+
+public import Formalism.SharpRestriction.LevelLetterCocycles.Bundle006
+public import Formalism.SharpRestriction.LevelLetterCocycles.DecompositionData
+public import Formalism.SharpRestriction.LevelLetterCocycles.DeltaInvariantLattices
+public import Formalism.SharpRestriction.LevelLetterCocycles.LocalSituation
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Algebra.Order.Star.Rat
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Basify
+import Mathlib.Tactic.ENatToNat
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Topology.Sheaves.Init
+import Std.Tactic.BVDecide.Normalize.Prop
+
+@[expose] public section
+
+section
+
+noncomputable section
+
+namespace Formalism.MainNotions.AdmissibleThreePrime
+
+open Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.N Formalism.ConjugateSelfDual ReciprocityTheory.Gal Polynomial NumberField IsDedekindDomain
+
+def TheoremThreePrime (D : D7) : Prop := ArithmeticCylinders.TheoremThreePrime D
+
+abbrev redF (D : D7) (i : D.nd.Loc) (ρ : G D.host.E D.nd.Om →* GL (Fin D.R.r) (D.nd.O i)) :
+    G D.host.E D.nd.Om →* GL (Fin D.R.r) (Formalism.CyclotomicNorms.Fbar (D.nd.l i)) :=
+  mapRep ((D.naut.kFbar i).comp (IsLocalRing.residue (D.nd.O i))) ρ
+
+def LabelDegreeHypotheses (D : D7) : Prop :=
+  ∀ (i : D.nd.Loc) (Sig : List (Formalism.BasicNotions.Part D.naut.CG)),
+    (∃ x, HasParamX D.nd D.naut i x Sig) →
+    (∀ (k : Fin 2) (v : D.nd.PlG k),
+      (D.naut.items₂ k (D.naut.plGw k v) (isoLoc D.nd D.naut Sig (D.naut.plGw k v))).natDegree =
+        D.naut.lpDim (isoLoc D.nd D.naut Sig (D.naut.plGw k v))) →
+    IsCuspIso D.nd D.naut Sig →
+    ∀ ρ : G D.host.E D.nd.Om →* GL (Fin D.R.r) (D.nd.O i), IsRepOfSig D.nd D.naut i Sig ρ →
+    ∀ k : Fin 2, D.nd.l i ≠ D.host.g k →
+      haveI : Fact (D.host.g k).Prime := ⟨D.host.g_prime k⟩
+      (∀ v : D.nd.PlG k, ∃ ι : Formalism.CyclotomicNorms.Fbar (D.host.g k) →* Formalism.CyclotomicNorms.Fbar (D.nd.l i),
+        (∀ x y : Formalism.CyclotomicNorms.Fbar (D.host.g k), x ≠ 0 → y ≠ 0 → (orderOf x).Coprime (D.nd.l i) →
+          (orderOf y).Coprime (D.nd.l i) → ι x = ι y → x = y) ∧
+        Matrix.charpoly ((redF D i ρ (D.ntypes.tg k v) : GL (Fin D.R.r) _) :
+            Matrix (Fin D.R.r) (Fin D.R.r) (Formalism.CyclotomicNorms.Fbar (D.nd.l i))) =
+          ((Formalism.CyclotomicNorms.rootsBar (D.naut.items₂ k (D.naut.plGw k v)
+              (isoLoc D.nd D.naut Sig (D.naut.plGw k v)))).map
+            fun x => X - C (ι (Formalism.CyclotomicNorms.primeToPart (D.nd.l i) x))).prod ∧
+        ∃ φ : G D.host.E D.nd.Om,
+          redF D i ρ (φ * D.ntypes.tg k v * φ⁻¹) = redF D i ρ (D.ntypes.tg k v) ^ D.host.g k) ∧
+      (∀ w ∈ placesOver D.host.E (D.host.g k), TameGen D.nd (D.nd.plOm.1 w) (D.nd.gam0 i w) →
+        ∃ (v : D.nd.PlG k) (j : Fin D.R.m) (ι : Formalism.CyclotomicNorms.Fbar (D.host.g k) →* Formalism.CyclotomicNorms.Fbar (D.nd.l i))
+          (e₁ e₂ : ℤ), (e₁ = 1 ∨ e₁ = -1) ∧ (e₂ = 1 ∨ e₂ = -1) ∧
+          (∀ x y : Formalism.CyclotomicNorms.Fbar (D.host.g k), x ≠ 0 → y ≠ 0 → (orderOf x).Coprime (D.nd.l i) →
+            (orderOf y).Coprime (D.nd.l i) → ι x = ι y → x = y) ∧
+          Matrix.charpoly ((redF D i ρ (D.nd.gam0 i w) : GL (Fin D.R.r) _) :
+              Matrix (Fin D.R.r) (Fin D.R.r) (Formalism.CyclotomicNorms.Fbar (D.nd.l i))) =
+            ((Formalism.CyclotomicNorms.rootsBar (D.naut.items₂ k (D.naut.plGw k v)
+                (isoLoc D.nd D.naut Sig (D.naut.plGw k v)))).map
+              fun x => X - C (ι (Formalism.CyclotomicNorms.primeToPart (D.nd.l i) x) ^ e₁)).prod ∧
+          D.naut.kFbar i (IsLocalRing.residue (D.nd.O i) (chi1 D.nd i (D.nd.gam0 i w))) =
+            ι (Formalism.CyclotomicNorms.primeToPart (D.nd.l i)
+              (algebraMap (ZMod (D.host.g k)) (Formalism.CyclotomicNorms.Fbar (D.host.g k))
+                ((D.nd.chiT k v j : (ZMod (D.host.g k))ˣ) : ZMod (D.host.g k)))) ^ e₂)
+
+end Formalism.MainNotions.AdmissibleThreePrime
+end
+end
+
+section
+
+noncomputable section
+
+namespace Formalism.MainNotions.FamilyNumericLemmas
+
+open Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.ArithmeticCylinders Filter Topology
+
+theorem cyl_univ (D : D7) (k : Fin 2) : cyl D k Set.univ = Set.univ := by
+  ext t; simp [cyl]
+
+end Formalism.MainNotions.FamilyNumericLemmas
+end
+end
+
+section
+
+noncomputable section
+
+namespace Formalism.MainNotions.N.LocalShareBounds
+
+open Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.ArithmeticCylinders Polynomial Filter Topology
+
+variable {D : D7}
+
+theorem wtOf_off (k : Fin 2) (a : MonoidAlgebra ℂ (GL (Fin D.R.r) (ZMod (D.host.g k))))
+    (f : (ZMod (D.host.g k))[X])
+    (hf : ¬ (f.Monic ∧ f.natDegree = D.R.r ∧ f.coeff 0 ≠ 0)) : wtOf D k a f = 0 := by
+  unfold wtOf
+  rw [D.ntypes.eSer_zero k f hf, mul_zero]
+  simp
+
+
+end Formalism.MainNotions.N.LocalShareBounds
+end
+end
+
+section
+
+noncomputable section
+
+open NumberField IsDedekindDomain Formalism.ConjugateSelfDual ReciprocityTheory.Gal Polynomial Formalism.WeaklyAdmissibleFiltrations Module Formalism.MainNotions.N
+
+namespace Formalism.MainNotions.LargeLevelLemmas
+
+open Formalism.BasicNotions Formalism.BasicNotions.Loc
+
+section Lit
+
+variable {G : Type} [Group G] [TopologicalSpace G] {Qp K₀ K : Type} [Field Qp] [Field K₀] [Field K]
+    [Algebra Qp K₀] [Algebra Qp K] [Algebra K₀ K] [IsScalarTower Qp K₀ K]
+    {B BdR : Type} [CommRing B] [CommRing BdR] [Algebra Qp B] [Algebra K₀ B] [IsScalarTower Qp K₀ B]
+    [Algebra Qp BdR] [Algebra K₀ BdR] [Algebra K BdR] [IsScalarTower Qp K BdR]
+    [IsScalarTower K₀ K BdR] [IsScalarTower Qp K₀ BdR]
+    (PD : PeriodData G Qp K₀ K B BdR)
+    (LL O : Type) [Field LL] [Algebra Qp LL] [TopologicalSpace LL] [IsTopologicalRing LL]
+    [CommRing O] [Algebra O LL]
+
+def bkAAt : Prop :=
+  ∀ (A A' : GRep G Qp LL O) (P : A.V →ₗ[LL] A'.V →ₗ[LL] LL), IsDR PD A.ρ → IsDual1 PD A.ρ A'.ρ P →
+    (∀ a ∈ continuousCocycles A.ρ, (a ∈ finiteCocycles PD A.ρ ↔ ∀ b ∈ finiteCocycles PD A'.ρ, CobL PD (cupL A'.ρ P a b))) ∧
+    (∀ b ∈ continuousCocycles A'.ρ, (b ∈ finiteCocycles PD A'.ρ ↔ ∀ a ∈ finiteCocycles PD A.ρ, CobL PD (cupL A'.ρ P a b)))
+
+def TateH1FinitenessAt (_PD : PeriodData G Qp K₀ K B BdR) : Prop :=
+  ∀ (A : GRep G Qp LL O) (LA : Lattice (O := O) A.ρ), Module.Finite O (LatticeCohomology LA)
+
+theorem bkAAt_of_core [TopologicalSpace Qp] (h : bkACore PD) (hO : GoodO (Qp := Qp) LL O) :
+    bkAAt PD LL O :=
+  h LL O hO
+
+theorem tate_h1_finite_of_all_coefficients [TopologicalSpace Qp] (h : TateFiniteness PD) (hO : GoodO (Qp := Qp) LL O) :
+    TateH1FinitenessAt LL O PD :=
+  h LL O hO
+
+end Lit
+
+variable {D : D7}
+
+theorem splits_coef {i : D.nd.Loc} {w : HeightOneSpectrum (𝓞 D.host.E)}
+    {hw : w ∈ placesOver D.host.E (D.nd.l i)} (C : Formalism.MainNotions.TruncatedSeriesCountingIdentities.CoefExt D i w hw) :
+    Splits (Qp := ℚ_[D.nd.l i]) (K := Br.Kw D.nbr i w hw) ↥C.LL.1 := by
+  refine ⟨C.LL.2, ?_⟩
+  have hmem : ∀ (τ : Br.Kw D.nbr i w hw →ₐ[ℚ_[D.nd.l i]] Om (D.nd.l i)) (x : Br.Kw D.nbr i w hw),
+      τ x ∈ C.LL.1 := fun τ x => C.le ((D.nbr i w hw).LL_split τ x)
+  let e : (Br.Kw D.nbr i w hw →ₐ[ℚ_[D.nd.l i]] ↥C.LL.1) ≃
+      (Br.Kw D.nbr i w hw →ₐ[ℚ_[D.nd.l i]] Om (D.nd.l i)) :=
+    { toFun := fun f => C.LL.1.val.comp f
+      invFun := fun τ => τ.codRestrict C.LL.1.toSubalgebra (hmem τ)
+      left_inv := fun f => by ext x; rfl
+      right_inv := fun τ => by ext x; rfl }
+  rw [Fintype.card_congr e]
+  exact AlgHom.card _ _ _
+
+section Pt
+
+variable (i : D.nd.Loc) (r : D.nd.X i → (GE D.nd →* GL (Fin D.R.nV) (D.nd.O i)))
+  (ρ : D.nd.X i → (GE D.nd →* GL (Fin D.R.r) (D.nd.O i))) (π : D.nd.X i)
+  (dc : Formalism.MainNotions.TruncatedSeriesCountingIdentities.Decl D i)
+
+def adm51 : Prop := π ∈ D.nd.Z i → ∃ S : IdempotentChoiceData D.nd i, GoodCongruenceObjects D.nd r ρ π S
+
+def CharpolyCoeffsLemmaFamily : Prop := CharpolyCoeffsInSubalgebra D.nd i (D.nd.T i) (rO D.nd i r)
+
+def SpanQuotientLemma : Prop := π ∈ D.nd.Z i → ∀ S : IdempotentChoiceData D.nd i, GoodCongruenceObjects D.nd r ρ π S → VanishingLemma D.nd π S
+
+def HomRelationsLemmaAllChoices : Prop := π ∈ D.nd.Z i → ∀ S : IdempotentChoiceData D.nd i, GoodCongruenceObjects D.nd r ρ π S → QuotientHomNonvanishingBound D.nd r π S
+
+def BlochKatoAnnihilators : Prop :=
+  ∀ (w : HeightOneSpectrum (𝓞 D.host.E)) (hw : w ∈ placesOver D.host.E (D.nd.l i))
+    (C : Formalism.MainNotions.TruncatedSeriesCountingIdentities.CoefExt D i w hw), C.IsGood →
+    bkAAt (Br.PD D.loc D.nbr i w hw) ↥C.LL.1 ↥(OL C.LL)
+
+def tateH1FinitenessAtPlacesOver : Prop :=
+  ∀ (w : HeightOneSpectrum (𝓞 D.host.E)) (hw : w ∈ placesOver D.host.E (D.nd.l i))
+    (C : Formalism.MainNotions.TruncatedSeriesCountingIdentities.CoefExt D i w hw),
+    TateH1FinitenessAt ↥C.LL.1 ↥(OL C.LL) (Br.PD D.loc D.nbr i w hw)
+
+end Pt
+
+theorem sum_padicValNat_range (p : ℕ) [Fact p.Prime] (n : ℕ) :
+    ∑ k ∈ Finset.range (n + 1), padicValNat p k = padicValNat p n.factorial := by
+  induction n with
+  | zero => simp [Nat.padicValNat_def]
+  | succ m ih =>
+    rw [Finset.sum_range_succ, ih, Nat.factorial_succ,
+      (show ∀ {p a b : ℕ} [_root_.Fact (_root_.Nat.Prime p)], a ≠ 0 → b ≠ 0 → _root_.padicValNat p (a * b) = _root_.padicValNat p a + _root_.padicValNat p b from by simpa only [← _root_.Nat.padicValNat_def] using @_root_.Nat.multiplicity_mul) (Nat.succ_ne_zero m) (Nat.factorial_ne_zero m), add_comm]
+
+theorem vdel_le (i : D.nd.Loc) :
+    D.nd.vdel i ≤ (D.R.t : ℚ) * (D.nd.s0 i : ℚ) + (padicValNat (D.nd.l i) D.R.t.factorial : ℚ) := by
+  have h1 : D.nd.vdel i ≤
+      ∑ k ∈ Finset.range D.R.t, ((D.nd.s0 i : ℚ) + (padicValNat (D.nd.l i) k : ℚ)) := by
+    unfold NData.vdel
+    apply Finset.sum_le_sum_of_subset_of_nonneg
+    · intro k hk
+      exact Finset.mem_range.2 (Finset.mem_Ioo.1 hk).2
+    · intro k _ _
+      positivity
+  have h2 : (∑ k ∈ Finset.range D.R.t, padicValNat (D.nd.l i) k) ≤
+      padicValNat (D.nd.l i) D.R.t.factorial := by
+    rcases Nat.eq_zero_or_pos D.R.t with h0 | hpos
+    · simp [h0]
+    · obtain ⟨m, hm⟩ := Nat.exists_eq_succ_of_ne_zero hpos.ne'
+      rw [hm, Nat.succ_eq_add_one, sum_padicValNat_range, Nat.factorial_succ,
+        (show ∀ {p a b : ℕ} [_root_.Fact (_root_.Nat.Prime p)], a ≠ 0 → b ≠ 0 → _root_.padicValNat p (a * b) = _root_.padicValNat p a + _root_.padicValNat p b from by simpa only [← _root_.Nat.padicValNat_def] using @_root_.Nat.multiplicity_mul) (Nat.succ_ne_zero m) (Nat.factorial_ne_zero m)]
+      exact Nat.le_add_left _ _
+  have h3 : (∑ k ∈ Finset.range D.R.t, ((D.nd.s0 i : ℚ) + (padicValNat (D.nd.l i) k : ℚ))) =
+      (D.R.t : ℚ) * (D.nd.s0 i : ℚ) + ((∑ k ∈ Finset.range D.R.t, padicValNat (D.nd.l i) k : ℕ) : ℚ) := by
+    rw [Finset.sum_add_distrib, Finset.sum_const, Finset.card_range, nsmul_eq_mul, Nat.cast_sum]
+  have h4 : ((∑ k ∈ Finset.range D.R.t, padicValNat (D.nd.l i) k : ℕ) : ℚ) ≤
+      (padicValNat (D.nd.l i) D.R.t.factorial : ℚ) := by exact_mod_cast h2
+  linarith
+
+theorem zgoodSubsetZ (i : D.nd.Loc) : D.nd.Zgood i ⊆ D.nd.Z i := by
+  intro x hx
+  rw [D.Z_tie]
+  rw [D.Zgood_tie] at hx
+  exact hx.1
+
+end Formalism.MainNotions.LargeLevelLemmas
+end
+end
+
+section
+
+noncomputable section
+
+namespace Formalism.MainNotions.N.Ln34
+
+open Formalism.WeaklyAdmissibleFiltrations Formalism.BasicNotions Formalism.BasicNotions.Loc Module
+
+def DdRFull (D : D7) : Prop :=
+  ∀ (l : ℕ) [Fact l.Prime] (K LL : FinExt l), (∃ s, Good K s LL) →
+    ∀ T : LocLat ↥(GK K) ℚ_[l] ↥LL.1 ↥(OL LL), IsCrys ((D.loc l).PD K) T.ρ → ∀ τ : ↥K.1 →ₐ[ℚ_[l]] ↥LL.1,
+      finrank ↥LL.1 ↥(DdRE ((D.loc l).PD K) T.ρ τ) = finrank ↥LL.1 T.V
+
+def DiRank (D : D7) (HW : HWOf D.loc) (_F : FonOf D.loc D.locA HW) (_Cm : CmpOf D.loc D.locA HW _F) :
+    Prop :=
+  ∀ (l : ℕ) [Fact l.Prime] (K LL : FinExt l) (hG : Good K 1 LL) (T : LocLat ↥(GK K) ℚ_[l] ↥LL.1 ↥(OL LL)),
+    IsCrys ((D.loc l).PD K) T.ρ → ∀ c : ZMod (finrank ℚ_[l] ↥(K0 K)),
+      finrank ↥LL.1 ↥(Formalism.MainNotions.DeltaInvariantLattices.ιDi ((HW l).W K 1 LL hG) T c) = finrank ↥LL.1 T.V
+
+end Formalism.MainNotions.N.Ln34
+
+end
+end
+
+section
+
+noncomputable section
+
+namespace Formalism.MainNotions.DeltaInvariantLattices
+
+open Formalism.BasicNotions Formalism.BasicNotions.Loc Formalism.WeaklyAdmissibleFiltrations
+
+section Local
+
+variable {G : Type} [Group G] [TopologicalSpace G] {Qp K₀ K : Type} [Field Qp] [Field K₀] [Field K]
+    [Algebra Qp K₀] [Algebra Qp K] [Algebra K₀ K] [IsScalarTower Qp K₀ K]
+    {B BdR : Type} [CommRing B] [CommRing BdR] [Algebra Qp B] [Algebra K₀ B] [IsScalarTower Qp K₀ B]
+    [Algebra Qp BdR] [Algebra K₀ BdR] [Algebra K BdR] [IsScalarTower Qp K BdR]
+    [IsScalarTower K₀ K BdR] [IsScalarTower Qp K₀ BdR]
+    {PD : PeriodData G Qp K₀ K B BdR} {LL O : Type} [Field LL] [Algebra Qp LL] [TopologicalSpace LL]
+    [CommRing O] [Algebra O LL] {v : AddValuation LL (WithTop ℚ)} {n : ℕ}
+
+variable (W : LocWach PD LL O v n)
+
+def WachLatticeFree : Prop := ∀ T : LocLat G Qp LL O, IsCrys PD T.ρ → wachFree W T
+
+def WachCharacterisationLattice : Prop := ∀ T : LocLat G Qp LL O, IsCrys PD T.ρ → p10 W T
+
+def GammaSemisimpleQuotient : Prop :=
+  ∀ T : LocLat G Qp LL O, IsCrys PD T.ρ →
+    ∀ y : ℕ, 1 ≤ y → SSEig W T (invN W T (W.Q ^ y)) (W.N T)
+      {c | ∃ a ∈ Jumps (PD := PD) T, ∃ j : ℕ, 1 ≤ j ∧ j ≤ y ∧ c = (uU W) ^ (-(a + j))}
+
+end Local
+
+section Theory
+
+def wachLatticeFreeLocal (LT : LocTheory) (HW : HWOf LT) (AI : ∀ (l : ℕ) [Fact l.Prime], LocAinf l (LT l))
+    (_F : FonOf LT AI HW) : Prop :=
+  ∀ (l : ℕ) [Fact l.Prime] (K : FinExt l) (s : ℕ) (LL : FinExt l) (h : Good K s LL),
+    WachLatticeFree ((HW l).W K s LL h)
+
+def wachCharacterisationLocal (LT : LocTheory) (HW : HWOf LT) (AI : ∀ (l : ℕ) [Fact l.Prime], LocAinf l (LT l))
+    (_F : FonOf LT AI HW) : Prop :=
+  ∀ (l : ℕ) [Fact l.Prime] (K : FinExt l) (s : ℕ) (LL : FinExt l) (h : Good K s LL),
+    WachCharacterisationLattice ((HW l).W K s LL h)
+
+def gammaSemisimpleLocal (LT : LocTheory) (HW : HWOf LT) (AI : ∀ (l : ℕ) [Fact l.Prime], LocAinf l (LT l))
+    (_F : FonOf LT AI HW) : Prop :=
+  ∀ (l : ℕ) [Fact l.Prime] (K : FinExt l) (s : ℕ) (LL : FinExt l) (h : Good K s LL),
+    GammaSemisimpleQuotient ((HW l).W K s LL h)
+
+end Theory
+
+section Design
+
+def WachLatticeFreeGlobal (D : Formalism.BasicNotions.D7) (HW : HWOf D.loc) (F : FonOf D.loc D.locA HW) : Prop :=
+  wachLatticeFreeLocal D.loc HW D.locA F
+
+def WachCharacterisation (D : Formalism.BasicNotions.D7) (HW : HWOf D.loc) (F : FonOf D.loc D.locA HW) : Prop :=
+  wachCharacterisationLocal D.loc HW D.locA F
+
+def gammaSemisimpleQuotientGlobal (D : Formalism.BasicNotions.D7) (HW : HWOf D.loc) (F : FonOf D.loc D.locA HW) : Prop :=
+  gammaSemisimpleLocal D.loc HW D.locA F
+
+end Design
+
+end Formalism.MainNotions.DeltaInvariantLattices
+end
+end
+
+section
+
+noncomputable section
+
+namespace Formalism.MainNotions.LocalSituation
+
+open Formalism.BasicNotions Formalism.BasicNotions.Loc
+
+def ClassMapInjectiveBijectiveNorms (D : Formalism.BasicNotions.D7) (HW : HWOf D.loc) (F : FonOf D.loc D.locA HW) : Prop :=
+  ∀ (l : ℕ) [Fact l.Prime] (K : FinExt l) (s : ℕ) (LL : FinExt l) (h : Good K s LL),
+    HerrAat (sit D.loc HW l (D.locA l) K s LL h) ∧ HerrAsat (sit D.loc HW l (D.locA l) K s LL h) ∧
+      ((HW l).W K s LL h).ClNat
+
+end Formalism.MainNotions.LocalSituation
+end
+end

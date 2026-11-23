@@ -1,14 +1,14 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.BudgetAt
-public import Development.AbelianVarietyTheory.Definitions.Divisors.QuoIff
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LogDivPredMemOfPrime
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PosDividedSlopeWeightsBaseHeight
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SpreadLeAt
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SumLogDivPredLeReal
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SumPadicValNatMulLogLeLog
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.WeightDivisionL1Bound
-public import Development.AutomorphicArithmetic.PrimeDiscriminants.BadCount
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle066
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle060
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle958
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1034
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1006
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle207
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle941
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle986
+public import Development.AutomorphicArithmetic.PrimeDiscriminants.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -165,7 +165,7 @@ theorem l1_u_le {ι : Type} [Fintype ι] {N : ℕ} (W : GlobalTheory.MeanTop.Wts
 
 section Point
 
-open Formalism.L2 Formalism.L2.DIV Formalism.L2.Indef
+open _root_.Formalism.L2 Formalism.L2.DIV Formalism.L2.Indef
 
 variable {D : D7} {L : SizeData₂ D} {hT : GatTies D} {Gi : Formalism.MainNotions.G.Inst D L} {Gl : Formalism.MainNotions.G.LatInst D} {Kc : Formalism.MainNotions.G.Consts}
   {Y0 : DivX D} {cX : ExtraC} {ex : Extra D L hT Gi Gl Kc Y0 cX} {Csz : ℝ} (p : PtAt ex Csz) (i : Fin D.R.m)

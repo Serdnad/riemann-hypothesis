@@ -1,9 +1,8 @@
 module
 
-public import GroundTheory.TateCohomology.CupFunctorial
+public import GroundTheory.TateCohomology.Bundle004
 public import GroundTheory.TateCohomology.TateConnecting
-public import GroundTheory.TateCohomology.Annihilation
-public import GroundTheory.TateCohomology.CupTateNatural
+public import GroundTheory.TateCohomology.Bundle007
 public import GroundTheory.TateCohomology.TateCup
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -2,7 +2,7 @@ module
 
 public import Formalism.SharpRestriction.GrowthBounds.UnramifiedQuadraticSetting
 public import Formalism.GradedWeylDivisibility.FinalD
-public import Formalism.LocalToGlobal.GroupLattices.FockModels.DualInclusionLattices
+public import Formalism.LocalToGlobal.GroupLattices.FockModels.Bundle001
 import Formalism.LocalToGlobal.GroupLattices.FockModels.ElementaryDivisorBasis
 public import Formalism.LocalToGlobal.GroupLattices.FockModels.TestSideEdge
 public import Formalism.LocalToGlobal.GroupLattices.FockModels.TestSideTen

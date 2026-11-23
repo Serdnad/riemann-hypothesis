@@ -1,12 +1,12 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.DefClassNum
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle008
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsLimitOfChart
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.InvSubOneMem
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsRiemannianHaarOnSubgroupSigmaFiniteUniqueStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.TendstoRescaledIntegralOfDensityOneStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.UnitarySubgroupChartAlmostIsometricNearOneStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.UnitarySubgroupChartSurjectiveNearOriginStatement
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle131
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle161
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle132
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle173
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle233
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,18 +1,15 @@
 module
 
-public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.LocalConverseGL
+public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.Bundle007
 public import Development.DiscreteGroups.GlobalIrreducibility.LConv
-public import Development.DiscreteGroups.GlobalIrreducibility.LConvBig
+public import Development.DiscreteGroups.GlobalIrreducibility.Bundle016
 public import Development.DiscreteGroups.GlobalIrreducibility.LConvComm
-public import Development.DiscreteGroups.GlobalIrreducibility.LConvDens
+public import Development.DiscreteGroups.GlobalIrreducibility.Bundle012
 public import Development.DiscreteGroups.GlobalIrreducibility.LConvGen
 public import Development.DiscreteGroups.GlobalIrreducibility.LConvGlue
-public import Development.DiscreteGroups.GlobalIrreducibility.LConvIrr
-public import Development.DiscreteGroups.GlobalIrreducibility.LConvKM
-public import Development.DiscreteGroups.GlobalIrreducibility.LConvKir
+public import Development.DiscreteGroups.GlobalIrreducibility.Bundle014
+public import Development.DiscreteGroups.GlobalIrreducibility.Bundle013
 public import Development.DiscreteGroups.GlobalIrreducibility.LConvSep
-public import Development.DiscreteGroups.GlobalIrreducibility.LConvUnif
-public import Development.DiscreteGroups.GlobalIrreducibility.LConvUnitOf
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

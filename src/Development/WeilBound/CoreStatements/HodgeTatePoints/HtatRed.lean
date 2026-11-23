@@ -1,11 +1,11 @@
 module
 
 public import Development.AutomorphicSpectrum.Statements.GeometryStatements.IsPolLatticePlane
-public import Development.AutomorphicSpectrum.Statements.GeometryStatements.HTChartExists
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ImportsLast
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.HtatHtBc
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.HtatLieBc
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.HtatLieIso
+public import Development.AutomorphicSpectrum.Statements.GeometryStatements.Bundle002
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle012
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle027
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle042
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle043
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

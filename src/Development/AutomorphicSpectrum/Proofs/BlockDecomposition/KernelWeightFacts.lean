@@ -1,11 +1,10 @@
 module
 
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.ArchimedeanGelfandKernels.FriedrichsKernels.CalcSteps
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.DifferentiableAtOfSmooth
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle217
 import Aesop.Main
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LengthFunctionFactsHold
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.UnitaryMemGLs
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ZOpMemCE
 import Mathlib.Algebra.Order.Archimedean.Real.Hom
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

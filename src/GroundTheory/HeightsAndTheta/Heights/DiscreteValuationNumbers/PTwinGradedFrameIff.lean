@@ -1,7 +1,7 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.ImportsTerBis
-public import GroundTheory.HeightsAndTheta.Heights.IntegralModels.ChartGlueSat
+public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Bundle029
+public import GroundTheory.HeightsAndTheta.Heights.IntegralModels.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

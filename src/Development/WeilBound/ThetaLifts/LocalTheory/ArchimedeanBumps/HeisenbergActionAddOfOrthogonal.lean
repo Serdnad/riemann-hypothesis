@@ -1,8 +1,8 @@
 module
 
 public import Development.WeilBound.ThetaLifts.SmallCones.ThetaUniq
-public import Development.WeilBound.ThetaLifts.CartanFactorisation.CartanConj
-public import Development.WeilBound.ThetaLifts.LocalTheory.IsArchimedeanLocalEquivariantMap
+public import Development.WeilBound.ThetaLifts.CartanFactorisation.Bundle002
+public import Development.WeilBound.ThetaLifts.LocalTheory.Bundle001
 public import Development.WeilBound.ThetaLifts.LocalTheory.ArchimedeanBumps.ArchHeisOf
 public import Development.WeilBound.ThetaLifts.SmallCones.MatCancel
 import Development.WeilBound.ThetaLifts.TowerModels.LeviAd

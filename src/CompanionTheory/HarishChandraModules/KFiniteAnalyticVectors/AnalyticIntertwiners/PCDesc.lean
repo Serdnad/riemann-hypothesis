@@ -1,7 +1,7 @@
 module
 
 public import CompanionTheory.HarishChandraModules.KFiniteAnalyticVectors.AnalyticIntertwiners.Clause1
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.ExpFromBlocks
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle002
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.UnipotentCorrectionU1.DjCurveA
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

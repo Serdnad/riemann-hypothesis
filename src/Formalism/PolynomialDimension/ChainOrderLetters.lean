@@ -1,8 +1,7 @@
 module
 
-public import Formalism.MahlerMeasure.StatementTM
-public import Formalism.PolynomialDimension.DigitSumValuationBound
-public import Formalism.MahlerMeasure.StatementT
+public import Formalism.MahlerMeasure.Bundle005
+public import Formalism.PolynomialDimension.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

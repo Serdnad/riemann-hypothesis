@@ -1,11 +1,11 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.FinitePrimesUnder
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsIdempotentPowerLimitCongruentOneStatement
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MemPrincipalCongruenceLevelSubgroupIffIntegralCo
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.UnitaryCongruentOneDetSubOneMemIdealMulConj
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsHalfIdem
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.RationalPointsIntegralPointsMembership
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2069
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1949
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1981
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle250
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle216
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

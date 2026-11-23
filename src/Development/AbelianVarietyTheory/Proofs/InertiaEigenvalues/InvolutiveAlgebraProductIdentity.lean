@@ -1,15 +1,15 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsLatticeIdempotentPositionInvolutionStable
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.UnitLemmaGroup
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle503
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle002
 public import Mathlib.LinearAlgebra.BilinearForm.DualLattice
 public import Mathlib.LinearAlgebra.FreeModule.PID
 public import Mathlib.RingTheory.Flat.TorsionFree
 public import Mathlib.RingTheory.SimpleRing.Principal
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.ValIrreducible
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.EtaGramDetEqOneOfSelfDualLatticeStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LatticeCountAndGramDetSignNormClassStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WeightedCountStableLatticesProductDescentGLStatement
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle003
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle184
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle167
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle238
 public import Mathlib.Algebra.Module.Lattice.Full
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
@@ -341,7 +341,7 @@ theorem sigma_smul (B : InvAlg K) (a : K.O) : ∃ b : K.O, ∀ y, B.σ (a • y)
     IsScalarTower.algebraMap_apply K.O K.E B.A b, B.σ_alg, hb]
 
 theorem sigma_integral (B : InvAlg K) {y : B.A} (hi : IsIntegral K.O y) : IsIntegral K.O (B.σ y) := by
-  apply GlobalTheory.UnitLemma.Desc.isIntegral_sigma <;> assumption
+  exact GlobalTheory.UnitLemma.Desc.isIntegral_sigma K B y hi
 
 theorem conj_mem (x : K.E) : K.c x ∈ (algebraMap K.O K.E).range ↔ x ∈ (1 : Submodule K.O K.E) := by
   rw [RingHom.mem_range, Submodule.mem_one]

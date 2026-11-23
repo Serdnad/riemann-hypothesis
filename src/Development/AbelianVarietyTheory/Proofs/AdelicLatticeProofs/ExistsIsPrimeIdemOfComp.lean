@@ -1,6 +1,6 @@
 module
 
-public import Formalism.UnipotentAdelicQuotients.ThmBInHecke
+public import Formalism.UnipotentAdelicQuotients.Bundle001
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsFiniteAdeleBaseChangeEquiv
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsAdeleRingTensorEquivInfiniteProdFinite
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Levelaf

@@ -2,8 +2,8 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.ThetaValues.LetAct
 public import Formalism.LocalToGlobal.Divisibility.CoefMod
-public import Formalism.LocalToGlobal.ProjectiveLattices.ThClass
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.InPsiOrInPsiConjugate
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle035
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle014
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

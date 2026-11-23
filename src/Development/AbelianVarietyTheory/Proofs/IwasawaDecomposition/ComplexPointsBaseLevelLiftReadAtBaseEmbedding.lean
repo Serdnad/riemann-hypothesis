@@ -5,7 +5,7 @@ public import Mathlib.RingTheory.Coalgebra.IsFrobenius
 public import Mathlib.RingTheory.Etale.Weakly
 public import Mathlib.RingTheory.HopfAlgebra.Basic
 public import Mathlib.RingTheory.TotallySplit
-public import Formalism.LocalToGlobal.IndefiniteReal.ConjSubConjSub
+public import Formalism.LocalToGlobal.IndefiniteReal.Bundle018
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -44,13 +44,13 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.EtaJUntw
-import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.NotBaseCondFalse
+import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle022
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.PlaceModelImp
-import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.PositionOfIntro
+import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle024
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.RowsRestWordColumnUnitBaseTupleAlt
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.StableIffCarrierEq
-import Development.AbelianVarietyTheory.Definitions.Foundations.ValuedAlgebraMapEqOne
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FunKilled
+import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle003
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle076
 import Formalism.LocalToGlobal.HilbertRowConditions.CenterIdempotentAction
 import Formalism.LocalToGlobal.IndefiniteReal.RecTie
 

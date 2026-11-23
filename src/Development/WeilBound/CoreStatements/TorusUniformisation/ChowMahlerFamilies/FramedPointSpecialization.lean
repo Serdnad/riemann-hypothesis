@@ -1,13 +1,13 @@
 module
 
-import Development.WeilBound.CoreStatements.PluriharmonicCharts.FderivValueZero
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsConstMul
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.EigenFrameFieldExtension
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.EigenFrameIffEigenspaceBasis
+import Development.WeilBound.CoreStatements.PluriharmonicCharts.Bundle014
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle010
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle196
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle085
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsLieModel
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsLieModelBaseChangeStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieModelExistsUniqueAct
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieModelFiniteBaseChange
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle191
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle021
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle154
 public import Mathlib.Algebra.MvPolynomial.Cardinal
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

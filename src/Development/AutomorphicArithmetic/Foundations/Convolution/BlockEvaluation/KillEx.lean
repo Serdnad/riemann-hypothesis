@@ -1,10 +1,9 @@
 module
 
 public import Development.AutomorphicArithmetic.Foundations.Convolution.BlockEvaluation.TruncSpec
-public import Development.AutomorphicArithmetic.Foundations.Convolution.PolynomialCoefficientBounds.KillLiftSingle
-import Development.AutomorphicArithmetic.Foundations.Convolution.PolynomialCoefficientBounds.LiftSingleAlt
-public import Development.AutomorphicArithmetic.Foundations.Convolution.PolynomialCoefficientBounds.PermOf
-public import Development.AutomorphicArithmetic.Foundations.Convolution.PolynomialCoefficientBounds.SubEqZeroIff
+public import Development.AutomorphicArithmetic.Foundations.Convolution.PolynomialCoefficientBounds.Bundle007
+import Development.AutomorphicArithmetic.Foundations.Convolution.PolynomialCoefficientBounds.Bundle005
+public import Development.AutomorphicArithmetic.Foundations.Convolution.PolynomialCoefficientBounds.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

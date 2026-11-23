@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.FglPtW
+public import Formalism.PeriodIntegrals.Bundle008
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdditiveIntegralGroups.SubstMem
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

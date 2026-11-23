@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsSystemOf
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsSemilinearActionDualWeylTensor
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2429
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle860
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

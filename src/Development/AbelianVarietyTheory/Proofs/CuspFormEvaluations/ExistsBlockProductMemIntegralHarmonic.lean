@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.ThetaValues.IsBlockProd
+public import Development.AbelianVarietyTheory.Definitions.ThetaValues.Bundle001
 public import Development.AbelianVarietyTheory.Definitions.ThetaMetrics.SumFinsuppAntidiagProdPowDivMultiFactorial
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsIntegralHarmonicNeZeroAndIsHomogeneous
-import Development.AbelianVarietyTheory.Proofs.JetHarmonics.MinorsDisjointColumnsHarmonic
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle063
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle017
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsLastEntryPosNotLastPos
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -52,7 +52,7 @@ import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AbelianVarietyTheory.Definitions.ThetaValues.ThConst
 import Development.AbelianVarietyTheory.Definitions.TorusSections.IsTorusOf
-import Formalism.SharpRestriction.Divisibility.GeneratorPowers.CIndRaw
+import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle007
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.HolomorphicFamilies.HolJetA
 
 @[expose] public section
@@ -337,7 +337,7 @@ theorem sum_mult_le (Dw : Datum H) :
 theorem isBlockProd_minorsP (Dw : Datum H) {n : ℕ} (K : Type) [CommRing K]
     (e : (Σ x : (Σ σ, Fin (Dw.mult σ)), Fin (x.2 + 1)) → Fin n) (he : Function.Injective e)
     (a : (E →+* ℂ) → ℕ → ℕ) :
-    IsBlockProd (Dw := Dw) (minorsP Dw.mult n (fun σ s j => e ⟨⟨σ, s⟩, j⟩) K a) := by
+    _root_.GlobalTheory.BlockTh.IsBlockProd (Dw := Dw) (minorsP Dw.mult n (fun σ s j => e ⟨⟨σ, s⟩, j⟩) K a) := by
   classical
   let I := {x : (Σ σ, Fin (Dw.mult σ)) // 1 ≤ a x.1 x.2 - a x.1 (x.2 + 1)}
   let bk : I → Bk Dw n := fun x =>
@@ -356,7 +356,7 @@ theorem isBlockProd_minorsP (Dw : Datum H) {n : ℕ} (K : Type) [CommRing K]
 end Count
 
 theorem exists_blockProd_mem_harmA :
-    ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Host E) (Dw : Datum H) (l : Geo.Tor.Level H) (c : Coeff l) (a : (E →+* ℂ) × ℕ → ℕ) (n : ℕ), (∀ τ i k, i ≤ k → a (τ, k) ≤ a (τ, i)) → I2.PT.f E * (Dw.p + Dw.q) * (Dw.p + Dw.q + 1) ≤ 2 * n → ∃ P : MvPolynomial (LtN Dw n) c.F, P ∈ harmA c a n ∧ IsBlockProd P ∧ P.totalDegree = Formalism.L2.Pj.DF Dw a ∧ ∀ σ : c.F →+* ℂ, ∑ m ∈ P.support, ‖σ (P.coeff m)‖ ≤ ((Dw.p + Dw.q : ℕ) : ℝ) ^ Formalism.L2.Pj.DF Dw a := by
+    ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Host E) (Dw : Datum H) (l : Geo.Tor.Level H) (c : Coeff l) (a : (E →+* ℂ) × ℕ → ℕ) (n : ℕ), (∀ τ i k, i ≤ k → a (τ, k) ≤ a (τ, i)) → I2.PT.f E * (Dw.p + Dw.q) * (Dw.p + Dw.q + 1) ≤ 2 * n → ∃ P : MvPolynomial (LtN Dw n) c.F, P ∈ harmA c a n ∧ _root_.GlobalTheory.BlockTh.IsBlockProd P ∧ P.totalDegree = Formalism.L2.Pj.DF Dw a ∧ ∀ σ : c.F →+* ℂ, ∑ m ∈ P.support, ‖σ (P.coeff m)‖ ≤ ((Dw.p + Dw.q : ℕ) : ℝ) ^ Formalism.L2.Pj.DF Dw a := by
   intro E _ _ _ H Dw l c a n ha hn
   obtain ⟨e, he⟩ := exists_cols Dw.mult n ((sum_mult_le Dw).trans hn)
   let col : ∀ σ, ∀ s : Fin (Dw.mult σ), Fin (s + 1) → Fin n := fun σ s j => e ⟨⟨σ, s⟩, j⟩

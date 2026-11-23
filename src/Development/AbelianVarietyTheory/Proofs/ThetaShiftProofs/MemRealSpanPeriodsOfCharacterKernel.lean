@@ -45,11 +45,11 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AbelianVarietyTheory.Definitions.ArchimedeanThetaValues.IsFramedPointChangedByLetters
-import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.TopLeWchartNsmul
-import Formalism.LocalToGlobal.ProjectiveLattices.AlgebraMapCAt
-import Formalism.LocalToGlobal.ProjectiveLattices.ArchimedeanQuadraticData.ArcLineFunctions.ArcSPin
-import Formalism.LocalToGlobal.ProjectiveLattices.JFDFree
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.Signature
+import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle014
+import Formalism.LocalToGlobal.ProjectiveLattices.Bundle003
+import Formalism.LocalToGlobal.ProjectiveLattices.ArchimedeanQuadraticData.ArcLineFunctions.Bundle001
+import Formalism.LocalToGlobal.ProjectiveLattices.Bundle008
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.Bundle001
 
 @[expose] public section
 

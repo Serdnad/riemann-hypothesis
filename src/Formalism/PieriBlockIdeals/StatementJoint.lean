@@ -1,8 +1,8 @@
 module
 
-public import Formalism.PieriBlockIdeals.TailInequalityEventually
-public import Formalism.QuotientMetricDivisors.ClassSumDualLe
-public import Formalism.MirabolicMackeyTheory.StatementT
+public import Formalism.PieriBlockIdeals.Bundle006
+public import Formalism.QuotientMetricDivisors.Bundle004
+public import Formalism.MirabolicMackeyTheory.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

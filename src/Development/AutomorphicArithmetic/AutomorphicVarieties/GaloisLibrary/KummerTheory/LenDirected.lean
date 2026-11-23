@@ -44,7 +44,7 @@ import Mathlib.Topology.Sheaves.Init
 import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.GaloisCohomologyLength.LevelInertiaLeLevelDec
 import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.KummerTheory.Mk0IdMapCongr
 import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.RestrictionMemInvariantH1
-import Formalism.ConjugateSelfDual.Statement
+import Formalism.ConjugateSelfDual.Bundle001
 import Formalism.GaloisCohomology.Statement
 import ReciprocityTheory.GaloisValuations.GlobalA
 

@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.InvDer
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle137
 public import Development.AbelianVarietyTheory.Definitions.Divisors.FormalCoboundarySmul
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.InvariantDerivationCoeffEqZeroOfDegreeLtStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.InvariantDerivationFormalGroupLawIsLinearStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.InvariantDerivationFormalGroupLawLeibnizStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle661
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle617
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle615
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -45,9 +45,9 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.EpsilonPairingZeta
+import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.Bundle005
 import Development.AbelianVarietyTheory.Definitions.Divisors.EqZeroOfForallPowDvd
-import Development.AbelianVarietyTheory.Definitions.Divisors.GhostFrobenius
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle012
 
 @[expose] public section
 

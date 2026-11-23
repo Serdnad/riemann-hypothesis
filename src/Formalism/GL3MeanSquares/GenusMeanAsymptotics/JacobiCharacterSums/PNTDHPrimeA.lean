@@ -1,9 +1,9 @@
 module
 
-public import Formalism.LandauZeroFreeBounds.NoZeroComplexOf
+public import Formalism.LandauZeroFreeBounds.Bundle001
 public import Mathlib.NumberTheory.LSeries.Nonvanishing
-public import Formalism.GL3MeanSquares.GenusMeanAsymptotics.JacobiCharacterSums.PNTDHPos
-public import Formalism.LandauZeroFreeBounds.ExceptionalZeroBounds.LDerivNearOne
+public import Formalism.GL3MeanSquares.GenusMeanAsymptotics.JacobiCharacterSums.Bundle016
+public import Formalism.LandauZeroFreeBounds.ExceptionalZeroBounds.Bundle011
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -48,7 +48,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Formalism.GL3MeanSquares.GenusMeanAsymptotics.JacobiCharacterSums.MeanSquareHypWIff
+import Formalism.GL3MeanSquares.GenusMeanAsymptotics.JacobiCharacterSums.Bundle006
 
 @[expose] public section
 

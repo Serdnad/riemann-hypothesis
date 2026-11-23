@@ -1,12 +1,12 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Jets.CmLatticeCommutatorPairingPowEqOneOfGoodLift
-public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.ClosedBallValuationSubringToSubring
+public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.Bundle002
 public import Mathlib.AlgebraicGeometry.EllipticCurve.Affine.Point
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.CpSeriesCoeffNormBoundedRingLaws
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.CpTransportedTaylorSeriesInChartRingHomLaws
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle084
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle014
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.IntegralWeierstrassChartXyUnitSeries
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.RingHomPointBijective
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle015
 import Development.AbelianVarietyTheory.Proofs.JetHarmonics.UwEllipticFlow
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -65,7 +65,7 @@ open scoped ComplexConjugate BigOperators Topology
 namespace GlobalTheory.MomOne.Transl
 
 
-open WeierstrassCurve in
+open _root_.WeierstrassCurve in
 theorem chord {K : Type} [Field K] [DecidableEq K] (W : WeierstrassCurve K) {s t x y X Y : K}
     (h₁ : W.toAffine.Nonsingular s t) (h₂ : W.toAffine.Nonsingular x y) (h₃ : W.toAffine.Nonsingular X Y)
     (h : Affine.Point.some s t h₁ + Affine.Point.some x y h₂ = Affine.Point.some X Y h₃) :
@@ -101,7 +101,7 @@ theorem chord {K : Type} [Field K] [DecidableEq K] (W : WeierstrassCurve K) {s t
       linear_combination (X - s) * hl
 
 
-open WeierstrassCurve in
+open _root_.WeierstrassCurve in
 theorem disc_eq {K : Type} [CommRing K] (W : WeierstrassCurve K) {s t : K} (h : W.toAffine.Equation s t)
     (k p a b : K) (hk : k = W.a₄ - W.a₁ * t + 2 * W.a₂ * s + 3 * s ^ 2) (hp : p = 2 * t + W.a₁ * s + W.a₃)
     (ha : a = W.a₂ + 3 * s) (hb : b = W.a₁ ^ 2 + 4 * a) :

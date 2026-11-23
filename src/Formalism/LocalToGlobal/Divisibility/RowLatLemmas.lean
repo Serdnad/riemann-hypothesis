@@ -7,7 +7,7 @@ public import Formalism.LocalToGlobal.Divisibility.ProjLemmas
 import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.AuxStatement14
 import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.ClassSumDualGeOfFamily
 import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.LocBasis
-import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.ReductionLemmaFirst
+import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.Bundle001
 public import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.SecondStepGluing
 import Mathlib.Algebra.AffineMonoid.UniqueSums
 import Mathlib.Algebra.Order.Floor.Extended

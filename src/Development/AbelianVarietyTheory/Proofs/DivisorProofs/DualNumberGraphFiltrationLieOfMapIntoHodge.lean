@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsCoords
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CrysActApply
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3404
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle851
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -47,7 +47,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
-import Development.AbelianVarietyTheory.Definitions.Divisors.InfUniv
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle004
 
 @[expose] public section
 

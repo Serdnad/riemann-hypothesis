@@ -1,10 +1,10 @@
 module
 
-public import Development.WeilBound.CoreStatements.FlagImmersions.FibSandwich
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.CmTypeLatticeComparison
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GenericPointNormalCoords
+public import Development.WeilBound.CoreStatements.FlagImmersions.Bundle013
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle219
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle213
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsExcisionNbhdAway
-public import Development.WeilBound.CoreStatements.FlagImmersions.FrameOfMatrix
+public import Development.WeilBound.CoreStatements.FlagImmersions.Bundle015
 public import Development.WeilBound.CoreStatements.FlagImmersions.LogDetBounds
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

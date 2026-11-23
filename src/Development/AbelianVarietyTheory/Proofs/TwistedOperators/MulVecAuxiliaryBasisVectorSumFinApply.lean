@@ -3,12 +3,8 @@ module
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ScaledBasisMemChainLattice
 public import Mathlib.CategoryTheory.Category.Basic
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.PadicIsNonarchimedeanLocalField
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsEqActStdLat
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsIsRepsOfFg
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsUnipotent
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsLatticeChainLatAndComap
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsLatticeStdLatAndAct
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.StabiliserFiniteCosetsMod
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle047
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle046
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

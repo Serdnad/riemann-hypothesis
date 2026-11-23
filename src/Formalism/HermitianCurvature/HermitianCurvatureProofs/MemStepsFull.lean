@@ -1,6 +1,6 @@
 module
 
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.IsOpenBigCellSet
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle085
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.UnipotentComposition.DegPderivMul
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.UnipotentComposition.Development
 import Mathlib.Algebra.Order.Floor.Extended

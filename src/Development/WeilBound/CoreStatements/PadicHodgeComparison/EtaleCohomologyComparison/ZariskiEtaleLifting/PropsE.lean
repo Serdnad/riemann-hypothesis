@@ -1,16 +1,16 @@
 module
 
-public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.ZariskiEtaleLifting.MapUSharp
+public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.ZariskiEtaleLifting.Bundle005
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.WittExactSequences.ObFacts
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.AcrTeichProd
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle464
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.AcrToContInjective
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.EpsilonCyclotomicElementProperties
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsQuot
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.GammaComp
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IncPtInjective
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle439
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle498
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle438
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle469
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MemMapBasis
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MemSpanIffOfBijective
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.StepDesc
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle470
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

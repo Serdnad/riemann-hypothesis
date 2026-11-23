@@ -1,9 +1,9 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.EmbedsGeneric
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle013
 public import Development.WeilBound.CoreStatements.FlagImmersions.Transport
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.CuspCorrespondenceBoundStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.SectionBoundaryClosedAndCodenseStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle149
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle040
 public import Development.WeilBound.CoreStatements.CentralCharts.PotLoc
 public import Development.WeilBound.CoreStatements.VolumeEquality.BaseUnifVec
 import Mathlib.Algebra.Order.Floor.Extended

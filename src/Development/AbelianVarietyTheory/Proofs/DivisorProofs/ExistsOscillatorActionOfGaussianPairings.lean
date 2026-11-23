@@ -1,9 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ContinuousFourierGau
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle042
 public import Mathlib.Analysis.CStarAlgebra.Module.Constructions
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IntegralGauTwistedConv
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PowMulNormGauLe
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle164
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,6 +1,6 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.RestDecompProved
+public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.Bundle009
 public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.SymmetryFinitenessWindowLevelDimOnAdmissible
 public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.ClosedOfCoefficientFunction
 public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.RestLjjFinProved

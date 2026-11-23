@@ -1,10 +1,7 @@
 module
 
-public import Development.AutomorphicArithmetic.Foundations.Convolution.PowerSumTraces.DecayTraceClassAlt
-public import Development.AutomorphicArithmetic.Foundations.Convolution.PowerSumTraces.EigSplit
-public import Development.AutomorphicArithmetic.Foundations.Convolution.PowerSumTraces.EigSummands
-public import Development.AutomorphicArithmetic.Foundations.Convolution.PowerSumTraces.SummandsSpan
-public import Development.AutomorphicArithmetic.Foundations.Convolution.PowerSumTraces.TwistUnitary
+public import Development.AutomorphicArithmetic.Foundations.Convolution.PowerSumTraces.Bundle001
+public import Development.AutomorphicArithmetic.Foundations.Convolution.PowerSumTraces.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

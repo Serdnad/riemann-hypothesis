@@ -1,11 +1,11 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.SqMap
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.FBIdSy
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle150
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle019
 import Formalism.SharpRestriction.Divisibility.GeneratorPowers.FBIdJet
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.FrRatio
-import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermDJet
-import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ThetaSwapFirstTwo
+import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle013
+import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle022
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

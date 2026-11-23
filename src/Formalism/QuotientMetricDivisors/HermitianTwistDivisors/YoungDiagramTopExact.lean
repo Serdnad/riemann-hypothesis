@@ -1,6 +1,6 @@
 module
 
-public import Formalism.QuotientMetricDivisors.TheoremDivIneqRowsShift
+public import Formalism.QuotientMetricDivisors.Bundle003
 public import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.YoungDiagramHook
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

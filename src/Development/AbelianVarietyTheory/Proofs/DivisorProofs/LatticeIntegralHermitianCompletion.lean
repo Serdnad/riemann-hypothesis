@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TorusOfSpec
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsOrthonormalBasisUnimodularHermitianLocalRi
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LatticeEqIntegralCoords
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsWittBasis
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.UnramifiedQuadraticNormsTraceUniformizerFactsStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1355
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle012
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle157
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle059
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle098
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,13 +1,13 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsLagrModelOfIsLin
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LatAtVAtStable
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AdelicHeisenbergActsByLocalSchrodinger
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsFactorPureTensorComponentAtPlace
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1910
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1874
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1989
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1770
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsINeZeroKind
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SchrodingerPreservesSchwartzBruhat
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SchroedingerIrreducibleFinitePlaceCompletionStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.StandardAdelicCharacterNontrivialAtPlaces
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1903
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2027
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1905
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

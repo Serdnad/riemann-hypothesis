@@ -2,7 +2,7 @@ module
 
 public import Formalism.SharpRestriction.LevelLetterCocycles.IntegralHeckeForms
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsCharDescent
-public import Formalism.LocalRingCardinality.DataNChoice
+public import Formalism.LocalRingCardinality.Bundle003
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,14 +1,14 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.EqOneOfUnimodular
-public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.ExistsArBaseAway
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.SecBaseChangeAnySt
-import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.PolBaseChangeOfRelAmpleLocal
+public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.Bundle002
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.Bundle005
+import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle018
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.WeilIsAlternatingSkewNatural
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.BiadditiveOfTrivAxes
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsClopenOfIsLocallyNoetherian
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.RelAmpleFormBundlePowerOfPosDef
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.SmoothIsMultiplicative
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle073
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle147
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle008
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,8 +1,8 @@
 module
 
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.TwistBC
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.Bundle004
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.ChartPullbacks.UniversalCharts.IsUnivChart
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FirstCohomology.SquareUnits
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FirstCohomology.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -49,14 +49,14 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.DivCalc
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.LBLocalC
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.Bundle005
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.LBPull
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.SectionScalarValuation
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.ChartPullbacks.UniversalCharts.AlgChart
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.ChartPullbacks.UniversalCharts.DualLiftInjective
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FirstCohomology.LocalResidues
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FirstCohomology.Bundle002
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FirstCohomology.SectionArithmetic
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FirstCohomology.SectionDivision
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FirstCohomology.Bundle001
 
 @[expose] public section
 
@@ -291,15 +291,15 @@ section Chart
 open Chart
 
 variable {R : Type} [CommRing R] {G : Over (Spec (CommRingCat.of R))} [GrpObj G] {g : ℕ}
-  {x : ∀ m : ℕ, sp (R₀ := R) (JetR R (Fin g) m) ⟶ G}
+  {x : ∀ m : ℕ, sp (R₀ := R) (Chart.JetR R (Fin g) m) ⟶ G}
 
-theorem subalgebra_eq_top (hx : IsUnivChart G g x) (n : ℕ) (B : Subalgebra R (JetR R (Fin g) n))
+theorem subalgebra_eq_top (hx : IsUnivChart G g x) (n : ℕ) (B : Subalgebra R (Chart.JetR R (Fin g) n))
     (y : Spec (CommRingCat.of B) ⟶ G.left) (hy : Spec.map (CommRingCat.ofHom B.val.toRingHom) ≫ y = (x n).left) :
     B = ⊤ := by
   have hw : y ≫ G.hom = (sp (R₀ := R) B).hom := by
     obtain ⟨φ, hφ⟩ := Spec.map_surjective (y ≫ G.hom)
     have e : Spec.map (φ ≫ CommRingCat.ofHom B.val.toRingHom) =
-        Spec.map (CommRingCat.ofHom (algebraMap R (JetR R (Fin g) n))) := by
+        Spec.map (CommRingCat.ofHom (algebraMap R (Chart.JetR R (Fin g) n))) := by
       rw [Spec.map_comp, hφ, ← Category.assoc, hy]
       exact Over.w (x n)
     have e' := Spec.map_injective e
@@ -325,7 +325,7 @@ theorem subalgebra_eq_top (hx : IsUnivChart G g x) (n : ℕ) (B : Subalgebra R (
   have h1 : spMap aug ≫ y' = 1 := by
     rw [← h0, ← hy', ← Category.assoc, spMap_comp]
   obtain ⟨ψ, ⟨hψ1, hψ2⟩, -⟩ := hx.2.2 B aug n hker y' h1
-  obtain ⟨ψ₀, -, hu⟩ := hx.2.2 (JetR R (Fin g) n) (jetAug R (Fin g) n) n (ker_jetAug_pow _ _) (x n) h0
+  obtain ⟨ψ₀, -, hu⟩ := hx.2.2 (Chart.JetR R (Fin g) n) (jetAug R (Fin g) n) n (ker_jetAug_pow _ _) (x n) h0
   have e1 : B.val.comp ψ = ψ₀ := hu _ ⟨hψ1, by rw [← spMap_comp, Category.assoc, ← hψ2, hy']⟩
   have e2 : AlgHom.id R _ = ψ₀ := hu _ ⟨rfl, by
     apply Over.OverMorphism.ext
@@ -338,7 +338,7 @@ theorem subalgebra_eq_top (hx : IsUnivChart G g x) (n : ℕ) (B : Subalgebra R (
   exact (ψ a).2
 
 theorem jet_mem [IsLocalRing R] (hx : IsUnivChart G g x) (n : ℕ) (O : G.left.Opens)
-    (hO : (η[G]).left (closedPoint R) ∈ O) (p : (sp (R₀ := R) (JetR R (Fin g) n)).left) : (x n).left p ∈ O := by
+    (hO : (η[G]).left (closedPoint R) ∈ O) (p : (sp (R₀ := R) (Chart.JetR R (Fin g) n)).left) : (x n).left p ∈ O := by
   let q := jetAug R (Fin g) n
   have hq : Function.Surjective q := aug_surj q
   have hker : RingHom.ker q.toRingHom ≤ p.asIdeal := fun a ha => by
@@ -416,20 +416,20 @@ theorem gs_const {V A : Type} [CommRing V] [CommRing A] (f : V →+* A) (z : Spe
 
 theorem jets (hL : Laws) (hTW : TwistBCSpanStatement) (V : Type) [CommRing V] [IsDomain V]
     [IsDiscreteValuationRing V] (D : DegPre V) (q n : ℕ) (hq : 4 * n + 4 ≤ q) (χ : D.X) (g : ℕ)
-    (x : ∀ m : ℕ, sp (R₀ := V) (JetR V (Fin g) m) ⟶ D.P.A) (hx : IsUnivChart D.P.A g x)
-    (τ : LB.Gen (LB.LinComb (Y := Spec (CommRingCat.of (JetR V (Fin g) n))) D.P.L (fun i => (x n).left ≫ D.famφB χ i) (DegPre.famε q))) (hτ : τ.IsGen)
-    (a : JetR V (Fin g) n) : ∃ β : D.SecB q χ, ∀ (z : Spec (CommRingCat.of (JetR V (Fin g) n))) (J),
+    (x : ∀ m : ℕ, sp (R₀ := V) (Chart.JetR V (Fin g) m) ⟶ D.P.A) (hx : IsUnivChart D.P.A g x)
+    (τ : LB.Gen (LB.LinComb (Y := Spec (CommRingCat.of (Chart.JetR V (Fin g) n))) D.P.L (fun i => (x n).left ≫ D.famφB χ i) (DegPre.famε q))) (hτ : τ.IsGen)
+    (a : Chart.JetR V (Fin g) n) : ∃ β : D.SecB q χ, ∀ (z : Spec (CommRingCat.of (Chart.JetR V (Fin g) n))) (J),
       Good D.P.L z J → sval β (x n).left z J = germOf z a * (val τ (𝟙 _) z J).val := by
   obtain ⟨r, rfl⟩ : ∃ r, q = 4 * n + r := ⟨q - 4 * n, by omega⟩
   have hLB := D.P.isLB
   obtain ⟨β₀, hβ₀⟩ := exists_unit_sec hL hTW V D r (by omega) χ
-  let xn : Spec (CommRingCat.of (JetR V (Fin g) n)) ⟶ D.P.A.left := (x n).left
+  let xn : Spec (CommRingCat.of (Chart.JetR V (Fin g) n)) ⟶ D.P.A.left := (x n).left
   let W := (D.P.A.hom ⁻¹ᵁ ⊤).toScheme
   let iw : W ⟶ D.P.A.left := (D.P.A.hom ⁻¹ᵁ ⊤).ι
   have : IsIso iw := inferInstanceAs (IsIso D.P.A.left.topIso.hom)
   have : IsIso (⊤ : (Spec (CommRingCat.of V)).Opens).ι :=
     inferInstanceAs (IsIso (Spec (CommRingCat.of V)).topIso.hom)
-  let h0 : Spec (CommRingCat.of (JetR V (Fin g) n)) ⟶ W := xn ≫ inv iw
+  let h0 : Spec (CommRingCat.of (Chart.JetR V (Fin g) n)) ⟶ W := xn ≫ inv iw
   have h0i : h0 ≫ iw = xn := by
     show (xn ≫ inv iw) ≫ iw = xn
     rw [Category.assoc, IsIso.inv_hom_id, Category.comp_id]
@@ -440,7 +440,7 @@ theorem jets (hL : Laws) (hTW : TwistBCSpanStatement) (V : Type) [CommRing V] [I
   have hz0 : ∀ z, h0 z ∈ nonzeroLocus (s i0) := fun z => jet_mem hx n (inv iw ⁻¹ᵁ nonzeroLocus (s i0)) hi0 z
   have hle : ⊤ ≤ h0 ⁻¹ᵁ nonzeroLocus (s i0) := fun z _ => hz0 z
   obtain ⟨hD, rr, hrel, hsurj⟩ := hs i0
-  let π := h0.appLE (nonzeroLocus (s i0)) ⊤ hle ≫ (Scheme.ΓSpecIso (CommRingCat.of (JetR V (Fin g) n))).hom
+  let π := h0.appLE (nonzeroLocus (s i0)) ⊤ hle ≫ (Scheme.ΓSpecIso (CommRingCat.of (Chart.JetR V (Fin g) n))).hom
   have hπ : ∀ z b, germOf z (π.hom b) = gs h0 z _ b := fun z b =>
     (germOf_hom z _).trans ((gs_appLE h0 _ ⊤ hle (𝟙 _) z trivial b).trans (by rw [Category.id_comp]))
   have hπs : Spec.map π ≫ hD.fromSpec = h0 := by
@@ -448,7 +448,7 @@ theorem jets (hL : Laws) (hTW : TwistBCSpanStatement) (V : Type) [CommRing V] [I
     rw [IsAffineOpen.fromSpec_top, Scheme.isoSpec_Spec_inv] at h
     rw [Spec.map_comp, Category.assoc, h, ← Category.assoc, ← Spec.map_comp, Iso.inv_hom_id, Spec.map_id,
       Category.id_comp]
-  let ρ : Fin (M + 1) → JetR V (Fin g) n := fun i => π.hom (rr i)
+  let ρ : Fin (M + 1) → Chart.JetR V (Fin g) n := fun i => π.hom (rr i)
   have hσ0 : ∀ z J, Good D.P.L z J → IsUnit (sval (s i0) h0 z J) := fun z J hJ => by
     obtain ⟨kk, hkk⟩ := Opens.mem_iSup.1 (hz0 z)
     exact SectionArithmetic.isUnit_sval (s i0) h0 z hJ kk hkk
@@ -457,8 +457,8 @@ theorem jets (hL : Laws) (hTW : TwistBCSpanStatement) (V : Type) [CommRing V] [I
     exact SectionArithmetic.isUnit_sval β₀ xn z hJ kk hkk
   have hrelv : ∀ i z J, Good D.P.L z J → sval (s i) h0 z J = germOf z (ρ i) * sval (s i0) h0 z J := fun i z J hJ =>
     (LocalResidues.sval_rel (s i) (s i0) _ (rr i) (hrel i) h0 z hJ (hz0 z)).trans (by rw [← hπ])
-  have good : ∀ z : Spec (CommRingCat.of (JetR V (Fin g) n)), ∃ J, Good D.P.L z J := fun z => by
-    choose J hJ using fun ψ : Spec (CommRingCat.of (JetR V (Fin g) n)) ⟶ D.P.A.left => exists_chart hLB (ψ z)
+  have good : ∀ z : Spec (CommRingCat.of (Chart.JetR V (Fin g) n)), ∃ J, Good D.P.L z J := fun z => by
+    choose J hJ using fun ψ : Spec (CommRingCat.of (Chart.JetR V (Fin g) n)) ⟶ D.P.A.left => exists_chart hLB (ψ z)
     exact ⟨J, hJ⟩
   have hρ1 : ρ i0 = 1 := germOf_ext fun z => by
     obtain ⟨J, hJ⟩ := good z
@@ -467,7 +467,7 @@ theorem jets (hL : Laws) (hTW : TwistBCSpanStatement) (V : Type) [CommRing V] [I
 
   have hadj : Algebra.adjoin V (Set.range ρ) = ⊤ := by
     have hq' : (h0 ≫ (D.P.A.hom ∣_ ⊤)) ≫ (⊤ : (Spec (CommRingCat.of V)).Opens).ι =
-        Spec.map (CommRingCat.ofHom (algebraMap V (JetR V (Fin g) n))) := by
+        Spec.map (CommRingCat.ofHom (algebraMap V (Chart.JetR V (Fin g) n))) := by
       rw [Category.assoc, morphismRestrict_ι, ← Category.assoc, h0i]
       exact Over.w (x n)
     have hc : ∀ b, π.hom (((D.P.A.hom ∣_ ⊤).appLE ⊤ (nonzeroLocus (s i0)) le_top).hom b) ∈
@@ -521,7 +521,7 @@ theorem jets (hL : Laws) (hTW : TwistBCSpanStatement) (V : Type) [CommRing V] [I
 
   obtain ⟨S₀, hS₀⟩ := key fun _ => i0
   obtain ⟨u, hu⟩ := exists_ratio hLB S₀ xn τ hτ
-  let w : JetR V (Fin g) n := (Scheme.ΓSpecIso (CommRingCat.of (JetR V (Fin g) n))).hom.hom u
+  let w : Chart.JetR V (Fin g) n := (Scheme.ΓSpecIso (CommRingCat.of (Chart.JetR V (Fin g) n))).hom.hom u
   have hw : ∀ z J, Good D.P.L z J →
       sval (s i0) h0 z J ^ n * sval β₀ xn z J = germOf z w * (val τ (𝟙 _) z J).val := fun z J hJ => by
     have := hS₀ z J hJ
@@ -530,7 +530,7 @@ theorem jets (hL : Laws) (hTW : TwistBCSpanStatement) (V : Type) [CommRing V] [I
   obtain ⟨w', hw'⟩ : IsUnit w := isUnit_of_germOf fun z => by
     obtain ⟨J, hJ⟩ := good z
     exact isUnit_of_mul_isUnit_left ((congrArg IsUnit (hw z J hJ)).mp (((hσ0 z J hJ).pow n).mul (hβ0 z J hJ)))
-  let N : Submodule V (JetR V (Fin g) n) :=
+  let N : Submodule V (Chart.JetR V (Fin g) n) :=
     { carrier := {v | ∃ β : D.SecB (4 * n + r) χ, ∀ z J, Good D.P.L z J →
         sval β xn z J = germOf z (v * w) * (val τ (𝟙 _) z J).val}
       add_mem' := by
@@ -556,7 +556,7 @@ theorem jets (hL : Laws) (hTW : TwistBCSpanStatement) (V : Type) [CommRing V] [I
     choose α hα using fun l => (t l).2
     obtain ⟨S, hS⟩ := key α
     refine ⟨S, fun z J hJ => ?_⟩
-    have : (List.ofFn fun i => (t i : JetR V (Fin g) n)).prod = ∏ l, ρ (α l) := by
+    have : (List.ofFn fun i => (t i : Chart.JetR V (Fin g) n)).prod = ∏ l, ρ (α l) := by
       rw [List.prod_ofFn]
       exact Finset.prod_congr rfl fun l _ => (hα l).symm
     rw [hS z J hJ, hw z J hJ, this, map_mul (germOf z), _root_.mul_assoc]

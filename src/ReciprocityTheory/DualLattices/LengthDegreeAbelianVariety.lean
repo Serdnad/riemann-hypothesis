@@ -1,7 +1,7 @@
 module
 
 public import ReciprocityTheory.DualLattices.DiscriminantColengthStatement
-public import ReciprocityTheory.DualLattices.UnramifiedCokernelLowerBoundStatement
+public import ReciprocityTheory.DualLattices.Bundle017
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -44,10 +44,8 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.DualLattices.ColengthSqMulLeProd
-public import ReciprocityTheory.DualLattices.IdemGen
-public import ReciprocityTheory.DualLattices.KilledGen
-public import ReciprocityTheory.DualLattices.LenEx
+public import ReciprocityTheory.DualLattices.Bundle021
+public import ReciprocityTheory.DualLattices.Bundle022
 public import ReciprocityTheory.DualLattices.LengthDegreeOfFrobenius
 
 @[expose] public section

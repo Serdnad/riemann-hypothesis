@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.GlobalFields.IdeleGroups.LocalHerbrand
-public import GroundTheory.ProfiniteCohomology.ContinuousCochains
+public import GroundTheory.ProfiniteCohomology.Bundle005
 public import GroundTheory.ProfiniteCohomology.DiscreteModules.IsDiscreteRepIffForallExistsOpenNormalSubgroup
 public import Mathlib.FieldTheory.KrullTopology
 public import GroundTheory.ProfiniteCohomology.ContinuousCochains.Functoriality

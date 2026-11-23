@@ -1,23 +1,23 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.BelowFiniteNonempty
-public import Development.AbelianVarietyTheory.PublishedTheorems.GlobalTheta.WeylDualWeylLatticesAgreeOfLowestAlcove
-public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.SubstitutionAdjoint
+public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.Bundle008
+public import Development.AbelianVarietyTheory.PublishedTheorems.GlobalTheta.Bundle001
+public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.Bundle011
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.PredMemGamRanks
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ActPMemLocPDelStdOfIsBasisAt
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.AlgebraicNumbersPadicPlacesFacts
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle211
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle099
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.CharacterValueAtT
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExistsMulOfApprox
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExistsUnitaryCarries
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.LocPDelAtrEqLocPNabAtr
-import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.MemExtLatOfMemLocP
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.PlaceOverPInducedByAlgebraicPadicEmbedding
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.SubHalfRankInt
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle138
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle080
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle139
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle131
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ValuationLeOneOfMemZmu
-public import Formalism.LocalToGlobal.Columns.AtTLemmas
+public import Formalism.LocalToGlobal.Columns.Bundle012
 import Formalism.LocalToGlobal.Columns.BaseLemmas
-public import Formalism.LocalToGlobal.Columns.BtExistsSmulLeOfFg
-import Formalism.LocalToGlobal.Columns.CoefficientsModP
+public import Formalism.LocalToGlobal.Columns.Bundle032
+import Formalism.LocalToGlobal.Columns.Bundle031
 import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.ColInst
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -377,7 +377,7 @@ theorem unramOver_of_mem {X : Fields} {S : Set ℕ} (mu : Tup X.F X.E X.K S) {p 
   exact h1.2.2 (show ringChar (𝓞 X.F ⧸ v.asIdeal) ∈ S from h3 ▸ hS)
 
 theorem stdOver_of_stdAtT {X : Fields} {Pr : Primes X} (hPr : Pr.Ok) (u : Pr.Word) {n : ℕ}
-    {SG : Finset (HeightOneSpectrum (𝓞 X.E))} (d : DecoSet (E := X.E) (n := n) (ST := Pr.vT u) (SG := SG)) (h : StdAtT d.1) : StdOver (Pr.T u) d.1.N := by
+    {SG : Finset (HeightOneSpectrum (𝓞 X.E))} (d : DecoSet (E := X.E) (n := n) (ST := Pr.vT u) (SG := SG)) (h : StdAtT d.1) : _root_.GlobalTheory.IndefiniteRowSideFullHecke.CharacterValuation.StdOver (Pr.T u) d.1.N := by
   intro Q hQ
   rw [← hPr.piT_norm u] at hQ
   rcases Q.isPrime.mem_or_mem hQ with h1 | h1

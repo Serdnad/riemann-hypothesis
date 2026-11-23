@@ -1,12 +1,12 @@
 module
 
-public import Formalism.SharpRestriction.GenusPolyhedralBounds.RelativeIndexClassSets.CombBound4Of
-public import Formalism.SharpRestriction.GenusPolyhedralBounds.RelativeIndexClassSets.VEtNonnegOfTied
-public import Formalism.FilteredPoleLength.LocalDescentLevels.FourTermSumBoundOfParameters
-public import Formalism.LocalRingCardinality.FourthPowerRankLeNF
-public import Formalism.LocalRingCardinality.HeightBoundGeFourthPowerRank
+public import Formalism.SharpRestriction.GenusPolyhedralBounds.RelativeIndexClassSets.Bundle008
+public import Formalism.SharpRestriction.GenusPolyhedralBounds.RelativeIndexClassSets.Bundle007
+public import Formalism.FilteredPoleLength.LocalDescentLevels.Bundle001
+public import Formalism.LocalRingCardinality.Bundle005
+public import Formalism.LocalRingCardinality.Bundle006
 public import Formalism.SharpRestriction.GenusPolyhedralBounds.RelativeIndexClassSets.PvsDimYPos
-import Formalism.SharpRestriction.GenusPolyhedralBounds.RelativeIndexClassSets.QuotientParamNonneg
+import Formalism.SharpRestriction.GenusPolyhedralBounds.RelativeIndexClassSets.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

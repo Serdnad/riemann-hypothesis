@@ -1,17 +1,16 @@
 module
 
 public import Development.WeilBound.ThetaLifts.LocalTheory.DixmierCommutants.RamifiedMultiplicityOneOfBernstein
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FibRepApply
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle122
 public import Development.WeilBound.ThetaLifts.LocalTheory.DixmierCommutants.LocalMultiplicityOneIrreducibleGL
-import Development.AbelianVarietyTheory.Definitions.Foundations.SecondCountableAndT2LocalField
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsOpenNormalisedSubgroupSubset
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.LeviIntegralFacts
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SmIndCoinvariants
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FibreRepresentationSmoothStatement
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.OmegaEquivInducedFibreStatement
-import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.SplitCharacterFacts
+import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle006
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle039
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle062
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle071
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle155
+import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.Bundle006
 import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.VaceigenDual
-import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.ExistsExtZ
+import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.Bundle002
 import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.LocConstChar
 import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.PfDict
 import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.PfDictSec
@@ -112,9 +111,9 @@ theorem irr_gen (hB : Narrow) (n t : ℕ) {μ : kˣ →* ℂˣ} (hμ : IsSmoothC
   have hq : Function.Surjective q := (TensorProduct.lid ℂ ℂ).symm.surjective.comp hs
   have hρ : IsSmooth ρ := isSmooth_comp hτ _ ((continuous_apply false).prodMk (continuous_apply true))
   have hI : (parInd (two e) ρD).IsIrreducible := hB k n t 1 μ (by unfold IsSmoothChar; simp) hμ (fun g => by simp) hu (Or.inr hμ1.symm)
-  let σ := (twist ρ (deltaHalf k (Two (Fin n) (Fin t)))).comp (leviProj k (two e))
+  let σ := (_root_.GlobalTheory.SmGL.twist ρ (deltaHalf k (Two (Fin n) (Fin t)))).comp (leviProj k (two e))
   have hσ : IsSmooth σ := isSmooth_comp (isSmooth_twist hρ (isSmoothChar_deltaHalf k)) _ hcont
-  let α : Representation.IntertwiningMap σ ((twist ρD (deltaHalf k (Two (Fin n) (Fin t)))).comp (leviProj k (two e))) :=
+  let α : Representation.IntertwiningMap σ ((_root_.GlobalTheory.SmGL.twist ρD (deltaHalf k (Two (Fin n) (Fin t)))).comp (leviProj k (two e))) :=
     compMap (twistMap q _) _
   let T : Γ → Representation.IntertwiningMap σ σ := fun γ =>
     compMap (twistMap (actFst τ γ) (deltaHalf k (Two (Fin n) (Fin t)))) (leviProj k (two e))

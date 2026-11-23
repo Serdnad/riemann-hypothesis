@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.TateCohomology.ResCores
+public import GroundTheory.TateCohomology.Bundle006
 public import Mathlib.Tactic.Continuity
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

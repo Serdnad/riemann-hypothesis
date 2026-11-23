@@ -1,7 +1,7 @@
 module
 
 public import Formalism.CharacterColumnKernels.CharacterColumnKernelEqualityForm
-public import Formalism.CharacterColumnKernels.IdempotentNormalForms.BlockChiOneTriv
+public import Formalism.CharacterColumnKernels.IdempotentNormalForms.Bundle004
 public import Formalism.CharacterColumnKernels.IdempotentNormalForms.BlockRhoFull
 public import Formalism.CharacterColumnKernels.IdempotentNormalForms.ColKerChiOne
 import Formalism.CharacterColumnKernels.IdempotentNormalForms.LengthKerSmulLe

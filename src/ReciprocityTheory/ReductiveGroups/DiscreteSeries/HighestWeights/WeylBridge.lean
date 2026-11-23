@@ -1,8 +1,8 @@
 module
 
-public import Formalism.SharpRestriction.CuspSpanNormBounds.LocalBesselAndTopKernel
+public import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle015
 public import Formalism.PeriodIntegrals.ExplicitFormulaCounts.WeylForK
-import Formalism.PeriodIntegrals.ExplicitFormulaCounts.WeylForU
+import Formalism.PeriodIntegrals.ExplicitFormulaCounts.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

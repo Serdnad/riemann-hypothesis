@@ -1,8 +1,8 @@
 module
 
 public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.IntegralityFromMetricOfOrthogonalityWindow
-public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.BePhiAddLeft
-import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.KappaZeroNonneg
+public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.Bundle016
+import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

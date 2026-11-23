@@ -1,10 +1,9 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.PolynomialLevels.PlMonPsiExpPAdd
+public import Formalism.SharpRestriction.GrowthBounds.PolynomialLevels.Bundle001
 public import Formalism.SharpRestriction.GrowthBounds.AevalValuation.RestSpec
 public import Formalism.SharpRestriction.GrowthBounds.DiagonalSupport.MembDd
 public import Formalism.SharpRestriction.GrowthBounds.DiagonalSupport.SlackBoundJoint
-public import Formalism.SharpRestriction.GrowthBounds.PolynomialLevels.FrRevInj
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

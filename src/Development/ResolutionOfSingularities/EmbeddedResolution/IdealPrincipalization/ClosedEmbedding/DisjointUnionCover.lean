@@ -4,7 +4,7 @@ public import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrin
 public import Development.ResolutionOfSingularities.EmbeddedResolution.EtaleCoordinates.CoordinateDivisorSmoothness
 public import Development.ResolutionOfSingularities.EmbeddedResolution.IteratedBlowups.StrictTransform
 import Development.ResolutionOfSingularities.Foundations.Schemes.IdealSheafData
-import Development.ResolutionOfSingularities.Foundations.Schemes.SchemeCoproduct
+import Development.ResolutionOfSingularities.Foundations.Schemes.Bundle001
 import Development.ResolutionOfSingularities.Foundations.Schemes.SchemeMorphismProperties
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,7 +1,7 @@
 module
 
 public import Formalism.SharpRestriction.CuspSpanNormBounds.LeadMinorK
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Admissible
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle009
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.UnipotentCoordinatesMeasurePreserving
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsOrbQuotWithDensity
 import Formalism.FormalDegreeBessel.FormalDegreeRatio.UnitaryWeylNormalHolds

@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.ArithmeticGeometry.EtaleCompletion.ModulesPullback
+public import GroundTheory.ArithmeticGeometry.EtaleCompletion.Bundle001
 public import Mathlib.AlgebraicGeometry.Modules.Tilde
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

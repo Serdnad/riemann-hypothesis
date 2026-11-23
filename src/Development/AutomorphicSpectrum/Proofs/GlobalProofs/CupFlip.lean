@@ -1,23 +1,22 @@
 module
 
 public import Development.AutomorphicSpectrum.Definitions.NonGaloisLines.TopLine
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsIntegralOfNormLeOne
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CardCocyclesMulInvariantsDiscrete
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle194
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle276
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ContinuousFixingSubgroupEquiv
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CyclotomicCharacterPadicBasicProperties
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsIntegralCyclotomicChar
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FixingSubgroupEquivBicontinuous
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsCycCycChar
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsOpenOfFgOfSpanEqTop
-public import Development.AutomorphicSpectrum.Proofs.NonGaloisProofs.ActQIsLocallyConstant
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle164
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle377
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle261
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle165
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle254
+public import Development.AutomorphicSpectrum.Proofs.NonGaloisProofs.Bundle001
 public import Development.AutomorphicSpectrum.Proofs.NonGaloisProofs.CupFlipContinuousCocycle
 public import Development.AutomorphicSpectrum.Proofs.NonGaloisProofs.CyclotomicCupTwoCochainLocallyConstant
-public import Development.AutomorphicSpectrum.Proofs.NonGaloisProofs.CyclotomicTwistFiniteModuleCoboundary
 public import Development.AutomorphicSpectrum.Proofs.NonGaloisProofs.CyclotomicTwistFiniteModuleCocycle
 public import Development.AutomorphicSpectrum.Proofs.NonGaloisProofs.ExistsDualLattices
 public import Development.AutomorphicSpectrum.Proofs.NonGaloisProofs.ExistsTorRange
 public import Development.AutomorphicSpectrum.Proofs.NonGaloisProofs.GoodOAdicCompleteCompactBasisStatement
-public import Development.AutomorphicSpectrum.Proofs.NonGaloisProofs.LatticeOpenCompactNhdsBasis
+public import Development.AutomorphicSpectrum.Proofs.NonGaloisProofs.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -61,7 +60,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import Development.AbelianVarietyTheory.Definitions.Foundations.HTBasis
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle010
 
 @[expose] public section
 

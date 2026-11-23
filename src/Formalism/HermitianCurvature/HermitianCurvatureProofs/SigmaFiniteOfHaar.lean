@@ -1,10 +1,10 @@
 module
 
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Imports
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle024
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.RightSingleRule.PatEntryZero
 public import Formalism.HermitianCurvature.OperatorsCommuteTranslations
 import Formalism.FormalDegreeBessel.FormalDegreeRatio.GBasic
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.LeadingTermVectorIdentity
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle082
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.PBGLet
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.RightSingleRule.EllSingleZero
 import Mathlib.Algebra.Order.Floor.Extended

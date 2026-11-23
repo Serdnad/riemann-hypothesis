@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.MemHomLat
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle044
 public import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.IsDiscriminantTwelfthRootOfIdealLattice
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -46,7 +46,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Formalism.LocalToGlobal.GroupLattices.PendingLemmas.WittFractionToCpAlgebraMap
-import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.DescentCore
+import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle001
 
 @[expose] public section
 

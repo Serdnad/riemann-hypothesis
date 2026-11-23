@@ -1,9 +1,9 @@
 module
 
-public import Development.WeilBound.CoreStatements.PadicHodgeComparison.GoodCoverEigenspaces.CoverOf
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.GaloisActionWeightSpectralE1Apply
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.HodgePullHodgePull
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.OmegaPullId
+public import Development.WeilBound.CoreStatements.PadicHodgeComparison.GoodCoverEigenspaces.Bundle001
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle004
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle046
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle047
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -2,11 +2,11 @@ module
 
 public import Development.WeilBound.RepresentationTheoryGL.ResidualSpectrum.ExponentialNegativity.UnipotentVanishing.InfAtUnipInvEqZero
 public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.BaseChangeDefiniteUnitary
-public import GroundTheory.AutomorphicForms.ReductionSplitting
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExponentMemFinset
+public import GroundTheory.AutomorphicForms.Bundle017
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle286
 public import Development.WeilBound.RepresentationTheoryGL.ResidualSpectrum.ExponentialNegativity.NormalisedExistence.ExistsNormed
 import GroundTheory.AutomorphicForms.CuspidalDiscreteness.SiegelCount
-import GroundTheory.AutomorphicForms.NormDetDiagUnitsPosRealToUnits
+import GroundTheory.AutomorphicForms.Bundle016
 import GroundTheory.AutomorphicForms.Reduction
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -47,7 +47,6 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.UfamConst
 
 @[expose] public section
 

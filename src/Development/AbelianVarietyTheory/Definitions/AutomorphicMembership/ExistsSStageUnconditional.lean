@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.SCuIsom
-public import Development.AbelianVarietyTheory.Definitions.Foundations.AuxiliaryFrameNormalizedSpaces
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle011
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle020
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsContinuousPadic
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsIrreducible
 import Mathlib.Algebra.Order.Floor.Extended

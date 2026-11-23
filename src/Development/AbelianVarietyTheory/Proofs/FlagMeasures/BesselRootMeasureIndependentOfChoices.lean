@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.RootMeasureTransportDoubleCoset
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle177
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.MatrixOfBesselTwoSidedAction
 public import Formalism.FormalDegreeBessel.FormalDegreeRatio.GroupFactorizationHolds
 import Formalism.FormalDegreeBessel.FinalG

@@ -1,7 +1,7 @@
 module
 
 public import Development.ResolutionOfSingularities.EmbeddedResolution.ResolutionDescent.AffineSpaceZeroSection
-import Development.ResolutionOfSingularities.EmbeddedResolution.EtaleCoordinates.SmoothCoordinateCodimensionPullback
+import Development.ResolutionOfSingularities.EmbeddedResolution.EtaleCoordinates.Bundle003
 import Development.ResolutionOfSingularities.Foundations.Schemes.IdealSheafData
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

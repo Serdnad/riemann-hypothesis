@@ -1,10 +1,10 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.SegreChartProjObjects
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.MemChartComponents
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle012
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle038
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterSheetA
 public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Assembly
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PDiscriminantSheetCover
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle094
 public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.PPtsSegreChartFibreSum
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -45,7 +45,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterSheet
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.CxPosDens
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle037
 
 @[expose] public section
 
@@ -252,7 +252,8 @@ theorem term_eq {e m : ℕ} {Q : Ideal (MRingOver ℂ ι)} {σ : Fin m ≃ ((k :
   have hy0 : ∀ k, ∃ j, γ y ⟨k, j⟩ ≠ 0 := hγ.2.self_of_nhds.2.1.1
   have hde := density_eq hL (isSectionOn_ofWeight_one (P := (⊥ : Ideal (MRing ι))) Ideal.isPrime_bot g hg)
     hγan hγ'an hy0 hseg
-  rw [logNorm_ofWeight_one, logNorm_ofWeight_one] at hde
+  rw [_root_.GroundTheory.Heights₂.Heights.PtsSegreChartFibreSum.logNorm_ofWeight_one,
+    _root_.GroundTheory.Heights₂.Heights.PtsSegreChartFibreSum.logNorm_ofWeight_one] at hde
   rw [hde, chartWeight_of_coord g hx1, hsx]
   rfl
 

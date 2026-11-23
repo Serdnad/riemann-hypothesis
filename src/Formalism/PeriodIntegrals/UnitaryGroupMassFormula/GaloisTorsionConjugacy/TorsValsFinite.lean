@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.TorsionIntegrality.EisensteinTranslationProducts.TranslateProduct
+public import Formalism.LocalToGlobal.TorsionIntegrality.EisensteinTranslationProducts.Bundle002
 public import Mathlib.Algebra.Algebra.Hom.Rat
 public import Mathlib.Algebra.CharP.IntermediateField
 public import Mathlib.FieldTheory.IntermediateField.Adjoin.Defs

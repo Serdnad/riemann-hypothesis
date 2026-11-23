@@ -1,16 +1,12 @@
 module
 
-public import Formalism.GradedWeylDivisibility.StatementB
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.ClosedEqNabla
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.FockQBilin
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.FockQPos
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.FockQRowDivAdj
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.HWInClosed
+public import Formalism.GradedWeylDivisibility.Bundle001
+import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle015
+import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle013
+public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle012
+import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle014
 public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.HWLine
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.HWLineTall
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.RowDivClosedGraded
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.WeylEqNablaQ
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.WeylRationalOf
+public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

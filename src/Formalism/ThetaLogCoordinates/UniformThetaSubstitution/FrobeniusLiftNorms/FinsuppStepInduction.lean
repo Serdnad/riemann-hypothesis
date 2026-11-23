@@ -1,10 +1,9 @@
 module
 
-public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.StatementAB
+public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.Bundle002
 public import Formalism.GaussJetBounds.GaussJetProofs.ThmAOp
 public import Mathlib.CategoryTheory.Category.Basic
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.BiHomSum
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.DegLESum
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle013
 public import Formalism.GaussJetBounds.GaussJetProofs.ConstantCoeffAevalLinP
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

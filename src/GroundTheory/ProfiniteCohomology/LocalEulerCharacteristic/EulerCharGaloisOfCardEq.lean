@@ -1,13 +1,13 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.EulerCharDefs
+public import GroundTheory.ProfiniteCohomology.Bundle006
 public import Mathlib.FieldTheory.IsSepClosed
 public import Mathlib.FieldTheory.KrullTopology
 public import Mathlib.NumberTheory.LocalField.Basic
-public import GroundTheory.ProfiniteCohomology.EulerChar
+public import GroundTheory.ProfiniteCohomology.Bundle010
 public import GroundTheory.ProfiniteCohomology.LocalClassFormation.FiniteVanishing
 public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.MainCoind
-public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.MainCount
+public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.Bundle003
 public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.MainSimple
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

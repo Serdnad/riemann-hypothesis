@@ -1,6 +1,6 @@
 module
 
-public import Formalism.ThetaLogCoordinates.JacobiPathWeights.StatementA
+public import Formalism.ThetaLogCoordinates.JacobiPathWeights.Bundle003
 public import Mathlib.Data.Int.Interval
 public import Formalism.ThetaLogCoordinates.JacobiPathWeights.JacobiMinorProofs.LeIffLtColHeight
 import Mathlib.Algebra.AffineMonoid.UniqueSums

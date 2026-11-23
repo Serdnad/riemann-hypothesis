@@ -1,10 +1,10 @@
 module
 
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutGCoreGTSSCut
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle055
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.NormalFormOrderZeroOfParts
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutGCoreGTConnGaugeB
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutGCoreGTRadAdj
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutGCoreGTSSAdjH
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle153
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -212,7 +212,8 @@ theorem Formalism.FourierDecayAlt.P.CutMP.Gauge.GC.gTSSAdjPt_of_radAdj : GTRadAd
       rw [hΦp] at hb
       have h1 := pj_pt P Bs hpl hk2 e he d hk ρ' (X.t (Yr : ℂ) 1 0 Φ) ρ' q
       rw [if_pos rfl, one_mul] at h1
-      rw [← h1, hb, Submodule.coe_smul, rawR_smul, pj_pt P Bs hpl hk2 e he d hk, if_pos rfl, one_mul,
+      rw [← h1, hb, Submodule.coe_smul,
+        Formalism.FourierDecayAlt.P.CutMP.Gauge.GC.SSAdjH.rawR_smul P Bs.μsec e, pj_pt P Bs hpl hk2 e he d hk, if_pos rfl, one_mul,
         (ss_pt P Bs hpl hk2 e he d s t hst hL hl Φ ρ' q).1]
       congr 1
       rw [Finset.sum_eq_single ρ (fun σ _ hσ => by rw [hΦr, if_neg hσ, zero_mul, mul_zero]) (by simp), hΦr,
@@ -224,7 +225,8 @@ theorem Formalism.FourierDecayAlt.P.CutMP.Gauge.GC.gTSSAdjPt_of_radAdj : GTRadAd
       rw [hΨp] at hb
       have h1 := pj_pt P Bs hpl hk2 e he d hk ρ (X.t (Yr : ℂ) 0 1 Ψ) ρ q
       rw [if_pos rfl, one_mul] at h1
-      rw [← h1, hb, Submodule.coe_smul, rawR_smul, pj_pt P Bs hpl hk2 e he d hk, if_pos rfl, one_mul,
+      rw [← h1, hb, Submodule.coe_smul,
+        Formalism.FourierDecayAlt.P.CutMP.Gauge.GC.SSAdjH.rawR_smul P Bs.μsec e, pj_pt P Bs hpl hk2 e he d hk, if_pos rfl, one_mul,
         (ss_pt P Bs hpl hk2 e he d s t hst hL hl Ψ ρ q).2]
       congr 1
       rw [Finset.sum_eq_single ρ' (fun σ _ hσ => by rw [hΨr, if_neg hσ, zero_mul, mul_zero]) (by simp), hΨr,

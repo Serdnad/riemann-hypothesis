@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Foundations.HTLawAt
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.NormSubOnePowThreeLe
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle020
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle376
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -39,7 +39,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.Definitions.Foundations.ExpUpper
+import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle001
 
 @[expose] public section
 

@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.GlobalFields.AnalyticClassNumber.DirichletHeckeDefs
-public import GroundTheory.GlobalFields.NormResidueSymbol.Rational
+public import GroundTheory.GlobalFields.NormResidueSymbol.Bundle004
 public import GroundTheory.GlobalFields.NormResidueSymbol.RationalDiagonal
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

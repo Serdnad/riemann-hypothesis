@@ -1,10 +1,10 @@
 module
 
-public import Development.WeilBound.CoreStatements.PublishedTheorems.PoitouTateDuality.PtfsNineAdd
+public import Development.WeilBound.CoreStatements.PublishedTheorems.PoitouTateDuality.Bundle002
 public import GroundTheory.ProfiniteCohomology.PoitouTate.PtCompactDualMapEqZeroOfPtCompactToGlobalEqZero
-public import Development.WeilBound.CoreStatements.PublishedTheorems.PoitouTateDuality.PfNineAddFSCReindex
-public import Development.WeilBound.CoreStatements.PublishedTheorems.PoitouTateDuality.PtfsDualQZ
-public import Development.WeilBound.CoreStatements.PublishedTheorems.PoitouTateDuality.PtfsNineAddIntro
+public import Development.WeilBound.CoreStatements.PublishedTheorems.PoitouTateDuality.Bundle005
+public import Development.WeilBound.CoreStatements.PublishedTheorems.PoitouTateDuality.Bundle001
+public import Development.WeilBound.CoreStatements.PublishedTheorems.PoitouTateDuality.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

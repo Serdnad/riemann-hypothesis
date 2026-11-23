@@ -1,9 +1,9 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.EdgeIndep
+public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.Bundle010
 import Formalism.GradedWeylDivisibility.DualWeylDominanceOf
 import Formalism.GradedWeylDivisibility.FinalD
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.BlockActTensor
+public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle012
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

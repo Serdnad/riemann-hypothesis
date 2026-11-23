@@ -42,7 +42,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Formalism.LocalRingCardinality.DataAmbForm
+import Formalism.LocalRingCardinality.Bundle004
 import Formalism.SharpRestriction.GrowthBounds.WeilJacquetShalikaLaw
 public import Mathlib.NumberTheory.Primorial
 

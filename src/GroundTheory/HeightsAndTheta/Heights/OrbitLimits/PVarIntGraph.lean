@@ -1,9 +1,9 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.StVarIntGraphInt
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PCutOffDominated
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PLinearNoetherNormalization
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PVarIntAdd
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle005
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle076
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle111
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle077
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -47,7 +47,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Separation.CompletelyRegular
 import Mathlib.Topology.Sheaves.Init
-import ReciprocityTheory.AnalyticForms.PlurisubharmonicFunctions.CovLog
+import ReciprocityTheory.AnalyticForms.PlurisubharmonicFunctions.Bundle001
 
 @[expose] public section
 
@@ -133,7 +133,7 @@ theorem isFiniteProjection_graphProj {J : Ideal (MvPolynomial (Fin n) ℂ)} {A :
 
 theorem fibre_graphProj (J : Ideal (MvPolynomial (Fin n) ℂ)) (A : Matrix (Fin e) (Fin n) ℂ)
     (p : MvPolynomial (Fin n) ℂ) (y : Fin e → ℂ) :
-    fibre (graphIdeal J p) (graphProj A) y = graphPt p '' fibre J A y := by
+    _root_.GroundTheory.Heights₂.Heights.ComplexSets.fibre (graphIdeal J p) (graphProj A) y = graphPt p '' _root_.GroundTheory.Heights₂.Heights.ComplexSets.fibre J A y := by
   ext z
   constructor
   · rintro ⟨hz, hzy⟩

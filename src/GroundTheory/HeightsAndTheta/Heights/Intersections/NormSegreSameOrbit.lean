@@ -1,11 +1,10 @@
 module
 
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArithmeticIntersection.MixedFieldContraction.ContractMixedFieldStatement
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.StatementsChartRankAdjoin
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.PtsOver
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.ImportsFurtherTer
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.ImportsFurtherMore
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.ImportsFurtherFurther
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle008
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle014
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle013
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle021
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

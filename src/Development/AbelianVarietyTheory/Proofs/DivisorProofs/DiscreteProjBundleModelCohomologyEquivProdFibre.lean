@@ -1,11 +1,10 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.SecClass
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CotDComp
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsDiscreteSpaceCocycleVanishingPosStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle359
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle342
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsZeroChains
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ProjBundleCochainPresheafIsSheafStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.UniqueCochainOnDiscProduct
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle516
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

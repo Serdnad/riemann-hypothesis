@@ -1,9 +1,9 @@
 module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ArchimedeanSchwartz.ShiftOf
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.SumPermOfNotInjective
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CapCommuteRtInfGL
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.TowerBaseChange
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle174
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle119
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle074
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

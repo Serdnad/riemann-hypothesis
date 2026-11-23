@@ -2,15 +2,14 @@ module
 
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.MeasurePreservingReindex
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.EqZeroOfInnerSmooth
-public import Development.AbelianVarietyTheory.BlockTheory.HeightDefect.WordDerivatives
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.AdelicUnitaryHaarBiInvariantStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.DerivativeAlongLieAlgebraPreservesSmoothSpaceStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.RightRegularRepUnitaryStronglyContinuous
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.DerivedActionSmoothVectorRealLinear
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.EquivariantMapCarriesGelfandInvariantToFunction
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.GelfandInvariantActionSmoothVectorsScalar
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LieWordCommutesOneParameterDerivativeStatement
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.SobolevContinuousFormSumLieWordInnerStatement
+public import Development.AbelianVarietyTheory.BlockTheory.HeightDefect.Bundle003
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle106
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle403
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle131
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle234
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle236
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle267
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle222
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -50,7 +49,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.TopfBasis
+import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle005
 
 @[expose] public section
 

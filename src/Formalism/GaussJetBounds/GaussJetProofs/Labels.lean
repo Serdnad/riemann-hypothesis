@@ -1,7 +1,7 @@
 module
 
-public import Formalism.GaussJetBounds.FrameJetEval
-public import Formalism.GaussJetBounds.GaussJetProofs.NormDetLeOneOfEntries
+public import Formalism.GaussJetBounds.Bundle005
+public import Formalism.GaussJetBounds.GaussJetProofs.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

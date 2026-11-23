@@ -2,11 +2,11 @@ module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.GammaLaurentFactors.PairGOps
 public import Development.AutomorphicArithmetic.Foundations.LocalLanglands.IsRecTOfIsRec
-public import GroundTheory.GlobalFields.SemilocalAlgebras.ContinuousCompletionMap
+public import GroundTheory.GlobalFields.SemilocalAlgebras.Bundle001
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.CmBridge
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.BaseChangeUnits.QuadraticInductionGL2Alt
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.BaseChangeUnits.Bundle002
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PublishedTheorems.CyclicBaseChangeC
-public import GroundTheory.AutomorphicForms.GL2.GJLocalFEGamma
+public import GroundTheory.AutomorphicForms.GL2.Bundle005
 public import GroundTheory.AutomorphicForms.GL2.GJStandardLFourier
 public import Mathlib.NumberTheory.RamificationInertia.Inertia
 public import Formalism.DoubleCosetMeasures.Statement
@@ -44,7 +44,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.BaseChangeUnits.CycCOfCyclic
-import Development.AutomorphicArithmetic.AutomorphicVarieties.PublishedTheorems.GelfandKazhdanReal
+import Development.AutomorphicArithmetic.AutomorphicVarieties.PublishedTheorems.Bundle001
 
 @[expose] public section
 
@@ -57,6 +57,7 @@ open scoped Classical
 
 attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
 attribute [-instance] Formalism.DoubleCosetMeasures.instMeasGL
+attribute [-instance] GlobalTheory.CompanionTheory.QL.instMeasGL GlobalTheory.CompanionTheory.QL.instBorelGL
 
 namespace UpperTheory.V.Z.Gam
 

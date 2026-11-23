@@ -1,12 +1,12 @@
 module
 
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsContinuousPadic
-public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.FirstDeriv
+public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.Bundle003
 public import Formalism.FormalGroupLog.Statement
 public import Formalism.FormalGroupLog.FormalGroupLogProofs.ConstantCoeffSubstOfZero
 public import Formalism.FormalGroupLog.LogDeterminesLaw
-public import Formalism.FormalGroupWitt.FormalGroupWittProofs.FrobSqV
-public import Formalism.TorsionNormIteration.InverseIntegralClasses.SolveExistsProof
+public import Formalism.FormalGroupWitt.FormalGroupWittProofs.Bundle001
+public import Formalism.TorsionNormIteration.InverseIntegralClasses.Bundle001
 public import Formalism.TorsionNormIteration.LubinTateExample
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

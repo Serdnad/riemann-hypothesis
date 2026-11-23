@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.InclRMulPtAt
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.FinPartIdemMulMemIff
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2130
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle304
 import Formalism.LocalRingCardinality.SpanPowerMembership.LocAtA
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Tjcosets
 import Mathlib.Algebra.Module.StablyFree.Basic
@@ -156,7 +156,7 @@ theorem exists_unif (hσ : IsCMExt F E σ) (hw : IsInertAt F E v w) (hc : IsConj
     rw [map_inv₀, map_inv₀, inv_le_one₀ (by simpa [pos_iff_ne_zero] using h0)] at b
     exact le_antisymm a b
   refine ⟨fun x => ?_, fun x => ?_, h1, h2, ?_, one_lt_absNorm v, ?_⟩
-  · obtain ⟨y, rfl⟩ := toCompl_surjective h x
+  · obtain ⟨y, rfl⟩ := _root_.GlobalTheory.LFun.InertChart.toCompl_surjective h x
     rw [hc, hc]
     congr 1
     induction y using TensorProduct.induction_on with

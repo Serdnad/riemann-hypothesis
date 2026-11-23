@@ -1,8 +1,8 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsSectionOrderAtPoint
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle016
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArithmeticIntersection.LengthCokerEqKerAddDimOneOrderSum
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PLocalRep
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle036
 public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.CoordinateIdeals.MemMCoordIdealOfAevalEqZero
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

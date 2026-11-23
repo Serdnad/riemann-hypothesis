@@ -3,7 +3,7 @@ module
 public import Formalism.LocalRingCardinality.SpanPowerMembership.BaseFormAnisotropicOrthogonalSingle
 public import Formalism.LocalToGlobal.BesselHermitianTheta.TiedBessel
 public import Formalism.LocalToGlobal.NumberFieldFamilies.ThetaCF
-public import Formalism.SharpRestriction.InertJacobiLevels.ExtraTheta
+public import Formalism.SharpRestriction.InertJacobiLevels.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

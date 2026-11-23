@@ -1,16 +1,16 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Degenerations.LocTheta
+public import Development.AbelianVarietyTheory.Definitions.Degenerations.Bundle005
 public import Development.AbelianVarietyTheory.Definitions.ThetaMetrics.MemNonzeroLocusIffPowFn
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ClsLinCombSingle
 public import Mathlib.AlgebraicGeometry.Geometrically.Integral
-public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.IsIntegralOfSmoothFieldOfConnectedSpace
+public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle002
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.RelAmpleOfLocallyOnBase
 public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.IsProjOverIffIsProperAndExistsIsAmpleLB
 public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.EndoLbIsoSymmetryHypothesisExtendNormalModel
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsChartUnit
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.KTrivOfKTrivNonemptyOpenNormalCharZeroStatement
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.LineBundleIsoExtendOfNormalBase
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle097
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle177
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle042
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -302,6 +302,8 @@ theorem relAmple_and_kTriv : ∀ (o Ω : Type) [CommRing o] [Field Ω] [Algebra 
   have hL := Q.L.isLB
   have := Q.semi.smooth
   have := Q.semi.geomConnected
+  letI : (Over.pullback W.ι).Monoidal := (Over.instBraidedPullback (f := W.ι)).toMonoidal
+  letI : GrpObj ((Over.pullback W.ι).obj Q.G) := Functor.grpObjObj (F := Over.pullback W.ι)
   have gp := isGrpPullback_pullback Q.G W.ι
   obtain ⟨hL', hr, ⟨c, -⟩, -⟩ := CubePf.cubePull _ _ Q.G _ (cubeMapOf gp) Q.L Q.cub
   have hab : IsAbelianScheme ((Over.pullback W.ι).obj Q.G) :=
@@ -314,7 +316,10 @@ theorem relAmple_and_kTriv : ∀ (o Ω : Type) [CommRing o] [Field Ω] [Algebra 
     exact hn (Nat.cast_eq_zero.1 e)
   · obtain ⟨z, hz⟩ := M.nonempty_inf hne hO.ne
     exact ⟨⟨z, hz.1⟩, hz.2⟩
-  · refine kTriv_of_factor Q _ (W.ι ∣_ U₀) _ (((isGrpPullback_pullback _ (W.ι ⁻¹ᵁ U₀).ι).comp gp).congr
+  · let f := (W.ι ⁻¹ᵁ U₀).ι
+    letI : (Over.pullback f).Monoidal := (Over.instBraidedPullback (f := f)).toMonoidal
+    letI : GrpObj ((Over.pullback f).obj ((Over.pullback W.ι).obj Q.G)) := Functor.grpObjObj (F := Over.pullback f)
+    refine kTriv_of_factor Q _ (W.ι ∣_ U₀) _ (((isGrpPullback_pullback _ f).comp gp).congr
       (morphismRestrict_ι _ _).symm rfl) (pull_isLB hL' _) ?_
     exact (cls_eq_iff (pull_isLB hL' _) (pull_isLB hL _)).1 (pull_comp _ _ (cls _ hL)).symm
 

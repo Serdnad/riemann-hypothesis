@@ -4,14 +4,14 @@ public import Development.AbelianVarietyTheory.BlockTheory.CMModuli.LieCharpolyR
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.LocallyOfFinitePresentationDiagMap
 public import Mathlib.RingTheory.Henselian
 public import Mathlib.RingTheory.RegularLocalRing.Defs
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.EigLatBasis
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsLieBasis
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.PushInvertible
-public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.ExistsAddEquivOfSplitTorusIso
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle008
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle004
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle005
+public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle010
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.ExistsTorusAndQuotientHom
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.HomBaseChangeBijectiveOfLeNilradical
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.LeftEqIffLieVecSmul
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.DetCondIffHasMultiplicities
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle061
 import Mathlib.Algebra.GroupWithZero.Submonoid.CancelMulZero
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -70,9 +70,9 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.AbProj
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsLieBasisBaseChange
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.SabPull
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle007
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle017
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle010
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.ChartPullbacks.UniversalCharts.ChartLawPf
 public import Development.AbelianVarietyTheory.Proofs.HermitianTraceForms.IsLocallyConstantRankAtStalkEigenSub
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.FormallyUnramifiedOfTangentMapInjective
@@ -201,10 +201,12 @@ theorem actsBy_baseChange [IsLocalRing R] {G : Over S} [GrpObj G] [Smooth G.hom]
     (j : R →+* k) (x : Sp R ⟶ S) (c : R) (H : ActsBy G φ x c) : ActsBy G φ (spMap j ≫ x) (j c) := by
   have h₁ := isGrpPullback_pullback G x
   set G₁ := (Over.pullback x).obj G
+  letI : GrpObj G₁ := Functor.grpObjObj (F := Over.pullback x)
   let φ₁ : G₁ ⟶ G₁ := (Over.pullback x).map φ
   have e₁ : φ₁.left ≫ pullback.fst G.hom x = pullback.fst G.hom x ≫ φ.left := pullback.lift_fst _ _ _
   have h₂ := isGrpPullback_pullback G₁ (spMap j)
   set G₂ := (Over.pullback (spMap j)).obj G₁
+  letI : GrpObj G₂ := Functor.grpObjObj (F := Over.pullback (spMap j))
   let φ₂ : G₂ ⟶ G₂ := (Over.pullback (spMap j)).map φ₁
   have e₂ : φ₂.left ≫ pullback.fst G₁.hom (spMap j) = pullback.fst G₁.hom (spMap j) ≫ φ₁.left :=
     pullback.lift_fst _ _ _
@@ -583,9 +585,14 @@ theorem abLocus_eq_univ (hq : D.q = 0) (V : ValuationSubring c.F) (Y : Model Xo 
     exact (actsBy_pull Y.m.cart (Y.m.act H.w0) y _).1 h₁
   have h₃ := actsBy_baseChange j χ _ (actsBy_of_injective i hi χ _ h₂)
   rw [hjt] at h₃
+  letI : (Over.pullback t).Monoidal := (Over.instBraidedPullback (f := t)).toMonoidal
+  letI : GrpObj ((Over.pullback t).obj Y.t.G) := Functor.grpObjObj (F := Over.pullback t)
   obtain ⟨T⟩ := Y.t.semi.fibres K t
-  exact isProper_of_actsBy T (OAct.pullback t Y.t.G Y.t.act) H.d_prime hm hw _
-    ((actsBy_pull (isGrpPullback_pullback Y.t.G t) (pullback.lift_fst _ _ _) _ _).2 (by rwa [Category.id_comp]))
+  let actT := OAct.pullback t Y.t.G Y.t.act
+  have hact : (actT.act H.w0).left ≫ pullback.fst Y.t.G.hom t =
+      pullback.fst Y.t.G.hom t ≫ (Y.t.act.act H.w0).left := pullback.lift_fst _ _ _
+  exact isProper_of_actsBy T actT H.d_prime hm hw _
+    ((actsBy_pull (isGrpPullback_pullback Y.t.G t) hact _ _).2 (by rwa [Category.id_comp]))
 
 end Spread
 

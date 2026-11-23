@@ -1,9 +1,9 @@
 module
 
-public import Formalism.IncomingBounds.StatementThmP
+public import Formalism.IncomingBounds.Bundle002
 public import Formalism.IncomingBounds.FlowDegreeBounds.Cayley
 import Formalism.IncomingBounds.FlowDegreeBounds.LemmaF
-import Formalism.IncomingBounds.FlowDegreeBounds.LemmaFd
+import Formalism.IncomingBounds.FlowDegreeBounds.Bundle001
 public import Formalism.IncomingBounds.FlowDegreeBounds.MaxFlowValueAttained
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

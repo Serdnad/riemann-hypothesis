@@ -2,15 +2,15 @@ module
 
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DiagonalBlockDetBlockTriangular
 public import Development.AbelianVarietyTheory.Statements.HeckeThetaIntegrals.FormulaAt
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsClearingIntegersPrincipalDatumHost
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle045
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.PlacewiseToAdelicDecompositionForall
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsIsThetaAtOfVac
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MemMatLatSmulBlockLat
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MixedModelVacuumEqIntegralMatrixIndicator
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2180
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle404
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2524
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ValuationLeOneOfMem
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.FlatIntegrandFlippedTensorLocallyConstantCompact
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.MemCompletedHomLatticeIffIntegralOnUnitHalf
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RootExchangeUnipotentExistsResidueCardPowMemNhds
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle664
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle648
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle062
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -50,10 +50,10 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.IsRealFam
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.FlagGenDiag
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RangeSndRel
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RealLineOfPeriodsOnLine
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RowBesZeroE
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle318
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle468
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle469
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle574
 
 @[expose] public section
 

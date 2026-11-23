@@ -6,14 +6,13 @@ public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ConeExOf
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Cup1BoundaryOfBoundary
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExactOfSpan
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsFiniteCover
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsToCoindShortExact
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle176
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FirstCohomologyOfBaseZero
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HtpyStOfCxSt
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Pull1RestrictPairRestriction
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.QIsoAtRight
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SteinOfBijective
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.TopologicalKrullDimLeOfSmooth
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.WedgeOfBijective
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle198
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle148
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle184
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle754
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -51,7 +50,6 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CechNerveFaceOneZero
 
 @[expose] public section
 

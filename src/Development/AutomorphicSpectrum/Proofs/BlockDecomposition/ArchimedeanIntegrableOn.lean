@@ -4,20 +4,18 @@ public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsSmooth
 public import ReciprocityTheory.AnalyticForms.PotentialTheory.IsPotentialOfFun
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.BlowupProjections.BlowupProjStatement
 import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.DifferentiableOnOfTendstoLocallyUniformlyOn
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ComplexPointLiftsToMulticoneStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HolomorphicLiftGivesHolomorphicSectionStatement
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle487
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HypersurfaceComplexPointsMeasurableNullStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsUnderOfSameOrbitStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LogNormContinuousOffDivisorStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MeasureZeroSetAvoidedByHolomorphicMapStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MixedCyclePointDictionaryStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MulticonePointDescendsToSubvarietyStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.PointsEqIffSameTorusOrbitStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.RationalSectionFiniteOpenCoverStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SmoothWeightPullbackIsPotentialStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SmoothWeightsIntegralPullbackFormulaStatement
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle488
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle483
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle537
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle576
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle509
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle512
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle481
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle508
 import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ZeroLocusRegularFunctionNullStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ResolutionExistsOfResolutionStatementStatement
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle155
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -57,9 +55,9 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import ReciprocityTheory.AnalyticForms.PotentialTheory.LocDens
 import ReciprocityTheory.AnalyticForms.PotentialTheory.MaMeasureB
-import ReciprocityTheory.AnalyticForms.PotentialTheory.Partition
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterBridgeE
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterRed
+import ReciprocityTheory.AnalyticForms.PotentialTheory.Bundle004
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle014
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle011
 public import Development.AbelianVarietyTheory.Definitions.Divisors.AnalyticOnNhdFinChartIff
 
 @[expose] public section
@@ -232,3 +230,16 @@ theorem archIntegrableOn_of_resK : ReciprocityTheory.ChartRestriction.G.Geo.ResK
     integrableOn_of_modif A F hF H Z hZ hZ0 hs hi _ ((N.restr i).cInf σ₀) _ ((M.restr i).cInf σ₀) hr (-1)⟩
 
 end GlobalTheory.CompanionTheory.MixZ
+
+end
+
+section
+
+@[expose] public section
+
+
+theorem _root_.GlobalTheory.T.archimedean_integrable_on : ReciprocityTheory.ChartRestriction.G.Geo.ResK.ResKStatement → GlobalTheory.CompanionTheory.MixZ.ArchIntegrableOn := by
+  first | exact @GlobalTheory.CompanionTheory.MixZ.archIntegrableOn_of_resK | exact GlobalTheory.CompanionTheory.MixZ.archIntegrableOn_of_resK | (intros; apply GlobalTheory.CompanionTheory.MixZ.archIntegrableOn_of_resK <;> assumption)
+
+end
+end

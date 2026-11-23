@@ -1,8 +1,8 @@
 module
 
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.PerfectoidPullbacks.LevelChainValuations.GaloisCupProducts.HomLevGood
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.DPullCEqZero
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.InclRedM
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle175
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle496
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,6 +1,6 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.DwCons
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle216
 public import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

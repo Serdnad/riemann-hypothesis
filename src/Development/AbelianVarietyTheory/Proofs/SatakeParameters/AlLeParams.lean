@@ -1,7 +1,7 @@
 module
 
 public import Formalism.SharpRestriction.ParConsts
-public import Formalism.LocalRingCardinality.DataKerI
+public import Formalism.LocalRingCardinality.Bundle008
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.TopRowsParams
 import Formalism.LocalRingCardinality.CoeNeZeroOfNotMem
 import Mathlib.Algebra.Order.Floor.Extended

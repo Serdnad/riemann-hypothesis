@@ -54,7 +54,7 @@ namespace GroundTheory.Global
 
 open NumberField NumberField.InfinitePlace NumberField.InfinitePlace.Completion IsDedekindDomain
   IsDedekindDomain.HeightOneSpectrum Topology Filter
-open scoped NumberField.AdeleRing RestrictedProduct FourierTransform
+open scoped NumberField.AdeleRing _root_.RestrictedProduct FourierTransform
 
 noncomputable section
 

@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.TypedPartSplitPrimes
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ConjEqNegOfSqEqNegNat
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsCmTypeEmbeddingsIntoValuationRing
+public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.Bundle017
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle675
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle051
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -44,8 +44,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.BigBlockCharacters
-public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.FactorDepthInertBounds
-import Development.AbelianVarietyTheory.Definitions.Divisors.EightDvdNCol
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle060
 
 @[expose] public section
 

@@ -1,8 +1,8 @@
 module
 
 public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.IsSplitGaussChars
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.EigenProjectorsSplitAction
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.DegLeOfEquiv
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle009
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle031
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

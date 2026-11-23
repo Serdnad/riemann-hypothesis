@@ -2,7 +2,7 @@ module
 
 public import Formalism.FormalDegreeBessel.StatementG
 public import Formalism.FormalDegreeBessel.StatementIO
-public import Formalism.RealPlaceAnalysis.StatementE
+public import Formalism.RealPlaceAnalysis.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

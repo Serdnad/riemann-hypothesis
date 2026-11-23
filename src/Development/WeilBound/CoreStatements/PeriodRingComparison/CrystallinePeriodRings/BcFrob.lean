@@ -1,7 +1,7 @@
 module
 
-public import Development.WeilBound.CoreStatements.PeriodRingComparison.CrystallinePeriodRings.BcrisPlusHomAlgebraMap
-import Development.AutomorphicArithmetic.IntegralCasts.CrystallinePeriods.Period
+public import Development.WeilBound.CoreStatements.PeriodRingComparison.CrystallinePeriodRings.Bundle001
+import Development.AutomorphicArithmetic.IntegralCasts.CrystallinePeriods.Bundle002
 public import Development.WeilBound.CoreStatements.CrystallinePeriodRings.FrobAinfMapFrobenius
 import Development.WeilBound.CoreStatements.PeriodRingComparison.CrystallinePeriodRings.AcrisNAlgebraMapAinf
 import Mathlib.Algebra.Order.Floor.Extended

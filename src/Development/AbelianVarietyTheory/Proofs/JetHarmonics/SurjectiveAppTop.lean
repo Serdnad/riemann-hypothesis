@@ -1,17 +1,17 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Jets.ColValMonomial
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.TwistBC
+public import Development.AbelianVarietyTheory.Definitions.Jets.Bundle002
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.Bundle004
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.IsExtensionPullOver
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.PullExp
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.UnifBaseChangeSt
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.Bundle002
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.Bundle006
 public import Development.AbelianVarietyTheory.Definitions.Jets.SurjectiveAppTopSqCube
 import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.ExistsGoodConst
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.PowerSeriesExpIntegralCanonGaugeAdditiveSecond
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.StalkMapInjectiveOfFlat
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle067
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ThreePointSeriesExponentialOfDefect
-public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.ExpansionCommutesPullbackCmEndoFourLeStatement
-public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.PullAlLinearCombinationStatement
+public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.Bundle040
+public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.Bundle013
 public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.SecLinIffComb
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -238,9 +238,9 @@ theorem series_pull (hJet : JetAlgSt) (hRep : RepSt) {x : JetSer.Fam G (Fin d)} 
   refine eq_of_germ fun z => ?_
   obtain ⟨J, hJ, hJ'⟩ := exists_good_const L hL j z
   rw [← hτ, ← hτ]
-  let Φ := (((Spec (CommRingCat.of (JetR R (Fin 1 × Fin d) m))).presheaf.germ ⊤ z trivial).hom.comp
-      (Scheme.ΓSpecIso (CommRingCat.of (JetR R (Fin 1 × Fin d) m))).inv.hom).comp τ.toRingHom
-  have sv : ∀ (n : ℕ) (s : H0 L n) (r : Spec (CommRingCat.of (JetR R (Fin 1 × Fin d) m)) ⟶ G.left) (g : PS R 1 d),
+  let Φ := (((Spec (CommRingCat.of (_root_.ReciprocityTheory.ChartRestriction.G.Chart.JetR R (Fin 1 × Fin d) m))).presheaf.germ ⊤ z trivial).hom.comp
+      (Scheme.ΓSpecIso (CommRingCat.of (_root_.ReciprocityTheory.ChartRestriction.G.Chart.JetR R (Fin 1 × Fin d) m))).inv.hom).comp τ.toRingHom
+  have sv : ∀ (n : ℕ) (s : H0 L n) (r : Spec (CommRingCat.of (_root_.ReciprocityTheory.ChartRestriction.G.Chart.JetR R (Fin 1 × Fin d) m)) ⟶ G.left) (g : PS R 1 d),
       (⊤ ≤ r ⁻¹ᵁ LB.wchart L (fun _ : Fin 1 => 𝟙 G.left) (fun _ => j) ∧
         fnVal r _ (s.f (fun _ => j)) = toJet m g) → Φ g = sval s r z J := fun n s r g h => by
     rw [sval_of s r z J (fun _ => j) fun i => hJ' _ (Set.mem_iInter.1 (h.1 (trivial : z ∈ (⊤ : _))) i)]
@@ -257,7 +257,7 @@ theorem series_pull (hJet : JetAlgSt) (hRep : RepSt) {x : JetSer.Fam G (Fin d)} 
     rw [Over.w (Y m), constVal, gs_eq _ z ⊤ trivial]
     have a₁ : τ (MvPowerSeries.C t) = algebraMap R _ t := τ.commutes t
     have a₂ := congrArg (fun q => q.hom t) (Scheme.ΓSpecIso_inv_naturality
-      (CommRingCat.ofHom (algebraMap R (JetR R (Fin 1 × Fin d) m))))
+      (CommRingCat.ofHom (algebraMap R (_root_.ReciprocityTheory.ChartRestriction.G.Chart.JetR R (Fin 1 × Fin d) m))))
     exact congrArg _ ((congrArg _ a₁).trans a₂)
   rw [ev_pt_zero] at e₁ e₃
   show Φ S' = Φ _

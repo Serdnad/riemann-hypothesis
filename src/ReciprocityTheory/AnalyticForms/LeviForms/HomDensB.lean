@@ -1,7 +1,7 @@
 module
 
 public import ReciprocityTheory.AnalyticForms.LeviForms.HomDensA
-public import ReciprocityTheory.AnalyticForms.LeviForms.IsRegFamilyInhabitStatement
+public import ReciprocityTheory.AnalyticForms.LeviForms.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

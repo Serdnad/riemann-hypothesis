@@ -1,9 +1,8 @@
 module
 
-public import Formalism.SharpRestriction.LevelLetterCocycles.GammaSemisimpleLocalOfConsequences
+public import Formalism.SharpRestriction.LevelLetterCocycles.Bundle007
 public import Formalism.SharpRestriction.LevelLetterCocycles.LocCoh
-public import Formalism.FrobeniusContraction.HighestWeightResidueAvoids
-public import Formalism.FrobeniusContraction.StatementTop
+public import Formalism.FrobeniusContraction.Bundle001
 public import Formalism.GaloisCohomology.LocalTateDualityK
 public import Mathlib.LinearAlgebra.Charpoly.Basic
 import Mathlib.Algebra.Order.Floor.Extended

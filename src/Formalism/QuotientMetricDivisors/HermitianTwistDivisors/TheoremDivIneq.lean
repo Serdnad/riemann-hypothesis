@@ -1,6 +1,6 @@
 module
 
-public import Formalism.QuotientMetricDivisors.StatementK
+public import Formalism.QuotientMetricDivisors.Bundle002
 public import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.AbsorbE
 public import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.DivAssembly
 import Mathlib.Algebra.Order.Floor.Extended

@@ -1,0 +1,329 @@
+module
+
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ExponentialIntegrality.Bundle001
+public import Mathlib.Analysis.Normed.Field.Instances
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.WittVector.IsPoly
+import Mathlib.Tactic.Basify
+import Mathlib.Tactic.ENatToNat
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Lemma
+import Mathlib.Tactic.Linter.Style
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.Polynomial.Basic
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Tactic.TypeStar
+import Mathlib.Topology.Sheaves.Init
+public import Mathlib.FieldTheory.Finite.Basic
+
+@[expose] public section
+
+section
+
+noncomputable section
+
+namespace PI.ExpIntWProof.Key
+
+abbrev S0 (p : ℕ) [Fact p.Prime] : Subring ℂ_[p] :=
+  Subring.closure {ζ : ℂ_[p] | ∃ n : ℕ, 0 < n ∧ Nat.Coprime n p ∧ ζ ^ n = 1}
+
+lemma rootsOfUnityRing_le_wittIntegers (p : ℕ) [Fact p.Prime] : S0 p ≤ Wp p := Subring.le_topologicalClosure _
+
+lemma isClosed_Wp (p : ℕ) [Fact p.Prime] : IsClosed (Wp p : Set ℂ_[p]) :=
+  Subring.isClosed_topologicalClosure _
+
+lemma pow_pow_mul {R : Type*} [CommRing R] (a : R) (p f : ℕ) (h : a ^ p ^ f = a) :
+    ∀ k : ℕ, a ^ p ^ (f * k) = a
+  | 0 => by simp
+  | k + 1 => by
+      rw [Nat.mul_succ, pow_add, pow_mul, pow_pow_mul a p f h k, h]
+
+def Fx {R : Type*} [CommRing R] (p : ℕ) (a : R) : Prop := ∃ f : ℕ, 0 < f ∧ a ^ p ^ f = a
+
+section Frob
+
+variable {R : Type*} [CommRing R] (p : ℕ) [hp : Fact p.Prime] [CharP R p]
+
+lemma Fx.common {a b : R} (ha : Fx p a) (hb : Fx p b) :
+    ∃ f : ℕ, 0 < f ∧ a ^ p ^ f = a ∧ b ^ p ^ f = b := by
+  obtain ⟨f, hf, hfa⟩ := ha
+  obtain ⟨g, hg, hgb⟩ := hb
+  refine ⟨f * g, Nat.mul_pos hf hg, pow_pow_mul a p f hfa g, ?_⟩
+  rw [mul_comm]; exact pow_pow_mul b p g hgb f
+
+lemma Fx.add {a b : R} (ha : Fx p a) (hb : Fx p b) : Fx p (a + b) := by
+  obtain ⟨f, hf, h1, h2⟩ := Fx.common p ha hb
+  exact ⟨f, hf, by rw [add_pow_char_pow, h1, h2]⟩
+
+lemma Fx.mul {a b : R} (ha : Fx p a) (hb : Fx p b) : Fx p (a * b) := by
+  obtain ⟨f, hf, h1, h2⟩ := Fx.common p ha hb
+  exact ⟨f, hf, by rw [mul_pow, h1, h2]⟩
+
+lemma Fx.neg {a : R} (ha : Fx p a) : Fx p (-a) := by
+  obtain ⟨f, hf, h1⟩ := ha
+  have : ExpChar R p := ExpChar.prime hp.out
+  refine ⟨f, hf, ?_⟩
+  rw [neg_eq_neg_one_mul, mul_pow, neg_one_pow_expChar_pow, h1]
+
+end Frob
+
+variable {p : ℕ} [hp : Fact p.Prime]
+
+lemma root_frob {x : ℂ_[p]} {n : ℕ} (_hn : 0 < n) (hc : Nat.Coprime n p) (hx : x ^ n = 1) :
+    x ^ p ^ Nat.totient n = x := by
+  have hred : ∀ a : ℕ, x ^ a = x ^ (a % n) := fun a => by
+    conv_lhs => rw [← Nat.div_add_mod a n]
+    rw [pow_add, pow_mul, hx, one_pow, one_mul]
+  have hmod : p ^ Nat.totient n % n = 1 % n := Nat.ModEq.pow_totient hc.symm
+  rw [hred, hmod, ← hred, pow_one]
+
+theorem frob_congr (y : ℂ_[p]) (hy : y ∈ S0 p) :
+    ∃ f : ℕ, 0 < f ∧ ∃ z ∈ S0 p, y ^ p ^ f - y = (p : ℂ_[p]) * z := by
+  classical
+  let I : Ideal (S0 p) := Ideal.span {((p : ℕ) : S0 p)}
+  suffices H : ∀ a : S0 p, Fx p (Ideal.Quotient.mk I a) by
+    obtain ⟨f, hf, h⟩ := H ⟨y, hy⟩
+    rw [← map_pow, Ideal.Quotient.eq, Ideal.mem_span_singleton] at h
+    obtain ⟨z, hz⟩ := h
+    refine ⟨f, hf, z, z.2, ?_⟩
+    have := congrArg Subtype.val hz
+    simpa using this
+  have hp0 : ((p : ℕ) : S0 p ⧸ I) = 0 := by
+    rw [← map_natCast (Ideal.Quotient.mk I) p]
+    exact Ideal.Quotient.eq_zero_iff_mem.2 (Ideal.subset_span rfl)
+  rcases (Nat.dvd_prime hp.out).1 (ringChar.dvd hp0) with h1 | h1
+  · have : CharP (S0 p ⧸ I) 1 := ringChar.of_eq h1
+    have := CharP.CharOne.subsingleton (R := S0 p ⧸ I)
+    exact fun a => ⟨1, one_pos, Subsingleton.elim _ _⟩
+  · have : CharP (S0 p ⧸ I) p := ringChar.of_eq h1
+    rintro ⟨y, hy⟩
+    induction hy using Subring.closure_induction with
+    | mem x hx =>
+        obtain ⟨n, hn, hc, hxn⟩ := hx
+        refine ⟨Nat.totient n, Nat.totient_pos.2 hn, ?_⟩
+        rw [← map_pow]
+        congr 1
+        exact Subtype.ext (by simpa using root_frob hn hc hxn)
+    | zero => exact ⟨1, one_pos, by rw [show (⟨0, _⟩ : S0 p) = 0 from rfl, map_zero, zero_pow (pow_ne_zero _ hp.out.ne_zero)]⟩
+    | one => exact ⟨1, one_pos, by rw [show (⟨1, _⟩ : S0 p) = 1 from rfl, map_one, one_pow]⟩
+    | add x y hx hy ihx ihy =>
+        rw [show (⟨x + y, _⟩ : S0 p) = ⟨x, hx⟩ + ⟨y, hy⟩ from rfl, map_add (f := _)]
+        exact Fx.add p ihx ihy
+    | neg x hx ih =>
+        rw [show (⟨-x, _⟩ : S0 p) = -⟨x, hx⟩ from rfl, map_neg]
+        exact Fx.neg p ih
+    | mul x y hx hy ihx ihy =>
+        rw [show (⟨x * y, _⟩ : S0 p) = ⟨x, hx⟩ * ⟨y, hy⟩ from rfl, map_mul]
+        exact Fx.mul p ihx ihy
+
+lemma inv_one_sub_mem {ξ : ℂ_[p]} (hξ : ξ ∈ Wp p) (h : ‖ξ‖ < 1) : (1 - ξ)⁻¹ ∈ Wp p := by
+  have hs := (hasSum_geometric_of_norm_lt_one h).tendsto_sum_nat
+  refine (isClosed_Wp p).mem_of_tendsto hs (Filter.Eventually.of_forall fun n => ?_)
+  exact Subring.sum_mem _ fun i _ => Subring.pow_mem _ hξ i
+
+lemma natp_ne_zero : (p : ℂ_[p]) ≠ 0 := Nat.cast_ne_zero.2 hp.out.ne_zero
+
+theorem div_p_mem_of_S {y : ℂ_[p]} (hy : y ∈ S0 p) (h : ‖y‖ < 1) : y / p ∈ Wp p := by
+  obtain ⟨f, hf, z, hz, he⟩ := frob_congr y hy
+  set q := p ^ f with hqdef
+  have hpq : p ≤ q := by
+    calc p = p ^ 1 := (pow_one p).symm
+      _ ≤ p ^ f := Nat.pow_le_pow_right hp.out.pos hf
+  have h2 : 2 ≤ q := le_trans hp.out.two_le hpq
+  set ξ := y ^ (q - 1) with hξdef
+  have hξW : ξ ∈ Wp p := rootsOfUnityRing_le_wittIntegers p (Subring.pow_mem _ hy _)
+  have hξn : ‖ξ‖ < 1 := by
+    rw [hξdef, norm_pow]; exact pow_lt_one₀ (norm_nonneg _) h (by omega)
+  have hne : (1 - ξ) ≠ 0 := by
+    intro h0
+    have : ξ = 1 := (sub_eq_zero.1 h0).symm
+    rw [this, norm_one] at hξn; exact lt_irrefl _ hξn
+  have hyq : y * ξ = y ^ q := by
+    rw [hξdef, ← pow_succ', Nat.sub_add_cancel (by omega : 1 ≤ q)]
+  have h1 : y * (1 - ξ) = -((p : ℂ_[p]) * z) := by
+    rw [mul_sub, mul_one, hyq, ← he]; ring
+  have hval : y / p = -z * (1 - ξ)⁻¹ := by
+    have hp0 := natp_ne_zero (p := p)
+    rw [div_eq_iff hp0]
+    calc y = y * (1 - ξ) * (1 - ξ)⁻¹ := by rw [mul_assoc, mul_inv_cancel₀ hne, mul_one]
+      _ = -z * (1 - ξ)⁻¹ * p := by rw [h1]; ring
+  rw [hval]
+  exact Subring.mul_mem _ (Subring.neg_mem _ (rootsOfUnityRing_le_wittIntegers p hz)) (inv_one_sub_mem hξW hξn)
+
+end PI.ExpIntWProof.Key
+
+namespace PI.ExpIntWProof
+
+
+open Key in
+theorem keyW : KeyW := by
+  intro p _ x hx h
+  change x / (p : ℂ_[p]) ∈ (Wp p : Set ℂ_[p])
+  rw [← (Key.isClosed_Wp p).closure_eq, Metric.mem_closure_iff]
+  intro ε hε
+  have hpn : (0 : ℝ) < ‖(p : ℂ_[p])‖ := norm_pos_iff.2 Key.natp_ne_zero
+  have hxS : x ∈ closure (Key.S0 p : Set ℂ_[p]) := hx
+  obtain ⟨y, hyS, hxy⟩ := Metric.mem_closure_iff.1 hxS (min (ε * ‖(p : ℂ_[p])‖) (1 - ‖x‖))
+    (lt_min (mul_pos hε hpn) (by linarith))
+  rw [dist_eq_norm] at hxy
+  refine ⟨y / p, Key.div_p_mem_of_S hyS ?_, ?_⟩
+  · calc ‖y‖ = ‖x - (x - y)‖ := by rw [sub_sub_cancel]
+      _ ≤ ‖x‖ + ‖x - y‖ := norm_sub_le _ _
+      _ < ‖x‖ + (1 - ‖x‖) := by linarith [min_le_right (ε * ‖(p : ℂ_[p])‖) (1 - ‖x‖)]
+      _ = 1 := by ring
+  · rw [dist_eq_norm, ← sub_div, norm_div, div_lt_iff₀ hpn]
+    exact lt_of_lt_of_le hxy (min_le_left _ _)
+
+end PI.ExpIntWProof
+
+end
+end
+
+section
+
+noncomputable section
+
+namespace PI.ExpIntWProof
+
+open PI
+
+def Wf (p : ℕ) [Fact p.Prime] : Subring ℂ_[p] where
+  carrier := {x | InWf x}
+  mul_mem' := by
+    rintro x y ⟨a, ha⟩ ⟨b, hb⟩
+    refine ⟨a + b, ?_⟩
+    have : (p : ℂ_[p]) ^ (a + b) * (x * y) = ((p : ℂ_[p]) ^ a * x) * ((p : ℂ_[p]) ^ b * y) := by ring
+    rw [this]
+    exact Subring.mul_mem _ ha hb
+  one_mem' := ⟨0, by simp⟩
+  add_mem' := by
+    rintro x y ⟨a, ha⟩ ⟨b, hb⟩
+    refine ⟨a + b, ?_⟩
+    have : (p : ℂ_[p]) ^ (a + b) * (x + y) =
+        (p : ℂ_[p]) ^ b * ((p : ℂ_[p]) ^ a * x) + (p : ℂ_[p]) ^ a * ((p : ℂ_[p]) ^ b * y) := by ring
+    rw [this]
+    exact Subring.add_mem _ (Subring.mul_mem _ (Subring.pow_mem _ (p_mem p) b) ha)
+      (Subring.mul_mem _ (Subring.pow_mem _ (p_mem p) a) hb)
+  zero_mem' := ⟨0, by simp⟩
+  neg_mem' := by
+    rintro x ⟨a, ha⟩
+    exact ⟨a, by rw [mul_neg]; exact Subring.neg_mem _ ha⟩
+
+theorem mem_Wf {p : ℕ} [Fact p.Prime] {x : ℂ_[p]} : x ∈ Wf p ↔ InWf x := Iff.rfl
+
+theorem inv_nat_mem_Wf (p : ℕ) [hp : Fact p.Prime] (m : ℕ) (hm : m ≠ 0) :
+    ((m : ℂ_[p]))⁻¹ ∈ Wf p := by
+  rw [mem_Wf]
+  obtain ⟨k, u, hu, rfl⟩ := Nat.exists_eq_pow_mul_and_not_dvd hm p hp.out.ne_one
+  refine ⟨k, ?_⟩
+  have hpk : (p : ℂ_[p]) ^ k ≠ 0 := pow_ne_zero _ (Nat.cast_ne_zero.mpr hp.out.ne_zero)
+  rw [Nat.cast_mul, Nat.cast_pow, mul_inv, ← mul_assoc, mul_inv_cancel₀ hpk, one_mul]
+  exact inv_natCast_mem_wittIntegers p u hu
+
+theorem coeff_pow_mem {σ : Type} (p : ℕ) [Fact p.Prime] (f : MvPowerSeries σ ℂ_[p])
+    (hf : CoefWf f) : ∀ n : ℕ, ∀ α, MvPowerSeries.coeff α (f ^ n) ∈ Wf p := by
+  classical
+  intro n
+  induction n with
+  | zero =>
+    intro α
+    rw [pow_zero, MvPowerSeries.coeff_one]
+    split_ifs
+    · exact (Wf p).one_mem
+    · exact (Wf p).zero_mem
+  | succ n ih =>
+    intro α
+    rw [pow_succ, MvPowerSeries.coeff_mul]
+    exact (Wf p).sum_mem fun x _ => (Wf p).mul_mem (ih x.1) (mem_Wf.mpr (hf x.2))
+
+theorem stepI : StepI := by
+  intro p _ σ f hf n
+  rw [← mem_Wf]
+  show (∑ k ∈ Finset.range _, MvPowerSeries.coeff n (f ^ k) / (k.factorial : ℂ_[p])) ∈ Wf p
+  refine (Wf p).sum_mem fun k _ => ?_
+  rw [div_eq_mul_inv]
+  exact (Wf p).mul_mem (coeff_pow_mem p f hf k n) (inv_nat_mem_Wf p _ (Nat.factorial_ne_zero k))
+
+end PI.ExpIntWProof
+
+end
+end
+
+section
+
+noncomputable section
+
+namespace PI.ExpIntWProof
+
+open PI
+
+theorem div_pow_mem (h : KeyW) (p : ℕ) [hp : Fact p.Prime] :
+    ∀ k : ℕ, ∀ y : ℂ_[p], y ∈ Wp p → ‖y‖ ≤ ((p : ℝ)⁻¹) ^ k → y / (p : ℂ_[p]) ^ k ∈ Wp p := by
+  intro k
+  induction k with
+  | zero => intro y hy _; simpa using hy
+  | succ k ih =>
+    intro y hy hnorm
+    have hpos : (0 : ℝ) < (p : ℝ)⁻¹ := inv_pos.mpr (by exact_mod_cast hp.out.pos)
+    have hpinv : (p : ℝ)⁻¹ < 1 := inv_lt_one_of_one_lt₀ (by exact_mod_cast hp.out.one_lt)
+    have hlt : ‖y‖ < 1 :=
+      lt_of_le_of_lt hnorm (pow_lt_one₀ hpos.le hpinv (Nat.succ_ne_zero k))
+    have h1 : y / (p : ℂ_[p]) ∈ PI.Wp p := h p y hy hlt
+    have h2 : ‖y / (p : ℂ_[p])‖ ≤ ((p : ℝ)⁻¹) ^ k := by
+      rw [norm_div, norm_p, div_le_iff₀ hpos, ← pow_succ]
+      exact hnorm
+    have h3 := ih _ h1 h2
+    rwa [div_div, ← pow_succ'] at h3
+
+theorem stepIII_of_key (h : KeyW) : StepIII := by
+  intro p hp x hx hnorm
+  obtain ⟨k, hk⟩ := hx
+  have hp0 : (p : ℂ_[p]) ≠ 0 := by exact_mod_cast hp.out.ne_zero
+  have hn : ‖(p : ℂ_[p]) ^ k * x‖ ≤ ((p : ℝ)⁻¹) ^ k := by
+    rw [norm_mul, norm_pow, norm_p]
+    exact mul_le_of_le_one_right (by positivity) hnorm
+  have h3 := div_pow_mem h p k _ hk hn
+  rwa [mul_div_cancel_left₀ _ (pow_ne_zero k hp0)] at h3
+
+theorem expIntW_of_key (h1 : StepI) (h : KeyW) : ExpIntW :=
+  expIntW_of_steps h1 (stepIII_of_key h)
+
+end PI.ExpIntWProof
+
+end
+end

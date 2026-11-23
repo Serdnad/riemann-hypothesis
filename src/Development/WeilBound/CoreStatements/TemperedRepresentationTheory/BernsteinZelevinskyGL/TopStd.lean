@@ -1,8 +1,8 @@
 module
 
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.StandardFunctorsFiniteLength
-public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.JacquetModuleFiniteLengthStatement
-public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.ParabolicInductionFiniteLengthStatement
+public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle026
+public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle044
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

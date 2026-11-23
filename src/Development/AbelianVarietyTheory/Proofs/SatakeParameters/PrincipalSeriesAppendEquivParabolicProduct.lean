@@ -42,8 +42,8 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.ExistsReadingLaws
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.IsIwVecTrivial
+import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle008
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle025
 
 @[expose] public section
 

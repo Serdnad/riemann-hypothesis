@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.BlockAnti
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.GramSchmidtLengths
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle009
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle169
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsotropicLeviEmbeddingHomomorphismProperties
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsotropicStabilizerRadicalStructure
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.MajorantFlagLengthsInvarianceTorusPositivity
@@ -301,7 +301,11 @@ theorem dr_eq (z z' : Fin (2 * r + k + 1) → ℂ) (g : Mat k r) :
   unfold Dmin
   congr 1
   ext a b
-  simp [Zhat, Zr, fvec, NfMid.herm_e, mulVec_bvec]
+  have ha : a.val < r := a.isLt
+  have hb : b.val < r := b.isLt
+  simp only [Matrix.submatrix_apply]
+  unfold _root_.Formalism.QuantumDeterminants.Zhat
+  simp [Zr, _root_.Formalism.QuantumDeterminants.fvec, ha, hb, NfMid.herm_e, mulVec_bvec]
 
 end
 

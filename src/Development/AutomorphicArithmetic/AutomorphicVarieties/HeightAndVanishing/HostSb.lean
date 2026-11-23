@@ -2,10 +2,10 @@ module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.DirichletPrimeToLPartMulLPowerPart
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.CompAlg
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.CompCond
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.Bundle007
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.CompOrd
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.HostComp
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.PartOrd
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.Bundle008
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

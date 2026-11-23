@@ -1,19 +1,18 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.IoInjective
+public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle067
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.DifferentiableOneP
-public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.HarishChandraFinite
+public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.Bundle011
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsMulRightInvariantHaarAdelicUnitaryGroupHermiti
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContinuousOneP
-public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.AdelicOpenNeighbourhoodProduct
-public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.ArchimedeanNeighbourhoodExpSurjectiveStatement
-public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.CuspTranslateBoundedByDerivativeStatement
-public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.DerivativeSkewAdjointCuspFormsStatement
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle350
+public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle035
+public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle055
+public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle070
+public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle075
 public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.FiniteCoefficientSpaceAnnihilatingPolynomialStatement
-public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.FiniteDimensionalOfEmbedding
-public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.LieAlgebraSpannedByCompactAndFrameStatement
-public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.SkewOfCommute
-public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.SkewOperatorBoundedByPolynomialRootsStatement
+public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle072
+public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle034
+public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle003
 public import Development.WeilBound.CoreStatements.MeasureExistence.ExistsMeas
 import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.IdemElt
 import Formalism.RealPlaceAnalysis.RealPlaceTaylor.KoszulLowersPower
@@ -55,7 +54,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.HasDRepIffHasDerivAt
+public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.Bundle007
 
 @[expose] public section
 
@@ -405,11 +404,11 @@ theorem cuspFinite : ∀ (D : D7) (θ : D.what₂.Tau → (Ainf D.host.F ⊗[D.h
         obtain ⟨-, g2, g3, g4⟩ := hg
         refine ⟨(mem_Mc_iff.1 (f + g).2).1, fun u hu hu' x => ?_, fun τ x => ?_, fun τ k => ?_⟩
         · simp only [Submodule.coe_add, Pi.add_apply, f2 u hu hu' x, g2 u hu hu' x]
-        · exact (coeffSpan (ρ τ)).add_mem (f3 τ x) (g3 τ x)
+        · exact (_root_.GlobalTheory.Published.AutFin.coeffSpan (ρ τ)).add_mem (f3 τ x) (g3 τ x)
         · rw [Submodule.coe_add, (linOnSm_gelf (θ := θ) (V := V) τ k).add f.1 (smooth_of_mem f) g.1 (smooth_of_mem g),
             f4, g4, smul_add]
       zero_mem' := by
-        refine ⟨(mem_Mc_iff.1 (0 : Mc θ V).2).1, fun _ _ _ _ => rfl, fun τ x => (coeffSpan (ρ τ)).zero_mem, fun τ k => ?_⟩
+        refine ⟨(mem_Mc_iff.1 (0 : Mc θ V).2).1, fun _ _ _ _ => rfl, fun τ x => (_root_.GlobalTheory.Published.AutFin.coeffSpan (ρ τ)).zero_mem, fun τ k => ?_⟩
         have := (linOnSm_gelf (θ := θ) (V := V) τ k).smul 0 0
         simpa using this
       smul_mem' := by
@@ -417,7 +416,7 @@ theorem cuspFinite : ∀ (D : D7) (θ : D.what₂.Tau → (Ainf D.host.F ⊗[D.h
         obtain ⟨-, f2, f3, f4⟩ := hf
         refine ⟨(mem_Mc_iff.1 (a • f).2).1, fun u hu hu' x => ?_, fun τ x => ?_, fun τ k => ?_⟩
         · simp only [Submodule.coe_smul, Pi.smul_apply, f2 u hu hu' x]
-        · exact (coeffSpan (ρ τ)).smul_mem a (f3 τ x)
+        · exact (_root_.GlobalTheory.Published.AutFin.coeffSpan (ρ τ)).smul_mem a (f3 τ x)
         · rw [Submodule.coe_smul, (linOnSm_gelf (θ := θ) (V := V) τ k).smul, f4, smul_comm] }
   have hgr : ∀ (τ : D.what₂.Tau) (Z : Matrix (Fin V.rank) (Fin V.rank) ℂ) (hZ : Z ∈ lieAt V τ),
       Bd μ hθ (E : Set (Mc θ V)) (der hθ τ hZ) := by

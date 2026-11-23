@@ -1,8 +1,8 @@
 module
 
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.ArchimedeanGelfandKernels.LeftEquivariantFunctions.SymZeroCommFrame
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.GelfandOperatorNormalStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.GelfandOperatorsCommuteStatement
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle269
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle249
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,16 +1,15 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.AfDesc
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.Bundle021
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.DenseRangeUnits
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HeckeCharacterUnramifiedAeAndExistsLevel
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsOpenConnectedComponentOfOneInf
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle118
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle203
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsOpenKerOfInfConn
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.PlaceEqOfContEmbCompEq
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.IsOpenNsmulAdelicCompletionOfVectorSet
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle048
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle023
 public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.ConclusionAbsPow
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.TAlgCyc
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.TAlgRes
-import GroundTheory.GlobalFields.LocalAtPlace
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.Bundle020
+import GroundTheory.GlobalFields.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -311,7 +310,7 @@ end Lem
 section
 variable {E Ω : Type} [Field E] [NumberField E] [Field Ω] [Algebra E Ω] {l : ℕ} [Fact l.Prime]
 private theorem cyc_loc [IsAlgClosure E Ω] {art : Ideles E →* Gab E Ω} (ha : IsGlobalArtin art) (ι : Qbar l ≃+* ℂ)
-    {v : HeightOneSpectrum (𝓞 E)} {x : (v.adicCompletion E)ˣ} (hx : IsUnitAt v x) {σ : G E Ω}
+    {v : HeightOneSpectrum (𝓞 E)} {x : (v.adicCompletion E)ˣ} (hx : IsUnitAt v x) {σ : _root_.Formalism.ConjugateSelfDual.G E Ω}
     (e : art (localIdele E v x) = toAb E Ω σ) :
     ((cycBar E Ω l σ : (Qbar l)ˣ) : Qbar l) = locPow ι (fun _ => 1) v x := by
   have h := GlobalTheory.Published.CharAboveModel.absPow_isAlgPos E 1
@@ -336,7 +335,7 @@ private theorem exists_type (ι : Qbar l ≃+* ℂ) (a : HeightOneSpectrum (𝓞
     (RingHom.ext fun b => ι.injective (DFunLike.congr_fun e b))
   simp only [dif_pos h, zpow_one, ← h1]
 private theorem alg_of_open {art : Ideles E →* Gab E Ω} [IsAlgClosure E Ω] (ha : IsGlobalArtin art) (ι : Qbar l ≃+* ℂ)
-    (κ : G E Ω →* (Qbar l)ˣ) (hκ : Continuous κ) (n : (E →+* ℂ) → ℤ)
+    (κ : _root_.Formalism.ConjugateSelfDual.G E Ω →* (Qbar l)ˣ) (hκ : Continuous κ) (n : (E →+* ℂ) → ℤ)
     (h : ∀ v : HeightOneSpectrum (𝓞 E), ((l : ℕ) : 𝓞 E) ∈ v.asIdeal → ∀ x : (v.adicCompletion E)ˣ, IsUnitAt v x →
       ∃ k : ℕ, 0 < k ∧ (((liftAb κ hκ (art (localIdele E v x)) : (Qbar l)ˣ) : Qbar l) * (locPow ι n v x)⁻¹) ^ k = 1) :
     UpperTheory.V.Af.IsAlgChar ι κ := by
@@ -375,7 +374,7 @@ private theorem alg_of_open {art : Ideles E →* Gab E Ω} [IsAlgClosure E Ω] (
     have hf0 : infPow n x ≠ 0 := hfe x ▸ Units.ne_zero _
     have hg0 : lPow ι n x ≠ 0 := hge x ▸ Units.ne_zero _
     rw [hχ, mul_inv_cancel_right₀ hf0, ι.symm_apply_apply, hθe, inv_mul_cancel_right₀ hg0, hx, liftAb_toAb]
-private theorem alg_iff [IsAlgClosure E Ω] (ι : Qbar l ≃+* ℂ) (κ : G E Ω →* (Qbar l)ˣ) :
+private theorem alg_iff [IsAlgClosure E Ω] (ι : Qbar l ≃+* ℂ) (κ : _root_.Formalism.ConjugateSelfDual.G E Ω →* (Qbar l)ˣ) :
     UpperTheory.V.Af.IsAlgChar ι κ ↔ UpperTheory.V.Sd.IsAlgChar ι κ :=
   ⟨fun ⟨χ, h, art, a, h'⟩ => ⟨h, art, χ, a, h'⟩, fun ⟨h, art, χ, a, h'⟩ => ⟨χ, h, art, a, h'⟩⟩
 end

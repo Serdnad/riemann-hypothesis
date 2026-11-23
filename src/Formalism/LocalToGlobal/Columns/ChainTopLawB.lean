@@ -1,8 +1,8 @@
 module
 
-public import Formalism.LocalToGlobal.Columns.ReferenceKernelEquivOfLastComponent
+public import Formalism.LocalToGlobal.Columns.Bundle018
 public import Formalism.LocalToGlobal.Columns.RecLevelSym
-public import Formalism.LocalToGlobal.Columns.SmulMemTrpSet
+public import Formalism.LocalToGlobal.Columns.Bundle011
 public import Formalism.LocalToGlobal.Columns.TiedGlMat
 public import Formalism.LocalToGlobal.Columns.XtSumSingle
 import Formalism.LocalToGlobal.Columns.ChainInst
@@ -10,7 +10,7 @@ public import Formalism.LocalToGlobal.Columns.ChainTopLaw
 import Formalism.LocalToGlobal.Columns.ColumnsProofs.ChainCounts
 import Formalism.LocalToGlobal.Columns.FirstUnfoldingEqZeroOfNotIntegral
 import Formalism.LocalToGlobal.Columns.RecLevelSymF
-import Formalism.LocalToGlobal.Columns.XiTopTilRefHolds
+import Formalism.LocalToGlobal.Columns.Bundle021
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,8 +1,8 @@
 module
 
 import Formalism.SharpRestriction.LevelLetterCocycles.RepresentationCongruences.TsumThree
-public import Formalism.SharpRestriction.LevelLetterCocycles.AdmBoundsBOfAdm
-public import Formalism.SharpRestriction.LevelLetterCocycles.CrystallineLiftingBounds
+public import Formalism.SharpRestriction.LevelLetterCocycles.Bundle013
+public import Formalism.SharpRestriction.LevelLetterCocycles.Bundle010
 public import Formalism.SharpRestriction.LevelLetterCocycles.BaseChangePreservesUnitaryOf
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

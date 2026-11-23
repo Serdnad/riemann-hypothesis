@@ -2,7 +2,7 @@ module
 
 public import GroundTheory.GlobalFields.ClassFieldConsequences.HilbertClassField
 public import GroundTheory.GlobalFields.ComplexMultiplication.FrobeniusAtPrimes
-public import GroundTheory.GlobalFields.Artin.InflationTower
+public import GroundTheory.GlobalFields.Artin.Bundle001
 public import GroundTheory.GlobalFields.Artin.OneDim
 import GroundTheory.GlobalFields.CompletionAtPlace.Inertia
 public import GroundTheory.GlobalFields.TateThesis.Chebotarev

@@ -1,14 +1,14 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsAdicColimitOfIsNilpotent
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsAdicCompleteDualNumber
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2158
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2145
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ObjIsAbelianSchemeDimRigidifiedSym
 public import Development.AbelianVarietyTheory.Definitions.Divisors.HodgeTateLatticePointFinrankTateModule
-public import Formalism.LocalToGlobal.ProjectiveLattices.DataAtPointN3
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle023
 public import Formalism.LocalToGlobal.ProjectiveLattices.EmbKCoe
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.ExistsAbsoluteValueOfIsDiscreteValuationRing
 import Development.AbelianVarietyTheory.Proofs.JetHarmonics.CotangentBidualToTangentFunctionInjective
-import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.AllSixAbelianSchemeLawsHold
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle126
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

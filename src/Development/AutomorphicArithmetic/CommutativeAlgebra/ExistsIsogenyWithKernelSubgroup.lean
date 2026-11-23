@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsTjCorrDiagModel
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.BiholomorphicLiftSystem
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle019
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1057
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsPairing
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FiniteTorsionAndDescentAbelianVarietyAlgClosedStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HarrisTaylorExistsTypeTjPIsogeny
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2058
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3408
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LiftSystemRealStructure
 import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsQuotientByFiniteGroupOfPoints
 import Mathlib.Algebra.Order.Floor.Extended
@@ -49,8 +49,8 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AbelianVarietyTheory.Definitions.Divisors.CompEqOneIffPush
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GermSystemHeightFree
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle017
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle644
 import Development.AutomorphicArithmetic.SpecialMaps.QuotObjDefs
 
 @[expose] public section

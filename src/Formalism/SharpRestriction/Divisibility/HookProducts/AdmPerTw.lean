@@ -1,7 +1,6 @@
 module
 
-public import Formalism.LocalRingCardinality.DataErr
-public import Formalism.LocalRingCardinality.DataKerP
+public import Formalism.LocalRingCardinality.Bundle007
 public import Formalism.SharpRestriction.Divisibility.OrbitPlaces
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

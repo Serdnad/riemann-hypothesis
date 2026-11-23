@@ -1,7 +1,7 @@
 module
 
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.IsotropicMahlerBounds.OnlyIsotropic
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LogAbsBasicFacts
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle426
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

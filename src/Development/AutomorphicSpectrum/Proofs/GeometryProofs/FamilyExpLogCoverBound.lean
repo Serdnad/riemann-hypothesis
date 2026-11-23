@@ -1,12 +1,11 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.ClopenCondOnto
+public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.Bundle001
 public import Development.AbelianVarietyTheory.Definitions.Uniformization.PointEqOfSubsingleton
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ExponentialFamilyPeriods
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.PeriodHolomorphicContinuationStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.PeriodLatticeDiscreteFreeStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.PeriodSetClosedStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.TorsionSectionEqOfConnectedStatement
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle010
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle096
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle095
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle203
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -56,7 +55,7 @@ namespace GlobalTheory.CompanionTheory.Ar.QuotLoc
 
 open AlgebraicGeometry CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj NumberField TensorProduct Filter Topology Matrix
 open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Geo ReciprocityTheory.ChartRestriction.G.Geo.Tor ReciprocityTheory.ChartRestriction.G.Semi GlobalTheory.CompanionTheory.Ar
-open GlobalTheory.CompanionTheory.Ar.Flat Metric
+open GlobalTheory.CompanionTheory.Ar.Flat _root_.Metric
 
 theorem isHolTo_comp {V V' : Type} [NormedAddCommGroup V] [NormedSpace ℂ V] [NormedAddCommGroup V'] [NormedSpace ℂ V']
     {X : Scheme.{0}} {A : Set V'} {y : V' → (Sp ℂ ⟶ X)} (hy : IsHolTo A y) {B' : Set V} (hB' : IsOpen B')

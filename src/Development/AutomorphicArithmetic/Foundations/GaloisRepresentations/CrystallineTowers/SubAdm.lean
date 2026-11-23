@@ -1,7 +1,7 @@
 module
 
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.CrystallineTowers.LocTower
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsModelOfMem
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1691
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FiniteDimensionalFilDR
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.CrystallineTowers.AdmCrys
 import Mathlib.Algebra.Order.Floor.Extended

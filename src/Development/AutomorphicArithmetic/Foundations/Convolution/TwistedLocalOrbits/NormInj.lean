@@ -1,8 +1,8 @@
 module
 
 public import Development.WeilBound.RepresentationTheoryGL.TwistedFactors.IntegralUnitBaseChange.InvTransposeGLInvTransposeGL
-public import Development.AutomorphicArithmetic.Foundations.Convolution.HermitianDescent.GalField
-public import Development.AutomorphicArithmetic.Foundations.Convolution.HermitianDescent.SeparableOfMap
+public import Development.AutomorphicArithmetic.Foundations.Convolution.HermitianDescent.Bundle002
+public import Development.AutomorphicArithmetic.Foundations.Convolution.HermitianDescent.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -43,7 +43,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.IwahoriDoubleCosets
+import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.Bundle004
 import Development.AbelianVarietyTheory.Definitions.Foundations.MatrixMeasurableSpace
 import Development.AbelianVarietyTheory.Definitions.Foundations.SmoothPartStable
 import Development.AutomorphicArithmetic.Foundations.Convolution.TwistedLocalOrbits.HoweSpace

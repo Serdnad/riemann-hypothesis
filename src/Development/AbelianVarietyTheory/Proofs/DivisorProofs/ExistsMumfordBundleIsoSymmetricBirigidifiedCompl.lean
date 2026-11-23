@@ -2,15 +2,15 @@ module
 
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HermitianFormsAddOfFactorProduct
 import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.IsProjOverMorphismRestrictOfRelAmple
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AppellHumbertFactorImFormIntegralOnLattice
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsAppellHumbertFactor
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsAppellHumbertLineBundle
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HomomorphismDescendsToAlgebraic
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsHermitianPullback
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RelAmpleOfAppellHumbert
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ThetaMultiplierIntegralImaginary
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle909
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2188
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1178
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1652
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2166
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2100
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle906
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ThetaMultiplierTrivialization
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ThetaNonvanishingBundleGenerated
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1582
 import Development.AbelianVarietyTheory.Proofs.ToricGeometry.CubeTrivialisationOnUniformisingSpace
 import Development.AbelianVarietyTheory.Proofs.ToricGeometry.TopLePreimageOfValAtNeZero
 import Mathlib.Algebra.Order.Floor.Extended
@@ -58,8 +58,8 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.AbelianSchemeGerms
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.Definitions.Divisors.IsHolPeriods
-import Development.AbelianVarietyTheory.Definitions.Divisors.NotCompactOfMEqOne
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle017
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle013
 
 @[expose] public section
 

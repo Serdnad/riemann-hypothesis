@@ -1,9 +1,8 @@
 module
 
-public import Development.WeilBound.ThetaLifts.EigenvalueEndgame.OrthogonalDecomposition.HodgeTateFromSandwich
-public import Development.WeilBound.ThetaLifts.LatticeBasics.SchToPol
-public import Development.WeilBound.ThetaLifts.EigenvalueEndgame.OrthogonalDecomposition.SigThConst
-public import Development.WeilBound.ThetaLifts.FrameEstimates.HodgeTateFromSandwich
+public import Development.WeilBound.ThetaLifts.EigenvalueEndgame.OrthogonalDecomposition.Bundle001
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle004
+public import Development.WeilBound.ThetaLifts.FrameEstimates.Bundle002
 public import Development.WeilBound.ThetaLifts.FrameEstimates.ThickFrames
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

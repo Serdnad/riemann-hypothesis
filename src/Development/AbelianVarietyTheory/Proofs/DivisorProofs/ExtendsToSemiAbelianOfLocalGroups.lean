@@ -1,12 +1,12 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.SubsetSpanBy
-public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.QuasiCompactIffLocallyOfFinitePresentation
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.NonemptyLawAbelianSchemeProperClosure
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsFieldPt
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GrpLawAndUnitAgreeOfOpenInDescentModelStatement
+public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle054
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2724
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2820
 import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.IsSchemeTheoreticallyDominantSpecOfInjective
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.IsCommMonObjOfDominant
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle053
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.IsSemiAbelianOfCharts
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -48,8 +48,8 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsNatDiagIffIsDiag
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.SumMulEqZeroOfSumToReal
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HomExtNormalSt
-import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.SiegelToroidalIntegral
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle532
+import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.Bundle012
 
 @[expose] public section
 

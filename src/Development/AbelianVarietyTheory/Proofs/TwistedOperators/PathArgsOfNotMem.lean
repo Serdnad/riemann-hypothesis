@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RangeSndRel
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle468
 import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ThetaAtEqSumHeisOfFourierSum
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsHasLocalSmall
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsNsmulIntMemLatO
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.SchrodingerIntertwinerInjectiveSchwartzBruhat
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SchrodingerIntertwinerSchwartzBruhatIsTheta
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle500
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle550
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

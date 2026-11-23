@@ -1,11 +1,11 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsUnifOfIsMumfordOf
-public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.ExistsArBaseAway
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsHeckeQuotientTriple
-import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.IsAbelianSchemeAndExtendOfGenericHoms
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsMumfordBundlePullbackGrpPullback
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TheoremOfSquareCechPicardTranslates
+public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.Bundle002
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle104
+import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle023
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2883
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1851
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.EqOneOfUnimodular
 import Development.AbelianVarietyTheory.Proofs.ModuliProofs.SectionsDimAdditionGraphPrincipalPolarisation
 import Mathlib.Algebra.Order.Floor.Extended
@@ -44,7 +44,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
-import Development.AbelianVarietyTheory.Definitions.Divisors.FromBase
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle068
 import Development.AbelianVarietyTheory.Definitions.Divisors.IsUnimodMod
 
 @[expose] public section

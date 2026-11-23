@@ -1,9 +1,9 @@
 module
 
-public import Formalism.LocalToGlobal.ProjectiveLattices.OneLtAbsNormReal
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle002
 public import Formalism.SharpRestriction.Divisibility.AbelianOpenPart.IsOpenPart
 public import Formalism.SharpRestriction.Divisibility.WeightAlgebra
-public import Development.AbelianVarietyTheory.Proofs.TorusSplitting.LogbNormUniformizerNormalisation
+public import Development.AbelianVarietyTheory.Proofs.TorusSplitting.Bundle008
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -40,7 +40,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.ThetaValues.IsNullVal
+import Development.AbelianVarietyTheory.Definitions.ThetaValues.Bundle001
 import Development.AbelianVarietyTheory.Definitions.TorusSections.ExistsSecTie
 import Formalism.SharpRestriction.Divisibility.AbelianOpenPart.AbelianAt
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.QuadTie

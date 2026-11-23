@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.LatLocGlob
+public import Formalism.PeriodIntegrals.Bundle011
 public import Lemmata.GeneralBFactThirdBisAlt.Imports
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

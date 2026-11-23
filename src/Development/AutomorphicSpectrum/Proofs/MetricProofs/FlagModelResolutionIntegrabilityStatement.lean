@@ -1,7 +1,7 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.OmHeightslockG
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagModelResolutionIntegrability
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle097
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle190
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

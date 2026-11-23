@@ -2,10 +2,10 @@ module
 
 public import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.SymbolRealisableBound
 public import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.EdgePlane
-public import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.NumericProductInequality
-public import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.RankMulConductorDivLeOne
-import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.ScaleNegMono
-public import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.ScaleZpowMono
+public import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.Bundle003
+public import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.Bundle005
+import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.Bundle002
+public import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

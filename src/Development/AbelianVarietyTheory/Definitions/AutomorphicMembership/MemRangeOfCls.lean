@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.PsiCoordExistsUniqueUpToUnitLocal
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle032
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.BetaAtAddLeftAndDiagEqTwoOrder
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsGoodIntegral
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle041
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

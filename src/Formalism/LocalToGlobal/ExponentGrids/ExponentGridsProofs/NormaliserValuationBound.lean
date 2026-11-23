@@ -45,8 +45,8 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import Formalism.QuotientMetricDivisors.Complement2Normaliser
-import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.SecondComplementParameterBounds
+public import Formalism.QuotientMetricDivisors.Bundle004
+import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.Bundle003
 public import Formalism.TranslateCocycles.StatementHC
 
 @[expose] public section

@@ -47,15 +47,15 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.AnalyticForms.PotentialTheory.AnalyticSubsetChartLocal
-public import ReciprocityTheory.AnalyticForms.PotentialTheory.ContDiffAtOfIsPotential
-public import ReciprocityTheory.AnalyticForms.PotentialTheory.Degree
+public import ReciprocityTheory.AnalyticForms.PotentialTheory.Bundle002
+public import ReciprocityTheory.AnalyticForms.PotentialTheory.Bundle003
+public import ReciprocityTheory.AnalyticForms.PotentialTheory.Bundle007
 public import ReciprocityTheory.AnalyticForms.PotentialTheory.DegreeIntA
 public import ReciprocityTheory.AnalyticForms.PotentialTheory.DegreeIntB
 public import ReciprocityTheory.AnalyticForms.PotentialTheory.IntegrableOnTargetOfTsupport
 import ReciprocityTheory.AnalyticForms.PotentialTheory.LocDens
-import ReciprocityTheory.AnalyticForms.PotentialTheory.Partition
-import ReciprocityTheory.AnalyticForms.PotentialTheory.PotentialContDiffAt
+import ReciprocityTheory.AnalyticForms.PotentialTheory.Bundle004
+import ReciprocityTheory.AnalyticForms.PotentialTheory.Bundle006
 import Std.Tactic.BVDecide.Normalize.Prop
 public import Mathlib.MeasureTheory.Function.LocallyIntegrable
 public import Mathlib.MeasureTheory.Integral.Bochner.Set

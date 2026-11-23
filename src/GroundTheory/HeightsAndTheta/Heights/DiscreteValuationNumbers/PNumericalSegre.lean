@@ -1,8 +1,8 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.StatementsFlagBundle
+public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Bundle015
 public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.StatementsBundles
-import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.PIntNumSymm
+import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

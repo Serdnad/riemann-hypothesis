@@ -2,7 +2,7 @@ module
 
 public import Formalism.SharpRestriction.LevelLetterCocycles.EmbeddingTypes
 public import Formalism.WachLatticeTwists.Statement
-public import Formalism.WachLatticeTwists.TorsionLengthCounts.SubmoduleLengthBoundStatement
+public import Formalism.WachLatticeTwists.TorsionLengthCounts.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

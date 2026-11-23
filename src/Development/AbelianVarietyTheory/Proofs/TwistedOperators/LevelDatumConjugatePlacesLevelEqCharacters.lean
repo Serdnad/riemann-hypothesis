@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.LamHomApply
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle280
 import Formalism.LocalToGlobal.Columns.StdLatUnimodular
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -38,8 +38,8 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RevPosRevPos
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ThPDatumEq
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle236
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle247
 import Formalism.LocalToGlobal.IndefiniteReal.ExistsChosenExtremalVector
 import Formalism.LocalToGlobal.IndefiniteReal.LinksDefs
 

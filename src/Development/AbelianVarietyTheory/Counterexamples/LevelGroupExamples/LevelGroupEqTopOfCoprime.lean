@@ -38,7 +38,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Formalism.LocalToGlobal.ProjectiveLattices.AlgebraMapCAt
+import Formalism.LocalToGlobal.ProjectiveLattices.Bundle003
 
 @[expose] public section
 

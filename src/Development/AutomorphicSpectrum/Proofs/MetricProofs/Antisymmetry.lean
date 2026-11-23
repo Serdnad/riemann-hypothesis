@@ -1,15 +1,15 @@
 module
 
 public import Development.AutomorphicSpectrum.Statements.MetricStatements.AgreementIffGuarded
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.AdjacentSwapHeightPolynomialRelationStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.EtaleLocalizationAtPrimeTensorOfEtaleAway
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagHeightPolynomialWeightForm
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagVarietyAnalyticSystemExistsStatement
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.FormPolyIsHomogeneousAndEval
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.GapEqWeightSubNextStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ProportionalStatement
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.RealisationPotentialDegreeCompatibilityStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.WeightTransformInjectiveLinearStatement
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle163
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle007
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle104
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle185
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle006
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle010
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle187
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle108
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle043
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -64,7 +64,7 @@ theorem antisymmetry : Antisymmetry := by
   obtain rfl : d = d₀ := by omega
   have hS := ((GlobalTheory.T.proportional' hIn Ψ N j hN hF.j_le).2 (d + 1) S hdim hF.unif).2
   have hpot := GlobalTheory.T.realisation_potential_degree_compatibility hIn.2.1.1 (FlBlock Ψ N) (FlIdx Ψ N) (d + 1) (Ψ × Fin N) S₀ (PFl Ψ N) Re₀
-  have harith : IsArithVar (PFl Ψ N) (antisymDegree Ψ N + 1) := by
+  have harith : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsArithVar (PFl Ψ N) (antisymDegree Ψ N + 1) := by
     rw [← hdim]; exact Re₀.arith
   have hfl := flLines_polys hIn II hII Ψ N hN harith
 
@@ -121,3 +121,17 @@ theorem antisymmetry : Antisymmetry := by
   linarith
 
 end GlobalTheory.CompanionTheory.Ar.PB.Top
+
+end
+
+section
+
+@[expose] public section
+
+open MvPolynomial MeasureTheory Filter Topology ReciprocityTheory.AnForm ReciprocityTheory.AnForm.M ReciprocityTheory.AnForm.P ReciprocityTheory.ChartRestriction.G.Geo ReciprocityTheory.ChartRestriction.G.AI ReciprocityTheory.ChartRestriction.G.AI.I1 ReciprocityTheory.ChartRestriction.G.AI.I2 ReciprocityTheory.ChartRestriction.G.AI.I4 GlobalTheory.CompanionTheory.Ar.PB GroundTheory.Heights₂.Heights GroundTheory.Heights₂.Heights.LowerBoundFree
+
+theorem _root_.GlobalTheory.T.antisymmetry' : Antisymmetry := by
+  first | exact @GlobalTheory.CompanionTheory.Ar.PB.Top.antisymmetry | exact GlobalTheory.CompanionTheory.Ar.PB.Top.antisymmetry | (intros; apply GlobalTheory.CompanionTheory.Ar.PB.Top.antisymmetry <;> assumption)
+
+end
+end

@@ -1,19 +1,18 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.UpperBounds.PhRec
-public import Formalism.LocalToGlobal.ProjectiveLattices.IntAtExtExtAll
-public import Formalism.LocalToGlobal.ProjectiveLattices.IsGenFrGenFr
-public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.CompSplitRecord
-public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.CuspEqZeroOfGenericValues
-public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.FinrankHostDivTwo
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle044
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle012
+public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.Bundle038
+public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.Bundle022
 public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.GenFrExAndGenFromTest
-public import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.BoundOfIneqs
+public import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.Bundle027
 public import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.CptDifferentiable
-public import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.EqZeroOfDetFderivNeZero
-public import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.ExistsCompactOfDefinite
+public import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.Bundle008
+public import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.Bundle014
 public import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.ExistsOpenSameModel
-public import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.ExtendByZeroStrictAntiOfPositiveGaps
-public import Formalism.LocalToGlobal.ProjectiveLattices.ESecPfA
+public import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.Bundle037
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle042
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

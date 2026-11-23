@@ -1,7 +1,7 @@
 module
 
 public import Formalism.SharpRestriction.GrowthBounds.WeilJacquetShalikaLaw
-public import Formalism.LocalRingCardinality.HostCls
+public import Formalism.LocalRingCardinality.Bundle002
 public import Formalism.SharpRestriction.GrowthBounds.LatticeSystems
 public import Formalism.SharpRestriction.GrowthBounds.TopChoiceBounds
 import Mathlib.Algebra.Order.Floor.Extended

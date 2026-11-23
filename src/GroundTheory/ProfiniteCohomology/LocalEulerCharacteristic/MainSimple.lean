@@ -1,18 +1,18 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.EulerCharDefs
-public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.GroupStructureDefs
+public import GroundTheory.ProfiniteCohomology.Bundle006
+public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.Bundle001
 public import Mathlib.FieldTheory.IsSepClosed
 public import Mathlib.FieldTheory.KrullTopology
 public import Mathlib.NumberTheory.LocalField.Basic
-public import GroundTheory.LocalFields.RamificationStructure
-public import GroundTheory.ProfiniteCohomology.Colimit
-public import GroundTheory.ProfiniteCohomology.EulerChar
+public import GroundTheory.LocalFields.Bundle006
+public import GroundTheory.ProfiniteCohomology.Bundle007
+public import GroundTheory.ProfiniteCohomology.Bundle010
 public import GroundTheory.ProfiniteCohomology.LocalClassFormation.FiniteVanishing
 public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.Coprime
 public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.GroupStructure
 public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.MainCoind
-public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.MainCount
+public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.Bundle003
 public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.MainGalois
 import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.ModNEquivOfSurjectiveApplyModNRep
 import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.Vanishing
@@ -57,7 +57,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
-public import GroundTheory.LocalFields.Ramification
+public import GroundTheory.LocalFields.Bundle004
 public import GroundTheory.LocalFields.SeparableClosure
 
 @[expose] public section

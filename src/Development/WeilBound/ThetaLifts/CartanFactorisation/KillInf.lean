@@ -1,9 +1,9 @@
 module
 
-public import Development.WeilBound.ThetaLifts.CartanFactorisation.UnitDef
-public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.HoweDualityReal
-public import Development.WeilBound.ThetaLifts.CartanFactorisation.ExistsBeta
-public import Development.WeilBound.ThetaLifts.CartanFactorisation.ActsComp
+public import Development.WeilBound.ThetaLifts.CartanFactorisation.Bundle002
+public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.Bundle014
+public import Development.WeilBound.ThetaLifts.CartanFactorisation.Bundle003
+public import Development.WeilBound.ThetaLifts.CartanFactorisation.Bundle004
 public import Development.WeilBound.ThetaLifts.CartanFactorisation.RadOfZero
 public import Development.WeilBound.ThetaLifts.CartanFactorisation.Unimod
 import Development.WeilBound.ThetaLifts.ConeHypotheses.PureEqPureA

@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StPolydiscLelongLimit
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle050
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -46,7 +46,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Mathlib.Topology.UniformSpace.Uniformizable
-public import ReciprocityTheory.AnalyticForms.AnalyticCharts.Osgood
+public import ReciprocityTheory.AnalyticForms.AnalyticCharts.Bundle002
 public import ReciprocityTheory.AnalyticForms.PlurisubharmonicFunctions.ContDiffOfContDiffOnZeroOff
 public import ReciprocityTheory.AnalyticForms.PlurisubharmonicFunctions.HessCRestrictThm
 public import ReciprocityTheory.AnalyticForms.PlurisubharmonicFunctions.ProjectiveLineZeroFormHolds

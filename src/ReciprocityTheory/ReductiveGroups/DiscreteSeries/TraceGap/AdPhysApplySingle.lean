@@ -47,8 +47,8 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.RigidityTheorems.IsInLieAlgebraISmulAddConjTranspose
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TraceGap.AdMatConjTranspose
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TraceGap.AlgebraMapInvFf
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TraceGap.Bundle001
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TraceGap.Bundle002
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section

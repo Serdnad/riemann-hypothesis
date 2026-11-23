@@ -1,6 +1,6 @@
 module
 
-public import Formalism.GelfandTransference.Statement
+public import Formalism.GelfandTransference.Bundle001
 public import Lemmata.DetNormLeProdRows.DetNormLeProdRows
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

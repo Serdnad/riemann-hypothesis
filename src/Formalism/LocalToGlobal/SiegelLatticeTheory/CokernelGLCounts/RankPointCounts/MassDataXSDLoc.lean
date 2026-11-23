@@ -1,9 +1,9 @@
 module
 
-import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ValuationLocalVolumes.HRSmulERight
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ValuationLocalVolumes.Bundle006
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.LocVol
-public import Formalism.PeriodIntegrals.SelfDualLoc
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.SelfDualLoc
+public import Formalism.PeriodIntegrals.Bundle010
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle010
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -2,7 +2,7 @@ module
 
 public import Formalism.LocalToGlobal.KernelLattices.LateralTheory
 public import Formalism.LocalToGlobal.PairingIndexBounds.SplitPairEquations.EqPAll
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.SplitPairGen
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle024
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

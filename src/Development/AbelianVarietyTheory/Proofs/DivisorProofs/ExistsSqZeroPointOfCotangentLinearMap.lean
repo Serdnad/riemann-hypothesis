@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.QuasiCompactZeroSec
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1099
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsHomOfDerivation
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.MulEqZeroOfAppEqZero
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsIsoToBidualOfLocalFrames
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle035
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1034
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

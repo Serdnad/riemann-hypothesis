@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalToGlobal.GlobalTheory.Places
-public import Formalism.SharpRestriction.AdmissibleParameterJoins.DIVfromGLm
+public import Formalism.SharpRestriction.AdmissibleParameterJoins.Bundle006
 public import Formalism.SharpRestriction.GrowthBounds.CornerGLContinuity
 public import Formalism.SizeWindowBrackets.SlopesHypothesisFinitePlaces
 import Formalism.LocalRingCardinality.Lemmas
@@ -10,7 +10,7 @@ public import Formalism.SharpRestriction.AdmissibleParameterJoins.DIVfromGLo
 public import Formalism.SharpRestriction.GlobalSchurBounds.FrameCodeOfAdditive
 import Formalism.SharpRestriction.GlobalSchurBounds.GlobalRankLatticeProofs.SevenLogLeLOfPowerBound
 public import Formalism.SharpRestriction.GlobalSchurBounds.JointsL
-public import Formalism.SharpRestriction.GlobalSchurBounds.LinkPk
+public import Formalism.SharpRestriction.GlobalSchurBounds.Bundle005
 public import Formalism.SharpRestriction.GrowthBounds.TopChoiceBounds
 public import Formalism.SizeWindowBrackets.ChainSlopeWindows.ExistsNsmulMem
 import Formalism.SizeWindowBrackets.ChainSlopeWindows.WeightedSlopeExcessDecomposition

@@ -1,13 +1,13 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.HasShape
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle567
 import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.GoodIdempotentBadPlaces
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsIdempotentPlaceChartFiniteAdelesStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsSupportedUnitaryAdjointActionStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsUnitarySupportedAtSplitPlaceLiftStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FrameAdjointChartBijectiveConjugateHalfStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ParahoricSchwartzMemSpanDatumTranslatesStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SchwartzBruhatConjHalfLocallyConstantCompactSuppStatement
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle869
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle777
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle639
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle738
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle614
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle763
 import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsInvariantForm
 import Formalism.LocalToGlobal.BesselHermitianTheta.LemmasWeil
 import Mathlib.Algebra.Order.Floor.Extended
@@ -48,8 +48,8 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.ParamsEx
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.HeisOAdd
+import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle022
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle534
 
 @[expose] public section
 

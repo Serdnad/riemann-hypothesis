@@ -2,7 +2,7 @@ module
 
 public import Formalism.HermitianCurvature.StatementWd
 public import Mathlib.CategoryTheory.Category.Basic
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.PositionInsertionDiagonalCompat
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle019
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.SecondEmbedMulFirstEmbedApply
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.JointConditionOfEigenCentralSeries
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle432
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.StepJumpDirect
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.TypeConditions.AutomorphicGaloisAdmissible
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ConjPlMemPlacesOver
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle277
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsTypeLocus
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.TypeConditions.CardRootsBar
 import Mathlib.Algebra.Order.Floor.Extended

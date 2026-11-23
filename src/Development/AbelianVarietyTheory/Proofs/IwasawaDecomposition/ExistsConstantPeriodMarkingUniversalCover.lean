@@ -1,10 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.PerValNeZero
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle631
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.HolomorphicHomDetermined
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsPeriodsInFrameOffBoundaryStatement
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle675
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsStalkFactor
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.TwoMarkingsDifferByLevelIsometryStatement
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

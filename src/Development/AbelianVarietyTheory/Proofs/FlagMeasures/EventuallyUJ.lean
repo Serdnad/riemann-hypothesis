@@ -3,21 +3,20 @@ module
 public import Development.AbelianVarietyTheory.Statements.CuspFrameWeights.EigenfunctionFiniteCoefficients
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.PsiEntriesCentreEigenfunctionsDiscreteSeries
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.DerivedModuleCoefficientsAndStableFlows
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsIsDerLowKSub
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HighestWeightDerivativeSumZeroStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HighestWeightEventuallyZeroStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HighestWeightGapBoundStatement
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle287
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle204
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle257
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle219
 import Development.AbelianVarietyTheory.Proofs.FlagMeasures.InnerRepK
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IteratedDerivLine
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.KTypeExtendsHolomorphicComplexifiedK
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.LowestKTypeAnalyticStatement
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.NotCdomAdd
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.PhiPositiveDefiniteCholeskyFormula
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle130
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle151
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle162
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle152
 import Development.AbelianVarietyTheory.Proofs.FlagMeasures.PsiEntriesRealAnalytic
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.PsiPolarDecompositionEquivariance
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle226
 import Development.AbelianVarietyTheory.Proofs.FlagMeasures.PsiRestrictionHolomorphicNearOne
 import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ScalarOfMultOne
-import Formalism.RealPlaceAnalysis.RealPlaceTaylor.CartanInvolutionConjTransposeMul
+import Formalism.RealPlaceAnalysis.RealPlaceTaylor.Bundle004
 import Formalism.RealPlaceAnalysis.RealPlaceTaylor.KoszulLowersPower
 import Mathlib.Algebra.Order.Archimedean.Real.Hom
 import Mathlib.Algebra.Order.Floor.Extended
@@ -59,7 +58,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.ActSingleNeZero
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle007
 
 @[expose] public section
 

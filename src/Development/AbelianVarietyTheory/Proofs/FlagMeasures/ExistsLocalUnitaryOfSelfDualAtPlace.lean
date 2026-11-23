@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.SelfDualAt
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle005
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsEqTransposeMulMapOfIdempotent
 import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsIsUnitFormSelfOfNotMem
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.FiniteResidueFieldAdicCompletionIntegers
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.IsPrincipalIdealRingSemiLoc
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle020
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.StatementsDualStackedGraph
+public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.Bundle024
 public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PDualTopSimpleStacked
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -120,7 +120,7 @@ variable {T : Type} [Fintype T] [DecidableEq T]
 
 theorem mul_mem_sup_first (P : Ideal (MRing (dualBlocks T))) (a : T → ℤ) (l t : T) :
     (C (a l) * graphFirst l) * graphSecond t ∈
-      graphIdeal P (linForm (stackedDiag a)) ⊔ Ideal.span {C (a t) * graphFirst t} := by
+      graphIdeal P (_root_.ReciprocityTheory.ChartRestriction.G.AI.I4.linForm (stackedDiag a)) ⊔ Ideal.span {C (a t) * graphFirst t} := by
   have h := TopDualSimpleStacked.minor_mem P a l t
   have e : (C (a l) * graphFirst l) * graphSecond t = graphSecond l * (C (a t) * graphFirst t) -
       (graphSecond l * (C (a t) * graphFirst t) - graphSecond t * (C (a l) * graphFirst l)) := by ring
@@ -130,7 +130,7 @@ theorem mul_mem_sup_first (P : Ideal (MRing (dualBlocks T))) (a : T → ℤ) (l 
 
 theorem mul_mem_sup_second (P : Ideal (MRing (dualBlocks T))) (a : T → ℤ) (l t : T) :
     graphSecond l * (C (a t) * graphFirst t) ∈
-      graphIdeal P (linForm (stackedDiag a)) ⊔ Ideal.span {graphSecond t} := by
+      graphIdeal P (_root_.ReciprocityTheory.ChartRestriction.G.AI.I4.linForm (stackedDiag a)) ⊔ Ideal.span {graphSecond t} := by
   have h := TopDualSimpleStacked.minor_mem P a l t
   have e : graphSecond l * (C (a t) * graphFirst t) =
       (graphSecond l * (C (a t) * graphFirst t) - graphSecond t * (C (a l) * graphFirst l)) +
@@ -141,7 +141,7 @@ theorem mul_mem_sup_second (P : Ideal (MRing (dualBlocks T))) (a : T → ℤ) (l
 
 theorem C_mul_first_not_mem {P : Ideal (MRing (dualBlocks T))} {a : T → ℤ} (ha : ∀ t, a t ≠ 0)
     {W : Ideal (MRing (stackedBlocks T))} (hW : W.IsPrime) (hhor : IsHorizontal W)
-    (hΓ : graphIdeal P (linForm (stackedDiag a)) ≤ W) {j l : T} (hj : graphFirst j ∉ W)
+    (hΓ : graphIdeal P (_root_.ReciprocityTheory.ChartRestriction.G.AI.I4.linForm (stackedDiag a)) ≤ W) {j l : T} (hj : graphFirst j ∉ W)
     (hl : graphSecond l ∉ W) : C (a l) * graphFirst l ∉ W := by
   have hC : ∀ c : ℤ, c ≠ 0 → (C c : MRing (stackedBlocks T)) ∉ W := by
     intro c hc h
@@ -171,7 +171,7 @@ theorem DualStackedGraphHorizontal.proof : DualStackedGraphHorizontal.Statement 
     apply Subtype.ext
     rw [hab t, h0, zero_smul]
     rfl
-  have key : W.IsPrime → stackedGraph b' a ≤ W → IsRelevant W →
+  have key : W.IsPrime → stackedGraph b' a ≤ W → _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsRelevant W →
       ∃ s s' : MRing (stackedBlocks T), s ∉ W ∧ s' ∉ W ∧
         s * (C (a t) * graphFirst (T := T) t) ∈ stackedGraph b' a ⊔ Ideal.span {graphSecond (T := T) t} ∧
         s' * graphSecond (T := T) t ∈ stackedGraph b' a ⊔ Ideal.span {C (a t) * graphFirst (T := T) t} := by

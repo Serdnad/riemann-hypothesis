@@ -1,8 +1,8 @@
 module
 
-public import Formalism.PeriodIntegrals.QuotSetU
+public import Formalism.PeriodIntegrals.Bundle012
 public import Development.AbelianVarietyTheory.Definitions.Jets.SumIoPrAlt
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.EqSmulOfTwoSided
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle092
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.UnitaryQuotientCompactness.NilpotentSubgroup
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.UnitaryQuotientCompactness.UnitaryWeylCompact
 import Mathlib.Algebra.Order.Floor.Extended

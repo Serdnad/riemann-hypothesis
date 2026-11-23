@@ -1,9 +1,9 @@
 module
 
-import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.FdStep
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.Bundle007
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.CasimirCoefficients.PsiExistsStatement
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.ExceptionalGroupG2.FormalDegreeG2.FdDefs
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TensorRepresentations.Residue
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TensorRepresentations.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

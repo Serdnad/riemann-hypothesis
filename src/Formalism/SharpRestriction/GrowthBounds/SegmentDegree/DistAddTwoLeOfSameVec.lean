@@ -1,10 +1,10 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.DiscriminantNeZeroOfResidueNeZero
-public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.GoodPathWeightOfParts
+public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.Bundle004
+public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.Bundle007
 public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.CardFinRange
 public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.FourHundredSixteenLeA
-public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.ReflectionMemGlevCastSucc
+public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.Bundle011
 public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.SortGetDSpec
 public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.TypicalPathOrdersSmall
 import Mathlib.Algebra.Order.Floor.Extended

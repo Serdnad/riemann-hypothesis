@@ -1,16 +1,16 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.RatiosEqOfSameOrbit
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle464
 public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.PPtsSheetOnlyNull
 import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.DifferentiableOnOfTendstoLocallyUniformlyOn
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IntegrableOnSourceIffOfDensity
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ComplexPointLiftsToMulticoneStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.DehomogenizedEvalEqRatioStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsUnderOfSameOrbitStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MixedCyclePointDictionaryStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.PointsEqIffSameTorusOrbitStatement
-import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PSheetOnlyNull
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.PCriticalFibreInfinite
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle487
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle493
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle488
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle576
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle512
+import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle076
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle017
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -50,9 +50,9 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import ReciprocityTheory.AnalyticForms.AnalyticCharts.NullZero
+import ReciprocityTheory.AnalyticForms.AnalyticCharts.Bundle001
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterBridgeB
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterFib
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle009
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section
@@ -70,7 +70,7 @@ noncomputable section
 
 namespace GlobalTheory.CompanionTheory.MixZ.ArchEq.Crit
 
-open Filter Topology
+open Filter _root_.Topology
 open GroundTheory.Heights₂.Heights GroundTheory.Heights₂.Heights.PtsSheetOnlyNull
 open ReciprocityTheory.ChartRestriction.G.Geo (MRing fibreFinite sameOrbit_of_segre mem_mcPts_of_sameOrbit)
 

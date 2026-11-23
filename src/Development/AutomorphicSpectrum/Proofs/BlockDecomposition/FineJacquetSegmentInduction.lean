@@ -1,19 +1,19 @@
 module
 
 public import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.ZelevinskyJacquet.FineJacquetModules.SegDefs
-public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.IrreducibleAdmissibleGL
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.DerivativeCuspidalPairLengthStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.EquivOfMultiplicityOneUniqueFactorStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsSegmentRepresentationStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IrreducibleSubquotientCuspidalPermutationStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IrreducibleSubquotientJacquetSegmentStatement
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.JacquetMultiplicityCuspidalProductStatement
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.JacquetMultiplicityPos
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.JacquetMultiplicitySubquotientLeStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SegmentRepSplitIntertwinerStatement
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SegmentTermInjectiveStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.StrictAntiOfTwoExceptionsStatement
-import Development.AutomorphicSpectrum.Proofs.GlobalProofs.JacquetModuleFiniteLengthStatement
+public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.Bundle002
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle714
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle351
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle723
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle698
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle689
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle705
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle654
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle363
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle671
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle350
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle348
+import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle026
 import GroundTheory.LocalFields.PadicLogSeries
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -187,8 +187,8 @@ theorem exists_class (hA : GlobalTheory.Published.IrreducibleAdmissibleGL) (Γ :
 
 theorem fine_tensor (hA : GlobalTheory.Published.IrreducibleAdmissibleGL) (Γ : Segment k) (hF : FineJac Γ) (u : IrrGL (k := k))
     (hu : IsLSeg Γ u.rep) (hs : ∑ i, (dec Γ i).1 = u.1) :
-    Nonempty ((jac (stdBlocks (fun i => (dec Γ i).1) hs) u.rep).Equiv (piTensor fun i => (dec Γ i).rep)) := by
-  have hJ : HasFiniteLength (jac (stdBlocks (fun i => (dec Γ i).1) hs) u.rep) :=
+    Nonempty ((_root_.GlobalTheory.SmGL.jac (stdBlocks (fun i => (dec Γ i).1) hs) u.rep).Equiv (piTensor fun i => (dec Γ i).rep)) := by
+  have hJ : HasFiniteLength (_root_.GlobalTheory.SmGL.jac (stdBlocks (fun i => (dec Γ i).1) hs) u.rep) :=
     GlobalTheory.T.jacquet_module_finite_length k _ _ _ _ _ _ u.2.rep.smooth (hasFiniteLength_of_isIrreducible u.2.rep.irr)
   exact GlobalTheory.T.equiv_of_multiplicity_one_unique_factor _ _ (GlobalTheory.CompanionTheory.FrobJm.piTensor_rep_isIrreducible hA (dec Γ)) hJ ((hF u.rep hu).1 hs)
     fun X _ _ ρ hi hq => GlobalTheory.T.irreducible_subquotient_jacquet_segment hA Γ hF u hu hs X ρ hi hq

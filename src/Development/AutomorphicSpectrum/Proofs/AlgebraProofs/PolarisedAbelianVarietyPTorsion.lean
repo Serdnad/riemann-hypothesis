@@ -6,7 +6,7 @@ public import Mathlib.RingTheory.Valuation.Integers
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.ChartPullbacks.UniversalCharts.LePreimageOfNil
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.ThickTransComp
 public import Development.AbelianVarietyTheory.Definitions.ShimuraVarieties.ExistsLiftAddOfIsReducedEq
-public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.ExistsGrpObjPolarised
+public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle036
 public import GroundTheory.ArithmeticGeometry.AbelianVarieties.DivisionPoints
 import Mathlib.Algebra.AffineMonoid.UniqueSums
 import Mathlib.Algebra.Order.Floor.Extended
@@ -56,8 +56,8 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 public import Development.AbelianVarietyTheory.Definitions.AbelianSchemeLaws.ExistsUniqueEqConstMulOriginSec
 import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.IsTight
-import ReciprocityTheory.DualLattices.CotangentSurjective
-import ReciprocityTheory.DualLattices.TensorSpan
+import ReciprocityTheory.DualLattices.Bundle007
+import ReciprocityTheory.DualLattices.Bundle002
 
 @[expose] public section
 

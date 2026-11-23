@@ -1,9 +1,9 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsRadNMulLevM
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle607
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.GodementSectionInvariantConvergent
 import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.WittHyperbolicAnisotropicCommuteLevi
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.IsMulRightInvariantMapWittFlagCoordinatesHaar
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle127
 public import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.GinfCSecondCountable
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

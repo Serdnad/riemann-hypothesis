@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.VecPairApply
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle367
 public import Mathlib.Data.Matrix.ColumnRowPartitioned
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.DetMemSpanAdjugate
 import Mathlib.Algebra.Order.Floor.Extended

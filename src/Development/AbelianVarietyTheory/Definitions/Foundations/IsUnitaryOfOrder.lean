@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Foundations.ValuedAlgebraMapEqOne
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle003
 public import Formalism.SharpRestriction.LevelLetterCocycles.DataN
 public import Mathlib.Analysis.CStarAlgebra.Classes
 import Mathlib.Algebra.Order.Floor.Extended

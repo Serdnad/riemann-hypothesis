@@ -2,10 +2,10 @@ module
 
 public import Development.WeilBound.ThetaLifts.SmallCones.KerPol
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsNatMulIntegralOfIsCompact
-import Development.AutomorphicSpectrum.Proofs.MembershipProofs.HeisenbergCommutingOperatorScalar
-import Development.WeilBound.ThetaLifts.LeviDeterminants.MixedModels.PlaneAd
+import Development.AutomorphicSpectrum.Proofs.MembershipProofs.Bundle010
+import Development.WeilBound.ThetaLifts.LeviDeterminants.MixedModels.Bundle001
 import Development.WeilBound.ThetaLifts.SmallCones.ExpAlg
-import Development.WeilBound.ThetaLifts.SmallCones.FourierUniq
+import Development.WeilBound.ThetaLifts.SmallCones.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -50,7 +50,7 @@ import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AbelianVarietyTheory.Definitions.Divisors.MatchingOfParts
 import Development.WeilBound.ThetaLifts.CTKernel
-import Development.WeilBound.ThetaLifts.TowerModels.PlaneHerm
+import Development.WeilBound.ThetaLifts.TowerModels.Bundle003
 
 @[expose] public section
 

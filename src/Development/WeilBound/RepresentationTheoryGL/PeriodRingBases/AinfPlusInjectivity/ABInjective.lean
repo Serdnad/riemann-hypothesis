@@ -1,7 +1,7 @@
 module
 
 public import Development.WeilBound.RepresentationTheoryGL.PeriodRingBases.PeriodRingUnits.DieudonneManinBasisModification
-public import Development.WeilBound.CoreStatements.CrystallinePeriodRings.AinfMapSurjective
+public import Development.WeilBound.CoreStatements.CrystallinePeriodRings.Bundle001
 import Development.WeilBound.CoreStatements.CrystallinePeriodRings.FrobAinfMapFrobenius
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

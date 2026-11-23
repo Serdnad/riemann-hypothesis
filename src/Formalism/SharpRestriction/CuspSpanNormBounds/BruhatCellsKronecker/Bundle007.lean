@@ -1,0 +1,188 @@
+module
+
+public import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle016
+public import Formalism.SharpRestriction.CuspSpanNormBounds.LatticeGluingRadicals
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Linter.HaveILetI
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Topology.Sheaves.Init
+
+@[expose] public section
+
+section
+
+noncomputable section
+
+namespace Formalism.MainNotions.BridgeLemma
+
+open Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.S Formalism.MainNotions.S.Lat Formalism.MainNotions.LatticeGluingRadicals NumberField Module
+
+attribute [local instance] Formalism.BasicNotions.Host.cmStar
+
+section Rec
+
+variable {D : D7} (X : TermTie D)
+
+theorem tie_Tu_pos (D : D7) (u : D.what₂.Word) : 0 < Tu D u := (D.mem u).A.T_prime.pos
+
+theorem tie_Gval_ne {u u' : D.what₂.Word} (t : D.s.Term u u') (h : D.s.Gterm t ≠ 0) :
+    Gval (X.fl t) (X.fl' t) ≠ 0 := by
+  rw [← X.G_eq t]
+  exact (map_ne_zero _).2 h
+
+theorem tie_G_pos {u u' : D.what₂.Word} (t : D.s.Term u u') (h : D.s.Gterm t ≠ 0) (τ : D.host.E →+* ℂ) :
+    0 < (τ (Gval (X.fl t) (X.fl' t))).re :=
+  (b_G_pos (p_starConj D) (tie_Tu_pos D u) (X.fl t) (X.fl' t) (X.fixed t).2.2.1.2 (X.lift' t).2
+    (tie_Gval_ne X t h) (p_posX D _ (tie_Tu_pos D u) (X.fl t)) τ).1
+
+theorem GDr_of_tie : PX.GDr D X := by
+  intro u u' t h
+  have hpos := tie_G_pos X t h
+  refine ⟨fun h1 => ?_, fun _ τ => hpos _⟩
+
+  have hG : Gval (X.fl t) (X.fl' t) = -(((Tu D u : ℕ) : D.host.E) * ((Tu D u' : ℕ) : D.host.E) *
+      (Dl (X.fl t).fl (X.fl' t).fl D.R.rS * star (Dl (X.fl t).fl (X.fl' t).fl D.R.rS))) := by
+    simp only [Formalism.MainNotions.S.Lat.Gval, Formalism.MainNotions.S.Gflag, h1, star_zero, mul_zero, zero_sub]
+  haveI := D.host.isCMField_hostE
+  have hc : ∀ y : D.host.E, D.host.φ₀ (star y) = starRingEnd ℂ (D.host.φ₀ y) := fun y =>
+    NumberField.IsCMField.complexEmbedding_complexConj D.host.E D.host.φ₀ y
+  have h0 := hpos D.host.φ₀
+  rw [hG, map_neg, map_mul, map_mul, map_mul, map_natCast, map_natCast, hc, Complex.mul_conj] at h0
+  have key : 0 ≤ ((Tu D u : ℕ) : ℝ) * ((Tu D u' : ℕ) : ℝ) *
+      Complex.normSq (D.host.φ₀ (Dl (X.fl t).fl (X.fl' t).fl D.R.rS)) :=
+    mul_nonneg (mul_nonneg (Nat.cast_nonneg _) (Nat.cast_nonneg _)) (Complex.normSq_nonneg _)
+  simp at h0
+  linarith
+
+end Rec
+
+theorem tie_Dl_eq' {E : Type} [Field E] [NumberField E] [StarRing E] {S : HSpace E} {r : ℕ} {T T' : E}
+    (F : FlagG S r T) (F' : FlagG S r T') (j : ℕ) (hj : j ≤ r + 1) :
+    Dl F F' j = ((Zhat F F').submatrix (Fin.castLE hj) (Fin.castLE hj)).det := by
+  unfold Formalism.MainNotions.S.Dl Formalism.MainNotions.S.leadMinorE
+  rw [dite_eq_left hj]
+
+section Packets
+
+variable {D : D7} (X : TermTie D)
+
+theorem tie_X_le_ker {E : Type} [Field E] [NumberField E] [StarRing E] {S : HSpace E} {r : ℕ} {T : E}
+    (F : FlagG S r T) (y : S.V) (h : ∀ a, S.hT (F.e a) y = 0) : ∀ x ∈ F.X, S.hT x y = 0 := by
+  intro x hx
+  unfold Formalism.MainNotions.S.FlagG.X at hx
+  induction hx using Submodule.span_induction with
+  | mem x hx =>
+    obtain ⟨a, rfl⟩ := hx
+    exact h a
+  | zero => simp
+  | add x z _ _ hx hz => simp [hx, hz]
+  | smul c x _ hx => simp [hx]
+
+end Packets
+
+section Fam
+
+variable {eps : ℝ} (Fm : FamP eps)
+
+end Fam
+
+end Formalism.MainNotions.BridgeLemma
+
+end
+end
+
+section
+
+noncomputable section
+
+namespace Formalism.MainNotions.BridgeLemma
+
+open Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.S Formalism.MainNotions.S.Lat Formalism.MainNotions.LatticeGluingRadicals NumberField Module IsDedekindDomain
+
+attribute [local instance] Formalism.BasicNotions.Host.cmStar
+
+def EqualFlagsScalar : Prop :=
+  ∀ (K E : Type) [Field K] [Field E] [NumberField E] [StarRing E] [Algebra K E] (S : HSpace E) (r : ℕ) (T : E)
+    (F F' : FlagG S r T), T ≠ 0 →
+    (∀ x : E, algebraMap K E (Algebra.trace K E x) = x + star x) →
+    (∀ j, F'.Xa j = F.Xa j) → F'.Xplus = F.Xplus → Relevant K F F' →
+    ∃ c : E, c * star c = 1 ∧ (∀ a, F'.e a - c • F.e a ∈ F.Xa a.val) ∧ F'.z - c • F.z ∈ F.X
+
+def ScalarRootOfUnity : Prop :=
+  ∀ (E : Type) [Field E] [NumberField E] [StarRing E] (S : HSpace E) (r : ℕ) (T : E) (Λ : Submodule (𝓞 E) S.V)
+    (F F' : LFlag S r T) (c : E), StarConj E →
+    F'.fl.z ∈ Λ → (∀ d : E, d • F.fl.z ∈ Lsub Λ F → ∃ o : 𝓞 E, (o : E) = d) →
+    c * star c = 1 → F'.fl.z - c • F.fl.z ∈ Xsp F → F'.fl.X = F.fl.X →
+    ∃ o : 𝓞 E, (o : E) = c ∧ ∃ N : ℕ, 0 < N ∧ o ^ N = 1
+
+def ScalarCongruentOne : Prop :=
+  ∀ (E : Type) [Field E] [NumberField E] [StarRing E] (S : HSpace E) (r : ℕ) (T : ℕ) (Λ : Submodule (𝓞 E) S.V) (g : ℕ)
+    (F F' : LFlag S r (T : E)) (o : 𝓞 E),
+    Formalism.HermitianLatticesTheory.IsUnimodular S.hT Λ → F.fl.z ∈ Λ → IsAdmissible Λ g F F' →
+    F'.fl.z - (o : E) • F.fl.z ∈ Xsp F →
+    ∀ P : HeightOneSpectrum (𝓞 E), (g : 𝓞 E) ∈ P.asIdeal → (T : 𝓞 E) ∉ P.asIdeal → o - 1 ∈ P.asIdeal
+
+def RootsOfUnityFormal : Prop :=
+  ∀ (R : Type) [CommRing R] [IsDomain R] (ζ : R) (N : ℕ) (g1 g2 : ℕ) (P1 P2 : Ideal R), 0 < N → ζ ^ N = 1 →
+    g1.Prime → g2.Prime → g1 ≠ g2 → P1 ≠ ⊤ → P2 ≠ ⊤ → (g1 : R) ∈ P1 → (g2 : R) ∈ P2 → ζ - 1 ∈ P1 → ζ - 1 ∈ P2 → ζ = 1
+
+def ExistsPrimeAbove : Prop :=
+  ∀ (E : Type) [Field E] [NumberField E] (p : ℕ), p.Prime → ∃ P : HeightOneSpectrum (𝓞 E), (p : 𝓞 E) ∈ P.asIdeal
+
+def UnitriangularFrameLift (D : D7) : Prop :=
+  ∀ (T : D.host.E) (Λ : Submodule (𝓞 D.host.E) (hS D).V) (F F' : LFlag (D.sp.Y 0) D.R.rS T),
+    FixedHyp D Λ F → IsLift Λ F' → IsFixedConv Λ (gS D) F' →
+    (∀ a, F'.fl.e a - F.fl.e a ∈ Xflag F a.val) → F'.fl.z - F.fl.z ∈ Xsp F →
+    ∃ n ∈ NLam Λ F, ∀ a, n (F.fl.e a) = F'.fl.e a
+
+theorem id_coprime_notMem {R : Type} [CommRing R] (P : Ideal R) (hP : P ≠ ⊤) (a b : ℕ) (h : Nat.Coprime a b)
+    (ha : (a : R) ∈ P) : (b : R) ∉ P := by
+  intro hb
+  apply hP
+  rw [Ideal.eq_top_iff_one]
+  have h' : ((Nat.gcd a b : ℕ) : ℤ) = (a : ℤ) * Nat.gcdA a b + (b : ℤ) * Nat.gcdB a b := Nat.gcd_eq_gcd_ab a b
+  rw [Nat.Coprime.gcd_eq_one h] at h'
+  have h'' : (1 : R) = (a : R) * (Nat.gcdA a b : R) + (b : R) * (Nat.gcdB a b : R) := by
+    have := congrArg (fun z : ℤ => (z : R)) h'
+    push_cast at this
+    exact this
+  rw [h'']
+  exact P.add_mem (P.mul_mem_right _ ha) (P.mul_mem_right _ hb)
+
+end Formalism.MainNotions.BridgeLemma
+
+end
+end

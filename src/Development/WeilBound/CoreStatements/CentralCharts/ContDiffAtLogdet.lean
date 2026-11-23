@@ -1,10 +1,10 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ContDiffUncentre
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle100
 public import Development.WeilBound.CoreStatements.CentralCharts.PshAt0
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.PeriodGramComparisonBoundStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.PeriodGramSmoothPuncturedStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.GramMatrixSubScalarPosSemidefStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle158
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle125
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle031
 public import Development.WeilBound.CoreStatements.CentralCharts.ContDiffAtLogNorm
 public import Development.WeilBound.CoreStatements.CentralCharts.TraceMulReNonneg
 import Mathlib.Algebra.Order.Floor.Extended

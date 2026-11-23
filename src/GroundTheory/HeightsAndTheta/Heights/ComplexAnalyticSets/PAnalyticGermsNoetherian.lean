@@ -1,7 +1,7 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StAnalyticGermsNoetherian
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StGermGeneralCoordinates
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle038
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle017
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

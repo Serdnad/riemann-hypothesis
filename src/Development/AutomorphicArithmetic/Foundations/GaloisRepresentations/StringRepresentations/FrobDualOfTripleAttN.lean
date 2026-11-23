@@ -1,16 +1,16 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.TripleAtt
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CoeffProdOneSubCMulX
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Eps0UnramFrob
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FrobDualOfAttached
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.HkFrobOfAttached
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.HodgeOfAttached
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle012
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle310
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle305
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle404
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle292
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle276
 import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.InertiaCompatibleConjugationRepresentation
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsPlaceOverMoveValCc
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.JumpsGoodOfAttached
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NoInvAwayOfPure
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.UnramifiedOfAttached
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle297
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle303
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle302
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle311
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

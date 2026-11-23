@@ -1,12 +1,12 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.AcrisGaussNormEventuallyMonomial
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle251
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsCrisP
 public import Development.AbelianVarietyTheory.CrystallinePeriods.RingIface
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.AcrisGaussNormEventuallyMonomialStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.AcrisNormOfNonzeroStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsGaussNormExtensionAcrisStatement
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.AcrisToBdRPlusInjective
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle275
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle396
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle302
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle127
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

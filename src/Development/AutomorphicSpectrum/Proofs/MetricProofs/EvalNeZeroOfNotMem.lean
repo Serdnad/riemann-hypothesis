@@ -2,7 +2,7 @@ module
 
 public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.IsPeriodOn
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagPotentialBlockDecomposition
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.SamePotBlock
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle096
 public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PCoordConeArithVar
 import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.CoordinateIdeals.MemMCoordIdealOfAevalEqZero
 import Mathlib.Algebra.Order.Floor.Extended
@@ -53,8 +53,8 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.AnalyticForms.PotentialTheory.PshShiftA
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterBridgeB
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterRedC
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.PartialFlagBlocks
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle010
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle089
 
 @[expose] public section
 

@@ -1,7 +1,7 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.RowD
-import Development.AbelianVarietyTheory.PublishedTheorems.SiegelWeil₂.AdelicConjTransposeBlockMatrixTwoByTwoFin
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle490
+import Development.AbelianVarietyTheory.PublishedTheorems.SiegelWeil₂.Bundle001
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.BigCellCosetsHermitianParam
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,6 +1,6 @@
 module
 
-public import Formalism.HermitianLattices.StatementMaj
+public import Formalism.HermitianLattices.Bundle001
 public import Formalism.LocalRingCardinality.DataHost
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -43,7 +43,7 @@ import Mathlib.Topology.Sheaves.Init
 public import Formalism.LocalRingCardinality.DataRows
 public import Formalism.LocalRingCardinality.RhoDetPrimeEqMuTildeMulChiPow
 import Formalism.LocalToGlobal.Divisibility.CoefMod
-public import Formalism.LocalToGlobal.Divisibility.LiftLat
+public import Formalism.LocalToGlobal.Divisibility.Bundle002
 import Formalism.LocalToGlobal.IndefiniteForms.IndefSide
 import Formalism.LocalToGlobal.IndefiniteReal.ExistsChosenExtremalVector
 public import Formalism.LocalToGlobal.IndefiniteReal.LinksDefs

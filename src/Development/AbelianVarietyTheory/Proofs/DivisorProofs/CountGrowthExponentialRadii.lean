@@ -1,7 +1,7 @@
 module
 
 public import Mathlib.Analysis.SpecialFunctions.Log.Basic
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TendstoRankDivPowOfChooseBoundsStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle240
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

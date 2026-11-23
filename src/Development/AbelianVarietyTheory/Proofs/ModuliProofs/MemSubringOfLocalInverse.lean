@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.SectionsHaveFiniteDimension
+public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.Bundle002
 public import Development.AbelianVarietyTheory.Proofs.ThetaFamilyOrigin.EqOfAgreeOnTorsion
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ProjectiveRepresentationPullbackCoordinates
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle063
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsSegreCoordinates
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.SecCoordBcScaleUnique
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle068
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.PolarizedAbelianEmbeddingBySections
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,9 +1,9 @@
 module
 
-public import Development.WeilBound.ThetaLifts.LatticeBasics.HodgeTateFromSandwich
-public import Development.WeilBound.ThetaLifts.LatticeBasics.BadFactor
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle006
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle022
 public import Development.WeilBound.ThetaLifts.LatticeBasics.NearUnits
-public import Development.WeilBound.ThetaLifts.LatticeBasics.PresDOf
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle024
 public import Development.WeilBound.ThetaLifts.LatticeBasics.RatEquiv
 public import Development.WeilBound.ThetaLifts.TowerModels.StabEx
 import Mathlib.Algebra.Order.Floor.Extended

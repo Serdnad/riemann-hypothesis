@@ -1,19 +1,19 @@
 module
 
-public import GroundTheory.GlobalFields.ComplexMultiplication.MainTheoremReduction
+public import GroundTheory.GlobalFields.ComplexMultiplication.Bundle014
 public import GroundTheory.GlobalFields.ComplexMultiplication.AlgebraicityHom
 public import GroundTheory.GlobalFields.ComplexMultiplication.BaseChangeField
 public import GroundTheory.GlobalFields.ComplexMultiplication.ClassGroupActionLattice
-public import GroundTheory.GlobalFields.ComplexMultiplication.InseparableFrobenius
+public import GroundTheory.GlobalFields.ComplexMultiplication.Bundle004
 public import GroundTheory.GlobalFields.ComplexMultiplication.ReductionRespectsAdd
-public import GroundTheory.GlobalFields.ComplexMultiplication.WeberFunction
+public import GroundTheory.GlobalFields.ComplexMultiplication.Bundle002
 public import Mathlib.NumberTheory.NumberField.Cyclotomic.Basic
 public import GroundTheory.GlobalFields.ComplexMultiplication.DegreeOneAutomorphismLift
-public import GroundTheory.GlobalFields.ComplexMultiplication.DegreeOneAutomorphismPoints
+public import GroundTheory.GlobalFields.ComplexMultiplication.Bundle011
 import GroundTheory.GlobalFields.ComplexMultiplication.FrobeniusAtPrimes
-public import GroundTheory.GlobalFields.ComplexMultiplication.MainTheoremPointHom
+public import GroundTheory.GlobalFields.ComplexMultiplication.Bundle012
 import GroundTheory.GlobalFields.ComplexMultiplication.ReductionAtPoint
-public import GroundTheory.GlobalFields.ComplexMultiplication.TorsionReduction
+public import GroundTheory.GlobalFields.ComplexMultiplication.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

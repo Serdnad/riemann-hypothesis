@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.QuotProdK
+public import Formalism.PeriodIntegrals.Bundle020
 public import Mathlib.MeasureTheory.Measure.WithDensity
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

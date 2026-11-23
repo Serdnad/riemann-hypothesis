@@ -1,0 +1,427 @@
+module
+
+public import Development.AbelianVarietyTheory.Definitions.AbelianSchemeLaws.FirstCohomologyVanishesSpecOfIsLocalRing
+public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle018
+public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.RelAmpleOfLocallyOnBase
+public import Development.AbelianVarietyTheory.Definitions.AbelianSchemeLaws.IsScalarTowerOfAlgebraMapEq
+public import Development.AbelianVarietyTheory.Definitions.QuasicoherentCohomology.ExistsAwayFracOfMemHomLoc
+public import Mathlib.RingTheory.PicardGroup
+public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.IsLocalizedModuleResBasicOpenOfQcqs
+public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.Bundle019
+public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.Bundle015
+public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.VeryAmpleCompactQuasiSeparatedAffineCharts
+public import Development.AbelianVarietyTheory.Definitions.QuasicoherentCohomology.PreservesFiniteColimitsTwistFunctor
+import Development.AbelianVarietyTheory.Definitions.ThetaMetrics.ExistsSecNonzeroLocusEqOfLbIso
+public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.ExistsSmulEqMapOfIsCompactOfIsQuasiSeparated
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.ExistsRosatiGen
+import Mathlib.Tactic.TypeStar
+
+@[expose] public section
+
+section
+
+open CategoryTheory CategoryTheory.Limits MonoidalCategory CartesianMonoidalCategory MonObj AlgebraicGeometry DirectSum TensorProduct
+open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Out ReciprocityTheory.ChartRestriction.G.Semi
+attribute [local instance] Over.cartesianMonoidalCategory
+open GlobalTheory GlobalTheory.AbLaw
+
+namespace GlobalTheory.AbProj
+
+theorem isProjBy_of_isPullback {S : Scheme.{0}} (P : PolAV S) {R : Type} [CommRing R]
+    {t : Spec (CommRingCat.of R) ⟶ S} {X : Scheme.{0}} {π : X ⟶ P.A.left}
+    {f : X ⟶ Spec (CommRingCat.of R)} (h : IsPullback π f P.A.hom t) : IsProjBy f := by
+  obtain ⟨N, -, m, s, hL, hs⟩ := polAV_veryAmpleBy
+    (polBaseChange_of_relAmple_local AmpleLocal.relAmple_of_locally) S P R t X π f h
+  exact ⟨_, hL, m, s, hs⟩
+
+theorem abelian_projective_baseChange : ∀ (K : Type) [Field K] [IsAlgClosed K] (P : PolAV (Spec (CommRingCat.of K))), (IsProjBy P.A.hom ∧ IsSeparated P.A.hom) ∧ ∀ (R : Type) [CommRing R] (t : Spec (CommRingCat.of R) ⟶ P.A.left) (Y : Scheme.{0}) (π : Y ⟶ (P.A ⊗ P.A).left) (f : Y ⟶ Spec (CommRingCat.of R)), IsPullback π f (fst P.A P.A).left t → IsProjBy f ∧ IsSeparated f ∧ Smooth f ∧ UniversallyClosed f ∧ Surjective f ∧ IsPullback (π ≫ (snd P.A P.A).left) f P.A.hom (t ≫ P.A.hom) := by
+  intro K _ _ P
+  have := P.isAb.smooth
+  have := P.isAb.proper
+  have := P.isAb.geomConnected
+  have hsur : Surjective P.A.hom := inferInstance
+  refine ⟨⟨isProjBy_of_isPullback P (IsPullback.id_horiz _), inferInstance⟩, ?_⟩
+  intro R _ t Y π f h
+  have h₀ : IsPullback (snd P.A P.A).left (fst P.A P.A).left P.A.hom P.A.hom :=
+    (IsPullback.of_hasPullback P.A.hom P.A.hom).flip
+  have h₁ : IsPullback (π ≫ (snd P.A P.A).left) f P.A.hom (t ≫ P.A.hom) := h.paste_horiz h₀
+  exact ⟨isProjBy_of_isPullback P h₁,
+    MorphismProperty.of_isPullback (P := @IsSeparated) h₁ inferInstance,
+    MorphismProperty.of_isPullback (P := @Smooth) h₁ inferInstance,
+    MorphismProperty.of_isPullback (P := @UniversallyClosed) h₁ inferInstance,
+    MorphismProperty.of_isPullback (P := @Surjective) h₁ hsur, h₁⟩
+
+end GlobalTheory.AbProj
+end
+
+section
+
+open CategoryTheory CategoryTheory.Limits MonoidalCategory CartesianMonoidalCategory AlgebraicGeometry DirectSum TensorProduct
+open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Out ReciprocityTheory.ChartRestriction.G.Semi
+attribute [local instance] Over.cartesianMonoidalCategory
+open GlobalTheory GlobalTheory.AbLaw
+theorem _root_.GlobalTheory.T.veryAmple_compact_quasiSeparated_affine_charts : ∀ (R : Type) [CommRing R] (Y : Scheme.{0}) (f : Y ⟶ Spec (CommRingCat.of R)) (H : LB Y) (m : ℕ) (s : Fin (m + 1) → LB.Sec H), H.IsLB → VeryAmpleBy f H s → CompactSpace Y ∧ QuasiSeparatedSpace Y ∧ ∀ I : Finset (Fin (m + 1)), I.Nonempty → IsAffineOpen (⨅ i ∈ I, nonzeroLocus (s i)) := by
+  first | exact @GlobalTheory.VeryAmpleCharts.compact_quasiSeparated_isAffineOpen | exact GlobalTheory.VeryAmpleCharts.compact_quasiSeparated_isAffineOpen | (intros; apply GlobalTheory.VeryAmpleCharts.compact_quasiSeparated_isAffineOpen <;> assumption)
+end
+
+section
+
+open CategoryTheory CategoryTheory.Limits MonoidalCategory CartesianMonoidalCategory AlgebraicGeometry DirectSum TensorProduct
+open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Out ReciprocityTheory.ChartRestriction.G.Semi
+attribute [local instance] Over.cartesianMonoidalCategory
+open GlobalTheory GlobalTheory.AbLaw
+
+namespace GlobalTheory.AbLaw
+
+theorem eval₂Hom_xProd_pow {ι : Type} {R B : Type*} [CommRing R] [CommRing B] (c : R →+* B)
+    (b : ι → B) (I : Finset ι) (k : ℕ) :
+    MvPolynomial.eval₂Hom c b (xProd R I ^ k) = (∏ i ∈ I, b i) ^ k := by
+  rw [map_pow, map_prod]
+  simp only [MvPolynomial.eval₂Hom_X']
+
+theorem twisted_sections_localise : ∀ (R : Type) [CommRing R] (Y : Scheme.{0}) (f : Y ⟶ Spec (CommRingCat.of R)) (H : LB Y) (m : ℕ) (s : Fin (m + 1) → LB.Sec H) (M : LB Y), H.IsLB → M.IsLB → VeryAmpleBy f H s → ∀ (hx : ∀ V : Y.Opens, OperatorsCommute (ι := Fin (m + 1)) (A := fun t => SecOnR f (tw M H t) V) fun i t => SecOnR.mulSec f M t (s i) V) (I : Finset (Fin (m + 1))), (∀ (t : ℤ) (a : SecOnR f (tw M H t) ⊤), SecOnR.restrict f _ (le_top : (⨅ i ∈ I, nonzeroLocus (s i)) ≤ ⊤) a = 0 → ∃ k : ℕ, xProd R I ^ k • GrSum.of (hx ⊤) t a = 0) ∧ ∀ (t : ℤ) (y : SecOnR f (tw M H t) (⨅ i ∈ I, nonzeroLocus (s i))), ∃ (k : ℕ) (t' : ℤ) (a : SecOnR f (tw M H t') ⊤), GrSum.of (hx _) t' (SecOnR.restrict f _ le_top a) = xProd R I ^ k • GrSum.of (hx _) t y := by
+  intro R _ Y f H m s M hH hM hv hx I
+  obtain ⟨hc, hq, -⟩ := GlobalTheory.VeryAmpleCharts.compact_quasiSeparated_isAffineOpen R Y f H m s hH hv
+  obtain ⟨σ, hσ, hV⟩ := GlobalTheory.exists_prod_sec_nonzeroLocus Y H _ s I hH
+  refine ⟨fun t a ha => ?_, fun t y => ?_⟩
+  · obtain ⟨k, hk⟩ := exists_pow_mul_twCoord_eq_zero Y H M _ σ _ t hH hM hV.symm hc
+      ((SecOnR.of f _ ⊤).symm a) ha
+    obtain ⟨y', e, hy'⟩ := exists_smul_of_twCoord R Y f H m s M hx ⊤ _ _ t _
+      ((SecOnR.of f _ ⊤).symm a) (xProd_pow_mem R I k) rfl
+    have h0 : y' = 0 := SecOn.tw_ext fun p l => by
+      rw [hy', eval₂Hom_xProd_pow, map_pow]
+      have := hk p l
+      rw [hσ] at this
+      exact this
+    refine ⟨k, e.trans ?_⟩
+    rw [h0, map_zero, map_zero]
+  · obtain ⟨k, a, hk⟩ := exists_tw_extend_pow_mul Y H M _ σ _ t hH hM hV.symm hc hq
+      ((SecOnR.of f _ _).symm y)
+    obtain ⟨y', e, hy'⟩ := exists_smul_of_twCoord R Y f H m s M hx _ _ _ t _
+      ((SecOnR.of f _ _).symm y) (xProd_pow_mem R I k) rfl
+    have h0 : SecOn.restrict _ le_top a = y' := SecOn.tw_ext fun p l => by
+      rw [hy', eval₂Hom_xProd_pow, map_pow, SecOn.twCoord_restrict]
+      have := hk p l
+      rw [hσ] at this
+      exact this
+    refine ⟨k, _, SecOnR.of f _ ⊤ a, Eq.trans ?_ e.symm⟩
+    rw [← h0, SecOnR.restrict_of]
+
+end GlobalTheory.AbLaw
+end
+
+section
+
+open CategoryTheory CategoryTheory.Limits MonoidalCategory CartesianMonoidalCategory MonObj AlgebraicGeometry DirectSum TensorProduct
+open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Out ReciprocityTheory.ChartRestriction.G.Semi
+attribute [local instance] Over.cartesianMonoidalCategory
+open GlobalTheory GlobalTheory.AbLaw
+
+namespace GlobalTheory.AbLaw.HighTwist
+
+theorem nontrivial_of_invertible (A L : Type) [CommRing A] [Nontrivial A] [AddCommGroup L]
+    [Module A L] [Module.Invertible A L] : Nontrivial L := by
+  by_contra h
+  rw [not_nontrivial_iff_subsingleton] at h
+  exact not_subsingleton A
+    (Module.Invertible.bijective (R := A) (M := L)).2.subsingleton
+
+variable {Y : Scheme.{0}} {H M : LB Y}
+
+theorem sec_eq_zero (σ : LB.Sec M) (h : ∀ i, σ.f i = 0) : σ = 0 := by
+  have key : ∀ s t : LB.Sec M, s.f = t.f → s = t := by
+    rintro ⟨_, _⟩ ⟨_, _⟩ rfl
+    rfl
+  exact key _ _ (funext h)
+
+def secPwOne (s : LB.Sec H) : LB.Sec (pw H 1) where
+  f := s.f
+  compat i j := (s.compat i j).trans (by
+    change _ = (H.g i j ^ (1 : ℤ)).val * _
+    rw [zpow_one]
+    rfl)
+
+theorem exists_restrict_ne_zero (s : LB.Sec H) {t₀ : ℤ} (a : SecOn (tw M H t₀) ⊤)
+    (ha : SecOn.restrict _ (le_top : nonzeroLocus s ≤ ⊤) a ≠ 0) (t : ℤ) (ht : t₀ ≤ t) :
+    ∃ b : SecOn (tw M H t) ⊤, SecOn.restrict _ (le_top : nonzeroLocus s ≤ ⊤) b ≠ 0 := by
+  induction t, ht using Int.leInduction with
+  | base => exact ⟨a, ha⟩
+  | succ n _ ih =>
+    obtain ⟨b, hb⟩ := ih
+    refine ⟨SecOn.mulSec M n s ⊤ b, fun h => hb ?_⟩
+    rw [← SecOn.mulSec_restrict] at h
+    exact (SecOn.mulSec_bijective s le_rfl).1 (h.trans (map_zero _).symm)
+
+end GlobalTheory.AbLaw.HighTwist
+
+namespace GlobalTheory.AbLaw
+
+open HighTwist
+
+theorem exists_sec_tw_ne_zero : ∀ (R : Type) [CommRing R] (Y : Scheme.{0}) (f : Y ⟶ Spec (CommRingCat.of R)) [Nonempty Y] (H : LB Y) (m : ℕ) (s : Fin (m + 1) → LB.Sec H) (M : LB Y), H.IsLB → M.IsLB → VeryAmpleBy f H s → ∃ t₀ : ℤ, ∀ t, t₀ ≤ t → ∃ (σ : LB.Sec (tw M H t)) (i : (tw M H t).ι), σ.f i ≠ 0 := by
+  intro R _ Y f hY H m s M hH hM hs
+  obtain ⟨x⟩ := hY
+  have hx : x ∈ ⨆ i, nonzeroLocus (s i) := hs.1 ▸ trivial
+  obtain ⟨i, hi⟩ := TopologicalSpace.Opens.mem_iSup.1 hx
+  have : Nonempty (nonzeroLocus (s i)) := ⟨⟨x, hi⟩⟩
+  have := SecOn.invertible (isLB_tw hM hH 0) (hs.2 i).1
+  have := nontrivial_of_invertible Γ(Y, nonzeroLocus (s i))
+    (SecOn (tw M H 0) (nonzeroLocus (s i)))
+  obtain ⟨y, hy⟩ := exists_ne (0 : SecOn (tw M H 0) (nonzeroLocus (s i)))
+  obtain ⟨hc, hq, -⟩ := VeryAmpleCharts.compact_quasiSeparated_isAffineOpen R Y f H m s hH hs
+  obtain ⟨k, a, ha⟩ := exists_tw_extend_pow_mul Y H M 1 (secPwOne (s i)) (nonzeroLocus (s i)) 0
+    hH hM rfl hc hq y
+  have hne : SecOn.restrict _ (le_top : nonzeroLocus (s i) ≤ ⊤) a ≠ 0 := by
+    refine fun h => hy (SecOn.tw_ext fun p l => ?_)
+    have e := ha p l
+    have h0 : SecOn.twCoord (SecOn.restrict _ (le_top : nonzeroLocus (s i) ≤ ⊤) a) p l = 0 := by
+      rw [h]; rfl
+    rw [SecOn.twCoord_restrict] at h0
+    have hu := (SecOn.isUnit_rs_of_le_nonzeroLocus (s i) l
+      (inf_le_right.trans inf_le_right : nonzeroLocus (s i) ⊓ (M.U p ⊓ H.U l) ≤ H.U l)
+      inf_le_left).pow k
+    exact hu.mul_right_eq_zero.1 (e.symm.trans h0)
+  refine ⟨0 + k * 1, fun t ht => ?_⟩
+  obtain ⟨b, hb⟩ := exists_restrict_ne_zero (s i) a hne t ht
+  by_contra hn
+  push Not at hn
+  have h0 : SecOn.topEquiv _ b = 0 := sec_eq_zero _ (hn _)
+  rw [(SecOn.topEquiv _).map_eq_zero_iff.1 h0] at hb
+  exact hb (map_zero _)
+
+end GlobalTheory.AbLaw
+end
+
+section
+
+set_option autoImplicit false
+
+noncomputable section
+
+open CategoryTheory AlgebraicGeometry TopologicalSpace Opposite Filter
+open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Geo.Tor
+open GlobalTheory.LB (resG_resG resG_self)
+
+namespace GlobalTheory
+
+namespace Twist
+
+variable {X : Scheme.{0}} {F : X.Modules} {L : LB X} {m n : ℤ}
+
+def zpowSec (σ : LB.Sec (lbZPow L m)) (k : ℕ) : LB.Sec (lbZPow L (k * m)) :=
+  zmkGlobal (fun i => zfun σ i ^ k) fun i j => by
+    have e : res (le_refl (L.U i ⊓ L.U j)) (L.g i j) = L.g i j := Units.ext (resG_self _ _)
+    rw [map_pow, map_pow, zfun_rel σ i j _ inf_le_right le_rfl, e, mul_pow, mul_comm (k : ℤ),
+      zpow_mul, zpow_natCast, Units.val_pow_eq_pow_val]
+
+@[simp] theorem zfun_zpowSec (σ : LB.Sec (lbZPow L m)) (k : ℕ) (i : L.ι) :
+    zfun (zpowSec σ k) i = zfun σ i ^ k := zfun_zmkGlobal _ _ i
+
+theorem basicOpen_resG_zfun (σ : LB.Sec (lbZPow L m)) (i : L.ι) {W : X.Opens} (h : W ≤ L.U i) :
+    X.basicOpen (resG X h (zfun σ i)) = W ⊓ Out.nonzeroLocus σ := by
+  rw [zfun, resG_resG]
+  refine (X.basicOpen_res _ (homOfLE (h.trans (le_zidx_U m i))).op).trans ?_
+  rw [← nonzeroLocus_inf_chart σ (zidx L m i), inf_comm (Out.nonzeroLocus σ), ← inf_assoc]
+  exact congrArg (· ⊓ _) (inf_eq_left.2 (h.trans (le_zidx_U m i)))
+
+theorem basicOpen_zfun (σ : LB.Sec (lbZPow L m)) (i : L.ι) :
+    X.basicOpen (zfun σ i) = L.U i ⊓ Out.nonzeroLocus σ := by
+  rw [← basicOpen_resG_zfun σ i le_rfl, resG_self]
+
+theorem nonzeroLocus_eq_of_zfun (hL : L.IsLB) (σ : LB.Sec (lbZPow L m)) {V : X.Opens}
+    (h : ∀ i, X.basicOpen (zfun σ i) = L.U i ⊓ V) : Out.nonzeroLocus σ = V := by
+  ext x
+  obtain ⟨i, hi⟩ := exists_chart hL x
+  have e := (basicOpen_zfun σ i).symm.trans (h i)
+  exact ⟨fun hx => (e.le ⟨hi, hx⟩).2, fun hx => (e.ge ⟨hi, hx⟩).2⟩
+
+theorem nonzeroLocus_zofSec (hL : L.IsLB) (s : LB.Sec L) :
+    Out.nonzeroLocus (zofSec s) = Out.nonzeroLocus s :=
+  nonzeroLocus_eq_of_zfun hL _ fun i => by rw [zfun_zofSec, ← nonzeroLocus_inf_chart, inf_comm]
+
+theorem nonzeroLocus_le_zpowSec (hL : L.IsLB) (σ : LB.Sec (lbZPow L m)) (k : ℕ) :
+    Out.nonzeroLocus σ ≤ Out.nonzeroLocus (zpowSec σ k) := fun x hx => by
+  obtain ⟨i, hi⟩ := exists_chart hL x
+  refine ((basicOpen_zfun (zpowSec σ k) i).le ?_).2
+  rw [zfun_zpowSec]
+  rcases Nat.eq_zero_or_pos k with rfl | hk
+  · rw [pow_zero, Scheme.basicOpen_one]
+    exact hi
+  · rw [Scheme.basicOpen_pow _ _ hk, basicOpen_zfun]
+    exact ⟨hi, hx⟩
+
+theorem exists_finite_affine_chart_cover (hL : L.IsLB) {W : X.Opens} (hW : IsCompact (W : Set X)) :
+    ∃ (κ : Type) (_ : Finite κ) (T : κ → X.Opens) (c : κ → L.ι),
+      (∀ a, IsAffineOpen (T a)) ∧ (∀ a, T a ≤ W) ∧ (∀ a, T a ≤ L.U (c a)) ∧ W ≤ iSup T := by
+  have h : ∀ x : W, ∃ (T : X.Opens) (c : L.ι), IsAffineOpen T ∧ x.1 ∈ T ∧ T ≤ W ⊓ L.U c := fun x => by
+    obtain ⟨i, hi⟩ := exists_chart hL x.1
+    obtain ⟨T, hT, hx, hle⟩ := exists_isAffineOpen_mem_and_subset (U := W ⊓ L.U i) (x := x.1) ⟨x.2, hi⟩
+    exact ⟨T, i, hT, hx, hle⟩
+  choose T c hT hx hle using h
+  obtain ⟨S, hS⟩ := hW.elim_finite_subcover (fun x => (T x : Set X)) (fun x => (T x).isOpen)
+    fun y hy => Set.mem_iUnion.2 ⟨⟨y, hy⟩, hx _⟩
+  refine ⟨S, inferInstance, fun a => T a, fun a => c a, fun a => hT a,
+    fun a => (hle a).trans inf_le_left, fun a => (hle a).trans inf_le_right, fun y hy => ?_⟩
+  obtain ⟨a, ha, h⟩ := Set.mem_iUnion₂.1 (hS hy)
+  exact Opens.mem_iSup.2 ⟨⟨a, ha⟩, h⟩
+
+theorem mulSecOfEq_zpowSec_app (σ : LB.Sec (lbZPow L m)) {a b c : ℕ} (hc : c = a + b) {d e : ℤ}
+    (h₁ : n + a * m = d) (h₂ : d + b * m = e) (h₃ : n + c * m = e) {V : X.Opens}
+    (t : Γ(twistZ F L n, V)) :
+    (mulSecOfEq F (zpowSec σ b) h₂).app V ((mulSecOfEq F (zpowSec σ a) h₁).app V t) =
+      (mulSecOfEq F (zpowSec σ c) h₃).app V t :=
+  zsec_ext fun i => by
+    simp only [zcoord_mulSecOfEq_app, zfun_zpowSec, hc, smul_smul, pow_add, map_mul, mul_comm]
+
+variable [F.IsQuasicoherent]
+
+theorem eventually_mulSecOfEq_zpowSec_eq_zero (hL : L.IsLB) (σ : LB.Sec (lbZPow L m))
+    {W V : X.Opens} (hW : IsCompact (W : Set X)) (h : V ≤ W) (hV : W ⊓ Out.nonzeroLocus σ ≤ V)
+    (a : Γ(twistZ F L n, W)) (ha : resM _ h a = 0) :
+    ∀ᶠ k : ℕ in atTop, ∀ (d : ℤ) (hd : n + k * m = d),
+      (mulSecOfEq F (zpowSec σ k) hd).app W a = 0 := by
+  obtain ⟨κ, _, T, c, hT, hTW, hTc, hc⟩ := exists_finite_affine_chart_cover hL hW
+  have key : ∀ α, ∀ᶠ k : ℕ in atTop,
+      resG X (hTc α) (zfun σ (c α)) ^ k • zchartEquiv hL n (c α) (hTc α) (resM _ (hTW α) a) = 0 := by
+    intro α
+    obtain ⟨k, hk⟩ := QCoh.Qcqs.exists_pow_smul_eq_zero_of_isCompact F (hT α).isCompact
+      (resG X (hTc α) (zfun σ (c α))) inf_le_left (basicOpen_resG_zfun σ _ (hTc α)).symm
+      (zchartEquiv hL n (c α) (hTc α) (resM _ (hTW α) a)) (by
+        have hle : T α ⊓ Out.nonzeroLocus σ ≤ V := (inf_le_inf_right _ (hTW α)).trans hV
+        refine (zchartEquiv_resM hL (c α) (hTc α) inf_le_left _).symm.trans ?_
+        rw [resM_resM, ← resM_resM h hle, ha, map_zero, map_zero])
+    refine eventually_atTop.2 ⟨k, fun j hj => ?_⟩
+    obtain ⟨j, rfl⟩ := Nat.exists_eq_add_of_le' hj
+    rw [pow_add, mul_smul, hk, smul_zero]
+  refine (eventually_all.2 key).mono fun k hk d hd => sec_ext_of_cover T hTW hc fun α => ?_
+  apply (zchartEquiv hL d (c α) (hTc α)).injective
+  rw [← app_resM, zchartEquiv_mulSecOfEq_app, zfun_zpowSec, map_pow, hk, map_zero, map_zero]
+
+theorem eventually_exists_resM_eq_mulSecOfEq_zpowSec (hL : L.IsLB) (σ : LB.Sec (lbZPow L m))
+    {W V : X.Opens} (hW : IsCompact (W : Set X)) (hW' : IsQuasiSeparated (W : Set X)) (h : V ≤ W)
+    (hV : V = W ⊓ Out.nonzeroLocus σ) (b : Γ(twistZ F L n, V)) :
+    ∀ᶠ k : ℕ in atTop, ∀ (d : ℤ) (hd : n + k * m = d), ∃ a : Γ(twistZ F L d, W),
+      resM _ h a = (mulSecOfEq F (zpowSec σ k) hd).app V b := by
+  obtain ⟨κ, _, T, c, hT, hTW, hTc, hc⟩ := exists_finite_affine_chart_cover hL hW
+  have hTV : ∀ α, T α ⊓ V = T α ⊓ Out.nonzeroLocus σ := fun α => by
+    rw [hV, ← inf_assoc, inf_eq_left.2 (hTW α)]
+  have key : ∀ α, ∀ᶠ k : ℕ in atTop, ∃ a : Γ(twistZ F L (n + k * m), T α),
+      resM _ (inf_le_left : T α ⊓ V ≤ T α) a =
+        (mulSec F (zpowSec σ k) n).app _ (resM _ inf_le_right b) := by
+    intro α
+    have hc' : T α ⊓ V ≤ L.U (c α) := inf_le_left.trans (hTc α)
+    obtain ⟨k, t, hk⟩ := QCoh.Qcqs.exists_pow_smul_eq_res_of_qcqs F (hT α).isCompact
+      (hT α).isQuasiSeparated (resG X (hTc α) (zfun σ (c α))) (V := T α ⊓ V) inf_le_left
+      ((hTV α).trans (basicOpen_resG_zfun σ _ (hTc α)).symm)
+      (zchartEquiv hL n (c α) hc' (resM _ inf_le_right b))
+    have hk' : resG X hc' (zfun σ (c α)) ^ k • zchartEquiv hL n (c α) hc' (resM _ inf_le_right b) =
+        resM F inf_le_left t := by
+      rw [← resG_resG (hTc α) inf_le_left]
+      exact hk
+    refine eventually_atTop.2 ⟨k, fun j hj => ?_⟩
+    obtain ⟨j, rfl⟩ := Nat.exists_eq_add_of_le' hj
+    refine ⟨(zchartEquiv hL _ (c α) (hTc α)).symm (resG X (hTc α) (zfun σ (c α)) ^ j • t), ?_⟩
+    apply (zchartEquiv hL _ (c α) hc').injective
+    rw [zchartEquiv_resM hL (c α) (hTc α), LinearEquiv.apply_symm_apply, zchartEquiv_mulSecOfEq_app,
+      zfun_zpowSec, resM_smul, map_pow, map_pow, resG_resG, pow_add, mul_smul, hk']
+  obtain ⟨k, hk⟩ := (eventually_all.2 key).exists
+  choose a ha using hk
+  have key₂ : ∀ p : κ × κ, ∀ᶠ j : ℕ in atTop, ∀ (d : ℤ) (hd : n + k * m + j * m = d),
+      (mulSecOfEq F (zpowSec σ j) hd).app (T p.1 ⊓ T p.2)
+        (resM _ inf_le_left (a p.1) - resM _ inf_le_right (a p.2)) = 0 := fun p => by
+    refine eventually_mulSecOfEq_zpowSec_eq_zero hL σ
+      (hW' _ _ (hTW p.1) (T p.1).isOpen (hT p.1).isCompact (hTW p.2) (T p.2).isOpen
+        (hT p.2).isCompact) (V := T p.1 ⊓ T p.2 ⊓ V) inf_le_left
+      (le_inf inf_le_left (hV.ge.trans' (inf_le_inf_right _ (inf_le_left.trans (hTW p.1))))) _ ?_
+    have h₁ : T p.1 ⊓ T p.2 ⊓ V ≤ T p.1 ⊓ V := inf_le_inf_right _ inf_le_left
+    have h₂ : T p.1 ⊓ T p.2 ⊓ V ≤ T p.2 ⊓ V := inf_le_inf_right _ inf_le_right
+    rw [map_sub, resM_resM, resM_resM, ← resM_resM inf_le_left h₁, ← resM_resM inf_le_left h₂,
+      ha, ha, ← app_resM, ← app_resM, resM_resM, resM_resM, sub_self]
+  obtain ⟨j₀, hj₀⟩ := eventually_atTop.1 (eventually_all.2 key₂)
+  refine eventually_atTop.2 ⟨k + j₀, fun l hl d hd => ?_⟩
+  obtain ⟨j, rfl⟩ := Nat.exists_eq_add_of_le (le_of_add_le_left hl)
+  have hd' : n + k * m + j * m = d := by rw [← hd]; push_cast; ring
+  obtain ⟨t, ht⟩ := exists_sec_of_cover T hTW hc
+    (fun α => (mulSecOfEq F (zpowSec σ j) hd').app _ (a α)) fun α β => by
+      have := hj₀ j (by omega) (α, β) d hd'
+      rw [map_sub, sub_eq_zero] at this
+      rw [← app_resM, ← app_resM]
+      exact this
+  refine ⟨t, sec_ext_of_cover (fun α => T α ⊓ V) (fun _ => inf_le_right)
+    ((le_inf (h.trans hc) le_rfl).trans (iSup_inf_eq _ _).le) fun α => ?_⟩
+  rw [resM_resM, ← resM_resM (hTW α) inf_le_left, ht, ← app_resM, ha, ← app_resM,
+    mulSecOfEq_zpowSec_app σ rfl]
+
+end Twist
+
+end GlobalTheory
+end
+end
+
+end
+
+section
+
+@[expose] public section
+
+open CategoryTheory CategoryTheory.Limits MonoidalCategory CartesianMonoidalCategory MonObj AlgebraicGeometry DirectSum TensorProduct
+open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Out ReciprocityTheory.ChartRestriction.G.Semi
+attribute [local instance] Over.cartesianMonoidalCategory
+open GlobalTheory GlobalTheory.AbLaw
+theorem _root_.GlobalTheory.T.exists_high_twist_section_ne_zero : ∀ (R : Type) [CommRing R] (Y : Scheme.{0}) (f : Y ⟶ Spec (CommRingCat.of R)) [Nonempty Y] (H : LB Y) (m : ℕ) (s : Fin (m + 1) → LB.Sec H) (M : LB Y), H.IsLB → M.IsLB → VeryAmpleBy f H s → ∃ t₀ : ℤ, ∀ t, t₀ ≤ t → ∃ (σ : LB.Sec (tw M H t)) (i : (tw M H t).ι), σ.f i ≠ 0 := by
+  first | exact @GlobalTheory.AbLaw.exists_sec_tw_ne_zero | exact GlobalTheory.AbLaw.exists_sec_tw_ne_zero | (intros; apply GlobalTheory.AbLaw.exists_sec_tw_ne_zero <;> assumption)
+
+end
+end
+
+section
+
+@[expose] public section
+
+open CategoryTheory CategoryTheory.Limits MonoidalCategory CartesianMonoidalCategory AlgebraicGeometry DirectSum TensorProduct
+open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Out ReciprocityTheory.ChartRestriction.G.Semi
+attribute [local instance] Over.cartesianMonoidalCategory
+open GlobalTheory GlobalTheory.AbLaw
+theorem _root_.GlobalTheory.T.twistedSections_localise_to_charts : ∀ (R : Type) [CommRing R] (Y : Scheme.{0}) (f : Y ⟶ Spec (CommRingCat.of R)) (H : LB Y) (m : ℕ) (s : Fin (m + 1) → LB.Sec H) (M : LB Y), H.IsLB → M.IsLB → VeryAmpleBy f H s → ∀ (hx : ∀ V : Y.Opens, OperatorsCommute (ι := Fin (m + 1)) (A := fun t => SecOnR f (tw M H t) V) fun i t => SecOnR.mulSec f M t (s i) V) (I : Finset (Fin (m + 1))), (∀ (t : ℤ) (a : SecOnR f (tw M H t) ⊤), SecOnR.restrict f _ (le_top : (⨅ i ∈ I, nonzeroLocus (s i)) ≤ ⊤) a = 0 → ∃ k : ℕ, xProd R I ^ k • GrSum.of (hx ⊤) t a = 0) ∧ ∀ (t : ℤ) (y : SecOnR f (tw M H t) (⨅ i ∈ I, nonzeroLocus (s i))), ∃ (k : ℕ) (t' : ℤ) (a : SecOnR f (tw M H t') ⊤), GrSum.of (hx _) t' (SecOnR.restrict f _ le_top a) = xProd R I ^ k • GrSum.of (hx _) t y := by
+  first | exact @GlobalTheory.AbLaw.twisted_sections_localise | exact GlobalTheory.AbLaw.twisted_sections_localise | (intros; apply GlobalTheory.AbLaw.twisted_sections_localise <;> assumption)
+
+end
+end

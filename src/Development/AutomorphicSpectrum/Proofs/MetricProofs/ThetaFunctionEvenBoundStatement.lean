@@ -1,6 +1,6 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsThetaMeanSquareNorm
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle013
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ThetaFunctionEvenBound
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

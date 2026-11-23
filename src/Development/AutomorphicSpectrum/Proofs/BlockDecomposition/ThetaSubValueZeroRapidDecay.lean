@@ -1,9 +1,9 @@
 module
 
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.EisensteinSeriesG2.HeisenbergTheta.HeisenbergThetaConstant.ThetaC
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.NormLeNormInfCModuleSectionMul
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ImportsTailFurther
-import GroundTheory.GlobalFields.TateThesis.AdelePoissonUniform
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle238
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle058
+import GroundTheory.GlobalFields.TateThesis.Bundle009
 import GroundTheory.GlobalFields.TateThesis.TateThetaDecay
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

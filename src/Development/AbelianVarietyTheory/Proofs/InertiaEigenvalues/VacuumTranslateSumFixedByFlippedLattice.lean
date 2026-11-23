@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FlipIdxNeZero
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle872
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.EqZeroOrEqOfPlaceIdem
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsInertTop
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle843
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.BaseIntSet
 import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.SelfDualLatticePairingDual
 import Formalism.LocalToGlobal.BesselHermitianTheta.LemmasWeil
@@ -40,9 +40,9 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IntFormsSubset
-import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.DatEqZero
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ValRingLocRing
+import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle021
+import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.Bundle002
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle854
 
 @[expose] public section
 

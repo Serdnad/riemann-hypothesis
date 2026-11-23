@@ -1,11 +1,11 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.TorusSections.IsTorusOf
-public import Formalism.LocalToGlobal.ProjectiveLattices.EtArch
-public import Formalism.LocalToGlobal.ProjectiveLattices.Adm3OfExtension
-public import Development.AbelianVarietyTheory.Proofs.TorusSplitting.EtaProductFormValuationBoundStatement
-public import Development.AbelianVarietyTheory.Proofs.TorusSplitting.ExistsProductCuspFormNeZeroArchSupNormBoundsStatement
-public import Formalism.LocalToGlobal.ProjectiveLattices.FreeBridge
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle040
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle042
+public import Development.AbelianVarietyTheory.Proofs.TorusSplitting.EtaProductFormValuationBound
+public import Development.AbelianVarietyTheory.Proofs.TorusSplitting.ExistsProductCuspFormNeZeroArchSupNormBounds
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle035
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

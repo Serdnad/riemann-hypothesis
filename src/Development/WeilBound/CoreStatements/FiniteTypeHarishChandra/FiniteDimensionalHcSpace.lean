@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PadicSubsetSums.CentralIdempotents.IsConstituent
+public import Formalism.PadicSubsetSums.CentralIdempotents.Bundle001
 public import Mathlib.LinearAlgebra.Matrix.Permutation
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

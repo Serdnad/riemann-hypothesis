@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.CyclicStrongAtCusp
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.WeightChange
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle023
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -72,15 +72,15 @@ def LocTrans : Prop :=
 
 def DetCent : Prop :=
   ∀ (F Ω : Type) [Field F] [NumberField F] [IsTotallyReal F] [Field Ω] [Algebra F Ω] [IsAlgClosure F Ω] (l : ℕ) [Fact l.Prime] (ι : Qbar l ≃+* ℂ)
-    (ξ : G F Ω →* (Qbar l)ˣ) (s : ℤ) (π : TR.CuspSub F 2) (r : G F Ω →* GL (Fin 2) (Qbar l)), AttR ι r π →
-    Matrix.GeneralLinearGroup.det.comp r = cycBar F Ω l ^ s * ξ → IsOpen (ξ.ker : Set (G F Ω)) →
+    (ξ : _root_.Formalism.ConjugateSelfDual.G F Ω →* (Qbar l)ˣ) (s : ℤ) (π : TR.CuspSub F 2) (r : _root_.Formalism.ConjugateSelfDual.G F Ω →* GL (Fin 2) (Qbar l)), AttR ι r π →
+    Matrix.GeneralLinearGroup.det.comp r = cycBar F Ω l ^ s * ξ → IsOpen (ξ.ker : Set (_root_.Formalism.ConjugateSelfDual.G F Ω)) →
     ∀ ω : HChar F, (∀ (z : Ideles F), ∀ φ ∈ π.V, ∀ g, φ.1 (Matrix.GeneralLinearGroup.scalar (Fin 2) z * g) = ((ω.1 z : ℂˣ) : ℂ) * φ.1 g) →
     ∀ w : Pl F, (∃ N : ℕ, 0 < N ∧ (((ω.loc w (atFin w (unif w)) : ℂˣ) : ℂ) * (normV w : ℂ) ^ (s + 1)) ^ N = 1) ∧
-      ∀ A : ValuationSubring Ω, IsPlaceOver A w → (∀ x, IsUnitAt w x → ω.loc w x = 1) → Ine (F := F) A ≤ ξ.ker
+      ∀ A : ValuationSubring Ω, _root_.Formalism.ConjugateSelfDual.IsPlaceOver A w → (∀ x, IsUnitAt w x → ω.loc w x = 1) → Ine (F := F) A ≤ ξ.ker
 
 def OrdPlain : Prop :=
   ∀ (F Ω : Type) [Field F] [NumberField F] [IsTotallyReal F] [Field Ω] [Algebra F Ω] [IsAlgClosure F Ω] (l : ℕ) [Fact l.Prime] (ι : Qbar l ≃+* ℂ)
-    (ξ : G F Ω →* (Qbar l)ˣ) s c m a (π : TR.CuspSub F 2) (r : G F Ω →* GL (Fin 2) (Qbar l)), OrdForm ι ξ s c m a π r →
+    (ξ : _root_.Formalism.ConjugateSelfDual.G F Ω →* (Qbar l)ˣ) s c m a (π : TR.CuspSub F 2) (r : _root_.Formalism.ConjugateSelfDual.G F Ω →* GL (Fin 2) (Qbar l)), OrdForm ι ξ s c m a π r →
     ∀ v σ, π.IsLocComp v σ → GlobalTheory.RoadU.PlainTor (IrrGL.of σ.ρ σ.smooth σ.irred) ∨ ∃ B, π.HasSat v B
 
 end UpperTheory.V.Z.Win.Birth

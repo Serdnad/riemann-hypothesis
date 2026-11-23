@@ -1,9 +1,9 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsSncPatchRat
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle022
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.BlowupProjections.BlowupProjStatement
 public import Mathlib.NumberTheory.NumberField.Basic
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.RegAtIsLocalRingIsFractionRingStalk
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle011
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.SncChartOfSmoothCoords
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

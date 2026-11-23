@@ -1,9 +1,9 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsGramChiDerivative
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle013
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PIntegralOfBergman
 public import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.HasDerivAtDet
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle021
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PMetricChange
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

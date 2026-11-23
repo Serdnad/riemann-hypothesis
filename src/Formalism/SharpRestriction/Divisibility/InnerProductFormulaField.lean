@@ -1,7 +1,7 @@
 module
 
-public import Formalism.SharpRestriction.Divisibility.ZetaProductPairs
-public import Formalism.LocalRingCardinality.PrincipalHermitianLattice
+public import Formalism.SharpRestriction.Divisibility.Bundle002
+public import Formalism.LocalRingCardinality.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

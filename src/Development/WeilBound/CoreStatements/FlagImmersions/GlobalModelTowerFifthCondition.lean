@@ -1,10 +1,10 @@
 module
 
 public import Development.AutomorphicSpectrum.Statements.TowerExistence.GoodTowerExistsX
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsSandwichOfHodgeTateFreeStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FlatZeroFromResolutionAndGagaStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.TowerIntersectionOfSandwichSplitStatement
-public import Development.WeilBound.CoreStatements.FlagImmersions.EqOfSpecializesGenPt
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle260
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle319
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle318
+public import Development.WeilBound.CoreStatements.FlagImmersions.Bundle009
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -49,6 +49,7 @@ open GroundTheory.Heights₂.Heights.LowerBoundFree (ComponentData ComponentSett
 
 namespace RootFieldNumerics
 
+attribute [-instance] GlobalTheory.CompHt.fintypePsi in
 theorem global_model_tower_fifth_condition : Given → ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] [IsAbelianGalois ℚ E] (H : Host E) (D : Datum H) (Xo : ∀ l : Level H, Moduli D l) (l : Level H) (c : Coeff l) (Y : Model (Xo l) c (algebraMap (𝓞 c.F) c.F)) [DecidableEq (CMType H)] (T : RootTower (CMType H) (D.p + D.q)) (o : GoodOrigin Y T) (II : IntersectionSystem), IsGlobal Xo l c Y → o.Extra → IsFullIntersectionSystem II → 1 ≤ D.p → 1 ≤ D.q → T.I5 II ∧ T.I6 II := by
   intro hG E _ _ _ _ H D Xo l c Y _ T o II _ _ hII hp _
   have hG' := hG

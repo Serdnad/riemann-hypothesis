@@ -3,9 +3,9 @@ module
 public import Formalism.SharpRestriction.GlobalSchurBounds.ZetaZeroFreeRegion
 public import Development.AutomorphicArithmetic.PrimitiveCosets.RecH
 public import Development.AutomorphicArithmetic.ConductorsKronecker.InertiaD
-public import Development.AutomorphicArithmetic.ConductorsKronecker.IsInertIff
+public import Development.AutomorphicArithmetic.ConductorsKronecker.Bundle001
 import Development.AutomorphicArithmetic.PrimitiveCosets.ToEBij
-public import Formalism.LocalRingCardinality.HostCls
+public import Formalism.LocalRingCardinality.Bundle002
 public import Formalism.SharpRestriction.GlobalSchurBounds.Joints
 import Formalism.SharpRestriction.RamificationFrobenius.TotientGaloisClasses.HostFacts
 import Formalism.SizeWindowBrackets.ChainSlopeWindows.GaloisMapComplexConjugation

@@ -1,15 +1,13 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.EmbedsGeneric
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ArchBetween
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.SplitComps
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.AlgebraicConstantsInRangeStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.AmpleOfSingleCoordBlockStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeCptBirationalArithVarStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HolomorphicAtlasCoordCompatStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HolomorphicInverseChartValueStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieModelPushAlongMapStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.SameOrbitOfProportionalCoordsStatement
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle013
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle008
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle124
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle156
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle172
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle141
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle033
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle052
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

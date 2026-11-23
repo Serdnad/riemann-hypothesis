@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Uniformization.SameB
+public import Development.AbelianVarietyTheory.Definitions.Uniformization.Bundle003
 public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ComparisonTorusInvariant
 public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.CompatAlongOfSquare
 import Mathlib.Algebra.Order.Floor.Extended
@@ -53,6 +53,12 @@ open CategoryTheory CategoryTheory.Limits MonoidalCategory CartesianMonoidalCate
 open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Out ReciprocityTheory.ChartRestriction.G.Geo.Tor
 open scoped CategoryTheory.Obj
 attribute [local instance] Over.cartesianMonoidalCategory
+
+noncomputable local instance (priority := high) grpObjPullbackForSurjectiveCubeBaseChange
+    {S T : Scheme.{0}} (f : T ⟶ S) (G : Over S) [GrpObj G] : GrpObj ((Over.pullback f).obj G) :=
+  letI : (Over.pullback f).Monoidal := (Over.instBraidedPullback (f := f)).toMonoidal
+  Functor.grpObjObj (F := Over.pullback f)
+
 open GlobalTheory.UU
 
 noncomputable section

@@ -3,7 +3,7 @@ module
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.ResMapBijective
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.DirichletPrimeToLPartMulLPowerPart
 public import Mathlib.RingTheory.Ideal.Height
-public import GroundTheory.ArithmeticGeometry.SchemeCohomology.RegularLocalDomain
+public import GroundTheory.ArithmeticGeometry.SchemeCohomology.Bundle002
 import Mathlib.Algebra.Module.SpanRankOperations
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,13 +1,13 @@
 module
 
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsCompletedStrictHens
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.EigLat
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle005
 public import Mathlib.AlgebraicGeometry.Morphisms.Smooth
 public import Mathlib.Basic.Complex.Basic
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.FormallySmoothSectionStalk
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.FormallySmoothSurjectiveDerivation
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.OneLeftCongr
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.SpanLinearIndependentBase
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle018
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle007
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle006
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle051
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

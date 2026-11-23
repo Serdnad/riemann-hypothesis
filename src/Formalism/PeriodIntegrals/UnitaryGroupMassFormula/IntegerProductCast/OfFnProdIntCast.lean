@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.QmStar
+public import Formalism.PeriodIntegrals.Bundle020
 public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.QuantumDetHighestWeightHolds
 public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.ShiftedGeneratorEqIteSmulAdd
 import Mathlib.Algebra.Order.Floor.Extended

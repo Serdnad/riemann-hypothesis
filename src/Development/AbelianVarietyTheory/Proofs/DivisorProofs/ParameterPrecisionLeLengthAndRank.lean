@@ -1,10 +1,9 @@
 module
 
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.SizeAbsorption.BDivXNonneg
-public import Formalism.LocalRingCardinality.DataKap
-public import Formalism.LocalRingCardinality.DataParamsT
-public import Formalism.SharpRestriction.ElevenLe
-public import Development.AutomorphicArithmetic.CyclotomicBounds.RamifiedDiscriminants.LogQdLeRd
+public import Formalism.LocalRingCardinality.Bundle005
+public import Formalism.SharpRestriction.Bundle001
+public import Development.AutomorphicArithmetic.CyclotomicBounds.RamifiedDiscriminants.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

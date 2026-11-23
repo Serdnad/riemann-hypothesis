@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.AutomorphicForms.SphericalCommutative
+public import GroundTheory.AutomorphicForms.Bundle013
 public import GroundTheory.AutomorphicForms.InductionParabolic
 public import GroundTheory.AutomorphicForms.HeckeIrreducible
 import Mathlib.Algebra.Order.Floor.Extended

@@ -1,15 +1,15 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.IsStabForm
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.IsotropicCoefficientSplitting
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.Bundle007
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.CardToMultisetEqDegree
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsBasisSpanEqOfCommensurable
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsTorusOfSelfD
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsTranslateJetNeZero
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.HermFormDiagonalEq
-import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.HermitianFormAtFrameLaws
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle068
+import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle036
 import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.TensorLatticeSelfDualSemicharacterIndex
-public import Development.AbelianVarietyTheory.Proofs.TorusSplitting.CoeffEqZeroOfOrthonormal
+public import Development.AbelianVarietyTheory.Proofs.TorusSplitting.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -69,7 +69,7 @@ open scoped Classical
 
 theorem exists_poly_scale {σ W : Type} [NormedAddCommGroup W] [NormedSpace ℂ W] (P : MvPolynomial σ ℂ) {s : ℂ}
     (hs : s ≠ 0) : ∃ P' : MvPolynomial σ ℂ, P'.support = P.support ∧
-      ∀ (u : σ → W) (F : W → ℂ) (x : W), polyDeriv P (fun l => s • u l) F x = polyDeriv P' u F x := by
+      ∀ (u : σ → W) (F : W → ℂ) (x : W), _root_.ReciprocityTheory.ChartRestriction.G.I2.polyDeriv P (fun l => s • u l) F x = _root_.ReciprocityTheory.ChartRestriction.G.I2.polyDeriv P' u F x := by
   let P' : MvPolynomial σ ℂ := ∑ m ∈ P.support,
     MvPolynomial.monomial m (s ^ Multiset.card (Finsupp.toMultiset m) * P.coeff m)
   have hc : ∀ m, P'.coeff m = s ^ Multiset.card (Finsupp.toMultiset m) * P.coeff m := by
@@ -82,7 +82,7 @@ theorem exists_poly_scale {σ W : Type} [NormedAddCommGroup W] [NormedSpace ℂ 
     ext m
     simp only [MvPolynomial.mem_support_iff, hc, ne_eq, mul_eq_zero, pow_ne_zero _ hs, false_or]
   refine ⟨P', hsup, fun u F x => ?_⟩
-  unfold polyDeriv
+  unfold _root_.ReciprocityTheory.ChartRestriction.G.I2.polyDeriv
   rw [hsup]
   refine Finset.sum_congr rfl fun m _ => ?_
   rw [ContinuousMultilinearMap.map_smul_univ _ (fun _ => s), Finset.prod_const, Finset.card_univ,
@@ -98,7 +98,7 @@ theorem exists_jet_of_periods {ι A : Type} [Fintype ι] [AddCommGroup A] (p : A
     ∃ G : EuclideanSpace ℂ ι → ℂ, Differentiable ℂ G ∧
       (∀ a v, G (v + p a) = cexp (Real.pi * I * (q * Q a : ℝ)) *
         cexp (q * Real.pi * Hf v (p a) + q * Real.pi * Hf (p a) (p a) / 2) * G v) ∧
-      polyDeriv P (fun i => s • EuclideanSpace.single i 1) G 0 ≠ 0 := by
+      _root_.ReciprocityTheory.ChartRestriction.G.I2.polyDeriv P (fun i => s • EuclideanSpace.single i 1) G 0 ≠ 0 := by
   let Y : GT ι :=
     { b := b
       integral := fun x y hx hy => by
@@ -301,7 +301,7 @@ open GlobalTheory.Dict
 
 
 open GlobalTheory.Dict.SubJet in
-theorem GlobalTheory.Dict.exists_theta_sublattice_jet_ne_zero : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (r : ℕ) (X : Data E r) (g q0 : ℕ) (hr : X.p0 + q0 = r) (bas : (Fin g ⊕ Fin g → ℤ) ≃ₗ[ℤ] X.Λ) (idx : Fin g ≃ X.Ψ × Fin r) (n : ℕ), IsSympl X bas → Even n → ∀ w : 𝓞 E, (w : E) + cc (w : E) = 1 → ∀ L : Lt E r, SelfD X L → ∀ x ∈ X.dom, X.IsOrtho x → ∀ t : ℝ, 0 < t → (∀ τ, X.c τ = t) → ∀ (𝔐 : Ideal (𝓞 E)) (M : ℕ), Odd M → 𝔐 * conjI 𝔐 = Ideal.span {(M : 𝓞 E)} → ∀ P : Harm.Poly ℂ X.Ψ q0 X.p0 (Fin n), P ≠ 0 → 3 * P.totalDegree + 2 ≤ M → ∃ F : (Fin n → Fin g → ℂ) → ℂ, Differentiable ℂ F ∧ (∀ u : Matrix (Fin n) (Fin r) E, (∀ b, u b ∈ 𝔐 • L) → ∀ z, F z = epsW X (w : E) u * cexp (-(Real.pi * ∑ b, hx X bas idx x (z b + (1 / 2 : ℂ) • pv X idx x (u b)) (pv X idx x (u b)))) * F (fun b => z b + pv X idx x (u b))) ∧ I2.polyDeriv P (letterDir X hr idx) F 0 ≠ 0 := by
+theorem GlobalTheory.Dict.exists_theta_sublattice_jet_ne_zero : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (r : ℕ) (X : Data E r) (g q0 : ℕ) (hr : X.p0 + q0 = r) (bas : (Fin g ⊕ Fin g → ℤ) ≃ₗ[ℤ] X.Λ) (idx : Fin g ≃ X.Ψ × Fin r) (n : ℕ), IsSympl X bas → Even n → ∀ w : 𝓞 E, (w : E) + cc (w : E) = 1 → ∀ L : Lt E r, SelfD X L → ∀ x ∈ X.dom, X.IsOrtho x → ∀ t : ℝ, 0 < t → (∀ τ, X.c τ = t) → ∀ (𝔐 : Ideal (𝓞 E)) (M : ℕ), Odd M → 𝔐 * conjI 𝔐 = Ideal.span {(M : 𝓞 E)} → ∀ P : Harm.Poly ℂ X.Ψ q0 X.p0 (Fin n), P ≠ 0 → 3 * P.totalDegree + 2 ≤ M → ∃ F : (Fin n → Fin g → ℂ) → ℂ, Differentiable ℂ F ∧ (∀ u : Matrix (Fin n) (Fin r) E, (∀ b, u b ∈ 𝔐 • L) → ∀ z, F z = _root_.GlobalTheory.SW.epsW X (w : E) u * cexp (-(Real.pi * ∑ b, hx X bas idx x (z b + (1 / 2 : ℂ) • pv X idx x (u b)) (pv X idx x (u b)))) * F (fun b => z b + pv X idx x (u b))) ∧ I2.polyDeriv P (letterDir X hr idx) F 0 ≠ 0 := by
   intro E _ _ _ r X g q0 hr bas idx n hs hn w hw L hL x hxd ho t ht hc 𝔐 M _ hM P hP hdeg
   have hM0 : M ≠ 0 := by omega
   have hMR : (M : ℝ) ≠ 0 := Nat.cast_ne_zero.2 hM0
@@ -410,7 +410,7 @@ theorem GlobalTheory.Dict.exists_theta_sublattice_jet_ne_zero : ∀ (E : Type) [
       simp only [hdiag, Finset.mul_sum, ← Finset.sum_add_distrib, Pi.add_apply, Pi.smul_apply, smul_eq_mul]
       exact Finset.sum_congr rfl fun _ _ => Finset.sum_congr rfl fun _ _ => by ring
     change G (Φ z) = _ * G (Φ (z + fun k => pv X idx x (u k)))
-    rw [h, hadd, epsW, hm, ← _root_.mul_assoc, ← Complex.exp_add, ← Complex.exp_add, ← Complex.exp_add]
+    rw [h, hadd, _root_.GlobalTheory.SW.epsW, hm, ← _root_.mul_assoc, ← Complex.exp_add, ← Complex.exp_add, ← Complex.exp_add]
     refine (_root_.one_mul _).symm.trans (congrArg (· * G (Φ z)) ?_)
     refine (Complex.exp_int_mul_two_pi_mul_I (M * m)).symm.trans ?_
     congr 1

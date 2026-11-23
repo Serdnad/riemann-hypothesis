@@ -1,9 +1,9 @@
 module
 
-public import Formalism.LocalToGlobal.ProjectiveLattices.DivFinOfLawA3
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle021
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.NormOrderStatement
-public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.KapFgTrdeg
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.FiniteSupportAndDensityAndAemeasurable
+public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.Bundle014
+public import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle019
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

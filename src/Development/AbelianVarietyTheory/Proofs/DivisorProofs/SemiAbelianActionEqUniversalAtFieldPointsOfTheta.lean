@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.NonemptyUWit
-public import Development.AbelianVarietyTheory.Statements.SemistableTorsion.ImmersedBy
-import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsProjectiveModel
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsActionPullbackUniversalUnitaryStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsoAbelianSchemeSemiAbelianOfCommonGenericFibreStatement
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle075
+public import Development.AbelianVarietyTheory.Statements.SemistableTorsion.Bundle001
+import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle107
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2995
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2994
 import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ObjIsAbelianSchemeDimRigidifiedSym
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -41,7 +41,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AbelianVarietyTheory.Definitions.Divisors.SharpOverIff
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle066
 
 @[expose] public section
 

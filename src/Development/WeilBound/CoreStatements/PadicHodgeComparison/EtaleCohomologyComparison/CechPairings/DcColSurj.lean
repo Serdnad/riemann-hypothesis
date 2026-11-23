@@ -1,8 +1,7 @@
 module
 
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.CechPairings.CxPairing
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.NatTransUpToSqPullbackStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.TotalComplexFlipIsomorphismStatement
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle113
 import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.CechPairings.MapHComp
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

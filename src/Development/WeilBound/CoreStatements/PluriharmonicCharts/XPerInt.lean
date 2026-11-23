@@ -1,10 +1,10 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.IsTwiceDifferentiableAt
+public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.Bundle001
 public import GroundTheory.HeightsAndTheta.Heights.Antisymmetric.Statements
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.MongeAmpereIntegralMultilinearExpansion
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle042
 public import Development.WeilBound.CoreStatements.PluriharmonicCharts.XPerPoint
-public import Development.WeilBound.CoreStatements.PluriharmonicCharts.XPolyDelta
+public import Development.WeilBound.CoreStatements.PluriharmonicCharts.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -50,8 +50,8 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import ReciprocityTheory.AnalyticForms.PlurisubharmonicFunctions.LintegralImageEqLintegralNormSqDetMul
 import ReciprocityTheory.AnalyticForms.PotentialTheory.LocDens
-import ReciprocityTheory.AnalyticForms.PotentialTheory.Partition
-import ReciprocityTheory.AnalyticForms.PotentialTheory.PotentialContDiffAt
+import ReciprocityTheory.AnalyticForms.PotentialTheory.Bundle004
+import ReciprocityTheory.AnalyticForms.PotentialTheory.Bundle006
 
 @[expose] public section
 

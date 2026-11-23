@@ -1,10 +1,10 @@
 module
 
-public import Development.WeilBound.ThetaLifts.LocalTheory.UnramifiedMultiplicityOneProportional
+public import Development.WeilBound.ThetaLifts.LocalTheory.Bundle002
 public import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.Vaceigen
 public import Development.WeilBound.CoreStatements.LocalThetaKernels.IwasMain
 public import Development.WeilBound.CoreStatements.LocalThetaKernels.Locrep
-public import Development.WeilBound.ThetaLifts.LocalTheory.UnramifiedCohomology.MemLatWIff
+public import Development.WeilBound.ThetaLifts.LocalTheory.UnramifiedCohomology.Bundle001
 public import Development.WeilBound.ThetaLifts.TowerModels.LeviAd
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -47,7 +47,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.Divisors.MatchingOfParts
-public import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.InertDef
+public import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.Bundle001
 
 @[expose] public section
 

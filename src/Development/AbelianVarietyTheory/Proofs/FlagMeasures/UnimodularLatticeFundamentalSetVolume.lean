@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.IsFundOne
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle011
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.MeasurePreservingOfBall
 public import Development.AbelianVarietyTheory.Definitions.ThetaMetrics.IsAddFundamentalDomainLatticeDomain
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsFundIpow
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle187
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsSmulMemOfMemSpanFraction
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

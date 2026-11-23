@@ -1,9 +1,9 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsConstMul
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsNumberFieldPoint
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle010
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle412
 public import Development.AbelianVarietyTheory.Statements.HyperbolicHypotheses.HypothesesInhabitedHyperbolic
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ComplexUniformisationHolds
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle253
 public import Development.WeilBound.CoreStatements.TorusUniformisation.ChowMahlerFamilies.LocallyQuasiFiniteSpMap
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -39,7 +39,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.HasBareNormDisc
+import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle012
 
 @[expose] public section
 

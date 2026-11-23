@@ -3,7 +3,7 @@ module
 public import Formalism.LocalToGlobal.HermitianColumns.InLocalDiscriminantKernel
 public import Formalism.SatakeDualWeyl.DefsCS
 public import Formalism.LocalRingCardinality.SpanPowerMembership.Spaces
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.CsApprox
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle011
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.CsGlob
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -42,8 +42,8 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.GroupCohomology.ConnNatHolds
-public import ReciprocityTheory.GroupCohomology.DEqZeroOfMemB
-public import ReciprocityTheory.GroupCohomology.PairHomFCoeOfId
+public import ReciprocityTheory.GroupCohomology.Bundle002
+public import ReciprocityTheory.GroupCohomology.Bundle005
 
 @[expose] public section
 

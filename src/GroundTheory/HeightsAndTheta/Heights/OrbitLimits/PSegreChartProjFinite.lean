@@ -1,9 +1,9 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.StSegreChartProjFinite
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StatementsConeAvoid
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PConeAvoidsFinite
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PFiniteProjHomInjective
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle018
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle030
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle066
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle044
 public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.PSegreChartDim
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -47,7 +47,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterFib
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle009
 
 @[expose] public section
 

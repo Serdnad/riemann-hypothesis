@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.LocalFields.LowerIndex
+public import GroundTheory.LocalFields.Bundle007
 public import Mathlib.MeasureTheory.Integral.IntervalIntegral.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

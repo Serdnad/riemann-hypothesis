@@ -3,7 +3,7 @@ module
 public import Mathlib.CategoryTheory.Abelian.Projective.Dimension
 public import Mathlib.RingTheory.QuotSMulTop
 public import Mathlib.RingTheory.RegularLocalRing.Defs
-public import GroundTheory.ArithmeticGeometry.SchemeCohomology.RegularLocalDomain
+public import GroundTheory.ArithmeticGeometry.SchemeCohomology.Bundle002
 public import GroundTheory.ArithmeticGeometry.SchemeCohomology.RegularUFDSerre
 import Mathlib.Algebra.Category.ModuleCat.Projective
 import Mathlib.Algebra.Module.StablyFree.Basic

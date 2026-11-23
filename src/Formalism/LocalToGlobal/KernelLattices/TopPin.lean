@@ -2,7 +2,7 @@ module
 
 public import Formalism.LocalToGlobal.KernelLattices.FirstKernelLawReading
 public import Formalism.LocalToGlobal.Columns.ChainInstY
-public import Formalism.LocalToGlobal.Columns.ChainTwFrA
+public import Formalism.LocalToGlobal.Columns.Bundle040
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

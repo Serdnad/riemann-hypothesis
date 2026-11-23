@@ -1,12 +1,12 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.StPtsSegreChartFibreSum
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.StSegreChartZeroSet
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.StSegreChartProjFinite
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle020
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle010
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle018
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterSheetA
 public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Assembly
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PDiscriminantSheetCover
-import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PFibreBound
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle094
+import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle029
 public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.PSegreChartDim
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -50,7 +50,7 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Algebra.MvPolynomial
 import Mathlib.Topology.Sheaves.Init
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterFib
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle009
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterSheet
 
 @[expose] public section
@@ -234,7 +234,7 @@ theorem isSectionOn_ofWeight_one {P : Ideal (MRing ι)} (hP : P.IsPrime) (g : ((
   simp
 
 theorem term_eq {e m : ℕ} {P : Ideal (MRing ι)} {σ : Fin m ≃ ((k : K) → ι k)} {i : (k : K) → ι k}
-    {L : Fin e → HermLine ι} {g : ((Σ k, ι k) → ℂ) → ℝ}
+    {L : Fin e → _root_.ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι} {g : ((Σ k, ι k) → ℂ) → ℝ}
     {Ψ : (((k : K) → ι k) → ℂ) →ₗ[ℂ] (Fin (e + 1) → ℂ)}
     (hMH : IsMultiHomogIdeal P) (hPp : P.IsPrime) (hL : ∀ j, IsSmoothHerm (L j)) (hg : IsDegZeroSmooth g)
     (hΨ0 : ∀ w, Ψ w 0 = w i)

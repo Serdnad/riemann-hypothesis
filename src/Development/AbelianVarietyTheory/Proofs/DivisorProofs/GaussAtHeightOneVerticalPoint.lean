@@ -1,10 +1,10 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.SubsetSpanBy
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AbelianSchemeDescentDataChartsCommonStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3043
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EqZeroOfEmbeddings
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsVertOfMem
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GaussPropertySemiAbelianFlatBaseChangeDvrStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2722
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3294
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -48,7 +48,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsNatDiagIffIsDiag
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.SumMulEqZeroOfSumToReal
-import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.SiegelToroidalIntegral
+import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.Bundle012
 
 @[expose] public section
 

@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.UnderTie
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle025
 public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.RedPEqZeroOfDiv
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.AbsNormEqOfSplitFactor
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.LatAdXMulLev
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle129
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle317
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.XiAtCongInvariant
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

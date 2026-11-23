@@ -1,10 +1,10 @@
 module
 
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.GelfandTsetlinLowering.LiftDefs
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.GelfandTsetlinLowering.Bundle002
 public import Formalism.GradedWeylDivisibility.StatementE
-public import Formalism.PeriodIntegrals.HwIrred
+public import Formalism.PeriodIntegrals.Bundle021
 import Formalism.GradedWeylDivisibility.DualWeylDominanceOf
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.FockQRowDivAdj
+public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle014
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.IsFinSetSplitPlacesCoprimeConductor
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle012
 public import Mathlib.NumberTheory.NumberField.CMField
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FiniteRingClassGroupOfConductorNeZero
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MemIntegersOfMemHatO
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ModFMulPosPrincipal
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1064
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1065
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle500
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

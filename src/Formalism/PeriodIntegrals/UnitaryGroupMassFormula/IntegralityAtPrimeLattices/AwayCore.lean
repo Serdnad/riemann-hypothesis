@@ -1,14 +1,14 @@
 module
 
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.IntegralityAtPrimeLattices.UpLatLoc0Of
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.IntegralityAtPrimeLattices.Bundle001
 public import Formalism.LocalToGlobal.GlobalTheory.EqGlobOfHat
 public import Formalism.LocalToGlobal.LatticeGeometry.GeometryDefinitions.PClassD
 import Formalism.LocalToGlobal.GlobalTheory.GL6.DiagonalSlopes.NaturalTranslateAdelicFunction
 import Formalism.LocalToGlobal.GlobalTheory.GL6.DiagonalSlopes.StabiliserOfLocalTransport
 import Formalism.LocalToGlobal.GlobalTheory.GL6.PRLocV
-import Formalism.LocalToGlobal.LatticeGeometry.GeometryDefinitions.PClassE
+import Formalism.LocalToGlobal.LatticeGeometry.GeometryDefinitions.Bundle001
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.IntegralityAtPrimeLattices.AwayLoc
-import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.CsEquiv
+import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle013
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Levelaf
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -63,7 +63,7 @@ section Gen
 variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] {n : ℕ}
 
 theorem inclE_algebraMap' (R : Type) [CommRing R] [Algebra F R] (f : F) :
-    inclE (F := F) R (algebraMap F E f) = (1 : E) ⊗ₜ[F] (algebraMap F R f) := by
+    _root_.Formalism.UG.inclE (F := F) R (algebraMap F E f) = (1 : E) ⊗ₜ[F] (algebraMap F R f) := by
   show algebraMap F E f ⊗ₜ[F] (1 : R) = _
   rw [Algebra.algebraMap_eq_smul_one, Algebra.algebraMap_eq_smul_one f, TensorProduct.smul_tmul]
 
@@ -91,42 +91,42 @@ theorem exists_not_mem_valuation_div_le_one (v0 p : HeightOneSpectrum (𝓞 F)) 
 theorem away_core (Λ : Submodule (𝓞 E) (Fin n → E)) (hΛ : Formalism.L2.GlobalTheoryTheory.Comp.IsLat Λ)
     (g1 g2 : GL (Fin n) (E ⊗[F] FiniteAdeleRing (𝓞 F) F)) (v0 : HeightOneSpectrum (𝓞 F))
     (hst : ∀ q, q ≠ v0 → ∀ z ∈ Formalism.L2.Geo.Def.PC.latV q Λ,
-      ((bc (prV (E := E) q) (g2⁻¹ * g1) : GL (Fin n) (E ⊗[F] q.adicCompletion F)) :
+      ((_root_.Formalism.UG.bc (_root_.Formalism.UG.prV (E := E) q) (g2⁻¹ * g1) : GL (Fin n) (E ⊗[F] q.adicCompletion F)) :
         Matrix (Fin n) (Fin n) (E ⊗[F] q.adicCompletion F)) *ᵥ z ∈ Formalism.L2.Geo.Def.PC.latV q Λ)
     (N : ℤ) (hN : N ≠ 0)
     (hM : ∀ z ∈ Formalism.L2.Geo.Def.PC.latV v0 Λ,
-      (fun i => inclE (F := F) (v0.adicCompletion F) ((N : ℤ) : E) *
-        ((((bc (prV (E := E) v0) (g2⁻¹ * g1) : GL (Fin n) (E ⊗[F] v0.adicCompletion F)) :
+      (fun i => _root_.Formalism.UG.inclE (F := F) (v0.adicCompletion F) ((N : ℤ) : E) *
+        ((((_root_.Formalism.UG.bc (_root_.Formalism.UG.prV (E := E) v0) (g2⁻¹ * g1) : GL (Fin n) (E ⊗[F] v0.adicCompletion F)) :
           Matrix (Fin n) (Fin n) (E ⊗[F] v0.adicCompletion F)) *ᵥ z) i)) ∈ Formalism.L2.Geo.Def.PC.latV v0 Λ)
     (s : 𝓞 F) (hs : v0.valuation F (algebraMap (𝓞 F) F s / (N : F)) ≤ 1)
     (x : Fin n → E) (hx : x ∈ Formalism.UG.CS.globLat g1 Λ) :
     (algebraMap (𝓞 F) (𝓞 E) s) • x ∈ Formalism.UG.CS.globLat g2 Λ := by
   set a : E := algebraMap F E (algebraMap (𝓞 F) F s) with ha
   have hcoe : algebraMap (𝓞 E) E (algebraMap (𝓞 F) (𝓞 E) s) = a := rfl
-  have hxs : (fun i => inclE (F := F) (FiniteAdeleRing (𝓞 F) F) (((algebraMap (𝓞 F) (𝓞 E) s) • x) i)) =
-      inclE (F := F) (FiniteAdeleRing (𝓞 F) F) a • (fun i => inclE (F := F) (FiniteAdeleRing (𝓞 F) F) (x i)) := by
+  have hxs : (fun i => _root_.Formalism.UG.inclE (F := F) (FiniteAdeleRing (𝓞 F) F) (((algebraMap (𝓞 F) (𝓞 E) s) • x) i)) =
+      _root_.Formalism.UG.inclE (F := F) (FiniteAdeleRing (𝓞 F) F) a • (fun i => _root_.Formalism.UG.inclE (F := F) (FiniteAdeleRing (𝓞 F) F) (x i)) := by
     funext i
     rw [Pi.smul_apply, Pi.smul_apply, smul_eq_mul, Algebra.smul_def, hcoe, map_mul]
   set y : Fin n → E ⊗[F] FiniteAdeleRing (𝓞 F) F :=
-    ((g1⁻¹ : GL (Fin n) _) : Matrix (Fin n) (Fin n) _) *ᵥ (fun i => inclE (F := F) (FiniteAdeleRing (𝓞 F) F) (x i))
+    ((g1⁻¹ : GL (Fin n) _) : Matrix (Fin n) (Fin n) _) *ᵥ (fun i => _root_.Formalism.UG.inclE (F := F) (FiniteAdeleRing (𝓞 F) F) (x i))
     with hy
   have hyl : y ∈ Formalism.L2.Geo.Def.PC.latA (F := F) Λ := hx
   show ((g2⁻¹ : GL (Fin n) _) : Matrix (Fin n) (Fin n) _) *ᵥ
-      (fun i => inclE (F := F) (FiniteAdeleRing (𝓞 F) F) (((algebraMap (𝓞 F) (𝓞 E) s) • x) i)) ∈
+      (fun i => _root_.Formalism.UG.inclE (F := F) (FiniteAdeleRing (𝓞 F) F) (((algebraMap (𝓞 F) (𝓞 E) s) • x) i)) ∈
     Formalism.L2.Geo.Def.PC.latA (F := F) Λ
   have e2 : ((g2⁻¹ : GL (Fin n) _) : Matrix (Fin n) (Fin n) _) *ᵥ
-      (fun i => inclE (F := F) (FiniteAdeleRing (𝓞 F) F) (x i)) =
+      (fun i => _root_.Formalism.UG.inclE (F := F) (FiniteAdeleRing (𝓞 F) F) (x i)) =
       ((g2⁻¹ * g1 : GL (Fin n) _) : Matrix (Fin n) (Fin n) _) *ᵥ y := by
     rw [hy, mulVec_mulVec, ← Units.val_mul, mul_assoc, mul_inv_cancel, mul_one]
   rw [hxs, Matrix.mulVec_smul, e2]
   apply Formalism.L2.Geo.Def.PC.lg Λ hΛ.2
   intro q
   have hz := Formalism.L2.Geo.Def.PC.pr_lat q Λ y hyl
-  have e3 : (fun i => prV (E := E) q ((inclE (F := F) (FiniteAdeleRing (𝓞 F) F) a •
+  have e3 : (fun i => _root_.Formalism.UG.prV (E := E) q ((_root_.Formalism.UG.inclE (F := F) (FiniteAdeleRing (𝓞 F) F) a •
       (((g2⁻¹ * g1 : GL (Fin n) _) : Matrix (Fin n) (Fin n) _) *ᵥ y)) i)) =
-      fun i => inclE (F := F) (q.adicCompletion F) a *
-        ((((bc (prV (E := E) q) (g2⁻¹ * g1) : GL (Fin n) (E ⊗[F] q.adicCompletion F)) :
-          Matrix (Fin n) (Fin n) (E ⊗[F] q.adicCompletion F)) *ᵥ (fun j => prV (E := E) q (y j))) i) := by
+      fun i => _root_.Formalism.UG.inclE (F := F) (q.adicCompletion F) a *
+        ((((_root_.Formalism.UG.bc (_root_.Formalism.UG.prV (E := E) q) (g2⁻¹ * g1) : GL (Fin n) (E ⊗[F] q.adicCompletion F)) :
+          Matrix (Fin n) (Fin n) (E ⊗[F] q.adicCompletion F)) *ᵥ (fun j => _root_.Formalism.UG.prV (E := E) q (y j))) i) := by
     rw [← Formalism.L2.Geo.Def.PC.pr_mulVec]
     funext i
     rw [Pi.smul_apply, smul_eq_mul, map_mul]
@@ -141,9 +141,9 @@ theorem away_core (Λ : Submodule (𝓞 E) (Fin n → E)) (hΛ : Formalism.L2.Gl
         tensInt (F := F) (q.adicCompletion F) (intOE E) (q.adicCompletionIntegers F).toSubring :=
       Subring.subset_closure (Or.inr ⟨⟨_, ho⟩, rfl⟩)
     have hNF : ((N : ℤ) : F) ≠ 0 := Int.cast_ne_zero.2 hN
-    have hid : inclE (F := F) (q.adicCompletion F) a =
+    have hid : _root_.Formalism.UG.inclE (F := F) (q.adicCompletion F) a =
         ((1 : E) ⊗ₜ[F] algebraMap F (q.adicCompletion F) (algebraMap (𝓞 F) F s / (N : F))) *
-          inclE (F := F) (q.adicCompletion F) ((N : ℤ) : E) := by
+          _root_.Formalism.UG.inclE (F := F) (q.adicCompletion F) ((N : ℤ) : E) := by
       rw [ha, show ((N : ℤ) : E) = algebraMap F E ((N : ℤ) : F) from (map_intCast _ N).symm,
         inclE_algebraMap', inclE_algebraMap', Algebra.TensorProduct.tmul_mul_tmul, one_mul, ← map_mul,
         div_mul_cancel₀ _ hNF]
@@ -151,7 +151,7 @@ theorem away_core (Λ : Submodule (𝓞 E) (Fin n → E)) (hΛ : Formalism.L2.Gl
     convert this using 1
     funext i
     rw [Pi.smul_apply, Subring.smul_def, smul_eq_mul, hid, mul_assoc]
-  · have hmem : inclE (F := F) (q.adicCompletion F) a ∈
+  · have hmem : _root_.Formalism.UG.inclE (F := F) (q.adicCompletion F) a ∈
         tensInt (F := F) (q.adicCompletion F) (intOE E) (q.adicCompletionIntegers F).toSubring :=
       Subring.subset_closure (Or.inl ⟨⟨a, ⟨algebraMap (𝓞 F) (𝓞 E) s, hcoe⟩⟩, rfl⟩)
     have := Submodule.smul_mem (Formalism.L2.Geo.Def.PC.latV q Λ) (⟨_, hmem⟩ : Formalism.L2.Geo.Def.PC.SV E q) (hst q hq _ hz)
@@ -204,13 +204,18 @@ theorem kappa_stab_dl (T : Forms0 D u) (κ : T.cls0.lev.U) :
 
 theorem lattices_away_from_place (T : Forms0 D u) : AwayLat0 T := by
   intro v v' hvv c c' γ η κ h1 h2
+  change ∀ q : HeightOneSpectrum (𝓞 D.host.F), q ≠ (T.atT.eV v).1 →
+    _root_.Formalism.UG.bc (_root_.Formalism.UG.prV (E := D.host.E) q) η.1 = 1 at h1
+  change _root_.Formalism.UG.bc (_root_.Formalism.UG.inclE (F := D.host.F)
+      (FiniteAdeleRing (𝓞 D.host.F) D.host.F)) γ.1 * (T.cls0.y c').1 =
+    (T.cls0.y c).1 * η.1 * κ.1 at h2
   have hΛ := dual_base_lattice_full T.cls0
   have hκ := kappa_stab_dl T κ
   have hne : (T.atT.eV v).1 ≠ (T.atT.eV v').1 := fun h => hvv (T.atT.eV.injective (Subtype.ext h.symm))
   have hc : Ld D u 0 (Nat.zero_le _) c = Formalism.UG.CS.globLat (T.cls0.y c).1
       (Formalism.L2.GlobalTheoryTheory.Comp.dl (sigD D) (gramN D 0 (Nat.zero_le _)) T.cls0.lev.Lb) := dual_class_lattice_eq_global T.cls0 c
   have hc' : mulLat γ.1.1 (Ld D u 0 (Nat.zero_le _) c') = Formalism.UG.CS.globLat
-      (bc (inclE (F := D.host.F) (FiniteAdeleRing (𝓞 D.host.F) D.host.F)) γ.1 * (T.cls0.y c').1)
+      (_root_.Formalism.UG.bc (_root_.Formalism.UG.inclE (F := D.host.F) (FiniteAdeleRing (𝓞 D.host.F) D.host.F)) γ.1 * (T.cls0.y c').1)
       (Formalism.L2.GlobalTheoryTheory.Comp.dl (sigD D) (gramN D 0 (Nat.zero_le _)) T.cls0.lev.Lb) := by
     ext x
     rw [mem_mul_lattice_iff, dual_class_lattice_eq_global T.cls0 c']
@@ -219,17 +224,17 @@ theorem lattices_away_from_place (T : Forms0 D u) : AwayLat0 T := by
     rw [mul_one] at this
     exact this.symm
   have hG1 : (T.cls0.y c).1⁻¹ *
-      (bc (inclE (F := D.host.F) (FiniteAdeleRing (𝓞 D.host.F) D.host.F)) γ.1 * (T.cls0.y c').1) = η.1 * κ.1 := by
+      (_root_.Formalism.UG.bc (_root_.Formalism.UG.inclE (F := D.host.F) (FiniteAdeleRing (𝓞 D.host.F) D.host.F)) γ.1 * (T.cls0.y c').1) = η.1 * κ.1 := by
     rw [h2]; group
-  have hG2 : (bc (inclE (F := D.host.F) (FiniteAdeleRing (𝓞 D.host.F) D.host.F)) γ.1 * (T.cls0.y c').1)⁻¹ *
+  have hG2 : (_root_.Formalism.UG.bc (_root_.Formalism.UG.inclE (F := D.host.F) (FiniteAdeleRing (𝓞 D.host.F) D.host.F)) γ.1 * (T.cls0.y c').1)⁻¹ *
       (T.cls0.y c).1 = κ.1⁻¹ * η.1⁻¹ := by
     rw [h2]; group
   have hS := fun q => Formalism.L2.Geo.Def.PC.stab_pr _ κ.1 hκ q
   obtain ⟨N1, hN1, hM1⟩ := loc_bound (T.atT.eV v).1 _ hΛ
-    ((bc (prV (E := D.host.E) (T.atT.eV v).1) ((T.cls0.y c).1⁻¹ *
-      (bc (inclE (F := D.host.F) (FiniteAdeleRing (𝓞 D.host.F) D.host.F)) γ.1 * (T.cls0.y c').1)) : GL _ _) : Matrix _ _ _)
+    ((_root_.Formalism.UG.bc (_root_.Formalism.UG.prV (E := D.host.E) (T.atT.eV v).1) ((T.cls0.y c).1⁻¹ *
+      (_root_.Formalism.UG.bc (_root_.Formalism.UG.inclE (F := D.host.F) (FiniteAdeleRing (𝓞 D.host.F) D.host.F)) γ.1 * (T.cls0.y c').1)) : GL _ _) : Matrix _ _ _)
   obtain ⟨N2, hN2, hM2⟩ := loc_bound (T.atT.eV v).1 _ hΛ
-    ((bc (prV (E := D.host.E) (T.atT.eV v).1) ((bc (inclE (F := D.host.F) (FiniteAdeleRing (𝓞 D.host.F) D.host.F)) γ.1 *
+    ((_root_.Formalism.UG.bc (_root_.Formalism.UG.prV (E := D.host.E) (T.atT.eV v).1) ((_root_.Formalism.UG.bc (_root_.Formalism.UG.inclE (F := D.host.F) (FiniteAdeleRing (𝓞 D.host.F) D.host.F)) γ.1 *
       (T.cls0.y c').1)⁻¹ * (T.cls0.y c).1) : GL _ _) : Matrix _ _ _)
   obtain ⟨s1, hs1p, hs1⟩ := exists_not_mem_valuation_div_le_one _ _ hne N1 hN1
   obtain ⟨s2, hs2p, hs2⟩ := exists_not_mem_valuation_div_le_one _ _ hne N2 hN2

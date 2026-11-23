@@ -4,9 +4,9 @@ public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValua
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.DivCalc
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.ThetaGen
 public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.CstDvdOfCstMulEqZero
-public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.ExistsShiftMemPowOfMulMemPow
-import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.ExpandsAtOfSucc
-import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.ExpandsAtSecIsMul
+public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.Bundle001
+import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.Bundle015
+import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.Bundle013
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

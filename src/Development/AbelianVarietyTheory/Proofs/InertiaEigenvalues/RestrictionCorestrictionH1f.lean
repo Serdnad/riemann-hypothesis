@@ -1,8 +1,8 @@
 module
 
 public import Formalism.SharpRestriction.LevelLetterCocycles.LiftingTheory
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TransferCocycleFormula
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TransferContinuousOfContinuousOn
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle029
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle028
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

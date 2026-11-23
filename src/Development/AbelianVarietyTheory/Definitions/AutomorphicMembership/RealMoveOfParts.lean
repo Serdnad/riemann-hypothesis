@@ -1,9 +1,9 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Forms
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.OfFirstStepLoc
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle035
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.SignAtBasePlaceEqEmbedding
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsUnlocalizedSaturatedState
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle568
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

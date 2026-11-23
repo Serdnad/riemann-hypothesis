@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.BorelParam
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle073
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -46,7 +46,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.HasBoundedSumsOne
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle038
 
 @[expose] public section
 

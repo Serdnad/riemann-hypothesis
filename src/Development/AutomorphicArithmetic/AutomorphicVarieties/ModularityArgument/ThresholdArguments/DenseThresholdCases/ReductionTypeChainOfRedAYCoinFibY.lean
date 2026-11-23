@@ -1,14 +1,14 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.PromodularityCaseThree
-import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.LocalRingsCompletion.dvrFinite
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.ClassicalFixedByIwahori
-import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.OffDiagonalNilpotentRankFour
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.Bundle035
+import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.LocalRingsCompletion.Bundle002
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.Bundle046
+import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.Bundle042
 import Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.CompactIntegralFields.CmplEx
 import Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.CompactIntegralFields.ContResQ
-import Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.CompactIntegralFields.FibLow
-import Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.CompactIntegralFields.IncLoc
-import Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.SpaceMap
+import Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.CompactIntegralFields.Bundle003
+import Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.CompactIntegralFields.Bundle007
+import Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.Bundle001
 import Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.ValuationCharacters.ConstOfFinite
 import Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.ValuationCharacters.ValLtIff
 import Mathlib.Algebra.Order.Floor.Extended
@@ -67,6 +67,7 @@ private theorem ch_num {x y : WithBot ℕ∞} {a b c N : ℕ} (h1 : x ≤ y + (a
     | coe y =>
       have h3 : y + b ≤ c := by exact_mod_cast h2
       exact_mod_cast (by omega : y + a < N)
+attribute [-instance] UpperTheory.V.Pr.IsCD.toIsDomain UpperTheory.V.Pr.IsCD.toIsDiscreteValuationRing UpperTheory.V.Pr.IsCD.complete in
 private theorem supp_of {Γ A R K : Type} [Group Γ] [CommRing A] [CommRing R] [CommRing K] (r : Γ →* M4 A) (f : A →+* R)
     (φ : R →+* K) (q : Ideal R) (hq : ∀ z ∈ q, φ z = 0) {S : Finset (ℤ × ℤ)} (h : redIdeal S (mapRep f r) ≤ q) :
     Supp S (mapRep (φ.comp f) r) := fun g i j hij hw => by
@@ -120,6 +121,7 @@ private theorem t3 : ({wTh, -wTh, wPs, wBe, -wAl} : Finset (ℤ × ℤ)) ∈ red
 private theorem t4 : ({wTh, -wTh, -wPs, -wBe, wAl} : Finset (ℤ × ℤ)) ∈ redTypes ∧
     ({wTh, -wTh, -wPs, -wBe, wAl} : Finset (ℤ × ℤ)) ≠ yY :=
   ⟨List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _ (List.Mem.head _))), by first | decide | (intro h; have := congrArg (fun s => -wPs ∈ s) h; simp [yY, wAl, wBe, wTh, wPs] at this)⟩
+attribute [-instance] UpperTheory.V.Pr.IsCD.toIsDomain UpperTheory.V.Pr.IsCD.toIsDiscreteValuationRing UpperTheory.V.Pr.IsCD.complete in
 private theorem ch_core4 (hRA : RedA) (hYC : YCoin) (hFY : FibY) {O Γ : Type} [CommRing O] [Group Γ] [TopologicalSpace Γ]
     [IsTopologicalGroup Γ] [CompactSpace Γ] [TotallyDisconnectedSpace Γ] {Φ : Fr O Γ} {l : ℕ} [Fact l.Prime] {Λ : Type}
     [CommRing Λ] [IsDomain Λ] [IsDiscreteValuationRing Λ] [IsAdicComplete (maximalIdeal Λ) Λ] [Finite (ResidueField Λ)]
@@ -256,6 +258,7 @@ private theorem ch_core4 (hRA : RedA) (hYC : YCoin) (hFY : FibY) {O Γ : Type} [
     show (j.comp f) (algebraMap X.B X.A (X.ψ v i s - X.ψ v i' s)) = 0
     rw [map_sub, map_sub, X.ψ_map v i s (hU v s hs), X.ψ_map v i' s (hU v s hs), hn s hs, sub_self]
 end UpperTheory.V.Cu.RankFourReductionTypeChain
+attribute [-instance] UpperTheory.V.Pr.IsCD.toIsDomain UpperTheory.V.Pr.IsCD.toIsDiscreteValuationRing UpperTheory.V.Pr.IsCD.complete in
 theorem UpperTheory.V.Cu.chain_rank_four_of_red_a_y_coin_fib_y : RedA → YCoin → FibY → _root_.UpperTheory.V.Cu.ChainRankFour := by
   intro hRA hYC hFY
   unfold _root_.UpperTheory.V.Cu.ChainRankFour

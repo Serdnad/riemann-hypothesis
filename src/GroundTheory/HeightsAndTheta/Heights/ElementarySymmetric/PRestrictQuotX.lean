@@ -1,7 +1,7 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.GenericPointSectionHypotheses
-public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.PPrimeFiltrationPoint
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle010
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle015
 public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.PRestrictTwist
 public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.TwistBundleToSubSystem
 import Mathlib.Algebra.Order.Floor.Extended

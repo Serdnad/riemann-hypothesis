@@ -1,9 +1,9 @@
 module
 
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.PerfectoidPullbacks.SplittingFieldLattices.BasisB
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.AlmostFiniteModuleBoundedTorsionStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.InverseLimitCohomologyComparisonStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SheafFiltrationProperty
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle126
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle113
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle145
 import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.CechPairings.MapHComp
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

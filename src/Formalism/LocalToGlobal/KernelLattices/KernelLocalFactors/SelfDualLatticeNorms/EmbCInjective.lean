@@ -1,8 +1,8 @@
 module
 
-public import Formalism.LocalToGlobal.KernelLattices.KerStd
+public import Formalism.LocalToGlobal.KernelLattices.Bundle003
 public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.ColInst
-public import Formalism.LocalToGlobal.AlgebraicTheory.StatementEig
+public import Formalism.LocalToGlobal.AlgebraicTheory.Bundle002
 import Formalism.LocalToGlobal.GlobalTheory.GL3.PStdOK
 public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.BaseEx
 import Mathlib.Algebra.Order.Floor.Extended

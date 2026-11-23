@@ -3,7 +3,7 @@ module
 public import Formalism.PieriBlockIdeals.StatementLR
 import Formalism.GradedWeylDivisibility.DualWeylDominanceOf
 import Formalism.GradedWeylDivisibility.FinalB
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LGradedLemmas
+public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle006
 public import Formalism.PieriBlockIdeals.PieriColumnMinors.BinaryFormsExample
 import Formalism.PieriBlockIdeals.PieriColumnMinors.DividedPowerZeroZeroVector
 import Mathlib.Algebra.Order.Floor.Extended

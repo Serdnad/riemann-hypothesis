@@ -1,6 +1,6 @@
 module
 
-public import Formalism.HermitianLattices.StatementMaj
+public import Formalism.HermitianLattices.Bundle001
 public import Mathlib.RingTheory.DedekindDomain.Ideal.Basic
 public import Mathlib.RingTheory.Length
 import Mathlib.Algebra.Order.Floor.Extended

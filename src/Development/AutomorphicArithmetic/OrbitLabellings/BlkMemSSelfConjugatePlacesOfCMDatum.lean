@@ -1,12 +1,12 @@
 module
 
 public import Development.AutomorphicArithmetic.OrbitLabellings.RowDefs
-public import Formalism.LocalToGlobal.CharacterGerms.SelfConjugateRowData
-public import Formalism.LocalToGlobal.CharacterGerms.ValBlocksCChart
-public import Formalism.LocalToGlobal.CharacterGerms.FinTwoNeOneSub
-public import Formalism.LocalToGlobal.CharacterGerms.IsWHLetterMinorK
-import Formalism.LocalToGlobal.CharacterGerms.NormOneRowDegrees
-public import Formalism.LocalToGlobal.CharacterGerms.PderivSubGOff
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle029
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle026
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle025
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle028
+import Formalism.LocalToGlobal.CharacterGerms.Bundle024
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle033
 import Formalism.LocalToGlobal.CharacterGerms.RowTieAdm
 public import Formalism.LocalToGlobal.CharacterGerms.RowTieMemCHarm
 import Formalism.LocalToGlobal.CharacterGerms.RowTieMemCInv
@@ -53,9 +53,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
-public import Formalism.LocalToGlobal.CharacterGerms.BlockMembershipNormOne
-public import Formalism.LocalToGlobal.CharacterGerms.NormOneIntegral
-public import Formalism.LocalToGlobal.CharacterGerms.NormOneRowInvariant
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle023
 
 @[expose] public section
 

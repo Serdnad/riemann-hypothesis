@@ -2,10 +2,10 @@ module
 
 public import GroundTheory.ProfiniteCohomology.PoincarePairs.IsDiscreteRepResHomCoindRes
 public import GroundTheory.TateCohomology.CochainReverse
-import GroundTheory.ProfiniteCohomology.Bridge
-import GroundTheory.ProfiniteCohomology.FilteredHomology
+import GroundTheory.ProfiniteCohomology.Bundle005
+import GroundTheory.ProfiniteCohomology.Bundle001
 public import GroundTheory.ProfiniteCohomology.PoincarePairs.ConeProduct
-public import GroundTheory.TateCohomology.CupGraded
+public import GroundTheory.TateCohomology.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.EqMulProdOfPartial
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContinuousOnAtTau
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SubstitutionTotalDegreeLe
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle196
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle313
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle193
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

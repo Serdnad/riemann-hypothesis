@@ -1,13 +1,12 @@
 module
 
-public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.DefsObj
-public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.CapZcMemOfE
-public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.ClsBasic
-public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.DiracSep
-public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.FormsIrr
-public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.InfZcCoeff
-public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.LactCenGen
-public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.KernelTransforms.ExpGen
+public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.Bundle001
+public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.Bundle005
+public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.Bundle002
+public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.Bundle003
+public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.Bundle004
+public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.Bundle006
+public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.KernelTransforms.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

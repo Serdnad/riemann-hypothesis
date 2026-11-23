@@ -2,7 +2,7 @@ module
 
 public import Mathlib.LinearAlgebra.Matrix.SpecialLinearGroup
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsIsSymplecticBasisToMatrixOffDiagDvd
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Sl2CentralExtensionCommutatorSqStatement
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle108
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -50,8 +50,8 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.Foundations.ExpUpper
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.DiagMod
+import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle001
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle023
 
 @[expose] public section
 

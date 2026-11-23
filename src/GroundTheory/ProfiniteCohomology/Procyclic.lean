@@ -1,7 +1,7 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.ProcyclicDefs
-public import GroundTheory.ProfiniteCohomology.ContinuousCochains
+public import GroundTheory.ProfiniteCohomology.Bundle001
+public import GroundTheory.ProfiniteCohomology.Bundle005
 public import GroundTheory.ProfiniteCohomology.ContinuousCochains.Functoriality
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

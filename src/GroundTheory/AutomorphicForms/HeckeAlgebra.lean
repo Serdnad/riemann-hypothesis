@@ -1,12 +1,12 @@
 module
 
 public import GroundTheory.AutomorphicForms.SmoothRep
-public import GroundTheory.AutomorphicForms.LocallyConstantCompact
+public import GroundTheory.AutomorphicForms.Bundle005
 public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Mathlib.Analysis.InnerProductSpace.Basic
 public import Mathlib.MeasureTheory.Integral.Bochner.Basic
 import Aesop.Main
-public import GroundTheory.AutomorphicForms.HaarCosets
+public import GroundTheory.AutomorphicForms.Bundle008
 import GroundTheory.AutomorphicForms.LocallyProfinite
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended

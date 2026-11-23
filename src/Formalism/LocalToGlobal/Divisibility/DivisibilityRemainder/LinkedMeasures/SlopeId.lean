@@ -2,7 +2,7 @@ module
 
 public import Formalism.SharpRestriction.AdmissibleParameterJoins.SumLogPrimeFactorsLe
 public import Formalism.SharpRestriction.ParamsHeightRankConstant
-public import Formalism.LocalToGlobal.Divisibility.RecBridgeWire
+public import Formalism.LocalToGlobal.Divisibility.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

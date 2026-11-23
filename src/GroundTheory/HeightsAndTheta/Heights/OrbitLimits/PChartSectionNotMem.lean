@@ -1,8 +1,8 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.StChartSection
-public import ReciprocityTheory.AnalyticForms.RegularLocalRings.IsOpenAlt
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.IsSmoothMetricOfIsSmoothHerm
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle011
+public import ReciprocityTheory.AnalyticForms.RegularLocalRings.Bundle007
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle041
 public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.PSegreChartDim
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -49,7 +49,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import ReciprocityTheory.AnalyticForms.RegularLocalRings.ConeChartA
-import ReciprocityTheory.AnalyticForms.RegularLocalRings.IntToRat
+import ReciprocityTheory.AnalyticForms.RegularLocalRings.Bundle012
 import ReciprocityTheory.CommutativeAlgebra.PolynomialHeights.HeightAddRingKrullDimQuotientMvPolynomialField
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.KleimanNefness.AlgDim
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterBridgeB

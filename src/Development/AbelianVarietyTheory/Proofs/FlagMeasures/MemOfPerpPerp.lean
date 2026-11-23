@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.ChartGen
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle003
 public import Formalism.SharpRestriction.CuspSpanNormBounds.CntPartners
 public import Formalism.HermitianLattices.HermitianLatticesProofs.DualBasic
 public import Formalism.HermitianLattices.HermitianLatticesProofs.DualLattice

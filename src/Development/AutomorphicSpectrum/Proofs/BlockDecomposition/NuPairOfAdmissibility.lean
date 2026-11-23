@@ -1,28 +1,28 @@
 module
 
-public import Development.WeilBound.RepresentationTheoryGL.GenericUnitaryGL.SegmentDerivatives.CuspPairSubGeneric
+public import Development.WeilBound.RepresentationTheoryGL.GenericUnitaryGL.SegmentDerivatives.Bundle001
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ProductTransposeInverseDualReverse
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.WhitKerLeComapMap
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle297
 public import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.MirabolicDerivatives.ColMatMulGlEmbMat
 public import GroundTheory.LocalFields.PadicLogSeries
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NontrivialTwJacquetOfSurjective
 import Development.AbelianVarietyTheory.Proofs.SatakeParameters.SmoothContragredientIrreducibleAndReflexive
 import Development.AbelianVarietyTheory.Proofs.SatakeParameters.UnitarisableOfSquareIntegrable
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.JhMultSubAddQuot
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ContinuousInvAddChar
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.DerivativeJacquetTwistedQuotientStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.DualClassTwistNeg
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.GelfandKazhdanContragredient
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsSmoothIterPhi
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.JacquetMultiplicityOfEquiv
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.JacquetThetaReverseBlocksStatement
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LocalLanglandsOfIrreducibleAdmissible
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.PairingTwistedDeterminantSubquotientStatement
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.TransposeInverseInvolutionApply
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.WhittakerKernelPullbackJacquetStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.WhittakerTwoBlockInjectiveIrreducibleStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.WhittakerTwoBlockSubquotientTensorStatement
-import Development.AutomorphicSpectrum.Proofs.GlobalProofs.BernsteinZelevinskyFiniteness
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle312
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle373
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle344
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle347
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle584
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle342
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle680
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle396
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle595
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle346
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle471
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle661
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle662
+import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle048
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -64,7 +64,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.HasFiniteLengthOfIsIrreducible
-import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.MirabolicDerivatives.SegmentCuspLines.ProdIrrFiniteLength
+import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.MirabolicDerivatives.SegmentCuspLines.Bundle001
 import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.ZelevinskyJacquet.ZelevinskyCosocles.LUnlinkedComm
 
 @[expose] public section
@@ -97,7 +97,7 @@ theorem equiv_of_ker {G V D Q : Type} [Group G] [AddCommGroup V] [Module ℂ V] 
     [AddCommGroup Q] [Module ℂ Q] (ρ : Representation ℂ G D) (σ : Representation ℂ G Q) (χ : G →* ℂˣ)
     (q : V →ₗ[ℂ] D) (r : V →ₗ[ℂ] Q) (hqs : Function.Surjective q) (hrs : Function.Surjective r)
     (hk : LinearMap.ker r = LinearMap.ker q) (A : G → V → V) (hq : ∀ g v, q (A g v) = ρ g (q v))
-    (hr : ∀ g v, σ g (r v) = (((χ g)⁻¹ : ℂˣ) : ℂ) • r (A g v)) : Nonempty (ρ.Equiv (twist σ χ)) := by
+    (hr : ∀ g v, σ g (r v) = (((χ g)⁻¹ : ℂˣ) : ℂ) • r (A g v)) : Nonempty (ρ.Equiv (_root_.GlobalTheory.SmGL.twist σ χ)) := by
   let E := (q.quotKerEquivOfSurjective hqs).symm.trans
     ((Submodule.quotEquivOfEq _ _ hk.symm).trans (r.quotKerEquivOfSurjective hrs))
   have hE : ∀ v, E (q v) = r v := by
@@ -111,24 +111,24 @@ theorem equiv_of_ker {G V D Q : Type} [Group G] [AddCommGroup V] [Module ℂ V] 
   refine LinearMap.ext fun x => ?_
   obtain ⟨v, rfl⟩ := hqs x
   simp only [LinearMap.comp_apply, LinearEquiv.coe_coe]
-  rw [← hq, hE, hE, twist_apply, hr, smul_smul]
+  rw [← hq, hE, hE, _root_.GlobalTheory.SmGL.twist_apply, hr, smul_smul]
   rw [show ((χ g : ℂˣ) : ℂ) * ((((χ g)⁻¹ : ℂˣ) : ℂˣ) : ℂ) = 1 by rw [← Units.val_mul, mul_inv_cancel, Units.val_one], one_smul]
 
 
 theorem deriv_equiv (ψ : AddChar k Circle) (n j : ℕ) {V : Type} [AddCommGroup V] [Module ℂ V]
     (π : Representation ℂ (GL (Fin (n + j + 1)) k) V) (hd : ∑ a, (![n, j + 1] a) = n + j + 1) :
     Nonempty ((GlobalTheory.BZMir.deriv k ψ j π).Equiv
-      (twist (whit2 ψ ![n, j + 1] (jac (stdBlocks ![n, j + 1] hd) π)) (detChar (Fin n) (absPow k (((j : ℂ) + 1) / 2))))) := by
+      (_root_.GlobalTheory.SmGL.twist (whit2 ψ ![n, j + 1] (_root_.GlobalTheory.SmGL.jac (stdBlocks ![n, j + 1] hd) π)) (detChar (Fin n) (absPow k (((j : ℂ) + 1) / 2))))) := by
   obtain ⟨q, hqs, hqk, hqg⟩ := GlobalTheory.T.derivative_jacquet_twisted_quotient k ψ n j V π hd
   have hcm := GlobalTheory.T.whittaker_kernel_pullback_jacquet k ψ n j V π hd
-  refine equiv_of_ker _ _ _ q ((whitKer ψ ![n, j + 1] (jac (stdBlocks ![n, j + 1] hd) π)).mkQ ∘ₗ
+  refine equiv_of_ker _ _ _ q ((whitKer ψ ![n, j + 1] (_root_.GlobalTheory.SmGL.jac (stdBlocks ![n, j + 1] hd) π)).mkQ ∘ₗ
       (twKer π (unipRad k (stdBlocks ![n, j + 1] hd)) 1).mkQ) hqs
     ((Submodule.mkQ_surjective _).comp (Submodule.mkQ_surjective _)) ?_
     (fun g v => π (leviEmb k (stdBlocks ![n, j + 1] hd) (firstEmb ![n, j + 1] g)) v) hqg ?_
   · rw [hqk, ← hcm, LinearMap.ker_comp, Submodule.ker_mkQ]
   · intro g v
-    show Submodule.Quotient.mk (jac (stdBlocks ![n, j + 1] hd) π (firstEmb ![n, j + 1] g) (Submodule.Quotient.mk v)) = _
-    rw [jac_mk, ← deltaHalf_firstEmb]
+    show Submodule.Quotient.mk (_root_.GlobalTheory.SmGL.jac (stdBlocks ![n, j + 1] hd) π (firstEmb ![n, j + 1] g) (Submodule.Quotient.mk v)) = _
+    rw [_root_.GlobalTheory.SmGL.jac_mk, ← deltaHalf_firstEmb]
     rfl
 
 theorem isSubquotient_of_comp {G H V W : Type} [Group G] [Group H] [AddCommGroup V] [Module ℂ V] [AddCommGroup W]
@@ -194,32 +194,32 @@ theorem jm_contra (hA : GlobalTheory.Published.IrreducibleAdmissibleGL) (N : ℕ
 
 theorem isSubquotient_twist {G V W : Type} [Group G] [AddCommGroup V] [Module ℂ V] [AddCommGroup W] [Module ℂ W]
     {σ : Representation ℂ G W} {ρ : Representation ℂ G V} (h : IsSubquotient σ ρ) (χ : G →* ℂˣ) :
-    IsSubquotient (twist σ χ) (twist ρ χ) := by
+    IsSubquotient (_root_.GlobalTheory.SmGL.twist σ χ) (_root_.GlobalTheory.SmGL.twist ρ χ) := by
   obtain ⟨T, f, hf⟩ := h
-  let T' : Subrepresentation (twist ρ χ) := ⟨T.toSubmodule, fun g v hv => by
-    rw [twist_apply]
+  let T' : Subrepresentation (_root_.GlobalTheory.SmGL.twist ρ χ) := ⟨T.toSubmodule, fun g v hv => by
+    rw [_root_.GlobalTheory.SmGL.twist_apply]
     exact T.toSubmodule.smul_mem _ (T.apply_mem_toSubmodule g hv)⟩
   refine ⟨T', .mk f.toLinearMap fun g => ?_, hf⟩
   ext v
   have e : T'.toRepresentation g v = ((χ g : ℂˣ) : ℂ) • T.toRepresentation g v :=
-    Subtype.ext (by simp [twist_apply]; rfl)
+    Subtype.ext (by simp [_root_.GlobalTheory.SmGL.twist_apply]; rfl)
   have h2 := f.isIntertwining _ _ g v
-  simp only [LinearMap.comp_apply, twist_apply, LinearMap.smul_apply]
+  simp only [LinearMap.comp_apply, _root_.GlobalTheory.SmGL.twist_apply, LinearMap.smul_apply]
   erw [e]
   rw [map_smul]
   erw [h2]
   rfl
 
 theorem isSubquotient_untwist {G V W : Type} [Group G] [AddCommGroup V] [Module ℂ V] [AddCommGroup W] [Module ℂ W]
-    {σ : Representation ℂ G W} {ρ : Representation ℂ G V} {χ χ' : G →* ℂˣ} (h : IsSubquotient σ (twist ρ χ))
-    (hm : χ' * χ = 1) : IsSubquotient (twist σ χ') ρ := by
+    {σ : Representation ℂ G W} {ρ : Representation ℂ G V} {χ χ' : G →* ℂˣ} (h : IsSubquotient σ (_root_.GlobalTheory.SmGL.twist ρ χ))
+    (hm : χ' * χ = 1) : IsSubquotient (_root_.GlobalTheory.SmGL.twist σ χ') ρ := by
   have h2 := isSubquotient_twist h χ'
-  have e : twist (twist ρ χ) χ' = ρ := by
+  have e : _root_.GlobalTheory.SmGL.twist (_root_.GlobalTheory.SmGL.twist ρ χ) χ' = ρ := by
     ext g v
     have : ((χ' g : ℂˣ) : ℂ) * ((χ g : ℂˣ) : ℂ) = 1 := by
       have := congrArg (fun f : G →* ℂˣ => ((f g : ℂˣ) : ℂ)) hm
       simpa using this
-    simp [twist_apply, smul_smul, this]
+    simp [_root_.GlobalTheory.SmGL.twist_apply, smul_smul, this]
   rwa [e] at h2
 
 theorem sumTwo (n j : ℕ) : ∑ a, (![n, j + 1] a) = n + j + 1 := by
@@ -232,10 +232,10 @@ theorem deriv_irr_sub (ψ : AddChar k Circle) (hc : Continuous ψ) (n j : ℕ) {
   have hd := sumTwo n j
   obtain ⟨E⟩ := deriv_equiv ψ n j π hd
   have hJs := isSmooth_jac (stdBlocks ![n, j + 1] hd) hs
-  have hJf : HasFiniteLength (jac (stdBlocks ![n, j + 1] hd) π) :=
+  have hJf : HasFiniteLength (_root_.GlobalTheory.SmGL.jac (stdBlocks ![n, j + 1] hd) π) :=
     (GlobalTheory.CompanionTheory.Published.bernsteinZelevinskyFiniteness k).2.1 (Fin 2) (Fin (n + j + 1)) (fun a => Fin (![n, j + 1] a)) (stdBlocks ![n, j + 1] hd) V π hs
       (hasFiniteLength_of_isIrreducible hi)
-  have hnt' : Nontrivial (_ ⧸ whitKer ψ ![n, j + 1] (jac (stdBlocks ![n, j + 1] hd) π)) :=
+  have hnt' : Nontrivial (_ ⧸ whitKer ψ ![n, j + 1] (_root_.GlobalTheory.SmGL.jac (stdBlocks ![n, j + 1] hd) π)) :=
     E.toLinearEquiv.symm.toEquiv.nontrivial
   obtain ⟨S, f, hf⟩ := GlobalTheory.T.whittaker_two_block_injective_irreducible k ψ hc ![n, j + 1] _ _ hJs hJf hnt'
   let χ := detChar (Fin n) (absPow k (((j : ℂ) + 1) / 2))
@@ -251,7 +251,7 @@ theorem deriv_jm (ψ : AddChar k Circle) (hc : Continuous ψ) (n j : ℕ) {V : T
   have hd := sumTwo n j
   obtain ⟨E⟩ := deriv_equiv ψ n j π hd
   have hJs := isSmooth_jac (stdBlocks ![n, j + 1] hd) hs
-  have hJf : HasFiniteLength (jac (stdBlocks ![n, j + 1] hd) π) :=
+  have hJf : HasFiniteLength (_root_.GlobalTheory.SmGL.jac (stdBlocks ![n, j + 1] hd) π) :=
     (GlobalTheory.CompanionTheory.Published.bernsteinZelevinskyFiniteness k).2.1 (Fin 2) (Fin (n + j + 1)) (fun a => Fin (![n, j + 1] a)) (stdBlocks ![n, j + 1] hd) V π hs
       (hasFiniteLength_of_isIrreducible hi)
   let χ := detChar (Fin n) (absPow k (((j : ℂ) + 1) / 2))
@@ -260,7 +260,7 @@ theorem deriv_jm (ψ : AddChar k Circle) (hc : Continuous ψ) (n j : ℕ) {V : T
   have hmul : χ' * χ = 1 := by
     ext g
     simp [χ, χ', detChar, absPow_neg]
-  have h1 : IsSubquotient S.ρ (twist (whit2 ψ ![n, j + 1] (jac (stdBlocks ![n, j + 1] hd) π)) χ) :=
+  have h1 : IsSubquotient S.ρ (_root_.GlobalTheory.SmGL.twist (whit2 ψ ![n, j + 1] (_root_.GlobalTheory.SmGL.jac (stdBlocks ![n, j + 1] hd) π)) χ) :=
     hS.trans (IsSubquotient.of_injective E.toIntertwiningMap E.injective)
   have h2 := isSubquotient_untwist h1 hmul
   obtain ⟨s, hsub, ⟨e0⟩⟩ := GlobalTheory.T.whittaker_two_block_subquotient_tensor k ψ hc ![n, j + 1] _ _ hJs hJf (irrTwist S χ' hχ') h2

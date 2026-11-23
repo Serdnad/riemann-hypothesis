@@ -1,10 +1,9 @@
 module
 
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsSmoothHermCombLine
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HermRepDualInverse
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle435
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HermRepTensorPower
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HermRepTensorProduct
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HermRepTrivialLineBundle
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle434
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -119,3 +118,17 @@ theorem readComb : ReadComb := by
     exact (if_pos hz).symm
 
 end GlobalTheory.CompanionTheory.MixZ
+
+end
+end
+
+section
+
+@[expose] public section
+
+
+theorem _root_.GlobalTheory.T.mixed_cycle_read_combination : GlobalTheory.CompanionTheory.MixZ.ReadComb := by
+  first | exact @GlobalTheory.CompanionTheory.MixZ.readComb | exact GlobalTheory.CompanionTheory.MixZ.readComb | (intros; apply GlobalTheory.CompanionTheory.MixZ.readComb <;> assumption)
+
+end
+end

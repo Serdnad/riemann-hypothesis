@@ -1,7 +1,7 @@
 module
 
 public import Mathlib.RingTheory.DedekindDomain.AdicValuation.Completion
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CompletionBaseChangePlaces
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle435
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -45,10 +45,10 @@ import Mathlib.Topology.Connected.Separation
 import Mathlib.Topology.MetricSpace.Ultra.TotallySeparated
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.ExistsNotCongPow
-import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.LabelDatum
+import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle010
 import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.NonemptyEquivOfRangeEq
 import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.HasExponentZeroIff
-import Formalism.ConjugateSelfDual.Statement
+import Formalism.ConjugateSelfDual.Bundle001
 import ReciprocityTheory.GaloisValuations.GlobalA
 
 @[expose] public section

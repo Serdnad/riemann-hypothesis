@@ -2,9 +2,7 @@ module
 
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsFiniteClass
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsContinuousPadic
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.DoubleCosetOperatorTranslateDeeperLevelEqSmulStatement
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.EquivariantIsoOfTranslationStableGraphStatement
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsDeeperCongruenceConjIntoCongruenceStatement
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle285
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -45,10 +43,10 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.NStageTrivialCharacterCoeffEqAlt
-import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.ExistsReadingLaws
-import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.RankOneUnitary
-import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.ThetaMod
+import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle003
+import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle008
+import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle007
+import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle022
 import Formalism.LocalToGlobal.NormalizedHeckeFactors.TypesDefs
 import Formalism.LocalToGlobal.UnitaryNorms.IsUnitaryNormOf
 

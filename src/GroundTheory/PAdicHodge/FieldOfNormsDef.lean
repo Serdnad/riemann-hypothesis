@@ -42,9 +42,9 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-import GroundTheory.LocalFields.FormalGroups.Truncation
-public import GroundTheory.PAdicHodge.FieldOfNormsAPF
-public import GroundTheory.PAdicHodge.FieldOfNormsTower
+import GroundTheory.LocalFields.FormalGroups.Bundle001
+public import GroundTheory.PAdicHodge.Bundle014
+public import GroundTheory.PAdicHodge.Bundle008
 
 @[expose] public section
 

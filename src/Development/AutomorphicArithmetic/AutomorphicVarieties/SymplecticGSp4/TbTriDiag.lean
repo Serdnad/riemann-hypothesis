@@ -1,22 +1,21 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.BlochKatoSelmerVanishes
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.LocalPublishedTheorems
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.Bundle004
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.Bundle011
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.DecompSigmaOrd
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.DecompositionGroupEquivLocalGaloisGroup
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.BkAbove
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.CrystallineTransferSurjection
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.DecEmb
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle716
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.Bundle028
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.Bundle034
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.Bundle031
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.FrobFree
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.IotaFacts
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.Bundle015
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.SpFlag
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.SplAdjUnit
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.Z1fCoef
-import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.CopNormLt
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.EptInt
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.Bundle009
+import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Bundle007
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Bundle016
 import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.LMemMax
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.OrdLocal
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.PtInSmul
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -66,6 +65,8 @@ import Mathlib.Topology.MetricSpace.Ultra.TotallySeparated
 import Mathlib.Topology.Separation.CompletelyRegular
 
 @[expose] public section
+
+attribute [local instance 2000] _root_.DivisionSemiring.to_moduleIsTorsionFree
 
 open NumberField IsDedekindDomain Formalism.ConjugateSelfDual ReciprocityTheory.Gal IsLocalRing UpperTheory.V UpperTheory.V.Base UpperTheory.V.Alg UpperTheory.V.HV UpperTheory.V.GradeZeroInterpolatingElement
 
@@ -257,6 +258,8 @@ private theorem tb_loc (hP : Loc.LocalPublishedTheorems) {l : ℕ} [Fact l.Prime
     (h3 : ∀ i, ∀ g ∈ U, φ g ∈ Loc.Iq l → κ i g = Loc.cycA l l (DualNumber E) (φ g) ^ w i)
     (h4 : ∀ i j, i < j → ∃ g ∈ U, (κ i g : DualNumber E).fst ≠ (κ j g : DualNumber E).fst * (Loc.cycA l l E (φ g) : E)) :
     (fun g => tbSnd (r' g) * r g⁻¹) ∈ Loc.finiteCocycles φ (Loc.adGL r.toHomUnits) := by
+  haveI : Module.Finite ℚ_[l] (M4 E) :=
+    inferInstanceAs (Module.Finite ℚ_[l] (Fin 4 → Fin 4 → E))
   haveI : IsModuleTopology ℚ_[l] (M4 E) := inferInstanceAs (IsModuleTopology ℚ_[l] (Fin 4 → Fin 4 → E))
   have hri : Continuous fun g => r g⁻¹ := hr.comp continuous_inv
   refine (Loc.pr6 hP φ hφ (Loc.adGL r.toHomUnits) ?_ _ ⟨hr'.matrix_mul hri, tb_coc r r' h⟩ U hU
@@ -306,7 +309,7 @@ private theorem tb_place (D : Raw Ω c) (hD : D.Good) (K : Type) [CommRing K] [A
     rw [← hj]
     exact ((Loc.iotaFacts j).2.2.2.2.2.1 w).2 hp2
   · refine ⟨placeOf Ω w, D.rbar.ker, isPlaceOver_placeOf Ω w, f2, fun g hg hg' => hu _ (fun p hp hv => ?_) g hg hg'⟩
-    have h1 : ((p : ℕ) : 𝓞 ℚ) ∈ w.asIdeal := (isPlaceOver_placeOf Ω w _).1 (by simpa using hv)
+    have h1 : ((p : ℕ) : 𝓞 ℚ) ∈ w.asIdeal := (isPlaceOver_placeOf Ω w _).1 (by simpa only [map_natCast] using hv)
     rcases Finset.mem_insert.1 hp with rfl | hp
     · exact hw h1
     · exact hS ⟨p, hp, h1⟩

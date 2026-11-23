@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.SmulCommClassGalIntegers
+public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.Bundle003
 public import Mathlib.Analysis.SpecialFunctions.Elliptic.Weierstrass
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

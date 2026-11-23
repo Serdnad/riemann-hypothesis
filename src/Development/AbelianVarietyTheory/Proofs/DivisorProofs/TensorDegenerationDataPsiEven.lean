@@ -1,7 +1,7 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TensorDataPsiIsEven
-import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.GlobalFnsHolds
+import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle012
 import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ValEqOfAppInjective
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -39,7 +39,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
-import Development.AbelianVarietyTheory.Definitions.Divisors.GalRigidOfSurjective
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle074
 
 @[expose] public section
 

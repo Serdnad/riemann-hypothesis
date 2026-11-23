@@ -1,6 +1,6 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsSmulMemSpanIntegers
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle017
 public import Mathlib.NumberTheory.NumberField.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

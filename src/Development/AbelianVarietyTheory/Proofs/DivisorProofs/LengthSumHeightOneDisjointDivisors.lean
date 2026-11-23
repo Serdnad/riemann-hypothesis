@@ -3,8 +3,8 @@ module
 public import Mathlib.RingTheory.Ideal.Height
 public import Mathlib.RingTheory.Length
 public import Mathlib.RingTheory.Support
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LengthCokerLsmulEqLengthKerAddSumStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LengthKerCokerLsmulQuotientSpanSwapStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle320
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle236
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

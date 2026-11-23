@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.StatementsPowReductionCut
+public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Bundle001
 public import Mathlib.RingTheory.LocalRing.MaximalIdeal.Defs
 public import Mathlib.RingTheory.ReesAlgebra
 public import Mathlib.Algebra.Module.SpanRankOperations

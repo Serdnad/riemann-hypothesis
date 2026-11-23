@@ -3,7 +3,7 @@ module
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.ThetaSplitting.ActUDiagMonomial
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.AuxiliaryPrimeFunction
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.ThetaSplitting.GIinvA
-public import Development.WeilBound.ThetaLifts.CartanFactorisation.IntegrableOnRight
+public import Development.WeilBound.ThetaLifts.CartanFactorisation.Bundle001
 import Development.WeilBound.ThetaLifts.CartanFactorisation.Unimod
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdelicLocalCompactness.T2SpaceTensorProductFiniteExtension
 import Mathlib.Algebra.Order.Floor.Extended

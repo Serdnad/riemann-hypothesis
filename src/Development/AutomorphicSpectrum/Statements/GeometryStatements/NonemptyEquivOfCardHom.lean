@@ -1,7 +1,7 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.TranslateMemIndOrder
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.HasValues
+public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.Bundle001
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle002
 public import Mathlib.AlgebraicGeometry.Morphisms.Proper
 public import Mathlib.AlgebraicGeometry.Morphisms.Smooth
 import Mathlib.Algebra.Order.Floor.Extended

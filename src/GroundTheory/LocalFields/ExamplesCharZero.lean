@@ -3,7 +3,7 @@ module
 public import Mathlib.NumberTheory.LocalField.Basic
 public import Mathlib.NumberTheory.Padics.ValuativeRel
 public import Mathlib.NumberTheory.Padics.WithVal
-public import GroundTheory.LocalFields.Examples
+public import GroundTheory.LocalFields.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,12 +1,12 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.FiniteResidueFieldAdicCompletionIntegers
-public import Formalism.HermitianLattices.StatementMass
+public import Formalism.HermitianLattices.Bundle003
 import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsEqTransposeMulMapOfIdempotent
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsPositiveAdd
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle009
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsCoprimeScaledIsometrySameSignature
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FiniteNotIsUnitOneAddSmul
-public import Formalism.LocalToGlobal.ProjectiveLattices.UnramBridgeHolds
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle003
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -223,10 +223,10 @@ theorem gram (h : V →ₗ⋆[K] V →ₗ[K] K) (hn : h.Nondegenerate) {n : ℕ}
   have hd : A.det ≠ 0 := fun h0 => by
     obtain ⟨c, hc0, hc⟩ := Matrix.exists_vecMul_eq_zero_iff.2 h0
     refine hc0 (b.equivFun.symm.map_eq_zero_iff.1 (hn.2 _ fun y => ?_))
-    rw [form_eq hst h b, ← hA, LinearEquiv.apply_symm_apply, herm_eq_dotProduct, hc, zero_dotProduct]
+    rw [form_eq hst h b, ← hA, LinearEquiv.apply_symm_apply, _root_.GlobalTheory.SelfDualGenus.herm_eq_dotProduct, hc, zero_dotProduct]
   refine ⟨A⁻¹, fun i j => ?_, Matrix.mul_nonsing_inv _ hd.isUnit⟩
   have := (hb _).1 ((hm (b.equivFun.symm (Pi.single i 1 ᵥ* A⁻¹))).2 fun y hy => by
-    rw [form_eq hst h b, ← hA, LinearEquiv.apply_symm_apply, herm_eq_dotProduct, Matrix.vecMul_vecMul,
+    rw [form_eq hst h b, ← hA, LinearEquiv.apply_symm_apply, _root_.GlobalTheory.SelfDualGenus.herm_eq_dotProduct, Matrix.vecMul_vecMul,
       Matrix.nonsing_inv_mul _ hd.isUnit, Matrix.vecMul_one, single_dotProduct, one_mul]
     exact cc_mem_semiLoc v ((hb y).1 hy i)) j
   rw [← b.equivFun_apply, LinearEquiv.apply_symm_apply] at this

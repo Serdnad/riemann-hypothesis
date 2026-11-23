@@ -1,7 +1,7 @@
 module
 
 public import Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.ThetaLiftTrivialOrbitTermsVanish
-public import Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.ThetaReindexing.HatMem
+public import Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.ThetaReindexing.Bundle002
 import GroundTheory.HeightsAndTheta.Theta.AdelicFourierCoord
 import GroundTheory.HeightsAndTheta.Theta.Weil.PartialFourierAdelicPi
 import Mathlib.Algebra.Order.Floor.Extended

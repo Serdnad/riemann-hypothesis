@@ -1,7 +1,7 @@
 module
 
-public import Formalism.QuotientMetricDivisors.UntwistedChoice
-public import Formalism.LogFactorialIndices.SignedSubspaceIndex.LogProductFormula
+public import Formalism.QuotientMetricDivisors.Bundle005
+public import Formalism.LogFactorialIndices.SignedSubspaceIndex.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

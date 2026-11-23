@@ -1,8 +1,8 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.IdeleLimits.LocalTransition
+public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.IdeleLimits.Bundle002
 public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.LocalLimits.InfLiesOver
-import GroundTheory.ProfiniteCohomology.FilteredHomology
+import GroundTheory.ProfiniteCohomology.Bundle001
 public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.LocalLimits.InfRange
 import GroundTheory.ProfiniteCohomology.InflationRestriction.DegreeOne
 import Mathlib.Algebra.Order.Floor.Extended

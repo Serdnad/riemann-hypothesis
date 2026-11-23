@@ -1,7 +1,7 @@
 module
 
-public import ReciprocityTheory.DualLattices.VEqZeroOfPowEqOne
-public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.PsWeightCalculus
+public import ReciprocityTheory.DualLattices.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.Bundle006
 public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.WeightedOrderGePrimePowOfSumPurePowersAdd
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

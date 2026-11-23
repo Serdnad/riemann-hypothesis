@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Degenerations.RigGen
-public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.AbelianSchemeLawsUnconditional
+public import Development.AbelianVarietyTheory.Definitions.Degenerations.Bundle004
+public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle024
 public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsThetaSystemOfPolarisedLevel
 public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.IsFractionRingOfForallDiv
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsBigThetaSysWithAction
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ZarhinNormalProjectiveModelExistsProofStatement
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle215
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -45,7 +45,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.AbProj
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle007
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.BCTools
 
 @[expose] public section
@@ -132,3 +132,20 @@ theorem exists_proper_semiAbelian_family : ∀ (g n : ℕ), n.Prime → Odd n �
     (hχ.comp out.cart).congr hx rfl⟩
 
 end GlobalTheory
+
+end
+
+section
+
+@[expose] public section
+
+open CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj AlgebraicGeometry
+open scoped CategoryTheory.Obj
+open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Geo.Tor
+open GlobalTheory.SS
+
+theorem _root_.GlobalTheory.T.exists_proper_semiAbelian_family' : ∀ (g n : ℕ), n.Prime → Odd n → ∃ a : ℕ, ∀ (o Ω : Type) [CommRing o] [Field Ω] [Algebra o Ω] [GlobalTheory.ZH.ArithBase o Ω] (R₀ : Subalgebra o Ω), R₀.FG → (∀ x : Ω, ∃ a ∈ R₀, ∃ b ∈ R₀, x = a / b) → ∀ (P : Out.PolAV (Sp Ω)) (ze : oˣ), P.g = g → IsUnit (n : o) → (letI := P.isAb.comm; GlobalTheory.ZH.HypS P.A P.L) → Nonempty (Out.Level P (n ^ a) (unitOn (Units.map (algebraMap o Ω).toMonoidHom ze))) → ∃ (Z : Scheme.{0}) (s : Z ⟶ Sp o) (x : Sp Ω ⟶ Z) (G : Over Z) (_ : GrpObj G) (φ : P.A.left ⟶ G.left), IsProper s ∧ x ≫ s = spMap (algebraMap o Ω) ∧ IsSemiAbelian G ∧ IsGrpPullback P.A G x φ := by
+  first | exact @GlobalTheory.exists_proper_semiAbelian_family | exact GlobalTheory.exists_proper_semiAbelian_family | (intros; apply GlobalTheory.exists_proper_semiAbelian_family <;> assumption)
+
+end
+end

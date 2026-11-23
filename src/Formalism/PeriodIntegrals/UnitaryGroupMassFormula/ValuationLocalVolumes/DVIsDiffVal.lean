@@ -2,7 +2,7 @@ module
 
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.LocVol
 public import Mathlib.Algebra.AffineMonoid.Basic
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.DiffGenLoc
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

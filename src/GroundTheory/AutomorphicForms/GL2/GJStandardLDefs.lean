@@ -4,7 +4,7 @@ public import GroundTheory.AutomorphicForms.GL2.FiniteIdeleDecomp
 public import GroundTheory.AutomorphicForms.AdelicGLn
 public import GroundTheory.AutomorphicForms.GL2.GJLocalZeta
 public import GroundTheory.AutomorphicForms.GL2.GJMatrixCoord
-public import GroundTheory.GlobalFields.Adele.IntegersLattice
+public import GroundTheory.GlobalFields.Adele.Bundle001
 public import Mathlib.Analysis.Distribution.SchwartzSpace.Basic
 public import GroundTheory.AutomorphicForms.GL2.GJFEInducedLevi
 import Mathlib.Algebra.Order.Floor.Extended

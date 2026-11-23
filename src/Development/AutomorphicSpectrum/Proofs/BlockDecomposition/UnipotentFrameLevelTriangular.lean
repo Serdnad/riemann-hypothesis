@@ -1,7 +1,7 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.GoodConstOfAniso
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SumFrameIdem
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle631
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle658
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

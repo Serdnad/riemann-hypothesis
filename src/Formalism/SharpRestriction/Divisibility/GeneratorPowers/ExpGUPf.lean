@@ -1,6 +1,6 @@
 module
 
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.UnitIdSt
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle013
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.FBIdAd
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

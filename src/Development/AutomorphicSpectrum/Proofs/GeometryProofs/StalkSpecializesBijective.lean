@@ -1,11 +1,11 @@
 module
 
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.GlueApplyOfNotInFibre
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsHodgeLine
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArithmeticIntersection.MultihomogeneousIdeals.IsFieldIntersection
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ExistsGenOfIsVBOne
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GenMapStalkMap
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GrIsGenAt
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle010
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArithmeticIntersection.MultihomogeneousIdeals.Bundle001
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle004
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle032
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle043
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

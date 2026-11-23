@@ -1,8 +1,8 @@
 module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.CuspidalTwists.OverOf4
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.HolomorphicIrreducibility.IrrAb
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.HolomorphicIrreducibility.ResFacts
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.HolomorphicIrreducibility.Bundle007
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.HolomorphicIrreducibility.Bundle008
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.CuspidalTwists.IrrKey
 public import Development.AutomorphicArithmetic.CyclotomicBounds.ClassNumberBounds.IrreducibleSpans.Burnside
 import Mathlib.Algebra.Order.Floor.Extended
@@ -153,10 +153,10 @@ theorem UpperTheory.V.Cu.irrOf4_of : AlNe → IrrOf4 := by
 
   haveI : IsAlgClosure T.F Ω := ⟨IsAlgClosure.isAlgClosed ℚ, Algebra.IsAlgebraic.tower_top (K := ℚ) T.F⟩
   obtain ⟨hcont, -, -, -, hres, -⟩ := resFacts ℚ T.F Ω l 2 d.ρ
-  have hop : IsOpen ((T.GalL ⊓ d.K'.fixingSubgroup.comap (resQ T.F) : Subgroup (G T.F Ω)) : Set (G T.F Ω)) :=
+  have hop : IsOpen ((T.GalL ⊓ d.K'.fixingSubgroup.comap (resQ T.F) : Subgroup (_root_.Formalism.ConjugateSelfDual.G T.F Ω)) : Set (_root_.Formalism.ConjugateSelfDual.G T.F Ω)) :=
     ((IntermediateField.fixingSubgroup_isOpen T.K).preimage hcont).inter
       ((IntermediateField.fixingSubgroup_isOpen d.K').preimage hcont)
-  have hI := irrAb l (G T.F Ω) 2 (d.ρ.comp (galEmb ℚ T.F Ω)) (d.eis.cont.comp hcont) (hres d.irr)
+  have hI := irrAb l (_root_.Formalism.ConjugateSelfDual.G T.F Ω) 2 (d.ρ.comp (galEmb ℚ T.F Ω)) (d.eis.cont.comp hcont) (hres d.irr)
     (T.GalL ⊓ d.K'.fixingSubgroup.comap (resQ T.F)) (T.G' ⊓ d.K'.fixingSubgroup.comap (resQ T.F)) hop
     (inf_le_inf_right _ inf_le_left)
     (fun a ha b hb => ⟨⟨T.GalL.mul_mem (T.GalL.mul_mem (T.GalL.mul_mem ha.1 hb.1) (T.GalL.inv_mem ha.1)) (T.GalL.inv_mem hb.1), by
@@ -166,7 +166,7 @@ theorem UpperTheory.V.Cu.irrOf4_of : AlNe → IrrOf4 := by
       rw [mul_comm (cycZ T.F Ω l a), mul_inv_cancel_right, mul_inv_cancel]⟩,
       Subgroup.mul_mem _ (Subgroup.mul_mem _ (Subgroup.mul_mem _ ha.2 hb.2) (Subgroup.inv_mem _ ha.2)) (Subgroup.inv_mem _ hb.2)⟩)
   have hirrA : ∀ V : Submodule (PadicAlgCl l) (Fin 2 → PadicAlgCl l),
-      (∀ i ∈ {x : T.G' | resQ T.F (x : G T.F Ω) ∈ d.K'.fixingSubgroup}, ∀ v ∈ V,
+      (∀ i ∈ {x : T.G' | resQ T.F (x : _root_.Formalism.ConjugateSelfDual.G T.F Ω) ∈ d.K'.fixingSubgroup}, ∀ v ∈ V,
         (d.ρ₁ (resQ T.F i)).map f *ᵥ v ∈ V) → V = ⊥ ∨ V = ⊤ := fun V hV => by
     refine irr_mat ((galEmb ℚ T.F Ω).comp (T.G' ⊓ d.K'.fixingSubgroup.comap (resQ T.F)).subtype) d.ρ (mapRep f d.ρ₁) d.mod.iso
       (by rw [← MonoidHom.comp_assoc]; exact hI) V fun s v hv => ?_
@@ -177,25 +177,25 @@ theorem UpperTheory.V.Cu.irrOf4_of : AlNe → IrrOf4 := by
 
   have hl : l.Prime := Fact.out
   have hA : (d.D.pl l).valuation (l : Ω) < 1 := hD.pl_over l hl
-  obtain ⟨n, hn, hsn⟩ : ∃ n : ℕ, 0 < n ∧ (d.D.s0 : G ℚ Ω) ^ n ∈
+  obtain ⟨n, hn, hsn⟩ : ∃ n : ℕ, 0 < n ∧ (d.D.s0 : _root_.Formalism.ConjugateSelfDual.G ℚ Ω) ^ n ∈
       T.F.fixingSubgroup ⊓ T.K.fixingSubgroup ⊓ d.K'.fixingSubgroup := by
-    have hU : IsOpen ((T.F.fixingSubgroup ⊓ T.K.fixingSubgroup ⊓ d.K'.fixingSubgroup : Subgroup (G ℚ Ω)) :
-        Set (G ℚ Ω)) :=
+    have hU : IsOpen ((T.F.fixingSubgroup ⊓ T.K.fixingSubgroup ⊓ d.K'.fixingSubgroup : Subgroup (_root_.Formalism.ConjugateSelfDual.G ℚ Ω)) :
+        Set (_root_.Formalism.ConjugateSelfDual.G ℚ Ω)) :=
       ((IntermediateField.fixingSubgroup_isOpen T.F).inter (IntermediateField.fixingSubgroup_isOpen T.K)).inter
         (IntermediateField.fixingSubgroup_isOpen d.K')
     haveI : IsGalois ℚ Ω := IsAlgClosure.isGalois ℚ Ω
-    haveI : Finite (G ℚ Ω ⧸ (T.F.fixingSubgroup ⊓ T.K.fixingSubgroup ⊓ d.K'.fixingSubgroup)) :=
+    haveI : Finite (_root_.Formalism.ConjugateSelfDual.G ℚ Ω ⧸ (T.F.fixingSubgroup ⊓ T.K.fixingSubgroup ⊓ d.K'.fixingSubgroup)) :=
       Subgroup.quotient_finite_of_isOpen _ hU
     haveI : (T.F.fixingSubgroup ⊓ T.K.fixingSubgroup ⊓ d.K'.fixingSubgroup).FiniteIndex :=
       Subgroup.finiteIndex_of_finite_quotient
     obtain ⟨n, hn, -, h⟩ := Subgroup.exists_pow_mem_of_index_ne_zero
       (Subgroup.FiniteIndex.index_ne_zero (H := T.F.fixingSubgroup ⊓ T.K.fixingSubgroup ⊓ d.K'.fixingSubgroup))
-      (d.D.s0 : G ℚ Ω)
+      (d.D.s0 : _root_.Formalism.ConjugateSelfDual.G ℚ Ω)
     exact ⟨n, hn, h⟩
-  obtain ⟨h, hhdef⟩ : ∃ h : G ℚ Ω, h = (d.D.s0 : G ℚ Ω) ^ n := ⟨_, rfl⟩
+  obtain ⟨h, hhdef⟩ : ∃ h : _root_.Formalism.ConjugateSelfDual.G ℚ Ω, h = (d.D.s0 : _root_.Formalism.ConjugateSelfDual.G ℚ Ω) ^ n := ⟨_, rfl⟩
   rw [← hhdef] at hsn
   have hh : h ∈ Ine (F := ℚ) (d.D.pl l) := hhdef ▸ pow_mem hD.decompSigma_mem.1.1 n
-  let hT : G T.F Ω := AlgEquiv.ofRingEquiv (f := h.toRingEquiv) (fun x => hsn.1.1 ⟨x.1, x.2⟩)
+  let hT : _root_.Formalism.ConjugateSelfDual.G T.F Ω := AlgEquiv.ofRingEquiv (f := h.toRingEquiv) (fun x => hsn.1.1 ⟨x.1, x.2⟩)
   have hhT : resQ T.F hT = h := AlgEquiv.ext fun _ => rfl
   have hTL : hT ∈ T.GalL := by
     show resQ T.F hT ∈ T.K.fixingSubgroup
@@ -287,13 +287,13 @@ theorem UpperTheory.V.Cu.irrOf4_of : AlNe → IrrOf4 := by
     rw [hhdef, map_pow, ← pow_mul] at hc
     exact hD.decompSigma_ord (isOfFinOrder_iff_pow_eq_one.2 ⟨n * (d.m * 8), Nat.mul_pos hn (Nat.mul_pos d.tau.pos (by norm_num)), hc⟩)
 
-  have hkpm : ∀ i : T.G', resQ T.F (i : G T.F Ω) ∈ d.K'.fixingSubgroup →
+  have hkpm : ∀ i : T.G', resQ T.F (i : _root_.Formalism.ConjugateSelfDual.G T.F Ω) ∈ d.K'.fixingSubgroup →
       (f (d.τ (resQ T.F i) 0 0) + f (d.τ (resQ T.F i) 0 1)) * (f (d.τ (resQ T.F i) 0 0) - f (d.τ (resQ T.F i) 0 1)) = 1 :=
     fun i hi => by
       rw [← map_add (f := _), ← map_sub, ← map_mul, on_form _ (d.tau.form _) (d.tau.on _ hi).2, map_one]
   apply KStar.Schema.span_eq_top_of_irreducible
   intro W hW
-  refine key two_ne_zero {x : T.G' | resQ T.F (x : G T.F Ω) ∈ d.K'.fixingSubgroup}
+  refine key two_ne_zero {x : T.G' | resQ T.F (x : _root_.Formalism.ConjugateSelfDual.G T.F Ω) ∈ d.K'.fixingSubgroup}
     (fun i => (d.ρ₁ (resQ T.F i)).map f) (fun i => (d.τ (resQ T.F i)).map f)
     (fun i hi => ⟨congrArg f (d.tau.on _ hi).1, congrArg f (d.tau.on _ hi).2⟩)
     (fun i hi => left_ne_zero_of_mul_eq_one (hkpm i hi)) (fun i hi => right_ne_zero_of_mul_eq_one (hkpm i hi))

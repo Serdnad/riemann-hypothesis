@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.NormalFam
-public import Development.AbelianVarietyTheory.Definitions.Divisors.InstCMHostS
-public import Formalism.LocalToGlobal.IndefiniteReal.ConjSubConjSub
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FiniteAdeleStrongApproximationModNat
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle016
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle032
+public import Formalism.LocalToGlobal.IndefiniteReal.Bundle018
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle009
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

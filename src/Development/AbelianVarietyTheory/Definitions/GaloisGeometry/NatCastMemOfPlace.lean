@@ -1,10 +1,10 @@
 module
 
 public import Formalism.LocalToGlobal.PairingIndexBounds.OrthogonalChartLevels.FdOfCharts
-public import Formalism.LocalToGlobal.GroupLattices.PendingLemmas.DelEquiv
+public import Formalism.LocalToGlobal.GroupLattices.PendingLemmas.Bundle001
 public import Formalism.LocalToGlobal.GroupLattices.PendingLemmas.WittFractionAlgebraCp
 import Formalism.SharpRestriction.AdmissibleParameterJoins.GandSp
-public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.HkLatTupUpdate
+public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle021
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

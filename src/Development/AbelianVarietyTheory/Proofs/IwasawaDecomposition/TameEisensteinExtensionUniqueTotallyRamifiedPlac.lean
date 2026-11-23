@@ -1,6 +1,6 @@
 module
 
-public import Formalism.ConjugateSelfDual.Statement
+public import Formalism.ConjugateSelfDual.Bundle001
 public import Formalism.LocalToGlobal.UnitaryNorms.IsUnitaryNormOf
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

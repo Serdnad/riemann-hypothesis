@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.LocJacTyp
+public import Formalism.PeriodIntegrals.Bundle017
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.JacobianTransvectionSplitting.DiscreteHaar
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdelicLocalCompactness.AdeleLC
 import Mathlib.Algebra.Order.Floor.Extended

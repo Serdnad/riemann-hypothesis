@@ -1,7 +1,7 @@
 module
 
 public import Development.WeilBound.ThetaLifts.EigenvalueEndgame.UnipotentGroups.UnipUGood
-public import Development.WeilBound.ThetaLifts.CartanFactorisation.IntegrableOnRight
+public import Development.WeilBound.ThetaLifts.CartanFactorisation.Bundle001
 public import Development.WeilBound.ThetaLifts.EigenvalueEndgame.UnipotentGroups.ContinuousExpG
 public import Development.WeilBound.ThetaLifts.EigenvalueEndgame.UnipotentGroups.IsFrPlane
 import Development.WeilBound.ThetaLifts.TowerModels.LeviAd

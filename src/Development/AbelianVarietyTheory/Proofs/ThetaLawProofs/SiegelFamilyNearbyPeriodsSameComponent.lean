@@ -1,21 +1,20 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.KeyFormula.GeomIntSelf
-public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.IsSeparatedOfIsQProjOver
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ThetaUnifAV
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.SecBaseChangeAnySt
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsHolomorphicChart
+public import Development.AbelianVarietyTheory.Definitions.KeyFormula.Bundle001
+public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.Bundle003
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle006
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.Bundle005
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle045
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsLinearEquivLift
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.SiegelStructurePullback
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle092
 public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.ExistsLocalPeriodMatrix
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.ExistsNhdsSubsetImage
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.ExistsRigidTranslatePrincipalPolarisationOrderTw
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.ExistsSeparatingPairs
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.ExistsSymmetricSqrtPrincipalSiegelFiniteEtaleStatement
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.ExistsTwoTorsionTranslateSameLambdaBundleStatement
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.SameCompOfIsHolTo
+public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle019
+public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle053
+public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle057
+public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle062
+public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle017
 public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.SiegelFamilyComplexPointEqOfSamePeriodMatrixStatement
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.SqOfCalculus
+public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle035
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -58,7 +57,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.BCTools
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.LBLocal
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.Bundle001
 
 @[expose] public section
 
@@ -147,7 +146,7 @@ theorem exists_sqOf_polPB (hL : Out.Laws) {R : Type} [CommRing R] {c : SiegPre h
     rw [E] at j₁
     have j₂ := LBIso.chartPull (Geo.Tor.chartPullPull _ _ (e.hom.left ≫ ψ₀ ≫ e'.inv.left) rfl)
       (Geo.Tor.chartPullPull _ _ _ rfl) i'
-    have j₃ := LBIso.trans P₀.isLB (pull_isLB Q₀.isLB _) (pull_isLB Q.isLB _) i₀ (lbIso_pull_comp hpb.2.2 _)
+    have j₃ := LBIso.trans P₀.isLB (pull_isLB Q₀.isLB _) (pull_isLB Q.isLB _) i₀ (GlobalTheory.ZM.SiegPull.lbIso_pull_comp hpb.2.2 _)
     exact LBIso.trans P₀.isLB (pull_isLB Q.isLB _) (pull_isLB Q'.isLB _) j₃
       (LBIso.trans (pull_isLB Q'.isLB _) (pull_isLB (DVR.linComb_isLB _ Q.isLB _ _) _) (pull_isLB Q.isLB _) j₂ j₁).symm
   · rw [Category.assoc, Category.assoc, ← Category.assoc e'.inv.left, ee, Category.id_comp, heφ]

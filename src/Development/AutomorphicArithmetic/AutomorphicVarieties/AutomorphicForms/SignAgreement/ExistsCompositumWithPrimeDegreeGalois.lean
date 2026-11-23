@@ -1,7 +1,7 @@
 module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.BcDefs
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.IsAlgChar
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.Bundle005
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PublishedTheorems.CyclicBaseChangeC
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -53,31 +53,31 @@ variable {F Ω : Type} [Field F] [NumberField F] [Field Ω] [Algebra F Ω] {l : 
 
 
 omit [NumberField F] in
-def SameSign (μ : G F Ω →* (Qbar l)ˣ) : Prop := ∀ c c' : G F Ω, IsConjEl c → IsConjEl c' → μ c = μ c'
+def SameSign (μ : _root_.Formalism.ConjugateSelfDual.G F Ω →* (Qbar l)ˣ) : Prop := ∀ c c' : _root_.Formalism.ConjugateSelfDual.G F Ω, IsConjEl c → IsConjEl c' → μ c = μ c'
 
 
 
 omit [NumberField F] in
-def Pol (ι : Qbar l ≃+* ℂ) (r : G F Ω →* GL (Fin n) (Qbar l)) : Prop :=
+def Pol (ι : Qbar l ≃+* ℂ) (r : _root_.Formalism.ConjugateSelfDual.G F Ω →* GL (Fin n) (Qbar l)) : Prop :=
   ∃ (F₀ : Type) (_ : Field F₀) (_ : NumberField F₀) (_ : Algebra F₀ F) (_ : Algebra F₀ Ω) (_ : IsScalarTower F₀ F Ω)
-    (_ : IsAlgClosure F₀ Ω), IsTotallyReal F₀ ∧ ∃ (μ : G F₀ Ω →* (Qbar l)ˣ) (c : G F₀ Ω) (P : GL (Fin n) (Qbar l)),
+    (_ : IsAlgClosure F₀ Ω), IsTotallyReal F₀ ∧ ∃ (μ : _root_.Formalism.ConjugateSelfDual.G F₀ Ω →* (Qbar l)ˣ) (c : _root_.Formalism.ConjugateSelfDual.G F₀ Ω) (P : GL (Fin n) (Qbar l)),
       IsAlgChar ι μ ∧ SameSign μ ∧ IsConjEl c ∧ IsPairing c r (μ.comp (resG F₀ F Ω)) P
 
 
 variable (F Ω) in
 def Equi (M : Type) [Field M] [NumberField M] [Algebra F M] [Algebra M Ω] [IsScalarTower F M Ω] : Prop :=
-  ∀ (l : ℕ) [Fact l.Prime] (ι : Qbar l ≃+* ℂ) (n : ℕ), 1 ≤ n → ∀ r : G F Ω →* GL (Fin n) (Qbar l), Continuous r →
+  ∀ (l : ℕ) [Fact l.Prime] (ι : Qbar l ≃+* ℂ) (n : ℕ), 1 ≤ n → ∀ r : _root_.Formalism.ConjugateSelfDual.G F Ω →* GL (Fin n) (Qbar l), Continuous r →
     IsIrr (r.comp (resG F M Ω)) → Pol ι r → (IsAut ι r ↔ IsAut ι (r.comp (resG F M Ω)))
 
 end Defs
 
 def CycConj : Prop :=
-  ∀ (F Ω : Type) [Field F] [NumberField F] [Field Ω] [Algebra F Ω] [IsAlgClosure F Ω] (l : ℕ) [Fact l.Prime] (c : G F Ω), IsConjEl c → cycBar F Ω l c = -1
+  ∀ (F Ω : Type) [Field F] [NumberField F] [Field Ω] [Algebra F Ω] [IsAlgClosure F Ω] (l : ℕ) [Fact l.Prime] (c : _root_.Formalism.ConjugateSelfDual.G F Ω), IsConjEl c → cycBar F Ω l c = -1
 
 def ToPolC : Prop :=
   ∀ (F Ω : Type) [Field F] [NumberField F] [Field Ω] [Algebra F Ω] [IsAlgClosure F Ω] [IsCMField F] (l : ℕ) [Fact l.Prime] (ι : Qbar l ≃+* ℂ) (n : ℕ)
-    (r : G F Ω →* GL (Fin n) (Qbar l)), Pol ι r → ∃ (μ : G (maximalRealSubfield F) Ω →* (Qbar l)ˣ) (χ : HChar (maximalRealSubfield F))
-      (c : G (maximalRealSubfield F) Ω) (P : GL (Fin n) (Qbar l)), IsLAdicCharOf ι χ μ ∧ SameSign μ ∧ IsConjEl c ∧
+    (r : _root_.Formalism.ConjugateSelfDual.G F Ω →* GL (Fin n) (Qbar l)), Pol ι r → ∃ (μ : _root_.Formalism.ConjugateSelfDual.G (maximalRealSubfield F) Ω →* (Qbar l)ˣ) (χ : HChar (maximalRealSubfield F))
+      (c : _root_.Formalism.ConjugateSelfDual.G (maximalRealSubfield F) Ω) (P : GL (Fin n) (Qbar l)), IsLAdicCharOf ι χ μ ∧ SameSign μ ∧ IsConjEl c ∧
         IsPairing c r (cycBar F Ω l ^ (1 - (n : ℤ)) * μ.comp (resG (maximalRealSubfield F) F Ω)) P
 
 def Parallel : Prop :=
@@ -85,41 +85,41 @@ def Parallel : Prop :=
 
 def SignOf : Prop :=
   ∀ (F Ω : Type) [Field F] [NumberField F] [Field Ω] [Algebra F Ω] [IsAlgClosure F Ω] [IsTotallyReal F] (l : ℕ) [Fact l.Prime] (ι : Qbar l ≃+* ℂ)
-    (χ : HChar F) (μ : G F Ω →* (Qbar l)ˣ), IsCharOf ι χ μ → SameSign μ →
+    (χ : HChar F) (μ : _root_.Formalism.ConjugateSelfDual.G F Ω →* (Qbar l)ˣ), IsCharOf ι χ μ → SameSign μ →
       ∀ v v' : InfinitePlace F, χ.locInf v (-1) = χ.locInf v' (-1)
 
 def CharFrob : Prop :=
   ∀ (F Ω : Type) [Field F] [NumberField F] [Field Ω] [Algebra F Ω] [IsAlgClosure F Ω] (l : ℕ) [Fact l.Prime] (ι : Qbar l ≃+* ℂ)
-    (χ : HChar F) (μ : G F Ω →* (Qbar l)ˣ), IsCharOf ι χ μ → ∀ᶠ v : HeightOneSpectrum (𝓞 F) in Filter.cofinite,
+    (χ : HChar F) (μ : _root_.Formalism.ConjugateSelfDual.G F Ω →* (Qbar l)ˣ), IsCharOf ι χ μ → ∀ᶠ v : HeightOneSpectrum (𝓞 F) in Filter.cofinite,
       χ.UnrAt v ∧ CharEig ι μ v (χ.val v : ℂˣ)
 
 def EigBasic : Prop :=
   ∀ (F Ω : Type) [Field F] [NumberField F] [Field Ω] [Algebra F Ω] [IsAlgClosure F Ω] (l : ℕ) [Fact l.Prime] (ι : Qbar l ≃+* ℂ)
     (v : HeightOneSpectrum (𝓞 F)),
-    (∀ (δ δ' : G F Ω →* (Qbar l)ˣ) (z z' : ℂˣ), CharEig ι δ v z → CharEig ι δ' v z' → CharEig ι (δ * δ'⁻¹) v ((z * z'⁻¹ : ℂˣ) : ℂ)) ∧
-    (∀ (δ : G F Ω →* (Qbar l)ˣ) (z z' : ℂˣ), CharEig ι δ v z → CharEig ι δ v z' → z = z') ∧
-    ∀ (n : ℕ) (r : G F Ω →* GL (Fin n) (Qbar l)) (B B' : Multiset ℂˣ),
+    (∀ (δ δ' : _root_.Formalism.ConjugateSelfDual.G F Ω →* (Qbar l)ˣ) (z z' : ℂˣ), CharEig ι δ v z → CharEig ι δ' v z' → CharEig ι (δ * δ'⁻¹) v ((z * z'⁻¹ : ℂˣ) : ℂ)) ∧
+    (∀ (δ : _root_.Formalism.ConjugateSelfDual.G F Ω →* (Qbar l)ˣ) (z z' : ℂˣ), CharEig ι δ v z → CharEig ι δ v z' → z = z') ∧
+    ∀ (n : ℕ) (r : _root_.Formalism.ConjugateSelfDual.G F Ω →* GL (Fin n) (Qbar l)) (B B' : Multiset ℂˣ),
       FrobEig ι r v (algSat n (normV v) B) → FrobEig ι r v (algSat n (normV v) B') → B = B'
 
 def NormChar : Prop :=
   ∀ (K M Ω : Type) [Field K] [NumberField K] [Field M] [NumberField M] [Field Ω] [Algebra K M] [Algebra K Ω]
     [Algebra M Ω] [IsScalarTower K M Ω] [IsAlgClosure K Ω] [IsAlgClosure M Ω] (l : ℕ) [Fact l.Prime] (ι : Qbar l ≃+* ℂ)
-    (η : HChar K), (η = 1 ∨ IsNormChar M η) → ∃ δ : G K Ω →* (Qbar l)ˣ, δ.comp (resG K M Ω) = 1 ∧
+    (η : HChar K), (η = 1 ∨ IsNormChar M η) → ∃ δ : _root_.Formalism.ConjugateSelfDual.G K Ω →* (Qbar l)ˣ, δ.comp (resG K M Ω) = 1 ∧
       ∀ᶠ v : HeightOneSpectrum (𝓞 K) in Filter.cofinite, CharEig ι δ v (η.val v : ℂˣ)
 
 def FinChar : Prop :=
   (∀ (F Ω : Type) [Field F] [NumberField F] [Field Ω] [Algebra F Ω] [IsAlgClosure F Ω] (l : ℕ) [Fact l.Prime] (ι : Qbar l ≃+* ℂ)
-    (δ : G F Ω →* (Qbar l)ˣ), IsOpen (δ.ker : Set (G F Ω)) → IsAlgChar ι δ) ∧
+    (δ : _root_.Formalism.ConjugateSelfDual.G F Ω →* (Qbar l)ˣ), IsOpen (δ.ker : Set (_root_.Formalism.ConjugateSelfDual.G F Ω)) → IsAlgChar ι δ) ∧
   ∀ (K M Ω : Type) [Field K] [NumberField K] [Field M] [NumberField M] [Field Ω] [Algebra K M] [Algebra K Ω]
     [Algebra M Ω] [IsScalarTower K M Ω] [IsAlgClosure K Ω] [IsAlgClosure M Ω] (l : ℕ) [Fact l.Prime]
-    (δ : G K Ω →* (Qbar l)ˣ), δ.comp (resG K M Ω) = 1 → IsOpen (δ.ker : Set (G K Ω))
+    (δ : _root_.Formalism.ConjugateSelfDual.G K Ω →* (Qbar l)ˣ), δ.comp (resG K M Ω) = 1 → IsOpen (δ.ker : Set (_root_.Formalism.ConjugateSelfDual.G K Ω))
 
 def ExtChar : Prop :=
   ∀ (K M Ω : Type) [Field K] [NumberField K] [Field M] [NumberField M] [Field Ω] [Algebra K M] [Algebra K Ω]
     [Algebra M Ω] [IsScalarTower K M Ω] [IsAlgClosure K Ω] [IsAlgClosure M Ω] [IsCMField K] [IsCMField M] [IsGalois K M]
-    (l : ℕ) [Fact l.Prime] (δ : G K Ω →* (Qbar l)ˣ), δ.comp (resG K M Ω) = 1 →
-      ∃ δ' : G (maximalRealSubfield K) Ω →* (Qbar l)ˣ, δ'.comp (resG (maximalRealSubfield K) K Ω) = δ ∧
-        (∀ c, IsConjEl c → δ' c = 1) ∧ IsOpen (δ'.ker : Set (G (maximalRealSubfield K) Ω))
+    (l : ℕ) [Fact l.Prime] (δ : _root_.Formalism.ConjugateSelfDual.G K Ω →* (Qbar l)ˣ), δ.comp (resG K M Ω) = 1 →
+      ∃ δ' : _root_.Formalism.ConjugateSelfDual.G (maximalRealSubfield K) Ω →* (Qbar l)ˣ, δ'.comp (resG (maximalRealSubfield K) K Ω) = δ ∧
+        (∀ c, IsConjEl c → δ' c = 1) ∧ IsOpen (δ'.ker : Set (_root_.Formalism.ConjugateSelfDual.G (maximalRealSubfield K) Ω))
 
 def PolSatR : Prop :=
   ∀ (F : Type) [Field F] [NumberField F] [IsTotallyReal F] (n : ℕ), 1 ≤ n → ∀ (π : TR.CuspSub F n) (ψ : HChar F),
@@ -128,7 +128,7 @@ def PolSatR : Prop :=
 
 def FrobDualC : Prop :=
   ∀ (F Ω : Type) [Field F] [NumberField F] [Field Ω] [Algebra F Ω] [IsAlgClosure F Ω] [IsCMField F] (l : ℕ) [Fact l.Prime] (ι : Qbar l ≃+* ℂ) (n : ℕ)
-    (r : G F Ω →* GL (Fin n) (Qbar l)) (θ : G F Ω →* (Qbar l)ˣ) (c : G (maximalRealSubfield F) Ω) (P : GL (Fin n) (Qbar l)),
+    (r : _root_.Formalism.ConjugateSelfDual.G F Ω →* GL (Fin n) (Qbar l)) (θ : _root_.Formalism.ConjugateSelfDual.G F Ω →* (Qbar l)ˣ) (c : _root_.Formalism.ConjugateSelfDual.G (maximalRealSubfield F) Ω) (P : GL (Fin n) (Qbar l)),
     IsConjEl c → IsPairing c r (cycBar F Ω l ^ (1 - (n : ℤ)) * θ) P →
     ∀ w : HeightOneSpectrum (𝓞 F), ((l : ℕ) : 𝓞 F) ∉ w.asIdeal → ∀ (B B' : Multiset ℂˣ) (z : ℂˣ),
       FrobEig ι r w (algSat n (normV w) B) → FrobEig ι r (cPl w) (algSat n (normV (cPl w)) B') → CharEig ι θ w z →
@@ -141,9 +141,9 @@ def ConjUnder : Prop :=
 def DualBcC : Prop :=
   ∀ (K M Ω : Type) [Field K] [NumberField K] [Field M] [NumberField M] [Field Ω] [Algebra K M] [Algebra K Ω]
     [Algebra M Ω] [IsScalarTower K M Ω] [IsAlgClosure K Ω] [IsAlgClosure M Ω] [IsCMField K] [IsCMField M] (l : ℕ) [Fact l.Prime] (ι : Qbar l ≃+* ℂ)
-    (n : ℕ) (r : G K Ω →* GL (Fin n) (Qbar l)) (π : CuspSub K n) (sat' : HeightOneSpectrum (𝓞 M) → Multiset ℂˣ → Prop),
+    (n : ℕ) (r : _root_.Formalism.ConjugateSelfDual.G K Ω →* GL (Fin n) (Qbar l)) (π : CuspSub K n) (sat' : HeightOneSpectrum (𝓞 M) → Multiset ℂˣ → Prop),
     (∀ w B B', sat' w B → sat' w B' → B = B') → WeakBC (CG.mk π).HasSat sat' → AttachedSys ι (r.comp (resG K M Ω)) sat' →
-    ∀ (μ : G (maximalRealSubfield K) Ω →* (Qbar l)ˣ) (χ : HChar (maximalRealSubfield K)) (c : G (maximalRealSubfield K) Ω)
+    ∀ (μ : _root_.Formalism.ConjugateSelfDual.G (maximalRealSubfield K) Ω →* (Qbar l)ˣ) (χ : HChar (maximalRealSubfield K)) (c : _root_.Formalism.ConjugateSelfDual.G (maximalRealSubfield K) Ω)
       (P : GL (Fin n) (Qbar l)), IsLAdicCharOf ι χ μ → IsConjEl c →
       IsPairing c r (cycBar K Ω l ^ (1 - (n : ℤ)) * μ.comp (resG (maximalRealSubfield K) K Ω)) P →
       WeakBC (CG.mk ((GlobalTheory.ThetaPull.thetaSub π).twist (compNorm K χ))).HasSat sat'
@@ -152,27 +152,27 @@ def ExDownC : Prop :=
   ∀ (K M Ω : Type) [Field K] [NumberField K] [Field M] [NumberField M] [Field Ω] [Algebra K M] [Algebra K Ω]
     [Algebra M Ω] [IsScalarTower K M Ω] [IsAlgClosure K Ω] [IsAlgClosure M Ω] [IsGalois K M] [IsCMField K] [IsCMField M],
     (Module.finrank K M).Prime → ∀ (l : ℕ) [Fact l.Prime] (ι : Qbar l ≃+* ℂ) (n : ℕ), 1 ≤ n →
-    ∀ (r : G K Ω →* GL (Fin n) (Qbar l)) (π : CuspSub K n) sat' inf', Pol ι r → (CG.mk π).IsRegAlg → IsCusp (F := M) n sat' inf' →
+    ∀ (r : _root_.Formalism.ConjugateSelfDual.G K Ω →* GL (Fin n) (Qbar l)) (π : CuspSub K n) sat' inf', Pol ι r → (CG.mk π).IsRegAlg → IsCusp (F := M) n sat' inf' →
       WeakBC (CG.mk π).HasSat sat' → AttachedSys ι (r.comp (resG K M Ω)) sat' →
-      ∃ r₁ : G K Ω →* GL (Fin n) (Qbar l), Continuous r₁ ∧ AttC ι r₁ π
+      ∃ r₁ : _root_.Formalism.ConjugateSelfDual.G K Ω →* GL (Fin n) (Qbar l), Continuous r₁ ∧ AttC ι r₁ π
 
 def FrobConj : Prop :=
   ∀ (K M Ω : Type) [Field K] [NumberField K] [Field M] [NumberField M] [Field Ω] [Algebra K M] [Algebra K Ω]
     [Algebra M Ω] [IsScalarTower K M Ω] [IsAlgClosure K Ω] [IsAlgClosure M Ω] [IsGalois K M] (l : ℕ) [Fact l.Prime] (ι : Qbar l ≃+* ℂ)
-    (n : ℕ) (r : G K Ω →* GL (Fin n) (Qbar l)) (w w' : HeightOneSpectrum (𝓞 M)), w'.under (𝓞 K) = w.under (𝓞 K) →
+    (n : ℕ) (r : _root_.Formalism.ConjugateSelfDual.G K Ω →* GL (Fin n) (Qbar l)) (w w' : HeightOneSpectrum (𝓞 M)), w'.under (𝓞 K) = w.under (𝓞 K) →
       normV w' = normV w ∧ ∀ B, FrobEig ι (r.comp (resG K M Ω)) w B → FrobEig ι (r.comp (resG K M Ω)) w' B
 
 def InvSat : Prop :=
   ∀ (K M Ω : Type) [Field K] [NumberField K] [Field M] [NumberField M] [Field Ω] [Algebra K M] [Algebra K Ω]
     [Algebra M Ω] [IsScalarTower K M Ω] [IsAlgClosure K Ω] [IsAlgClosure M Ω] [IsGalois K M] (l : ℕ) [Fact l.Prime] (ι : Qbar l ≃+* ℂ)
-    (n : ℕ) (r : G K Ω →* GL (Fin n) (Qbar l)) (sat' : HeightOneSpectrum (𝓞 M) → Multiset ℂˣ → Prop),
+    (n : ℕ) (r : _root_.Formalism.ConjugateSelfDual.G K Ω →* GL (Fin n) (Qbar l)) (sat' : HeightOneSpectrum (𝓞 M) → Multiset ℂˣ → Prop),
     AttachedSys ι (r.comp (resG K M Ω)) sat' → ∀ᶠ w : HeightOneSpectrum (𝓞 M) in Filter.cofinite,
       ∀ w' : HeightOneSpectrum (𝓞 M), w'.under (𝓞 K) = w.under (𝓞 K) → ∃ B, sat' w B ∧ sat' w' B
 
 def AttBc : Prop :=
   ∀ (K M Ω : Type) [Field K] [NumberField K] [Field M] [NumberField M] [Field Ω] [Algebra K M] [Algebra K Ω]
     [Algebra M Ω] [IsScalarTower K M Ω] [IsAlgClosure K Ω] [IsAlgClosure M Ω] (l : ℕ) [Fact l.Prime] (ι : Qbar l ≃+* ℂ)
-    (n : ℕ) (r : G K Ω →* GL (Fin n) (Qbar l)) (sat : HeightOneSpectrum (𝓞 K) → Multiset ℂˣ → Prop)
+    (n : ℕ) (r : _root_.Formalism.ConjugateSelfDual.G K Ω →* GL (Fin n) (Qbar l)) (sat : HeightOneSpectrum (𝓞 K) → Multiset ℂˣ → Prop)
     (sat' : HeightOneSpectrum (𝓞 M) → Multiset ℂˣ → Prop), (∀ v B B', sat v B → sat v B' → B = B') → WeakBC sat sat' →
     AttachedSys ι r sat → IsSSRep (r.comp (resG K M Ω)) → AttachedSys ι (r.comp (resG K M Ω)) sat'
 
@@ -215,6 +215,6 @@ def Tower : Prop :=
 def PolRes : Prop :=
   ∀ (K M Ω : Type) [Field K] [NumberField K] [Field M] [NumberField M] [Field Ω] [Algebra K M] [Algebra K Ω]
     [Algebra M Ω] [IsScalarTower K M Ω] [IsAlgClosure K Ω] [IsAlgClosure M Ω] (l : ℕ) [Fact l.Prime] (ι : Qbar l ≃+* ℂ)
-    (n : ℕ) (r : G K Ω →* GL (Fin n) (Qbar l)), Pol ι r → Pol ι (r.comp (resG K M Ω))
+    (n : ℕ) (r : _root_.Formalism.ConjugateSelfDual.G K Ω →* GL (Fin n) (Qbar l)), Pol ι r → Pol ι (r.comp (resG K M Ω))
 
 end UpperTheory.V.Af.Sol

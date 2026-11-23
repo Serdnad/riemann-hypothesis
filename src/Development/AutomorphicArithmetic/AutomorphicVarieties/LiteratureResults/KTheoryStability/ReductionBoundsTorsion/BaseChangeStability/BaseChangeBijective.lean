@@ -4,8 +4,7 @@ public import Development.AutomorphicArithmetic.AutomorphicVarieties.TensorHomCu
 public import Mathlib.Basic.Real.Basic
 public import Mathlib.RingTheory.DedekindDomain.Basic
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.LiteratureResults.KTheoryStability.HomologicalStability.KStability
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.TensorHomCubes.DedekindSR
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.TensorHomCubes.GrpHComp
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.TensorHomCubes.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

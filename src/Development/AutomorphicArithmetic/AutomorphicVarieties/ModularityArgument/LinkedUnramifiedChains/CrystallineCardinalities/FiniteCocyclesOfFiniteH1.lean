@@ -5,9 +5,9 @@ public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisCocha
 public import Mathlib.RingTheory.AdicCompletion.Noetherian
 public import Mathlib.RingTheory.Coalgebra.IsFrobenius
 public import Mathlib.RingTheory.HopfAlgebra.Basic
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TwistedDualEvalBidualApply
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisCochains.LevelS
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.LinkedUnramifiedChains.CrystallineCardinalities.UnrLow
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle194
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisCochains.Bundle003
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.LinkedUnramifiedChains.CrystallineCardinalities.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

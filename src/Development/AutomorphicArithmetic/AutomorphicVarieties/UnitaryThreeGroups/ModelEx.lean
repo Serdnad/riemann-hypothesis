@@ -2,18 +2,17 @@ module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeGroups.KatoUse
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.FramedTwoCoboundaries
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeGroups.RhoKApply
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeGroups.Bundle014
 import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.MkMemAdmissibleAtIffCocycle
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.CharacterLevelBounds.ClsFacts
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.DvrFacts
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.RamFinite
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.CharacterLevelBounds.Bundle001
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.Bundle008
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.LocGood
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeGroups.BoxPresOf
-import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeGroups.DatFacts
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeGroups.LocPres
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeGroups.Bundle017
+import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeGroups.Bundle015
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeGroups.Bundle011
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeGroups.ModelOfPres
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeGroups.UnivEx
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeGroups.UnivQuot
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeGroups.Bundle010
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -147,6 +146,11 @@ private theorem fin_above {n : ℕ} (hn : n ≠ 0) :
   simp only [Set.mem_setOf_eq] at hv ⊢
   rw [Ideal.dvd_span_singleton]; exact hv
 
+section
+
+local instance (priority := 2000) ratFieldIsTorsionFreeForModelEx (Ω : Type) [Field Ω] [CharZero Ω] :
+    Module.IsTorsionFree ℚ Ω := DivisionSemiring.to_moduleIsTorsionFree
+
 private theorem phi_kill (hGF : GlobalFiniteness) {Ω : Type} [Field Ω] [CharZero Ω] [IsAlgClosure ℚ Ω] {K : Type}
     [Field K] [NumberField K] [Algebra K Ω] {l : ℕ} [hl : Fact l.Prime] {c : Coef l} {N : ℕ} [NeZero N] {e : ℕ}
     {ψ : DirichletCharacter c.O N} (D : Dat Ω K c e ψ) (M : Subgroup (G ℚ Ω)) [M.Normal]
@@ -155,6 +159,7 @@ private theorem phi_kill (hGF : GlobalFiniteness) {Ω : Type} [Field Ω] [CharZe
   haveI : IsGalois ℚ Ω := IsAlgClosure.isGalois ℚ Ω
   haveI : IsScalarTower ℚ K Ω := IsScalarTower.of_algebraMap_eq' (Subsingleton.elim _ _)
   haveI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed ℚ
+  haveI : Module.IsTorsionFree K Ω := DivisionSemiring.to_moduleIsTorsionFree
   haveI : IsAlgClosure K Ω := ⟨inferInstance, Algebra.IsAlgebraic.tower_top (K := ℚ) K⟩
   obtain ⟨-, -, -, -, -, -, -, -, -, hK, -⟩ := dat_facts D
   obtain ⟨⟨T, hT⟩, -⟩ := ramFinite ℚ ℚ K Ω
@@ -223,3 +228,5 @@ theorem UpperTheory.V.U3.exists_model :
   obtain ⟨⟨B⟩, -⟩ := exists_sRing D.ι_cont U (D.loc.It U) D.cc g₁ hg hL hcont hK hV
   obtain ⟨WB, hWB⟩ := exists_locPres U (D.loc.It U) (hη.comp_continuous D.ι_cont) hL
   exact model_of_pres S B WB D.gd.l_odd hg hL hcont hK hWB (boxPres hC hP D U B WB hWB)
+
+end

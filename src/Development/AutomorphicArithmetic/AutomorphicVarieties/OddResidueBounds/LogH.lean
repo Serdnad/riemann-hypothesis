@@ -2,7 +2,7 @@ module
 
 public import Mathlib.NumberTheory.Cyclotomic.Basic
 public import Mathlib.NumberTheory.NumberField.ClassNumber
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.OddResidueBounds.LogDisc
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.OddResidueBounds.Bundle005
 public import Development.AutomorphicArithmetic.CyclotomicBounds.ClassNumberBounds.IdealCounting.ClassC
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -48,8 +48,8 @@ import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.Kumm
 import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.RestrictionMemInvariantH1
 import Development.AutomorphicArithmetic.AutomorphicVarieties.OddResidueBounds.ZeroMemUnrHom
 import Development.AutomorphicArithmetic.AutomorphicVarieties.StickelbergerCharacterEval.MemZpowersIff
-import Development.AutomorphicArithmetic.AutomorphicVarieties.StickelbergerElements.CoefMapSingle
-import Formalism.ConjugateSelfDual.Statement
+import Development.AutomorphicArithmetic.AutomorphicVarieties.StickelbergerElements.Bundle001
+import Formalism.ConjugateSelfDual.Bundle001
 import Formalism.GaloisCohomology.Statement
 import ReciprocityTheory.GaloisValuations.GlobalA
 

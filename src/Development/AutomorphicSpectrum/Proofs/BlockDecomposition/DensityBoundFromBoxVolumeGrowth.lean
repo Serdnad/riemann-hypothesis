@@ -1,6 +1,6 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsSplitK
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle504
 import Formalism.LocalRingCardinality.DataHost
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -52,10 +52,10 @@ import Development.AbelianVarietyTheory.Definitions.Foundations.AestronglyMeasur
 import Development.AbelianVarietyTheory.Definitions.Foundations.EventuallyEqOfIsPreconnected
 import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.CovolOneIntegralAdd
 import Development.AbelianVarietyTheory.PublishedTheorems.SiegelWeil₂.SiegelWeilUnitarySchrodinger
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.GramNear
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ThetaPartD
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.TrMMemFramesEIff
-import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.WeilSiegelTheta.BigCellDefs
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle459
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle431
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle430
+import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.WeilSiegelTheta.Bundle001
 import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.WeilSiegelTheta.ThetaOrbits
 import Formalism.LocalToGlobal.ProjectiveLattices.ErealAddIInf
 

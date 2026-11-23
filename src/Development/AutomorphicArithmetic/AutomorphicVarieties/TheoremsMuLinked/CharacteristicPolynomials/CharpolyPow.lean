@@ -2,11 +2,11 @@ module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CurveDVRSpecialization.IsUnitOrIsUnitOfAddOne
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.WeilGroupCharacters.UniversalOrdinaryDeterminantRing
-public import Formalism.ConjugateSelfDual.Statement
+public import Formalism.ConjugateSelfDual.Bundle001
 public import Mathlib.Topology.Instances.Matrix
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.CurveDVRSpecialization.RegCoset
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.CurveDVRSpecialization.StrongIrrOfOpen
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.CharpolyPowersRatios
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.CurveDVRSpecialization.Bundle004
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.CurveDVRSpecialization.Bundle002
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle048
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

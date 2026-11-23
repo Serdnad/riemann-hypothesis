@@ -1,7 +1,7 @@
 module
 
 import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PChartLatQCech
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsKodairaGeneric
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle053
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PGenOnFibres
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -2,9 +2,9 @@ module
 
 public import ReciprocityTheory.NeutralLocalFields.LocalFieldComparison.Transport
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.H2EquivOfTorsionCharacter
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CoefficientRingIntegersCompactAdicProperties
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CyclotomicCharacterPadicBasicProperties
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsCycCycChar
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle180
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle164
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle165
 public import Formalism.SharpRestriction.LevelLetterCocycles.RamificationTwoAndConjugationAtQAndD
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

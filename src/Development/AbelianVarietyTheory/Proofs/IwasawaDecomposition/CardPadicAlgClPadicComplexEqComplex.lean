@@ -49,13 +49,13 @@ public import Mathlib.Topology.Algebra.Module.Cardinality
 import Mathlib.Topology.Connected.Separation
 import Mathlib.Topology.MetricSpace.Ultra.TotallySeparated
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.NStageTrivialCharacterCoeffEqAlt
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.UniversalAnticyclotomicCharacterLaws
-import Formalism.ConjugateSelfDual.Statement
+import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle003
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle120
+import Formalism.ConjugateSelfDual.Bundle001
 import Formalism.LocalToGlobal.NormalizedHeckeFactors.TwDefs
 import Formalism.LocalToGlobal.NormalizedHeckeFactors.TypesDefs
 import Formalism.LocalToGlobal.UnitaryNorms.IsUnitaryNormOf
-import Formalism.SharpRestriction.CuspSpanNormBounds.Point
+import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle001
 import Formalism.SharpRestriction.LevelLetterCocycles.DataNLoc
 import Formalism.SharpRestriction.LevelLetterCocycles.LocCoh
 public import Mathlib.Analysis.Complex.Cardinality

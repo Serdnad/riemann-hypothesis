@@ -1,8 +1,8 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.IntSOfMulEqOne
-public import Formalism.LocalToGlobal.CharacterGerms.ConstantCoeffTripleSubstitution
-import Formalism.LocalToGlobal.CharacterGerms.SubstSubst
+import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.Bundle033
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle014
+import Formalism.LocalToGlobal.CharacterGerms.Bundle011
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -46,7 +46,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Formalism.LocalToGlobal.ProjectiveLattices.SubConstMemOrig
+import Formalism.LocalToGlobal.ProjectiveLattices.Bundle001
 public import Mathlib.Algebra.BigOperators.Field
 
 @[expose] public section

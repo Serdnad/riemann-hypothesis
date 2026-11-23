@@ -1,6 +1,6 @@
 module
 
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutSEJSliceCut
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle217
 public import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.PairRowIffQdRows
+public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.Bundle006
 public import Development.AutomorphicArithmetic.ShortNorms.ShortNorm
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExplicitRanksBasicBoundsLargeScale
-public import Development.AutomorphicArithmetic.ShortNorms.ExistsThreePrimesOneModLeRpow
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle073
+public import Development.AutomorphicArithmetic.ShortNorms.Bundle001
 public import Development.AutomorphicArithmetic.ShortNorms.typePrimesN
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

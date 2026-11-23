@@ -1,10 +1,10 @@
 module
 
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.SpecMapCompAppLE
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.OneLeftSpMap
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.AppLEBasicOpenIsStandardSmooth
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle120
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle143
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.DerivationVanishingConstants
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsDualElements
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -48,8 +48,8 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ExponentialFamilyPeriods
-import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsHodgeGram
+import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle010
+import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle009
 
 @[expose] public section
 

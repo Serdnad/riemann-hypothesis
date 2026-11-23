@@ -1,14 +1,14 @@
 module
 
-public import Formalism.UnipotentAdelicQuotients.GlobalNormIndexTwo
+public import Formalism.UnipotentAdelicQuotients.Bundle001
 public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.QuadraticClassFieldTheory
 public import Formalism.LocalToGlobal.BesselHermitianTheta.DefsReal
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsSupersetMemSUnits
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.ExistsIdeleNotMulNorm
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle010
+public import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle030
 public import Development.AbelianVarietyTheory.Proofs.HeightProofs.QuadraticFormIdeleValuesMemNhdsOne
-import Development.AbelianVarietyTheory.Proofs.HeightProofs.UnitNormFormAtOddPlace
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.AlmostNormFinDiag
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.EtaProdEqOfEverywhereNormDiv
+import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle016
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle069
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle197
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsSquareMulInfinite
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

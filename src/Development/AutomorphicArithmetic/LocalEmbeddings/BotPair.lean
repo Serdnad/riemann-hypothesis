@@ -3,8 +3,8 @@ module
 public import Development.AutomorphicArithmetic.LocalEmbeddings.BotPure
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.WeilModelArchimedeanExponent
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsWeilDatumTransportAdelicSchwartzThetaTrans
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LatPtLeClosureAndSelfDual
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SmulMemScLatOfMem
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1993
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1994
 import Formalism.LocalToGlobal.BesselHermitianTheta.LemmasWeil
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

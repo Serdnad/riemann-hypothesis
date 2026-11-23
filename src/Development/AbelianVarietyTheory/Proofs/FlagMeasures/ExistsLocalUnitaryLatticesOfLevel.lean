@@ -1,13 +1,15 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.SelfDualAt
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle005
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.CmFieldSplitCompletelyPlaceStructure
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.DualLatticeLocalCharacterizationStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsGLConjLatticePairsCovByDvrStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HermitianLatticeLevelLocalDualQuotientLengthOneStatement
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.SplitPlaceLatticeComponents
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.DualOfDualFrames
-import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.SplitIntLoc
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle159
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle088
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle087
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle089
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle292
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle259
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle012
+import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,9 +1,9 @@
 module
 
-public import Formalism.DistinguishedUnitIdeals.LemmaCFull
+public import Formalism.DistinguishedUnitIdeals.Bundle003
 public import Formalism.DistinguishedUnitIdeals.DistinguishedOrderProofs.LinExtEqZeroOfMemExt
 public import Formalism.DistinguishedUnitIdeals.DistinguishedOrderProofs.ArcLiftOfLocalizationData
-public import Formalism.DistinguishedUnitIdeals.DistinguishedOrderProofs.LevelsModConstIffOfNoDown
+public import Formalism.DistinguishedUnitIdeals.DistinguishedOrderProofs.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

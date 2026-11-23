@@ -1,9 +1,7 @@
 module
 
-public import Development.AutomorphicSpectrum.Statements.GeometryStatements.CmpPair
+public import Development.AutomorphicSpectrum.Statements.GeometryStatements.Bundle005
 public import Development.AutomorphicSpectrum.Statements.TowerExistence.GoodTowerExistsX
-public import Development.AutomorphicSpectrum.Statements.GeometryStatements.HodgeLatticeFlagBound
-public import Development.AutomorphicSpectrum.Statements.GeometryStatements.TrivFlagOnHodge
 public import Development.AutomorphicSpectrum.Statements.GeometryStatements.FlatDegree
 public import Development.AutomorphicSpectrum.Statements.GeometryStatements.PadicIntegersHenselianFiniteResidue
 public import Development.AutomorphicSpectrum.Statements.GeometryStatements.CmpSt
@@ -11,32 +9,28 @@ public import Development.AutomorphicSpectrum.Statements.GeometryStatements.Nine
 public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.CmHostRankBounds
 public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.FullIntersectionTowerI8IdentityStatement
 public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.GoodTowerGlobalConditionsStatement
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.GoodTowerGlobalExtraStatement
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.GoodTowerI5Statement
+public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle054
+public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle055
 public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.GoodTowerIntersectionExtraStatement
 public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.GoodTowerM1NefStatement
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.GoodTowerM2Statement
+public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle053
 import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.GoodTowerRealAgreementStatement
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.GoodTowerRealConditionsStatement
+public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle039
 public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.GoodTowerRealExtraStatement
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.GoodTowerRealI6Statement
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.LinkedTowerPowerSumStatement
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.RealTowerA1Statement
-import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.RealTowerConvI2Statement
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.RealTowerI1Statement
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.RealTowerNefGeneralStatement
-import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.RealTowerProportionalStatement
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.RootModelNefFibresStatement
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.SlopeLowerBaseSettingsStatement
+
+public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle044
+public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle042
+import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle038
+public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle037
+public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle046
 import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.TestPolynomialShiftTotalStatement
 public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.TowerWeilInputsCombinedStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.BaseSettingOfGoodTowerStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.PropFTopHoldsStatement
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.AgreementPositiveStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.CoefficientsStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagHeightStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.NefPolarizationStatement
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.ProportionalStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle319
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle221
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle146
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle150
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle147
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle187
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -100,6 +94,7 @@ theorem slopeLower_mono_top {Ψ : Type} [Fintype Ψ] [DecidableEq Ψ] {N : ℕ} 
       (((Top.dimX Ψ N T.j : ℝ) + 1) * (T.volT * Top.testDeg Ψ N T.j)) := by positivity
   nlinarith [mul_le_mul_of_nonneg_right hCC hK]
 
+attribute [-instance] GlobalTheory.CompHt.fintypePsi in
 theorem volumeTheoremX_of_inputs : Top.Given → PtsIntegrableStatement → Out.WeilSt → (∃ Ch Cu : ℝ, NineGeoU Ch Cu) →
     HodgeLatticeFlagBound → TrivFlagOnHodge → Fl.FlatDegree → TwistAut → Cmp.CmpPair → Cmp.CmpSt → Top.VolumeTheoremX := by
   intro hG hPts hW hNineE hM3 hTF hFD hTw hCP hCS

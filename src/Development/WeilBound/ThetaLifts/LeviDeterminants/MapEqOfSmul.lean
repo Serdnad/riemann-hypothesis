@@ -1,11 +1,10 @@
 module
 
-public import Development.WeilBound.ThetaLifts.LeviDeterminants.EvStmt
-public import Development.WeilBound.ThetaLifts.LeviDeterminants.DqStmt
-public import Development.WeilBound.ThetaLifts.LeviDeterminants.EigenIntertwinerSkewPlaneUnique
-public import Development.WeilBound.ThetaLifts.LeviDeterminants.EigenIntertwinerTwoPlanes
+public import Development.WeilBound.ThetaLifts.LeviDeterminants.Bundle001
+public import Development.WeilBound.ThetaLifts.LeviDeterminants.Bundle002
+public import Development.WeilBound.ThetaLifts.LeviDeterminants.Bundle009
+public import Development.WeilBound.ThetaLifts.LeviDeterminants.Bundle008
 import Development.WeilBound.ThetaLifts.LeviDeterminants.EvChange
-public import Development.WeilBound.ThetaLifts.LeviDeterminants.ExistsAdaptedModelTwoPlanes
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -2,7 +2,7 @@ module
 
 public import Formalism.WachLatticeTwists.RamifiedBlockRings.Statement
 public import Formalism.TruncatedSeriesCounting.TruncatedSeriesProofs.LemmaDetPoly
-public import Formalism.WachLatticeTwists.RamifiedBlockRings.RamifiedBlockProofs.RingDataObjects
+public import Formalism.WachLatticeTwists.RamifiedBlockRings.RamifiedBlockProofs.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

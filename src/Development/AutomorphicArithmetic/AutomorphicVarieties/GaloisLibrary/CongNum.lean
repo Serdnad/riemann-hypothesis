@@ -1,8 +1,8 @@
 module
 
 public import Mathlib.NumberTheory.Padics.Complex
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CharpolyScaledInverse
-public import GroundTheory.GlobalFields.ComplexMultiplication.AutCFixed
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1120
+public import GroundTheory.GlobalFields.ComplexMultiplication.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

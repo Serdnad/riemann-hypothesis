@@ -1,16 +1,16 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.GermSys
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.FormalHermitianActionPairingStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.KernelRankBoundNormValuationStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.LatticeKernelRankBoundNormStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.AbelianQuotientBilinearStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.AbelianQuotientLatticeStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.AbelianQuotientOfPowerFnsStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsFiniteKernelNonzeroStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsFormalGermLocalStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ProperHasPowerFnsStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ProperMultiplicationKernelStatement
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle015
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle053
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle021
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle014
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle239
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle181
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle252
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle223
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle228
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle147
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle226
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -54,7 +54,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
-import Development.AutomorphicSpectrum.Definitions.AdelicLattices.FactPrimes
+import Development.AutomorphicSpectrum.Definitions.AdelicLattices.Bundle001
 
 @[expose] public section
 

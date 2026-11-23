@@ -1,15 +1,14 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.EqConjOfInFrame
-public import Development.AbelianVarietyTheory.Statements.HeckeThetaIntegrals.StepUnfold
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle657
+public import Development.AbelianVarietyTheory.Statements.HeckeThetaIntegrals.Bundle002
 import Development.AbelianVarietyTheory.Counterexamples.HeightSurvey.EmbRelExistsUnique
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.CompactChainTopPairMovedVectorRowCharacterStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.CompactChainTopRowRealPointInOrthonormalBasis
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.CompactChainTopRowRealPointInOrthonormalBasisStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.DefiniteNodeCartanOrthonormalBasisAllPlacesStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.FockSubstitutionRowStepRenameUnitaryStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.MovedVectorDefinitePairThetaFockVacuumStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.OmFockCompact
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle669
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle663
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle668
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle658
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle635
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle674
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.WeilCompactRealPointFockVectorSubstitutionStatement
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -47,7 +46,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RealLineOfPeriodsOnLine
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle469
 
 @[expose] public section
 

@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LocalCondMoveDecoratedLattice
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle341
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.DiamondElementIntegralSupportLastRow
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ValuedInvMulLe
 import Formalism.LocalRingCardinality.SpanPowerMembership.LocAtA
@@ -41,7 +41,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FiniteChart
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle340
 
 @[expose] public section
 

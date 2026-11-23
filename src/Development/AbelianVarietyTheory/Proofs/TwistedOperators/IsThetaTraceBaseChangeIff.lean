@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsTranslSum
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle410
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.VtPull
-import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.AbelianSchemeLawsUnconditional
-import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.IsLocallyNoetherian
+import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle024
+import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle023
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

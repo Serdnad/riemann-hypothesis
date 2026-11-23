@@ -2,9 +2,9 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.Foundations.SamePartIffOfNeZero
 public import Mathlib.Analysis.SpecialFunctions.Log.Base
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.CardIrreducibleSamePrimeToPartRootsLeStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.SquarefreeLabelTorusMassDivisorBoundStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.SquarefreeLabelTorusMassUnionBoundsStatement
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle120
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle173
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle118
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,13 +1,13 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.UnderTie
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle025
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContinuousOfCongSet
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IdeleCharacterTrivialOnLocalUnits
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle093
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.DetIntOfLevel
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MemDivsOfMem
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle745
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FinAfMemIntUIff
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsOfStarEq
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsPowEqSpan
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle222
 import Formalism.LocalRingCardinality.SpanPowerMembership.ExampleLayerExistsGenerators
 import Formalism.LocalRingCardinality.SpanPowerMembership.LocAtA
 import Formalism.LocalToGlobal.Columns.ColumnsProofs.ChainCounts
@@ -292,19 +292,19 @@ theorem rhoT_mul_rhoS (i : ℕ) (P : rowSG Pr sel mu) {a : X.E} (h : IsUnit (red
 theorem value_part (hPr : Pr.Ok) (hsel : IsSel X sel) (hS : ∀ i, Pr.g i ∈ S) {σ₀ : X.K →+* ℂ} {ee : X.Tau → ℚ} {j : Fin R.m}
     {χ : HChar X.E} (hμ : Formalism.L2.Col.IsMu0 Ch σ₀ ee j χ) {y : (AfE X.F X.E)ˣ} (hy : y ∈ intU X.F X.E) (e : rowSG Pr sel mu → X.E)
     (he : ∀ P : rowSG Pr sel mu,
-      Valued.v (evP X.F P.1 ((y⁻¹ : (AfE X.F X.E)ˣ) : AfE X.F X.E) * algebraMap X.E _ (e P) - 1) < 1) :
+      Valued.v (_root_.GlobalTheory.Mem.ReadEx.evP X.F P.1 ((y⁻¹ : (AfE X.F X.E)ˣ) : AfE X.F X.E) * algebraMap X.E _ (e P) - 1) < 1) :
     ((χ.1 (part (toIdl X.F X.E y) (rowSG Pr sel mu)) : ℂˣ) : ℂ) *
         σ₀ (((mu : Chr X.F X.E X.K) (partAf X.F y (rowSG Pr sel mu)) : X.Kˣ) : X.K) = σ₀ (∏ P, rhoT Ch sel mu j.1 P (e P)) ∧
       ∀ P : rowSG Pr sel mu, IsUnit (redP P.1 (e P)) := by
   classical
   obtain ⟨ξ, hξ⟩ := exists_reads σ₀ (mu : Chr X.F X.E X.K) mu.2.1.1.1.1.1 mu.2.1.1.1.1.2
   have hξt := GlobalTheory.Mem.ReadTwist.tameAt hξ fun v => Subgroup.mem_iInf.1 mu.2.1.2 v
-  have hyv : ∀ P, Valued.v (evP X.F P (y : AfE X.F X.E)) = 1 := (mem_intU_iff _).1 hy
-  have h1 : ∀ P : rowSG Pr sel mu, Valued.v (evP X.F P.1 (y : AfE X.F X.E) - algebraMap X.E _ (e P)) < 1 := fun P => by
-    have e1 : evP X.F P.1 (y : AfE X.F X.E) * evP X.F P.1 ((y⁻¹ : (AfE X.F X.E)ˣ) : AfE X.F X.E) = 1 := by
+  have hyv : ∀ P, Valued.v (_root_.GlobalTheory.Mem.ReadEx.evP X.F P (y : AfE X.F X.E)) = 1 := (mem_intU_iff _).1 hy
+  have h1 : ∀ P : rowSG Pr sel mu, Valued.v (_root_.GlobalTheory.Mem.ReadEx.evP X.F P.1 (y : AfE X.F X.E) - algebraMap X.E _ (e P)) < 1 := fun P => by
+    have e1 : _root_.GlobalTheory.Mem.ReadEx.evP X.F P.1 (y : AfE X.F X.E) * _root_.GlobalTheory.Mem.ReadEx.evP X.F P.1 ((y⁻¹ : (AfE X.F X.E)ˣ) : AfE X.F X.E) = 1 := by
       rw [← map_mul, Units.mul_inv, map_one]
-    have e2 : evP X.F P.1 (y : AfE X.F X.E) - algebraMap X.E _ (e P) = -(evP X.F P.1 (y : AfE X.F X.E) *
-        (evP X.F P.1 ((y⁻¹ : (AfE X.F X.E)ˣ) : AfE X.F X.E) * algebraMap X.E _ (e P) - 1)) := by
+    have e2 : _root_.GlobalTheory.Mem.ReadEx.evP X.F P.1 (y : AfE X.F X.E) - algebraMap X.E _ (e P) = -(_root_.GlobalTheory.Mem.ReadEx.evP X.F P.1 (y : AfE X.F X.E) *
+        (_root_.GlobalTheory.Mem.ReadEx.evP X.F P.1 ((y⁻¹ : (AfE X.F X.E)ˣ) : AfE X.F X.E) * algebraMap X.E _ (e P) - 1)) := by
       linear_combination (algebraMap X.E (P.1.adicCompletion X.E) (e P)) * e1
     rw [e2, Valuation.map_neg, map_mul, hyv, one_mul]
     exact he P
@@ -324,7 +324,7 @@ theorem value_part (hPr : Pr.Ok) (hsel : IsSel X sel) (hS : ∀ i, Pr.g i ∈ S)
   refine ⟨?_, hun⟩
   have hk : ∀ P : rowSG Pr sel mu, P.1.valuation X.E ((Units.mk0 _ (h0 P) : X.Eˣ) : X.E) = 1 := fun P => val_eq_one (hb P)
   have hx : ∀ P : rowSG Pr sel mu,
-      Valued.v (evP X.F P.1 (y : AfE X.F X.E) - algebraMap X.E _ ((Units.mk0 _ (h0 P) : X.Eˣ) : X.E)) < 1 := fun P => by
+      Valued.v (_root_.GlobalTheory.Mem.ReadEx.evP X.F P.1 (y : AfE X.F X.E) - algebraMap X.E _ ((Units.mk0 _ (h0 P) : X.Eˣ) : X.E)) < 1 := fun P => by
     have h4 := hv P
     rw [← Formalism.UG.P.levelaf_valued_algebraMap, map_sub] at h4
     have h5 := Valuation.map_add_lt _ (h1 P) h4

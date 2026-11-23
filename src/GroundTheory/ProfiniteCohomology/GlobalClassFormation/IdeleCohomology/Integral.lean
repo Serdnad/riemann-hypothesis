@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.GlobalFields.IdeleGroups.SIdeleGroups.IntegerUnits
+public import GroundTheory.GlobalFields.IdeleGroups.SIdeleGroups.Bundle001
 public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.IdeleCohomology.Finite
 public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.IdeleCohomology.Unramified
 import Mathlib.Algebra.Order.Floor.Extended

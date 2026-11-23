@@ -1,12 +1,10 @@
 module
 
-public import Development.AutomorphicSpectrum.Statements.GeometryStatements.HTChartExists
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.HodgeTateLatticeBaseChangePairingStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsHodgeTateFunctionalStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeTateFunctionalEndomorphismStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeTateFunctionalMulStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeTateFunctionalUniqueStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieModelFiniteBaseChangeStatement
+public import Development.AutomorphicSpectrum.Statements.GeometryStatements.Bundle002
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle038
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle178
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle053
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle163
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

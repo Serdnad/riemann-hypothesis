@@ -1,10 +1,10 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.QuasiRegularAlongOfEtale
-public import Development.AbelianVarietyTheory.Definitions.Divisors.LinearIndependentBasisCoords
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle012
 public import Development.AbelianVarietyTheory.Definitions.Divisors.NoCommonZeroCombVal
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IndepBaseChange
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.NonemptyHomologyEquiv
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1034
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1026
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -46,7 +46,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.TypeStar
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.AbProj
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle007
 
 @[expose] public section
 

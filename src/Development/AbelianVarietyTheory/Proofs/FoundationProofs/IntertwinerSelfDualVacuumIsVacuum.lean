@@ -2,10 +2,10 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.Foundations.NormSumPairRankZeroOfCurveCoordNorm
 public import Mathlib.Analysis.SpecialFunctions.Elliptic.Weierstrass
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsIntegerMapEqHalfOneAddSqrt
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IdealPeriodLatticeOfCurveDatumStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.LatticeInvariantsPeriodPairDictionary
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.OddThetaFunctionExistenceUniquenessStatement
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle226
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle250
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle227
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle247
 public import Formalism.SharpRestriction.Divisibility.WeightFamilies
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

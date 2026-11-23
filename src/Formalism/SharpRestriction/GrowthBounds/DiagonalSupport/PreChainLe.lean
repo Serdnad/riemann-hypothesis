@@ -1,7 +1,7 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.DiagonalSupport.RestValBdG
-public import Formalism.SharpRestriction.GrowthBounds.DiagonalSupport.PosULeIff
+public import Formalism.SharpRestriction.GrowthBounds.DiagonalSupport.Bundle004
+public import Formalism.SharpRestriction.GrowthBounds.DiagonalSupport.Bundle007
 public import Formalism.SharpRestriction.GrowthBounds.ValuationLowestDegreeMapFractionField
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

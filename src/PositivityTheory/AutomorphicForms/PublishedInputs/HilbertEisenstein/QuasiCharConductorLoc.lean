@@ -1,9 +1,9 @@
 module
 
-public import PositivityTheory.AutomorphicForms.PublishedInputs.HilbertEisenstein.ArchInt
+public import PositivityTheory.AutomorphicForms.PublishedInputs.HilbertEisenstein.Bundle008
 public import GroundTheory.GlobalFields.TateThesis.EulerFactorsFourierFinite
-public import GroundTheory.LocalFields.LocalZetaChar
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsProdInfMulFinPart
+public import GroundTheory.LocalFields.Bundle010
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle197
 import Formalism.SharpRestriction.GrowthBounds.MonomialOrderSegments.BrData
 import GroundTheory.GlobalFields.CompletionAtPlace.Integers
 public import GroundTheory.GlobalFields.TateThesis.RootNumberLocalPlace
@@ -50,7 +50,7 @@ import Mathlib.Tactic.TypeStar
 import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.ExistsUniqueHcharOfFiniteOrder
 import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.RestrictionMemInvariantH1
 import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.ConstSmall
-import Development.AutomorphicArithmetic.AutomorphicVarieties.PublishedTheorems.GelfandKazhdanReal
+import Development.AutomorphicArithmetic.AutomorphicVarieties.PublishedTheorems.Bundle001
 
 @[expose] public section
 

@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.DepthZeroGoodLines
+public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.Bundle003
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsCuspidalIffCompositions
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -50,7 +50,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.EvAtParabNeZero
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle045
 
 @[expose] public section
 

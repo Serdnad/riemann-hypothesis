@@ -2,7 +2,7 @@ module
 
 import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.ImageLcv
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.PBwDecomp
-public import Formalism.LocalToGlobal.GlobalTheory.GL6.LatticeInclusionOfSubIntegral
+public import Formalism.LocalToGlobal.GlobalTheory.GL6.Bundle002
 public import Formalism.LocalRingCardinality.Lemmas
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.WeylLengthDiagonalUnitUniformiser
 public import Formalism.SharpRestriction.GlobalSchurBounds.FiniteModelOfAdmissibleTransports

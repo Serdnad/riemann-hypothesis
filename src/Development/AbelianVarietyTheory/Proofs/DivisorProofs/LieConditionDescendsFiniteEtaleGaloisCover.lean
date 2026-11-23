@@ -1,12 +1,12 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.NotCompactOfMEqOne
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle013
 public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.IsGaloisCover
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EigenProjectionsOfComaximalStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsAffineGaloisCoverDualNumberEpiStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GrpObjTangentVectorAddAtPointStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsTanScalIffOfLeftEq
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsPushEquiv
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle235
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle731
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle595
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle597
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle048
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.RationalRootsDef
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle020
 public import Formalism.SharpRestriction.SmoothDesignExistence.DGamSmooth
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

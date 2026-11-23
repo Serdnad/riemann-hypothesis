@@ -1,8 +1,8 @@
 module
 
-public import Formalism.LocalRingCardinality.DataSpaces
+public import Formalism.LocalRingCardinality.Bundle001
 public import Formalism.SharpRestriction.CuspSpanNormBounds.DataS
-public import Formalism.SharpRestriction.GrowthBounds.DataG
+public import Formalism.SharpRestriction.GrowthBounds.Bundle001
 public import Formalism.SharpRestriction.LevelLetterCocycles.DataN
 public import Formalism.LocalRingCardinality.AdicCompletionLocal.LocTied
 public import Formalism.LocalRingCardinality.DataForms

@@ -1,8 +1,8 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.OscillatorModelExtensionFirst
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CoefMapNormEquivariantBasis
-import Development.AbelianVarietyTheory.Proofs.HeightProofs.AdelicUnitaryRealPointsStructureRealPlaces
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1648
+import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle048
 import Formalism.LocalToGlobal.Columns.CoefficientsModP.FkMapInitMinor
 import Formalism.LocalToGlobal.Columns.CoefficientsModP.FkPderivBlockEmbNe
 import Mathlib.Algebra.Order.Floor.Extended
@@ -40,10 +40,10 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilGramSignature
-import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.DatEqZero
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ReadingsExistRow
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FibExtMarked
+import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.Bundle015
+import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.Bundle002
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1389
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle286
 
 @[expose] public section
 

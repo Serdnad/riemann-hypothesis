@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PinsMerge
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2187
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.PredMemGamRanks
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ActLevAndActBC
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.UnfoldingFrameDeltaChange
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle076
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2029
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.VectorValuedLiftFieldChange
-import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.TensorMapDescent
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle064
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -45,7 +45,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.JEvExists
+import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle007
 
 @[expose] public section
 

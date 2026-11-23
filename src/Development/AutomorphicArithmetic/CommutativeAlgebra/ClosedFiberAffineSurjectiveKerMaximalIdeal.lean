@@ -42,9 +42,9 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AutomorphicArithmetic.CommutativeAlgebra.EtaleCohomology.GoodRoot
-import Development.EtaleCohomology.EtaleSheaves.LineOneCut
-import Development.EtaleCohomology.EtaleSheaves.StandardChartsLineOne
+import Development.AutomorphicArithmetic.CommutativeAlgebra.EtaleCohomology.Bundle001
+import Development.EtaleCohomology.EtaleSheaves.Bundle028
+import Development.EtaleCohomology.EtaleSheaves.Bundle055
 
 @[expose] public section
 

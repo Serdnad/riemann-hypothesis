@@ -1,11 +1,11 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.RestrictedRamification.MaxUnramifiedOutside
+public import GroundTheory.ProfiniteCohomology.RestrictedRamification.Bundle001
 public import ReciprocityTheory.GaloisValuations.Global
 public import ReciprocityTheory.GaloisValuations.GlobalB
 public import GroundTheory.ProfiniteCohomology.GaloisModules.FixedField
 public import GroundTheory.ProfiniteCohomology.RestrictedRamification.IsUnramifiedOutsideIffLeMaxUnramifiedOutside
-import GroundTheory.ProfiniteCohomology.RestrictedRamification.Unramified
+import GroundTheory.ProfiniteCohomology.RestrictedRamification.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

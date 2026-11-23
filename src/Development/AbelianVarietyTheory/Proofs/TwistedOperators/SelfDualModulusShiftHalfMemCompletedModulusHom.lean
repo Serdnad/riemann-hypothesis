@@ -6,9 +6,9 @@ public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DiagonalBloc
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AuxiliaryVectorDecompositionEqZero
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.UnderMemAndPlaceAboveEqOfMem
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ValuationLeOneOfMem
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsValuationOneElementAtGridPlaces
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle375
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.MemCompletedGridArrowLatticeIffIntegralFrameMatr
-public import Development.AutomorphicArithmetic.CyclotomicBounds.SmallFacts
+public import Development.AutomorphicArithmetic.CyclotomicBounds.Bundle002
 public import GroundTheory.GlobalFields.TateThesis.AdelePoisson
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

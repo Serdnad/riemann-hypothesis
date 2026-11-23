@@ -3,7 +3,7 @@ module
 public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.CoordinateIdeals
 public import ReciprocityTheory.AnalyticForms.MaIntEmpty
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ConeTangentLiftInChart
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ConeTangentLiftInChartStatement
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle138
 public import Development.WeilBound.CoreStatements.PlurisubharmonicCones.ContDiffAtLogH
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -51,7 +51,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Development.AutomorphicSpectrum.Definitions.MetricPeriods.ExistsIntSmulIsAdicIntegralInTensorBasis
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsCompletedStrictHens
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.CubicalStructures.CubeSymmetricSwapFirst
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.CubicalStructures.Bundle001
 
 @[expose] public section
 

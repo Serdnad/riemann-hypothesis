@@ -1,19 +1,19 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HasDerivAtMulVec
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsCliff
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle356
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle472
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.RealDescent.RealLeviDescent.IsCoreMod
 public import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
 public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.IntegralConjInnerMulInnerOfIsEmptyEquiv
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FiniteDimTranslationRepUnitaryModel
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ContinuousCoeffRowAct
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.DifferentiableCoeffRowAct
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.GelfandInfinitesimalCharacter
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LineInverse
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SecondCountableUnitary
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1943
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle510
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle539
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle046
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle364
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle547
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SumMemOfStable
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.WeylCharEqGtChar
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.HwIrred
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle525
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle033
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -58,7 +58,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Algebra.Star.Unitary
 import Mathlib.Topology.Sheaves.Init
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.WtRInjective
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle492
 
 @[expose] public section
 

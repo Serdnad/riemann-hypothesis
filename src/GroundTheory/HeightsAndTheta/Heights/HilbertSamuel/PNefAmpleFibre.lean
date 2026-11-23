@@ -1,9 +1,9 @@
 module
 
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArithmeticIntersection.MultihomogeneousIdeals.ExistsUniqueStatement
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsNefAmpleFibre
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsKleimanScheme
-public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.IsMultiHomogIdealIff
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArithmeticIntersection.MultihomogeneousIdeals.Bundle002
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle055
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle038
+public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -2,7 +2,7 @@ module
 
 public import Development.AbelianVarietyTheory.PublishedTheorems.PublishedFoundations.BlockTriangularOfSubOne
 public import CompanionTheory.AutomorphicTheory.MirabolicRestriction.MirabolicInduction.CuspidalRestrictsToInduced
-public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.IsIrreducibleTransportRep
+public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle032
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

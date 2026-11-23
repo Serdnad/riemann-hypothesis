@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.AutomorphicForms.HermitianSpaces
+public import GroundTheory.AutomorphicForms.Bundle004
 public import GroundTheory.AutomorphicForms.RealGroupsLie
 public import Mathlib.Analysis.Matrix.Spectrum
 import Mathlib.Algebra.Order.Floor.Extended

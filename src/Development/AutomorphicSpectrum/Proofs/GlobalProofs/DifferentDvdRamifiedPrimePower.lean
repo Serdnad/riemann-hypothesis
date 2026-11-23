@@ -3,8 +3,8 @@ module
 public import Mathlib.Algebra.AffineMonoid.Basic
 public import Mathlib.NumberTheory.NumberField.Basic
 public import Mathlib.RingTheory.DedekindDomain.Different
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ImportsTer
-public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.PrimePowerNotDvdDifferentStatement
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle039
+public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle008
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

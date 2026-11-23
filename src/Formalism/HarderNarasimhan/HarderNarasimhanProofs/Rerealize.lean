@@ -1,11 +1,11 @@
 module
 
-public import Formalism.HarderNarasimhan.QuotRealize
+public import Formalism.HarderNarasimhan.Bundle002
 public import Mathlib.CategoryTheory.Category.Basic
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.DiscreteSpanOfLinIndep
-public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.ExistsSmulMemOfFinrankEq
-public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.SatBasic
-public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.ShiftInvariance
+public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.Bundle001
+public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.Bundle002
+public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.Bundle003
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.SlopeIneqMean
 import Formalism.LatticeSlopes.ExistsSaturatedSlopeEqMuMax
 import Mathlib.Algebra.Order.Floor.Extended

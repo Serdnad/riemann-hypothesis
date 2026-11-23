@@ -5,7 +5,7 @@ public import Mathlib.Analysis.InnerProductSpace.Basic
 public import Mathlib.MeasureTheory.Group.FundamentalDomain
 public import Mathlib.NumberTheory.NumberField.Basic
 public import Formalism.LocalToGlobal.IndefiniteReal.SobolevIteration.FdSetIntegralCharEqZero
-import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerVolume.TopoAF
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerVolume.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -58,8 +58,8 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 public import Mathlib.Topology.ContinuousMap.StoneWeierstrass
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.PublishedTheorems.GlobalTheta.IsSchwartzBruhatOfProd
-import Development.AutomorphicSpectrum.Proofs.GlobalProofs.IsCovolOne
+import Development.AbelianVarietyTheory.PublishedTheorems.GlobalTheta.Bundle002
+import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle053
 
 @[expose] public section
 

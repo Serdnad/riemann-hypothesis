@@ -1,20 +1,20 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.SplitPart
+public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.Bundle012
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.FinTensMemLatO
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.RealIdemMulOfReal
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.SelfDualLatticePairingDual
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.SmulMemLatO
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.AlVEmbHEqNegOneZpow
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ConjPEqCP
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.NotIsConjPlOfIdemSum
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.StdCharSymplecticHalfPeriodLatticeEqOne
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FinPartConjMem
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle064
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle142
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle119
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle312
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle141
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1728
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HeisenbergOperatorFinitePartLatticeVacuumSign
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.EmbHInjective
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsNsmulIntMemLatO
 import Formalism.LocalToGlobal.BesselHermitianTheta.LemmasWeil
-public import Formalism.SharpRestriction.Divisibility.BoundaryLocalData
+public import Formalism.SharpRestriction.Divisibility.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -50,7 +50,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
-import Development.AbelianVarietyTheory.Definitions.LatticeFrames.FiniteDimensionalMram
+import Development.AbelianVarietyTheory.Definitions.LatticeFrames.Bundle004
 
 @[expose] public section
 

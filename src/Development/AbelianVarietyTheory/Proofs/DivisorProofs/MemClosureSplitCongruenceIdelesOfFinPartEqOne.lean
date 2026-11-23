@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SplitLocF
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle369
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.MemClosureHeckeSplitCongruenceOfFinPartOne
 public import Development.AbelianVarietyTheory.Definitions.Foundations.GLintEqKOAndPrincEqKOne
 import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsFinsetNormOne
@@ -279,7 +279,7 @@ theorem exists_mem_grpHF (σ : E →ₐ[F] E) (N : ℕ) (hN : N ≠ 0) (δ : �
     fun c v => by
     show (1 - 0) * algebraMap F (v.adicCompletion F) c = _
     ring
-  have hx : cut (idem_compl (epInf_sq F)) Y ∈ grpHF σ N := by
+  have hx : _root_.GlobalTheory.HeckeSplitAll.cut (idem_compl (epInf_sq F)) Y ∈ grpHF σ N := by
     refine mem_grpHF_of_good σ N hN δ T hT _ _ _ _ _ (by rw [cut_val, hY1, cut_mkE]) (by rw [cut_inv, hY2, cut_mkE])
       ?_ ?_ fun v hv => ?_
     · show (1 - 1) * algebraMap F (Ainf F) α + (1 - (1 - 1)) = 1
@@ -289,7 +289,7 @@ theorem exists_mem_grpHF (σ : E →ₐ[F] E) (N : ℕ) (hN : N ≠ 0) (δ : �
     · obtain ⟨g1, g2, g3⟩ := hg v hv
       rw [e3, e4, e3, e4, map_div₀, map_div₀, norm_div, norm_div, g3, div_one, div_one, map_neg, norm_neg]
       exact ⟨g1, g2, norm_le_one_of_sub_le (g1.trans (norm_nat_le_one v N)), g2.trans (norm_nat_le_one v N)⟩
-  refine ⟨cut (epInf_sq F) Y, ?_, by rw [cut_val, hY1, cut_mkE, e1, e2], by rw [cut_inv, hY2, cut_mkE, e1, e2]⟩
+  refine ⟨_root_.GlobalTheory.HeckeSplitAll.cut (epInf_sq F) Y, ?_, by rw [cut_val, hY1, cut_mkE, e1, e2], by rw [cut_inv, hY2, cut_mkE, e1, e2]⟩
   rw [eq_mul_inv_of_mul_eq (cut_mul (epInf_sq F) Y)]
   exact mul_mem hY (inv_mem hx)
 

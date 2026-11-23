@@ -2,8 +2,7 @@ module
 
 public import Mathlib.Basic.Complex.Basic
 public import Mathlib.LinearAlgebra.Trace
-public import Development.AutomorphicArithmetic.TwistedTraces.LinearFormEqMulTraceOfTwistedInvariant
-public import Development.AutomorphicArithmetic.TwistedTraces.ListOfFnProdEqMulUpdateOneOfPairwiseCommute
+public import Development.AutomorphicArithmetic.TwistedTraces.Bundle001
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

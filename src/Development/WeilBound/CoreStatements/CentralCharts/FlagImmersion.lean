@@ -1,6 +1,6 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.EmbedsGeneric
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle013
 public import Development.WeilBound.CoreStatements.FlagImmersions.Transport
 public import Development.WeilBound.CoreStatements.CentralCharts.PotLoc
 public import Development.WeilBound.CoreStatements.CentralCharts.TopLeIffCentre

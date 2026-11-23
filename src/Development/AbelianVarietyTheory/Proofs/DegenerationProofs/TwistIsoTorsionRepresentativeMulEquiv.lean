@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.WithISelf
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle121
 public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.HomTransport
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -2,7 +2,7 @@ module
 
 public import Formalism.WachLatticeTwists.CoprimeLiftBounds.WachTwistTheoremDeltaClause
 public import Formalism.CharacterColumnKernels.IdempotentNormalForms.LengthKerOfDetEqZero
-public import Formalism.WachLatticeTwists.CoprimeLiftBounds.CoprimeLiftProofs.SelmerInjColumnPlace
+public import Formalism.WachLatticeTwists.CoprimeLiftBounds.CoprimeLiftProofs.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

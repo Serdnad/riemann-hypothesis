@@ -1,10 +1,9 @@
 module
 
-public import Formalism.LocalToGlobal.ProjectiveLattices.IsExpChart
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.KillAdd
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.CIndEnc
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle018
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.Bundle003
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle006
 public import Mathlib.RingTheory.MvPowerSeries.Rename
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.CIndEncPf
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

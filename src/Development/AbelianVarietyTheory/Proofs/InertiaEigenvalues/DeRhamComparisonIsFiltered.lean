@@ -1,11 +1,11 @@
 module
 
 public import Formalism.SharpRestriction.LevelLetterCocycles.LocalSituation
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.DeRhamDieudonneSpansTensorDeRhamPeriodsStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsFinExt
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CLTateInvariantsFiniteExtensionMem
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle443
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle384
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle122
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.EqZeroOfTateTwistInvariantFiniteExtension
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.NonemptyThetaDeRhamFilZeroConcretePeriod
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle150
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

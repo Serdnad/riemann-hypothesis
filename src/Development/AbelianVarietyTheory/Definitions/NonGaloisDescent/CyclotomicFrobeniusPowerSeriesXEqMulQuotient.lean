@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.CrystallinePeriods.AdicMaps
+public import Development.AbelianVarietyTheory.CrystallinePeriods.Bundle001
 public import Formalism.SharpRestriction.LevelLetterCocycles.DataNLoc
 public import Mathlib.NumberTheory.Padics.MahlerBasis
 public import Mathlib.RingTheory.PowerSeries.Binomial

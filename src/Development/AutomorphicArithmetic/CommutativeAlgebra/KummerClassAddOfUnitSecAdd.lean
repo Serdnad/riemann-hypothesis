@@ -1,11 +1,11 @@
 module
 
-public import Development.AutomorphicArithmetic.CommutativeAlgebra.KumSExact
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleSheafSectionsExtAndGlueStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsKummerTorsorSplittingKummerTorsorSplittingStatement
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TateTwistSectionsLocallyGeneratedStatement
-public import Development.AutomorphicArithmetic.CommutativeAlgebra.EqOfUnitGlobalSectionEq
-public import Development.AutomorphicArithmetic.CommutativeAlgebra.PicUnit
+public import Development.AutomorphicArithmetic.CommutativeAlgebra.Bundle034
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle461
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle800
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle654
+public import Development.AutomorphicArithmetic.CommutativeAlgebra.Bundle019
+public import Development.AutomorphicArithmetic.CommutativeAlgebra.Bundle010
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

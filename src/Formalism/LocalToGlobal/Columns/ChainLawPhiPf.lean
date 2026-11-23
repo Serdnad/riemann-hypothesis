@@ -1,11 +1,10 @@
 module
 
 public import Formalism.LocalToGlobal.Columns.ChainLawPhiA
-public import Formalism.LocalToGlobal.Columns.ChainLawPhi
-public import Formalism.LocalToGlobal.Columns.OcbBEntEntB
+public import Formalism.LocalToGlobal.Columns.Bundle014
 import Formalism.LocalToGlobal.Columns.ChainInst
 public import Formalism.LocalToGlobal.Columns.FirstUnfoldingEqZeroOfNotIntegral
-public import Formalism.LocalToGlobal.Columns.OcbTIntOfStab
+public import Formalism.LocalToGlobal.Columns.Bundle022
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,19 +1,16 @@
 module
 
-public import Development.EtaleCohomology.KummerTheory.PlaceStepPf
-public import Development.EtaleCohomology.KummerTheory.SHInsepPf
-public import Development.EtaleCohomology.KummerTheory.SecSHPf
-public import Development.EtaleCohomology.KummerTheory.AlgExtPf
-public import Development.EtaleCohomology.KummerTheory.InsepPf
+public import Development.EtaleCohomology.KummerTheory.Bundle015
+public import Development.EtaleCohomology.KummerTheory.Bundle003
+public import Development.EtaleCohomology.KummerTheory.Bundle006
+public import Development.EtaleCohomology.KummerTheory.Bundle002
 public import Development.EtaleCohomology.KummerTheory.PlaceExPfZorn
-public import Development.EtaleCohomology.KummerTheory.PlacePfVal
-public import Development.EtaleCohomology.KummerTheory.PlaceResGoodPf
-public import Development.EtaleCohomology.KummerTheory.PrimTorsPf
-public import Development.EtaleCohomology.KummerTheory.SHInsepHensPf
-public import Development.EtaleCohomology.KummerTheory.SHInsepLocPf
-public import Development.EtaleCohomology.KummerTheory.SHInsepResPf
-public import Development.EtaleCohomology.KummerTheory.SHInvPf
-public import Development.EtaleCohomology.KummerTheory.ShSectPf
+public import Development.EtaleCohomology.KummerTheory.Bundle005
+public import Development.EtaleCohomology.KummerTheory.Bundle017
+public import Development.EtaleCohomology.KummerTheory.Bundle012
+public import Development.EtaleCohomology.KummerTheory.Bundle010
+public import Development.EtaleCohomology.KummerTheory.Bundle008
+public import Development.EtaleCohomology.KummerTheory.Bundle016
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

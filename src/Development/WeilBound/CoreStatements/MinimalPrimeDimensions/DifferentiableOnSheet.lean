@@ -2,7 +2,7 @@ module
 
 public import Development.WeilBound.CoreStatements.MinimalPrimeDimensions.IntegralBallPow
 public import Development.WeilBound.CoreStatements.MinimalPrimeDimensions.EvaluationGenEqZero
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.ConeBall
+public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle006
 import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PConeMapAreaOne
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

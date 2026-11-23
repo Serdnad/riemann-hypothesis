@@ -49,9 +49,9 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 public import Development.AbelianVarietyTheory.BlockTheory.ThetaLiftGeometry.BadPrimesPeriodBound
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsClassFam
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1016
 import Formalism.LocalToGlobal.KernelLattices.XiIndCClass
-import Formalism.SharpRestriction.CuspSpanNormBounds.Point
+import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle001
 
 @[expose] public section
 

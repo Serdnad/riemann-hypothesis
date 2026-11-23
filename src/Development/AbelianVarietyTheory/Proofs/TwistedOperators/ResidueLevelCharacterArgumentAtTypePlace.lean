@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.CPAsIdeal
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle281
 public import Formalism.LocalToGlobal.IndefiniteReal.LinksChar
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.MemHatIffOfSelfDual
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SurjectiveReductionOntoFiniteLevelGroup
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.TypePlacesOverNormAndCoverWithConjugates
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle278
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.RankTwoDimensionFormula.FlagLevelCharacterEqPsiDivN
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,9 +1,8 @@
 module
 
 public import Development.WeilBound.CoreStatements.VolumeEquality.RootBranches
-public import Development.WeilBound.CoreStatements.VolumeEquality.ChartMeetsAlg
-public import Development.WeilBound.CoreStatements.VolumeEquality.ChartMeetsForm
-public import Development.WeilBound.CoreStatements.VolumeEquality.ChartMeetsPoint
+public import Development.WeilBound.CoreStatements.VolumeEquality.Bundle001
+public import Development.WeilBound.CoreStatements.VolumeEquality.Bundle002
 public import GroundTheory.HeightsAndTheta.Heights.WeightedHomogeneous.PIntDomainDim
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

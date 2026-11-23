@@ -1,15 +1,15 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.ThetaValues.GamAt
-public import Formalism.LocalToGlobal.ProjectiveLattices.XcLat
-public import Formalism.SharpRestriction.GenusPolyhedralBounds.RelativeIndexClassSets.WeightedPrimeSumBound
-public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.DataXOfModelOfGamAt
-public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.ExistsConstantCmEvaluationFitsRoomStatement
-public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.ExistsKroneckerLogOmCore
-public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.IsIntegralLevelMulKappa
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle037
+public import Formalism.SharpRestriction.GenusPolyhedralBounds.RelativeIndexClassSets.Bundle007
+public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle058
+public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle059
+public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle055
+public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle062
 public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.MeanLogSupNormLowerBoundCmFrameNonvanishingStatement
-public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.SumExtendByZeroLeSum
-import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.FactPrincipalDatum
+public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle057
+import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.Bundle002
 import Formalism.LocalToGlobal.ProjectiveLattices.HostInt
 public import Formalism.LocalToGlobal.ProjectiveLattices.RosatiLatticeNorms.CmFrameOfEq
 import Formalism.LocalToGlobal.ProjectiveLattices.RosatiLatticeNorms.LinkFD
@@ -45,7 +45,7 @@ import Mathlib.Tactic.NormNum.NatSqrt
 import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.FinrankEqTwoMulHalfDegree
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.Bundle006
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.SiegelSpaceAlgebraHolds
 
 @[expose] public section

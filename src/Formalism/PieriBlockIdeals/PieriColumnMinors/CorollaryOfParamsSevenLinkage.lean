@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PieriBlockIdeals.HidaLatticeInclusionAtCoarseWeightBound
+public import Formalism.PieriBlockIdeals.Bundle006
 public import Formalism.PieriBlockIdeals.PieriColumnMinors.CorollaryOfParamsLinkage
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

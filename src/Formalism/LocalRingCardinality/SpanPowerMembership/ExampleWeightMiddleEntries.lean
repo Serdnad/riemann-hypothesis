@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalRingCardinality.RhoDetPrimeEqMuTildeMulChiPow
-public import Formalism.LocalRingCardinality.SpanPowerMembership.ExampleRanksRankComplement
+public import Formalism.LocalRingCardinality.SpanPowerMembership.Bundle004
 public import Mathlib.Analysis.SpecialFunctions.Complex.CircleAddChar
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

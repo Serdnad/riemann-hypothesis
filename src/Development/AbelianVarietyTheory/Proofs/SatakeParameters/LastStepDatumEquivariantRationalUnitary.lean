@@ -1,12 +1,12 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.UnderTie
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle025
 public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.RedPDivOfUnit
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.BaseCosetRepIntegralAfterScalingAtBadPrimeStatement
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle313
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.CouplingCosetsRightTranslateInFramesTypePrime
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.IntAtFormOfMemStdAt
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.LastStepDatumTypePrimeInvariantFramesCongruentOn
-public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.KerEquivFr
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle113
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle312
+public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

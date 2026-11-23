@@ -1,9 +1,9 @@
 module
 
-public import Development.WeilBound.ThetaLifts.SmallCones.HodgeTateFromSandwich
-public import Development.WeilBound.ThetaLifts.SmallCones.ConeBasic
-public import Development.WeilBound.ThetaLifts.SmallCones.ConeCore
-public import Development.WeilBound.ThetaLifts.SmallCones.ConeLawAB
+public import Development.WeilBound.ThetaLifts.SmallCones.Bundle003
+public import Development.WeilBound.ThetaLifts.SmallCones.Bundle002
+public import Development.WeilBound.ThetaLifts.SmallCones.Bundle007
+public import Development.WeilBound.ThetaLifts.SmallCones.Bundle009
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -43,7 +43,7 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.Divisors.MatchingOfParts
 import Development.WeilBound.ThetaLifts.CTKernel
-import Development.WeilBound.ThetaLifts.TowerModels.PlaneHerm
+import Development.WeilBound.ThetaLifts.TowerModels.Bundle003
 
 @[expose] public section
 

@@ -1,42 +1,36 @@
 module
 
-public import Development.AutomorphicSpectrum.PublishedTheorems.Metrics₂.PoincareLelong
-public import Development.AutomorphicSpectrum.PublishedTheorems.Metrics₂.PoincareLelongInv
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.StChartDivisor
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StDivisorGeneralPointBranches
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StLelongLimit
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StLelongLimitAtBranches
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StRegMassNearSmall
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.StPtsAbsIntegrable
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.StPtsAbsMeasurable
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.StLelongPolyLimit
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.StSegreChartIntegral
+public import Development.AutomorphicSpectrum.PublishedTheorems.Metrics₂.Bundle001
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle020
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle048
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle062
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle064
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle008
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle004
 public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Assembly
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PLelongLimit
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PLelongLimitGoodPoints
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PLelongLimitOnZero
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PLelongMassNearSmall
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle082
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle094
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle096
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle103
 public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PTubeDeepAreaCount
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PTubeDeepMass
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle098
 public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PTubeDeepRankOne
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PTubeEuclMass
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle089
 public import GroundTheory.HeightsAndTheta.Heights.ElementarySymmetric.PVarIntGraphX
 import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.AssemblyBase
-public import GroundTheory.HeightsAndTheta.Heights.LocalFiniteness.CentredDiscCoverCurveHolds
-public import GroundTheory.HeightsAndTheta.Heights.LocalFiniteness.IsolatedPointsCount
-public import GroundTheory.HeightsAndTheta.Heights.LocalFiniteness.UniformIntegrabilityProportionalityHolds
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.LogRegLineTensor
+public import GroundTheory.HeightsAndTheta.Heights.LocalFiniteness.Bundle002
+public import GroundTheory.HeightsAndTheta.Heights.LocalFiniteness.Bundle004
+public import GroundTheory.HeightsAndTheta.Heights.LocalFiniteness.Bundle001
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle031
 import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.PChartSectionNotMem
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.PLelongChartLimit
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.PLelongSectionLimit
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.PLelongWeightLimit
-import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.PLocalMultComap
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle033
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle013
+import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle005
 public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.PPtsBilinear
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.PSegreChart
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.PoincareLelongAlt
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.PotFinCons
-import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.PtsIntegrable
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Stokes
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle024
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle021
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle038
+import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle009
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -74,7 +68,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.LelongChartLimit
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle010
 
 @[expose] public section
 

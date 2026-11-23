@@ -1,8 +1,8 @@
 module
 
 public import Development.WeilBound.CoreStatements.PublishedTheorems.GlobalEulerCharacteristic.WorkKilledA
-public import Development.WeilBound.CoreStatements.PublishedTheorems.GlobalEulerCharacteristic.LemmaX
-public import GroundTheory.ProfiniteCohomology.RestrictedRamification.BaseFixed
+public import Development.WeilBound.CoreStatements.PublishedTheorems.GlobalEulerCharacteristic.Bundle001
+public import GroundTheory.ProfiniteCohomology.RestrictedRamification.Bundle006
 public import GroundTheory.ProfiniteCohomology.RestrictedRamification.FiniteOpen
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

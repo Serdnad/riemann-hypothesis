@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PreEig
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle147
 public import Mathlib.LinearAlgebra.Determinant
-public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.IsSaturatedSubmoduleIffExistsIsComplOfValuationR
+public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.Bundle008
 import Mathlib.Algebra.GroupWithZero.Submonoid.CancelMulZero
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

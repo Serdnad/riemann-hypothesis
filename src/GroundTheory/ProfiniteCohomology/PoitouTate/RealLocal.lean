@@ -1,14 +1,13 @@
 module
 
 public import GroundTheory.ProfiniteCohomology.PoitouTate.BrauerInvZOfIsSepClosureCohomologyULiftIntAddEqu
-public import GroundTheory.ProfiniteCohomology.RealPlaces.GSDefs
+public import GroundTheory.ProfiniteCohomology.RealPlaces.Bundle002
 public import GroundTheory.ProfiniteCohomology.RealPlaces.LocalCohomologyIsoHomologyMapNormCochains
 public import GroundTheory.ProfiniteCohomology.RealPlaces.LocalDualityDefs
-import GroundTheory.ProfiniteCohomology.FilteredHomology
+import GroundTheory.ProfiniteCohomology.Bundle001
 import GroundTheory.ProfiniteCohomology.LocalTateDuality.TensorHomDualRepRootsOfUnityIsoCartierPairing
 public import GroundTheory.ProfiniteCohomology.PoitouTate.RealDefs
 public import GroundTheory.ProfiniteCohomology.RealPlaces.LocalDuality
-public import GroundTheory.ProfiniteCohomology.RealPlaces.LocalDualityPlace
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

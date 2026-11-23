@@ -1,7 +1,7 @@
 module
 
 public import Development.ResolutionOfSingularities.EmbeddedResolution.IteratedBlowups.Saturation
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.SaturationByPowers
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle065
 import Development.ResolutionOfSingularities.Foundations.Schemes.IdealSheafData
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

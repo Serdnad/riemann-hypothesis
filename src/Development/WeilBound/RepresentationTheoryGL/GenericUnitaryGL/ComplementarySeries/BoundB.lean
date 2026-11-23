@@ -4,7 +4,7 @@ public import Development.WeilBound.RepresentationTheoryGL.GenericUnitaryGL.Comp
 public import GroundTheory.AutomorphicForms.InductionParabolicGroups
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.PadicIsNonarchimedeanLocalField
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsIrreducibleSecondFactorOfIrreducibleProduct
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.NormalizedAbsCharacterization
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle039
 public import GroundTheory.AutomorphicForms.IwahoriFactorization
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

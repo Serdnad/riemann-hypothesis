@@ -1,14 +1,14 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.IsChartMember
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle071
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsGenOfIsoRel
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsTorsionNe
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GmSpMapUnitOn
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2933
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsDominantToUnitLeft
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SharpTorsionDefOver
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ValMemOfCorrPull
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2919
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2795
 import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsIntegralSectionUnitAt
-import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsFrameRatio
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle028
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -45,7 +45,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.LBLocalC
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.Bundle005
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FirstCohomology.SectionArithmetic
 
 @[expose] public section

@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.RegularCharts.MatrixTwoByTwoCongr
+public import Development.AbelianVarietyTheory.Definitions.RegularCharts.Bundle001
 public import Mathlib.LinearAlgebra.Matrix.Rank
-public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.PolyChartSmoothFractionLift
-public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.RankOfQuasiIdem
+public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.Bundle004
+public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.Bundle010
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

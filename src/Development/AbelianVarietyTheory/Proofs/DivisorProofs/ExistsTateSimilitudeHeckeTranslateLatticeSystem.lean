@@ -1,16 +1,16 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CompEqOneOfTransl
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HeckeSubAFiniteFree
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle546
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle597
 public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.IsGaloisCover
-public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.GlobalFnsHolds
+public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle012
 public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.ProdSurjectiveGeometricPoints
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CommutatorPairingHeckeTranslateEqZeta
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsTateSimilitudeHeckeTranslateGeometric
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsWeilCommutatorPairingTorsionGeometricPoint
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LevelPosOfCoprime
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2696
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3067
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2889
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle547
 import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ClsLinCombSingle
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsGenMovePow
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle070
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -58,7 +58,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.MixCore
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle013
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.ExistsUniqueWeilIs
 
 @[expose] public section

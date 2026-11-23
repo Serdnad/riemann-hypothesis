@@ -2,7 +2,7 @@ module
 
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.RegularityAtPlaceOfSubadditive
 public import Mathlib.Analysis.CStarAlgebra.ContinuousLinearMap
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutBP
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle053
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.TheoremPIntegralOfPlaces
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

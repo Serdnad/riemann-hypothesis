@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.IsSquareIntegrableAutomorphicSpace
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle043
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.SatakeMat
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.SatakeRes
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle010
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsContinuousPadic
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Satake
 import Formalism.SatakeDualWeyl.KpqSubgroupCompact

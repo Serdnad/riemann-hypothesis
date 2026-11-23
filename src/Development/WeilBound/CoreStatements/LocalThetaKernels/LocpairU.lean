@@ -1,8 +1,8 @@
 module
 
-public import Development.WeilBound.ThetaLifts.CartanFactorisation.MaxDef
+public import Development.WeilBound.ThetaLifts.CartanFactorisation.Bundle003
 public import Development.WeilBound.CoreStatements.LocalThetaKernels.LocpairRep
-public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.WeilRepresentationSplittingsDiffer
+public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.Bundle003
 import Development.WeilBound.CoreStatements.LocalThetaKernels.ExistsSmallSubgroups
 public import Development.WeilBound.CoreStatements.LocalThetaKernels.Locpair
 public import Development.WeilBound.CoreStatements.LocalThetaKernels.LocpairUnit
@@ -46,7 +46,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.FinSplit
+import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.Bundle002
 
 @[expose] public section
 

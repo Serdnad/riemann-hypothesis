@@ -1,10 +1,10 @@
 module
 
 import Formalism.SharpRestriction.LevelLetterCocycles.RingConditionOfDeltaInvariants
-public import Formalism.SharpRestriction.LevelLetterCocycles.AnnihilatorLevelsOfGrading
+public import Formalism.SharpRestriction.LevelLetterCocycles.Bundle027
 public import Formalism.SharpRestriction.LevelLetterCocycles.LemmasUnramifiedOfRingCondition
 public import Mathlib.RingTheory.PowerSeries.Binomial
-import Formalism.SharpRestriction.LevelLetterCocycles.AnnihilatorGeneralOfRingCondition
+import Formalism.SharpRestriction.LevelLetterCocycles.Bundle018
 public import Formalism.SharpRestriction.LevelLetterCocycles.ExistsPosConstLagrangeCondition
 public import Formalism.SharpRestriction.LevelLetterCocycles.LevelClauseOfOpenTool
 import Mathlib.Algebra.Order.Floor.Extended

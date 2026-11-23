@@ -2,9 +2,8 @@ module
 
 public import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalHeckeOperators.SymSum
 public import GroundTheory.AutomorphicForms.MacdonaldNormalization
-public import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalHeckeOperators.HlEval
-public import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalHeckeOperators.Mac
-public import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalHeckeOperators.ThPMul
+public import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalHeckeOperators.Bundle001
+public import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalHeckeOperators.Bundle006
 import GroundTheory.LocalFields.LocalFourierHaar
 import Mathlib.Algebra.AffineMonoid.UniqueSums
 import Mathlib.Algebra.Order.Floor.Extended

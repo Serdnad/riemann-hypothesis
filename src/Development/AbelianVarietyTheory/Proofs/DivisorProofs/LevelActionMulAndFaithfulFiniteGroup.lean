@@ -2,14 +2,14 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.ExistenceOfLattices.Hat1
 public import Development.AbelianVarietyTheory.Statements.PlaceShiftStatements.SingleIndexPlacesAreTwisted
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CongruenceOnSelfDualLatticeCompletionStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CongruenceOnSelfDualLatticeOfDatumImageStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MemLatPIffMulVec
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MulVecMemLatGHat
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsDetOfMemSt
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1795
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1796
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2418
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1677
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle409
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.FinCongMemLevEnv
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.MulVecMemOfFrame
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.OmegaFormNonvanishing
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle292
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FrameUniformEmbeddingSecond
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -44,10 +44,10 @@ import Mathlib.Tactic.NormNum.NatSqrt
 import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AbelianVarietyTheory.BlockTheory.PoincareCuspForms.TwoLevelLogarithm
-import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsArchOne
+import Development.AbelianVarietyTheory.BlockTheory.PoincareCuspForms.Bundle003
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle059
 import Development.AbelianVarietyTheory.Definitions.Divisors.NormNegCmConstantEqAtAllEmbeddings
-import Development.AbelianVarietyTheory.Definitions.ThetaValues.Generic
+import Development.AbelianVarietyTheory.Definitions.ThetaValues.Bundle002
 
 @[expose] public section
 

@@ -1,17 +1,17 @@
 module
 
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.GlobalSectionsRankAlgClosed
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IntegralClosureHeightEqOneOfLiesOver
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle011
 public import Mathlib.RingTheory.RegularLocalRing.Defs
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ConstantsCompatibleGenericStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsConstantsGenericPointStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsJoinModelDominatesStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsNormalisationStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FinrankAdjoinVarsFieldStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GenericFlagFieldChangeStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeCompFieldExtensionStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeCptFieldExtensionStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.NormalCptIffNormalSchemeStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle212
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle096
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle124
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle167
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle036
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle060
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle253
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle250
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle076
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -53,7 +53,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.GlueApplyOfNotInFibre
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.CoordTieCompEquiv
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle032
 
 @[expose] public section
 

@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Statements.PlaceShiftStatements.DefiniteBound
+public import Development.AbelianVarietyTheory.Statements.PlaceShiftStatements.Bundle001
 public import Mathlib.RingTheory.SimpleRing.Principal
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsGensModNsmulOfFgNumberFieldStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LatticeModRepsCardLeStatement
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.CsApprox
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle222
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle441
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle011
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

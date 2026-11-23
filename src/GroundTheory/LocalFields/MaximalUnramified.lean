@@ -7,7 +7,7 @@ public import Mathlib.Order.CompletePartialOrder
 public import Mathlib.RingTheory.RamificationInertia.Inertia
 public import GroundTheory.LocalFields.AbstractLocalReciprocity.Frobenius
 import GroundTheory.LocalFields.AbstractLocalReciprocity.Valuation
-import GroundTheory.LocalFields.FiniteExtension
+import GroundTheory.LocalFields.Bundle001
 import GroundTheory.LocalFields.UnitsPowers
 import GroundTheory.LocalFields.UnramifiedGalois
 import Mathlib.Algebra.Order.Floor.Extended

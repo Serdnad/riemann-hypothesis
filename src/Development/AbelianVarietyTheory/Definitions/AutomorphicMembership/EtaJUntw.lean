@@ -2,8 +2,8 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.PlaceCharacterEqReferenceIff
 public import Formalism.LocalToGlobal.IndefiniteReal.FWExist
-public import Formalism.LocalToGlobal.IndefiniteReal.OneMapT
-public import Formalism.LocalRingCardinality.DataRRMetric
+public import Formalism.LocalToGlobal.IndefiniteReal.Bundle026
+public import Formalism.LocalRingCardinality.Bundle005
 public import Mathlib.Algebra.AffineMonoid.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

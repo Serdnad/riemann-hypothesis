@@ -1,6 +1,6 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExistsConductorAdicCompletion
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle004
 public import Mathlib.Analysis.Complex.Norm
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

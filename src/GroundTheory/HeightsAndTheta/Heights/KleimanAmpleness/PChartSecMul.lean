@@ -1,8 +1,8 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.ImportsTerAlt
-public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.MemChartSecOverOfMem
-public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.PBundlePair
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle047
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle046
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle039
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

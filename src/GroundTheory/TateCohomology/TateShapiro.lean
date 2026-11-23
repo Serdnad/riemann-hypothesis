@@ -1,10 +1,10 @@
 module
 
-public import GroundTheory.TateCohomology.DiagonalSuccIsoFreeInvSingle
+public import GroundTheory.TateCohomology.Bundle001
 public import GroundTheory.TateCohomology.InducedNorm
 public import Mathlib.RepresentationTheory.FiniteIndex
 public import Mathlib.RepresentationTheory.Homological.GroupCohomology.Shapiro
-public import GroundTheory.TateCohomology.DimensionShift
+public import GroundTheory.TateCohomology.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

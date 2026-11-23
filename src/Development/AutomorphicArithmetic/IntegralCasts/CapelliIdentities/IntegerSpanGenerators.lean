@@ -3,8 +3,8 @@ module
 public import Formalism.SharpRestriction.LevelLetterCocycles.CrystallineLiftingInputs
 public import Formalism.SharpRestriction.LevelLetterCocycles.BaseChangePreservesUnitaryOf
 public import Formalism.SharpRestriction.LevelLetterCocycles.ArcLiftingSetup
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.DivisibilityFiltration
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.FiltrationExponentBound
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle051
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,0 +1,186 @@
+module
+
+public import Mathlib.Analysis.CStarAlgebra.Classes
+public import Mathlib.Analysis.Calculus.ContDiff.Defs
+public import Mathlib.Analysis.Normed.Lp.MeasurableSpace
+public import Mathlib.MeasureTheory.Integral.Bochner.Basic
+public import Mathlib.MeasureTheory.Measure.Haar.OfBasis
+public import Mathlib.Order.CompletePartialOrder
+public import Mathlib.Topology.IsLocalHomeomorph
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.WittVector.IsPoly
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Tactic.TypeStar
+import Mathlib.Topology.Separation.CompletelyRegular
+import Mathlib.Topology.Sheaves.Init
+
+@[expose] public section
+
+section
+end
+
+section
+
+namespace ReciprocityTheory.L2DbarEstimates
+
+open MeasureTheory
+open scoped ContDiff ENNReal
+
+noncomputable section
+
+abbrev V (n : ℕ) : Type := EuclideanSpace ℂ (Fin n)
+
+def bas (n : ℕ) (j : Fin n) : V n := EuclideanSpace.single j 1
+
+def wd (n : ℕ) (j : Fin n) (g : V n → ℂ) (y : V n) : ℂ :=
+  (fderiv ℝ g y (bas n j) - Complex.I * fderiv ℝ g y (Complex.I • bas n j)) / 2
+
+def wdb (n : ℕ) (j : Fin n) (g : V n → ℂ) (y : V n) : ℂ :=
+  (fderiv ℝ g y (bas n j) + Complex.I * fderiv ℝ g y (Complex.I • bas n j)) / 2
+
+def IsChart {M : Type*} [TopologicalSpace M] (n : ℕ) (z : M → V n)
+    (e : OpenPartialHomeomorph M (V n)) : Prop :=
+  Set.EqOn z e e.source
+
+def leviV (n : ℕ) (g : V n → ℂ) (y : V n) (ξ : Fin n → ℂ) : ℂ :=
+  ∑ j, ∑ k, wd n j (wdb n k g) y * ξ j * (starRingEnd ℂ) (ξ k)
+
+def cHess (n : ℕ) (g : V n → ℂ) (y : V n) : Matrix (Fin n) (Fin n) ℂ :=
+  Matrix.of fun j k => wd n j (wdb n k g) y
+
+def Smooth {M : Type*} [TopologicalSpace M] (n : ℕ) (z : M → V n) (f : M → ℂ) : Prop :=
+  ∀ e : OpenPartialHomeomorph M (V n), IsChart n z e → ContDiffOn ℝ ∞ (f ∘ e.symm) e.target
+
+def Ck {M : Type*} [TopologicalSpace M] (n : ℕ) (z : M → V n) (k : ℕ) (f : M → ℂ) : Prop :=
+  ∀ e : OpenPartialHomeomorph M (V n), IsChart n z e → ContDiffOn ℝ k (f ∘ e.symm) e.target
+
+def CkR {M : Type*} [TopologicalSpace M] (n : ℕ) (z : M → V n) (k : ℕ) (f : M → ℝ) : Prop :=
+  Ck n z k (fun x => (f x : ℂ))
+
+def SmoothR {M : Type*} [TopologicalSpace M] (n : ℕ) (z : M → V n) (f : M → ℝ) : Prop :=
+  Smooth n z (fun x => (f x : ℂ))
+
+def Holo {M : Type*} [TopologicalSpace M] (n : ℕ) (z : M → V n) (f : M → ℂ) : Prop :=
+  ∀ e : OpenPartialHomeomorph M (V n), IsChart n z e → DifferentiableOn ℂ (f ∘ e.symm) e.target
+
+
+open scoped Classical in
+def d {M : Type*} [TopologicalSpace M] (n : ℕ) (z : M → V n) (j : Fin n) (f : M → ℂ) (x : M) :
+    ℂ := by
+  classical
+  exact if h : ∃ e : OpenPartialHomeomorph M (V n), IsChart n z e ∧ x ∈ e.source then
+    wd n j (f ∘ (Classical.choose h).symm) (z x)
+  else 0
+
+
+open scoped Classical in
+def db {M : Type*} [TopologicalSpace M] (n : ℕ) (z : M → V n) (j : Fin n) (f : M → ℂ) (x : M) :
+    ℂ := by
+  classical
+  exact if h : ∃ e : OpenPartialHomeomorph M (V n), IsChart n z e ∧ x ∈ e.source then
+    wdb n j (f ∘ (Classical.choose h).symm) (z x)
+  else 0
+
+def dbarDot {M : Type*} [TopologicalSpace M] (n : ℕ) (z : M → V n) (f : M → ℂ) (x : M)
+    (ξ : Fin n → ℂ) : ℂ :=
+  ∑ j, db n z j f x * (starRingEnd ℂ) (ξ j)
+
+def dDot {M : Type*} [TopologicalSpace M] (n : ℕ) (z : M → V n) (f : M → ℂ) (x : M)
+    (ξ : Fin n → ℂ) : ℂ :=
+  ∑ j, d n z j f x * ξ j
+
+def Levi {M : Type*} [TopologicalSpace M] (n : ℕ) (z : M → V n) (ph : M → ℝ) (x : M)
+    (ξ : Fin n → ℂ) : ℂ :=
+  ∑ j, ∑ k, d n z j (db n z k (fun y => (ph y : ℂ))) x * ξ j * (starRingEnd ℂ) (ξ k)
+
+def LeviNonneg {M : Type*} [TopologicalSpace M] (n : ℕ) (z : M → V n) (ph : M → ℝ) : Prop :=
+  ∀ x ξ, 0 ≤ (Levi n z ph x ξ).re
+
+def IsTest {M : Type*} [TopologicalSpace M] (n : ℕ) (z : M → V n) (g : M → ℂ) : Prop :=
+  Smooth n z g ∧ HasCompactSupport g
+
+def volFun {M : Type*} (n : ℕ) (z : M → V n) (A : Set M) : ℝ≥0∞ :=
+  ∫⁻ y, ((A ∩ z ⁻¹' {y}).encard : ℝ≥0∞)
+
+def VolAdditive {M : Type*} [MeasurableSpace M] (n : ℕ) (z : M → V n) : Prop :=
+  ∀ ⦃f : ℕ → Set M⦄, (∀ i, MeasurableSet (f i)) → Pairwise (Function.onFun Disjoint f) →
+    volFun n z (⋃ i, f i) = ∑' i, volFun n z (f i)
+
+
+open scoped Classical in
+def vol {M : Type*} [MeasurableSpace M] (n : ℕ) (z : M → V n) : Measure M := by
+  classical
+  exact if h : VolAdditive n z then
+    Measure.ofMeasurable (fun A _ => volFun n z A) (by simp [volFun]) (fun _ hf hd => h hf hd)
+  else 0
+
+def wint {M : Type*} [MeasurableSpace M] (n : ℕ) (z : M → V n) (f : M → ℂ) (ph : M → ℝ) :
+    ℝ≥0∞ :=
+  ∫⁻ x, ENNReal.ofReal (‖f x‖ ^ 2 * Real.exp (-ph x)) ∂vol n z
+
+def jac {M : Type*} [TopologicalSpace M] (n : ℕ) (z : M → V n) (g : Fin n → M → ℂ) (x : M) : ℂ :=
+  (Matrix.of fun i k => d n z k (g i) x).det
+
+def VanishesBeyond {M : Type*} [TopologicalSpace M] (n : ℕ) (z : M → V n) (u : M → ℂ) (x : M)
+    (m : ℕ) : Prop :=
+  ∀ e : OpenPartialHomeomorph M (V n), IsChart n z e → x ∈ e.source →
+    ∀ k ≤ m, iteratedFDeriv ℂ k (u ∘ e.symm) (z x) = 0
+
+def IsBergmanProj {M : Type*} [TopologicalSpace M] [MeasurableSpace M] (n : ℕ) (z : M → V n)
+    (ps : M → ℝ) (F0 F : M → ℂ) : Prop :=
+  Holo n z F ∧ wint n z F ps < ⊤ ∧
+    ∀ G : M → ℂ, Holo n z G → wint n z G ps < ⊤ →
+      ∫ x, (F0 x - F x) * (starRingEnd ℂ) (G x) * (Real.exp (-ps x) : ℂ) ∂vol n z = 0
+
+structure EtaleStein (n : ℕ) (M : Type*) [TopologicalSpace M] [T2Space M]
+    [SecondCountableTopology M] [MeasurableSpace M] [BorelSpace M] where
+
+  z : M → V n
+  isLocalHomeomorph : IsLocalHomeomorph z
+
+  e : M → ℝ
+  smooth_e : SmoothR n z e
+  levi_e : LeviNonneg n z e
+  isCompact_le : ∀ a : ℝ, IsCompact {x | e x ≤ a}
+
+end
+
+end ReciprocityTheory.L2DbarEstimates
+end

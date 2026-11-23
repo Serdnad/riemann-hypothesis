@@ -4,7 +4,7 @@ public import Mathlib.Combinatorics.Quiver.ReflQuiver
 public import Mathlib.GroupTheory.PGroup
 public import Mathlib.RepresentationTheory.Coinduced
 public import Mathlib.RepresentationTheory.Homological.GroupHomology.LowDegree
-public import GroundTheory.TateCohomology.PGroupFixed
+public import GroundTheory.TateCohomology.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

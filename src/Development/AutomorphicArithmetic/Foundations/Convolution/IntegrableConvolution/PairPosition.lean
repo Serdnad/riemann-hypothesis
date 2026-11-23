@@ -1,9 +1,9 @@
 module
 
-public import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.ThickFrames
-public import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.ArchBasic
-import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.GlueBasic
-public import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.MatchInf
+public import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.Bundle006
+public import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.Bundle004
+import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.Bundle001
+public import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.Bundle009
 public import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.WordTens
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

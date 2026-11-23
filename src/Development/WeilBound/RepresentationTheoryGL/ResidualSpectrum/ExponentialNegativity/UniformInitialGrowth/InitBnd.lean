@@ -1,8 +1,8 @@
 module
 
 public import Development.WeilBound.RepresentationTheoryGL.ResidualSpectrum.ExponentialNegativity.ExpNegGlue
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ConstantTermModerateGrowth
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IdeleModuleDetDiagUnitsPosIdele
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1560
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle245
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

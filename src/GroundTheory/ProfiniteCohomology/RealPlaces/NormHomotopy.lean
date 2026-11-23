@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.ProfiniteCohomology.RealPlaces.ConeDefs
-public import GroundTheory.ProfiniteCohomology.CompactSupportCohomology.CupLeibniz
+public import GroundTheory.ProfiniteCohomology.CompactSupportCohomology.Bundle001
 public import GroundTheory.ProfiniteCohomology.CoinducedModules.Acyclic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

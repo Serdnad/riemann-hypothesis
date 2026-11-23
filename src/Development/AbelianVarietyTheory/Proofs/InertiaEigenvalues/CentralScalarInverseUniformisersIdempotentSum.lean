@@ -43,8 +43,8 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.ConjTupRefl
-import Development.AbelianVarietyTheory.Definitions.ThetaValues.ExistsRootNotMem
+import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle023
+import Development.AbelianVarietyTheory.Definitions.ThetaValues.Bundle001
 import Formalism.LocalToGlobal.IndefiniteReal.ExistsChosenExtremalVector
 
 @[expose] public section

@@ -1,7 +1,7 @@
 module
 
-public import Formalism.QuotientMetricDivisors.RatHermLcvTwist
-public import Formalism.HarderNarasimhan.QuotRealize
+public import Formalism.QuotientMetricDivisors.Bundle005
+public import Formalism.HarderNarasimhan.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -41,8 +41,8 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import Formalism.LogFactorialIndices.StatementSize
-import Formalism.MirabolicMackeyTheory.StatementT
+public import Formalism.LogFactorialIndices.Bundle001
+import Formalism.MirabolicMackeyTheory.Bundle001
 
 @[expose] public section
 

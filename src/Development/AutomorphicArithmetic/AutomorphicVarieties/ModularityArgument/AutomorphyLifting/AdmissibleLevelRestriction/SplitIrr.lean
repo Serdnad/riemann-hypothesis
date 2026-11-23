@@ -1,10 +1,9 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.AutomorphyLifting.SplitIrr
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MemDecompositionSubgroupIff
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.ExistsQuadraticSignCharacter
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.CrystallineBaseChange.ResTwo
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.CrystallineBaseChange.TwCard
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.AutomorphyLifting.Bundle002
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle240
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.Bundle054
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.CrystallineBaseChange.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -96,13 +95,17 @@ private theorem fix_of_dec {Ω : Type} [Field Ω] [Algebra ℚ Ω] (A : Valuatio
     have h1 : (1 : _) ≤ A.valuation (l : Ω) := by
       have h3 := (A.valuation_le_one_iff _).2 hli
       rw [map_inv₀] at h3
-      exact (inv_le_one₀ (zero_lt_iff.2 (by simpa using hl0))).1 h3
+      letI : Nontrivial A.ValueGroup := ⟨⟨A.valuation (l : Ω), 1, hl.ne⟩⟩
+      have hne : A.valuation (l : Ω) ≠ 0 := (map_ne_zero A.valuation).2 (Nat.cast_ne_zero.2 hl0)
+      exact (inv_le_one₀ (zero_lt_iff.2 hne)).1 h3
     exact absurd hl (not_lt.2 h1)
   · have hout : (1 - w)⁻¹ ∉ A := fun h => hin (by
       have := (hg _).2 h
       rwa [map_inv₀, hgw'] at this)
-    have := Valuation.map_add_lt _ (small w hin) (small _ hout)
-    simp at this
+    have hlt := Valuation.map_add_lt _ (small w hin) (small (1 - w) hout)
+    have hsum : w + (1 - w) = 1 := by abel
+    rw [hsum, map_one] at hlt
+    exact lt_irrefl 1 hlt
 
 private theorem no_sq_pos {t : ℚ} {q : ℕ} (hq : q.Prime) (h : t * t = -(q : ℚ)) : False := by
   have h1 : (0 : ℚ) < q := by exact_mod_cast hq.pos

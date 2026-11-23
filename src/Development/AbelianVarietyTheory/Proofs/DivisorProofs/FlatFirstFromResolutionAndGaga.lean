@@ -1,19 +1,19 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.NotCompactOfMEqOne
-import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.IsAbelianSchemeAndExtendOfGenericHoms
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AbelianVarietyDegreePolynomialMapEqCharpolyRatioStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AbelianVarietyEndCharpolySpec
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CardTorsionBySetPowOfDivisibleNumberField
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CardTorsionGeometricPointsEqPowTwoDim
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsMoritaLatticeQuotientTorsion
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsPowEqOfIsAlgClosed
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FlatLocalResidueTensorInjective
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsogenyDegreeEqCardKernelOfKilledByInvertible
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle013
+import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle023
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3273
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3314
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle020
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2464
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle794
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3386
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle717
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2327
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PowerSumsVanishAtPlaces
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TateModuleFreeFinrankTwoMulDim
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2508
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TorsionBySetPowFreeOfCardPowNumberField
-import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ConnectedSpaceSpecOfIsLocalRing
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle041
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -54,7 +54,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsDimEqOne
-import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsGDatumOneOneOne
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle015
 
 @[expose] public section
 
@@ -147,7 +147,8 @@ theorem card_ker_eq_det {S : Scheme.{0}} (A : Over S) [GrpObj A] (hA : IsAbelian
     (h4 : ∀ j (q : Over.mk x ⟶ A), q ^ (l ^ j) = 1 ↔ ∃ y, ev j y = q) :
     Nat.card {g : Over.mk x ⟶ A // g ≫ u = 1} = (LinearMap.det φ).natAbs := by
   obtain ⟨x', rfl⟩ : ∃ x', x = 𝟙 _ ≫ x' := ⟨x, (Category.id_comp x).symm⟩
-  letI : GrpObj ((Over.pullback x').obj A) := Functor.grpObjObj
+  letI : (Over.pullback x').Monoidal := (Over.instBraidedPullback (f := x')).toMonoidal
+  letI : GrpObj ((Over.pullback x').obj A) := Functor.grpObjObj (F := Over.pullback x')
   have hA' := GlobalTheory.isAbelianScheme_pullback_obj x' A hA
   obtain ⟨g, hg⟩ := GlobalTheory.AbelianDim.exists_relDim k ((Over.pullback x').obj A) hA'
   let B : AbVar k := { X := (Over.pullback x').obj A, ab := hA', dim := g, smooth := hg }

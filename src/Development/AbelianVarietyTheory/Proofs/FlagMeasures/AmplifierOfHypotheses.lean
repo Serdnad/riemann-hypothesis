@@ -4,13 +4,12 @@ public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.CellDataSuppo
 public import Formalism.HermitianCurvature.WeylElementCommutesLevelOne
 public import Formalism.SharpRestriction.CuspSpanNormBounds.NormalizedLocalScale
 import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HaarLieNilpotentEqLebesgue
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.SumNormSqEqTrace
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle151
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.UnipotentRadicalInterConjugateClosedUnimodular
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.BesselCharacterUnipotentRadicalProperties
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.DiscreteSeriesUnitarySmoothBasic
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.GrowthUnitaryGroupRpowNegIntegrable
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.HaarEqSmul
-import Development.AbelianVarietyTheory.Proofs.JetHarmonics.IsHaarOnIffGroupsUnitaryUnipotent
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle058
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle095
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle090
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle091
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.CompactGroupHaarExists
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.ConjugationContinuousOnInvertible
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.ContinuousMulMt
@@ -220,8 +219,11 @@ theorem mp_inv_haarLie (S : Set (MatKR k r)) (κ : ℝ≥0∞) :
     refine continuous_pi fun i => continuous_pi fun j => ?_
     simp only [unrealify, Complex.mk_eq_add_mul_I]
     fun_prop
-  have h : AEMeasurable e volume :=
-    (GlobalTheory.Amp.NLie.cont_exp.comp hu).measurable.aemeasurable
+  have h : AEMeasurable e volume := by
+    rw [he]
+    apply Measurable.aemeasurable
+    refine measurable_pi_iff.2 fun i => measurable_pi_iff.2 fun j => ?_
+    exact ((continuous_apply j).comp ((continuous_apply i).comp (GlobalTheory.Amp.NLie.cont_exp.comp hu))).measurable
   rw [AEMeasurable.map_map_of_aemeasurable hm.aemeasurable h]
   have : Formalism.FourierDecayAlt.B2.invM ∘ e = e ∘ Neg.neg := by
     funext x

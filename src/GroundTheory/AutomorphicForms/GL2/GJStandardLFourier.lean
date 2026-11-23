@@ -4,7 +4,7 @@ public import GroundTheory.AutomorphicForms.GL2.GJStandardLTensor
 public import GroundTheory.AutomorphicForms.GL2.GJMatrixLocal
 public import GroundTheory.GlobalFields.TateThesis.EulerFactorsFourierFinite
 import GroundTheory.AutomorphicForms.GL2.IsAddHaarMeasureMatrixMeasureFinSq
-import GroundTheory.AutomorphicForms.ReductionMeasure
+import GroundTheory.AutomorphicForms.Bundle012
 public import GroundTheory.AutomorphicForms.RestrictedAddHaarProduct
 public import GroundTheory.GlobalFields.TateThesis.RootNumberLocalPlace
 import Mathlib.Algebra.Order.Floor.Extended

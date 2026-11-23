@@ -61,7 +61,7 @@ variable (A3 : FamIn3 D.what₂.LL G Pl0 I0 (List ℕ) T D.R.m)
 
 def TupL (L : LevCh D T) (mu : HeightOneSpectrum (𝓞 D.what₂.LL) → T) (twPl : Finset (HeightOneSpectrum (𝓞 D.what₂.LL))) : Prop :=
   (∀ w, w ∉ twPl → mu w = A3.A.μ0) ∧ (∀ t, t = A3.A.μ0 ∨ ∃ w, mu w = t) ∧ (∀ w ∈ twPl, mu w ≠ A3.A.μ0) ∧
-    (∀ w, mu (conjPl w) = mu w) ∧
+    (∀ w, mu (Formalism.DivisionValues.conjPl w) = mu w) ∧
     ∀ w ∈ twPl, ∃ (ψw : Formalism.L2.Host.HChar D.host.E) (Qw : Finset (Pl D.host.E)),
       Formalism.L2.Host.IsPsi (H := D.host) (Formalism.EigenvalueLevelCeiling.plc w) Qw ψw ∧ L.xiH (mu w) = L.C.delAt (Formalism.EigenvalueLevelCeiling.plc w) * ψw
 

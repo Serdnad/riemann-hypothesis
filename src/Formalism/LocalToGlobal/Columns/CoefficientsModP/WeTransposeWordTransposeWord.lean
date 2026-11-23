@@ -6,9 +6,8 @@ import Formalism.GradedWeylDivisibility.DualWeylDominanceOf
 import Formalism.GradedWeylDivisibility.FinalB
 public import Formalism.GradedWeylDivisibility.FinalC
 public import Formalism.GradedWeylDivisibility.FinalD
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.FockQHW
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.FockQWordAdj
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LClosedeqLemmas
+public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle016
+public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle002
 public import Formalism.HermitianLattices.HermitianLatticesProofs.DualLattice
 public import Formalism.PieriBlockIdeals.PieriColumnMinors.LowerTriangularIntegral
 public import Formalism.PieriBlockIdeals.PieriColumnMinors.LrfcApplyWordAppendSingle

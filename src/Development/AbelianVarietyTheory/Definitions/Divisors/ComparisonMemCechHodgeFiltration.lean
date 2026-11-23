@@ -1,7 +1,7 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.CechDeRhamCoefMapOneFormsRestrictAlongFunctor
-public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.StructureHomApply
+public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.Bundle002
 public import Development.AbelianVarietyTheory.Definitions.Divisors.CrystallineConnectionFormCoboundaryZero
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsNilDPOfCube
 import Mathlib.Algebra.Order.Floor.Extended

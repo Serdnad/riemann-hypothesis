@@ -1,7 +1,7 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.StatementsFlagGrassSteps
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.ImageCoord
+public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.Bundle011
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle015
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,6 +1,6 @@
 module
 
-public import Development.WeilBound.ThetaLifts.EigenvalueEndgame.OrthogonalDecomposition.HodgeTateFromSandwich
+public import Development.WeilBound.ThetaLifts.EigenvalueEndgame.OrthogonalDecomposition.Bundle001
 public import Development.WeilBound.ThetaLifts.FrameEstimates.SquareIntegrableWeilRange
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

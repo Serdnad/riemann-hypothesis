@@ -1,15 +1,14 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.NotOrdGeOfNotMem
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsGenericFibrePullbackSiegelTraitModelStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MumfordBundleTraitFibreEqUniversalStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsUniformisationBaseChangeWithCoordinatesStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.PolarizationLineBundleUnifIso
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.PrincipalPolarizationOfMumfordBundleSiegelFibreStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.RigidifiedSymmetricLineBundleGroupPullbackStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.SiegelFamilyProperExtension
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.UnifPolarizationSquareIso
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.SemiAbelianHomExtendsUniquelyOverDvr
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle070
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2790
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle698
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle719
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle696
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle703
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle690
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle751
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle090
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -46,7 +45,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.LBLocal
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.Bundle001
 
 @[expose] public section
 

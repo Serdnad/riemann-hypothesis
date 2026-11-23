@@ -1,16 +1,16 @@
 module
 
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.DiscreteSeriesCoverExistsIff
-public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.FormalDegreeCompactDualIff
+public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.Bundle005
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.LocalTypeDictionary.HypA
 public import Development.AbelianVarietyTheory.PublishedTheorems.DiscreteSeriesUnitary₂.DiscreteSeriesClassificationIff
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ImportsBis
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.OfClassification
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.RowsFinDimLink
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle250
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle306
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.MemConnectedComponentOfOneOfPos
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.MassRatioAllUnramifiedCmFields
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.DiscreteSeriesThreeOfHyp
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.PrincipalIdealSt
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle120
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle457
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle322
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -44,7 +44,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.PositionOfIntro
+import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle024
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.RowRatW
 
 @[expose] public section

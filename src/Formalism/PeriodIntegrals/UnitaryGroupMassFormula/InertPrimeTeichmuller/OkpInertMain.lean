@@ -1,10 +1,9 @@
 module
 
-public import Formalism.PeriodIntegrals.OkpInert
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.InertPrimeTeichmuller.CFrob
-import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.InertPrimeTeichmuller.NormLeOneOfIntegralInt
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.InertPrimeTeichmuller.TeichNeZero
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.InertPrimeTeichmuller.UltrametricPairEstimate
+public import Formalism.PeriodIntegrals.Bundle009
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.InertPrimeTeichmuller.Bundle002
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.InertPrimeTeichmuller.Bundle001
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.InertPrimeTeichmuller.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -46,7 +45,6 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.InertPrimeTeichmuller.DvdPowQSub
 
 @[expose] public section
 

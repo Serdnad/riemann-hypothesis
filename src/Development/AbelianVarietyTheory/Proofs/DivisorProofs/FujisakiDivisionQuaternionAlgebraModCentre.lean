@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.OneMemH0WeightZero
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle007
 public import GroundTheory.GlobalFields.IdeleGroups.IdeleNorms
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AdelicMinkowskiExistsShortRationalVectorStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1548
 import GroundTheory.AutomorphicForms.ReductionFinite
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

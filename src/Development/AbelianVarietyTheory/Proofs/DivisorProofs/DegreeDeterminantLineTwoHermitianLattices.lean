@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FrameCoord
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1159
 public import Formalism.LocalRingCardinality.CoeNeZeroOfNotMem
 public import Development.AbelianVarietyTheory.Definitions.Foundations.ExistsFlatSecRankZero
 public import Formalism.MirabolicMackeyTheory.MirabolicMackeyProofs.IdxRules
@@ -43,7 +43,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 public import ReciprocityTheory.GeometryOfNumbers.LatticeCovolumes.ArakelovDegreeEqDegreeOfFamily
 import Development.AbelianVarietyTheory.Definitions.Divisors.AevalEqZeroOfMemConeIdeal
-import Development.AbelianVarietyTheory.Definitions.Divisors.HtValOnSubset
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle034
 
 @[expose] public section
 

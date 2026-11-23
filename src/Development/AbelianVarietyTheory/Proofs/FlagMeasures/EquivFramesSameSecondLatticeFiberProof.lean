@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.RowsMeanC
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle015
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.EncardBiUnionLe
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.FixedFrameSelfNormalFormExistsProofStatement
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle367
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.SmulMemOfOne
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.UnitaryHostFieldArithmeticConditionsProofStatement
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle340
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

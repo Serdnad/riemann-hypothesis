@@ -1,6 +1,6 @@
 module
 
-public import Formalism.MirabolicMackeyTheory.StatementT
+public import Formalism.MirabolicMackeyTheory.Bundle001
 public import Formalism.LocalToGlobal.UnitaryNorms.IsUnitaryNormOf
 public import Development.AutomorphicArithmetic.DivisorFrames.ExistsPowLocKMulInfEqOneOfLevelLeTwo
 public import Development.AutomorphicArithmetic.DivisorFrames.IsIntegralCmTypeUnitaryPartMulAbsNormPow

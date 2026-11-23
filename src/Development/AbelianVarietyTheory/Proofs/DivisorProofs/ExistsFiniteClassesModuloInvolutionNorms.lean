@@ -1,8 +1,8 @@
 module
 
 public import Mathlib.NumberTheory.NumberField.Basic
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsFiniteFixedUnitsModFixedSquares
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PrimeMapPrimeMap
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle435
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle381
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

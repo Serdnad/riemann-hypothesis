@@ -2,8 +2,8 @@ module
 
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CoeffZeroEqZeroIff
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.RootEqOfNormLt
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.InclWFrobIter
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CyclotomicCharacterPadicBasicProperties
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle135
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle164
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.EqTopOfSpanImage
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,7 +1,7 @@
 module
 
 public import Development.AutomorphicArithmetic.PrimitiveCosets.WindowInequalityOfArtinInputs
-public import Formalism.SharpRestriction.GlobalSchurBounds.TieGlobal
+public import Formalism.SharpRestriction.GlobalSchurBounds.Bundle002
 import Formalism.SharpRestriction.RamificationFrobenius.TotientGaloisClasses.FrameFacts
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -2,11 +2,11 @@ module
 
 public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.TrivialOnInertiaOfUnr
 import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.MkMemAdmissibleAtIffCocycle
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CharpolyScaledInverse
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CoeDualRep
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.UnderEqIffConjPl
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1120
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle033
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle092
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.BcDefs
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.IsAlgChar
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.Bundle005
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PartsConj
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -45,7 +45,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.ContinuousConjFin
-import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.GuDefs
+import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.Bundle008
 
 @[expose] public section
 
@@ -80,14 +80,14 @@ private theorem normV_preplace {K : Type} [Field K] [NumberField K] (τ : K ≃+
     (RingOfIntegers.mapRingEquiv τ).surjective v.asIdeal).symm
 
 private theorem isFrob_conjGal {K Ω : Type} [Field K] [NumberField K] [Field Ω] [Algebra K Ω] {τ : K ≃+* K} {σ : Ω ≃+* Ω}
-    (h : IsLift τ σ) {A A' : ValuationSubring Ω} (hA : ∀ x, σ x ∈ A' ↔ x ∈ A) {q : ℕ} {g : G K Ω}
+    (h : IsLift τ σ) {A A' : ValuationSubring Ω} (hA : ∀ x, σ x ∈ A' ↔ x ∈ A) {q : ℕ} {g : _root_.Formalism.ConjugateSelfDual.G K Ω}
     (hg : IsFrob (F := K) A' q g) : IsFrob (F := K) A q (conjGal h g) := by
   refine ⟨conjGal_mem_Dec h hA hg.1, fun x hx => ?_⟩
   rw [← val_lt_one hA, map_sub, apply_conjGal, map_pow]
   exact hg.2 _ ((A'.valuation_le_one_iff _).2 ((hA x).2 ((A.valuation_le_one_iff _).1 hx)))
 
 private theorem isLift_conj {F Ω : Type} [Field F] [NumberField F] [IsCMField F] [Field Ω] [Algebra F Ω]
-    {c : G (maximalRealSubfield F) Ω} (hc : IsConjEl c) :
+    {c : _root_.Formalism.ConjugateSelfDual.G (maximalRealSubfield F) Ω} (hc : IsConjEl c) :
     IsLift (IsCMField.complexConj F).toRingEquiv c.symm.toRingEquiv := by
   obtain ⟨j, hj⟩ := hc
   intro x
@@ -191,7 +191,7 @@ private theorem cont_twDual {Γ k : Type} [Group Γ] [TopologicalSpace Γ] [IsTo
   exact h.comp continuous_inv
 
 private theorem frob_conj {F Ω : Type} [Field F] [NumberField F] [IsCMField F] [Field Ω] [Algebra F Ω] [IsAlgClosure F Ω]
-    {l : ℕ} [Fact l.Prime] {ι : Qbar l ≃+* ℂ} {n : ℕ} {r : G F Ω →* GL (Fin n) (Qbar l)} {σ : Ω ≃+* Ω}
+    {l : ℕ} [Fact l.Prime] {ι : Qbar l ≃+* ℂ} {n : ℕ} {r : _root_.Formalism.ConjugateSelfDual.G F Ω →* GL (Fin n) (Qbar l)} {σ : Ω ≃+* Ω}
     (hL : IsLift (IsCMField.complexConj F).toRingEquiv σ) {w : HeightOneSpectrum (𝓞 F)} {B : Multiset ℂˣ}
     (hB : FrobEig ι r (cPl w) (algSat n (normV (cPl w)) B)) :
     FrobEig ι (r.comp (conjGal hL)) w (algSat n (normV w) B) := by
@@ -205,7 +205,7 @@ private theorem frob_conj {F Ω : Type} [Field F] [NumberField F] [IsCMField F] 
   exact e
 
 private theorem frob_twDual {F Ω : Type} [Field F] [NumberField F] [Field Ω] [Algebra F Ω] [IsAlgClosure F Ω]
-    {l : ℕ} [Fact l.Prime] {ι : Qbar l ≃+* ℂ} {n : ℕ} {r : G F Ω →* GL (Fin n) (Qbar l)}
+    {l : ℕ} [Fact l.Prime] {ι : Qbar l ≃+* ℂ} {n : ℕ} {r : _root_.Formalism.ConjugateSelfDual.G F Ω →* GL (Fin n) (Qbar l)}
     {w : HeightOneSpectrum (𝓞 F)} (hw : ((l : ℕ) : 𝓞 F) ∉ w.asIdeal) {B : Multiset ℂˣ}
     (hB : FrobEig ι r w (algSat n (normV w) (B.map (·⁻¹)))) :
     FrobEig ι (tw (dualRep r) (cycBar F Ω l ^ (1 - (n : ℤ)))) w (algSat n (normV w) B) := by

@@ -1,7 +1,7 @@
 module
 
-public import Formalism.SharpRestriction.LevelLetterCocycles.ExpRules
-public import Formalism.SharpRestriction.LevelLetterCocycles.QuotientImageDivisibility.RkFilLevEq
+public import Formalism.SharpRestriction.LevelLetterCocycles.Bundle016
+public import Formalism.SharpRestriction.LevelLetterCocycles.QuotientImageDivisibility.Bundle002
 import Formalism.SharpRestriction.LevelLetterCocycles.QuotientImageDivisibility.RkMultVOfNotJump
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

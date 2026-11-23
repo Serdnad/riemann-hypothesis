@@ -2,25 +2,24 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.IsVacFOfIsVacVec
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LintegralNormSqEqToL2
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsQuadOfPlane
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle024
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.LowVanishFockOfLowVanish
 import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsInverseChart
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.FockVacuumAnnihilationEquationRealCoordinates
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle075
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsOscillatorActionOfGaussianPairings
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsOscillatorActionUnitaryGroupHermitian
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LintegralEqOfNorms
 import Development.AbelianVarietyTheory.Proofs.HeightProofs.CocompactTensor
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.EqZeroOfPderivStable
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FderivCompress
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HeisenbergSmoothVectorDerivativeCalculus
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.PtYAndItYOfPair
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.EqZeroAtOneOfIteratedDerivsVanishOfGrowthStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsEuclideanCoordsHermitianCartanInvolutionStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.FockCreationPreservesFockVectorsTwoFramesStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.NormCreationAnnihilationWordLeNumberOperatorPowStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.PowSubCreationVacuumFockBoundStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.VacuumProjectorRangeAnnihilatedStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.WeylNumberOperatorCommutationStatement
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle043
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle035
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle226
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle024
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle067
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle356
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle026
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle027
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle055
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -430,7 +429,7 @@ theorem coe_dH {G : BB ψ V W} (hG : GlobalTheory.RealWeil.Sm (rhoV hψ σ V W) 
   simp only [e, map_sum, coe_dH_atPl h hψ hG]
 
 theorem mem_level {U : AddSubgroup (WO V W)} (hU : IsOpen (U : Set (WO V W))) (G : BB ψ V W) :
-    G ∈ (thetaLevel ψ V W U).comap (coeL ψ V W) ↔ GlobalTheory.RealWeil.Sm (rhoV hψ σ V W) G ∧
+    G ∈ (GlobalTheory.Size.thetaLevel ψ V W U).comap (coeL ψ V W) ↔ GlobalTheory.RealWeil.Sm (rhoV hψ σ V W) G ∧
       ∀ u ∈ U, u.map (infPart D) = 0 → rhoB hψ u G = G := by
   refine ⟨fun hG => ⟨sm_of_theta h hψ G hG.1, fun u hu h0 => QB_ext fun x => ?_⟩, fun hG => ?_⟩
   · rw [coe_rhoB]
@@ -468,8 +467,8 @@ theorem crea_mem (A : Fr V) (B : Fr W) (U : AddSubgroup (WO V W)) (τ : D.what�
 theorem dense_vec (A : Fr V) (B : Fr W) {U : AddSubgroup (WO V W)} (hU : IsOpen (U : Set (WO V W)))
     {H : Type} [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H] (Φ : BB ψ V W →L[ℂ] H)
     (hΦ : ∀ w G, ‖Φ (rhoB hψ w G)‖ = ‖Φ G‖) {ι : Type} [Fintype ι] (u : ι → Ix V W → ℂ) (d : ℕ) {f : BB ψ V W}
-    (hf : f ∈ (thetaLevel ψ V W U).comap (coeL ψ V W)) {δ : ℝ≥0∞} (hδ : 0 < δ) :
-    ∃ g ∈ (fockSpan ψ θ A B U).comap (coeL ψ V W), g ∈ (thetaLevel ψ V W U).comap (coeL ψ V W) ∧
+    (hf : f ∈ (GlobalTheory.Size.thetaLevel ψ V W U).comap (coeL ψ V W)) {δ : ℝ≥0∞} (hδ : 0 < δ) :
+    ∃ g ∈ (fockSpan ψ θ A B U).comap (coeL ψ V W), g ∈ (GlobalTheory.Size.thetaLevel ψ V W U).comap (coeL ψ V W) ∧
       wordSum (fun i => dH (rhoV hψ σ V W) (u i)) (fun x => ‖Φ x‖ₑ) d (f - g) < δ := by
   have hc := HM_cartan (Model.isCartanInv_cart A) (Model.isCartanInv_cart B)
   refine dense_coord HM_herm hc.1 hc.2 (isHeis_rhoB h hψ) Φ (fun v => hΦ _)
@@ -490,7 +489,7 @@ theorem dense_vec (A : Fr V) (B : Fr W) {U : AddSubgroup (WO V W)} (hU : IsOpen 
 
 theorem coe_word {U : AddSubgroup (WO V W)} (hU : IsOpen (U : Set (WO V W)))
     (l : List (D.what₂.Tau × Fin W.rank × Fin V.rank × Bool)) {G : BB ψ V W}
-    (hG : G ∈ (thetaLevel ψ V W U).comap (coeL ψ V W)) :
+    (hG : G ∈ (GlobalTheory.Size.thetaLevel ψ V W U).comap (coeL ψ V W)) :
     wordAct (heisDer ψ θ) l (coeL ψ V W G) = coeL ψ V W (wordAct (fun a => dH (rhoV hψ σ V W)
       (atPl a.1 (Matrix.single a.2.1 a.2.2.1 (if a.2.2.2 then Complex.I else 1)))) l G) := by
   refine (wordAct_rel (R := fun x y => IsThetaFunO ψ V W x ∧ x = coeL ψ V W y) l ?_ ⟨hG.1, rfl⟩).2
@@ -508,7 +507,7 @@ theorem fockDense : ∀ D : D7, GlobalTheory.ChainFr.FockDense D := by
   haveI : BorelSpace (WO V W) := ⟨rfl⟩
   haveI : IsFiniteMeasure (μ.restrict 𝓕) := ⟨by rw [Measure.restrict_apply_univ, hm.2.2]; exact ENNReal.one_lt_top⟩
   have e0 : coeL ψ V W (toB hψ f hf) = f := coe_toB hψ f hf
-  have hF : toB hψ f hf ∈ (thetaLevel ψ V W U).comap (coeL ψ V W) := by
+  have hF : toB hψ f hf ∈ (GlobalTheory.Size.thetaLevel ψ V W U).comap (coeL ψ V W) := by
     rw [Submodule.mem_comap, e0]
     exact ⟨hf, hl⟩
   obtain ⟨g, h1, h2, h3⟩ := dense_vec h hψ A B hU (toL2 _ _ (μ.restrict 𝓕))

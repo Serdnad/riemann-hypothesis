@@ -1,15 +1,15 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.SRelOneOneIff
-public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.GoodClass
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle015
+public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.Bundle001
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ClsLinCombSingle
-public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.AbelianSchemeLawsUnconditional
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PrincipalSiegelObjectOddLevelRigidStatement
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsGenOfRigidifiedFaithfullyFlatDescent
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.NonemptyObjMapOfFiniteEtaleCover
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.SiegelObjectPullbackExistsAndPrincipal
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.SiegelPrincipalObjectDescendsLargeSubfield
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.SiegelPullbackIdCompCancel
+public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle024
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2778
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle083
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle122
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle111
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle137
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle091
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -52,7 +52,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.AbelianSchemeGerms
-import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.SiegelToroidalIntegral
+import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.Bundle012
 
 @[expose] public section
 

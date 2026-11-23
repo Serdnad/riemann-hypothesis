@@ -1,10 +1,10 @@
 module
 
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.CIndFrFix
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle014
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ConstantCoeffAddSecondThird
 import Formalism.SharpRestriction.Divisibility.GeneratorPowers.FBIdJet
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.JetSubstPSTrunc
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.MulGenScaleRight
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle022
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,0 +1,264 @@
+module
+
+public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.DualFamilyCounting.Bundle017
+public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.DualFamilyCounting.NcRealXPS
+import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.Bundle002
+import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.ProductExactness
+public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.DualFamilyCounting.NcRealXLeb
+public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.DualFamilyCounting.Bundle033
+public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.DualFamilyCounting.Bundle026
+public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.DualFamilyCounting.FinrankSpanLb
+public import Formalism.SharpRestriction.CuspSpanNormBounds.LatticeGluingRadicals
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Basify
+import Mathlib.Tactic.ENatToNat
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Linter.HaveILetI
+import Mathlib.Tactic.Linter.Style
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.Polynomial.Basic
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Topology.Sheaves.Init
+
+@[expose] public section
+
+section
+
+noncomputable section
+
+open MeasureTheory NumberField Formalism.BasicNotions
+open scoped ENNReal
+
+namespace Formalism.L2.SG.Pf.NcReal.JX
+
+open Formalism.L2.SG.HidaSetting Formalism.L2.SG.RealObj Formalism.L2.SG.RealObj.InfCut
+
+attribute [local instance] Formalism.BasicNotions.Host.cmStar
+
+def RefNBox : Prop :=
+  ∀ {D : D7} (X : HidaSetting D) (u w : D.what₂.Word),
+    (Measure.pi (refNX X u)) (LsNc5.boxN X w) =
+      ENNReal.ofReal ((Tw w)⁻¹ ^ (D.R.rS * Fintype.card (InfinitePlace X.B.I.F)) *
+        (2 : ℝ) ^ (Fintype.card (InfinitePlace X.B.I.F) * (D.R.rS * D.R.k + D.R.rS ^ 2)))
+
+theorem refNX_haar {D : D7} (X : HidaSetting D) (u w : D.what₂.Word) :
+    IsHaarOnSet X.B.I (X.NinfU w) (Measure.pi (refNX X u)) := by
+  have hR := fun v : InfinitePlace X.B.I.F => refNg_isHaarLoc (nX X) (X.B.I.ε v) (eV X v) (ProductExactness.pV X v)
+    (X.wfr u v) (ProductExactness.zV X u v) (ProductExactness.zV X w v) (ProductExactness.Tw_pos u) (fX_ee X v) (fX_ff X v) (fX_ef X v)
+    (fX_ww X u v) (fX_ew X u v) (fX_fw X u v) (fX_ez X u v) (fX_fz X u v) (frame_real_z_z_eq_neg X u v) (fX_zw X u v) (fX_ez X w v)
+  haveI : ∀ v, SigmaFinite (refNX X u v) := fun v => (hR v).1
+  have hco : X.NinfU w = (ProductExactness.NinfG X w : Set X.B.I.Ginf) := (ProductExactness.NinfG_coe X w).symm
+  refine ⟨inferInstance, ProductExactness.PiM.pi_ne_zero _ fun v => (hR v).2.1, ?_, ?_⟩
+  · rw [hco, ProductExactness.NinfG, Subgroup.coe_pi]
+    exact ProductExactness.PiM.pi_conc _ _ fun v => (hR v).2.2.1
+  · intro g hg
+    rw [hco] at hg
+    exact ProductExactness.PiM.pi_map_mul_left _ g fun v => (hR v).2.2.2 (g v) (hg v (Set.mem_univ v))
+
+theorem covol_refN (hN : LsNc5.CovolN) (hB : RefNBox) {D : D7} (X : HidaSetting D) (u w : D.what₂.Word)
+    (FdN : Set X.B.I.Ginf) (hF : IsSFund X.B.I (Formalism.L2.SG.PoincareInHH.PoincareSetting.NOinf X w) FdN) :
+    ((Measure.pi (refNX X u)) FdN).toReal = |(NumberField.discr X.B.I.F : ℝ)| ^ LsNc5.covolumeExponent D.R.rS D.R.k := by
+  rw [hN D X w _ FdN (refNX_haar X u w) hF, hB X u w]
+  set f := Fintype.card (InfinitePlace X.B.I.F) with hf
+  set r := D.R.rS with hr
+  set k := D.R.k with hk
+  have hT : 0 < Tw (D := D) w := ProductExactness.Tw_pos w
+  have hd : 0 < |(NumberField.discr X.B.I.F : ℝ)| := abs_pos.2 (by exact_mod_cast NumberField.discr_ne_zero X.B.I.F)
+  have h2r : 2 * (r * (r - 1) / 2) + 2 * (r * (r + 1) / 2) = 2 * r ^ 2 := by
+    have e1 : 2 * (r * (r - 1) / 2) = r * (r - 1) := Nat.mul_div_cancel' (Nat.even_mul_pred_self r).two_dvd
+    have e2 : 2 * (r * (r + 1) / 2) = r * (r + 1) := Nat.mul_div_cancel' (Nat.even_mul_succ_self r).two_dvd
+    rw [e1, e2]
+    rcases Nat.eq_zero_or_pos r with h0 | hpos
+    · rw [h0]; simp
+    · obtain ⟨m, hm⟩ : ∃ m, r = m + 1 := ⟨r - 1, by omega⟩
+      rw [hm, Nat.add_sub_cancel]
+      ring
+  have hsum : r * (r - 1) / 2 + r * (r + 1) / 2 = r ^ 2 := by omega
+  unfold LsNc5.covolN
+  rw [← ENNReal.ofReal_mul (by positivity), ENNReal.toReal_ofReal (by positivity)]
+  rw [show ((D.mem w).A.T : ℕ) = Tw (D := D) w from rfl]
+  have hpow : (2 : ℝ) ^ (-((f * (r * k + r * (r - 1) / 2) : ℕ) : ℝ)) / (2 : ℝ) ^ (f * (r * (r + 1) / 2)) *
+      (2 : ℝ) ^ (f * (r * k + r ^ 2)) = 1 := by
+    rw [Real.rpow_neg (by norm_num), Real.rpow_natCast, ← hsum]
+    rw [show f * (r * k + (r * (r - 1) / 2 + r * (r + 1) / 2)) =
+      f * (r * k + r * (r - 1) / 2) + f * (r * (r + 1) / 2) by ring, pow_add]
+    have h1 : (0 : ℝ) < 2 ^ (f * (r * k + r * (r - 1) / 2)) := by positivity
+    have h2 : (0 : ℝ) < 2 ^ (f * (r * (r + 1) / 2)) := by positivity
+    field_simp
+  have hTp : (Tw (D := D) w : ℝ) ^ (r * f) * (Tw (D := D) w)⁻¹ ^ (r * f) = 1 := by
+    rw [← mul_pow, mul_inv_cancel₀ hT.ne', one_pow]
+  calc (Tw (D := D) w : ℝ) ^ (r * f) * (2 : ℝ) ^ (-((f * (r * k + r * (r - 1) / 2) : ℕ) : ℝ)) *
+        |(NumberField.discr X.B.I.F : ℝ)| ^ LsNc5.covolumeExponent r k / (2 : ℝ) ^ (f * (r * (r + 1) / 2)) *
+        ((Tw (D := D) w)⁻¹ ^ (r * f) * (2 : ℝ) ^ (f * (r * k + r ^ 2)))
+      = ((Tw (D := D) w : ℝ) ^ (r * f) * (Tw (D := D) w)⁻¹ ^ (r * f)) *
+        ((2 : ℝ) ^ (-((f * (r * k + r * (r - 1) / 2) : ℕ) : ℝ)) / (2 : ℝ) ^ (f * (r * (r + 1) / 2)) *
+          (2 : ℝ) ^ (f * (r * k + r ^ 2))) * |(NumberField.discr X.B.I.F : ℝ)| ^ LsNc5.covolumeExponent r k := by ring
+    _ = |(NumberField.discr X.B.I.F : ℝ)| ^ LsNc5.covolumeExponent r k := by rw [hTp, hpow, one_mul, one_mul]
+
+theorem covolRef_of (hN : LsNc5.CovolN) (hB : RefNBox) : CovolRef := by
+  delta CovolRef
+  intro D X hb FdN FdN' u u' hH
+  have hd : (0 : ℝ) < |(NumberField.discr X.B.I.F : ℝ)| :=
+    abs_pos.2 (Int.cast_ne_zero.2 (NumberField.discr_ne_zero _))
+  rw [covol_refN hN hB X u _ FdN hH.2.2.1,
+    covol_refN hN hB X u _ FdN' (by first | exact hH.2.2.2.1 | exact hH.2.2.2), ← Real.rpow_add hd]
+  congr 1
+  delta eDF LsNc5.covolumeExponent
+  ring
+
+theorem covolRef_of_steps (hC : LsNc5.CoordCovol) (hB : RefNBox) : CovolRef :=
+  covolRef_of (covolN_of_coordCovol hC) hB
+
+end Formalism.L2.SG.Pf.NcReal.JX
+end
+end
+
+section
+
+noncomputable section
+
+open NumberField Formalism.BasicNotions Module
+open scoped BigOperators
+
+namespace Formalism.L2.SG.Pf.NcReal.JX.CovB.CovolumeSpans
+
+open Formalism.L2.SG.HidaSetting Formalism.MainNotions.S
+
+attribute [local instance] Formalism.BasicNotions.Host.cmStar
+
+variable {D : D7} (X : HidaSetting D)
+
+theorem rowRank_holds : RowRank := by
+  intro D X b
+  set S := Submodule.span D.host.E (aaLbS X b : Set (VS D).V) with hSdef
+  have hSfin : finrank D.host.E S = D.R.k + 1 := by
+    rw [hSdef, span_aaLbS, finrank_span_Lb]
+  have hSle : ∀ x ∈ aaLbS X b, x ∈ S := fun x hx => Submodule.subset_span hx
+  let B : Basis (Fin (D.R.k + 1)) D.host.E S := Module.finBasisOfFinrankEq D.host.E S hSfin
+  let eS : S ≃ₗ[D.host.E] (Fin (D.R.k + 1) → D.host.E) := B.equivFun
+  let Φ : (Fin (D.R.k + 1) → D.host.E) →ₗ[𝓞 D.host.E] (VS D).V :=
+    (S.subtype.comp eS.symm.toLinearMap).restrictScalars (𝓞 D.host.E)
+  have hΦ : ∀ y, Φ y = ((eS.symm y : S) : (VS D).V) := fun y => rfl
+  have hΦinj : Function.Injective Φ := by
+    intro y y' h
+    rw [hΦ, hΦ] at h
+    exact eS.symm.injective (Subtype.ext h)
+  let A : Submodule (𝓞 D.host.E) (Fin (D.R.k + 1) → D.host.E) := (aaLbS X b).comap Φ
+  have hmemA : ∀ y, y ∈ A ↔ Φ y ∈ aaLbS X b := fun y => Iff.rfl
+
+  have hmap : A.map Φ = aaLbS X b := by
+    refine le_antisymm (Submodule.map_comap_le _ _) fun x hx => ?_
+    refine ⟨eS ⟨x, hSle x hx⟩, ?_, ?_⟩
+    · show Φ (eS ⟨x, hSle x hx⟩) ∈ aaLbS X b
+      rw [hΦ, LinearEquiv.symm_apply_apply]
+      exact hx
+    · show Φ (eS ⟨x, hSle x hx⟩) = x
+      rw [hΦ, LinearEquiv.symm_apply_apply]
+  have hAfg : A.FG := Submodule.fg_of_fg_map_injective Φ hΦinj (by rw [hmap]; exact fg_aaLbS X b)
+
+  have hAspan : Submodule.span D.host.E (A : Set (Fin (D.R.k + 1) → D.host.E)) = ⊤ := by
+    rw [eq_top_iff]
+    intro y _
+    have key : ∀ (v : (VS D).V) (hv : v ∈ S), eS ⟨v, hv⟩ ∈ Submodule.span D.host.E (A : Set _) := by
+      intro v hv
+      induction hv using Submodule.span_induction with
+      | mem x hx =>
+        refine Submodule.subset_span ?_
+        show Φ (eS ⟨x, _⟩) ∈ aaLbS X b
+        rw [hΦ, LinearEquiv.symm_apply_apply]
+        exact hx
+      | zero =>
+        have : eS ⟨0, S.zero_mem⟩ = 0 := by
+          rw [show (⟨0, S.zero_mem⟩ : S) = 0 from rfl, map_zero]
+        rw [this]
+        exact Submodule.zero_mem _
+      | add x y hx hy ihx ihy =>
+        have : eS ⟨x + y, S.add_mem hx hy⟩ = eS ⟨x, hx⟩ + eS ⟨y, hy⟩ := by
+          rw [← map_add (f := _)]; rfl
+        rw [this]
+        exact Submodule.add_mem _ ihx ihy
+      | smul c x hx ihx =>
+        have : eS ⟨c • x, S.smul_mem c hx⟩ = c • eS ⟨x, hx⟩ := by
+          rw [← map_smul]; rfl
+        rw [this]
+        exact Submodule.smul_mem _ c ihx
+    have := key _ (eS.symm y).2
+    rwa [Subtype.coe_eta, LinearEquiv.apply_symm_apply] at this
+
+  let Az : Submodule ℤ (Fin (D.R.k + 1) → D.host.E) := A.restrictScalars ℤ
+  have h1 : Module.Finite (𝓞 D.host.E) A := Module.Finite.iff_fg.2 hAfg
+  have h2 : Module.Finite ℤ A := Module.Finite.trans (𝓞 D.host.E) _
+  have h3 : Module.Finite ℤ Az :=
+    Module.Finite.equiv ((Submodule.restrictScalarsEquiv ℤ (𝓞 D.host.E) _ A).restrictScalars ℤ).symm
+  have hlat : Submodule.IsFullLattice ℚ Az := by
+    letI : Submodule.IsLattice ℚ Az := Submodule.IsLattice.of_fg ℚ (Module.Finite.iff_fg.1 h3)
+    refine ⟨?_⟩
+    rw [eq_top_iff]
+    intro x _
+    have hx : x ∈ Submodule.span D.host.E (A : Set (Fin (D.R.k + 1) → D.host.E)) := by rw [hAspan]; trivial
+    obtain ⟨n, hn, hnx⟩ := Formalism.MainNotions.LatticeGluingRadicals.j_exists_nat_smul_mem A hx
+    have hn' : (n : ℚ) ≠ 0 := by exact_mod_cast hn.ne'
+    have : x = (n : ℚ)⁻¹ • (n • x) := by
+      rw [← Nat.cast_smul_eq_nsmul ℚ, smul_smul, inv_mul_cancel₀ hn', one_smul]
+    rw [this]
+    exact Submodule.smul_mem _ _ (Submodule.subset_span hnx)
+  have hr : finrank ℤ Az = finrank ℚ (Fin (D.R.k + 1) → D.host.E) :=
+    Module.finrank_eq_of_rank_eq
+      ((Submodule.IsFullLattice.rank_eq ℚ Az).trans (Module.finrank_eq_rank ℚ (Fin (D.R.k + 1) → D.host.E)).symm)
+  let bZ : Basis (Fin (finrank ℚ (Fin (D.R.k + 1) → D.host.E))) ℤ Az := Module.finBasisOfFinrankEq ℤ Az hr
+  have hdim : finrank ℚ (Fin (D.R.k + 1) → D.host.E) = finrank ℚ D.host.E * (D.R.k + 1) := by
+    rw [Module.finrank_pi_fintype, Finset.sum_const, Finset.card_univ, Fintype.card_fin, smul_eq_mul, mul_comm]
+
+  let eqv : Az ≃ₗ[ℤ] ((aaLbS X b).restrictScalars ℤ) :=
+    { toFun := fun y => ⟨Φ (y : Fin (D.R.k + 1) → D.host.E), (hmemA _).1 y.2⟩
+      invFun := fun x => ⟨eS ⟨x, hSle x x.2⟩, by
+        show Φ (eS ⟨x, hSle x x.2⟩) ∈ aaLbS X b
+        rw [hΦ, LinearEquiv.symm_apply_apply]
+        exact x.2⟩
+      map_add' := fun y y' => Subtype.ext (map_add Φ (y : Fin (D.R.k + 1) → D.host.E) y')
+      map_smul' := fun c y => Subtype.ext (by
+        show Φ (c • (y : Fin (D.R.k + 1) → D.host.E)) = c • Φ (y : Fin (D.R.k + 1) → D.host.E)
+        exact map_zsmul Φ c _)
+      left_inv := fun y => Subtype.ext (by
+        show eS ⟨Φ (y : Fin (D.R.k + 1) → D.host.E), _⟩ = (y : Fin (D.R.k + 1) → D.host.E)
+        have : (⟨Φ (y : Fin (D.R.k + 1) → D.host.E), hSle _ ((hmemA _).1 y.2)⟩ : S) = eS.symm y := Subtype.ext (hΦ _)
+        rw [this, LinearEquiv.apply_symm_apply])
+      right_inv := fun x => Subtype.ext (by
+        show Φ (eS ⟨x, _⟩) = (x : (VS D).V)
+        rw [hΦ, LinearEquiv.symm_apply_apply]) }
+  exact ⟨(bZ.map eqv).reindex (finCongr hdim)⟩
+
+end Formalism.L2.SG.Pf.NcReal.JX.CovB.CovolumeSpans
+end
+end

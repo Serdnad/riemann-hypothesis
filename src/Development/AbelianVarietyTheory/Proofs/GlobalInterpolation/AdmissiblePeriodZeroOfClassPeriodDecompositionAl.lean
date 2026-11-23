@@ -3,7 +3,7 @@ module
 public import Formalism.SharpRestriction.Divisibility.StatementFT.PeriodPointConditions
 public import Formalism.SharpRestriction.Divisibility.WeightDegreeSizes
 public import Formalism.LocalRingCardinality.CoeNeZeroOfNotMem
-public import Formalism.LocalRingCardinality.PosOfIsomEmb
+public import Formalism.LocalRingCardinality.Bundle009
 import Formalism.LocalRingCardinality.RankBoundMonotoneInDimension
 public import Formalism.LocalToGlobal.HermitianForms.TiedBrRep
 public import Formalism.SharpRestriction.Divisibility.ThetaNormsAndLinks

@@ -3,7 +3,7 @@ module
 public import Formalism.HermitianLattices.StatementLat
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.GFrames
 public import Mathlib.Algebra.Module.Injective
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsIntegralOfQuad
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle049
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

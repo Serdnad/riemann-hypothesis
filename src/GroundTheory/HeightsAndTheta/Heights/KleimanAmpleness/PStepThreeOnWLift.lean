@@ -1,10 +1,10 @@
 module
 
 import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.PStepThreeAway
-public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.StatementsStepThreeOnWLift
-public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.StatementsClaimSeq
-public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.PClaimVanish
-import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.PClaimVanishCech
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle023
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle008
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle024
+import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle006
 public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.PSurjectiveClosed
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

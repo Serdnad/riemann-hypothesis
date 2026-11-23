@@ -1,10 +1,10 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ImageRationalOrthComplementUnitaryEqRationalStab
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsFinEmb
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle224
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle167
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.RationalUnitaryPointsDiscreteFundamentalDomain
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.AutPointLatticeIntersectionSelfDualProperties
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsUnitaryMulVecEqOfFormEqStatement
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle111
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle022
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -189,7 +189,7 @@ theorem gaussSum_eq (β : I.E) (g : I.GA) :
   by_cases hy : y ∈ lamX I (1, g.2) <;> by_cases hq : star y ⬝ᵥ (I.J *ᵥ y) = β <;>
     simp [Set.indicator, gaussAt, hL, hF, hy, hq]
 
-theorem gaussSum_cosets : ∀ (I : AutInst) (s : Bool) (x : Fin I.n → I.E), star x ⬝ᵥ (I.J *ᵥ x) = sgn I.E s → ∃ (ι : Type) (_ : Countable ι) (r : ι → I.GA), (∀ i, r i ∈ I.GFset) ∧ (∀ γ ∈ I.GFset, ∃! i, γ * (r i)⁻¹ ∈ stabF I x) ∧ ∀ g, gaussSum I (sgn I.E s) g = ∑' i, gaussAt I x (r i * g) := by
+theorem gaussSum_cosets : ∀ (I : AutInst) (s : Bool) (x : Fin I.n → I.E), star x ⬝ᵥ (I.J *ᵥ x) = sgn I.E s → ∃ (ι : Type) (_ : Countable ι) (r : ι → I.GA), (∀ i, r i ∈ I.GFset) ∧ (∀ γ ∈ I.GFset, ∃! i, γ * (r i)⁻¹ ∈ _root_.GlobalTheory.StabUnfold.stabF I x) ∧ ∀ g, gaussSum I (sgn I.E s) g = ∑' i, gaussAt I x (r i * g) := by
   intro I s x hx
   classical
   have hUJ : ∀ δ : GL (Fin I.n) I.E, δ ∈ Formalism.UG.UJ (starRingEnd I.E) I.J ↔
@@ -235,7 +235,7 @@ theorem gaussSum_cosets : ∀ (I : AutInst) (s : Bool) (x : Fin I.n → I.E), st
     have hdI : IsImage I (d : Matrix (Fin I.n) (Fin I.n) I.E) γ := by
       unfold IsImage
       exact ⟨hd1, hd2⟩
-    have key : ∀ y, γ * (r y)⁻¹ ∈ stabF I x ↔ (d : Matrix (Fin I.n) (Fin I.n) I.E) *ᵥ y.1 = x := by
+    have key : ∀ y, γ * (r y)⁻¹ ∈ _root_.GlobalTheory.StabUnfold.stabF I x ↔ (d : Matrix (Fin I.n) (Fin I.n) I.E) *ᵥ y.1 = x := by
       intro y
       have hi : IsImage I ((d : Matrix (Fin I.n) (Fin I.n) I.E) * (δ y : Matrix (Fin I.n) (Fin I.n) I.E))
           (γ * (r y)⁻¹) := by
@@ -244,7 +244,7 @@ theorem gaussSum_cosets : ∀ (I : AutInst) (s : Bool) (x : Fin I.n → I.E), st
         exact isImage_mul I hdI hinv
       have hmemF : γ * (r y)⁻¹ ∈ I.GFset :=
         (ratSub I).mul_mem (show γ ∈ ratSub I from hγ) ((ratSub I).inv_mem (show r y ∈ ratSub I from hrF y))
-      unfold stabF
+      unfold _root_.GlobalTheory.StabUnfold.stabF
       rw [Set.mem_setOf_eq, fmat_mulVec hi, ← Matrix.mulVec_mulVec, hδx y]
       constructor
       · rintro ⟨-, hx'⟩

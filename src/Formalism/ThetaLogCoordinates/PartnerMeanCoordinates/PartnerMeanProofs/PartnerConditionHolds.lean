@@ -1,6 +1,6 @@
 module
 
-public import Formalism.ThetaLogCoordinates.PartnerMeanCoordinates.TheoremMCB
+public import Formalism.ThetaLogCoordinates.PartnerMeanCoordinates.Bundle001
 public import Formalism.MahlerMeasure.MahlerMeasureProofs.TheoremM
 public import Formalism.PolynomialDimension.MultinomialDepth.PartnerM
 import Mathlib.Algebra.Order.Floor.Extended

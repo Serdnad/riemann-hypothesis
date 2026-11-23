@@ -51,7 +51,7 @@ import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Separation.CompletelyRegular
 import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.AnalyticForms.PlurisubharmonicFunctions.ComplexHessianIsHermitianOfContDiffAt
-public import ReciprocityTheory.AnalyticForms.PlurisubharmonicFunctions.CovLog
+public import ReciprocityTheory.AnalyticForms.PlurisubharmonicFunctions.Bundle001
 public import ReciprocityTheory.AnalyticForms.PlurisubharmonicFunctions.MdiscSt
 public import Mathlib.Analysis.Calculus.FDeriv.RestrictScalars
 public import Mathlib.MeasureTheory.Function.Jacobian

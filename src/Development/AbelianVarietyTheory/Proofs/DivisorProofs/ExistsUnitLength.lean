@@ -1,7 +1,7 @@
 module
 
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.FinsumNormNeg
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.UnitLemmaGroup
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

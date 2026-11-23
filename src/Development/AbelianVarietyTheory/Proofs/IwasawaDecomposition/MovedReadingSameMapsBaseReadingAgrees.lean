@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.UpLReStage
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsMovedRowLiftDataToFittingStages
-import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Wp3ApplyEqSqMulSubSqMul
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle034
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle536
+import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle020
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

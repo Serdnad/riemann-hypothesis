@@ -2,8 +2,8 @@ module
 
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.ExistsFrameTwo
 public import Formalism.HermitianCurvature.FrameExists2
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.AnisotropicColumnSums
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.LemmaDDeterminantIdentity
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle073
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle065
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.RestrictionIrrelevantDoubleLevelOperator
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

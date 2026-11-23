@@ -3,8 +3,8 @@ module
 import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsDerivedActionFiniteDimUnitaryRep
 public import Development.AbelianVarietyTheory.BlockTheory.SiegelWeilLocal.OrbitStepSpace
 public import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
-public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.CartanInvolutionConjTransposeMul
-public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.LieOperatorConjHolds
+public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.Bundle004
+public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.Bundle005
 public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.VectorComplexifiedDerivativeCommutator
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -4,7 +4,7 @@ public import Mathlib.Analysis.Analytic.Basic
 public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Mathlib.Analysis.Calculus.Deriv.Basic
 public import Mathlib.LinearAlgebra.Determinant
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.AnalyticAtEntry
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle002
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -62,7 +62,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.AnalyticForms.AnalyticCharts.Osgood
+public import ReciprocityTheory.AnalyticForms.AnalyticCharts.Bundle002
 public import Mathlib.Analysis.Calculus.ContDiff.Defs
 public import Mathlib.Analysis.Calculus.ContDiff.RCLike
 public import Mathlib.Analysis.Calculus.DSlope

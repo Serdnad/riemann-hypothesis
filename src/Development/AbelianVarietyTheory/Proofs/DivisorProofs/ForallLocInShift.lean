@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ValIotaLeOfMem
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FinPartEqOneOfLevel
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ModFMulPosPrincipal
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle595
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle546
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle500
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

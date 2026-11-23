@@ -4,11 +4,10 @@ public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisCocha
 public import Mathlib.RingTheory.AdicCompletion.Noetherian
 public import Mathlib.RingTheory.Coalgebra.IsFrobenius
 public import Mathlib.RingTheory.HopfAlgebra.Basic
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisCochains.DecZhat
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisCochains.IsClosedOfClosedFiniteIndex
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisCochains.Bundle001
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisCochains.LocEuler
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.HcUrAbs
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.HcUrIndex
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.Bundle010
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.Bundle008
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

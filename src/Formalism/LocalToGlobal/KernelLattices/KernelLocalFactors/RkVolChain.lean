@@ -1,7 +1,7 @@
 module
 
-public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.RkVolKerStd
-public import Formalism.LocalToGlobal.AlgebraicTheory.StatementNorm
+public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.Bundle003
+public import Formalism.LocalToGlobal.AlgebraicTheory.Bundle001
 public import Formalism.LocalToGlobal.KernelLattices.ColumnData.AmbOfENeSd
 public import Formalism.LocalToGlobal.KernelLattices.ColumnData.BaseLinkOfNonzeroDelta
 import Formalism.LocalToGlobal.KernelLattices.ColumnData.IsAdmissibleFlagPairOfUnitriangularLeftAutomorph

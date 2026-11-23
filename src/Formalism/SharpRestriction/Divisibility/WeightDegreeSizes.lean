@@ -1,6 +1,6 @@
 module
 
-public import Formalism.SharpRestriction.Divisibility.ZetaProductPairs
+public import Formalism.SharpRestriction.Divisibility.Bundle002
 public import Formalism.SharpRestriction.Divisibility.LiftErrorLocal
 public import Formalism.SharpRestriction.Divisibility.LocalQuadraticParts
 public import Formalism.SharpRestriction.GrowthBounds.WeilJacquetShalikaLaw

@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LamGApply
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.NormIntegersLeOne
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.SemilinearLatticeMem
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.WeightedHomogeneousMap
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2465
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle057
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle003
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle068
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

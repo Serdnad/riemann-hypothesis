@@ -1,16 +1,14 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.EntryMem
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.EptInt
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.PtActInternal
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.PtExt
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Bundle007
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Bundle016
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Bundle010
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Bundle011
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.PtLift
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.PtScale
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.RigidDiag
-import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.SInternal
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Bundle017
+import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Bundle008
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.TanScale
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.TwoIrr
-import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.WcompMulHomog
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -53,6 +51,9 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 
 @[expose] public section
+
+local instance (priority := 2000) ratFieldIsTorsionFreeForExistsLiftOfDerivationOnIdeal (Ω : Type) [Field Ω] [Algebra ℚ Ω] :
+    Module.IsTorsionFree ℚ Ω := DivisionSemiring.to_moduleIsTorsionFree
 
 open NumberField IsDedekindDomain Formalism.ConjugateSelfDual ReciprocityTheory.Gal IsLocalRing UpperTheory.V UpperTheory.V.Base UpperTheory.V.Alg UpperTheory.V.HV UpperTheory.V.GradeZeroInterpolatingElement
 

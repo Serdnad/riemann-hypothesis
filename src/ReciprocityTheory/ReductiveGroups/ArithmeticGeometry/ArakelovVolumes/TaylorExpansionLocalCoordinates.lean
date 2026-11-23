@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.L2DbarEstimates.IsLocalHomeomorph
+public import ReciprocityTheory.L2DbarEstimates.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -49,10 +49,10 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.L2DbarEstimates.ChartDerivatives.HoloSmooth
-public import ReciprocityTheory.L2DbarEstimates.PlurisubharmonicCharts.IteratedFDerivEqZeroOfIsBigO
-public import ReciprocityTheory.L2DbarEstimates.PlurisubharmonicCharts.ZeroDimA
+public import ReciprocityTheory.L2DbarEstimates.PlurisubharmonicCharts.Bundle009
+public import ReciprocityTheory.L2DbarEstimates.PlurisubharmonicCharts.Bundle001
 public import Mathlib.Analysis.Calculus.ContDiff.RCLike
-import ReciprocityTheory.L2DbarEstimates.PlurisubharmonicCharts.FamilyLeCoords
+import ReciprocityTheory.L2DbarEstimates.PlurisubharmonicCharts.Bundle002
 
 @[expose] public section
 

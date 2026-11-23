@@ -1,8 +1,7 @@
 module
 
 public import Formalism.PeriodIntegrals.TwNormLat
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.TwistedNormLattice.IdealForm
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.TwistedNormLattice.PrXLeOfNf
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.TwistedNormLattice.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -50,7 +49,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.TwistedNormLattice.CombinationEquivInvMemUnipotentFlagGroup
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.TwistedNormLattice.Bundle001
 
 @[expose] public section
 

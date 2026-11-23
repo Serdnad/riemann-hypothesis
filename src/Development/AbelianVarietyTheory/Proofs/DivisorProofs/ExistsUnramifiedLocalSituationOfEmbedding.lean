@@ -2,10 +2,10 @@ module
 
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RankOfMulEqOne
 public import Development.AbelianVarietyTheory.Definitions.Divisors.HasBlockOfOccurs
-public import Development.AbelianVarietyTheory.Definitions.Divisors.HeightTrivialParameterEqZero
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle025
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FiniteDimensionalAdjoinRange
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FiniteDimensionalFilDR
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsNormSubEqOne
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

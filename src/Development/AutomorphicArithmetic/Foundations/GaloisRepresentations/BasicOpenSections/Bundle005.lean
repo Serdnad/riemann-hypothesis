@@ -1,0 +1,173 @@
+module
+
+public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.BasicOpenSections.Bundle003
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsFrobGBaseChange
+public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.TranscendenceTraces.Bundle004
+public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.TranscendenceTraces.Bundle007
+public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.TranscendenceTraces.Bundle005
+public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.TranscendenceTraces.Bundle006
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.AlgebraicGeometry.Modules.Sheaf
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Coalgebra.IsFrobenius
+import Mathlib.RingTheory.HopfAlgebra.Basic
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.RegularLocalRing.Defs
+import Mathlib.RingTheory.SimpleRing.Principal
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Linter.HaveILetI
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.TranscendenceTraces.IsolateSpec
+
+@[expose] public section
+
+section
+
+noncomputable section
+open CategoryTheory Limits AlgebraicGeometry GlobalTheory.EtC GlobalTheory.Et
+open UpperTheory.Gal.TranscendenceTraces (gp pt Wt fib IsWt nwt LocNml)
+open UpperTheory.Gal.crystallineComparison (resPt twist PtId fn)
+open GlobalTheory.SS.FrobField (absFrob)
+
+namespace UpperTheory.Gal.Mod
+
+def IsBC {p : ℕ} {Y S B : Scheme.{0}} (T : crystallineComparison.Corr p Y) (w : Wt T.Z) (s : S ⟶ Y) (bS : S ⟶ B) (c : TranscendenceTraces.Corr S S) : Prop :=
+  ∃ v : c.Z ⟶ T.Z, IsPullback v c.p T.p s ∧ c.f ≫ s = v ≫ T.r ∧ c.f ≫ bS = c.p ≫ bS ∧ c.w = w.comap v
+
+def FrobTors : Prop := ∀ (m : ℕ) [NeZero m] (X : Scheme.{0}) (p f : ℕ) (hp : p.Prime) (h : (p : Γ(X, ⊤)) = 0),
+  IsUnit (m : Γ(X, ⊤)) → ∀ (k : ℤ) (x : Ht m (sch.obj X) k 0), pull _ (sch.map (absFrob X p f hp h)) _ k x = x
+
+def FrobQ : Prop := ∀ (l : ℕ) [Fact l.Prime] (X : Scheme.{0}) (p f : ℕ) (hp : p.Prime) (h : (p : Γ(X, ⊤)) = 0),
+  IsUnit (l : Γ(X, ⊤)) → ∀ k : ℤ, pullHQ l (sch.map (absFrob X p f hp h)) k 0 = LinearMap.id
+
+def BaseFacts : Prop := ∀ (p : ℕ) (O : Type) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O] (ϖ : O), Irreducible ϖ →
+  (p : O) ≠ 0 → ¬ IsUnit (p : O) → ∀ (Y : Scheme.{0}) (g : Y ⟶ Spec (CommRingCat.of O)) [Smooth g],
+    LocNml Y ∧ (∀ y : Y, TranscendenceTraces.GenPt y → y ∈ Y.basicOpen (p : Γ(Y, ⊤))) ∧
+    (∀ y : Y, ∃ η ∈ Y.basicOpen (p : Γ(Y, ⊤)), η ⤳ y) ∧ ∀ y ∈ Y.basicOpen (p : Γ(Y, ⊤)), y ∈ Y.basicOpen (fn g ϖ)
+
+def DenseGen : Prop := ∀ (O : Type) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O] (ϖ : O), Irreducible ϖ →
+  ∀ (k : Type) [Field k] (β : O →+* k), β ϖ = 0 → ∀ (Y S : Scheme.{0}) (g : Y ⟶ Spec (CommRingCat.of O)) (s : S ⟶ Y) (bS : S ⟶ gp k),
+    IsPullback s bS g (sp β) → Dense {x : S | crystallineComparison.GenPt (fn g ϖ) (s x)}
+
+def FrEx : Prop := ∀ (p f : ℕ) (hp : p.Prime) (κ kb : Type) [Field κ] [Field kb] [Algebra κ kb], (∀ a : κ, a ^ p ^ f = a) →
+  ∀ (X : Scheme.{0}) (t : X ⟶ Spec (CommRingCat.of κ)) (h : (p : Γ(geom kb t, ⊤)) = 0) (τ : kb ≃ₐ[κ] kb), (∀ a, τ a = a ^ p ^ f) →
+    ∃ Fr : geom kb t ⟶ geom kb t, Fr ≫ pullback.snd _ _ = pullback.snd _ _ ∧ Fr ≫ galMap kb t τ = absFrob _ p f hp h ∧
+      ∀ (Ω : Type) [Field Ω] (φ : Ω →+* Ω), (∀ a, φ a = a ^ p ^ f) → ∀ x : gp Ω ⟶ geom kb t,
+        x ≫ Fr ≫ pullback.fst _ _ = sp φ ≫ x ≫ pullback.fst _ _
+
+def CorrPull : Prop := ∀ (p : ℕ) {Y S B O : Scheme.{0}} (g : Y ⟶ O) (s : S ⟶ Y) (bS : S ⟶ B) (β : B ⟶ O), IsPullback s bS g β →
+  ∀ (T : crystallineComparison.Corr p Y) (w : Wt T.Z), IsWt T.p w → T.r ≫ g = T.p ≫ g → ∃ c, IsBC T w s bS c
+
+def CorrComm : Prop := ∀ (l : ℕ) [Fact l.Prime] (p : ℕ) {Y S S' B B' O : Scheme.{0}} (g : Y ⟶ O) (s : S ⟶ Y) (bS : S ⟶ B) (β : B ⟶ O),
+  IsPullback s bS g β → ∀ (i : S' ⟶ S) (bS' : S' ⟶ B') (γ : B' ⟶ B), i ≫ bS = bS' ≫ γ → IsUnit (l : Γ(S, ⊤)) →
+  ∀ (T : crystallineComparison.Corr p Y) (w : Wt T.Z) (c : TranscendenceTraces.Corr S S) (c' : TranscendenceTraces.Corr S' S'), IsBC T w s bS c → IsBC T w (i ≫ s) bS' c' →
+    ∀ k j : ℤ, pullHQ l (sch.map i) k j ∘ₗ c.opQ l k j = c'.opQ l k j ∘ₗ pullHQ l (sch.map i) k j
+
+def ESGen : Prop :=
+  ∀ (l : ℕ) [Fact l.Prime] (p f n : ℕ), p.Prime →
+  ∀ (O : Type) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O] (ϖ : O), Irreducible ϖ → ¬ IsUnit (p : O) →
+  ∀ (K : Type) [Field K] [Algebra O K] (κ : Type) [Field κ] [Algebra O κ], (p : K) ≠ 0 → algebraMap O κ ϖ = 0 →
+    (∀ a : κ, a ^ p ^ f = a) →
+  ∀ (Ω : Type) [Field Ω] [IsAlgClosed Ω] [Algebra K Ω] (V : ValuationSubring Ω)
+    (hV : ∀ a : O, algebraMap K Ω (algebraMap O K a) ∈ V)
+    (kb : Type) [Field kb] [IsAlgClosed kb] [Algebra κ kb] (r : V →+* kb), Function.Surjective r →
+    (∀ a : O, r ⟨_, hV a⟩ = algebraMap κ kb (algebraMap O κ a)) → IsUnit (l : kb) →
+  ∀ (Y : Scheme.{0}) (g : Y ⟶ Spec (CommRingCat.of O)) [Smooth g] [IsProper g] (T : Fin (n + 1) → crystallineComparison.Corr p Y),
+    (∀ j, (T j).r ≫ g = (T j).p ≫ g) → PtId p (p ^ f) n (fn g ϖ) T →
+  ∀ c : Fin (n + 1) → TranscendenceTraces.Corr (geom Ω (pullback.snd g (sp (algebraMap O K)))) (geom Ω (pullback.snd g (sp (algebraMap O K)))),
+    (∀ j, IsBC (T j) (Wt.const _ 1) (pullback.fst _ _ ≫ pullback.fst _ _) (pullback.snd _ _) (c j)) →
+  ∀ (σ : Ω ≃ₐ[K] Ω) (hσ : ∀ v ∈ V, σ v ∈ V) (k : ℤ),
+    ((∀ v : V, r ⟨σ v, hσ v v.2⟩ = r v) → galHQ l Ω (pullback.snd g (sp (algebraMap O K))) k 0 σ = 1) ∧
+    ((∀ v : V, r ⟨σ v, hσ v v.2⟩ = r v ^ p ^ f) → ∑ j : Fin (n + 1), ((co (p ^ f) j : ℤ) : ℚ_[l]) •
+      ((c j).opQ l k 0 * galHQ l Ω (pullback.snd g (sp (algebraMap O K))) k 0 σ⁻¹ ^ (n - j)) = 0)
+
+end UpperTheory.Gal.Mod
+
+end
+end
+
+section
+
+open CategoryTheory Limits AlgebraicGeometry UpperTheory.Gal.TranscendenceTraces
+
+namespace UpperTheory.Gal.Mod
+
+private theorem pt_sp {Ω Ω' : Type} [Field Ω] [Field Ω'] (a : Ω →+* Ω') {X : Scheme.{0}} (x : gp Ω ⟶ X) :
+    pt (sp a ≫ x) = pt x := by
+  rw [pt_comp, pt_eq]
+
+private instance sp_flat {Ω Ω' : Type} [Field Ω] [Field Ω'] (a : Ω →+* Ω') : Flat (sp a) := by
+  letI := a.toAlgebra
+  exact (inferInstance : Flat (Spec.map (CommRingCat.ofHom (algebraMap Ω Ω'))))
+
+private instance sp_surj {Ω Ω' : Type} [Field Ω] [Field Ω'] (a : Ω →+* Ω') : Surjective (sp a) := by
+  refine ⟨fun t => ⟨IsLocalRing.closedPoint Ω', ?_⟩⟩
+  exact Subsingleton.elim (α := PrimeSpectrum Ω) _ _
+
+private theorem sp_epi {Ω Ω' : Type} [Field Ω] [Field Ω'] (a : Ω →+* Ω') : Epi (sp a) :=
+  Flat.epi_of_flat_of_surjective _
+
+theorem fibExt : FibExt := by
+  intro Z Y g _ Ω Ω' _ _ _ a x
+  have hepi := sp_epi a
+  have inj : ∀ {T : Scheme.{0}} (y y' : gp Ω ⟶ T), sp a ≫ y = sp a ≫ y' → y = y' :=
+    fun y y' h => (cancel_epi (sp a)).1 h
+  refine ⟨fibFin_of chart_of g Ω x, ⟨?_, ?_, ?_⟩, fun y y' h => inj y y' h⟩
+  · intro z hz
+    have hz' : z ≫ g = x := hz
+    change (sp a ≫ z) ≫ g = sp a ≫ x
+    rw [Category.assoc, hz']
+  · intro z _ z' _ h
+    exact inj z z' h
+  · intro w hw
+    have hw' : w ≫ g = sp a ≫ x := hw
+    let z2 : gp Ω' ⟶ pullback g x := pullback.lift w (sp a) hw'
+    obtain ⟨z0, h0, hpt⟩ := ptLift_of (pullback.snd g x) Ω (𝟙 (gp Ω)) (pt z2)
+      (Subsingleton.elim (α := PrimeSpectrum Ω) _ _)
+    have e : sp a ≫ z0 = z2 := by
+      refine ptOne_of chart_of Ω (pullback.snd g x) Ω' (sp a) (sp a ≫ z0) z2 ?_ ?_ ?_
+      · rw [Category.assoc, h0, Category.comp_id]
+      · exact pullback.lift_snd _ _ _
+      · rw [pt_sp, hpt]
+    refine ⟨z0 ≫ pullback.fst g x, ?_, ?_⟩
+    · change (z0 ≫ pullback.fst g x) ≫ g = x
+      rw [Category.assoc, pullback.condition, ← Category.assoc, h0, Category.id_comp]
+    · change sp a ≫ z0 ≫ pullback.fst g x = w
+      rw [← Category.assoc, e]
+      exact pullback.lift_fst _ _ _
+
+end UpperTheory.Gal.Mod
+end

@@ -1,8 +1,8 @@
 module
 
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.HaarTransversals.PoincareSeriesSquareIntegrable
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.FoldMult
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.FoldUnfold
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle004
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

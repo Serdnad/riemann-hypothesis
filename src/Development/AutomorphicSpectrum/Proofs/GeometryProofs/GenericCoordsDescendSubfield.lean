@@ -2,18 +2,18 @@ module
 
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsRegularSectionGenerator
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.GlueApplyOfNotInFibre
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.TowerOrigin
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.EigenspaceDecompositionInternalStatement
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle011
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle107
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsLieModel
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FlagModelStatementHoldsStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GenMapStalkMap
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeCptBlockRefinementStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LabelEmbeddingInjectiveStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LatticeEigenVectorBundleStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieModelDominantHodgeStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieOmegaLatticeVectorBundleStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.RegAtIsLocalRingIsFractionRingStalk
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.SegreRefineLineBundlesStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle189
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle032
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle187
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle095
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle055
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle203
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle177
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle011
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle157
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -58,7 +58,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.SabPull
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle010
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.LawsProved
 import Std.Tactic.BVDecide.Normalize.Prop
 

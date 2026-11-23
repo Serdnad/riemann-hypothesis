@@ -1,25 +1,25 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsIsHalfIdem
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1775
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsIsFinWeil
-import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsIntegralSplitIdempotentOverTwo
+import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle067
 import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.IsSelfDualCLatFrame
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.MapFinNeg
-import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.SmulMemLatO
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AdelicUnitaryCharacterTrivialAtNonsplitPlaceStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsSplitCharacter
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsSplitPlaceHalfHeisenbergInvariantForm
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MemLocalHomLatticeOfKeepsCompletedLatticesStatement
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle083
+import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle064
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1737
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1691
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1869
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1116
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RelIndexNeZeroOfFinite
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SchurLemmaThetaFunctionsOrientedPair
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.UnitaryAdelicCharacterTrivialOfLocalStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1868
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1162
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsFinitePlaceIdempotentBaseChangeAdeles
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsGoodIndexNormalizationNegativeInert
-import Development.AbelianVarietyTheory.Proofs.HeightProofs.AdelicUnitaryRealPointsStructureRealPlaces
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle247
+import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle048
 import Development.AbelianVarietyTheory.Proofs.HeightProofs.EmbeddingXiZeroNeZero
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsIsInfFamFamily
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsThetaFunNeZero
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.AdelicUnitaryEqRealMulFiniteSplit
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle181
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle350
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle077
 import Formalism.LocalToGlobal.BesselHermitianTheta.LemmasWeil
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -115,11 +115,11 @@ theorem exists_half_character {a : AE D} (ha : IsHalfIdem D a) (V : HSp D) (χ :
   let d : GA D V →* (AE D)ˣ := Matrix.GeneralLinearGroup.det.comp (matHom V)
   have hd : ∀ g, (d g : AE D) = (Formalism.L2.Theta.mt V g).det := fun _ => rfl
   have hc : Continuous d := Matrix.GeneralLinearGroup.continuous_det.comp continuous_subtype_val
-  have htriv : ∀ g, (∀ i j, a * (Formalism.L2.Theta.mt V g - 1) i j = 0) → χ (cut a haa (d g)) = 1 := fun g hg => by
-    have : cut a haa (d g) = 1 := Units.ext (by
+  have htriv : ∀ g, (∀ i j, a * (Formalism.L2.Theta.mt V g - 1) i j = 0) → χ (_root_.GlobalTheory.SplitDetChar.cut a haa (d g)) = 1 := fun g hg => by
+    have : _root_.GlobalTheory.SplitDetChar.cut a haa (d g) = 1 := Units.ext (by
       rw [cut_val, hd, mul_det a _ hg, add_sub_cancel, Units.val_one])
     rw [this, map_one]
-  refine ⟨χ.comp ((cut a haa).comp d), hχ.1.comp ((continuous_cut a haa).comp hc), fun g hg => htriv g fun i j => ?_,
+  refine ⟨χ.comp ((_root_.GlobalTheory.SplitDetChar.cut a haa).comp d), hχ.1.comp ((continuous_cut a haa).comp hc), fun g hg => htriv g fun i j => ?_,
     fun v ε h g hg => htriv g fun i j => ?_, fun e he g hg x hx => ?_,
     fun g x hx => congrArg χ (Units.ext hx.symm)⟩
   · refine GlobalTheory.PlaceIdem.parts_inj D _ _ (by rw [RingHom.map_mul, hinf, zero_mul, RingHom.map_zero]) ?_
@@ -129,7 +129,7 @@ theorem exists_half_character {a : AE D} (ha : IsHalfIdem D a) (V : HSp D) (χ :
     have h3 : finPart D ((Formalism.L2.Theta.mt V g - 1) i j) = 0 := congrFun (congrFun h2 i) j
     rw [RingHom.map_mul, h3, mul_zero, RingHom.map_zero]
   · rw [← hg i j, ← mul_assoc, mul_comm a, hns v ε h, zero_mul]
-  · show χ (cut a haa (d g)) = χ x
+  · show χ (_root_.GlobalTheory.SplitDetChar.cut a haa (d g)) = χ x
     have hout := mul_det (1 - (e + cA D e)) (Formalism.L2.Theta.mt V g) fun i j => by rw [sub_mul, one_mul, hg i j, sub_self]
     have hx' : (x : AE D) = e * (Formalism.L2.Theta.mt V g).det + (1 - e) := hx
     rcases hsp e he with h | h
@@ -137,16 +137,16 @@ theorem exists_half_character {a : AE D} (ha : IsHalfIdem D a) (V : HSp D) (χ :
       refine Units.ext ?_
       rw [cut_val, hd, hx']
       linear_combination a * hout + ((Formalism.L2.Theta.mt V g).det - 1) * h
-    · have hy : (cut a haa (d g) : AE D) = cA D e * (Formalism.L2.Theta.mt V g).det + (1 - cA D e) := by
+    · have hy : (_root_.GlobalTheory.SplitDetChar.cut a haa (d g) : AE D) = cA D e * (Formalism.L2.Theta.mt V g).det + (1 - cA D e) := by
         rw [cut_val, hd]
         linear_combination a * hout + ((Formalism.L2.Theta.mt V g).det - 1) * h
       have hcc : cA D e * cA D e = cA D e := by rw [← RingHom.map_mul, he.1]
       have hu := det_conj_mul V g
-      have h1 : (cut a haa (d g) : AE D) * cA D x = 1 := by
+      have h1 : (_root_.GlobalTheory.SplitDetChar.cut a haa (d g) : AE D) * cA D x = 1 := by
         rw [hy, hx', RingHom.map_add (f := _), RingHom.map_mul, RingHom.map_sub, RingHom.map_one]
         generalize (Formalism.L2.Theta.mt V g).det = z at hu
         linear_combination (z * cA D z - z - cA D z + 1) * hcc + cA D e * hu
-      have h2 := char_norm hres x (x * (cut a haa (d g))⁻¹) (by
+      have h2 := char_norm hres x (x * (_root_.GlobalTheory.SplitDetChar.cut a haa (d g))⁻¹) (by
         rw [Units.val_mul, Units.inv_eq_of_mul_eq_one_right h1])
       rw [map_mul, map_inv, mul_inv_eq_one] at h2
       exact h2.symm
@@ -239,7 +239,7 @@ theorem finMat_one (V : HSp D) : finMat D.sp.cm.sig V.gram (1 : GA D V) = 1 :=
   congrArg Units.val (finHom V).map_one
 
 theorem exists_isDetAt {e : AE D} (he : IsSplitIdem D e) (V : HSp D) (g : GA D V) : ∃ x, IsDetAt e V g x :=
-  ⟨cut e he.1 (Matrix.GeneralLinearGroup.det (matHom V g)), rfl⟩
+  ⟨_root_.GlobalTheory.SplitDetChar.cut e he.1 (Matrix.GeneralLinearGroup.det (matHom V g)), rfl⟩
 
 theorem unique (hψ : IsStdChar D ψ (-1)) (hS : IsSelfDualC S ΛS) (hT : IsSelfDualC T ΛT)
     {o₁ o₂ : GA D S × GA D T →* Module.End ℂ (WO S T → ℂ)}

@@ -1,9 +1,9 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.SecClass
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AcyclicTensorAcyclicFlatEtaleComplexStatement
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleLocalPropertyCalculusRules
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleSheafComplexMappingConeAcyclicOfQuasiIso
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle729
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle405
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle264
 public import Mathlib.Algebra.Homology.HomotopyCategory.Plus
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

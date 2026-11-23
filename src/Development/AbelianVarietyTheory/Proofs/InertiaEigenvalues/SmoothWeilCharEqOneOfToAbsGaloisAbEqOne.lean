@@ -3,18 +3,18 @@ module
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.MonodromyZeroOfWeilDeligneRepClassIff
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.ExistsUniqueHcharOfFiniteOrder
 public import Mathlib.FieldTheory.Galois.Abelian
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ChevalleyUnits
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsLocalExtensionOfFiniteIndexWeilSubgroupStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.GlobalArtinLocalIdeleInjectiveStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WeilGroupRestriction
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CompletionEmbeddingCompatibleClosuresStatement
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle612
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle490
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle466
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle416
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle163
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.DecompositionGroupLocalGaloisIso
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsLocalEmbeddingOverPlace
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsWeilOfFixesStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.GlobalArtinReciprocityHolds
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle149
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle162
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle394
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LocalArtinHasNormGroups
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LocalEmbeddingWeilActionFiniteExtension
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LocalEmbeddingsTowerCompatibleStatement
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle184
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle180
 import GroundTheory.LocalFields.LocalArtinMap
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -110,7 +110,7 @@ theorem art_inj {art : Ideles E →* Gab E Ω} (ha : IsGlobalArtin art) :
     Function.Injective fun x : (w.adicCompletion E)ˣ => art (localIdele E w x) :=
   GlobalTheory.T.globalArtin_localIdele_injective GlobalTheory.Published.chevalleyUnits' E Ω art ha w
 
-theorem exists_inverse (h : IsPlaceOver A w) {art : Ideles E →* Gab E Ω} (ha : IsGlobalArtin art) :
+theorem exists_inverse (h : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A w) {art : Ideles E →* Gab E Ω} (ha : IsGlobalArtin art) :
     ∃ a : Weil h →* (w.adicCompletion E)ˣ, Function.Surjective a ∧
       ∀ σ : Weil h, art (localIdele E w (a σ)) = toAb E Ω σ := by
   obtain ⟨h1, h2⟩ := GlobalTheory.LocNormGrp.art_range_weil E Ω A w h art ha
@@ -120,7 +120,7 @@ theorem exists_inverse (h : IsPlaceOver A w) {art : Ideles E →* Gab E Ω} (ha 
   · obtain ⟨τ, hτ⟩ := h2 y
     exact ⟨τ, art_inj ha ((ha' τ).trans hτ.symm)⟩
 
-theorem mem_of_toAb_eq_one (h : IsPlaceOver A w) (H : Subgroup (Weil h)) (hfin : H.FiniteIndex)
+theorem mem_of_toAb_eq_one (h : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A w) (H : Subgroup (Weil h)) (hfin : H.FiniteIndex)
     (hop : IsOpen {σ : Ine (F := E) A | ineIncl h σ ∈ H}) (hcomm : ∀ σ τ : Weil h, σ * τ * σ⁻¹ * τ⁻¹ ∈ H)
     (σ : Weil h) (hσ : toAb E Ω σ = 1) : σ ∈ H := by
   obtain ⟨K, hK, hloc, hHK⟩ := GlobalTheory.T.exists_localExtension_of_finiteIndex_weilSubgroup E Ω A w h H hfin hop
@@ -168,7 +168,7 @@ theorem mem_of_toAb_eq_one (h : IsPlaceOver A w) (H : Subgroup (Weil h)) (hfin :
       (IntermediateField.inclusion hle).injective
   obtain ⟨θ, hθ, -, hl⟩ := GlobalTheory.LocDec.decomposition_mulEquiv_galLoc E Ω A w h ι hι
   let ψ : Weil h →* GalLoc w := θ.toMonoidHom.comp (Subgroup.inclusion (Weil_le_Dec h))
-  have hψ : ∀ s : Weil h, Lifts ι (ψ s) (s : G E Ω) := fun s => hl _
+  have hψ : ∀ s : Weil h, Lifts ι (ψ s) (s : _root_.Formalism.ConjugateSelfDual.G E Ω) := fun s => hl _
   have hψ' : ∀ (s : Weil h) (g : GalLoc w), Lifts ι g s → ψ s = g := fun s g hg => by
     have e : θ.symm g = Subgroup.inclusion (Weil_le_Dec h) s := by
       have := hl (θ.symm g)
@@ -223,7 +223,7 @@ theorem mem_of_toAb_eq_one (h : IsPlaceOver A w) (H : Subgroup (Weil h)) (hfin :
   rw [Subgroup.mem_comap, this]
   exact Subgroup.one_mem _
 
-theorem deg_eq_zero_of_toAb_eq_one (h : IsPlaceOver A w) (σ : Weil h) (hσ : toAb E Ω σ = 1) : deg σ = 0 := by
+theorem deg_eq_zero_of_toAb_eq_one (h : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A w) (σ : Weil h) (hσ : toAb E Ω σ = 1) : deg σ = 0 := by
   let n := (deg σ).natAbs + 1
   let r : Weil h →* Multiplicative (ZMod n) :=
     (AddMonoidHom.toMultiplicative (Int.castAddHom (ZMod n))).comp (degHom h)
@@ -234,7 +234,7 @@ theorem deg_eq_zero_of_toAb_eq_one (h : IsPlaceOver A w) (σ : Weil h) (hσ : to
   rw [hr] at this
   exact Int.eq_zero_of_dvd_of_natAbs_lt_natAbs this (by simp only [Int.natAbs_natCast]; omega)
 
-theorem apply_eq_one_of_toAb_eq_one : ∀ (E Ω : Type) [Field E] [NumberField E] [Field Ω] [Algebra E Ω] [IsAlgClosure E Ω] (A : ValuationSubring Ω) (w : HeightOneSpectrum (𝓞 E)) (h : IsPlaceOver A w) (ξ : Weil h →* ℂˣ), GlobalTheory.WeilDeligne.IsSmooth ξ → ∀ σ : Weil h, GlobalTheory.HeckeGal.toAb E Ω σ = 1 → ξ σ = 1 := by
+theorem apply_eq_one_of_toAb_eq_one : ∀ (E Ω : Type) [Field E] [NumberField E] [Field Ω] [Algebra E Ω] [IsAlgClosure E Ω] (A : ValuationSubring Ω) (w : HeightOneSpectrum (𝓞 E)) (h : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A w) (ξ : Weil h →* ℂˣ), GlobalTheory.WeilDeligne.IsSmooth ξ → ∀ σ : Weil h, GlobalTheory.HeckeGal.toAb E Ω σ = 1 → ξ σ = 1 := by
   intro E Ω _ _ _ _ _ A w h ξ hξ σ hσ
   let ξ' : Weil h →* ℂˣ := ξ * unrChar h (ξ (frob h))⁻¹
   have h0 : ∀ s, deg s = 0 → ξ' s = ξ s := fun s hs => by simp [ξ', hs]

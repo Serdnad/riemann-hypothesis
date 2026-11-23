@@ -1,7 +1,7 @@
 module
 
-public import Formalism.LocalToGlobal.NormalizedHeckeFactors.CoverAct
-public import Formalism.LocalToGlobal.GaloisLevelStructure.TiedHecke
+public import Formalism.LocalToGlobal.NormalizedHeckeFactors.Bundle004
+public import Formalism.LocalToGlobal.GaloisLevelStructure.Bundle002
 import Formalism.LocalRingCardinality.SpanPowerMembership.Adelic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -43,7 +43,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.Automorphisms.InstMainA
+public import ReciprocityTheory.Automorphisms.Bundle001
 import ReciprocityTheory.Automorphisms.PlaceA
 
 @[expose] public section

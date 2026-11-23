@@ -1,7 +1,7 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ToNatLengthEqRangeAddRange
-public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.ExistsRetractTensorTriple
+public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.Bundle004
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsIsClosedImmersionGenericPoint
 public import Mathlib.CategoryTheory.Abelian.DiagramLemmas.KernelCokernelComp
 public import Mathlib.GroupTheory.MonoidLocalization.GrothendieckGroup

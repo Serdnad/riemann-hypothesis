@@ -1,8 +1,8 @@
 module
 
-public import Formalism.PeriodIntegrals.Minkowski
+public import Formalism.PeriodIntegrals.Bundle007
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.MinkowskiBound.PowerSumStep
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.MinkowskiBound.Assemble
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.MinkowskiBound.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

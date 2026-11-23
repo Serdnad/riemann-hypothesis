@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.GoodClass
+public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.Bundle001
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.GlobalSectionsRankAlgClosed
-public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.PolBaseChangeOfRelAmpleLocal
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.AppTopSurjective
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsGenOfInvariant
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.SurjectiveAppTopPullbackSndOfApp
+public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle018
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle030
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle093
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle079
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,7 +1,7 @@
 module
 
 public import Formalism.SharpRestriction.LevelLetterCocycles.DataN
-import Formalism.PadicSubsetSums.StableGradedCounts.ZBrauerNesbittAlg
+import Formalism.PadicSubsetSums.StableGradedCounts.Bundle003
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

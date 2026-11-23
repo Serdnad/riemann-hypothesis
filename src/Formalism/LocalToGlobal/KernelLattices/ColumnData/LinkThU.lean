@@ -86,7 +86,7 @@ theorem sigmaOf_galE (σ : D.host.E ≃ₐ[ℚ] D.host.E) :
   exact MulEquiv.symm_apply_apply _ σ
 
 theorem embT_K (τ : D.what₂.Tau) (x : D.host.E) (hx : x ∈ D.host.K) :
-    embT D τ x = D.host.φ₀ x := by
+    _root_.Formalism.L2.Ker.Cd.TaylorLogMetric.embT D τ x = D.host.φ₀ x := by
   set σ := D.host.sigmaOf ((D.eTau τ : D.R.Psi) : D.R.GG)
   have hb : σ (D.host.sqd) = D.host.sqd := by
     rw [← D.host.galE_mem_Psi_iff]
@@ -105,14 +105,14 @@ theorem embT_K (τ : D.what₂.Tau) (x : D.host.E) (hx : x ∈ D.host.K) :
   rw [hfix]
 
 theorem emb_cases (φ : D.host.E →+* ℂ) :
-    ∃ τ : D.what₂.Tau, φ = embT D τ ∨ φ = (starRingEnd ℂ).comp (embT D τ) := by
+    ∃ τ : D.what₂.Tau, φ = _root_.Formalism.L2.Ker.Cd.TaylorLogMetric.embT D τ ∨ φ = (starRingEnd ℂ).comp (_root_.Formalism.L2.Ker.Cd.TaylorLogMetric.embT D τ) := by
   obtain ⟨ρ, hρ⟩ := (D.host.hostEmb D.host.φ₀).2 φ
   set g := D.host.galE ρ
   by_cases hg : g ∈ D.R.Psi
   · refine ⟨D.eTau.symm ⟨g, hg⟩, Or.inl ?_⟩
     rw [← hρ]
     ext x
-    simp only [embT, Equiv.apply_symm_apply, Host.emb]
+    simp only [_root_.Formalism.L2.Ker.Cd.TaylorLogMetric.embT, Equiv.apply_symm_apply, Host.emb]
     rw [show g = D.host.galE ρ from rfl, sigmaOf_galE]
   · have hg' : g * D.R.cc ∈ D.R.Psi := by
       rw [Formalism.HC.Frame.mem_Psi_iff] at hg ⊢
@@ -128,7 +128,7 @@ theorem emb_cases (φ : D.host.E →+* ℂ) :
     refine ⟨D.eTau.symm ⟨g * D.R.cc, hg'⟩, Or.inr ?_⟩
     rw [← hρ]
     ext x
-    simp only [embT, Equiv.apply_symm_apply, Host.emb, RingHom.comp_apply]
+    simp only [_root_.Formalism.L2.Ker.Cd.TaylorLogMetric.embT, Equiv.apply_symm_apply, Host.emb, RingHom.comp_apply]
     rw [hgc, sigmaOf_galE]
     have h1 := D.host.conjE_apply
       (D.host.φ₀.comp (ρ : D.host.E →+* D.host.E)) x
@@ -148,10 +148,10 @@ open Formalism.MainNotions.TaylorLogMetric hiding admitted AdmittedStatements Al
 
 variable (D : Car)
 
-def embP (x : D.host.E) : D.what₂.Tau → ℂ := fun τ => embT D τ x
+def embP (x : D.host.E) : D.what₂.Tau → ℂ := fun τ => _root_.Formalism.L2.Ker.Cd.TaylorLogMetric.embT D τ x
 
 theorem sum_emb_zero {ι : Type*} [Fintype ι] (b : ι → D.host.E) (g : ι → ℝ)
-    (h : ∀ τ, ∑ i, (g i : ℂ) * embT D τ (b i) = 0) (φ : D.host.E →+* ℂ) :
+    (h : ∀ τ, ∑ i, (g i : ℂ) * _root_.Formalism.L2.Ker.Cd.TaylorLogMetric.embT D τ (b i) = 0) (φ : D.host.E →+* ℂ) :
     ∑ i, (g i : ℂ) * φ (b i) = 0 := by
   obtain ⟨τ, hτ | hτ⟩ := emb_cases D φ
   · rw [hτ]; exact h τ
@@ -167,7 +167,7 @@ theorem linInd_embP :
     LinearIndependent ℝ (fun i => embP D (integralBasis D.host.E i)) := by
   rw [Fintype.linearIndependent_iff]
   intro g hg
-  have hτ : ∀ τ, ∑ i, (g i : ℂ) * embT D τ (integralBasis D.host.E i) = 0 := by
+  have hτ : ∀ τ, ∑ i, (g i : ℂ) * _root_.Formalism.L2.Ker.Cd.TaylorLogMetric.embT D τ (integralBasis D.host.E i) = 0 := by
     intro τ
     have := congrFun hg τ
     simpa [embP, Finset.sum_apply, Complex.real_smul] using this
@@ -438,7 +438,7 @@ theorem lam_mem (cc : Ideal (𝓞 D.host.K)) (δ w : ℂ) (hw : w ∈ lamOf D cc
     exact ⟨-c1, cc.neg_mem hc1, by simp⟩
 
 def Phi {N N' : ℕ} (u : ℂ) : (Fin N' → Fin N → 𝓞 D.host.E) →+ VC D N N' where
-  toFun A := fun τ i j => u * embT D τ (A i j : D.host.E)
+  toFun A := fun τ i j => u * _root_.Formalism.L2.Ker.Cd.TaylorLogMetric.embT D τ (A i j : D.host.E)
   map_zero' := by funext τ i j; simp
   map_add' A B := by funext τ i j; simp [mul_add]
 
@@ -458,8 +458,8 @@ theorem La_upper {N N' : ℕ} (L : Submodule (𝓞 D.host.E) (Fin N → D.host.E
   · have hM' : (M : ℂ) ≠ 0 := by exact_mod_cast hM
     funext τ i j
     simp only [Phi, AddMonoidHom.coe_mk, ZeroHom.coe_mk, Pi.smul_apply, smul_eq_mul, embV, tor0]
-    change δ / (M : ℂ) * embT D τ ((M : D.host.E) * ((c : D.host.K) : D.host.E) * A i j) =
-      δ * D.host.φ₀ ((c : D.host.K) : D.host.E) * embT D τ (A i j)
+    change δ / (M : ℂ) * _root_.Formalism.L2.Ker.Cd.TaylorLogMetric.embT D τ ((M : D.host.E) * ((c : D.host.K) : D.host.E) * A i j) =
+      δ * D.host.φ₀ ((c : D.host.K) : D.host.E) * _root_.Formalism.L2.Ker.Cd.TaylorLogMetric.embT D τ (A i j)
     rw [map_mul, map_mul, map_intCast, embT_K D τ _ (c : D.host.K).2]
     field_simp
 
@@ -470,7 +470,7 @@ theorem La_lower {N N' : ℕ} (L : Submodule (𝓞 D.host.E) (Fin N → D.host.E
     (L' : Submodule (𝓞 D.host.E) (Fin N' → D.host.E)) (hA : admitted D N N' L L')
     (cc : Ideal (𝓞 D.host.K)) (hcc : IsCurveIdeal D cc) (δ : ℂ) :
     ∃ n : ℕ, n ≠ 0 ∧ ∀ (i0 : Fin N') (j0 : Fin N) (b : 𝓞 D.host.E),
-      ins D i0 j0 (fun τ => δ * n * embT D τ (b : D.host.E)) ∈ La D (tor0 D cc δ) L L' := by
+      ins D i0 j0 (fun τ => δ * n * _root_.Formalism.L2.Ker.Cd.TaylorLogMetric.embT D τ (b : D.host.E)) ∈ La D (tor0 D cc δ) L L' := by
   classical
   obtain ⟨M1, hM1, hY⟩ := YY_lower D L L' hA.2.2.1 hA.2.2.2
   obtain ⟨c0, hc0, hc0ne⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hcc.1
@@ -514,7 +514,7 @@ theorem La_lower {N N' : ℕ} (L : Submodule (𝓞 D.host.E) (Fin N → D.host.E
   split_ifs with h
   · rw [← embT_K D τ _ (c0 : D.host.K).2, mul_assoc, mul_assoc]
     congr 1
-    rw [← map_natCast (embT D τ) n, ← map_mul, ← map_mul, hnE]
+    rw [← map_natCast (_root_.Formalism.L2.Ker.Cd.TaylorLogMetric.embT D τ) n, ← map_mul, ← map_mul, hnE]
     congr 1
     ring
   · simp

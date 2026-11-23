@@ -44,7 +44,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.IwahoriDoubleCosets
+import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.Bundle004
 public import Mathlib.FieldTheory.Finite.GaloisField
 public import Mathlib.RingTheory.Trace.Basic
 

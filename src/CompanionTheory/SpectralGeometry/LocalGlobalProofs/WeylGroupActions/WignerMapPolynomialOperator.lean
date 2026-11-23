@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Jets.WigMap
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Cut_BPEq
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.IsPolyDegStar
+public import Development.AbelianVarietyTheory.Definitions.Jets.Bundle002
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle157
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle117
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,8 +1,8 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.CoeffSumMonomialLinear
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LBidetMinor
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LSatLemmas
+public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.Bundle002
+import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle005
+import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,0 +1,109 @@
+module
+
+public import Development.EtaleCohomology.CohomologicalPurity.Bundle004
+public import Development.EtaleCohomology.CohomologicalPurity.Bundle006
+public import Development.EtaleCohomology.CohomologicalPurity.Bundle012
+public import Development.EtaleCohomology.CohomologicalPurity.Bundle019
+public import Development.EtaleCohomology.CohomologicalPurity.Bundle039
+import Development.EtaleCohomology.CohomologicalPurity.Bundle010
+import Development.EtaleCohomology.CohomologicalPurity.Bundle011
+import Development.EtaleCohomology.CohomologicalPurity.Bundle021
+import Development.EtaleCohomology.CohomologicalPurity.Bundle020
+import Development.EtaleCohomology.CohomologicalPurity.Bundle034
+import Development.EtaleCohomology.CohomologicalPurity.Bundle031
+import Development.EtaleCohomology.CohomologicalPurity.Bundle009
+import Development.EtaleCohomology.CohomologicalPurity.Bundle018
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+
+@[expose] public section
+
+section
+
+namespace LateralTheory.Fin.LeafAW
+theorem etale_purity_aw : LateralTheory.CohomologicalPurity.LeafAW := by
+  apply LateralTheory.CohomologicalPurity.LeafAWCut.LeafAW_of
+theorem intersectionNumber_baseChange : LateralTheory.CohomologicalPurity.LeafAW := etale_purity_aw
+end LateralTheory.Fin.LeafAW
+end
+
+section
+
+namespace LateralTheory.Fin.LeafIndExc
+theorem etale_boundary_monomorphism_of_thom_isomorphism : LateralTheory.CohomologicalPurity.Bd.LeafMono := by
+  apply LateralTheory.CohomologicalPurity.Bd.LeafMono_of
+theorem etale_relative_boundary_pushout_property_holds : LateralTheory.CohomologicalPurity.Bd.LeafPush := by
+  apply LateralTheory.CohomologicalPurity.Bd.LeafPush_of
+theorem etale_boundary_good_pair_of_thom_isomorphism : LateralTheory.CohomologicalPurity.Bd.LeafGood := by
+  apply LateralTheory.CohomologicalPurity.Bd.LeafGood_of
+theorem etale_boundary_connecting_of_thom_isomorphism : LateralTheory.CohomologicalPurity.Bd.LeafDelta := by
+  apply LateralTheory.CohomologicalPurity.Bd.LeafDelta_of
+theorem etale_boundary_exact_of_thom_isomorphism : LateralTheory.CohomologicalPurity.Bd.LeafExact := by
+  apply LateralTheory.CohomologicalPurity.Bd.LeafExact_of
+theorem etale_boundary_generator_of_thom_isomorphism : LateralTheory.CohomologicalPurity.Bd.LeafGen := by
+  apply LateralTheory.CohomologicalPurity.Bd.LeafGen_of
+theorem etale_boundary_image_hom_of_thom_isomorphism : LateralTheory.CohomologicalPurity.Bd.LeafImgHom := by
+  apply LateralTheory.CohomologicalPurity.Bd.LeafImgHom_of <;> first | exact etale_boundary_generator_of_thom_isomorphism
+theorem etale_boundary_image_of_thom_isomorphism : LateralTheory.CohomologicalPurity.Bd.LeafImg := by
+  apply LateralTheory.CohomologicalPurity.Bd.LeafImg_of <;> first | exact etale_boundary_image_hom_of_thom_isomorphism
+theorem etale_boundary_map_of_thom_isomorphism : LateralTheory.CohomologicalPurity.LeafBd := by
+  apply LateralTheory.CohomologicalPurity.Bd.goal_of <;> first | exact etale_boundary_monomorphism_of_thom_isomorphism | exact etale_relative_boundary_pushout_property_holds | exact etale_boundary_good_pair_of_thom_isomorphism | exact etale_boundary_connecting_of_thom_isomorphism | exact etale_boundary_exact_of_thom_isomorphism | exact etale_boundary_generator_of_thom_isomorphism | exact etale_boundary_image_hom_of_thom_isomorphism | exact etale_boundary_image_of_thom_isomorphism
+theorem etale_excision_identification_of_excision : LateralTheory.CohomologicalPurity.LeafExcIdent := by
+  apply LateralTheory.CohomologicalPurity.EtaleExcIdent
+theorem etale_excision_cohomological_degree_of_excision : LateralTheory.CohomologicalPurity.LeafExcDeg := by
+  apply LateralTheory.CohomologicalPurity.LeafExcDeg_of
+theorem etale_excision_formal_reduction_of_excision : LateralTheory.CohomologicalPurity.LeafExcFormal := by
+  apply LateralTheory.CohomologicalPurity.LeafExcFormal_of <;> first | exact etale_excision_identification_of_excision | exact etale_excision_cohomological_degree_of_excision
+theorem etale_excision_free_cokernel_injective_of_excision : LateralTheory.CohomologicalPurity.LeafFreeCokInj := by
+  apply LateralTheory.CohomologicalPurity.LeafFreeCokInj_of
+theorem etale_excision_cokernel_free_of_excision : LateralTheory.CohomologicalPurity.LeafFreeCok := by
+  apply LateralTheory.CohomologicalPurity.LeafFreeCok_of_inj <;> first | exact etale_excision_free_cokernel_injective_of_excision
+theorem etale_excision_surjective_geometric_points_of_excision : LateralTheory.CohomologicalPurity.LeafSurjGeo := by
+  apply LateralTheory.CohomologicalPurity.LeafSurjGeo_of
+theorem etale_excision_injective_geometric_points_of_excision : LateralTheory.CohomologicalPurity.LeafInjGeo := by
+  apply LateralTheory.CohomologicalPurity.LeafInjGeo_of
+theorem etale_excision_sheaf_level_of_excision : LateralTheory.CohomologicalPurity.LeafExcSheaf := by
+  apply LateralTheory.CohomologicalPurity.LeafExcSheaf_of <;> first | exact etale_excision_cokernel_free_of_excision | exact etale_excision_surjective_geometric_points_of_excision | exact etale_excision_injective_geometric_points_of_excision
+theorem etale_excision_isomorphism_of_excision : LateralTheory.CohomologicalPurity.LeafExc := by
+  apply LateralTheory.CohomologicalPurity.LeafExc_of <;> first | exact etale_excision_formal_reduction_of_excision | exact etale_excision_sheaf_level_of_excision
+theorem etale_excision_inductive_of_reduction : LateralTheory.CohomologicalPurity.LeafIndExc := by
+  apply LateralTheory.Fix.LeafIndExc.intersectionNumber_baseChange <;> first | exact etale_boundary_map_of_thom_isomorphism | exact etale_excision_isomorphism_of_excision
+theorem intersectionNumber_baseChange : LateralTheory.CohomologicalPurity.LeafIndExc := etale_excision_inductive_of_reduction
+end LateralTheory.Fin.LeafIndExc
+end

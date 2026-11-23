@@ -1,8 +1,8 @@
 module
 
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsLocPart
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SplitPlaceCharacterComponentSmoothUnitaryConductStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1365
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2120
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.StandardPairFrameBlocksDetAndNegTranspose
 public import Development.AutomorphicArithmetic.DivisorFrames.StdAStdBMemSchwartzBruhat
 import Mathlib.Algebra.Order.Floor.Extended
@@ -47,7 +47,7 @@ import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.MatchingAdjoints
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.UnitCharTriangle
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.BlkGLMem
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsReading
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle332
 public import Development.AutomorphicArithmetic.LocalEmbeddings.ComplEquivEvW
 import Development.AutomorphicArithmetic.LocalEmbeddings.FinMatchDefs
 import Development.AutomorphicArithmetic.LocalEmbeddings.StageGeoDefs

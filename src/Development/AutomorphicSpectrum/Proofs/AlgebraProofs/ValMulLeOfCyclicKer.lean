@@ -1,11 +1,11 @@
 module
 
 import Development.WeilBound.CoreStatements.HodgeTatePoints.RbProj
-public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.LieLatticeData
-public import Development.AutomorphicSpectrum.Statements.AlgebraStatements.PolarisedFlagStatement
+public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.Bundle002
+public import Development.AutomorphicSpectrum.Statements.AlgebraStatements.Bundle001
 public import Mathlib.CategoryTheory.Category.Basic
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.HasFinColengthOfHasLen
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.HopfOrderLatticeBaseStatement
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle038
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -55,8 +55,8 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.DualLattices.HasLenCokerDet
-public import ReciprocityTheory.DualLattices.MemAugIdeal
+public import ReciprocityTheory.DualLattices.Bundle022
+public import ReciprocityTheory.DualLattices.Bundle014
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section

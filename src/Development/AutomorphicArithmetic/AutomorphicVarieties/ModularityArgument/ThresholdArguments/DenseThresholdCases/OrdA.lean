@@ -1,15 +1,15 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.LitAut
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.Bundle004
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.Distinct
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DeterminantInducedIsAdmissible
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle512
 public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.PairwiseDisjointCell
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.OrdinaryHeckeCharacters.GlBridge
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.OrdinaryHeckeCharacters.IndVec
-import Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.OrdinaryHeckeCharacters.IwMemMul
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.OrdinaryHeckeCharacters.PropCp
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.OrdinaryHeckeCharacters.UOpLevel
-import Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.OrdinaryHeckeCharacters.UOpMul
+import Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.OrdinaryHeckeCharacters.Bundle002
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.OrdinaryHeckeCharacters.Bundle001
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.OrdinaryHeckeCharacters.Bundle004
+import Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.OrdinaryHeckeCharacters.Bundle003
 import GroundTheory.LocalFields.UnramifiedHensel
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -224,7 +224,8 @@ theorem UpperTheory.V.Hi.exists_ne_zero_mem_eig_uOp_eq_psEig_smul_of_equiv_ps :
     simp only [χ, dif_pos p.2]
     show (deltaHalf k _ _ : ℂ) • ofChar _ _ x = _
     rw [ofChar_apply]
-    simp [Ψ, mul_assoc]
+    simp only [Ψ, MonoidHom.mul_apply, MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom,
+      MulEquiv.symm_apply_apply, Units.val_mul, smul_eq_mul, mul_assoc]
   have hl : ∀ g ∈ parab k (points (Fin n)), ∀ v, l (π g v) = χ g * l v := by
     intro g hg v
     refine Eq.trans ?_ (hσ ⟨g, hg⟩ _)
@@ -245,7 +246,9 @@ theorem UpperTheory.V.Hi.exists_ne_zero_mem_eig_uOp_eq_psEig_smul_of_equiv_ps :
       congrFun ((leviTorus k (Fin n)).left_inv t)
     simp only [χ, dif_pos (hD t)]
     rw [show leviProj k _ ⟨_, hD t⟩ = leviTorus k (Fin n) t from leviProj_leviEmb k _ _]
-    simp [Ψ, deltaHalf_apply, hd, Finset.prod_mul_distrib]
+    simp only [Ψ, MonoidHom.mul_apply, MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom,
+      MulEquiv.symm_apply_apply, deltaHalf_apply, torusChar_apply, hd, Finset.prod_mul_distrib,
+      Units.val_mul, Units.coe_prod]
   have hφ' : ∀ t : (glIwa k n).T, χ t = ((φ t)⁻¹ : ℂˣ) ∧ ((t : GL (Fin n) k) ∈ (glIwa k n).Tc c → χ t = 1) := by
     intro t
     obtain ⟨y, h1, h2, h3⟩ := exists_torus_eq_diagT_eq_prod_eT_and_mem_Uc_of_mem_Tc t
@@ -259,7 +262,7 @@ theorem UpperTheory.V.Hi.exists_ne_zero_mem_eig_uOp_eq_psEig_smul_of_equiv_ps :
       refine (congrArg List.prod (List.map_ofFn ..)).trans (List.prod_ofFn.trans ?_)
       exact Finset.prod_congr rfl fun i _ => hφ i (y i)
     rw [h4, h5]
-    simp
+    simp only [Finset.prod_inv_distrib, inv_inv, Units.coe_prod]
   have hmul : ∀ a ∈ parab k (points (Fin n)), ∀ b ∈ parab k (points (Fin n)), χ (a * b) = χ a * χ b := by
     intro a ha b hb
     simp only [χ, dif_pos ha, dif_pos hb, dif_pos (mul_mem ha hb)]

@@ -5,7 +5,7 @@ public import Mathlib.Algebra.Group.Subgroup.Defs
 public import Mathlib.Algebra.Module.LinearMap.Defs
 public import Mathlib.Basic.Complex.Basic
 public import Mathlib.Data.Finsupp.Defs
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.IsolateAbstract
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle001
 public import Formalism.LocalRingCardinality.DataHost
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -53,7 +53,7 @@ import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.WittSma
 import Formalism.LocalRingCardinality.DataTheta
 import Formalism.LocalToGlobal.BesselHermitianTheta.NoncompactGapAtLeastRange
 import Formalism.LocalToGlobal.IndefiniteReal.LocalNewformFunction
-import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.GapAtLeast
+import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.Bundle001
 import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.GenusMassVolumes
 
 @[expose] public section

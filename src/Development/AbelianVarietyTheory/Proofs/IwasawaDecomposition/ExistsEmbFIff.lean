@@ -2,15 +2,15 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.LatAtLattice
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.InvSmulMemOfRedL
-public import Formalism.LocalToGlobal.Columns.TiedVal
+public import Formalism.LocalToGlobal.Columns.Bundle036
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.MemClosureIff
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.PlacesOverConjPrimes
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.BaseFieldsPrimesOk
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle083
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle290
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.EmbFColZeroMemMram
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HermitianLatticeChartFamilyLawBasis
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle170
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsBasisAtOfIsLocBasis
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ProdAbsNormDivsDvd
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.TrueColumnSpacesStandardInFrameCoords
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle278
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle339
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.UfGLRatHom
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.UnitaryOfIsON
 import Formalism.LocalRingCardinality.Lemmas
@@ -18,7 +18,7 @@ import Formalism.LocalToGlobal.Columns.BaseLemmas
 public import Formalism.LocalToGlobal.Columns.ChainInst
 import Formalism.LocalToGlobal.Columns.CoefficientsModP.LatticeBasisExistsHolds
 import Formalism.LocalToGlobal.Columns.RecLevelLocP
-public import Formalism.LocalToGlobal.Columns.TiedValRat
+public import Formalism.LocalToGlobal.Columns.Bundle038
 import Formalism.LocalToGlobal.GlobalTheory.GL6.PBwLocGen
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

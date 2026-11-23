@@ -1,16 +1,14 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.MapCSmulMulVec
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle002
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.OneAddXMulDerivativeBin
 public import Mathlib.RingTheory.RootsOfUnity.PrimitiveRoots
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CDvdOfDvdXPowMul
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle073
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CoprimeVal
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsAdicCompletionExtension
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsAlgEquivXAddC
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle072
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle088
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsConstOfLvlInvariant
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsRootMulPowApprox
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LvlPolyDistinguished
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.PadicIntAlgebraMapInjectiveOfCharZero
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle041
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

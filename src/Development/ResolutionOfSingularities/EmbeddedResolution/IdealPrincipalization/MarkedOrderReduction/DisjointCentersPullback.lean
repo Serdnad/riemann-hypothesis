@@ -1,7 +1,7 @@
 module
 
 public import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.MarkedOrderReduction.SequenceOfBlowupsPullback
-import Development.ResolutionOfSingularities.Foundations.Blowup.BlowupBasic
+import Development.ResolutionOfSingularities.Foundations.Blowup.Bundle001
 import Development.ResolutionOfSingularities.Foundations.Schemes.IdealSheafData
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

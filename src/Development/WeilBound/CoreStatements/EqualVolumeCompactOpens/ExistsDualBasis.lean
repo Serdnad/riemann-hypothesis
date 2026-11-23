@@ -1,10 +1,9 @@
 module
 
 public import Development.WeilBound.CoreStatements.EqualVolumeCompactOpens.IsIsotropicHermitianSetting
-public import GroundTheory.GlobalFields.Adele.Approximation
+public import GroundTheory.GlobalFields.Adele.Bundle002
 public import Development.WeilBound.CoreStatements.EqualVolumeCompactOpens.DiagMulVecTmul
-public import GroundTheory.GlobalFields.Adele.Compact
-public import GroundTheory.GlobalFields.Adele.Discrete
+public import GroundTheory.GlobalFields.Adele.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

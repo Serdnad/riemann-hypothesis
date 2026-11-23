@@ -1,9 +1,9 @@
 module
 
-public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.DCdE
+public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.Bundle001
 public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.DiagonalLagrangianIntegralSiegelParabolicTransfoAlt
-public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.PrSingle
-public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.UnitCoef
+public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.Bundle007
+public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

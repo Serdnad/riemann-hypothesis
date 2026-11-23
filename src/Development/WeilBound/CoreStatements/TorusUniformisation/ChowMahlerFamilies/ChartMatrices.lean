@@ -1,9 +1,9 @@
 module
 
-public import Development.WeilBound.CoreStatements.TorusUniformisation.ChowMahlerFamilies.IsDerAt0
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.FreeOfFg
+public import Development.WeilBound.CoreStatements.TorusUniformisation.ChowMahlerFamilies.Bundle025
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle015
 public import Development.WeilBound.CoreStatements.HodgeTatePoints.GdChart
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.IsFractionRingOfIntegers
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

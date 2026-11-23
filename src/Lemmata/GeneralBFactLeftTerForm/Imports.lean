@@ -1,6 +1,6 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsLatticeChainLatAndComap
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle047
 public import Mathlib.RingTheory.Localization.FractionRing
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

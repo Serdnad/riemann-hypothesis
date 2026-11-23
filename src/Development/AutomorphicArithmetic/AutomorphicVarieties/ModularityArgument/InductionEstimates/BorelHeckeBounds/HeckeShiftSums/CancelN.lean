@@ -3,7 +3,7 @@ module
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.InductionEstimates.UnipotentBlockMatrices.UnipotentBlockPairs
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.InductionEstimates.BorelHeckeBounds.HeckeShiftSums.VolOne
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.InductionEstimates.UnipotentBlockMatrices.ClosedKernelMinors.ContLv
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.InductionEstimates.UnipotentBlockMatrices.ClosedKernelMinors.DenseCc
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.InductionEstimates.UnipotentBlockMatrices.ClosedKernelMinors.Bundle001
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.InductionEstimates.UnipotentBlockMatrices.ClosedKernelMinors.PmLaws
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.InductionEstimates.UnipotentBlockMatrices.ClosedKernelMinors.SecCrit
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.InductionEstimates.UnipotentBlockMatrices.ClosedKernelMinors.SecFun
@@ -56,7 +56,7 @@ open GroundTheory.Automorphic.AutomorphicForm GroundTheory.Automorphic.CuspidalS
 open PositivityTheory.Rg.Tf.Core PositivityTheory.Rg.Tf.Adel PositivityTheory.Rg.Tf.IntegralApplyAeEq UpperTheory.V.Z.InvariantSubmoduleMonicPolynomial UpperTheory.V.Z.IntegralApplyAeEq UpperTheory.ConvolutionTheory.C UpperTheory.ConvolutionTheory.K
 open scoped ENNReal NumberField.AdeleRing InnerProductSpace ComplexConjugate
 
-private theorem bumpEx : ∃ β : ℝ → ℂ, Continuous β ∧ HasCompactSupport β ∧ (∫ t, conj (β t) * β t) ≠ 0 := by
+private theorem exists_compactBump_integral_ne_zero : ∃ β : ℝ → ℂ, Continuous β ∧ HasCompactSupport β ∧ (∫ t, conj (β t) * β t) ≠ 0 := by
   obtain ⟨b⟩ : Nonempty (ContDiffBump (0 : ℝ)) := ⟨⟨1, 2, one_pos, one_lt_two⟩⟩
   have hs : HasCompactSupport (fun t : ℝ => (b t) ^ 2) :=
     b.hasCompactSupport.comp_left (g := fun y : ℝ => y ^ 2) (by norm_num)
@@ -94,7 +94,7 @@ theorem UpperTheory.V.Z.InvariantSubmoduleMonicPolynomial.secIp :
       ((secCrit μ₂ τ₂ τ₁ D hp.irr₂ hp.irr₁ _ hx).1 hs).2.2.2.2⟩
   have hlaw := (pmLaws μ₂ κ).1
   refine ⟨fun v w => ?_, fun v w => ?_⟩
-  · obtain ⟨β, hβc, hβs, hN⟩ := bumpEx
+  · obtain ⟨β, hβc, hβs, hN⟩ := exists_compactBump_integral_ne_zero
     obtain ⟨u, hu⟩ := (denseCc d).2.1 β v hβc hβs
     obtain ⟨u', hu'⟩ := (denseCc d).2.1 β w hβc hβs
     have hP := pairF μ μ₂ κ c hU _ _ β β (hS v).1 (hS w).1 hβc hβs hβc hβs _ _

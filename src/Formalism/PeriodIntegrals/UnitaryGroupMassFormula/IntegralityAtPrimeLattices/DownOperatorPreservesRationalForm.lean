@@ -1,11 +1,10 @@
 module
 
-public import Formalism.LocalToGlobal.GlobalTheory.GL6.DiagonalSlopes.CharacterFiniteLevelZeroOfForms
-public import Formalism.LocalToGlobal.GlobalTheory.GL6.DiamondPreservesRationalFormZero
+public import Formalism.LocalToGlobal.GlobalTheory.GL6.DiagonalSlopes.Bundle001
+public import Formalism.LocalToGlobal.GlobalTheory.GL6.Bundle003
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.FrobeniusNoKernelOfFrobeniusSimilitude
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.PBwLocElim
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.DiagonalSlopes.NaturalTranslateAdelicFunction
-public import Formalism.LocalToGlobal.GlobalTheory.GL6.LatticeInclusionFamilyOf
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.PBwLocInd
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.IntegralityAtPrimeLattices.IntegralityAtFormsOfIncrements
 import Mathlib.Algebra.Order.Floor.Extended

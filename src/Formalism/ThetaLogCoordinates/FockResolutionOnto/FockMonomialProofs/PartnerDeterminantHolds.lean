@@ -1,8 +1,8 @@
 module
 
-public import Formalism.ThetaLogCoordinates.FockResolutionOnto.StatementA
+public import Formalism.ThetaLogCoordinates.FockResolutionOnto.Bundle001
 public import Formalism.MahlerMeasure.MahlerMeasureProofs.MeanGam
-public import Formalism.MahlerMeasure.MahlerMeasureProofs.SmithZp
+public import Formalism.MahlerMeasure.MahlerMeasureProofs.Bundle002
 public import Formalism.MahlerMeasure.MahlerMeasureProofs.TheoremM
 public import Formalism.PolynomialDimension.MultinomialDepth.PartnerM
 import Mathlib.Algebra.Order.Floor.Extended

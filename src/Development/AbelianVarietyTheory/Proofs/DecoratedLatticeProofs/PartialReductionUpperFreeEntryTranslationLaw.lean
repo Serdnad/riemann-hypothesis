@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ChLApply
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle011
 public import Mathlib.CategoryTheory.Category.Basic
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.IntegralCoordinateShearHaarLocalFieldStatement
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.SchwartzBruhatCompAffineMatrixStatement
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle016
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle015
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

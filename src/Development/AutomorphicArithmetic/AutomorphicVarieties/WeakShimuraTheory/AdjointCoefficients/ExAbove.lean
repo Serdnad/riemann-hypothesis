@@ -5,7 +5,7 @@ public import Mathlib.RingTheory.AdicCompletion.Noetherian
 public import Mathlib.RingTheory.Coalgebra.IsFrobenius
 public import Mathlib.RingTheory.HopfAlgebra.Basic
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisCochains.ConeCount
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisCochains.H2GaloisQuotientEq
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisCochains.Bundle004
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisCochains.H2GaloisQuotientSurjective
 import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisCochains.LocEuler
 import Mathlib.Algebra.AffineMonoid.Basic
@@ -51,7 +51,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Connected.Separation
 import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.DirichletPrimeToLPartMulLPowerPart
-import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.MapRepApply
+import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Bundle001
 import Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.RedIdeal
 
 @[expose] public section

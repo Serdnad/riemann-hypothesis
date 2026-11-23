@@ -49,7 +49,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.Foundations.PetIPSmulRight
+import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle005
 import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.Newform
 public import Mathlib.Algebra.Field.GeomSum
 import Mathlib.NumberTheory.ModularForms.CongruenceSubgroups

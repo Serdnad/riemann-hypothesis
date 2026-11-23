@@ -1,7 +1,7 @@
 module
 
 public import Formalism.SharpRestriction.CuspSpanNormBounds.DataS
-public import Formalism.SharpRestriction.GrowthBounds.DataG
+public import Formalism.SharpRestriction.GrowthBounds.Bundle001
 public import Mathlib.NumberTheory.Padics.PadicIntegers
 public import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Algebra.Order.Floor.Extended

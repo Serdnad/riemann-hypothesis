@@ -4,8 +4,8 @@ public import Formalism.HermitianCurvature.FiniteOrderIntersectionInSmooth
 public import Formalism.FormalDegreeBessel.FormalDegreeRatio.UnitaryWeylNormalHolds
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CompactGroupHaarExists
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.FlagSpanVanishing
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.HermitianFormFlagVector
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.ZhatSectionExists
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle038
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle070
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

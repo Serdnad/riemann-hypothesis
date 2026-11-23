@@ -1,30 +1,27 @@
 module
 
-public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.CuspRapidDecaySiegelGL
+public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.Bundle004
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.CuspDiscreteDecompositionGL
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.ExistsSpanFormsNeBot
 public import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.AffineGLForms.GenSpace
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContinuousOfIsOpenStab
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IdeleModuleDetDiagUnitsPosIdele
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ArchLieDerivativeExists
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ConstantTermFiniteOfSmaller
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CuspidalGeneralizedSpaceSpanClosedStatement
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle133
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle245
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle291
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle590
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle525
 import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsGrowthUniform
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsMonicAevalAddOfKill
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsMonicAevalMemOfLeSup
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsOpenLevel
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FiniteDimOfAnnihilatingPolyEigenspacesStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FiniteGeneralizedEigenspaceCofiniteDecompositionStatement
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle470
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle240
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle504
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle497
 import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.GenericFiniteByInduction
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsAddHaarMeasureUnipMeasure
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsLeftInvariantOfIsAutForm
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LieOneLMemZalg
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LinearOdeValueDeterminedByShiftsStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MemL2OfBoundedContinuousInvariant
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle208
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle609
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.RapidDecayOfOneParabolicBounds
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SmoothAutomorphicOpenInvariant
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SplitCentreDerivativeLieActionStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SplitCentreTranslatePreservesCuspSpaceStatement
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle481
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle559
 public import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.AffineGLForms.TopEig
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -88,6 +85,7 @@ variable {E : Type} [Field E] [NumberField E] [_root_.NumberField.IsTotallyCompl
 
 theorem cuspFin_zero : CuspFin E 0 := by
   intro L hL W _ _ _ ρ hρ J hJ
+  haveI : Subsingleton (GA E 0) := ⟨fun g h => Units.ext (Matrix.ext fun i _ => Fin.elim0 i)⟩
   haveI : Finite (GA E 0) := Finite.of_subsingleton
   haveI : FiniteDimensional ℂ (GA E 0 → ℂ) := inferInstance
   infer_instance

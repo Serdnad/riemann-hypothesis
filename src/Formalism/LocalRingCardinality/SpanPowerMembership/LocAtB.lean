@@ -1,6 +1,6 @@
 module
 
-public import Formalism.SharpRestriction.CuspSpanNormBounds.PsiEDef
+public import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle001
 public import Formalism.SharpRestriction.LevelLetterCocycles.DataN
 public import Formalism.LocalRingCardinality.SpanPowerMembership.LocAtA
 public import Formalism.LocalRingCardinality.SpanPowerMembership.ExampleLayerExistsGenerators
@@ -52,7 +52,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-public import Formalism.LocalRingCardinality.DataArith
+public import Formalism.LocalRingCardinality.Bundle001
 import Formalism.SharpRestriction.CuspSpanNormBounds.FractionFieldToGenericStalkAlgebraMapEq
 
 @[expose] public section

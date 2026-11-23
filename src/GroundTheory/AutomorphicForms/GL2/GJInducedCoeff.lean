@@ -2,9 +2,8 @@ module
 
 public import GroundTheory.AutomorphicForms.InductionParabolic
 public import GroundTheory.AutomorphicForms.AdmissibleInduction
-public import GroundTheory.AutomorphicForms.HaarCosets
-import GroundTheory.AutomorphicForms.LocallyConstantCompact
-public import GroundTheory.AutomorphicForms.SmoothRepContragredient
+public import GroundTheory.AutomorphicForms.Bundle008
+import GroundTheory.AutomorphicForms.Bundle005
 import GroundTheory.LocalFields.LocalFourierHaar
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

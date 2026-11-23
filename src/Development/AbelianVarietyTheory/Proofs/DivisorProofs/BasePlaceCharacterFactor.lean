@@ -1,15 +1,15 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.BaseFits
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EpsMulOfCondExp
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GaussMulUnram
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2001
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2039
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1969
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LocalGaussSumIntegerDvdResidueCardPow
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ThetaFactorNonzero
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ValuedUnifAt
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsIsSplitChartOne
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1559
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1971
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle315
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsMulPowIntegral
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsSplitChartSplitChart
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.LevelCharactersUnramifiedOffLevelPlaces
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle319
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle144
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

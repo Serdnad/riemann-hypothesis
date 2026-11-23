@@ -3,7 +3,7 @@ module
 public import Development.WeilBound.CoreStatements.GaussianSeminormBounds.RealSeminormFiltration.TensorIrr
 public import Mathlib.RingTheory.SimpleModule.Basic
 public import Mathlib.RingTheory.Algebraic.Defs
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.SpectrumNonemptyOfCountableRank
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

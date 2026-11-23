@@ -4,8 +4,8 @@ public import Formalism.MeanHeightDescent.MuMaxMinkowski
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.DiscreteSpanOfLinIndep
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.HtImage
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.MuChar
-import Formalism.HarderNarasimhan.HarderNarasimhanProofs.SatBasic
-public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.SizeMu
+import Formalism.HarderNarasimhan.HarderNarasimhanProofs.Bundle002
+public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

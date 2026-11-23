@@ -1,11 +1,11 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsLatFlagPair
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.LocalizationModelOverPlaceStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.DedekindConstantsDegreeOneStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.PrimeChartExistsUniquePoint
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.RegAtIffChartLocalization
-import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Cartier
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle011
+public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle028
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle111
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle024
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle037
+import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

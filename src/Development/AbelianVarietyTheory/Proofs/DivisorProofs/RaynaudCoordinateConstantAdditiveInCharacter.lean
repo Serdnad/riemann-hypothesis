@@ -1,8 +1,8 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsStalkDerField
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsConnK
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.LogDerivativePrincipalPolarisationIndependent
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2729
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle089
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

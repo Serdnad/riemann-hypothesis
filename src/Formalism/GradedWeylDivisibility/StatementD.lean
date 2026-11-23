@@ -1,6 +1,6 @@
 module
 
-public import Formalism.GradedWeylDivisibility.StatementC
+public import Formalism.GradedWeylDivisibility.Bundle001
 public import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

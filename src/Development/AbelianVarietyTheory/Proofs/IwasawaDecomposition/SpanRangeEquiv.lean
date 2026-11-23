@@ -1,33 +1,32 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.SideIn
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.SwapCastEqSwapAE
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.StrictHenselianAcyclic
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle283
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle517
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle036
 public import Formalism.LocalToGlobal.IndefiniteReal.FrameExistence.FramesExistOfDiagonalTypePlaces
 public import Formalism.SharpRestriction.CuspSpanNormBounds.BesselShellMomentBounds
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsWtOfParUnique
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FrameEquivApply
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CoefficientSpaceDefiniteFormIrreducibleAlgebraicStatement
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle699
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle293
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContinuousCoeffBlockAct
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.DefiniteLevelFormsIffStdGroupTypeSpaceStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.EqPlMapOfConj
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsFiniteGroupGoodSetLevelsCharactersStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsIntOfFinite
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsLevOfAll
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsLiftFormsAdelicDecoratedLatticesStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsUnitFrame
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle498
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle434
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle470
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle415
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle431
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle612
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle280
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExtLvlFormMemCutSp
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HeckeOperatorKeepsRationalIntegralLevelFormsStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.InfOfLamLdefEqParamV
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsProdLevelStdFrameTwoBlockUnipotentLevelStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LevelUnipotentGenericCharTypePlaceStatement
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.MemRationalGLOfUnitaryGroupGramUnitGram
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.PlacesUnder
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.RamifiedLevelEqParahoricWithTupleCharacterStatement
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle526
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle269
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle483
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle282
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle285
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle505
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.StandardLatticesDiagonal
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.StdFrameLevelSubgroupBoundedOpenHyperspecialStatement
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle484
 import Formalism.LocalRingCardinality.RankBoundMonotoneInDimension
-import Formalism.LocalToGlobal.Columns.RowFormsSel
+import Formalism.LocalToGlobal.Columns.Bundle011
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -467,7 +466,7 @@ theorem gen_state (v₀ : (Dof x).what₂.places.Pl) (j : Fin (Dof x).R.m) (v : 
   have e : w.I.xi ((Dof x).what₂.muTw v₀) = T.xiTw w.I.C v₀ :=
     (P.q.mu.tw v₀).trans (congrArg (fun g => T.xiTw g v₀) w.C_eq.symm)
   have hu : ∀ u, u ∉ QOf P v₀ → (T.psi v₀).UnrAt u := fun u hu => by
-    unfold QOf at hu
+    unfold _root_.GlobalTheory.HeightCounting.Up.QOf at hu
     split_ifs at hu with h
     · exact ((T.psi_is v₀).ram u).2 hu
     · rw [P.supp v₀ h]

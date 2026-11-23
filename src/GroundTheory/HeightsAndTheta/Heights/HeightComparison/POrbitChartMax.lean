@@ -1,9 +1,9 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.HeightOrbitChartMax
-public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.PMinimalPrimeMultiHomog
+public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.Bundle007
+public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Bundle006
 public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.POrbitCurve
-public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.PSubringPrimeMaximal
+public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -50,7 +50,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.IsMultiHomogIdealSpanSingleton
+public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Bundle003
 
 @[expose] public section
 

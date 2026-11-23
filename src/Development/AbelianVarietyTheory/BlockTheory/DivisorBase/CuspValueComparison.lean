@@ -41,8 +41,8 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.Divisors.SplitDoublingNBlock
-import Formalism.LocalToGlobal.Divisibility.ClassSum
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle022
+import Formalism.LocalToGlobal.Divisibility.Bundle001
 public import Mathlib.NumberTheory.NumberField.Basic
 
 @[expose] public section

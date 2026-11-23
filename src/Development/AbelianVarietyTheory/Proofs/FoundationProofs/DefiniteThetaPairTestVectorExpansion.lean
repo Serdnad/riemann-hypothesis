@@ -3,12 +3,12 @@ module
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.OmEqPullOfVacuum
 public import Development.AbelianVarietyTheory.Definitions.Foundations.NormSumPairRankZeroOfCurveCoordNorm
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Levelaf
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsLatticeOfAdelicPointStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ThetaSpaceSelfDualPairAtMostLineStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.VacuumUnderAdelicPairModulusOneStatement
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle233
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle305
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle312
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Adelstab
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.CsApprox
-import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.CsSpan
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle011
+import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle014
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

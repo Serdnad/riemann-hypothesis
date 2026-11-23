@@ -1,10 +1,9 @@
 module
 
-public import Formalism.LocalToGlobal.KernelLattices.ColInst
-public import Formalism.LocalToGlobal.KernelLattices.ThEquiv
+public import Formalism.LocalToGlobal.KernelLattices.Bundle002
 public import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.FourthTensorThetaEqKernel
 public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.StdOK
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.VacEntire
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

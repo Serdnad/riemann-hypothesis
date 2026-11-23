@@ -1,7 +1,7 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FaceSubMid
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsAlexanderWhitneyDiagonalSwapHomotopyStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle654
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ImageCochainExists
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsZeroChains
 import Mathlib.Algebra.Order.Floor.Extended

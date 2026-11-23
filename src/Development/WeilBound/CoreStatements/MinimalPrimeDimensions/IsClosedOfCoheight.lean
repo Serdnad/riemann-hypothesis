@@ -1,18 +1,18 @@
 module
 
 public import Development.WeilBound.CoreStatements.MinimalPrimeDimensions.GenIdeal
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Imports
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleCoordsBaseChange
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsConjFsBasisOfUnitary
+public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle005
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1332
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1103
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.ResidueDegreeOfIsClosedImmersion
-public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.SerreHolomorphicSections
+public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.Bundle016
 public import Development.WeilBound.CoreStatements.MinimalPrimeDimensions.IsProjPrimeOfRelComps
 public import Development.WeilBound.CoreStatements.MinimalPrimeDimensions.LeDimQuotientHorizontal
 public import Development.WeilBound.CoreStatements.MinimalPrimeDimensions.ResGAppLE
 public import Development.WeilBound.CoreStatements.MinimalPrimeDimensions.SpecializesIff
 public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.ChowDegree
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.LowerBoundConditional
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PCharacterised
+public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle019
+public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle010
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -4,9 +4,9 @@ public import Formalism.PieriBlockIdeals.LatticeInclusionRealSettingAlt
 public import Formalism.PieriBlockIdeals.PieriColumnMinors.DepthNonnegative
 public import Formalism.PieriBlockIdeals.PieriColumnMinors.HighestWeightProdLeadingMinors
 public import Formalism.PieriBlockIdeals.PieriColumnMinors.ParameterBounds
-public import Formalism.PieriBlockIdeals.PieriColumnMinors.RealLocalDeltaNabla
+public import Formalism.PieriBlockIdeals.PieriColumnMinors.Bundle005
 import Formalism.PieriBlockIdeals.PieriColumnMinors.UnitNormBounds
-public import Formalism.PieriBlockIdeals.PieriColumnMinors.WorkedExample
+public import Formalism.PieriBlockIdeals.PieriColumnMinors.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

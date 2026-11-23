@@ -1,12 +1,12 @@
 module
 
 public import Development.AutomorphicArithmetic.Foundations.IwahoriReduction.SiegelFixedPoints.IsThBIff
-public import Development.AbelianVarietyTheory.Definitions.Foundations.ApplyEqOfMemAdjoin
-public import Development.AbelianVarietyTheory.Definitions.Foundations.PieceEqPieceT
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle009
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle005
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.ResMapBijective
 public import Mathlib.RingTheory.AdicCompletion.Noetherian
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.DiamondCommutesHeckeU
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.GalBActCommGamma0CapGamma0LevelShimuraReciprocitStatement
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle364
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle365
 public import Development.AutomorphicArithmetic.Foundations.IwahoriReduction.SiegelFixedPoints.Actcls
 public import Development.AutomorphicArithmetic.Foundations.IwahoriReduction.SiegelFixedPoints.ExistsSeries
 import Mathlib.Algebra.Order.Floor.Extended

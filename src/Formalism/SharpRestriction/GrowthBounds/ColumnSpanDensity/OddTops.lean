@@ -1,8 +1,8 @@
 module
 
 import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.SegmentStatementHolds
-public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.InitialLevelFormula
-public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.SegStartSpec
+public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.Bundle003
+public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,15 +1,15 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsFlipDet
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle859
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.BaseIntSet
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsInertTop
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ValRingLocRing
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsBaseChangeFiniteAdeleRingEquiv
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle843
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle854
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle305
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsFinitePlaceIdempotentBaseChangeAdeles
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsNumerator
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle637
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SplitSupportedClassScalarMemValuationRing
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsNsmulIntMemLatO
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.TameHeckeCharSplitSupportedEqProdResidue
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle265
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -50,8 +50,8 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import ReciprocityTheory.GaloisValuations.GlobalA
-import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.DatEqZero
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.HeckeCharEqProdLocalComponentsApproximating
+import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.Bundle002
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle317
 
 @[expose] public section
 

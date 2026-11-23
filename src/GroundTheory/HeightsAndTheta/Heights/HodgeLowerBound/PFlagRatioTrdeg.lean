@@ -1,8 +1,8 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.StatementsFlagRatioTrdeg
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.PFlagPivotAlgIndep
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.PFlagPivotIdentity
+public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.Bundle011
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle023
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle026
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -51,7 +51,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import GroundTheory.HeightsAndTheta.Heights.Intersections.IsSmoothHermFubiniStudyO1
+import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle006
 
 @[expose] public section
 
@@ -278,7 +278,7 @@ theorem flag_mem (F : Type) [Field F] {K : Type} [Field K] [Algebra F K] {m : �
   exact zsmul_mem (A.prod_mem fun r _ => hent _ _) _
 
 theorem card_pivotIdx (Ψ : Type) [Fintype Ψ] (n : ℕ) :
-    Fintype.card (PivotIdx Ψ n) = Fintype.card Ψ * flagDim n := by
+    Fintype.card (PivotIdx Ψ n) = Fintype.card Ψ * _root_.GroundTheory.Heights₂.Heights.IndefiniteRowSideFullHecke.Inter.flagDim n := by
   rw [Fintype.card_prod, Fintype.card_sigma]
   congr 1
   have h1 : ∀ a : Fin (n - 1), Fintype.card {b : Fin n // (a : ℕ) < b} = n - 1 - a := by
@@ -301,7 +301,7 @@ theorem card_pivotIdx (Ψ : Type) [Fintype Ψ] (n : ℕ) :
       rw [add_mul, ih]
       ring
   have h3 := h2 (n - 1)
-  unfold flagDim
+  unfold _root_.GroundTheory.Heights₂.Heights.IndefiniteRowSideFullHecke.Inter.flagDim
   rcases Nat.eq_zero_or_pos n with h | h
   · subst h
     simp

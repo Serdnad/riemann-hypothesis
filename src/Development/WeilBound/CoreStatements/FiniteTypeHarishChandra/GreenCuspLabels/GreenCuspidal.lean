@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.GreenCuspidalIff
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CuspidalOfUnipotentSumsVanish
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsCuspidalWithLabel
+public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.Bundle004
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle071
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle296
 public import Development.WeilBound.CoreStatements.FiniteTypeHarishChandra.LabelMapNonempty
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

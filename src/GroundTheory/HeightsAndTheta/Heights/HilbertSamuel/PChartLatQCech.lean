@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsChartLatQCech
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle060
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PZeroCocycleSection
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

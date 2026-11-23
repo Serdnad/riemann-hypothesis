@@ -1,12 +1,12 @@
 module
 
-public import Formalism.PeriodIntegrals.BlockRatReal
+public import Formalism.PeriodIntegrals.Bundle006
 public import Formalism.GradedWeylDivisibility.StatementA
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.DualWeylMap
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.DualWeylRowStable
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.RowDivStable
+public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle007
+public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle010
+public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle003
 public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.SumIcoTsubTelescope
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.WeylLeDual
+public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

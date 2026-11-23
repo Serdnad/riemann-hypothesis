@@ -3,11 +3,11 @@ module
 public import Development.WeilBound.ThetaLifts.EigenvalueEndgame.CuspidalAverages.KeyThree
 public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.KdExistsInv
 public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.IsUnitDetOfCartan
-import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.KdMulRight
+import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.Bundle003
 public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.LmOfLinBar
 public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.PfDictAd
 public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.PfDictSec
-public import Development.WeilBound.ThetaLifts.LeviDeterminants.MixedModels.PsiUnrOfNotLe
+public import Development.WeilBound.ThetaLifts.LeviDeterminants.MixedModels.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

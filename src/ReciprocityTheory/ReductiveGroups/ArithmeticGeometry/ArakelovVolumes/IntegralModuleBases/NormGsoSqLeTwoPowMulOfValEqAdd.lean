@@ -50,7 +50,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.ReducedBases.TBInjective
+public import ReciprocityTheory.ReducedBases.Bundle002
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section

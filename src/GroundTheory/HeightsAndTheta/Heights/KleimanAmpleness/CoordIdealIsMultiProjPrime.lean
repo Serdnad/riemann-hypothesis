@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle001
 public import Mathlib.Algebra.Module.LocalizedModule.Basic
 public import Mathlib.GroupTheory.GroupAction.Ring
 public import Mathlib.RingTheory.MvPolynomial.IrreducibleQuadratic

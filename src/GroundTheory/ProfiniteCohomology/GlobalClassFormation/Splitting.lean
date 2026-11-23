@@ -1,9 +1,9 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.ResLocal
+public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.Bundle004
 public import GroundTheory.GlobalFields.CompletionAtPlace.Integers
-public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.LocalResConj
-public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.LocalResKill
+public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.Bundle003
+public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

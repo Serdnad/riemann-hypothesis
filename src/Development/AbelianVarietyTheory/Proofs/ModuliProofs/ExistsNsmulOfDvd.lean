@@ -2,9 +2,9 @@ module
 
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.HeckeKer
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.DvdMulOfIdem
-public import Development.AbelianVarietyTheory.Counterexamples.ModuliSurvey.HeckeKerZero
+public import Development.AbelianVarietyTheory.Counterexamples.ModuliSurvey.Bundle004
 import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsTateIsoHeckeQuotient
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsUnimodDiv
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle005
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.HostGeneratorPowFourTraceNormModEight
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

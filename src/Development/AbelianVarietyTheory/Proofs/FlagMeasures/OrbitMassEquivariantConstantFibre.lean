@@ -50,7 +50,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.Foundations.IsHermND
+import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle006
 import Formalism.SharpRestriction.CuspSpanNormBounds.FractionFieldToGenericStalkAlgebraMapEq
 public import Mathlib.Algebra.BigOperators.Ring.Finset
 public import Mathlib.Basic.ENNReal.Inv

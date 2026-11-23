@@ -3,7 +3,7 @@ module
 public import Formalism.LocalRingCardinality.RhoDetPrimeEqMuTildeMulChiPow
 public import Development.AutomorphicArithmetic.WeightCongruences.IsRootOfIntegral
 public import Formalism.LocalRingCardinality.SpanPowerMembership.ExampleLayerExistsGenerators
-public import Formalism.LocalRingCardinality.SpanPowerMembership.RelDetCore
+public import Formalism.LocalRingCardinality.SpanPowerMembership.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

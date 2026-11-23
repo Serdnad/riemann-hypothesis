@@ -1,6 +1,6 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.InjectiveWedgeHighestCoefficient
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle449
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CoverByAcyclicPair
 import CompanionTheory.HarishChandraModules.LowKTypeMultiplicity.EigenspaceCyclicDensity.CreationOperators.GeneralizedVermaModulePolynomial
 import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.MemFiltOfWords

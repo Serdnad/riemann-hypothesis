@@ -1,8 +1,8 @@
 module
 
 public import CompanionTheory.HarishChandraModules.BesselParameterIntegrals.BesselOrbitConvolutions.BesselNonvanishingReduction
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.L2NormScaling
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.SmoothAdd
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle039
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle035
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.UhMeasurableSet
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ProjOfNonSplit
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2032
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsIsFinWeil
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsSplitPlaceHalfHeisenbergInvariantForm
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1869
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FiniteWeilRepEqLatticeIntertwinerMulCharacter
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RelIndexNeZeroOfFinite
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SchurLemmaThetaFunctionsOrientedPair
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1868
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.UnitaryAdelicCharacterTrivialOfLocal
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -48,7 +48,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsCongLevelIntG
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1990
 
 @[expose] public section
 

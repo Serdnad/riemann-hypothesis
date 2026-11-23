@@ -40,7 +40,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.Newform
 import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.ResMapBijective
-import Development.AutomorphicArithmetic.AutomorphicVarieties.PublishedTheorems.QuotRepMk
+import Development.AutomorphicArithmetic.AutomorphicVarieties.PublishedTheorems.Bundle001
 
 @[expose] public section
 

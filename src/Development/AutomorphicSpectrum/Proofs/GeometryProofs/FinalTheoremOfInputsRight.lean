@@ -1,20 +1,20 @@
 module
 
 public import Development.AutomorphicSpectrum.Statements.TowerExistence.GoodTowerExistsX
-public import Development.AutomorphicSpectrum.PublishedTheorems.Algebra₂.QuotientByFiniteFlatStatement
+public import Development.AutomorphicSpectrum.PublishedTheorems.Algebra₂.Bundle001
 public import Development.AutomorphicSpectrum.PublishedTheorems.Algebra₂.ZarhinStatement
 public import GroundTheory.HeightsAndTheta.Heights.KernelsLattice
 public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.PtEqOneOfGZero
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.GoodTowerVolumeTheoremStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.AntisymmetricPerturbationHoldsStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.CmpHodgeTiedHoldsStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.CmpPairOfInputsStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ComparisonOfInputsAvoidanceStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FamilyPosOfHodgeTateInputsStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.OrdinaryCurveStatementHoldsStatement
+public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle056
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle024
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle255
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle309
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle218
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle285
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle284
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.SemiAbelianStatementHoldsStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.SlopeBoundOfLineLargeDegreeStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.WeilSt
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle316
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle253
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -74,3 +74,18 @@ theorem goodTower_volume_of_reduced : (PartI ∧ N1ab ∧ N1c ∧ ∀ (E : Type)
   exact GlobalTheory.T.good_tower_volume_theorem hGiven hPts hAvoid hW hFam hPair
 
 end GlobalTheory.CompanionTheory.Ar.Top
+
+end
+
+section
+
+@[expose] public section
+
+open AlgebraicGeometry CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj NumberField
+open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Geo ReciprocityTheory.ChartRestriction.G.Geo.Tor ReciprocityTheory.ChartRestriction.G.Semi GlobalTheory.CompanionTheory.Ar
+
+theorem _root_.GlobalTheory.T.final_theorem_of_inputs_right : (PartI ∧ N1ab ∧ N1c ∧ ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Host E) (D : Datum H), ToroidalLevelCompatibility (D := D) ∧ ToroidalHeckeCompatibility (D := D)) → KeyFormula → GlobalTheory.Published.SemiAbelianHomExtension → GroundTheory.Heights₂.Heights.NumbersDVR.NumericalSegre.Statement → ReciprocityTheory.ChartRestriction.G.Geo.ResK.ResKStatement → HT.FarguesHodgeTate → Flat.GagaSections → GroundTheory.Heights₂.Heights.LineOfLargeDegree.Statement → PB.Inputs → Prov.HS → Prov.An → Prov.ZhangDimensionPushDownGrassmannianHeightBounds → ReciprocityTheory.ChartRestriction.G.Geo.PtsIntegrableStatement → ReciprocityTheory.ChartRestriction.G.AI.I2.AvoidStatement → GlobalTheory.CompanionTheory.Ar.GR.QuotientByFiniteFlatStatement → GlobalTheory.CompanionTheory.Ar.GR.ZarhinStatement → ThetaUnifAV → Top.GoodTowerExistsX ∧ Top.VolumeTheoremX := by
+  first | exact @GlobalTheory.CompanionTheory.Ar.Top.goodTower_volume_of_reduced | exact GlobalTheory.CompanionTheory.Ar.Top.goodTower_volume_of_reduced | (intros; apply GlobalTheory.CompanionTheory.Ar.Top.goodTower_volume_of_reduced <;> assumption)
+
+end
+end

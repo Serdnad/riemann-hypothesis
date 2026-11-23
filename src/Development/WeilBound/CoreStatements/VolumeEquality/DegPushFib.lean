@@ -1,7 +1,7 @@
 module
 
-public import Development.WeilBound.CoreStatements.VolumeEquality.DegPushFibA
-public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.PIntNumSymm
+public import Development.WeilBound.CoreStatements.VolumeEquality.Bundle006
+public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

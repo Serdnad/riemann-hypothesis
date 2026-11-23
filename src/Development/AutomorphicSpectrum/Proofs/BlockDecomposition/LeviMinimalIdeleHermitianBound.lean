@@ -1,7 +1,7 @@
 module
 
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.UnipMinSubsetMinParOne
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.RatVInjective
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle669
 public import Development.WeilBound.ThetaLifts.Reductions.SiegelAbs
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ModulusOfNormEqAbs
 import GroundTheory.GlobalFields.Adele.Topology

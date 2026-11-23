@@ -1,10 +1,10 @@
 module
 
-public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.ThetaKernels.GalTPDefs
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsFactorPureTensorComponentAtPlace
+public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.ThetaKernels.Bundle022
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1770
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.SplitPlaceUnitaryLocalPointsEquivGL
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.AutRepDefiniteUnitarySpannedBySplitComponent
-public import Development.WeilBound.ThetaLifts.CartanFactorisation.TensOfEval
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle228
+public import Development.WeilBound.ThetaLifts.CartanFactorisation.Bundle005
 public import Development.WeilBound.ThetaLifts.LatticeBasics.LocUnrInert
 public import Development.WeilBound.ThetaLifts.LocalTheory.ConeShifts.ActsRhoFin
 import Mathlib.Algebra.Order.Floor.Extended

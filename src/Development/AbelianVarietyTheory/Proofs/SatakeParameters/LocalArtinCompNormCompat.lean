@@ -1,17 +1,17 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsSmoothCharCompNormU
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1270
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.HasExponentZeroIff
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CharZeroAdicCompletion
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ChevalleyUnits
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle229
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle612
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.DecompositionGroupLocalGaloisIso
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsEqOfPowEqSelf
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsLocalEmbeddingOverPlace
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.GlobalArtinReciprocityHolds
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle158
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle149
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle394
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LocalArtinHasNormGroups
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.IsIntegralIffSpectralNormLeOne
-public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.LocalLanglandsGL
-import GroundTheory.LocalFields.LocalArtinUniqueness
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle279
+public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.Bundle006
+import GroundTheory.LocalFields.Bundle013
 import GroundTheory.LocalFields.MainTheorem
 import GroundTheory.LocalFields.UnramifiedHensel
 import Mathlib.Algebra.Order.Floor.Extended
@@ -52,10 +52,10 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.LocalPrimeGaloisActionPeriodT
-import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.CyclicStrongAtCusp
+import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle023
 import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.IsWeight
-import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.RestrictsSelf
-import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.LabelDatum
+import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle013
+import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle010
 import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.TrivialOnInertiaOfUnr
 
 @[expose] public section
@@ -71,7 +71,7 @@ open GlobalTheory.LocDict GroundTheory.LocalField GroundTheory.Global.AdicLiesOv
 
 namespace GlobalTheory.ArtinNormU
 
-theorem localArtin_normU : ∀ (K L Ω : Type) [Field Ω] [Field K] [NumberField K] [Algebra K Ω] [IsAlgClosure K Ω] [Field L] [NumberField L] [Algebra L Ω] [IsAlgClosure L Ω] [Algebra K L] [IsScalarTower K L Ω] (A : ValuationSubring Ω) (v : HeightOneSpectrum (𝓞 K)) (v' : HeightOneSpectrum (𝓞 L)) (h : IsPlaceOver A v) (h' : IsPlaceOver A v') [v'.asIdeal.LiesOver v.asIdeal] (a : Weil h →* (v.adicCompletion K)ˣ) (a' : Weil h' →* (v'.adicCompletion L)ˣ), IsLocalArtin h a → IsLocalArtin h' a' → ∀ (g : Weil h) (g' : Weil h'), (∀ z : Ω, (g : G K Ω) z = (g' : G L Ω) z) → a g = GlobalTheory.BCChar.normU v v' (a' g') := by
+theorem localArtin_normU : ∀ (K L Ω : Type) [Field Ω] [Field K] [NumberField K] [Algebra K Ω] [IsAlgClosure K Ω] [Field L] [NumberField L] [Algebra L Ω] [IsAlgClosure L Ω] [Algebra K L] [IsScalarTower K L Ω] (A : ValuationSubring Ω) (v : HeightOneSpectrum (𝓞 K)) (v' : HeightOneSpectrum (𝓞 L)) (h : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A v) (h' : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A v') [v'.asIdeal.LiesOver v.asIdeal] (a : Weil h →* (v.adicCompletion K)ˣ) (a' : Weil h' →* (v'.adicCompletion L)ˣ), IsLocalArtin h a → IsLocalArtin h' a' → ∀ (g : Weil h) (g' : Weil h'), (∀ z : Ω, (g : _root_.Formalism.ConjugateSelfDual.G K Ω) z = (g' : _root_.Formalism.ConjugateSelfDual.G L Ω) z) → a g = GlobalTheory.BCChar.normU v v' (a' g') := by
   intro K L Ω _ _ _ _ _ _ _ _ _ _ _ A v v' h h' _ a a' ha ha' g g' hgg
   classical
   haveI : CharZero (v.adicCompletion K) := charZero_of_injective_algebraMap (algebraMap K (v.adicCompletion K)).injective
@@ -88,9 +88,9 @@ theorem localArtin_normU : ∀ (K L Ω : Type) [Field Ω] [Field K] [NumberField
   obtain ⟨ι', hι'⟩ := GlobalTheory.LocDict.exists_isLocEmb L Ω A v' h'
   obtain ⟨θ, -, -, hθ⟩ := GlobalTheory.LocDec.decomposition_mulEquiv_galLoc L Ω A v' h' ι' hι'
   let gL : GalLoc v' := θ ⟨g', Weil_le_Dec h' g'.2⟩
-  have hgL : Lifts ι' gL (g' : G L Ω) := hθ _
+  have hgL : Lifts ι' gL (g' : _root_.Formalism.ConjugateSelfDual.G L Ω) := hθ _
   let gK : Kbar v' ≃ₐ[v.adicCompletion K] Kbar v' := gL.restrictScalars (v.adicCompletion K)
-  have hgK : ∀ z : Ω, gK (ι'.toRingHom z) = ι'.toRingHom ((g : G K Ω) z) := fun z => by
+  have hgK : ∀ z : Ω, gK (ι'.toRingHom z) = ι'.toRingHom ((g : _root_.Formalism.ConjugateSelfDual.G K Ω) z) := fun z => by
     change gL (ι' z) = ι' _
     rw [hgL z, hgg z]
   have hj : ∀ x : K, ι'.toRingHom (algebraMap K Ω x) =
@@ -131,7 +131,7 @@ theorem localArtin_normU : ∀ (K L Ω : Type) [Field Ω] [Field K] [NumberField
       rw [Polynomial.hom_eval₂, map_zero, show (b : Kbar v →+* Kbar v') (b.symm (ι' z)) = ι' z from b.apply_symm_apply _]
       exact hp'
   have restrict_local : ∀ (E Ω : Type) [Field E] [NumberField E] [Field Ω] [Algebra E Ω]
-      [IsAlgClosure E Ω] (A : ValuationSubring Ω) (w : HeightOneSpectrum (𝓞 E)) (h : IsPlaceOver A w)
+      [IsAlgClosure E Ω] (A : ValuationSubring Ω) (w : HeightOneSpectrum (𝓞 E)) (h : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A w)
       (ι : Ω →ₐ[E] Kbar w), IsLocEmb A w ι → ∀ a : Weil h →* (w.adicCompletion E)ˣ, IsLocalArtin h a →
       ∀ [IsSepClosure (w.adicCompletion E) (Kbar w)] (σ : Weil h) (g : GalLoc w), Lifts ι g σ →
         AlgEquiv.restrictNormalHom (maximalAbelianExtension (w.adicCompletion E) (Kbar w)) g =

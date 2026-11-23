@@ -1,16 +1,16 @@
 module
 
 public import Formalism.LocalToGlobal.Divisibility.NumericScaleExponentEqExtended
-public import Formalism.LocalToGlobal.Divisibility.ConstantGeTwentyEightAlt
-public import Formalism.LocalToGlobal.Divisibility.SmallTies
+public import Formalism.LocalToGlobal.Divisibility.Bundle006
+public import Formalism.LocalToGlobal.Divisibility.Bundle005
 public import Formalism.LocalToGlobal.Divisibility.NumbersLemmas
 public import Formalism.LocalToGlobal.Divisibility.NumbersLink
 public import Formalism.SharpRestriction.Divisibility.SlopeExcess.ConstRankBaseLePolyFourth
-public import Formalism.LocalToGlobal.Divisibility.DivisibilityConstruction.RBLam
+public import Formalism.LocalToGlobal.Divisibility.DivisibilityConstruction.Bundle001
 import Formalism.LocalToGlobal.Divisibility.DivisionHeightBoundStatement
 public import Formalism.LocalToGlobal.GroupLattices.JointServices.VwResChar
-import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.GZeroLogBound
-public import Formalism.SharpRestriction.AdmissibleParameterJoins
+import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle019
+public import Formalism.SharpRestriction.Bundle001
 public import Formalism.SharpRestriction.Divisibility.HookProducts.LwPNonneg
 import Formalism.SharpRestriction.GrowthBounds.JointsLit
 import Formalism.SharpRestriction.RamificationFrobenius.TotientGaloisClasses.FrameFacts

@@ -1,7 +1,7 @@
 module
 
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ArithmeticHilbertSamuelLowerBound
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ImportsSideRest
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle069
 public import Development.WeilBound.CoreStatements.HodgeTatePoints.GfForms
 public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PCoordConeArithVar
 import Mathlib.Algebra.Order.Floor.Extended

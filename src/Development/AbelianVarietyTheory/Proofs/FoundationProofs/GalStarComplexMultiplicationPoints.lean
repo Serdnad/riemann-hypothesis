@@ -2,10 +2,10 @@ module
 
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.AddMonoidHomEqZeroOfEventually
 public import Formalism.SharpRestriction.GlobalSchurBounds.StandardLatticesGL3
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IdealPeriodLatticeOfCurveDatum
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle230
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.InducedTypeThetaGenusOnePermutes
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.LatticeInvariantsPeriodPairDictionary
-public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.ExistsRingEquivOfIsTranscendenceBasis
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle227
+public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.Bundle003
 import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.WeierstrassPAddOfNeOfDerivNeZero
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -71,11 +71,12 @@ def mapPoint (W : WeierstrassCurve ℂ) (σ : ℂ →+* ℂ) :
     rintro (_ | ⟨x₁, y₁, h₁⟩) (_ | ⟨x₂, y₂, h₂⟩)
     any_goals rfl
     by_cases hxy : x₁ = x₂ ∧ y₁ = W.toAffine.negY x₂ y₂
-    · rw [Affine.Point.add_of_Y_eq hxy.left hxy.right,
-        Affine.Point.add_of_Y_eq (congr_arg _ hxy.left) <| by rw [hxy.right, Affine.map_negY]]
-    · simpa only [Affine.Point.add_some hxy, ← Affine.map_addX, ← Affine.map_addY,
-        ← Affine.map_slope] using!
-        (Affine.Point.add_some fun h ↦ hxy ⟨σ.injective h.1,
+    · rw [WeierstrassCurve.Affine.Point.add_of_Y_eq hxy.left hxy.right,
+        WeierstrassCurve.Affine.Point.add_of_Y_eq (congr_arg _ hxy.left) <| by
+          rw [hxy.right, WeierstrassCurve.Affine.map_negY]]
+    · simpa only [WeierstrassCurve.Affine.Point.add_some hxy, ← WeierstrassCurve.Affine.map_addX,
+        ← WeierstrassCurve.Affine.map_addY, ← WeierstrassCurve.Affine.map_slope] using!
+        (WeierstrassCurve.Affine.Point.add_some fun h ↦ hxy ⟨σ.injective h.1,
           σ.injective (W.toAffine.map_negY σ .. ▸ h).2⟩).symm
 
 lemma exists_pointHom (W W' : WeierstrassCurve ℂ) (σ : ℂ ≃+* ℂ) (hW : W' = W.map (σ : ℂ →+* ℂ)) :
@@ -86,7 +87,7 @@ lemma exists_pointHom (W W' : WeierstrassCurve ℂ) (σ : ℂ ≃+* ℂ) (hW : W
   · rw [injective_iff_map_eq_zero]
     rintro (_ | ⟨x, y, h⟩) e
     · rfl
-    · exact (Affine.Point.some_ne_zero _ e).elim
+    · exact (WeierstrassCurve.Affine.Point.some_ne_zero _ e).elim
   · rintro (_ | ⟨x, y, h⟩)
     · exact ⟨0, rfl⟩
     · obtain ⟨x, rfl⟩ := σ.surjective x
@@ -116,7 +117,7 @@ lemma exists_conjEquiv (h₂ : L'.g₂ = σ L.g₂) (h₃ : L'.g₃ = σ L.g₃)
     by_cases ht' : t' ∈ L'.lattice
     · rw [latticePoint_of_mem L' ht']
       simp [ht, ht']
-    · rw [latticePoint_of_notMem L' ht', Affine.Point.some.injEq]
+    · rw [latticePoint_of_notMem L' ht', WeierstrassCurve.Affine.Point.some.injEq]
       simp only [ht, ht', map_div₀, map_ofNat, false_and, false_or, not_false_iff, true_and]
       constructor
       · rintro ⟨a, b⟩; rw [a, b]; exact ⟨rfl, rfl⟩
@@ -144,10 +145,10 @@ lemma IsConj.mul (h₂ : L'.g₂ = σ L.g₂) (h₃ : L'.g₃ = σ L.g₃) {α :
     intro x y h
     obtain ⟨P, hP⟩ := s.surjective (.some x y h)
     rcases P with _ | ⟨x₀, y₀, h₀⟩
-    · exact (Affine.Point.some_ne_zero _ (hP.symm.trans (map_zero s))).elim
+    · exact (WeierstrassCurve.Affine.Point.some_ne_zero _ (hP.symm.trans (map_zero s))).elim
     obtain ⟨h₁, e⟩ := hs _ _ h₀
     rw [← hP, hφs]
-    rw [e, Affine.Point.some.injEq] at hP
+    rw [e, WeierstrassCurve.Affine.Point.some.injEq] at hP
     obtain ⟨rfl, rfl⟩ := hP
     have e1 : (derivative A' * D' - A' * derivative D') =
         (derivative A * D - A * derivative D).map (σ : ℂ →+* ℂ) := by
@@ -176,7 +177,7 @@ lemma IsConj.mul (h₂ : L'.g₂ = σ L.g₂) (h₃ : L'.g₃ = σ L.g₃) {α :
       latticePoint_eq_zero_iff] at this
     have h0 : D'.eval (℘[L'] z) ≠ 0 := fun h ↦ hz (this.1 h)
     obtain ⟨h', e⟩ := this.2 h0
-    rw [latticePoint_of_notMem L' hz, Affine.Point.some.injEq] at e
+    rw [latticePoint_of_notMem L' hz, WeierstrassCurve.Affine.Point.some.injEq] at e
     exact ⟨h0, e⟩
   have hβα : β = σ α := by
     have hσ : σ α ≠ 0 := by simpa using hα0

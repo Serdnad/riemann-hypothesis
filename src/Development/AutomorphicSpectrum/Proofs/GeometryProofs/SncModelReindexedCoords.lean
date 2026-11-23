@@ -1,9 +1,9 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.CoordsAt
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsSncModel
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.PrimeChartExistsUniquePointStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.RegAtIffChartLocalizationStatement
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle002
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle009
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle029
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle052
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.SncChartOfSmoothCoords
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

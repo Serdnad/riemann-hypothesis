@@ -1,7 +1,7 @@
 module
 
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.HDiscDefs
-public import ReciprocityTheory.SemistableReduction.SphereLogIntegrableStatement
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.Bundle008
+public import ReciprocityTheory.SemistableReduction.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -44,13 +44,13 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.HDiscAD
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.Bundle012
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.HHINDA
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.OpIsDVR
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.Bundle010
 import ReciprocityTheory.SemistableReduction.AeBlockSphereEvalNeZero
-import ReciprocityTheory.SemistableReduction.GaussAbsMulOfMonomialOrder
-import ReciprocityTheory.SemistableReduction.LagrangeIdealLiftsFact
-import ReciprocityTheory.SemistableReduction.TorusL2CauchyInequality
+import ReciprocityTheory.SemistableReduction.Bundle008
+import ReciprocityTheory.SemistableReduction.Bundle014
+import ReciprocityTheory.SemistableReduction.Bundle027
 
 @[expose] public section
 

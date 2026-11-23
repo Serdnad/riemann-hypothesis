@@ -1,9 +1,9 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.ThetaValues.PolyDerivSmulLetter
-public import Development.AbelianVarietyTheory.Proofs.TorusSplitting.EqTopOfForallEmbAllMem
+public import Development.AbelianVarietyTheory.Proofs.TorusSplitting.Bundle001
 public import Development.AbelianVarietyTheory.Proofs.TorusSplitting.ExistsTorusCoordinates
-public import Development.AbelianVarietyTheory.Proofs.TorusSplitting.SumCMulImHermCEqSignMulTrace
+public import Development.AbelianVarietyTheory.Proofs.TorusSplitting.Bundle002
 public import Development.AbelianVarietyTheory.Proofs.TorusSplitting.TorusAtExistsOfParts
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.MemIffConjugateNotMem
 import Mathlib.Algebra.Order.Floor.Extended
@@ -51,8 +51,8 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.MajPos
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SquareIntegrability.TorusAtDataPf
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SquareIntegrability.TorusAtDataPfA
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SquareIntegrability.Bundle012
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SquareIntegrability.Bundle010
 
 @[expose] public section
 

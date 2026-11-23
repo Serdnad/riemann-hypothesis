@@ -3,15 +3,15 @@ module
 public import Development.AbelianVarietyTheory.Definitions.Jets.SumIoPrAlt
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.EqZeroOfInnerSmooth
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.BesselFrameTranslatedPerpOfIsFrame
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HcTypeWContinuousUnitaryIrreducible
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle280
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.InnerOfNormEq
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.SmoothVectorWordActionContinuous
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.SobolevContinuousFormGardingVector
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.BesselSubgroupProductMeasureIsHaarStatement
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle250
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle267
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle098
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.DerivedActionDiscreteSeriesProperties
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.FrechetContinuousContinuousOnOrbitHasDerivAt
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.QuotientMeasureRightInvariant
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.UnitaryGroupMatGroupUnimodularStatement
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle069
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle087
 import Formalism.FormalDegreeBessel.FormalDegreeRatio.GBasic
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.UhMeasurableSet
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CapelliEigenvalues.Smooth
@@ -59,7 +59,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.OnePlaceKF
+import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle011
 import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.UpperOff
 
 @[expose] public section

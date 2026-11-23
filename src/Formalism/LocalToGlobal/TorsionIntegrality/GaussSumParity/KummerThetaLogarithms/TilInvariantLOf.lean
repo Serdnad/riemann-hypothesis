@@ -1,7 +1,7 @@
 module
 
-public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.BiextensionPointsIntegral
-public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.StatementA
+public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.Bundle003
+public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.Bundle002
 public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.KummerThetaLogarithms.EqZeroOfPowEqOne
 public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.KummerThetaLogarithms.SubstFirstCoboundaryThree
 public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.FinalS

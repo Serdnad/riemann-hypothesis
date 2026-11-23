@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.JetIndepStatement
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -42,9 +42,9 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 public import Mathlib.MeasureTheory.Constructions.BorelSpace.Basic
-public import ReciprocityTheory.L2DbarEstimates.PlurisubharmonicCharts.FamilyLeCoords
-import ReciprocityTheory.L2DbarEstimates.PlurisubharmonicCharts.FlatCalcA
-import ReciprocityTheory.L2DbarEstimates.SkodaWeights.Matrix
+public import ReciprocityTheory.L2DbarEstimates.PlurisubharmonicCharts.Bundle002
+import ReciprocityTheory.L2DbarEstimates.PlurisubharmonicCharts.Bundle003
+import ReciprocityTheory.L2DbarEstimates.SkodaWeights.Bundle001
 
 @[expose] public section
 

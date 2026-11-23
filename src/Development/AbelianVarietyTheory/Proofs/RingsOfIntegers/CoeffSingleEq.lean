@@ -1,7 +1,7 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.PlaceAdaptation.AdaptStd
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.ConnectionKillsSeries
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.Bundle002
 public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.PredMulSumPadicValNatFactorialAddCardLe
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -41,7 +41,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.HolomorphicFamilies.FormalGroupCoeffSecondLinear
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.HolomorphicFamilies.Bundle003
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section
@@ -125,7 +125,7 @@ theorem evC_hom [Fintype σ] (a : σ → MvPowerSeries τ V) (ha : ∀ j, consta
   have hs : HasSubst a := hasSubst_of_constantCoeff_zero ha
   have h : ∃ ψ : MvPowerSeries σ V →ₐ[V] MvPowerSeries τ V, ∀ j, ψ (MvPowerSeries.X j) = a j :=
     ⟨substAlgHom hs, fun j => substAlgHom_X hs j⟩
-  exact ⟨h.choose, h.choose_spec, fun f => by unfold evC; rw [dite_eq_left h]⟩
+  exact ⟨h.choose, h.choose_spec, fun f => by unfold _root_.GlobalTheory.PlaceInt.evC; rw [dite_eq_left h]⟩
 
 theorem const_evC [Fintype σ] (a : σ → MvPowerSeries τ V) (ha : ∀ j, constantCoeff (a j) = 0)
     (f : MvPowerSeries σ V) : constantCoeff (evC a f) = constantCoeff f := by

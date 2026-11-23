@@ -2,9 +2,9 @@ module
 
 public import GroundTheory.GlobalFields.TateThesis.TateTheta
 import GroundTheory.GlobalFields.TateThesis.AdelePoisson
-import GroundTheory.GlobalFields.TateThesis.AdelePoissonUniform
+import GroundTheory.GlobalFields.TateThesis.Bundle009
 import GroundTheory.GlobalFields.TateThesis.AdeleScaling
-import GroundTheory.GlobalFields.TateThesis.LatticePoissonBasic
+import GroundTheory.GlobalFields.TateThesis.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

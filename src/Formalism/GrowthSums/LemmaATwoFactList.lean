@@ -1,8 +1,7 @@
 module
 
 public import Formalism.GrowthSums.StatementB
-public import Formalism.GrowthSums.FactorialBaseGrowth.NextEvenTopHolds
-public import Formalism.GrowthSums.FactorialBaseGrowth.Segment
+public import Formalism.GrowthSums.FactorialBaseGrowth.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

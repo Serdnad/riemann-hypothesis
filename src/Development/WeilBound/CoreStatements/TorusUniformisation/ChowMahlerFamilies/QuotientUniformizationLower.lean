@@ -1,8 +1,8 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.BdryChart
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.SlopeBoundSt
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieModelPullbackEquivalence
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle012
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle010
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle027
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -46,7 +46,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.AbBound
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle086
 
 @[expose] public section
 

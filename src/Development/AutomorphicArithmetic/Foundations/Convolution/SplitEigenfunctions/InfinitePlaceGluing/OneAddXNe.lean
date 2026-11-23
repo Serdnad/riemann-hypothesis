@@ -1,10 +1,9 @@
 module
 
-public import Development.AutomorphicArithmetic.Foundations.Convolution.SplitEigenfunctions.Entire
-public import Development.AutomorphicArithmetic.WhittakerHecke.ExistsRatHeightOneSpectrumNormVEqPrimeBadIffDvd
-public import Development.AutomorphicArithmetic.WhittakerHecke.FalseOfLandauNonnegEulerFactorsEntire
-public import Development.AutomorphicArithmetic.WhittakerHecke.GoodPrimeSplitOrInertOfQuadratic
-public import Development.AutomorphicArithmetic.WhittakerHecke.SatakeParamMulEqCentralCharPowInertiaDeg
+public import Development.AutomorphicArithmetic.Foundations.Convolution.SplitEigenfunctions.Bundle001
+public import Development.AutomorphicArithmetic.WhittakerHecke.Bundle017
+public import Development.AutomorphicArithmetic.WhittakerHecke.Bundle016
+public import Development.AutomorphicArithmetic.WhittakerHecke.Bundle012
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

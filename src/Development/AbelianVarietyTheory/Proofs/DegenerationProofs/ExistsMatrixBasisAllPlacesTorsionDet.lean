@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.IsFrameIff
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle118
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

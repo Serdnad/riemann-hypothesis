@@ -1,11 +1,10 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ToBaseChangePtsBijective
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FactorClosedImmersion
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle411
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsCocommOfSurjective
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsHopfIdealKerIdealOfBialgHom
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.KerAppEqBialgHomKernelIdealOfIdempotents
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.KerIdealFinrankEqPowOfIdempotent
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle456
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle654
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -48,9 +47,9 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.EpsilonPairingZeta
-import Development.AbelianVarietyTheory.Definitions.Divisors.GhostFrobenius
-import Development.AbelianVarietyTheory.Definitions.Divisors.XiMulNu
+import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.Bundle005
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle012
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle002
 
 @[expose] public section
 

@@ -1,0 +1,297 @@
+module
+
+public import Formalism.LocalRingCardinality.Bundle003
+public import Formalism.LocalRingCardinality.Bundle007
+public import Formalism.FlagUnipotentLattices.MinkowskiFactorialBounds.MinkowskiNumberDvdFactorial
+public import Formalism.LocalRingCardinality.RhoDetPrimeEqMuTildeMulChiPow
+public import Formalism.LocalRingCardinality.RankBoundMonotoneInDimension
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Topology.Sheaves.Init
+
+@[expose] public section
+
+section
+
+namespace Formalism.BasicNotions
+
+open Formalism.HermitianLatticeCounting.S6 (minkowskiM minkowskiExp)
+
+theorem minkM_pos (n : ℕ) : 0 < minkM n :=
+  Finset.prod_pos fun _ hp => pow_pos (Finset.mem_filter.1 hp).2.pos _
+
+theorem minkM_dvd_factorial (n : ℕ) : minkM n ∣ (2 * n).factorial := Formalism.HermitianLatticeCounting.P.minkowski_number_dvd_factorial n
+
+theorem log_minkM_le_two (n : ℕ) : Real.log (minkM n : ℝ) ≤ 2 * n * Real.log (2 * n) := by
+  have h1 : minkM n ≤ (2 * n) ^ (2 * n) :=
+    (Nat.le_of_dvd (Nat.factorial_pos _) (minkM_dvd_factorial n)).trans (Nat.factorial_le_pow _)
+  have h2 : (minkM n : ℝ) ≤ ((2 * n : ℕ) : ℝ) ^ (2 * n) := by exact_mod_cast h1
+  have h3 : (0 : ℝ) < minkM n := by exact_mod_cast minkM_pos n
+  have h4 := Real.log_le_log h3 h2
+  rw [Real.log_pow] at h4
+  push_cast at h4
+  exact h4
+
+theorem Ranks.two_le_fN (R : Ranks) : 2 ≤ R.f * R.N R.m := by
+  have hf : 2 ≤ R.f := by
+    have h1 := R.two_le_m
+    have h2 := R.m_le_f
+    unfold Ranks.f Ranks.n; omega
+  have hN : 1 ≤ R.N R.m := by
+    have h1 := R.k_ge
+    have h2 : R.k ≤ R.N R.m := Nat.le_add_right _ _
+    omega
+  calc 2 = 2 * 1 := rfl
+    _ ≤ R.f * R.N R.m := Nat.mul_le_mul hf hN
+
+theorem DGamMink.mem {D : D7} (h : DGamMink D) (hD : DGamDef D) (u : D.what₂.Word) :
+    (D.mem u).C.DGam = minkM (2 * D.R.f * D.R.N D.R.m) := by
+  rw [← hD.one u D.u₀ D.what₂.mu0, hD.one D.u₀ D.u₀ D.what₂.mu0]; exact h
+
+theorem DGamMink.fact {D : D7} (h : DGamMink D) (hD : DGamDef D) : FactDGam D 12 := by
+  intro u
+  rw [h.mem hD u]
+  have hy : (2 : ℝ) ≤ (D.R.f : ℝ) * D.R.N D.R.m := by exact_mod_cast D.R.two_le_fN
+  have h1 := log_minkM_le_two (2 * D.R.f * D.R.N D.R.m)
+  have e : ((2 * D.R.f * D.R.N D.R.m : ℕ) : ℝ) = 2 * ((D.R.f : ℝ) * D.R.N D.R.m) := by push_cast; ring
+  rw [e] at h1
+  have e2 : (2 : ℝ) * (2 * ((D.R.f : ℝ) * D.R.N D.R.m)) = 2 * 2 * ((D.R.f : ℝ) * D.R.N D.R.m) := by ring
+  have h2 : Real.log (2 * (2 * ((D.R.f : ℝ) * D.R.N D.R.m))) =
+      Real.log 2 + Real.log 2 + Real.log ((D.R.f : ℝ) * D.R.N D.R.m) := by
+    rw [e2, Real.log_mul (by norm_num) (by linarith), Real.log_mul (by norm_num) (by norm_num)]
+  have h3 : Real.log 2 ≤ Real.log ((D.R.f : ℝ) * D.R.N D.R.m) := Real.log_le_log (by norm_num) hy
+  rw [h2] at h1
+  have h4 : 2 * (2 * ((D.R.f : ℝ) * D.R.N D.R.m)) * (Real.log 2 + Real.log 2 + Real.log ((D.R.f : ℝ) * D.R.N D.R.m)) ≤
+      2 * (2 * ((D.R.f : ℝ) * D.R.N D.R.m)) * (3 * Real.log ((D.R.f : ℝ) * D.R.N D.R.m)) :=
+    mul_le_mul_of_nonneg_left (by linarith) (by linarith)
+  calc Real.log (minkM (2 * D.R.f * D.R.N D.R.m) : ℝ)
+      ≤ 2 * (2 * ((D.R.f : ℝ) * D.R.N D.R.m)) * (3 * Real.log ((D.R.f : ℝ) * D.R.N D.R.m)) := h1.trans h4
+    _ = 12 * D.R.f * D.R.N D.R.m * Real.log ((D.R.f : ℝ) * D.R.N D.R.m) := by ring
+
+end Formalism.BasicNotions
+end
+
+section
+
+noncomputable section
+
+namespace Formalism.BasicNotions
+
+open NumberField
+
+section gen
+
+variable {E : Type} [Field E] [NumberField E] [StarRing E]
+
+theorem HSpace.pos_of_isomEmb (A B : HSpace E) (ι : A.V →ₗ[E] B.V) (hι : HSpace.IsIsomEmb A B ι)
+    (hA : A.SigOK) (hB : B.SigOK) (τ : E →+* ℂ) (hτ : ∀ a, τ (star a) = starRingEnd ℂ (τ a))
+    (hdef : A.sig τ = (A.rank, 0) ∨ A.sig τ = (0, A.rank)) (hlt : (B.sig τ).2 < A.rank) :
+    A.sig τ = (A.rank, 0) := by
+  rcases hdef with h | h
+  · exact h
+  · exfalso
+    have hw : (Matrix.of fun i j => B.hT (ι (A.frame i)) (ι (A.frame j))) = A.gram := by
+      ext i j; exact hι _ _
+    have hsA := hA τ
+    rw [h, ← hw] at hsA
+    have key := (sig_family B τ hτ _ hsA (hB τ)).2
+    have hs := sig_sum B hB τ
+    simp only at key
+    omega
+
+theorem HSpace.frame_of_pos (S : HSpace E) (σ : E →+* ℂ)
+    (hσ : ∀ a, σ (star a) = (starRingEnd ℂ) (σ a)) (h : Formalism.UG.HasSignature (S.gram.map σ) S.rank 0) :
+    ∃ Y : Matrix (Fin S.rank) (Fin S.rank) ℂ, IsUnit Y.det ∧
+      ∀ y : S.V, ∑ i, ‖(Y.mulVec fun j => σ (S.frame.repr y j)) i‖ ^ 2 = (σ (S.hT y y)).re := by
+  obtain ⟨e, P, hP⟩ := h
+  have hJ : Formalism.UG.Jpq S.rank 0 = 1 := by
+    ext i j
+    rcases i with i | i
+    · rcases j with j | j
+      · simp [Formalism.UG.Jpq, Matrix.one_apply]
+      · exact j.elim0
+    · exact i.elim0
+  set Pm : Matrix (Fin S.rank ⊕ Fin 0) (Fin S.rank ⊕ Fin 0) ℂ := P.val with hPm
+  set Qm : Matrix (Fin S.rank ⊕ Fin 0) (Fin S.rank ⊕ Fin 0) ℂ := (P⁻¹).val with hQm
+  have hPQ : Pm * Qm = 1 := by rw [hPm, hQm, ← Units.val_mul, mul_inv_cancel]; rfl
+  have hcT : Formalism.UG.cT (starRingEnd ℂ) Pm = Pm.conjTranspose := by
+    ext i j; simp [Formalism.UG.cT, Matrix.conjTranspose_apply]
+  rw [hcT, hJ] at hP
+  set G : Matrix (Fin S.rank) (Fin S.rank) ℂ := S.gram.map σ with hG
+  have hGr : G.reindex e e = Qm.conjTranspose * Qm := by
+    have h1 : Qm.conjTranspose * (Pm.conjTranspose * G.reindex e e * Pm) * Qm = Qm.conjTranspose * Qm := by
+      rw [hP, Matrix.mul_one]
+    have h2 : Qm.conjTranspose * Pm.conjTranspose = 1 := by
+      rw [← Matrix.conjTranspose_mul, hPQ, Matrix.conjTranspose_one]
+    rw [← h1]
+    calc G.reindex e e = (Qm.conjTranspose * Pm.conjTranspose) * G.reindex e e * (Pm * Qm) := by
+          rw [h2, hPQ, Matrix.one_mul, Matrix.mul_one]
+      _ = _ := by simp only [Matrix.mul_assoc]
+  let Y : Matrix (Fin S.rank) (Fin S.rank) ℂ := Qm.submatrix e e
+  have hGY : G = Y.conjTranspose * Y := by
+    have : G = (G.reindex e e).submatrix e e := by ext i j; simp
+    rw [this, hGr]
+    ext i j
+    simp only [Y, Matrix.submatrix_apply, Matrix.mul_apply, Matrix.conjTranspose_apply]
+    exact (Equiv.sum_comp e _).symm
+  refine ⟨Y, ?_, fun y => ?_⟩
+  · have : Y.det = Qm.det := Matrix.det_submatrix_equiv_self e Qm
+    rw [this]
+    exact (Matrix.isUnit_iff_isUnit_det _).mp ⟨P⁻¹, rfl⟩
+  · set z : Fin S.rank → ℂ := fun j => σ (S.frame.repr y j) with hz
+    have h1 : ∑ i, ‖(Y.mulVec z) i‖ ^ 2 = (star (Y.mulVec z) ⬝ᵥ Y.mulVec z).re := by
+      simp [dotProduct, Complex.mul_re, Complex.sq_norm, Complex.normSq_apply]
+    have h2 : star (Y.mulVec z) ⬝ᵥ Y.mulVec z = star z ⬝ᵥ G.mulVec z := by
+      rw [hGY, Matrix.star_mulVec, ← Matrix.mulVec_mulVec, Matrix.dotProduct_mulVec (star z)]
+    have h3 : σ (S.hT y y) = star z ⬝ᵥ G.mulVec z := by
+      have := LinearMap.sum_repr_mul_repr_mulₛₗ S.frame S.frame (B := S.hT) y y
+      rw [← this, Finsupp.sum_fintype _ _ (by intro i; simp)]
+
+      simp only [dotProduct, Matrix.mulVec, map_sum]
+      refine Finset.sum_congr rfl fun i _ => ?_
+
+      rw [Finsupp.sum_fintype _ _ (by intro j; simp), map_sum, Finset.mul_sum]
+      refine Finset.sum_congr rfl fun j _ => ?_
+      simp only [smul_eq_mul, map_mul, RingHom.id_apply, hG, hz, Matrix.map_apply, HSpace.gram, Pi.star_apply]
+      rw [starRingEnd_apply, hσ]
+      simp only [starRingEnd_apply]
+      ring
+    rw [h1, h2, h3]
+
+theorem HSpace.form_pos (S : HSpace E) (hS : S.SigOK) (τ : E →+* ℂ)
+    (hτ : ∀ a, τ (star a) = (starRingEnd ℂ) (τ a)) (h : S.sig τ = (S.rank, 0)) (x : S.V) (hx : x ≠ 0) :
+    ∃ c : ℝ, 0 < c ∧ τ (S.hT x x) = (c : ℂ) := by
+  have hsig := hS τ
+  rw [h] at hsig
+  obtain ⟨Y, hY, hsum⟩ := S.frame_of_pos τ hτ hsig
+  have hz : (fun j => τ (S.frame.repr x j)) ≠ 0 := by
+    intro h0
+    apply hx
+    apply S.frame.repr.injective
+    ext j
+    have := congrFun h0 j
+    simpa using this
+  have hYz : Y.mulVec (fun j => τ (S.frame.repr x j)) ≠ 0 := by
+    intro h0
+    apply hz
+    have hinj : Function.Injective Y.mulVec :=
+      Matrix.mulVec_injective_iff_isUnit.mpr ((Matrix.isUnit_iff_isUnit_det Y).mpr hY)
+    exact hinj (by rw [h0, Matrix.mulVec_zero])
+  obtain ⟨i, hi⟩ := Function.ne_iff.mp hYz
+  have hpos : 0 < (τ (S.hT x x)).re := by
+    rw [← hsum x]
+    refine Finset.sum_pos' (fun j _ => by positivity) ⟨i, Finset.mem_univ _, ?_⟩
+    have : 0 < ‖(Y.mulVec fun j => τ (S.frame.repr x j)) i‖ := norm_pos_iff.mpr hi
+    positivity
+  have hre : τ (S.hT x x) = starRingEnd ℂ (τ (S.hT x x)) := by
+    rw [← hτ]
+    congr 1
+    exact ((S.herm.eq x x)).symm
+  refine ⟨(τ (S.hT x x)).re, hpos, ?_⟩
+  apply Complex.ext
+  · simp
+  · have := congrArg Complex.im hre
+    simp only [Complex.conj_im] at this
+    simp only [Complex.ofReal_im]
+    linarith
+
+end gen
+
+section spaces
+
+variable {R : Ranks} {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [StarRing E]
+  [Algebra F E]
+
+theorem Spaces.X'_posDef (S : Spaces R F E) (hYm : ∀ τ : E →+* ℂ, (S.Y R.m).sig τ = sigYD R R.m) :
+    S.X'.IsPosDef := by
+  intro τ
+  have hτ : ∀ a, τ (star a) = starRingEnd ℂ (τ a) := S.cm.cmUnram.2.1 τ
+  refine HSpace.pos_of_isomEmb S.X' (S.Y R.m) S.eYm.toLinearMap S.eYm_isom S.X'_sig (S.Y_sig R.m) τ hτ
+    ((factXmDef R F S).1 τ) ?_
+  rw [hYm τ, S.X'_rank]
+  simp only [sigYD, Nat.sub_self, Nat.zero_div]
+  unfold Ranks.rankX' Ranks.r
+  have := R.k_ge
+  omega
+
+theorem Spaces.X_posDef (S : Spaces R F E)
+    (hY : ∀ j, j ≤ R.m → ∀ τ : E →+* ℂ, (S.Y j).sig τ = sigYD R j) (j : ℕ) (hj : j ≤ R.m) :
+    (S.X j).IsPosDef := by
+  intro τ
+  have hτ : ∀ a, τ (star a) = starRingEnd ℂ (τ a) := S.cm.cmUnram.2.1 τ
+  rcases Nat.lt_or_ge j R.m with hjm | hjm
+  · refine HSpace.pos_of_isomEmb (S.X j) (S.Y j) (S.iXY j) (S.iXY_isom j hjm) (S.X_sig j) (S.Y_sig j) τ hτ
+      (S.X_def j hj τ) ?_
+    rw [hY j hj τ, S.X_rank j hj]
+    simp only [sigYD, Ranks.N]
+    have h1 := R.m_add_three_le_k
+    have h2 : (R.m - j) / 2 < R.k := by omega
+    exact lt_of_lt_of_le h2 (Nat.le_add_right _ _)
+  · have hjm' : j = R.m := le_antisymm hj hjm
+    subst hjm'
+    have hX' := Spaces.X'_posDef S (hY R.m le_rfl) τ
+    rw [S.X'_rank] at hX'
+    rw [S.X_rank R.m le_rfl]
+    exact ((factXmDef R F S).2.2 τ).2 hX'
+
+theorem Spaces.X_form_pos (S : Spaces R F E)
+    (hY : ∀ j, j ≤ R.m → ∀ τ : E →+* ℂ, (S.Y j).sig τ = sigYD R j) (j : ℕ) (hj : j ≤ R.m)
+    (τ : E →+* ℂ) (x : (S.X j).V) (hx : x ≠ 0) : ∃ c : ℝ, 0 < c ∧ τ ((S.X j).hT x x) = (c : ℂ) :=
+  HSpace.form_pos (S.X j) (S.X_sig j) τ (S.cm.cmUnram.2.1 τ) (S.X_posDef hY j hj τ) x hx
+
+end spaces
+
+namespace D7
+
+variable (D : D7)
+
+theorem X_posDef (j : ℕ) (hj : j ≤ D.R.m) : letI := D.host.cmStar; (D.sp.X j).IsPosDef :=
+  letI := D.host.cmStar; D.sp.X_posDef D.Y_sigval j hj
+
+theorem X'_posDef : letI := D.host.cmStar; D.sp.X'.IsPosDef :=
+  letI := D.host.cmStar; D.sp.X'_posDef (D.Y_sigval D.R.m le_rfl)
+
+theorem X_form_pos (j : ℕ) (hj : j ≤ D.R.m) (τ : D.host.E →+* ℂ) :
+    letI := D.host.cmStar; ∀ x : (D.sp.X j).V, x ≠ 0 → ∃ c : ℝ, 0 < c ∧ τ ((D.sp.X j).hT x x) = (c : ℂ) :=
+  letI := D.host.cmStar; fun x hx => D.sp.X_form_pos D.Y_sigval j hj τ x hx
+
+end D7
+
+end Formalism.BasicNotions
+
+end
+end

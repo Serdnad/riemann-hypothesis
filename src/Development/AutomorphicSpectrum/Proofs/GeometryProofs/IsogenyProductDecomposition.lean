@@ -4,14 +4,14 @@ public import Mathlib.Basic.Complex.Basic
 public import Mathlib.NumberTheory.NumberField.Basic
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsCompletedStrictHens
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.ThickTransComp
-public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.ExistsInverseIsogenyRingOfIntegers
-public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.ExistsInverseIsogenySumOfCmHoms
-import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.ExistsPolarisedAbelianSchemePowerStatement
-import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.ExistsProdPolAVStatement
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.ImHermFormEqCurveForm
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.DimEqOfFiniteSurjective
+public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle048
+public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle054
+import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle031
+import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle047
+public import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle024
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle164
 public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ThetaUniformisationComplexAbelianVariety
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsNthRootHomomorphismStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle258
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -52,8 +52,8 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.ExistsRosatiGen
-import Development.AutomorphicSpectrum.Definitions.AdelicLattices.FactPrimes
-import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.LieModel
+import Development.AutomorphicSpectrum.Definitions.AdelicLattices.Bundle001
+import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle001
 
 @[expose] public section
 

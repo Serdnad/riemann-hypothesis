@@ -1,6 +1,6 @@
 module
 
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GoodPointOrConjugate
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle103
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.TwoWeightEqOneAddRoot
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

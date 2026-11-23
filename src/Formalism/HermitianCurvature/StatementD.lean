@@ -4,7 +4,7 @@ public import Formalism.HermitianCurvature.StatementC
 public import Formalism.HermitianCurvature.FiniteOrderIntersectionInSmooth
 public import Formalism.HermitianCurvature.OperatorsCommuteTranslations
 public import Formalism.HermitianCurvature.BigCellVanishingOfCommute
-public import Formalism.HermitianCurvature.LetterProductDoubleDegreeCount
+public import Formalism.HermitianCurvature.Bundle004
 public import Formalism.HermitianCurvature.CompositeFormulaLevelZero
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

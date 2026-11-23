@@ -2,13 +2,13 @@ module
 
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsLatFamilyCongr
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ArithmeticHilbertSamuelLowerBound
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.RangeExtension
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsDualBC
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsStalkFractionOfGeneric
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsHTAtIff
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieModelFiniteBaseChangeStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.SectionEqZeroOfValuesStatement
-public import Development.WeilBound.CoreStatements.TorusUniformisation.ChowMahlerFamilies.ExistsFunctionAtPoint
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle072
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle199
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle011
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle243
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle163
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle028
+public import Development.WeilBound.CoreStatements.TorusUniformisation.ChowMahlerFamilies.Bundle024
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

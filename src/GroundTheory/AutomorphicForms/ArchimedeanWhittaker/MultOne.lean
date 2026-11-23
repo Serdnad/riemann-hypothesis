@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.AutomorphicForms.ArchimedeanWhittaker.Weights
+public import GroundTheory.AutomorphicForms.ArchimedeanWhittaker.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

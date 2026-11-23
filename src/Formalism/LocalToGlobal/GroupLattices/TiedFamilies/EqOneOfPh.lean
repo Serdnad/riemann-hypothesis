@@ -1,9 +1,9 @@
 module
 
-public import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.FramesTr
+public import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.Bundle009
 public import Formalism.LocalToGlobal.GroupLattices.LevelGatherings.JPMemAwayP
 public import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.ValUniqOf
-public import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.CastGLSymmApply
+public import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.Bundle004
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Afsplit
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

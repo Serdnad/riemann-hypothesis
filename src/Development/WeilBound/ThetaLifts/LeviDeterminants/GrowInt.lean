@@ -1,8 +1,8 @@
 module
 
 public import Development.WeilBound.ThetaLifts.LeviDeterminants.GrowDef
-public import Development.WeilBound.ThetaLifts.LeviDeterminants.GrowLine
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.StandardTraceAdelicAddCharLocalComponentNeOne
+public import Development.WeilBound.ThetaLifts.LeviDeterminants.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1944
 public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.ThetaDistributionNonzeroAdmissible
 public import Development.WeilBound.ThetaLifts.LeviDeterminants.ContinuousOfMem
 import Development.WeilBound.ThetaLifts.LeviDeterminants.GrowSplit

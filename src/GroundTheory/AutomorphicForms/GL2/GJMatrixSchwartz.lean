@@ -2,7 +2,7 @@ module
 
 public import GroundTheory.AutomorphicForms.GL2.GJMatrixAdelic
 public import GroundTheory.AutomorphicForms.GL2.GJMatrixCoord
-import GroundTheory.AutomorphicForms.ReductionMeasure
+import GroundTheory.AutomorphicForms.Bundle012
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -71,8 +71,8 @@ def matrixCoordTEquiv {X : Type*} : Matrix (Fin n) (Fin n) X ≃ (Fin n × Fin n
   right_inv _ := rfl
 
 theorem trace_mul_eq_sum' {R : Type*} [CommRing R] (x y : Matrix (Fin n) (Fin n) R) :
-    trace (y * x) = ∑ p, matrixCoordT y p * matrixCoord x p := by
-  rw [trace_mul_comm, trace_mul_eq_sum]
+    Matrix.trace (y * x) = ∑ p, matrixCoordT y p * matrixCoord x p := by
+  rw [Matrix.trace_mul_comm, trace_mul_eq_sum]
   exact Finset.sum_congr rfl fun p _ ↦ mul_comm _ _
 
 section Perm
@@ -127,7 +127,7 @@ theorem mem_matrixSchwartzBruhat {Φ : Matrix (Fin n) (Fin n) 𝔸[K] → ℂ} :
 variable (K) in
 def adelicMatrixFourier (Φ : Matrix (Fin n) (Fin n) 𝔸[K] → ℂ) (y : Matrix (Fin n) (Fin n) 𝔸[K]) :
     ℂ :=
-  ∫ x, Φ x * (adelicChar K (trace (x * y)) : ℂ) ∂adelicMatrixMeasure K n
+  ∫ x, Φ x * (adelicChar K (Matrix.trace (x * y)) : ℂ) ∂adelicMatrixMeasure K n
 
 def coordFun (Φ : Matrix (Fin n) (Fin n) 𝔸[K] → ℂ) : (Fin n × Fin n → 𝔸[K]) → ℂ :=
   fun z ↦ Φ (Matrix.of fun i j ↦ z (i, j))

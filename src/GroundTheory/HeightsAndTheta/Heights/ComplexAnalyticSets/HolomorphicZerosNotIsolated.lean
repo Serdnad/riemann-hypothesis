@@ -4,7 +4,7 @@ public import Mathlib.Analysis.Analytic.Basic
 public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Mathlib.Analysis.Calculus.FDeriv.Defs
 public import Mathlib.LinearAlgebra.Determinant
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PGermFiniteProjection
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle039
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

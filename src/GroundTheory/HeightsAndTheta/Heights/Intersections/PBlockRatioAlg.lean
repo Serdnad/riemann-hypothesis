@@ -1,12 +1,12 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.StatementsBlockRatioAlg
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle013
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ArithmeticHilbertSamuelLowerBound
 public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PCoordConeArithVar
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PBirationalModelExists
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.AvoidRing
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.IsHorizontalImageZ
-import GroundTheory.HeightsAndTheta.Heights.WeightedHomogeneous.PConeTrdeg
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle005
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle024
+import GroundTheory.HeightsAndTheta.Heights.WeightedHomogeneous.Bundle006
 public import GroundTheory.HeightsAndTheta.Heights.WeightedHomogeneous.PIntDomainDim
 import Mathlib.Algebra.MvPolynomial.Nilpotent
 import Mathlib.Algebra.Order.Floor.Extended

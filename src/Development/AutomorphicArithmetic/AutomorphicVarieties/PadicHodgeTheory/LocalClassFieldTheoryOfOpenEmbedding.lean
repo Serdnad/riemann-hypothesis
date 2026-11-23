@@ -1,11 +1,11 @@
 module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.FiniteCohomology
-public import GroundTheory.LocalFields.LocalArtinCompletion
+public import GroundTheory.LocalFields.Bundle013
 public import Mathlib.NumberTheory.Padics.ValuativeRel
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FixingSubgroupEquivBicontinuous
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.OpenField
-import GroundTheory.LocalFields.Examples
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle261
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.Bundle009
+import GroundTheory.LocalFields.Bundle002
 import GroundTheory.LocalFields.LocalArtinBaseChange
 public import GroundTheory.LocalFields.PrincipalUnitsRank
 import Mathlib.Algebra.Order.Floor.Extended

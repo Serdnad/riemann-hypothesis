@@ -6,17 +6,17 @@ import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.NotInSu
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsContinuousPadic
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.AlgebraMapIntertwiningMapBijectiveOfIsSmooth
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsNonzeroIntertwiningMapFromUnitarySupercusp
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsSmoothDualNeZeroAtVector
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle141
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.HasSupportOfIsSubquotientProdIrr
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsSupercuspidalOfIsCuspidal
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsUnitarizableComplexRepOfSupercuspidalUnitaryCentralCharacter
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.CentralExponentBoundOver
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsCovBySubmodule
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsInSupportOfMultiProd
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.InSupportOfIsSubquotient
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle107
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle052
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle055
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle131
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle084
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.JhMultSubAddQuot
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ParIndJacPlacing
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SubsingletonJacquetOfPerm
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle066
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -67,7 +67,7 @@ import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.ExistsNotCongPow
 import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.HasExponentZeroIff
-import Formalism.ConjugateSelfDual.Statement
+import Formalism.ConjugateSelfDual.Bundle001
 import ReciprocityTheory.GaloisValuations.GlobalA
 
 @[expose] public section
@@ -199,7 +199,7 @@ variable {k : Type} [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchim
 
 theorem isSubquotient_jac_single {r : ℕ} {b : Fin r → ℕ} (a : Fin r) (ha : ∀ j, j ≠ a → b j = 0)
     (f : (Σ j, Fin (b j)) ≃ Fin (b a)) (σ : Representation ℂ (GL (Fin (b a)) k) V) :
-    IsSubquotient ((jac f σ).comp (MonoidHom.mulSingle (fun j => GL (Fin (b j)) k) a) :
+    IsSubquotient ((GlobalTheory.SmGL.jac f σ).comp (MonoidHom.mulSingle (fun j => GL (Fin (b j)) k) a) :
       Representation ℂ (GL (Fin (b a)) k) _) σ := by
   have hb : Function.Bijective (fun i : Fin (b a) => (⟨a, i⟩ : Σ j, Fin (b j))) := by
     refine ⟨sigma_mk_injective (β := fun j => Fin (b j)), fun ⟨j, i⟩ => ?_⟩
@@ -229,12 +229,12 @@ theorem isSubquotient_jac_single {r : ℕ} {b : Fin r → ℕ} (a : Fin r) (ha :
       simp [h2]
     · rw [Pi.mulSingle_eq_of_ne hc, map_one, map_one]
   refine .of_surjective ⟨Submodule.mkQ _, fun g => LinearMap.ext fun v => ?_⟩ (Submodule.mkQ_surjective _)
-  show Submodule.Quotient.mk (σ g v) = jac f' σ (Pi.mulSingle a g) (Submodule.Quotient.mk v)
+  show Submodule.Quotient.mk (σ g v) = GlobalTheory.SmGL.jac f' σ (Pi.mulSingle a g) (Submodule.Quotient.mk v)
   rw [jac_mk, h1, h3, inv_one, Units.val_one, one_smul]
 
 theorem exists_block_of_isCusp {x : IrrGL (k := k)} (hx : x.IsCusp) {r : ℕ} {b : Fin r → ℕ}
     (f : (Σ j, Fin (b j)) ≃ Fin x.1) (c : ∀ j, IrrRep (GL (Fin (b j)) k))
-    (h : IsSubquotient (piTensor fun j => (c j).ρ) (jac f x.rep)) :
+    (h : IsSubquotient (piTensor fun j => (c j).ρ) (GlobalTheory.SmGL.jac f x.rep)) :
     ∃ a, (∀ j, j ≠ a → b j = 0) ∧ IrrGL.of (c a).ρ (c a).smooth (c a).irr = x := by
   have hn := GlobalTheory.ProdSupport.nontrivial_piTensor (fun j => (c j).V)
     fun j => GlobalTheory.SmGL.Model.nontrivial_of_isIrreducible (c j).irr
@@ -275,7 +275,7 @@ theorem eq_zero_of_hasSupport {N : ℕ} (hN : N = 0) {π : Representation ℂ (G
 theorem exists_sum_of_jac (hG : GeometricLemma) (hZ : ZelevinskyPolynomialRing) {N : ℕ}
     {π : Representation ℂ (GL (Fin N) k) V} {s : Multiset (IrrGL (k := k))} (hs : HasSupport π s) {r : ℕ} {d : Fin r → ℕ}
     (e' : (Σ j, Fin (d j)) ≃ Fin N) {τ : Representation ℂ (Levi k fun j => Fin (d j)) W} (hτ : τ.IsIrreducible)
-    (hτs : IsSubquotient τ (jac e' π)) (y : ∀ j, IrrRep (GL (Fin (d j)) k))
+    (hτs : IsSubquotient τ (GlobalTheory.SmGL.jac e' π)) (y : ∀ j, IrrRep (GL (Fin (d j)) k))
     (hy : ∀ j, IsSubquotient (y j).ρ (τ.comp (MonoidHom.mulSingle (fun j => GL (Fin (d j)) k) j) :
       Representation ℂ (GL (Fin (d j)) k) W)) :
     ∃ t : Fin r → Multiset (IrrGL (k := k)), (∀ j, HasSupport (y j).ρ (t j)) ∧ s = ∑ j, t j := by
@@ -459,7 +459,7 @@ theorem eq_of_hasSupport (hG : GeometricLemma) (hZ : ZelevinskyPolynomialRing) (
         ¬ Subsingleton (Jacquet x.rep (unipRad k e)) := by
       by_contra! hn
       exact hc ⟨x.2.rep.smooth, hn⟩
-    obtain ⟨Y, _, _, τ, hτ, hτs⟩ := GlobalTheory.IrrSubquot.exists_irreducible_subquotient _ _ (jac e x.rep)
+    obtain ⟨Y, _, _, τ, hτ, hτs⟩ := GlobalTheory.IrrSubquot.exists_irreducible_subquotient _ _ (GlobalTheory.SmGL.jac e x.rep)
       (not_subsingleton_iff_nontrivial.1 hJ)
     have hτsm : IsSmooth τ := hτs.isSmooth (isSmooth_jac e x.2.rep.smooth)
     have hy : ∀ j, ∃ y : IrrRep (GL (Fin (d j)) k), IsSubquotient y.ρ

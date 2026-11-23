@@ -1,10 +1,10 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.OverLaUnique
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle014
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.ExistsRosatiGen
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsFiniteExtAllModelsUniformised
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle184
 import Development.AbelianVarietyTheory.Proofs.JetHarmonics.GeneratesOfNonzeroOnSpecialFibre
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.TypingsAgree
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle046
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

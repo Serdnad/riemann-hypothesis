@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.IndefiniteReal.DoubleCosetOperators.Objects
+public import Formalism.LocalToGlobal.IndefiniteReal.DoubleCosetOperators.Bundle001
 public import Formalism.LocalToGlobal.IndefiniteReal.ZeroPartEigenvalueConvention
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

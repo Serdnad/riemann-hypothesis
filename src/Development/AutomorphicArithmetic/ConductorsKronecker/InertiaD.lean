@@ -44,7 +44,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 public import Development.AutomorphicArithmetic.DedekindLFunctions.SplitInertia
-import Formalism.SizeWindowBrackets.GrowthBoundGivesRiemannHypothesis
+import Formalism.SizeWindowBrackets.Bundle002
 
 @[expose] public section
 

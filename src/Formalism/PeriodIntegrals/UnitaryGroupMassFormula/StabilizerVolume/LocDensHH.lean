@@ -1,10 +1,10 @@
 module
 
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerVolume.UnifVSpec
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerVolume.Bundle025
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdelicLocalCompactness.T2SpaceTensorProductFiniteExtension
-import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerVolume.DensFibV
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerVolume.DensVDx
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerVolume.LocDensHL
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerVolume.Bundle009
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerVolume.Bundle024
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerVolume.Bundle026
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerVolume.PosNear
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -168,21 +168,21 @@ theorem intA_mul (hg : ∀ k l m, algebraMap F (Fv F v) (b.repr (b k * b l) m) �
   exact intA_smul (mul_mem (hz k) (hw l)) (intA_incl _ (hg k l))
 
 theorem sigR_incl (σ : E →ₐ[F] E) (e : E) :
-    sigR (Fv F v) σ (inclR (Fv F v) e) = inclR (Fv F v) (σ e) := by
+    Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.sigR (Fv F v) σ (inclR (Fv F v) e) = inclR (Fv F v) (σ e) := by
 
-  simp [sigR, inclR, Algebra.TensorProduct.map_tmul]
+  simp [Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.sigR, inclR, Algebra.TensorProduct.map_tmul]
 
 theorem sigR_smul (σ : E →ₐ[F] E) (c : Fv F v) (z : Fv F v ⊗[F] E) :
-    sigR (Fv F v) σ (c • z) = c • sigR (Fv F v) σ z := by
+    Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.sigR (Fv F v) σ (c • z) = c • Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.sigR (Fv F v) σ z := by
 
   induction z using TensorProduct.induction_on with
   | zero => simp
-  | tmul x y => simp [sigR, TensorProduct.smul_tmul', Algebra.TensorProduct.map_tmul]
+  | tmul x y => simp [Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.sigR, TensorProduct.smul_tmul', Algebra.TensorProduct.map_tmul]
   | add x y hx hy => rw [smul_add, map_add (f := _), map_add (f := _), hx, hy, smul_add]
 
 theorem intA_sig (σ : E →ₐ[F] E)
     (hg : ∀ k m, algebraMap F (Fv F v) (b.repr (σ (b k)) m) ∈ v.adicCompletionIntegers F)
-    {z : Fv F v ⊗[F] E} (hz : intA b v z) : intA b v (sigR (Fv F v) σ z) := by
+    {z : Fv F v ⊗[F] E} (hz : intA b v z) : intA b v (Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.sigR (Fv F v) σ z) := by
 
 
   rw [← (Algebra.TensorProduct.basis (Fv F v) b).sum_repr z, map_sum]
@@ -247,7 +247,7 @@ theorem hensAA_holds : HensAA := by
     inferInstanceAs (T2Space (Fin a → Fin a → Fv F v ⊗[F] E))
   obtain ⟨hπ0, hπ, hπO⟩ := unifV_spec v
   set π := unifV v with hπdef
-  set s := sigR (Fv F v) σ with hsdef
+  set s := Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.sigR (Fv F v) σ with hsdef
   set L := latSub b v a M with hLdef
   have hLc : IsCompact (L : Set (Fin a → Fin M → Fv F v ⊗[F] E)) :=
     PositiveNearLattice.isCompact_latV b v a M

@@ -1,7 +1,7 @@
 module
 
 public import Mathlib.NumberTheory.NumberField.Completion.FinitePlace
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.CardEmbeddingsRestrict
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle059
 public import Mathlib.Algebra.FiniteSupport.Basic
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended

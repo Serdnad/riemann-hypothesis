@@ -1,16 +1,15 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.EmbedsGeneric
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsHolPeriods
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HolomorphicCoordsOfGenericPointStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.SectionBoundaryClosedAndCodenseStatement
-public import Development.WeilBound.CoreStatements.FlagImmersions.ContAtOfHoloOn
-public import Development.WeilBound.CoreStatements.FlagImmersions.CoordsOrbit
-public import Development.WeilBound.CoreStatements.FlagImmersions.IsHolToOfLocal
-import Development.WeilBound.CoreStatements.VolumeEquality.ChartMeetsForm
-import Development.WeilBound.CoreStatements.VolumeEquality.HolNull
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle013
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle009
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle140
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle040
+public import Development.WeilBound.CoreStatements.FlagImmersions.Bundle013
+public import Development.WeilBound.CoreStatements.FlagImmersions.Bundle014
+import Development.WeilBound.CoreStatements.VolumeEquality.Bundle002
+import Development.WeilBound.CoreStatements.VolumeEquality.Bundle007
 import Development.WeilBound.CoreStatements.VolumeEquality.Pieces
-import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.GenericComplexPoint
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle010
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

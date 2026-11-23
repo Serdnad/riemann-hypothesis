@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsAHOfIsFactorAH
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle876
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.IsHolFormConst
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsUniqueThetaCharAtPoint
 import Development.AbelianVarietyTheory.Proofs.ToricGeometry.CubeTrivialisationOnUniformisingSpace
-public import Development.AbelianVarietyTheory.Proofs.ToricGeometry.RiemannFormBijectiveOfWeilNondeg
+public import Development.AbelianVarietyTheory.Proofs.ToricGeometry.Bundle014
 import Development.AbelianVarietyTheory.Proofs.ToricGeometry.TopLePreimageOfValAtNeZero
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

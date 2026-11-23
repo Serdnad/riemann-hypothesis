@@ -2,8 +2,8 @@ module
 
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LatticeIndices.FirstEmbeddingAlgebraMap
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LatticeIndices.DenomHolds
-import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LatticeIndices.LatBasisAllOfParts
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LevelStructures.LatTop
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LatticeIndices.Bundle018
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LevelStructures.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

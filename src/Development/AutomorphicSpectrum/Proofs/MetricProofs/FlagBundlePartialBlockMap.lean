@@ -1,22 +1,20 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.IsBaseChart
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.BlockMapFrameRestriction
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.CardPIdxEqChoose
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle103
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle125
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ChartImmersion
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FrameDataLocalDegreeBound
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.FrameDataLocalDegreeEstimate
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle167
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle143
 import Development.AutomorphicSpectrum.Proofs.MetricProofs.FrameDataLocalIntegrability
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FrameDataLocalNormComparison
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.FrameDataLocalResolutionOpen
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FrameDataLocalResolutionRegular
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.HoloMapOfLocalProductCharts
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.LogResolutionFromOrbitCharts
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle142
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle124
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle176
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle119
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle136
 import Development.AutomorphicSpectrum.Proofs.MetricProofs.LogResolutionFunctorialHolomorphic
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.MinorMulSelf
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.PRhoContinuous
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.SncResolutionCompactEmbedded
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.UpVSmul
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle090
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle172
 import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PCoordConeArithVar
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -59,8 +57,8 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterBridgeB
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterMinor
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FiniteMinimalPrimes
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle013
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle085
 
 @[expose] public section
 

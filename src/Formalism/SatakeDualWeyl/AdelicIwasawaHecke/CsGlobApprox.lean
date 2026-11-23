@@ -1,6 +1,6 @@
 module
 
-import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.CsApprox
+import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle011
 public import Formalism.SatakeDualWeyl.DefsCS
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Levelaf
 import Mathlib.Algebra.Order.Floor.Extended

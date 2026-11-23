@@ -1,6 +1,6 @@
 module
 
-public import Formalism.ThetaLogCoordinates.FockResolutionOnto.StatementC
+public import Formalism.ThetaLogCoordinates.FockResolutionOnto.Bundle001
 public import Formalism.PolynomialDimension.MultinomialDepth.PartnerM
 public import Formalism.ThetaLogCoordinates.FockResolutionOnto.FockMonomialProofs.InitPartZeroXMul
 public import Formalism.ThetaLogCoordinates.FockResolutionOnto.FockMonomialProofs.FirstWeightLeOfSupport

@@ -1,8 +1,8 @@
 module
 
 public import Mathlib.Data.Nat.Notation
-public import Development.AutomorphicArithmetic.Foundations.EtaleClopenDescent.BothToSecondRelation
-public import Development.EtaleCohomology.EtaleSheaves.LeafChartRing
+public import Development.AutomorphicArithmetic.Foundations.EtaleClopenDescent.Bundle001
+public import Development.EtaleCohomology.EtaleSheaves.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,19 +1,19 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.DatEqZero
+public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.Bundle002
 public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.IsBaseClassLevelAdapted
-public import Formalism.LocalToGlobal.ProjectiveLattices.PetersonNormSubspace
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle029
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ContinuousRmulPair
-public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.ComponentEqOfMatchedLatticesMarkings
-public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.ConstOfNormFactorUnitFr
-public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.ExistsTestRingInjective
-public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.HermitianFormAtFrameLaws
+public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle059
+public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle031
+public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle060
+public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle036
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExistsSymplecticCoordinatesOfIsPeriod
 import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.HolomorphicHomDetermined
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.CongrOfDvdModulus
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle116
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsHermCoordOfDatum
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsIsUnf
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.RelabelEmbeddingsGoodBijectiveConjCompat
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle118
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle028
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -52,7 +52,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.FourierCoefficientDomain
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.Bundle013
 
 @[expose] public section
 

@@ -1,10 +1,10 @@
 module
 
-public import Formalism.LocalToGlobal.InertKernelTheory.DefsBasis
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.IntRing
-public import Formalism.LocalToGlobal.InertKernelTheory.DefsInt
+public import Formalism.LocalToGlobal.InertKernelTheory.Bundle001
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle060
+public import Formalism.LocalToGlobal.InertKernelTheory.Bundle003
 import Formalism.LocalRingCardinality.SpanPowerMembership.ExampleLayerExistsGenerators
-public import Formalism.LocalToGlobal.GlobalTheory.GL3.IsometryLinkageTrivialLevel
+public import Formalism.LocalToGlobal.GlobalTheory.GL3.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

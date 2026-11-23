@@ -1,10 +1,10 @@
 module
 
 public import Development.AbelianVarietyTheory.Statements.ShortVectorBound.ScaledLatticesInSupLattices
-public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.ScaledShortLatticeLeOfShortGeneratorBoundStatement
-public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.ScaledThetaLatticeLeSupLatticeEveryWeightStatement
+public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.Bundle047
+public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.Bundle062
 public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.ShortGeneratorPlaceValuationBoundProofStatement
-public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.WeightNormalizerAndExponentsOfWeightSumStatement
+public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.Bundle045
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -86,3 +86,18 @@ theorem scaledRunLatticesInSupLattices_proof : ScaledLatticesInSupLattices := by
   exact ⟨H, fun n => integralityCondition_of_addedPoints_secondNorm n _ _ _ _ ka wL wF H⟩
 
 end GlobalTheory.PlaceTop
+
+end
+end
+
+section
+
+@[expose] public section
+
+open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.WeightAlgebra Formalism.MainNotions.DIV.Cons Formalism.L2.Pj GlobalTheory.PtTie GlobalTheory.PlaceTop
+
+theorem _root_.GlobalTheory.T.scaledRunLattices_in_supLattices : ScaledLatticesInSupLattices := by
+  first | exact @GlobalTheory.PlaceTop.scaledRunLatticesInSupLattices_proof | exact GlobalTheory.PlaceTop.scaledRunLatticesInSupLattices_proof | (intros; apply GlobalTheory.PlaceTop.scaledRunLatticesInSupLattices_proof <;> assumption)
+
+end
+end

@@ -1,6 +1,6 @@
 module
 
-public import Formalism.MahlerMeasure.StatementTM
+public import Formalism.MahlerMeasure.Bundle005
 public import Formalism.MahlerMeasure.MahlerMeasureProofs.FreezeY
 public import Mathlib.LinearAlgebra.FiniteDimensional.Defs
 public import Formalism.MahlerMeasure.MahlerMeasureProofs.FreezeBij

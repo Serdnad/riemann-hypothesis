@@ -1,10 +1,10 @@
 module
 
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.AuxiliaryPrimeFunction
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.EisensteinHeckeFunctionalStatement
-public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.EisensteinMeromorphy.DiffContOfReg
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle553
+public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.EisensteinMeromorphy.Bundle001
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.EisensteinMeromorphy.HgtMulRight
-public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.EisensteinMeromorphy.MeromorphicOnOfWeak
+public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.EisensteinMeromorphy.Bundle002
 public import Development.WeilBound.ThetaLifts.LatticeBasics.EisCont
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -128,7 +128,7 @@ theorem eisStrong_of : EisBL → EisStrong := by
     unfold PositivityTheory.SiegelWeilFormula.SD.eis GlobalTheory.Eis.cosetSum
     congr 1
     funext q
-    simp only [eisTerm, flat, GlobalTheory.Eis.term, PositivityTheory.SiegelWeilFormula.SD.Ht,
+    simp only [eisTerm, GlobalTheory.ThK.Dbl.flat, GlobalTheory.Eis.term, PositivityTheory.SiegelWeilFormula.SD.Ht,
       Real.coe_toNNReal _ (hgt_nonneg d.ok.hgt _)]
 
 end PositivityTheory.SiegelWeilFormula.Khead

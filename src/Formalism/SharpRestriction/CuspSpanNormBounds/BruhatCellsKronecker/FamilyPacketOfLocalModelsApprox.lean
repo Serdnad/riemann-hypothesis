@@ -41,12 +41,12 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 public import Formalism.LocalRingCardinality.RhoDetPrimeEqMuTildeMulChiPow
 import Formalism.SharpRestriction.CuspSpanNormBounds.ChainLength
-public import Formalism.SharpRestriction.CuspSpanNormBounds.FlagEEqHyperbolic
+public import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle007
 import Formalism.SharpRestriction.CuspSpanNormBounds.FractionFieldToGenericStalkAlgebraMapEq
 import Formalism.SharpRestriction.CuspSpanNormBounds.LocalGroupInFamilyNontrivial
 import Formalism.SharpRestriction.CuspSpanNormBounds.LocalModelPeriodLattices
-import Formalism.SharpRestriction.CuspSpanNormBounds.Point
-public import Formalism.SharpRestriction.FamCore
+import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle001
+public import Formalism.SharpRestriction.Bundle001
 public import Formalism.SharpRestriction.ParConsts
 
 @[expose] public section

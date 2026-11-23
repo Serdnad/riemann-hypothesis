@@ -1,8 +1,8 @@
 module
 
-public import Formalism.PieriBlockIdeals.StatementLP
-public import Formalism.PieriBlockIdeals.PieriColumnMinors.GeneratedHighestWeightHolds
-public import Formalism.PieriBlockIdeals.PieriColumnMinors.HighestWeightDominantHolds
+public import Formalism.PieriBlockIdeals.Bundle005
+public import Formalism.PieriBlockIdeals.PieriColumnMinors.Bundle004
+public import Formalism.PieriBlockIdeals.PieriColumnMinors.Bundle005
 public import Formalism.PieriBlockIdeals.PieriColumnMinors.HighestWeightSuccessive
 public import Formalism.PieriBlockIdeals.PieriColumnMinors.LpcDpartCommEps
 import Mathlib.Algebra.Order.Floor.Extended

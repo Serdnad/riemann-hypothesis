@@ -1,13 +1,13 @@
 module
 
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.IntegralFiniteAdeleCompactClosedMultiples
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AdelicRapidDecayOfMemAdelicSchwartzSpace
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EqOfComponentTensorAdelicFunctionEq
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle047
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle689
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1968
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsNatMulIntegralOfIsCompact
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HasCompactSupportFinprodSchwartzBruhatFiniteAdel
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsLocallyConstantFinprodSchwartzBruhatFiniteAdel
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsStdCharNegOneOfStandardTraceAdelicAddChar
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1769
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1770
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1891
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -53,7 +53,7 @@ import Development.AbelianVarietyTheory.Definitions.Foundations.IsIwasawaOfIsCom
 import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.HermitianOrthogonalExtensionData
 import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.IsVacFOfIsVacVec
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.BlkGLMem
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ThetaEqB
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle333
 
 @[expose] public section
 

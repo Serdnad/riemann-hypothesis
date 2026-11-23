@@ -42,9 +42,9 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import ReciprocityTheory.AnalyticForms.RegularLocalRings.ExistsMulMemOfAlgebraMapLocRingEqZero
-import ReciprocityTheory.AnalyticForms.RegularLocalRings.Monomial
+import ReciprocityTheory.AnalyticForms.RegularLocalRings.Bundle004
 import ReciprocityTheory.AnalyticForms.RegularLocalRings.RegDom
-public import ReciprocityTheory.AnalyticForms.RegularLocalRings.WMultA
+public import ReciprocityTheory.AnalyticForms.RegularLocalRings.Bundle005
 public import ReciprocityTheory.AnalyticForms.RegularLocalRings.WMultB
 
 @[expose] public section

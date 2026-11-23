@@ -4,8 +4,8 @@ import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ExplicitFormula.GoodHei
 public import Mathlib.Analysis.Analytic.Order
 public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Mathlib.NumberTheory.LSeries.DirichletContinuation
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ImportsMore
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.LogDerivLFunctionStrip
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle017
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle018
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

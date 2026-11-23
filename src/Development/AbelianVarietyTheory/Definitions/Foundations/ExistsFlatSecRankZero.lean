@@ -1,14 +1,14 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Foundations.IsProbabilityMeasureMuPart
-public import Formalism.LocalToGlobal.ProjectiveLattices.CompSplitPfB
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle024
 public import Formalism.LocalToGlobal.ProjectiveLattices.CompHt
 public import Development.AbelianVarietyTheory.BlockTheory.HeightDefect.SchurLatticeConjugates
 public import Formalism.LocalToGlobal.ProjectiveLattices.ArchimedeanQuadraticData.FinitePlaceArcs.BeSumStatement
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.BeSumStatementIffDefectSumBound
+public import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle009
 public import Formalism.LocalToGlobal.ProjectiveLattices.ArchimedeanQuadraticData.FinitePlaceArcs.BeSumPf
-import Formalism.LocalToGlobal.ProjectiveLattices.CompFin
-public import Formalism.LocalToGlobal.ProjectiveLattices.CompSplitPfD
+import Formalism.LocalToGlobal.ProjectiveLattices.Bundle014
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle015
 import Mathlib.Algebra.AffineMonoid.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -345,7 +345,7 @@ theorem modelWt_flatWt {σ : c.F →+* ℂ} (U : Unf Xo c σ r) (hσ : GoodEmb c
   obtain ⟨hp0, hΨ⟩ := hU.2.1 k
   have hr := hU.1
   have hj := j.2
-  obtain ⟨ρ', rfl⟩ := Finite.injective_iff_surjective.1 (relab_injective (E := E) (c := c) σ) ρ
+  obtain ⟨ρ', rfl⟩ := Finite.injective_iff_surjective.1 (GlobalTheory.AllWt.relab_injective (E := E) (c := c) σ) ρ
   have hρΨ : ρ' (H.rt : E) = H.rt0 := by
     by_contra hn
     have h3 : relab c σ (conjEmb ρ') (H.rt : E) = H.rt0 := by

@@ -4,9 +4,9 @@ public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFor
 public import Mathlib.Topology.Algebra.Group.Units
 import Development.AbelianVarietyTheory.Definitions.Divisors.T2SpaceGeneralLinearGroup
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.CartanAntitone
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.UnitaryAdmissibleMatrixCoefficient
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.CentralExponentBoundOver
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SubsingletonJacquetOfPerm
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle025
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle052
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle066
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

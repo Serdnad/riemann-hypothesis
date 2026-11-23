@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.BoundAtTwoAndThreeForFamily
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle020
 public import Development.AutomorphicArithmetic.ResidueCharacters.InvariantsKilledOverCyclotomicAlt
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CrystallineLatticeWachModuleExistsProofStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LocalConstantsFromAdmittedLocalGaloisStatementsStatement
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle836
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle838
 public import Development.AutomorphicArithmetic.ResidueCharacters.LocAllOf
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

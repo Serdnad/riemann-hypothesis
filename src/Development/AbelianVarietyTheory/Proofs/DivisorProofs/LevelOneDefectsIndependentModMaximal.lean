@@ -1,19 +1,18 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.EqZeroOfForallPowDvd
-public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.EpsilonPairingZeta
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ConstantCoeffSubstOfForallConstantCoeffZeroStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DualBasisCoordMemMaximalIdealOfForallApplyStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsPowEqOfIntegers
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsLocalizationAway
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsQuasiLogarithmBasisReductionThickeningStatement
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsTorsionFreePDThickeningFrameValuationIntegers
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MapPowerSeriesFamilyToFractionsFormalGroupLawNatStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.NmulSucc
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PDivGroupDualTangentLinearKillsIntegralStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.QuasiLogarithmTangentVectorsBasisDualLieStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SubstFormalGroupLawNatMultipleEqCoboundarySumStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.UpPull2Cob1
+public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.Bundle005
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle584
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle580
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle731
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle550
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1708
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle549
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle552
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle555
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle798
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle554
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle504
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -53,8 +52,8 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AbelianVarietyTheory.Definitions.Divisors.GhostFrobenius
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TangentCoordsNonunit
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle012
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle800
 
 @[expose] public section
 

@@ -1,10 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsHeckeQuotientTriple
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle104
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.GlobalSectionsRankAlgClosed
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsGenMovePow
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsThetaLinComb
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.LineBundleIsoLinCombSymmBiadditiveSubstitution
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle070
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle103
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

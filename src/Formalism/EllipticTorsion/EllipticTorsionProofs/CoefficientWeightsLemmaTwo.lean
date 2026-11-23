@@ -1,8 +1,8 @@
 module
 
-public import Formalism.EllipticTorsion.EllipticTorsionWeights
-public import Formalism.EllipticTorsion.CompExpWeight
-public import Formalism.EllipticTorsion.EllipticTorsionProofs.CompExp
+public import Formalism.EllipticTorsion.Bundle003
+public import Formalism.EllipticTorsion.Bundle002
+public import Formalism.EllipticTorsion.EllipticTorsionProofs.Bundle001
 public import Formalism.FormalGroupLog.FormalGroupLogProofs.ConstantCoeffSubstOfZero
 public import Formalism.FormalGroupLog.LogDeterminesLaw
 import Mathlib.Algebra.Order.Floor.Extended

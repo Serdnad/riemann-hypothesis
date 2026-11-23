@@ -1,11 +1,11 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.HcDefs
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.Bundle002
 public import Mathlib.RingTheory.AdicCompletion.Noetherian
 public import Mathlib.RingTheory.Coalgebra.IsFrobenius
 public import Mathlib.RingTheory.HopfAlgebra.Basic
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.HcGalIdx
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.HcUnrOf
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.Bundle007
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.Bundle009
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -48,9 +48,13 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.UnramifiedCocycleIsCoboundaryOfBernoulliUnit
+import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.Bundle006
 
 @[expose] public section
+
+local instance (priority := 2000) fieldAlgebraIsTorsionFreeForH1cZero (K Ω : Type)
+    [Field K] [Field Ω] [Algebra K Ω] : Module.IsTorsionFree K Ω :=
+  DivisionSemiring.to_moduleIsTorsionFree
 
 open NumberField IsDedekindDomain Formalism.ConjugateSelfDual ReciprocityTheory.Gal Module UpperTheory.V UpperTheory.V.X
 

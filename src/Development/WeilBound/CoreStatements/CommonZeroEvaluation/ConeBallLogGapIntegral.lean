@@ -1,9 +1,9 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.IsScaleStable
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.ConeBall
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle031
+public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle006
 public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Assembly
-import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PConeFsLogIntegrable
+import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle017
 import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Assembly
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

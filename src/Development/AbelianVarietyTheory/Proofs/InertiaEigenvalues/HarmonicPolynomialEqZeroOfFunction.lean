@@ -45,7 +45,7 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.BitVec
 import Std.Tactic.BVDecide.Normalize.Prop
-public import Formalism.LocalToGlobal.Columns.CoefficientMapHeightBound
+public import Formalism.LocalToGlobal.Columns.Bundle008
 
 @[expose] public section
 

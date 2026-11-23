@@ -1,10 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.ResBound
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.AdmissibleCocycleNegCharPowerMemCoboundariesStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.DvrComplete
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FiniteQuotientPow
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TrivialLineAdmissibleCocyclesNotIndependentStatement
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle009
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle490
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle155
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle255
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,15 +1,15 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LogCardEqFinsumLengthLocalizedMaximal
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle063
 public import Formalism.SizeWindowBrackets.SlopesHypothesisFinitePlaces
-public import Formalism.HarderNarasimhan.StatementPl
+public import Formalism.HarderNarasimhan.Bundle001
 public import Mathlib.CategoryTheory.Category.Basic
 public import Mathlib.RingTheory.FractionalIdeal.Norm
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.DiscreteSpanOfLinIndep
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.DualPl
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.HtGram
 import Formalism.HarderNarasimhan.HarderNarasimhanProofs.MuChar
-import Formalism.HarderNarasimhan.HarderNarasimhanProofs.SizeMu
+import Formalism.HarderNarasimhan.HarderNarasimhanProofs.Bundle004
 public import Mathlib.Algebra.Module.LocalizedModule.Exact
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalRingCardinality.DataKerP
+public import Formalism.LocalRingCardinality.Bundle007
 public import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.IsComplRatCompl
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

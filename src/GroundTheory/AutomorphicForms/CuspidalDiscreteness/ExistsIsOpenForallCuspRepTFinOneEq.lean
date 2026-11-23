@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.AutomorphicForms.CuspidalDiscreteness.CuspCompact
+public import GroundTheory.AutomorphicForms.CuspidalDiscreteness.Bundle001
 public import GroundTheory.AutomorphicForms.CuspidalDiscreteness.SummandsContRep
 public import GroundTheory.AutomorphicForms.CuspidalDiscreteness.FixedOpen
 public import GroundTheory.AutomorphicForms.CuspidalDiscreteness.SummandsBase

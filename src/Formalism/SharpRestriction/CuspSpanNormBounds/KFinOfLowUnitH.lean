@@ -38,9 +38,9 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Formalism.SharpRestriction.CuspSpanNormBounds.ExpansionFromLemmaB
+import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle019
 import Formalism.SharpRestriction.CuspSpanNormBounds.LeadMinorK
-import Formalism.SharpRestriction.CuspSpanNormBounds.OnePlaceEstimates
+import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle010
 import Formalism.SharpRestriction.CuspSpanNormBounds.TheoremBConstants
 
 @[expose] public section

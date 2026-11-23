@@ -1,7 +1,7 @@
 module
 
-public import Development.EtaleCohomology.KummerTheory.FinalTheorems
-public import Development.EtaleCohomology.KummerTheory.LHCutGlue
+public import Development.EtaleCohomology.KummerTheory.Bundle001
+public import Development.EtaleCohomology.KummerTheory.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

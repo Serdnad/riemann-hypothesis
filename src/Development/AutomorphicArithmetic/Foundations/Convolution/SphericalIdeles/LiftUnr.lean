@@ -4,7 +4,7 @@ public import Development.AutomorphicArithmetic.Foundations.Convolution.Spherica
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsIrreducibleFixed
 public import Development.AutomorphicArithmetic.Foundations.Convolution.Cbcc
 public import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalIdeles.CbcSph
-public import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalIdeles.NormRam
+public import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalIdeles.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

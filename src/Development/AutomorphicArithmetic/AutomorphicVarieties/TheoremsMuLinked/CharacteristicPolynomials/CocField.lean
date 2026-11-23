@@ -2,8 +2,8 @@ module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.DirichletPrimeToLPartMulLPowerPart
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.WeilGroupCharacters.UniversalOrdinaryDeterminantRing
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CompactGroupRepDefinedOverFiniteExtension
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.SoCoefOf
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle156
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

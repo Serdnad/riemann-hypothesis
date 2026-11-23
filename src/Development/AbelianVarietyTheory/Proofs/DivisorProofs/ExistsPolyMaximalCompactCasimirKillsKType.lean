@@ -49,8 +49,8 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.Divisors.CentralNilGL
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EqZeroOfMemWeakIn
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle024
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1298
 
 @[expose] public section
 

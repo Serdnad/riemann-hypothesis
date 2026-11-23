@@ -1,22 +1,22 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.LevChiEqOne
+public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.Bundle018
 public import Formalism.LocalToGlobal.Columns.Adelic
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.StepZeroTwistReferenceTupleEqId
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsAdeleEquivFin
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.MemIffOfCarries
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle116
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle117
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.PolOfFnOfOne
 import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.KmapOfOkOfVecP
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsIsDetRootFinPartOne
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.BaseFieldsPrimesOk
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CouplingCosetInFramesPreimageUnderLift
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.DetMulConjDet
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsIsPtOfOfRat
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle817
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle290
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle476
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle326
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle474
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FinAfMemIntUIff
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LevOkTwists
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle329
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LocalMoveClassRepIffLocalConditions
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ValDetSubOneLt
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ValuedCompAtDetIdl
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle328
 import Formalism.LocalToGlobal.UnitaryNorms.CharUniq
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -53,7 +53,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-import Development.AbelianVarietyTheory.Definitions.LatticeFrames.FiniteDimensionalMram
+import Development.AbelianVarietyTheory.Definitions.LatticeFrames.Bundle004
 
 @[expose] public section
 
@@ -68,7 +68,7 @@ noncomputable section
 namespace GlobalTheory.AdForm.MovedLaw
 
 section Rat
-open Formalism.L2.DIV Formalism.L2.Col
+open Formalism.L2.DIV _root_.Formalism.L2.Col
 variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] {n : ℕ}
 
 def ratAt (F : Type) [Field F] [NumberField F] [Algebra F E] (n : ℕ) (P : HeightOneSpectrum (𝓞 E)) : Subgroup (GL (Fin n) (AfE F E)) :=
@@ -100,7 +100,7 @@ theorem ratAt_of_pt [StarRing E] {hc : Formalism.BasicNotions.CMData F E} {ST SG
 end Rat
 
 section Step
-open Formalism.L2.DIV Formalism.L2.Col
+open Formalism.L2.DIV _root_.Formalism.L2.Col
 attribute [local instance] GlobalTheory.Mem.Col2.starE
 variable {B : Base} {X : PreX B.toPre} {I : TC B X}
 
@@ -135,7 +135,7 @@ theorem cosetIn_act_congr (hI : I.Ok) {u : B.Word} {a : I.ι} {j : ℕ} {b : (I.
 end Step
 
 section Main
-open Formalism.L2.DIV Formalism.L2.Col
+open Formalism.L2.DIV _root_.Formalism.L2.Col
 attribute [local instance] GlobalTheory.Mem.Col2.starE
 variable {B : Base} {X : PreX B.toPre} {I : TC B X}
 

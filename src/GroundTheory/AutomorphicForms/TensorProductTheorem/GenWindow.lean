@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.AutomorphicForms.TensorProductTheorem.Operators
+public import GroundTheory.AutomorphicForms.TensorProductTheorem.Bundle001
 public import Mathlib.Order.CompletePartialOrder
 public import Mathlib.RepresentationTheory.Irreducible
 import Mathlib.Algebra.Order.Floor.Extended

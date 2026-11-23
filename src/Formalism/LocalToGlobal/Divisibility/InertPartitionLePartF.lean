@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.Divisibility.InertRationalAdjoint
+public import Formalism.LocalToGlobal.Divisibility.Bundle002
 public import Formalism.LocalToGlobal.Divisibility.FramesLemmas
 public import Formalism.LocalToGlobal.Divisibility.ProjLemmas
 public import Formalism.LocalToGlobal.Divisibility.RowLatLemmas

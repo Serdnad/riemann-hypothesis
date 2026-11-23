@@ -1,7 +1,7 @@
 module
 
 public import Formalism.HermitianCurvature.WeylElementCommutesLevelOne
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TailIntegrals.MatExtBvec
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TailIntegrals.Bundle008
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

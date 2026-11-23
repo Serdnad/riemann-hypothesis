@@ -1,13 +1,13 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.DualFockLinear.BaseMatrixAlgebra
+public import Formalism.SharpRestriction.GrowthBounds.DualFockLinear.Bundle014
 public import Formalism.LocalToGlobal.GroupLattices.FockModels.TransposeWords.TransposeWordsProofs.FormSK
 public import Formalism.LocalToGlobal.GroupLattices.FockModels.TransposeWords.TransposeWordsProofs.ProdBlockEmbMonomial
-public import Formalism.SharpRestriction.GrowthBounds.DualFockLinear.FockRAddRight
+public import Formalism.SharpRestriction.GrowthBounds.DualFockLinear.Bundle011
 public import Formalism.SharpRestriction.GrowthBounds.DualFockLinear.JetMatrixAlgebra
 public import Formalism.SharpRestriction.GrowthBounds.DualFockLinear.RestrictedWeightFirstTwoEq
-public import Formalism.SharpRestriction.GrowthBounds.DualFockLinear.WspanLeOpCl
-import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.RankMulConductorDivLeOne
+public import Formalism.SharpRestriction.GrowthBounds.DualFockLinear.Bundle012
+import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

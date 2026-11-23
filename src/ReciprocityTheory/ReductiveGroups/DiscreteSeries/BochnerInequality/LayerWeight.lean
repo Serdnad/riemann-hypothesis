@@ -50,7 +50,7 @@ import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.BochnerInequality.BigRep
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.BochnerInequality.LayerBasic
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.BochnerInequality.LayerOrth
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.BochnerInequality.Bundle002
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.BochnerInequality.PositionPrependMemNoncompactPositionSubmodule
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.BochnerInequality.Weights
 

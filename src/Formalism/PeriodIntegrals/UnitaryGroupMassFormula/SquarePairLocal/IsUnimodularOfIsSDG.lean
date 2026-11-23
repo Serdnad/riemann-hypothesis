@@ -1,10 +1,10 @@
 module
 
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.SquarePairLocal.SqPairLocalOfSteps
-public import Formalism.PeriodIntegrals.UnimodGenus
+public import Formalism.PeriodIntegrals.Bundle001
 public import Mathlib.Algebra.Module.Lattice.Full
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.UnimodGenus
-import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.UnimodularGenus.StdLatEqSpan
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle020
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.UnimodularGenus.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

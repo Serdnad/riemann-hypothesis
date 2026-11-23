@@ -1,9 +1,9 @@
 module
 
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.WeightedLimitGauge.HaarUniq
-public import Formalism.PeriodIntegrals.QuotInv
+public import Formalism.PeriodIntegrals.Bundle004
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HasDensityAtIdentityUnitaryGroupProbability
-import Development.AbelianVarietyTheory.Proofs.JetHarmonics.MatGroupHaarUniqueFiniteCompactOpenPos
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle047
 import Mathlib.Algebra.Order.Archimedean.Real.Hom
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

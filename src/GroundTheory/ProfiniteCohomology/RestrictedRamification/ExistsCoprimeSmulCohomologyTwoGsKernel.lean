@@ -1,8 +1,8 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.CupDecompositionGlobal
+public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.Bundle005
 public import GroundTheory.ProfiniteCohomology.RestrictedRamification.BrauerDefs
-import GroundTheory.ProfiniteCohomology.Colimit
+import GroundTheory.ProfiniteCohomology.Bundle007
 public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.RealPlaces
 public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.Splitting
 public import GroundTheory.ProfiniteCohomology.RestrictedRamification.BrauerSplit

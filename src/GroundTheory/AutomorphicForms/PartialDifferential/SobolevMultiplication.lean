@@ -1,11 +1,9 @@
 module
 
 public import GroundTheory.AutomorphicForms.PartialDifferential.Sobolev
-public import GroundTheory.AutomorphicForms.HilbertSchmidtKernel
-public import GroundTheory.AutomorphicForms.PartialDifferential.SobolevDuality
-public import GroundTheory.AutomorphicForms.PartialDifferential.SobolevInterpolation
-public import GroundTheory.AutomorphicForms.PartialDifferential.SobolevMollifier
-public import GroundTheory.AutomorphicForms.PartialDifferential.SobolevRellich
+public import GroundTheory.AutomorphicForms.Bundle003
+public import GroundTheory.AutomorphicForms.PartialDifferential.Bundle002
+public import GroundTheory.AutomorphicForms.PartialDifferential.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,15 +1,14 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.DiscreteSeriesHermitianUnique
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AddCharNegEqOne
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CharacterTrivialMatrixLatticeOpenCompactBasisStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EqSmulOfCommuteHeisenbergLinearModelSchwartzBruh
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsFinsetEqSumAddCosetIndicatorStatement
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsOpenSubgroupPeriodicStatement
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle055
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle015
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle272
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle402
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle343
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LinearWeilFunctionalUnramifiedVector
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SchrodingerPreservesSchwartzBruhat
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SchroedingerOperatorHeisenbergInnerPreserving
-import GroundTheory.GlobalFields.LocalAtPlace
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1903
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1483
+import GroundTheory.GlobalFields.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -45,7 +44,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LatAtVAtStable
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1874
 
 @[expose] public section
 

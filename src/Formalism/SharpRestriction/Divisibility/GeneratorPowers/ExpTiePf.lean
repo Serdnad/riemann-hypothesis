@@ -1,11 +1,11 @@
 module
 
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ExpTie
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.CIndBCNab
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle009
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle015
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ExpTieAlg
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ExpTieGerm
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle007
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.FBIdJet
-import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermDVal
+import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle005
 import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermFunPf
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

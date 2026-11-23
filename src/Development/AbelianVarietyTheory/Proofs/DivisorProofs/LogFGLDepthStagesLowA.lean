@@ -1,13 +1,11 @@
 module
 
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.WeightedSumBounds.RootStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LogFGLDepthStagesLowAImports
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GluedBlocksMulInvIntegralUnitDetStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RebasedTypicalCurvesIsBasisStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RootExtractionLemmaSheafStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RootTrickFinsetCurvesBlockInverseStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SpanTangentOfTypeStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TypicalCurvesTangentAndBasesStatement
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.WeightedSumBounds.Bundle003
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle219
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle357
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle587
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle588
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle536
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

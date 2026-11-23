@@ -2,8 +2,8 @@ module
 
 public import Formalism.LocalToGlobal.CMDeterminantIdeals.DetIdeal
 public import Mathlib.RingTheory.DedekindDomain.AdicValuation.Valuation
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsLieBasis
-public import ReciprocityTheory.SemistableReduction.LatSemiSt
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle004
+public import ReciprocityTheory.SemistableReduction.Bundle010
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

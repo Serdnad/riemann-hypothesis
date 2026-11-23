@@ -2,7 +2,7 @@ module
 
 public import GroundTheory.LocalFields.ExistsUnitFiltrationUnitsLeRangeNormUnits
 public import GroundTheory.LocalFields.MaximalAbelianExtension
-public import GroundTheory.LocalFields.Existence
+public import GroundTheory.LocalFields.Bundle012
 import GroundTheory.LocalFields.ExistenceDictionary
 public import GroundTheory.LocalFields.LocalReciprocityUniversal
 import Mathlib.Algebra.Order.Floor.Extended

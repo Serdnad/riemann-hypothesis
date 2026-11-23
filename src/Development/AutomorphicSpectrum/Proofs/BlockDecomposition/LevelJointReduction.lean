@@ -1,12 +1,12 @@
 module
 
-public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.UnramifiedWhittaker.CProps
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ResAlgSplitTwo
+public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.UnramifiedWhittaker.Bundle002
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle032
 import Aesop.Main
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LatticeVolumeUnramifiedStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LevelCharactersUnramifiedStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SeriesEqDens
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.UnramifiedQuotientCardStatement
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle599
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle592
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle133
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle065
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

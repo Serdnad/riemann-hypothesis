@@ -1,8 +1,8 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsRootSelectionUnitaryRankOne
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FrobQFixedMemRange
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SemilinearFixedSpan
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1409
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle092
 import Mathlib.Algebra.Lie.OfAssociative
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

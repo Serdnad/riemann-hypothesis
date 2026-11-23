@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.ClassMapEstimateOfPartial
+public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.Bundle005
 public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.FormsExtendHolds
 public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.NormBoundHolds
 import Formalism.LocalToGlobal.GlobalTheory.BlockActions.SymmetricClausesOfFormsNorm

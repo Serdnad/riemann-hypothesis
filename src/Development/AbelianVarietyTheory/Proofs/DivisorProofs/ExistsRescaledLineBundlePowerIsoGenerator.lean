@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.WchartCompLe
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle535
 public import Mathlib.Tactic.ENatToNat
 public import Mathlib.Tactic.Monotonicity.Lemmas
 import Mathlib.Algebra.Order.Floor.Extended
@@ -44,7 +44,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
-import Development.AbelianVarietyTheory.Definitions.Divisors.NonemptyHomFixRepTrivial
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle007
 
 @[expose] public section
 

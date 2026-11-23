@@ -46,7 +46,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.OnePlaceKF
+import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle011
 
 @[expose] public section
 

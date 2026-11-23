@@ -3,12 +3,12 @@ module
 public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.IntegralConjInnerMulInnerOfIsEmptyEquiv
 public import Formalism.GradedWeylDivisibility.DualWeylDominanceOf
 public import Formalism.GradedWeylDivisibility.FinalD
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LBidetMinor
+public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle005
 public import Formalism.LocalToGlobal.Divisibility.CoefMod
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ActPMemLocPNabStdOfIsBasisAt
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle211
 import Formalism.GradedWeylDivisibility.FinalC
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.BideterminantMem
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LDlatLemmas
+import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle009
+import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle011
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

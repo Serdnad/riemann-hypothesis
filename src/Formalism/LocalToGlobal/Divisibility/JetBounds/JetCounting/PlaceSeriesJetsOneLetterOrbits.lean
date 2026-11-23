@@ -43,7 +43,7 @@ import Mathlib.Topology.Sheaves.Init
 public import Formalism.LocalToGlobal.TorsionIntegrality.GaussianEigenFrames.IsPairFrame
 public import Formalism.LocalToGlobal.TorsionIntegrality.GaussianEigenFrames.StatementC
 import Formalism.LocalToGlobal.TorsionIntegrality.GaussianEigenFrames.StatementG
-public import Formalism.LocalToGlobal.TorsionIntegrality.TorsionTranslationPowers.StatementW
+public import Formalism.LocalToGlobal.TorsionIntegrality.TorsionTranslationPowers.Bundle001
 
 @[expose] public section
 

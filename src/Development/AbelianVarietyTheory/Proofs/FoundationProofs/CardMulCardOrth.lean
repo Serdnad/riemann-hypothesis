@@ -1,12 +1,12 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IdxEqRelIndex
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle235
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.HESmulRight
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.AbsNormCmPrimeInertPrimeSignStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsTraceOneIntegerConjDiffPrimeTo
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle254
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle248
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.FinsumNormNeg
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.FrameEmbeddingUniqueFixedStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.SumCompSurjective
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle271
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

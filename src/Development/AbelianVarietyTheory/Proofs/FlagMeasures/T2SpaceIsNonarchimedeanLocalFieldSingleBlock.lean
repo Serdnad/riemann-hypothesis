@@ -1,7 +1,7 @@
 module
 
-import Development.WeilBound.CoreStatements.SesquilinearFractions.NIdeal
-public import Formalism.SharpRestriction.CuspSpanNormBounds.PsiEDef
+import Development.WeilBound.CoreStatements.SesquilinearFractions.Bundle001
+public import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle001
 public import Mathlib.NumberTheory.Padics.Complex
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended

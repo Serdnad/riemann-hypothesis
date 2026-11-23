@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalToGlobal.IndefiniteReal.RealSeparation.FramesOKg2
-public import Formalism.LocalToGlobal.IndefiniteReal.FrameExistence.FramesExistGOfFramesExist
+public import Formalism.LocalToGlobal.IndefiniteReal.FrameExistence.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

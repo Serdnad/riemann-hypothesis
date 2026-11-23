@@ -1,8 +1,8 @@
 module
 
-public import ReciprocityTheory.SemistableReduction.TorsionNonvanishStatement
+public import ReciprocityTheory.SemistableReduction.Bundle002
 public import Mathlib.LinearAlgebra.BilinearForm.TensorProduct
-public import Development.AbelianVarietyTheory.Proofs.HermitianTraceForms.Imports
+public import Development.AbelianVarietyTheory.Proofs.HermitianTraceForms.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

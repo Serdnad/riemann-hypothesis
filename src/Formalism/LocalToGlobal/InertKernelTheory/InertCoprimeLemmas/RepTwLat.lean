@@ -40,9 +40,9 @@ import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 import Formalism.LocalToGlobal.InertKernelTheory.DefsRepFrame
 import Formalism.LocalToGlobal.KernelLattices.XiIndCClass
-public import Formalism.SharpRestriction.GrowthBounds.DataGChain
+public import Formalism.SharpRestriction.GrowthBounds.Bundle002
 public import Formalism.SharpRestriction.GrowthBounds.FormalGroupSystem
-import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.DescentCore
+import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle001
 
 @[expose] public section
 

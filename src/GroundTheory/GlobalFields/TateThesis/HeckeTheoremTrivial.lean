@@ -1,8 +1,8 @@
 module
 
-public import GroundTheory.GlobalFields.TateThesis.EulerFactors
+public import GroundTheory.GlobalFields.TateThesis.Bundle009
 public import GroundTheory.GlobalFields.TateThesis.IdeleMeasureQuotient
-public import GroundTheory.GlobalFields.TateThesis.EulerFactorsInverse
+public import GroundTheory.GlobalFields.TateThesis.Bundle008
 public import GroundTheory.GlobalFields.TateThesis.TateTheta
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

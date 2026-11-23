@@ -3,9 +3,8 @@ module
 public import CompanionTheory.AutomorphicTheory.HeckeStandardModules.EqZeroOfCompAt
 public import Formalism.LocalToGlobal.GaloisLevelStructure.DefsAut
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Levelaf
-public import Formalism.SatakeDualWeyl.StatementE
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.CmFieldAdeleSplitPlaceSupportIntegral
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsIntegerUnitSplitPlaceConjugatePrime
+public import Formalism.SatakeDualWeyl.Bundle001
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle016
 public import Formalism.SatakeDualWeyl.KpqSubgroupCompact
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

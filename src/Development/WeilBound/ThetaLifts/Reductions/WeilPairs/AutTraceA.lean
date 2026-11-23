@@ -1,11 +1,11 @@
 module
 
-public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.AutDef
+public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.Bundle003
 public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.GoodLat
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HeisenbergCMRealLineAddNoPhase
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.StandardTraceAddCharIsStandardCharOfAdmissibleCM
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.UnfoldPoincareSeriesLatticeFourierStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.SumOpTransversal
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1201
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1602
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle201
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle034
 public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.AutLat
 public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.AutSer
 import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.ContinuousTheta

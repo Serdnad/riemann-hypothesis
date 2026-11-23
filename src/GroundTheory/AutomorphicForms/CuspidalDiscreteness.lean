@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.AutomorphicForms.CuspidalDiscreteness.CuspCompact
+public import GroundTheory.AutomorphicForms.CuspidalDiscreteness.Bundle001
 public import GroundTheory.AutomorphicForms.CuspidalDiscreteness.DecayUniform
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

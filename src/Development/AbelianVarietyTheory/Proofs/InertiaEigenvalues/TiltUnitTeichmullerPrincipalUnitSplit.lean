@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.AcrisEqZeroOfForallDvd
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle263
 import Development.AbelianVarietyTheory.CrystallinePeriods.RingBasics
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.UntiltNormUltrametricEqZero
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsTiltRootOfUnity
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle224
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle113
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

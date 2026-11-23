@@ -1,9 +1,9 @@
 module
 
-public import ReciprocityTheory.GroupCohomology.InfRes
-public import ReciprocityTheory.ClassFieldTheory.LocalClassField.KbarRepContAction
-public import ReciprocityTheory.ClassFieldTheory.LocalClassField.UnrDefs
-public import ReciprocityTheory.ClassFieldTheory.LocalClassField.QZDefs
+public import ReciprocityTheory.GroupCohomology.Bundle004
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.Bundle005
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.Bundle004
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.Bundle003
 public import Mathlib.Analysis.SpecialFunctions.Log.Base
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

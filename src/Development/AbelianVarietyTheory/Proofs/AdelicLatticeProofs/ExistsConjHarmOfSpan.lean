@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.AdelicHermitianForms.AdelicPair
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsEnergyMin
-import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsIsHermitianLogOfPosDefGram
+public import Development.AbelianVarietyTheory.Definitions.AdelicHermitianForms.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle032
+import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle006
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.HermitianLogTraceSqFirstVariationBound
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

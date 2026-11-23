@@ -7,7 +7,7 @@ public import Mathlib.NumberTheory.Padics.PadicNumbers
 public import Mathlib.RingTheory.AdicCompletion.Algebra
 public import Mathlib.RingTheory.DiscreteValuationRing.Basic
 public import Mathlib.Topology.Algebra.Valued.NormedValued
-public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.PowLeComapMapPow
+public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

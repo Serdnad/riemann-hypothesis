@@ -1,6 +1,6 @@
 module
 
-public import Formalism.SmithDeterminants.StatementDVR
+public import Formalism.SmithDeterminants.Bundle001
 public import Formalism.SmithDeterminants.DivisibilityChains.SmithExists
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

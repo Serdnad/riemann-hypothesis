@@ -454,7 +454,7 @@ theorem pp_pull [NeZero n] [IsDomain O] (hinj : Function.Injective (algebraMap O
         rw [← hzc, Relay2.mapA_smul, ← hh₀, smul_comm]
       have hh₀Δ : h₀ ∈ W.AΔ := fun δ hδ => by
         have e1 : (W.γA δ h₀ - h₀) • e = 0 := by
-          rw [sub_smul, ← heγ δ, ← γD_smulA, heγ δ, hh₀, ← W.map_γ, hz.1.2 δ hδ, sub_self]
+          rw [sub_smul, ← heγ δ, ← _root_.Formalism.MainNotions.WachCoordinates.Br.γD_smulA, heγ δ, hh₀, ← W.map_γ, hz.1.2 δ hδ, sub_self]
         exact sub_eq_zero.1 (htf _ e1)
 
       have hnπ : W.map π (W.π₀ ^ 0 • (g • z - h₀ • y)) = 0 := by
@@ -535,7 +535,7 @@ theorem cutData_of [NeZero n] [IsDomain O] (hinj : Function.Injective (algebraMa
     obtain ⟨z₁, hz₁N, hz₁π⟩ := hK c hc _ hy0N (fun δ _ => hy0Δ δ)
     rw [LinearMap.restrictScalars_apply] at hz₁π
     obtain ⟨y₁, hy₁, hy₁π⟩ := lift_avg W (hΔu hCA) π c hz₁N hz₁π (fun δ _ => by
-      rw [γD_smulA, hy0Δ]; simp [Formalism.MainNotions.LiftingTheory.lp])
+      rw [_root_.Formalism.MainNotions.WachCoordinates.Br.γD_smulA, hy0Δ]; simp [Formalism.MainNotions.LiftingTheory.lp])
     have h1 := pp_pull W hinj hone.1 hY hmid hinjι hπι h6d heSpan heφ heγ c
       (W.AΔ.pow_mem (Relay2.lA_mem W) rr) hy₁ hy₁π e' z hz
     rw [Split.φA_pow_lA] at h1
@@ -556,7 +556,7 @@ theorem cutData_of [NeZero n] [IsDomain O] (hinj : Function.Injective (algebraMa
         W.π₀ ^ H • ((letE c : LetA O n) • e) := by
       rw [Relay2.mapA_smul, hz₂π, smul_smul, ← hπ₀H]
     obtain ⟨y₂, hy₂, hy₂π⟩ := lift_avg W (hΔu hCA) π c ((W.Nl Y c).smul_mem _ hz₂N) hz₂'
-      (fun δ hδ => by rw [γD_smulA, hy0Δ, (W.AΔ.pow_mem hπ H) δ hδ])
+      (fun δ hδ => by rw [_root_.Formalism.MainNotions.WachCoordinates.Br.γD_smulA, hy0Δ, (W.AΔ.pow_mem hπ H) δ hδ])
     have h2 := pp_pull W hinj hone.1 hY hmid hinjι hπι h6d heSpan heφ heγ c
       (W.AΔ.pow_mem hπ H) hy₂ hy₂π e' z hz
 
@@ -612,7 +612,7 @@ theorem cutData_of [NeZero n] [IsDomain O] (hinj : Function.Injective (algebraMa
     have hxπ : W.map π x = (b * ((PD.p : ℕ) : O) ^ rr) • ((letE c : LetA O n) • e) := by
       have h1 : ∀ g ∈ W.DelF, W.map π (W.γD Y g x') =
           Formalism.MainNotions.LiftingTheory.lp W rr • ((letE c : LetA O n) • e) := fun g _ => by
-        rw [W.map_γ, hx'π, γD_smulA, hy0Δ]
+        rw [W.map_γ, hx'π, _root_.Formalism.MainNotions.WachCoordinates.Br.γD_smulA, hy0Δ]
         simp [Formalism.MainNotions.LiftingTheory.lp]
 
       rw [hxdef, LinearMap.map_smul_of_tower, hs, map_sum, Finset.sum_congr rfl h1, Finset.sum_const,

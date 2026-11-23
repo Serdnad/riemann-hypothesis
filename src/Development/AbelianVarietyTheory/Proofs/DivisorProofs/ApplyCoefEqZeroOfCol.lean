@@ -1,8 +1,8 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CoefHomGenHomMonomial
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.BaseChange
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsUniqueDualWeylWeightProjector
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle859
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle861
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.JointRowWeightAntitoneOfMaxPotential
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

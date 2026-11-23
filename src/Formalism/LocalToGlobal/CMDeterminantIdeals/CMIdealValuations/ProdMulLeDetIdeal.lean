@@ -1,7 +1,7 @@
 module
 
-public import Formalism.LocalToGlobal.CMDeterminantIdeals.StatementA
-public import ReciprocityTheory.SemistableReduction.LatSemiSt
+public import Formalism.LocalToGlobal.CMDeterminantIdeals.Bundle001
+public import ReciprocityTheory.SemistableReduction.Bundle010
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,13 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.IsLieDataCircle
-public import Formalism.RealPlaceAnalysis.StatementA
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.BicommutantTensorFactorPermMemSpanStatement
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.CommutantLiftModStableSelfAdjointStatement
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.CommutatorGlGeneratorTensorWordMapMatrixUnitsStatement
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.MemAdjoinGlActionOfCommuteTensorPermStatement
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.PermutationWordGelfandPolynomialModShorterStatement
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.PolarConjTranspose
+public import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle003
+public import Formalism.RealPlaceAnalysis.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle008
+public import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle009
+public import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle014
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

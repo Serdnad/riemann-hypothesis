@@ -3,9 +3,8 @@ module
 public import Development.AutomorphicArithmetic.Foundations.Convolution.PowerSumTraces.SummandFactor
 import Development.AbelianVarietyTheory.Definitions.Divisors.T2SpaceGeneralLinearGroup
 public import Development.WeilBound.CuspidalAdmissibility.CuspProjectionOrthogonality
-public import Development.WeilBound.CuspidalAdmissibility.OccPair
-public import Development.WeilBound.CuspidalAdmissibility.OccTrace
-import GroundTheory.GlobalFields.LocalAtPlace
+public import Development.WeilBound.CuspidalAdmissibility.Bundle001
+import GroundTheory.GlobalFields.Bundle001
 import GroundTheory.LocalFields.PadicLogSeries
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -171,3 +170,20 @@ theorem PositivityTheory.TfC.OccursBasics_holds : UpperTheory.ConvolutionTheory.
   · intro σ h φ hφ
     obtain ⟨A, hA, hAf⟩ := exists_integralOp_of_admissible m σ.ρ (key σ h).1 φ hφ.1 hφ.2
     exact ⟨_, A, hA, hAf, rfl⟩
+
+end
+end
+
+section
+
+@[expose] public section
+
+open MeasureTheory NumberField IsDedekindDomain Filter GroundTheory.Automorphic GroundTheory.Automorphic.Reduction GroundTheory.Automorphic.RightCosetSpace
+open GroundTheory.Automorphic.CuspidalSpectrum GlobalTheory.IndefiniteRowSideFullHecke.IwahoriDoubleCosets GlobalTheory.PRep Formalism.BasicNotions GlobalTheory.CuspRep GlobalTheory.SmGL UpperTheory.ConvolutionTheory UpperTheory.ConvolutionTheory.C
+
+theorem UpperTheory.ConvolutionTheory.C.occursBasics :
+    UpperTheory.ConvolutionTheory.C.OccursBasics := by
+  exact PositivityTheory.TfC.OccursBasics_holds
+
+end
+end

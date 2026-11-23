@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.NonemptyInvFunEquiv
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsPiTensorMvPolynomialProdEquivStatement
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle143
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle169
 import Formalism.GradedWeylDivisibility.DualWeylDominanceOf
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -108,7 +108,7 @@ theorem iso_span_orbit {G V W : Type} [Monoid G] [AddCommGroup V] [Module ℂ V]
     (ρ : Representation ℂ G V) (σ : Representation ℂ G W) (χ : G →* ℂˣ) (j : V →ₗ[ℂ] W) (hj : Function.Injective j)
     (he : ∀ g x, j (ρ g x) = (χ g : ℂ) • σ g (j x)) (v : V)
     (hv : Submodule.span ℂ (Set.range fun g : G => ρ g v) = ⊤) (w : W) (hw : j v = w) :
-    Iso ρ (twist χ (Representation.subrepresentation σ (Submodule.span ℂ (Set.range fun g : G => σ g w))
+    Iso ρ (GlobalTheory.IndefiniteRowSideFullHecke.MinorOrderedEntries.twist χ (Representation.subrepresentation σ (Submodule.span ℂ (Set.range fun g : G => σ g w))
       (span_orbit_le σ w))) := by
   have hjS : ∀ x, j x ∈ Submodule.span ℂ (Set.range fun g : G => σ g w) := by
     have hle : Submodule.span ℂ (Set.range fun g : G => ρ g v) ≤

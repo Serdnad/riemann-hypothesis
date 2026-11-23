@@ -2,10 +2,10 @@ module
 
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.PerfectoidPullbacks.FrobeniusFactorisation.ExistsAlpha
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.PerfectoidPullbacks.FrobeniusFactorisation.NuPull
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.BoundedCokernelLimitToLevelStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FiniteLengthOfLseqFirstStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LimitDivisibleOfVanishingLevelStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ModuleFiniteLimitOfLseqStatement
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle127
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle114
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle126
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle162
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.PerfectoidPullbacks.LocalSystemQuotients.LsSeqEq
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.PerfectoidPullbacks.LocalSystemQuotients.SmoothModelFiniteLengthLink
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.PerfectoidPullbacks.PeriodBaseChange.BcTens
@@ -90,6 +90,8 @@ theorem pin_all (M : Model l K) (j : ℕ) : ∃ (e : ℕ) (α : (sH r M j).lim �
   obtain ⟨E⟩ := LsG.ls_seq r M hM j
   have ha : ∀ n, IsArtinian (WittVector l r.k) ((HSW r M j).M n) := fun n =>
     (isFiniteLength_iff_isNoetherian_isArtinian.1 (GlobalTheory.T.finite_length_of_lseq_first _ l _ _ E (smooth_model_finite_length_link r M hM j) n)).2
+  haveI : IsDiscreteValuationRing (WittVector l r.k) := WittVector.isDiscreteValuationRing
+  haveI : IsNoetherianRing (WittVector l r.k) := PrincipalIdealRing.isNoetherianRing
   obtain ⟨c, hc⟩ := GlobalTheory.T.bounded_cokernel_limit_to_level _ l _ _ E ha (lw_fin r M hM (j + 1))
   have := flatW r
   have : IsAdicComplete (Ideal.span {(l : AW r)}) (AW r) := adicA

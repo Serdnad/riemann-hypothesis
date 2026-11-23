@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.RowFrameCoherence.LiftRowCoh
+public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.RowFrameCoherence.Bundle002
 import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedVolumeStatements.GenericRatioOfBoundHolds
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.RelativeEquivalence.DCRelEquivAllHolds
 import Mathlib.Algebra.Order.Floor.Extended
@@ -244,9 +244,9 @@ theorem liftTransNeed_of (hR : RatPtNeed X) (hTR : ToTermRel X u u' (X.Fu u) (X.
       rw [hinv] at this
       exact this
     have hwo : w ∈ orth (VS D) A := by
-      rw [mem_orth_iff]
+      rw [_root_.PI.DCRelEquiv.UnitaryGroupMassFormula.mem_orth_iff]
       intro a ha
-      have h0 := (mem_orth_iff.1 hx'.2) (s.lin a) (by
+      have h0 := (_root_.PI.DCRelEquiv.UnitaryGroupMassFormula.mem_orth_iff.1 hx'.2) (s.lin a) (by
         show s.lin a ∈ Xsp (mapLF s.lin (lf D (X.Fu u')))
         rw [liftT_xsp_mapLF _ hγi]
         exact Submodule.mem_map_of_mem ha)

@@ -1,14 +1,14 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.ResBound
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle009
 public import Formalism.SharpRestriction.LevelLetterCocycles.LocCoh
 public import Mathlib.LinearAlgebra.Charpoly.Basic
 public import Mathlib.RingTheory.Coalgebra.IsFrobenius
 public import Mathlib.RingTheory.HopfAlgebra.Basic
 public import Mathlib.RingTheory.TotallySplit
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsIntegralOfNormLeOne
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle194
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.AdmissibleStd
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.GoodCoefficientRingPadicIntegersFinExt
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle281
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsCrystallineIffMemH1f
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SameSSModRepLatRepIff
 import Mathlib.Algebra.Order.Floor.Extended

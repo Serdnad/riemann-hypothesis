@@ -2,12 +2,12 @@ module
 
 public import Development.WeilBound.ThetaLifts.SmallCones.ConstantTermRationalUnipotentInvariant
 public import Development.WeilBound.ThetaLifts.CTKernel
-public import Development.WeilBound.ThetaLifts.TowerModels.PlaneHerm
-import Development.WeilBound.ThetaLifts.LeviDeterminants.MixedModels.PlaneAd
+public import Development.WeilBound.ThetaLifts.TowerModels.Bundle003
+import Development.WeilBound.ThetaLifts.LeviDeterminants.MixedModels.Bundle001
 public import Development.WeilBound.ThetaLifts.SmallCones.ContinuousEvI
 import Development.WeilBound.ThetaLifts.SmallCones.ExpAlg
-import Development.WeilBound.ThetaLifts.SmallCones.FourierUniq
-import Development.WeilBound.ThetaLifts.SmallCones.KerUni
+import Development.WeilBound.ThetaLifts.SmallCones.Bundle007
+import Development.WeilBound.ThetaLifts.SmallCones.Bundle009
 import Development.WeilBound.ThetaLifts.SmallCones.MatCancel
 public import Development.WeilBound.ThetaLifts.SmallCones.ThetaKernelGeneralIdentity
 import Mathlib.Algebra.Order.Floor.Extended

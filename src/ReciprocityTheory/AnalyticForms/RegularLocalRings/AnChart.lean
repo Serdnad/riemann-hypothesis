@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.AnalyticForms.RegularLocalRings.JacChart
+public import ReciprocityTheory.AnalyticForms.RegularLocalRings.Bundle005
 public import Mathlib.Analysis.Analytic.Basic
 public import Mathlib.Analysis.CStarAlgebra.Classes
 import Mathlib.Algebra.Order.Floor.Extended
@@ -48,8 +48,8 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 public import Mathlib.Topology.Algebra.MvPolynomial
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.AnalyticForms.AnalyticCharts.ExistsAnalyticGraphChartMvPolynomial
-public import ReciprocityTheory.AnalyticForms.RegularLocalRings.AnChartA
+public import ReciprocityTheory.AnalyticForms.AnalyticCharts.Bundle001
+public import ReciprocityTheory.AnalyticForms.RegularLocalRings.Bundle007
 public import Mathlib.Analysis.Analytic.ChangeOrigin
 public import Mathlib.Analysis.Analytic.Composition
 public import Mathlib.Analysis.Analytic.Constructions

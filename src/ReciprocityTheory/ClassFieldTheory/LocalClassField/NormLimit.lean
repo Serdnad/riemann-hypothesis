@@ -47,10 +47,10 @@ import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.ClassFieldTheory.LocalClassField.GabLim
 import ReciprocityTheory.ClassFieldTheory.LocalClassField.GalBasic
-public import ReciprocityTheory.ClassFieldTheory.LocalClassField.NormOpen
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.Bundle016
 import ReciprocityTheory.ClassFieldTheory.LocalClassField.NormOpenA
 public import ReciprocityTheory.ClassFieldTheory.LocalClassField.PairKEqZeroOfMemNormGrp
-import ReciprocityTheory.ClassFieldTheory.LocalClassField.ValUnitsA
+import ReciprocityTheory.ClassFieldTheory.LocalClassField.Bundle008
 
 @[expose] public section
 

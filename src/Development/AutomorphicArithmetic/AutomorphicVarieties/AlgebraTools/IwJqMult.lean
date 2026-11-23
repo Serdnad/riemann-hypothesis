@@ -3,8 +3,8 @@ module
 public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.ExistsCellOfIsSubquotient
 public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.HasFiniteLengthOfIsIrreducible
 public import Mathlib.LinearAlgebra.Eigenspace.Basic
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsCompactSubgroup
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.InSupportOfIsSubquotient
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle073
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle084
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -52,7 +52,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.HeckePairTop
+import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.Bundle017
 import Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.ContinuousTorusCharacter
 
 @[expose] public section

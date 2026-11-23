@@ -1,12 +1,12 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DivConstClosedPts
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AlgHomExtLocalization
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsEtaleFactorOfIndEtAtPrimeStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsStrictHenselisation
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IndEtaleLocalizedPiecesTrans
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle279
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle385
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle442
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle748
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle671
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsStrictHenselisationOfDirectedUnion
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TorsorsTrivialIff
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle280
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -107,7 +107,9 @@ private theorem exists_maximal_over_closedPt : ∀ (T E : Type) [CommRing T] [Is
     have := Ideal.isMaximal_comap_of_isIntegral_of_isMaximal' g hgint ⊥
     have heq : m.comap f = (⊥ : Ideal ((E ⧸ Q) ⧸ m)).comap g := by
       ext a
-      simp [g, Ideal.Quotient.eq_zero_iff_mem]
+      change f a ∈ m ↔ g a ∈ (⊥ : Ideal ((E ⧸ Q) ⧸ m))
+      rw [Ideal.mem_bot]
+      exact Ideal.Quotient.eq_zero_iff_mem.symm
     rw [heq]
     exact this
   have hcm0 : m.comap f ≠ ⊥ := by

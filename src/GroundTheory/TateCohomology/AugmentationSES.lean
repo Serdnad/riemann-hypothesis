@@ -1,9 +1,9 @@
 module
 
 public import GroundTheory.TateCohomology.TateConnecting
-public import GroundTheory.TateCohomology.Induced
+public import GroundTheory.TateCohomology.Bundle002
 public import Mathlib.RingTheory.Flat.Basic
-public import GroundTheory.TateCohomology.DimensionShift
+public import GroundTheory.TateCohomology.Bundle003
 public import GroundTheory.TateCohomology.InducedNorm
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

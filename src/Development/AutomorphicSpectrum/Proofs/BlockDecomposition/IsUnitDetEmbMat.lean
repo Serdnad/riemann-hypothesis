@@ -4,7 +4,7 @@ public import Formalism.WeaklyAdmissibleFiltrations.Statement
 public import Mathlib.RingTheory.SimpleRing.Principal
 public import Mathlib.RingTheory.Trace.Basic
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.EventuallyClosedOfDictClosed
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.SecondTwistSmallIffExactlyAtAndFinClause
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle081
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

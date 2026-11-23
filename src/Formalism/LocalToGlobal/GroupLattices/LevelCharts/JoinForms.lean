@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.HermitianForms.PsiZeroNontrivialCharacter
+public import Formalism.LocalToGlobal.HermitianForms.Bundle001
 public import Formalism.LocalToGlobal.GroupLattices.LevelCharts.SignBlockDeterminant
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,8 +1,8 @@
 module
 
-public import Formalism.LocalToGlobal.IndefiniteReal.IsometricPeriodsOfHypotheses
+public import Formalism.LocalToGlobal.IndefiniteReal.Bundle007
 public import Formalism.LocalToGlobal.Divisibility.RowLatLemmas
-import Formalism.LocalToGlobal.IndefiniteReal.CutPassage
+import Formalism.LocalToGlobal.IndefiniteReal.Bundle005
 import Formalism.LocalToGlobal.IndefiniteReal.CxLemmas
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

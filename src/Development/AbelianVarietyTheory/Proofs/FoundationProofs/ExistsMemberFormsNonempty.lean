@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalRingCardinality.SpanPowerMembership.FmZeroHLatEmpty
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsColumnChainNonempty
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle143
 public import Aesop.BuiltinRules
 public import Mathlib.Analysis.SpecialFunctions.Complex.CircleAddChar
 public import Mathlib.GroupTheory.Nilpotent

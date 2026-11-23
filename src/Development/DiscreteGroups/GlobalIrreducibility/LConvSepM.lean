@@ -1,7 +1,7 @@
 module
 
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsOpenAdditiveCharacterKernel
-public import Development.DiscreteGroups.GlobalIrreducibility.LConvCut
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle133
+public import Development.DiscreteGroups.GlobalIrreducibility.Bundle011
 public import GroundTheory.AutomorphicForms.GLnLocal
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.AlgebraMapIntertwiningMapBijectiveOfIsSmooth
 import Mathlib.Algebra.Order.Floor.Extended

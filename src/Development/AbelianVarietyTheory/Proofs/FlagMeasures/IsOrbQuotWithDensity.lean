@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Admissible
-public import Formalism.SharpRestriction.CuspSpanNormBounds.RootMeasBig
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle009
+public import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle004
 public import Formalism.FormalDegreeBessel.FormalDegreeRatio.UnitaryWeylNormalHolds
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.UnipotentCoordinatesMeasurePreserving
 import Mathlib.Algebra.Order.Floor.Extended

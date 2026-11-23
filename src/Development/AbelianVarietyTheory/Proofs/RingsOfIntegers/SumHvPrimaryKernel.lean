@@ -1,18 +1,17 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.PlaceAdaptation.AdaptStd
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.IsLocallyNoetherian
-public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.EqOfSqEqOfOdd
-public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.ExistsUniqueSymmetricTranslateOddLevel
-public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.FormalGroupPointsOfIntegralChartSpecStatement
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle023
+public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.Bundle053
+public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.Bundle042
 public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.InZhIffKillsAdapted
-public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.IntegralChartFormalBiextensionGaugeBoundStatement
-public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.KillsFormalPointsIffMemCoordinateKernelStatement
+public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.Bundle040
+public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.Bundle046
 public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.ReachedSectionRegularOnIntegralModelStatement
-public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.SplitKernelFormalGroupOfRationalTorsionStatement
-public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.SumHarmonicValuesFormalKernelSimilitudeStatement
-public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.SumSupportCMul
-import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.AllUniformizationLawsHold
+public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.Bundle051
+public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.Bundle058
+public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.Bundle036
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle127
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -51,7 +50,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.ShortPlaceB
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.Bundle005
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section
@@ -256,7 +255,7 @@ theorem exists_cpt {V : Type} [CommRing V] {d : ℕ} (v : Pt V 0 d) : ∃ δ : F
   refine ⟨fun i => MvPowerSeries.constantCoeff (v i), funext fun i => ?_⟩
   ext m
   obtain rfl : m = 0 := Subsingleton.elim _ _
-  simp [cpt]
+  simp [_root_.GlobalTheory.PlaceInt.cpt]
 
 end GlobalTheory.CoreTrace
 
@@ -347,3 +346,22 @@ theorem sum_hv_primary_kernel : ∀ (E : Type) [Field E] [NumberField E] [IsCMFi
   simp only [Equiv.symm_apply_apply]
 
 end GlobalTheory
+
+end
+
+section
+
+@[expose] public section
+
+open AlgebraicGeometry CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj NumberField IsLocalRing
+open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Out ReciprocityTheory.ChartRestriction.G.Geo.Tor Formalism.L2.Pj Formalism.MainNotions.ModuliIntegralCharts.H1
+open ReciprocityTheory.ChartRestriction.G.Geo.Tor.Germ GlobalTheory.PtTie
+open ReciprocityTheory.ChartRestriction.G.TB (dAct dLin)
+attribute [local instance] Over.cartesianMonoidalCategory
+open GlobalTheory.PlaceInt
+
+theorem _root_.GlobalTheory.T.sum_hv_primary_kernel_alt : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Host E) (Dw : Datum H) (l : Level H) (Xo : Moduli Dw l) (c : Coeff l) [StarRing (𝓞 E)], (∀ a : 𝓞 E, star a = H.bar a) → ∀ (T : CDVR) (io : c.F →+* T.Fr) (y : IntFr Xo c T io) (C : IntegralChartA3 Xo c T io y), Good3 C → ∀ nab : NabV Xo c, IsNab Xo c nab → ∀ (e : ℕ) (ρ : ℝ) (w : (E →+* ℂ) × ℕ → ℕ) (n : ℕ), 0 < e → ChBound C e ρ w n → ∀ (ℓ : ℕ), ℓ.Prime → ¬ IsUnit (ℓ : T.V) → ∀ (N k M k₁ : ℕ) (p q g : Matrix (Fin n) (Fin n) (𝓞 E)), Odd N → IsSim H (p * q) (N ^ 2) → N ^ 2 = k * M → Nat.Coprime k ℓ → AllRat Xo (xOf y) M → Nat.Coprime k₁ ℓ → g * q = ((k₁ * N : ℕ) : 𝓞 E) • (1 : Matrix (Fin n) (Fin n) (𝓞 E)) → ∀ (J : Type) [Fintype J] (a : J → Fin n → (ptO Xo (xOf y) ⟶ Xo.univ.t.G)), Function.Injective a → (∀ u : Fin n → (ptO Xo (xOf y) ⟶ Xo.univ.t.G), (∃ i, a i = u) ↔ (Kills Xo (p * q) u ∧ ∀ b, (∃ j : ℕ, u b ^ (ℓ ^ j) = 1))) → (∀ i i' (ε : Fin n → Γ((ptO Xo (xOf y)).left, ⊤)ˣ), (∀ b, WeilIs Xo.univ.t.G Xo.univ.t.PP.L ((N ^ 2 : ℕ) : ℤ) (a i b) (a i' b) (ε b)) → ∏ b, ε b = 1) → ∀ (F : Fin n → SecN Xo (xOf y) (N ^ 2)) (G : J → Fin n → SecN Xo (xOf y) (N ^ 2)), (∀ b, Reach Xo (sOf1 y) (N ^ 2) (F b)) → (∀ b (u : (ptO Xo (xOf y) ⟶ Xo.univ.t.G)), (∃ j : ℕ, u ^ (ℓ ^ j) = 1) → u ^ N = 1 → Moves Xo u (F b) (F b)) → (∀ i b, Moves Xo (a i b) (F b) (G i b)) → ∀ (P : MvPolynomial (LtN Dw n) c.F) (s : c.F), P ∈ HH c w n → MvPolynomial.map io (MvPolynomial.C s * pushL c ((p * q).map (algebraMap (𝓞 E) E)) P) ∈ FFV (Dw := Dw) T w n → letI := io.toAlgebra; ∃ z : T.Fr, ((-ρ : ℝ) : EReal) ≤ nval T.V e z ∧ io s * ∑ i, hv Xo c nab y.1 (N ^ 2) (G i) P = (Nat.card {i : J // Kills Xo q (a i)} : T.Fr) * io (∏ τ : E →+* ℂ, embK c τ p.det ^ Dw.mult τ) * z := by
+  first | exact @GlobalTheory.sum_hv_primary_kernel | exact GlobalTheory.sum_hv_primary_kernel | (intros; apply GlobalTheory.sum_hv_primary_kernel <;> assumption)
+
+end
+end

@@ -1,15 +1,15 @@
 module
 
-public import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.SplitDict
+public import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.Bundle002
 public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.PairwiseDisjointCell
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsLocallyConstantOrbit
-import Development.AbelianVarietyTheory.Definitions.Foundations.SecondCountableAndT2LocalField
+import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle006
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.PadicIsNonarchimedeanLocalField
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.EventuallyDeepSubset
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IntegrableZetaIntegrand
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsMulLeftInvariantVolGL
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.LocallyConstantExtensionByZero
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.NormalizedAbsCharacterization
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle076
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle081
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle049
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle019
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle039
 public import Formalism.DoubleCosetMeasures.Statement
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -70,6 +70,7 @@ open GlobalTheory.SplitFlip GlobalTheory.SplitWeil GlobalTheory.GLDoubling
 open GlobalTheory.IwahoriInj (Deep)
 
 attribute [-instance] Formalism.DoubleCosetMeasures.instMeasGL
+attribute [-instance] GlobalTheory.CompanionTheory.QL.instMeasGL GlobalTheory.CompanionTheory.QL.instBorelGL
 attribute [local instance 10000] GlobalTheory.SplitWeil.matrixMeasurableSpace
 
 section Group

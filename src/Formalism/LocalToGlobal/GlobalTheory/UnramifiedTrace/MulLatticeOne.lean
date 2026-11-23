@@ -5,7 +5,7 @@ public import Formalism.LocalToGlobal.GlobalTheory.UnramifiedTrace.DUAllOfParts
 import Formalism.LocalToGlobal.GlobalTheory.GL6.BwAValIntegralNonneg
 public import Formalism.LocalToGlobal.GlobalTheory.UnramifiedTrace.DUAllOfSameTe
 import Formalism.LocalToGlobal.GlobalTheory.UnramifiedTrace.DUPt0FOfVals
-import Formalism.LocalToGlobal.GlobalTheory.UnramifiedTrace.NatSmulInv
+import Formalism.LocalToGlobal.GlobalTheory.UnramifiedTrace.Bundle003
 import Formalism.LocalToGlobal.GlobalTheory.UnramifiedTrace.TripMem
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CrossDiagonalMatching.DnkLkLocP
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CrossDiagonalMatching.DualSigmaApply

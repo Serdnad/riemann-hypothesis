@@ -2,16 +2,14 @@ module
 
 public import Formalism.SharpRestriction.Divisibility.SchurIrreducible
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.PderivEqZeroOfColOp
-public import Development.AbelianVarietyTheory.Definitions.Foundations.IsFockIPOfFockData
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle011
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ISupEigenspaceEqTop
 import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsEqMulProdMinors
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ColumnDegrees
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.DerivationProdPow
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsEqMulMinorPoly
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.FnShapeOfJointShape
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.LengthAddLeOfDisjoint
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle093
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.LineKroneckerRightMatrixConjTranspose
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RowColWeightsAgree
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle090
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

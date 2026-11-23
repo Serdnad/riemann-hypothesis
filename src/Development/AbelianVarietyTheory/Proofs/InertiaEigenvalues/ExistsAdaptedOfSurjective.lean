@@ -1,20 +1,20 @@
 module
 
-public import Development.AbelianVarietyTheory.BlockTheory.NonGaloisCusps.DualExactSequence
+public import Development.AbelianVarietyTheory.BlockTheory.NonGaloisCusps.Bundle003
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.AcrisTorsionFreeComplete
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsComponentEquiv
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.AntitoneFiltrationExistsAdaptedLinearIndepSet
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.AssociatedPowOfUnits
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ConcretePeriodDeRhamModuleFinrankLeStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.DeRhamComparisonIsFilteredStatement
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle032
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle418
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle411
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle467
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsFinBasisSubsetOfIsField
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsFinExt
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FinrankMulLeFinrankDdROfSpans
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle384
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle176
 import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IdemNotMemFilVOne
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IndepOfLinearIndependentDdRE
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.InjectiveTensorBcrisToBdR
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.MemSpanDOfFixed
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NonemptyThetaOnBdRPlusPeriodData
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle491
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle175
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle401
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -60,7 +60,7 @@ noncomputable section
 
 namespace GlobalTheory.DRFil
 
-open Formalism Formalism.WeaklyAdmissibleFiltrations Formalism.MainNotions.N Formalism.BasicNotions Formalism.BasicNotions.Loc TensorProduct Module
+open _root_.Formalism Formalism.WeaklyAdmissibleFiltrations Formalism.MainNotions.N Formalism.BasicNotions Formalism.BasicNotions.Loc TensorProduct Module
 open scoped Formalism.Per
 
 section Generic

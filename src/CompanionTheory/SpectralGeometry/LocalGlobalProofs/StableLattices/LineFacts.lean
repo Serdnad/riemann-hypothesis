@@ -1,8 +1,8 @@
 module
 
-public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.FlagFacts
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsotropicFlagLeviMaxCompactClosedSubgroups
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.MeasurableFlagLocalSizesUnitary
+public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.Bundle041
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle139
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle115
 public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.ExistsStandardIndModule
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

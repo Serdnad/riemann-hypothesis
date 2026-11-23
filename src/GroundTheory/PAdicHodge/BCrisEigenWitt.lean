@@ -1,7 +1,7 @@
 module
 
-public import GroundTheory.PAdicHodge.AInfGalois
-public import GroundTheory.PAdicHodge.BdRAlg
+public import GroundTheory.PAdicHodge.Bundle009
+public import GroundTheory.PAdicHodge.Bundle007
 public import GroundTheory.PAdicHodge.TiltAlgClosed
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

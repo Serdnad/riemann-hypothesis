@@ -1,16 +1,16 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.IsSmoothVector
-public import Formalism.RealPlaceAnalysis.StatementKT
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle036
+public import Formalism.RealPlaceAnalysis.Bundle002
 public import Mathlib.Analysis.CStarAlgebra.ContinuousLinearMap
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContDiffSetIntegralNat
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsDerivedActionFiniteDimUnitaryRep
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsHighestWeightIrreducibleUnitaryRepU
-import Development.AbelianVarietyTheory.Proofs.JetHarmonics.WeightCompactDominanceOfMemHighestWeightSpan
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle048
 import Formalism.RealPlaceAnalysis.FinalF
 import Formalism.RealPlaceAnalysis.QuotientSettingHolds
-import Formalism.RealPlaceAnalysis.RealPlaceTaylor.CompactExponentialSurjective
-import Formalism.RealPlaceAnalysis.RealPlaceTaylor.IsCompactInvariantCompactSpan
+import Formalism.RealPlaceAnalysis.RealPlaceTaylor.Bundle005
+import Formalism.RealPlaceAnalysis.RealPlaceTaylor.Bundle003
 import Formalism.RealPlaceAnalysis.RealPlaceTaylor.KoszulLowersPower
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

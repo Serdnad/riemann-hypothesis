@@ -1,7 +1,7 @@
 module
 
 public import ReciprocityTheory.L2DbarEstimates.Localization.UnweightBackStatement
-public import ReciprocityTheory.L2DbarEstimates.WeakHolomorphy.HoloWeakStatement
+public import ReciprocityTheory.L2DbarEstimates.WeakHolomorphy.Bundle001
 public import Mathlib.LinearAlgebra.Complex.FiniteDimensional
 public import Mathlib.Topology.Separation.CompletelyRegular
 import Mathlib.Algebra.Order.Floor.Extended
@@ -52,7 +52,7 @@ import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.L2DbarEstimates.ChartDerivatives.ChartSymmEventuallyEq
 public import ReciprocityTheory.L2DbarEstimates.ChartDerivatives.MeasurableSetImageOfIsLocalHomeomorph
-public import ReciprocityTheory.L2DbarEstimates.WeakHolomorphy.RegGlue
+public import ReciprocityTheory.L2DbarEstimates.WeakHolomorphy.Bundle003
 public import Mathlib.MeasureTheory.Integral.Bochner.Set
 
 @[expose] public section

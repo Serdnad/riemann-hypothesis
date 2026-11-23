@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.ZerosDisc
+public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.Bundle003
 public import Mathlib.NumberTheory.DirichletCharacter.Orthogonality
 public import Mathlib.RingTheory.SimpleRing.Principal
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.IteratedDerivLogDerivDirichletLViaNearbyZerosStatement
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.LogFreeZeroDensityDirichletOneModulusStatement
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle026
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle057
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

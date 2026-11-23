@@ -2,8 +2,8 @@ module
 
 public import Formalism.LocalToGlobal.CMDeterminantIdeals.HadamardLoc0
 public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.ConnFamHolds
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.KeyFormulaOfConnFam
-public import Formalism.LocalToGlobal.CMDeterminantIdeals.CMIdealValuations.DetValuationLeOne
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle130
+public import Formalism.LocalToGlobal.CMDeterminantIdeals.CMIdealValuations.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

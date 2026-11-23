@@ -1,13 +1,13 @@
 module
 
 public import Formalism.LocalToGlobal.Divisibility.Tuples
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.AfsplitB
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle006
 public import Mathlib.RingTheory.Henselian
 public import Mathlib.RingTheory.RegularLocalRing.Defs
 public import Mathlib.RingTheory.SimpleRing.Principal
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.HeightOneSpectrumPlacesOverFiniteSet
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FiniteAdeleStrongApproximationModNat
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.IntegralFiniteAdeleCompleteSeparated
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle018
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle009
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle010
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Levelaf
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

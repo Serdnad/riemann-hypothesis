@@ -2,9 +2,9 @@ module
 
 public import Mathlib.NumberTheory.LSeries.DirichletContinuation
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExistsLeNormLFunctionOne
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExistsNormDerivLFunctionLe
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle018
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.LFunctionConjEqZero
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ZeroFreePrincipal
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle041
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -48,7 +48,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.ZerosDisc
+import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.Bundle003
 
 @[expose] public section
 

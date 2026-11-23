@@ -2,7 +2,7 @@ module
 
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.PBwDecomp
 public import Formalism.LocalToGlobal.GlobalTheory.GL1.CompactFixesLattice.CompactFixesLattice
-public import Formalism.LocalToGlobal.GlobalTheory.GL1.CompactFixesLattice.ExistsDenOfIsCompact
+public import Formalism.LocalToGlobal.GlobalTheory.GL1.CompactFixesLattice.Bundle002
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.CsScale
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

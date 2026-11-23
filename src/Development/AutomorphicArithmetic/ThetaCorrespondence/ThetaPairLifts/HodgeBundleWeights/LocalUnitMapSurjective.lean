@@ -2,18 +2,18 @@ module
 
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.HodgeBundleWeights.TamagawaNumberSpecialUnitary
 public import Mathlib
-public import Development.AbelianVarietyTheory.Definitions.Divisors.SemiposAtOfPositive
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle064
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ToKnownTheoremsOf
 public import Development.AbelianVarietyTheory.Definitions.Divisors.WedgeNrmLeOfWedgeNormLe
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ExistsVanBdOfMemExtVanZ
 public import Development.WeilBound.CoreStatements.HomogeneousNonvanishing.VuOntoC
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.VanBdLeSpace
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2771
 public import Development.WeilBound.CoreStatements.NefModelVolumes.NV
-public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.HodgeBundleWeights.ToKnownTheoremsOf
-public import Development.AbelianVarietyTheory.Definitions.Divisors.FirstChernLeviEqConstant
-public import Development.AbelianVarietyTheory.Definitions.Divisors.GenRatios
+public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.HodgeBundleWeights.Bundle001
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle027
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle057
 public import Development.AbelianVarietyTheory.Definitions.Divisors.Multiplier
-public import Development.AbelianVarietyTheory.Definitions.Divisors.NonemptyCuspFrame
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle058
 
 @[expose] public section
 

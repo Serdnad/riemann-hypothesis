@@ -2,11 +2,11 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.Uniformization.TXFrame
 public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ComparisonTorusInvariant
-import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ConnectedSpaceOfSection
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ConnectedSpaceThickening
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle028
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle027
 public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.EqTopOfThick
 import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.PulledComparisonEven
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.RelAmpleIffVeryAmpleBy
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle045
 import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.RigidifiedIsoRespectsCubeAndSymmetry
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -65,6 +65,17 @@ open GlobalTheory.UT
 
 noncomputable section
 namespace GlobalTheory.UT.PullDescent
+
+noncomputable local instance (priority := high) thickPullbackMonoidal {R : Type} [CommRing R]
+    (I : Ideal R) (e : ℕ) : (Over.pullback (thick R I e)).Monoidal :=
+  (Over.instBraidedPullback (f := thick R I e)).toMonoidal
+
+noncomputable local instance (priority := high) thickPullbackGrpObj {R : Type} [CommRing R]
+    (I : Ideal R) (e : ℕ) (G : Over (Spec (CommRingCat.of R))) [GrpObj G] : GrpObj (thickObj R I e G) :=
+  Functor.grpObjObj (F := Over.pullback (thick R I e))
+
+local instance (priority := high) overHomOfNatOne {S : Scheme.{0}} {Y G : Over S} [MonObj G] :
+    OfNat (Y ⟶ G) 1 := ⟨toUnit Y ≫ η⟩
 
 section Level
 open TorusInvariance WCub

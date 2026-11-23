@@ -1,0 +1,326 @@
+module
+
+public import GroundTheory.GlobalFields.SemilocalAlgebras.Galois
+public import Mathlib.FieldTheory.Galois.IsGaloisGroup
+public import Mathlib.RingTheory.Frobenius
+public import GroundTheory.GlobalFields.SplittingFromInequality.Decomposition
+public import GroundTheory.GlobalFields.TateThesis.Bundle010
+public import GroundTheory.GlobalFields.TateThesis.TateMain
+import GroundTheory.GlobalFields.TateThesis.Bundle008
+public import GroundTheory.GlobalFields.TateThesis.TateMainUnique
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.RamificationInertia.Galois
+import Mathlib.NumberTheory.NumberField.Discriminant.Different
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.WittVector.IsPoly
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.Polynomial.Basic
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Tactic.TypeStar
+import Mathlib.Topology.Sheaves.Init
+public import GroundTheory.GlobalFields.Adele.BaseChange.FiniteMap
+
+@[expose] public section
+
+section
+
+namespace GroundTheory.Global
+
+open NumberField IsDedekindDomain IntermediateField
+open scoped Pointwise
+
+noncomputable section
+
+section Unique
+
+variable {F L : Type*} [Field F] [NumberField F] [Field L] [NumberField L] [Algebra F L]
+  [IsGalois F L]
+
+theorem arithFrobAt_eq_of_isArithFrobAt (w : HeightOneSpectrum (𝓞 L))
+    (he : w.asIdeal.ramificationIdx (𝓞 F) = 1) {τ : Gal(L/F)}
+    (hτ : IsArithFrobAt (𝓞 F) τ w.asIdeal) : arithFrobAt (𝓞 F) Gal(L/F) w.asIdeal = τ := by
+  have : IsGaloisGroup Gal(L/F) (𝓞 F) (𝓞 L) := IsGaloisGroup.of_isFractionRing _ _ _ F L
+  have hmem := (IsArithFrobAt.arithFrobAt (𝓞 F) Gal(L/F) w.asIdeal).mul_inv_mem_inertia hτ
+  have hcard : Nat.card (w.asIdeal.inertia Gal(L/F)) = 1 := by
+    rw [Ideal.card_inertia_eq_ramificationIdxIn (w.asIdeal.under (𝓞 F)) w.asIdeal,
+      Ideal.ramificationIdxIn_eq_ramificationIdx _ w.asIdeal Gal(L/F)]
+    exact he
+  rw [Subgroup.card_eq_one.mp hcard, Subgroup.mem_bot, mul_inv_eq_one] at hmem
+  exact hmem
+
+theorem ramificationIdx_smul (τ : Gal(L/F)) (w : HeightOneSpectrum (𝓞 L)) :
+    (τ • w).asIdeal.ramificationIdx (𝓞 F) = w.asIdeal.ramificationIdx (𝓞 F) := by
+  have : IsGaloisGroup Gal(L/F) (𝓞 F) (𝓞 L) := IsGaloisGroup.of_isFractionRing _ _ _ F L
+  have : (τ • w).asIdeal.LiesOver (AdeleBaseChange.below (K := F) w).asIdeal :=
+    (AdeleBaseChange.below_eq_iff _ _).1 (below_smul τ w)
+  exact Ideal.ramificationIdx_eq_of_isGaloisGroup (AdeleBaseChange.below (K := F) w).asIdeal
+    (τ • w).asIdeal w.asIdeal Gal(L/F)
+
+theorem arithFrobAt_smul (τ : Gal(L/F)) (w : HeightOneSpectrum (𝓞 L))
+    (he : w.asIdeal.ramificationIdx (𝓞 F) = 1) :
+    arithFrobAt (𝓞 F) Gal(L/F) (τ • w).asIdeal =
+      τ * arithFrobAt (𝓞 F) Gal(L/F) w.asIdeal * τ⁻¹ :=
+  arithFrobAt_eq_of_isArithFrobAt (τ • w) (by rw [ramificationIdx_smul, he])
+    ((IsArithFrobAt.arithFrobAt (𝓞 F) Gal(L/F) w.asIdeal).conj τ)
+
+end Unique
+
+section Tower
+
+variable {K L : Type*} [Field K] [NumberField K] [Field L] [NumberField L] [Algebra K L]
+
+theorem isArithFrobAt_restrictScalars_iff (E : IntermediateField K L) (w : HeightOneSpectrum (𝓞 L))
+    (hf : (w.asIdeal.under (𝓞 E)).inertiaDeg (𝓞 K) = 1) (τ : Gal(L/E)) :
+    IsArithFrobAt (𝓞 K) (τ.restrictScalars K) w.asIdeal ↔ IsArithFrobAt (𝓞 E) τ w.asIdeal := by
+  have hcard : Nat.card (𝓞 K ⧸ w.asIdeal.under (𝓞 K)) =
+      Nat.card (𝓞 E ⧸ w.asIdeal.under (𝓞 E)) := by
+    have h := Ideal.absNorm_pow_inertiaDeg ((w.asIdeal.under (𝓞 E)).under (𝓞 K))
+      (w.asIdeal.under (𝓞 E))
+    rw [hf, pow_one, Ideal.under_under] at h
+    rw [← Submodule.cardQuot_apply, ← Submodule.cardQuot_apply, ← Ideal.absNorm_apply,
+      ← Ideal.absNorm_apply, h]
+  change (∀ x, _ - x ^ Nat.card (𝓞 K ⧸ w.asIdeal.under (𝓞 K)) ∈ w.asIdeal) ↔
+    (∀ x, _ - x ^ Nat.card (𝓞 E ⧸ w.asIdeal.under (𝓞 E)) ∈ w.asIdeal)
+  rw [hcard]
+  rfl
+
+variable [IsGalois K L]
+
+theorem eq_of_under_eq_of_le_stabilizer (H : Subgroup Gal(L/K)) (w w' : HeightOneSpectrum (𝓞 L))
+    (hH : H ≤ MulAction.stabilizer Gal(L/K) w.asIdeal)
+    (h : w'.asIdeal.under (𝓞 (fixedField H)) = w.asIdeal.under (𝓞 (fixedField H))) : w' = w := by
+  have : IsGaloisGroup Gal(L/fixedField H) (𝓞 (fixedField H)) (𝓞 L) :=
+    IsGaloisGroup.of_isFractionRing _ _ _ (fixedField H) L
+  obtain ⟨g, hg⟩ := Algebra.IsInvariant.exists_smul_of_under_eq (𝓞 (fixedField H)) (𝓞 L)
+    Gal(L/fixedField H) w.asIdeal w'.asIdeal h.symm
+  have hgH : g.restrictScalars K ∈ H := by
+    have h1 : g.restrictScalars K ∈ fixingSubgroup (fixedField H) :=
+      (IntermediateField.mem_fixingSubgroup_iff _ _).2 fun x hx ↦ g.commutes ⟨x, hx⟩
+    rwa [fixingSubgroup_fixedField] at h1
+  have hs := hH hgH
+  rw [MulAction.mem_stabilizer_iff] at hs
+  refine HeightOneSpectrum.ext ?_
+  rw [hg]
+  exact hs
+
+end Tower
+
+end
+
+end GroundTheory.Global
+end
+
+section
+
+open NumberField InfinitePlace IsDedekindDomain MeasureTheory Complex Topology Filter Set
+open scoped NumberField.AdeleRing nonZeroDivisors
+
+namespace GroundTheory.Global
+
+noncomputable section
+
+variable {K : Type*} [Field K] [NumberField K]
+
+open IdeleGroup
+
+theorem ofReal_inv_cpow_of_pos {r : ℝ} (hr : 0 < r) (s : ℂ) :
+    ((r⁻¹ : ℝ) : ℂ) ^ s = (r : ℂ) ^ (-s) := by
+  rw [ofReal_inv, inv_cpow _ _ (by rw [arg_ofReal_of_nonneg hr.le]; exact Real.pi_pos.ne), cpow_neg]
+
+theorem globalZeta_comp_smul (F : 𝔸[K] → ℂ) (χ : HeckeCharacter K) (a : IdeleGroup K) (s : ℂ) :
+    globalZeta (fun y ↦ F (a • y)) χ s =
+      (χ.toIdele a : ℂ)⁻¹ * ((ideleModule K a : ℝ) : ℂ) ^ (-s) * globalZeta F χ s := by
+  unfold globalZeta
+  have h := integral_mul_left_eq_self (μ := ideleMeasure K)
+    (fun x : IdeleGroup K ↦ F (a • (x : 𝔸[K])) * (χ.toIdele x : ℂ) *
+      ((ideleModule K x : ℝ) : ℂ) ^ s) a⁻¹
+  rw [← h, ← integral_const_mul]
+  refine integral_congr_ae (Eventually.of_forall fun x ↦ ?_)
+  have h1 : a • ((a⁻¹ * x : IdeleGroup K) : 𝔸[K]) = (x : 𝔸[K]) := by
+    rw [Units.smul_def, smul_eq_mul, Units.val_mul, ← mul_assoc, Units.mul_inv, one_mul]
+  have h2 : ((ideleModule K (a⁻¹ * x) : ℝ) : ℂ) ^ s =
+      ((ideleModule K a : ℝ) : ℂ) ^ (-s) * ((ideleModule K x : ℝ) : ℂ) ^ s := by
+    rw [map_mul, map_inv, Positive.val_mul, Positive.coe_inv, ofReal_mul,
+      mul_cpow_ofReal_nonneg (inv_nonneg.2 (ideleModule K a).2.le) (ideleModule K x).2.le,
+      ofReal_inv_cpow_of_pos (ideleModule K a).2]
+  beta_reduce
+  rw [h1, h2]
+  simp only [map_mul, map_inv, Circle.coe_mul, Circle.coe_inv]
+  ring
+
+namespace HeckeCharacter
+
+variable (χ : HeckeCharacter K)
+
+def discrNormConductor : ℝ := |(discr K : ℝ)| * (Ideal.absNorm χ.conductor : ℝ)
+
+theorem discrNormConductor_pos : 0 < χ.discrNormConductor := by
+  refine mul_pos (abs_pos.2 (Int.cast_ne_zero.2 (discr_ne_zero K))) (Nat.cast_pos.2 ?_)
+  exact Nat.pos_of_ne_zero fun h ↦ χ.conductor_ne_bot (Ideal.absNorm_eq_zero_iff.1 h)
+
+theorem discrNormConductor_inv : χ⁻¹.discrNormConductor = χ.discrNormConductor := by
+  rw [discrNormConductor, discrNormConductor, conductor_inv]
+
+theorem ideleModule_ofFinite_of_toFractionalIdeal_eq {δ : (FiniteAdeleRing (𝓞 K) K)ˣ}
+    (hδ : toFractionalIdeal (ofFinite δ) = idealUnit χ.conductor χ.conductor_ne_bot * differentUnit) :
+    (ideleModule K (ofFinite δ) : ℝ) = χ.discrNormConductor⁻¹ := by
+  have hI : χ.conductor * differentIdeal ℤ (𝓞 K) ≠ ⊥ :=
+    mul_ne_zero χ.conductor_ne_bot differentIdeal_ne_bot
+  have hunit : idealUnit χ.conductor χ.conductor_ne_bot * differentUnit = idealUnit _ hI := by
+    ext
+    simp [idealUnit, differentUnit, FractionalIdeal.coeIdeal_mul]
+  have hpos : ∀ v, 0 ≤ ord v (ofFinite δ) := fun v ↦ by
+    rw [← count_toFractionalIdeal, hδ, hunit]
+    change 0 ≤ FractionalIdeal.count K v
+      (((χ.conductor * differentIdeal ℤ (𝓞 K) : Ideal (𝓞 K))) : FractionalIdeal (𝓞 K)⁰ K)
+    rw [count_coeIdeal_eq_multiplicity v hI]
+    positivity
+  have hideal : idealOfExponents (ordFinsupp K (ofFinite δ)) =
+      χ.conductor * differentIdeal ℤ (𝓞 K) := by
+    have h1 : toFractionalIdeal (ofFinite δ) =
+        idealUnit _ (idealOfExponents_ne_bot (K := K) (n := ordFinsupp K (ofFinite δ)) hpos) := by
+      rw [toFractionalIdeal_eq_iff]
+      intro v
+      exact (count_idealOfExponents (n := ordFinsupp K (ofFinite δ)) hpos v).symm
+    rw [hδ, hunit] at h1
+    exact FractionalIdeal.coeIdeal_injective (K := K) (congrArg Units.val h1).symm
+  have hinf : infiniteModule (ofFinite δ) = 1 := by
+    have e : ((ofFinite δ : IdeleGroup K) : 𝔸[K]).1 = 1 := by
+      change ((toInfinite K (ofFinite δ) : (InfiniteAdeleRing K)ˣ) : InfiniteAdeleRing K) = 1
+      rw [toInfinite_ofFinite, Units.val_one]
+    simp only [infiniteModule, e]
+    exact Finset.prod_eq_one fun w _ ↦ by
+      rw [show (1 : InfiniteAdeleRing K) w = 1 from rfl, norm_one, one_pow]
+  rw [ideleModule_apply, hinf, one_mul, finiteModule_ofFinite_eq hpos, hideal, map_mul,
+    absNorm_differentIdeal K (𝓞 K), discrNormConductor, Nat.cast_mul, Nat.cast_natAbs, Int.cast_abs,
+    mul_comm]
+
+theorem globalZeta_adelicFourier_testFunction {δ : (FiniteAdeleRing (𝓞 K) K)ˣ}
+    (hδ : toFractionalIdeal (ofFinite δ) = idealUnit χ.conductor χ.conductor_ne_bot * differentUnit)
+    (s : ℂ) :
+    globalZeta (adelicFourier K χ.testFunction) χ⁻¹ s =
+      χ.fourierConst δ * (χ.toIdele (ofFinite δ) : ℂ) * (χ.discrNormConductor : ℂ) ^ s *
+        globalZeta (χ⁻¹).testFunction χ⁻¹ s := by
+  have hf : adelicFourier K χ.testFunction =
+      fun y ↦ χ.fourierConst δ * (χ⁻¹).testFunction (ofFinite δ • y) :=
+    funext (χ.adelicFourier_testFunction hδ)
+  have h1 : globalZeta (fun y ↦ χ.fourierConst δ * (χ⁻¹).testFunction (ofFinite δ • y)) χ⁻¹ s =
+      χ.fourierConst δ * globalZeta (fun y ↦ (χ⁻¹).testFunction (ofFinite δ • y)) χ⁻¹ s := by
+    unfold globalZeta
+    rw [← integral_const_mul]
+    congr 1
+    funext x
+    ring
+  rw [hf, h1, globalZeta_comp_smul, χ.ideleModule_ofFinite_of_toFractionalIdeal_eq hδ,
+    ofReal_inv_cpow_of_pos χ.discrNormConductor_pos, neg_neg, χ.inv_toIdele, Circle.coe_inv, inv_inv]
+  ring
+
+theorem exists_inv_ne_one (hχ : ∃ v : normOneSubgroup K, χ.toIdele (v : IdeleGroup K) ≠ 1) :
+    ∃ v : normOneSubgroup K, χ⁻¹.toIdele (v : IdeleGroup K) ≠ 1 := by
+  obtain ⟨v, hv⟩ := hχ
+  exact ⟨v, by rw [χ.inv_toIdele, ne_eq, inv_eq_one]; exact hv⟩
+
+theorem inv_eq_cpow_of_forall {τ : ℝ}
+    (hτ : ∀ x : IdeleGroup K, (χ.toIdele x : ℂ) = ((ideleModule K x : ℝ) : ℂ) ^ ((τ : ℂ) * I)) :
+    ∀ x : IdeleGroup K,
+      ((χ⁻¹).toIdele x : ℂ) = ((ideleModule K x : ℝ) : ℂ) ^ (((-τ : ℝ) : ℂ) * I) := fun x ↦ by
+  rw [χ.inv_toIdele, Circle.coe_inv, hτ, ← cpow_neg]
+  push_cast
+  ring_nf
+
+theorem differentiable_const_cpow_mul {f : ℂ → ℂ} (hf : Differentiable ℂ f) (c : ℂ) {r : ℝ}
+    (hr : 0 < r) : Differentiable ℂ fun s ↦ c * (r : ℂ) ^ s * f s :=
+  ((differentiable_const c).mul
+    (differentiable_id.const_cpow (Or.inl (ofReal_ne_zero.2 hr.ne')))).mul hf
+
+theorem tateZeta_adelicFourier_testFunction {δ : (FiniteAdeleRing (𝓞 K) K)ˣ}
+    (hδ : toFractionalIdeal (ofFinite δ) = idealUnit χ.conductor χ.conductor_ne_bot * differentUnit)
+    (hχ : ∃ v : normOneSubgroup K, χ.toIdele (v : IdeleGroup K) ≠ 1) (s : ℂ) :
+    tateZeta (adelicFourier K χ.testFunction) χ⁻¹ s =
+      χ.fourierConst δ * (χ.toIdele (ofFinite δ) : ℂ) * (χ.discrNormConductor : ℂ) ^ s *
+        tateZeta (χ⁻¹).testFunction χ⁻¹ s := by
+  have hχ' := χ.exists_inv_ne_one hχ
+  have h := eq_tateZeta_of_differentiable (adelicFourier_mem_schwartzBruhat χ.testFunction_mem) hχ'
+    (G := fun s ↦ χ.fourierConst δ * (χ.toIdele (ofFinite δ) : ℂ) * (χ.discrNormConductor : ℂ) ^ s *
+      tateZeta (χ⁻¹).testFunction χ⁻¹ s)
+    (differentiable_const_cpow_mul (differentiable_tateZeta (χ⁻¹).testFunction_mem hχ') _
+      χ.discrNormConductor_pos)
+    fun s hs ↦ by
+      rw [tateZeta_eq_globalZeta (χ⁻¹).testFunction_mem _ hs,
+        χ.globalZeta_adelicFourier_testFunction hδ]
+  exact (congrFun h s).symm
+
+theorem tateZeta_adelicFourier_testFunction_of_forall {δ : (FiniteAdeleRing (𝓞 K) K)ˣ}
+    (hδ : toFractionalIdeal (ofFinite δ) = idealUnit χ.conductor χ.conductor_ne_bot * differentUnit)
+    {τ : ℝ}
+    (hτ : ∀ x : IdeleGroup K, (χ.toIdele x : ℂ) = ((ideleModule K x : ℝ) : ℂ) ^ ((τ : ℂ) * I))
+    {s : ℂ} (hs₀ : s ≠ (τ : ℂ) * I) (hs₁ : s ≠ 1 + (τ : ℂ) * I) :
+    tateZeta (adelicFourier K χ.testFunction) χ⁻¹ s =
+      χ.fourierConst δ * (χ.toIdele (ofFinite δ) : ℂ) * (χ.discrNormConductor : ℂ) ^ s *
+        tateZeta (χ⁻¹).testFunction χ⁻¹ s := by
+  have hτ' := χ.inv_eq_cpow_of_forall hτ
+  have hpole : ∀ z : ℂ, z ≠ (τ : ℂ) * I → z ≠ 1 + (τ : ℂ) * I →
+      z ≠ -(((-τ : ℝ) : ℂ) * I) ∧ z ≠ 1 - ((-τ : ℝ) : ℂ) * I := fun z h0 h1 ↦ by
+    push_cast
+    constructor
+    · rw [neg_mul, neg_neg]; exact h0
+    · rw [neg_mul, sub_neg_eq_add]; exact h1
+  have hmem : s ∈ ({-(((-τ : ℝ) : ℂ) * I), 1 - ((-τ : ℝ) : ℂ) * I} : Set ℂ)ᶜ := by
+    simp only [mem_compl_iff, mem_insert_iff, mem_singleton_iff, not_or]
+    exact hpole s hs₀ hs₁
+  have h := eqOn_tateZeta_of_differentiableOn hτ'
+    (adelicFourier_mem_schwartzBruhat χ.testFunction_mem)
+    (G := fun s ↦ χ.fourierConst δ * (χ.toIdele (ofFinite δ) : ℂ) * (χ.discrNormConductor : ℂ) ^ s *
+      tateZeta (χ⁻¹).testFunction χ⁻¹ s)
+    (fun z hz ↦ by
+      simp only [mem_compl_iff, mem_insert_iff, mem_singleton_iff, not_or] at hz
+      refine DifferentiableAt.differentiableWithinAt ?_
+      exact ((differentiableAt_const _).mul ((differentiableAt_id).const_cpow
+        (Or.inl (ofReal_ne_zero.2 χ.discrNormConductor_pos.ne')))).mul
+        (differentiableAt_tateZeta hτ' (χ⁻¹).testFunction_mem hz.1 hz.2))
+    fun s hs ↦ by
+      rw [tateZeta_eq_globalZeta (χ⁻¹).testFunction_mem _ hs,
+        χ.globalZeta_adelicFourier_testFunction hδ]
+  exact (h hmem).symm
+
+end HeckeCharacter
+
+end
+
+end GroundTheory.Global
+end

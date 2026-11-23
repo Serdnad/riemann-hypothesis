@@ -1,8 +1,8 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.StableIffCarrierEq
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.AssembleLattice
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.SemilinearBasisImageIndepOfBasis
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle013
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle258
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

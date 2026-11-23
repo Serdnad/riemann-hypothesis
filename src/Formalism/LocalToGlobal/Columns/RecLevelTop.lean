@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.Columns.RecLevel
+public import Formalism.LocalToGlobal.Columns.Bundle010
 public import Formalism.LocalToGlobal.Columns.AdelicLemmas
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.CsGlobApprox
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.CsScale

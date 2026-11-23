@@ -3,7 +3,7 @@ module
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.HESmulRight
 public import Formalism.LocalToGlobal.KernelLattices.ThDistC
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ThetaLatticeImageRationalHomLattice
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.SpanImageLeOf
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle086
 import Formalism.HermitianLattices.HermitianLatticesProofs.DualBasic
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
@@ -48,10 +48,10 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.L2DbarEstimates.PlurisubharmonicCharts.ZeroDimA
+public import ReciprocityTheory.L2DbarEstimates.PlurisubharmonicCharts.Bundle001
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.Taylor
 import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.JetSumTable
-import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.TranslateMomentsAll
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle082
 
 @[expose] public section
 

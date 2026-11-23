@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.AnalyticForms.RegularLocalRings.JacChart
+public import ReciprocityTheory.AnalyticForms.RegularLocalRings.Bundle005
 public import Mathlib.AlgebraicGeometry.Restrict
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
 public import Mathlib.Tactic.ENatToNat

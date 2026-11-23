@@ -1,9 +1,9 @@
 module
 
 public import Formalism.LocalToGlobal.JointCharacters.LocEMulLocE
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.UnderEqIffConjPl
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle092
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsAdeleRingTensorEquivInfiniteProdFinite
-import Formalism.LocalToGlobal.ProjectiveLattices.PartitionExtendByZeroAntitone
+import Formalism.LocalToGlobal.ProjectiveLattices.Bundle025
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.KummerFinite
+public import GroundTheory.ProfiniteCohomology.Bundle004
 public import Mathlib.FieldTheory.IsSepClosed
 public import GroundTheory.ProfiniteCohomology.KummerCorrespondence
 import Mathlib.Algebra.Order.Floor.Extended

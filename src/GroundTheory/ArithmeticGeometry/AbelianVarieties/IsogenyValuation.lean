@@ -2,7 +2,7 @@ module
 
 public import GroundTheory.ArithmeticGeometry.AbelianVarieties.IsogenyPoints
 public import GroundTheory.ArithmeticGeometry.AbelianVarieties.DivisorsPic
-public import GroundTheory.ArithmeticGeometry.AbelianVarieties.DivisorsPullback
+public import GroundTheory.ArithmeticGeometry.AbelianVarieties.Bundle003
 import GroundTheory.ArithmeticGeometry.AbelianVarieties.DivisorsValuation
 import GroundTheory.ArithmeticGeometry.AbelianVarieties.KernelCard
 import GroundTheory.ArithmeticGeometry.AbelianVarieties.WeilTranslate

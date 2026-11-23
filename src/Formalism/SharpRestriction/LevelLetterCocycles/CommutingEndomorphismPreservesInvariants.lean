@@ -1,9 +1,9 @@
 module
 
 public import Formalism.SharpRestriction.LevelLetterCocycles.IntegralHeckeForms
-public import Formalism.PadicSubsetSums.CentralIdempotents.CentralIdempotentIntegral
+public import Formalism.PadicSubsetSums.CentralIdempotents.Bundle002
 public import Formalism.PadicSubsetSums.StableGradedCounts.TWCentralIdempotentIntegral
-public import Formalism.PadicSubsetSums.StableGradedCounts.TWCutOperator
+public import Formalism.PadicSubsetSums.StableGradedCounts.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

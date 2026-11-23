@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SchurDir
-public import Development.AbelianVarietyTheory.Definitions.Divisors.UnrOutside
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SchurEqJtDet
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.MultisetProdMapProductEqProdProd
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle883
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle036
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle383
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle521
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

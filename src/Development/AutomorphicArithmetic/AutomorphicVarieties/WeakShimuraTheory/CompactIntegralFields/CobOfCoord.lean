@@ -1,14 +1,14 @@
 module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.NearSplit
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.EntryMem
-import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.LocalRingsCompletion.dvrFinite
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.EiiUnit
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.GeAlgTop
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Bundle007
+import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.LocalRingsCompletion.Bundle002
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Bundle015
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Bundle003
 import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.LMemMax
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.LocVanP
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.XvanExt
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.CompactIntegralFields.PtPair
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Bundle014
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Bundle005
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.CompactIntegralFields.Bundle006
 import Mathlib.Algebra.GroupWithZero.Submonoid.CancelMulZero
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
@@ -56,6 +56,10 @@ import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section
 
+local instance (priority := 2000) ratFieldIsTorsionFreeForCobOfCoord
+    (Ω : Type) [Field Ω] [CharZero Ω] : Module.IsTorsionFree ℚ Ω :=
+  DivisionSemiring.to_moduleIsTorsionFree
+
 open NumberField IsDedekindDomain Formalism.ConjugateSelfDual Formalism.HC ReciprocityTheory.Gal IsLocalRing Polynomial UpperTheory.V.Base UpperTheory.V.Alg UpperTheory.V.HV UpperTheory.V.GradeZeroInterpolatingElement UpperTheory.V.Ws
 
 private theorem tri_comb (P : Fin 4 → Fin 4 → Prop) (h1 : ∀ i, P i i)
@@ -82,6 +86,8 @@ private theorem tri_comb (P : Fin 4 → Fin 4 → Prop) (h1 : ∀ i, P i i)
 private theorem cob_of_coord {H k₀ k : Type} [Field k₀] [Field k] [Algebra k₀ k] (a : H → k₀) (z : H → k)
     (h : ∀ φ : k →ₗ[k₀] k₀, ∃ m, ∀ g, φ (z g) = a g * m - m) :
     ∃ m, ∀ g, z g = algebraMap k₀ k (a g) * m - m := by
+  letI : Module.Free k₀ k := Module.Free.of_divisionRing k₀ k
+  haveI : Module.Projective k₀ k := Module.Projective.of_free
   by_cases h1 : ∀ g, a g = 1
   · refine ⟨0, fun g => ?_⟩
     rw [mul_zero, sub_zero, ← Module.forall_dual_apply_eq_zero_iff k₀]
@@ -98,6 +104,7 @@ private theorem cob_of_coord {H k₀ k : Type} [Field k₀] [Field k] [Algebra k
     field_simp
     ring
 
+set_option linter.overlappingInstances false in
 private theorem lattice {O : Type} [CommRing O] [IsDomain O] [IsLocalRing O] {H : Type} [Group H]
     (r : H → M4 O) (h1 : r 1 = 1) (s u : Fin 4) (hsu : s ≠ u) (t : Finset H) (a : H → O)
     (hE : ∀ h, ∑ g ∈ t, a g • r (g * h) = Matrix.single s s (1 : O) * r h) (g1 : H) (c : H → O) (hb : r g1 s u ≠ 0)
@@ -206,6 +213,7 @@ private theorem root_mem {Ω : Type} [Field Ω] [CharZero Ω] [IsAlgClosure ℚ 
   have e4 : D.al * D.Psi⁻¹ = D.be⁻¹ := by rw [← e3, mul_inv_rev, inv_inv]
   fin_cases s <;> fin_cases u <;> simp [lamW] at h <;> simp [Raw.ps, e1, e2, e3, e4]
 
+set_option linter.overlappingInstances false in
 private theorem gen {Γ A V : Type} [TopologicalSpace Γ] [CommRing A] [IsDomain A] [IsDiscreteValuationRing A] [CommRing V]
     [IsLocalRing V] (f : A →+* V) [IsLocalHom f] (x : Γ → A) (hx : AdicCont (maximalIdeal A) x) (hne : ∃ g, x g ≠ 0) :
     ∃ (g1 : Γ) (c : Γ → V), x g1 ≠ 0 ∧ (∀ g, f (x g) = f (x g1) * c g) ∧ IsLocallyConstant fun g => residue V (c g) := by

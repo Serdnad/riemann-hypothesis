@@ -1,12 +1,12 @@
 module
 
-public import Development.WeilBound.ThetaLifts.LocalTheory.ConeShifts.EvFinIdemSelf
-public import Development.WeilBound.ThetaLifts.LeviDeterminants.MixedModels.PureSt
-public import Development.WeilBound.ThetaLifts.CartanFactorisation.CartanConj
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AdelicHeisenbergActsByLocalSchrodinger
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EqOfComponentTensorAdelicFunctionEq
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsFactorPureTensorComponentAtPlace
-public import Development.WeilBound.ThetaLifts.CartanFactorisation.TensOfEval
+public import Development.WeilBound.ThetaLifts.LocalTheory.ConeShifts.Bundle001
+public import Development.WeilBound.ThetaLifts.LeviDeterminants.MixedModels.Bundle002
+public import Development.WeilBound.ThetaLifts.CartanFactorisation.Bundle002
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1989
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1968
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1770
+public import Development.WeilBound.ThetaLifts.CartanFactorisation.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

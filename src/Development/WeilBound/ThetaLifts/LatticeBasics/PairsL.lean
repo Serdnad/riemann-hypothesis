@@ -1,7 +1,7 @@
 module
 
-public import Development.WeilBound.ThetaLifts.CartanFactorisation.CartanConj
-public import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.InertDef
+public import Development.WeilBound.ThetaLifts.CartanFactorisation.Bundle002
+public import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.Bundle001
 public import Development.WeilBound.ThetaLifts.ConeHypotheses.PureEqPureA
 public import Development.WeilBound.ThetaLifts.LatticeBasics.PairsD
 import Mathlib.Algebra.Module.StablyFree.Basic
@@ -41,7 +41,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.FinSplit
+import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.Bundle002
 
 @[expose] public section
 

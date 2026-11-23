@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.SameOffRefl
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle017
 public import Mathlib.NumberTheory.NumberField.FiniteAdeleRing
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.QuotientHeightLowerBoundShortIsotropicVector
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.MemStabGLAdeleIff
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ImportsFurther
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle048
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle051
 import Formalism.LocalRingCardinality.SpanPowerMembership.LocAtA
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Levelaf
 import Mathlib.Algebra.Order.Floor.Extended
@@ -44,7 +44,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.LocSpBot
+import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle016
 import Formalism.SharpRestriction.GrowthBounds.ChartedClasses.ToLEInvApply
 
 @[expose] public section

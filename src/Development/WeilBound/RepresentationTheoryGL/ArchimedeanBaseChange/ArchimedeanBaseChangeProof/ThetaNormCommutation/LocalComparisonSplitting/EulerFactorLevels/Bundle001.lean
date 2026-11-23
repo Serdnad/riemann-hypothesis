@@ -1,0 +1,228 @@
+module
+
+public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.ThetaNormCommutation.LocalComparisonSplitting.EulerFactorLevels.EulerFinOf
+public import Development.AbelianVarietyTheory.Definitions.Foundations.ExistsFinsetOfEventually
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle371
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Linter.Style
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+
+@[expose] public section
+
+section
+
+noncomputable section
+
+open NumberField IsDedekindDomain Matrix Polynomial Filter
+open GlobalTheory.CuspRep GlobalTheory.PRep Formalism.UG Formalism.BasicNotions GlobalTheory.UnitaryBC Formalism.L2.Host
+open GlobalTheory.BCT
+open scoped Classical
+
+namespace PositivityTheory.Rg.BcB.G8.Fin
+
+open PositivityTheory.Rg.BcB.G8
+
+variable {E : Type} [Field E] [NumberField E] [IsCMField E] {a b : ℕ}
+
+abbrev PlF (E : Type) [Field E] [NumberField E] [IsCMField E] : Type := HeightOneSpectrum (𝓞 (maximalRealSubfield E))
+
+abbrev Above (v : PlF E) : Type := {w : Pl E // w.under (𝓞 (maximalRealSubfield E)) = v}
+
+abbrev Av (v : PlF E) : Type := ∀ w : Above v, w.1.adicCompletion E
+
+def projv (v : PlF E) : Af E →+* Av v := RingHom.pi fun w => pLoc E w.1
+
+abbrev Yv (a b : ℕ) (v : PlF E) : Type := GL (Fin a) (Av v) × GL (Fin b) (Av v)
+
+def pv (a b : ℕ) (v : PlF E) : Gf E a b →* Yv a b v :=
+  (GeneralLinearGroup.map (projv v)).prodMap (GeneralLinearGroup.map (projv v))
+
+def evw {v : PlF E} (w : Above v) (y : Yv a b v) : GLw a w.1 × GLw b w.1 :=
+  (GeneralLinearGroup.map (Pi.evalRingHom _ w) y.1, GeneralLinearGroup.map (Pi.evalRingHom _ w) y.2)
+
+def Kv (a b : ℕ) (v : PlF E) : Subgroup (Yv a b v) :=
+  ⨅ w : Above v, (K2 (E := E) a b w.1).comap ((GeneralLinearGroup.map (Pi.evalRingHom (fun w : Above v => w.1.adicCompletion E) w)).prodMap
+    (GeneralLinearGroup.map (Pi.evalRingHom (fun w : Above v => w.1.adicCompletion E) w)))
+
+def CjEx : Prop := ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (v : PlF E), ∃ c : Av v →+* Av v, Continuous c ∧
+  ∀ x : Af E, projv v (conjFin (IsCMField.complexConj E).toRingEquiv x) = c (projv v x)
+
+def cjv (v : PlF E) : Av v →+* Av v :=
+  if h : ∃ c : Av v →+* Av v, Continuous c ∧ ∀ x : Af E, projv v (conjFin (IsCMField.complexConj E).toRingEquiv x) = c (projv v x)
+  then h.choose else RingHom.id _
+
+def thv (a b : ℕ) (v : PlF E) : Yv a b v →* Yv a b v := (thetaGL a (cjv v)).prodMap (thetaGL b (cjv v))
+
+def fv (S : Set (Pl E)) (φ₁ φ₂ : ∀ w : Pl E, GLw a w × GLw b w → ℂ) (v : PlF E) (y : Yv a b v) : ℂ :=
+  ∏ᶠ (w : Above v) (_ : w.1 ∈ S), φ₁ w.1 (evw w y) * if IsSplitAt w.1 then φ₂ w.1 (evw w (thv a b v y)) else 1
+
+def RestrV : Prop := CjEx → ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (a b : ℕ),
+  GlobalTheory.RestrMeas.IsRestrGroup (GlobalTheory.RestrMeas.noArch (Gf E a b)) (pv (E := E) a b) (Kv a b) ∧
+  (∀ v x, pv a b v (thP E a b x) = thv a b v (pv a b v x)) ∧ (∀ v, ∀ k ∈ Kv (E := E) a b v, thv a b v k ∈ Kv a b v) ∧
+  ∀ x, x ∈ (Kf E a).prod (Kf E b) ↔ ∀ v, pv a b v x ∈ Kv a b v
+
+def Regroup : Prop := ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (a b : ℕ) (S : Set (Pl E)), IsSection S →
+  ∀ (φ₁ φ₂ : ∀ w : Pl E, GLw a w × GLw b w → ℂ), IsTestP φ₁ → IsTestP φ₂ →
+  ∀ y, finFn S φ₁ φ₂ y = ∏ᶠ v, fv S φ₁ φ₂ v (pv a b v y)
+
+def LocCompare : Prop := CjEx → ∀ (E : Type) [Field E] [NumberField E] [IsCMField E], GlobalTheory.BCT.Unr E → ∀ (a b : ℕ) (S : Set (Pl E)),
+  IsSection S → ∀ (φ₁ φ₂ : ∀ w : Pl E, GLw a w × GLw b w → ℂ), IsTestP φ₁ → IsTestP φ₂ →
+  ∀ (δ₁ : GL (Fin a) E) (δ₂ : GL (Fin b) E), polE δ₁ ∈ Ell E a → polE δ₂ ∈ Ell E b → ∀ (w : Pl E), w ∈ S →
+    twOrb (thv a b (w.under (𝓞 (maximalRealSubfield E)))) (Kv a b _) (pv a b _ (ratF E a δ₁, ratF E b δ₂)) (fv S φ₁ φ₂ _) =
+      twOrb ((thL a w).prodMap (thL b w)) (K2 a b w) (locEl a w δ₁, locEl b w δ₂) (seen φ₁ φ₂ w)
+
+def LocCompareInert : Prop := CjEx → ∀ (E : Type) [Field E] [NumberField E] [IsCMField E], GlobalTheory.BCT.Unr E → ∀ (a b : ℕ) (S : Set (Pl E)),
+  IsSection S → ∀ (φ₁ φ₂ : ∀ w : Pl E, GLw a w × GLw b w → ℂ), IsTestP φ₁ → IsTestP φ₂ →
+  ∀ (δ₁ : GL (Fin a) E) (δ₂ : GL (Fin b) E), polE δ₁ ∈ Ell E a → polE δ₂ ∈ Ell E b → ∀ (w : Pl E), w ∈ S → ¬ IsSplitAt w →
+    twOrb (thv a b (w.under (𝓞 (maximalRealSubfield E)))) (Kv a b _) (pv a b _ (ratF E a δ₁, ratF E b δ₂)) (fv S φ₁ φ₂ _) =
+      twOrb ((thL a w).prodMap (thL b w)) (K2 a b w) (locEl a w δ₁, locEl b w δ₂) (seen φ₁ φ₂ w)
+
+def LocCompareSplit : Prop := CjEx → ∀ (E : Type) [Field E] [NumberField E] [IsCMField E], GlobalTheory.BCT.Unr E → ∀ (a b : ℕ) (S : Set (Pl E)),
+  IsSection S → ∀ (φ₁ φ₂ : ∀ w : Pl E, GLw a w × GLw b w → ℂ), IsTestP φ₁ → IsTestP φ₂ →
+  ∀ (δ₁ : GL (Fin a) E) (δ₂ : GL (Fin b) E), polE δ₁ ∈ Ell E a → polE δ₂ ∈ Ell E b → ∀ (w : Pl E), w ∈ S → IsSplitAt w →
+    twOrb (thv a b (w.under (𝓞 (maximalRealSubfield E)))) (Kv a b _) (pv a b _ (ratF E a δ₁, ratF E b δ₂)) (fv S φ₁ φ₂ _) =
+      twOrb ((thL a w).prodMap (thL b w)) (K2 a b w) (locEl a w δ₁, locEl b w δ₂) (seen φ₁ φ₂ w)
+
+def LocCompareOf : Prop := LocCompareInert → LocCompareSplit → LocCompare
+
+def LocHyp : Prop := CjEx → ∀ (E : Type) [Field E] [NumberField E] [IsCMField E], GlobalTheory.BCT.Unr E → ∀ (a b : ℕ) (S : Set (Pl E)),
+  IsSection S → ∀ (φ₁ φ₂ : ∀ w : Pl E, GLw a w × GLw b w → ℂ), IsTestP φ₁ → IsTestP φ₂ →
+  ∀ (δ₁ : GL (Fin a) E) (δ₂ : GL (Fin b) E), polE δ₁ ∈ Ell E a → polE δ₂ ∈ Ell E b →
+  let δ : Gf E a b := (ratF E a δ₁, ratF E b δ₂)
+  (∀ v, ∀ x ∈ twCent (thv a b v) (pv a b v δ), ∀ y ∈ twCent (thv a b v) (pv a b v δ), x * y = y * x) ∧
+  (∀ v (y : Yv a b v), (rStab fun k : Kv a b v => fv S φ₁ φ₂ v ((y * k)⁻¹ * pv a b v δ * thv a b v (y * k))).index ≠ 0) ∧
+  (∀ v, {q : DoubleCoset.Quotient (twCent (thv a b v) (pv a b v δ) : Set (Yv a b v)) (Kv a b v : Set (Yv a b v)) |
+    ∃ k ∈ Kv a b v, fv S φ₁ φ₂ v ((Quotient.out q * k)⁻¹ * pv a b v δ * thv a b v (Quotient.out q * k)) ≠ 0}.Finite) ∧
+  (∀ v (y : Yv a b v), twCent (thv a b v) (pv a b v δ) ⊓ (Kv a b v).map (MulAut.conj y).toMonoidHom ≤
+      cptPart (twCent (thv a b v) (pv a b v δ)) ∧
+    (twCent (thv a b v) (pv a b v δ) ⊓ (Kv a b v).map (MulAut.conj y).toMonoidHom).relIndex
+      (cptPart (twCent (thv a b v) (pv a b v δ))) ≠ 0) ∧
+  ∀ᶠ v in cofinite, fv S φ₁ φ₂ v = (Kv a b v : Set (Yv a b v)).indicator 1 ∧ pv a b v δ ∈ Kv a b v ∧
+    cptPart (twCent (thv a b v) (pv a b v δ)) ≤ Kv a b v ∧
+    ∀ y, y⁻¹ * pv a b v δ * thv a b v y ∈ Kv a b v → ∃ t ∈ twCent (thv a b v) (pv a b v δ), ∃ k ∈ Kv a b v, y = t * k
+
+def secPl (S : Set (Pl E)) (v : PlF E) : Option (Pl E) :=
+  if h : ∃ w ∈ S, w.under (𝓞 (maximalRealSubfield E)) = v then some h.choose else none
+
+def Reindex : Prop := ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (S : Set (Pl E)), IsSection S → ∀ g : Pl E → ℂ,
+  ∏ᶠ w ∈ S, g w = ∏ᶠ v : PlF E, (secPl S v).elim 1 g
+
+def EulerFinOf' : Prop := CjEx → RestrV → Regroup → LocCompare → LocHyp → Reindex → EulerFin
+
+end PositivityTheory.Rg.BcB.G8.Fin
+
+end
+end
+
+section
+
+noncomputable section
+
+open NumberField IsDedekindDomain Matrix Polynomial Filter
+open GlobalTheory.CuspRep GlobalTheory.PRep Formalism.UG Formalism.BasicNotions GlobalTheory.UnitaryBC Formalism.L2.Host
+open GlobalTheory.BCT
+open scoped Classical
+
+namespace PositivityTheory.Rg.BcB.G8.Fin.DoubleCosetCounting
+
+open PositivityTheory.Rg.BcB.G8 PositivityTheory.Rg.BcB.G8.Fin
+
+theorem avg_comp_mul_left {H : Type} [Group H] (u : H → ℂ) (h : H) : avg (fun y => u (h * y)) = avg u := by
+  have hR : rStab (fun y => u (h * y)) = rStab u := by
+    ext k
+    show (∀ x, u (h * (x * k)) = u (h * x)) ↔ ∀ x, u (x * k) = u x
+    constructor
+    · intro H x
+      have := H (h⁻¹ * x)
+      simpa [mul_assoc] using this
+    · intro H x
+      simpa [mul_assoc] using H (h * x)
+  unfold avg
+  rw [hR]
+  congr 1
+  calc ∑ᶠ q : H ⧸ rStab u, u (h * q.out) = ∑ᶠ q : H ⧸ rStab u, u ((h • q).out) := by
+        refine finsum_congr fun q => ?_
+        obtain ⟨r, hr⟩ := QuotientGroup.mk_out_eq_mul (rStab u) (h * q.out)
+        have hq : h • q = ((h * q.out : H) : H ⧸ rStab u) := by
+          conv_lhs => rw [← QuotientGroup.out_eq' q]
+          rfl
+        rw [hq, hr]
+        exact (r.2 (h * q.out)).symm
+    _ = ∑ᶠ q : H ⧸ rStab u, u q.out := finsum_comp_equiv (MulAction.toPerm h) (f := fun q : H ⧸ rStab u => u q.out)
+
+end PositivityTheory.Rg.BcB.G8.Fin.DoubleCosetCounting
+
+namespace PositivityTheory.Rg.BcB.G8.Fin
+
+open PositivityTheory.Rg.BcB.G8
+
+theorem DcCount_pf : DcCount := by
+  intro G _ _ _ θ K Γ δ f _ _ hG hΓ _ _ _ _ _
+  have hCT : cptPart (twCent θ δ) ≤ twCent θ δ := (Subgroup.closure_le _).2 fun t ht => ht.1
+  have hinv : ∀ t ∈ twCent θ δ, ∀ k ∈ K, ∀ x : G,
+      (avg fun k' : K => f ((t * x * k * k')⁻¹ * δ * θ (t * x * k * k'))) =
+        avg fun k' : K => f ((x * k')⁻¹ * δ * θ (x * k')) := by
+    intro t ht k hk x
+    have ht' : t * δ = δ * θ t := ht
+    have e1 : t⁻¹ * δ * θ t = δ := by
+      rw [mul_assoc, ← ht', ← mul_assoc, inv_mul_cancel, one_mul]
+    have e2 : ∀ y : G, (t * y)⁻¹ * δ * θ (t * y) = y⁻¹ * δ * θ y := by
+      intro y
+      rw [map_mul, _root_.mul_inv_rev]
+      calc y⁻¹ * t⁻¹ * δ * (θ t * θ y) = y⁻¹ * (t⁻¹ * δ * θ t) * θ y := by simp only [mul_assoc]
+        _ = y⁻¹ * δ * θ y := by rw [e1]
+    have e3 : (fun k' : K => f ((t * x * k * k')⁻¹ * δ * θ (t * x * k * k'))) =
+        fun k' : K => (fun y : K => f ((x * y)⁻¹ * δ * θ (x * y))) (⟨k, hk⟩ * k') := by
+      funext k'
+      have : t * x * k * (k' : G) = t * (x * ((⟨k, hk⟩ * k' : K) : G)) := by simp [mul_assoc]
+      rw [this, e2]
+    rw [e3]
+    exact DoubleCosetCounting.avg_comp_mul_left (fun y : K => f ((x * y)⁻¹ * δ * θ (x * y))) ⟨k, hk⟩
+  have hreg := GlobalTheory.T.finsum_doubleCoset_regroup_commutative G (twCent θ δ) Γ (cptPart (twCent θ δ)) K
+    (fun x => avg fun k : K => f ((x * k)⁻¹ * δ * θ (x * k))) hG.1 hCT hG.2 hinv
+  rw [inf_eq_left.2 hΓ] at hreg
+  have key : dcSum Γ K (fun x => f (x⁻¹ * δ * θ x)) =
+      ∑ᶠ q : DoubleCoset.Quotient (Γ : Set G) (K : Set G),
+        ((Nat.card (Γ ⊓ K.map (MulAut.conj (Quotient.out q)).toMonoidHom : Subgroup G) : ℂ))⁻¹ *
+          avg (fun k : K => f ((Quotient.out q * k)⁻¹ * δ * θ (Quotient.out q * k))) := by
+    unfold dcSum
+    exact finsum_congr fun q => by rw [div_eq_inv_mul]
+  rw [key, hreg]
+  rfl
+
+end PositivityTheory.Rg.BcB.G8.Fin
+
+end
+end

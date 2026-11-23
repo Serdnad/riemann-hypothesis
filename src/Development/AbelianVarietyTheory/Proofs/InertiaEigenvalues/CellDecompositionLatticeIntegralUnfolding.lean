@@ -1,13 +1,13 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LocFacOfNeg
-public import Development.AbelianVarietyTheory.Definitions.Divisors.MirSet
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.AdelicUnitriangularMulMemUnipotentTimesIntegral
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EqZeroOfMemWeakIn
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.AdelicIwasawaCellsDisjointOffFinset
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle879
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle495
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1298
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle750
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.AdelicIwasawaDecompositionOffFinset
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsOpenAdelicUnipotentTimesIntegralOutsideSet
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsCompactIntegralGLFiniteAdeles
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle509
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle239
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -45,7 +45,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.Definitions.Divisors.UnrOutside
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle036
 
 @[expose] public section
 

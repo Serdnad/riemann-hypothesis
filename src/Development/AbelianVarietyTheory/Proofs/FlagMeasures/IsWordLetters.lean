@@ -1,17 +1,16 @@
 module
 
-public import Formalism.SharpRestriction.CuspSpanNormBounds.LocalBesselAndTopKernel
-public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.DiscreteSeriesUpqExistsIffDsExists
-public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.FormalDegreeCompactDualIff
+public import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle015
+public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.Bundle005
 public import Formalism.HermitianCurvature.StatementSz
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.FinprodPlacesOverTypePrimesSplit
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle216
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.LocalIndicesColumnRowLevelsExact
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ProdSubEqProdFactorial
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.StdLatIsOrthoLatticeAndMassProperties
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle300
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle259
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.LevelPrimeSplitsCompletelyInCmField
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsDiscreteSeriesFormalDegreeProduct
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsIsFdegSmulOfIsDS
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.RowHCParameterIsHCParamAndFormalDegreePos
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle242
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle158
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle218
 public import Formalism.HermitianCurvature.HeisenbergConjugationMeasurePreserving
 import Formalism.SharpRestriction.GlobalSchurBounds.ThickPlacesCorollaryOfAnyTranslate
 import Mathlib.Algebra.Order.Floor.Extended
@@ -54,7 +53,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-public import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.SplitColumnClasses
+public import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.Bundle004
 
 @[expose] public section
 

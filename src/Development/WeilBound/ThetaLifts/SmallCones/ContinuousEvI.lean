@@ -1,10 +1,10 @@
 module
 
-public import Development.WeilBound.ThetaLifts.SmallCones.ExpSum
-import Development.AbelianVarietyTheory.Proofs.HeightProofs.ExistsCompactAdeleRingModNumberField
+public import Development.WeilBound.ThetaLifts.SmallCones.Bundle002
+import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle019
 public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.ThetaSumAdmissibility
 public import Development.WeilBound.ThetaLifts.SmallCones.ExpAlg
-import Development.WeilBound.ThetaLifts.SmallCones.FourierUniq
+import Development.WeilBound.ThetaLifts.SmallCones.Bundle007
 public import Development.WeilBound.ThetaLifts.SmallCones.SliceSummable
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -44,7 +44,7 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.Divisors.MatchingOfParts
 import Development.WeilBound.ThetaLifts.CTKernel
-import Development.WeilBound.ThetaLifts.TowerModels.PlaneHerm
+import Development.WeilBound.ThetaLifts.TowerModels.Bundle003
 
 @[expose] public section
 

@@ -228,7 +228,8 @@ theorem multV_inv [IsDomain BdR] (κ : K →ₐ[Qp] Om)
     by_cases hσ : σ.comp τ = κ
     · simp only [hfi, if_pos hσ]; exact hyv σ hσ
     · rw [hfi0 σ hσ]; exact Submodule.zero_mem _
-  have hcoord : ∀ σ, ev σ (coordInv fi : (Fin 1 → LL) ⊗[Qp] BdR) = fi σ := ev_coordInv fi
+  have hcoord : ∀ σ : LL →ₐ[Qp] Om, ev σ (coordInv fi : (Fin 1 → LL) ⊗[Qp] BdR) = fi σ :=
+    ev_coordInv fi
   have hII : IsInv PD act χ' fi := fun g σ => by
     by_cases hσ : σ.comp τ = κ
     · have hσ' := (htw g σ).2 hσ

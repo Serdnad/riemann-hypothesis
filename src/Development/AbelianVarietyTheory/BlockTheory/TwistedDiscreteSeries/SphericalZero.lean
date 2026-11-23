@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalToGlobal.IndefiniteReal.LocalNewformFunction
-public import Formalism.LocalToGlobal.BesselHermitianTheta.TiedSmooth
+public import Formalism.LocalToGlobal.BesselHermitianTheta.Bundle002
 public import Development.AbelianVarietyTheory.Definitions.Foundations.T2SpaceAdeleRing
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

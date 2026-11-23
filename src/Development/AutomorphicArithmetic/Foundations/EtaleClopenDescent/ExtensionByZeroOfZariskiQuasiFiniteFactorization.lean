@@ -1,9 +1,8 @@
 module
 
-public import Development.EtaleCohomology.EtaleSheaves.CurveThroughGenericPointSpreadsToSmoothProperFamily2
-public import Development.AutomorphicArithmetic.CommutativeAlgebra.IsFiniteFromNormalizationOfPerfectField
-public import Development.AutomorphicArithmetic.CommutativeAlgebra.MemRangeOfProperGenericFibreSeparated
-public import Development.AutomorphicArithmetic.CommutativeAlgebra.TopologicalKrullDimLeOfIsOpenImmersionIntegral
+public import Development.EtaleCohomology.EtaleSheaves.Bundle031
+public import Development.AutomorphicArithmetic.CommutativeAlgebra.Bundle021
+public import Development.AutomorphicArithmetic.CommutativeAlgebra.Bundle016
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

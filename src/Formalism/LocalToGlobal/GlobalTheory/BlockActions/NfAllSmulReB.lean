@@ -1,11 +1,11 @@
 module
 
-public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.ArchimedeanSignatureMatchingOfTrivialBranchingSymm
+public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.Bundle004
 public import Formalism.LocalToGlobal.HermitianForms.TiedBrProof
-public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.BrExistsOfRestS
-public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.ExistsOnOfPosDef
+public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.Bundle005
+public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.Bundle003
 import Formalism.LocalToGlobal.GlobalTheory.BlockActions.HformSmulRightB
-public import Formalism.LocalToGlobal.GlobalTheory.NfAllSmulSelfRe
+public import Formalism.LocalToGlobal.GlobalTheory.Bundle005
 import Formalism.LocalToGlobal.HermitianForms.TiedBrCl
 public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.LowerTieChain
 import Mathlib.Algebra.Order.Floor.Extended
@@ -296,8 +296,10 @@ theorem ipV_co_ofS (Tf : FormsTiedSym D u Ch chOf)
   intro w c φ hφ
   obtain ⟨Q, hQ, hq⟩ := trEv_repS Tf (B w c) (hB w c) φ hφ c
   have hcQ : coMTS Tf B w c (φ ((D.fm u).til c)) = Q := by
-    simp only [coMTS, LinearMap.coe_comp, Function.comp_apply]
-    rw [hq, fnInv_fnOf _ _ _ (atInf_inv_isUnit _ (bZg_isUnitS Tf (B w c) (hB w c)))]
+    change fnInv (gramC (gramN D D.R.m le_rfl) (Formalism.L2.Forms.embT D)) (shiftOf (lamT u D.R.m))
+      (atInf (embT D) (bZg u Tf.til.z0 (B w c))⁻¹) (trEvS Tf c (φ ((D.fm u).til c))) = Q
+    rw [hq]
+    exact fnInv_fnOf _ _ _ (atInf_inv_isUnit _ (bZg_isUnitS Tf (B w c) (hB w c))) Q
   rw [hcQ]
   set oM1 : D.what₂.Tau → Matrix (Fin (D.R.N D.R.m)) (Fin (D.R.N D.R.m)) ℂ := fun τ =>
     atInf (embT D) ((((Tf.til.ga c).1)⁻¹ : GL (Fin (D.R.N D.R.m)) D.host.E) : Matrix _ _ D.host.E) τ *

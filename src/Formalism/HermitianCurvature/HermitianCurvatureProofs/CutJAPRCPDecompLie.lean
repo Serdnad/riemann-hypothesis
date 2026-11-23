@@ -1,7 +1,6 @@
 module
 
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutJAPRCPDecompDefs
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutJAPRCoreCut
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle119
 import Formalism.FormalDegreeBessel.FinalG
 import Formalism.FormalDegreeBessel.FormalDegreeRatio.GBasic
 import Mathlib.Algebra.Order.Floor.Extended

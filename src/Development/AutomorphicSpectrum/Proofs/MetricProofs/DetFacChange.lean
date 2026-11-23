@@ -1,13 +1,13 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.MinorIJMap
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ExistsBlkCover
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.BlockDiagonalMinorVanishingStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.CoordinateRatioValueAtPoint
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FrameChangeRegularEntriesStatement
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.FrameChangeScalarFactor
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle084
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle088
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle082
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle104
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle121
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle087
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FrameChangeUnderFieldMap
-import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.FrameDefinitions.Values
+import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.FrameDefinitions.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -53,8 +53,8 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.IsLocSec
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.PullbackPullback
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle102
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle090
 
 @[expose] public section
 

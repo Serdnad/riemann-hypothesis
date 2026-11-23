@@ -1,8 +1,8 @@
 module
 
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.FIwasawaA
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle007
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.FIwasawaE
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.SphericalA
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -52,7 +52,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.FIwasawaB
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle008
 
 @[expose] public section
 

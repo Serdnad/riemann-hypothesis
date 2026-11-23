@@ -1,7 +1,7 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.LatAtLattice
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.IntegralPowerExpansion
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle065
 import Formalism.LocalRingCardinality.SpanPowerMembership.LocAtA
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -38,7 +38,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AbelianVarietyTheory.Definitions.LatticeFrames.FiniteDimensionalMram
+import Development.AbelianVarietyTheory.Definitions.LatticeFrames.Bundle004
 import Development.AbelianVarietyTheory.Definitions.LatticeFrames.MidChart
 import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.WittSmallGroupEmbeddingMemPointwiseStabilizerIso
 import Formalism.LocalToGlobal.IndefiniteReal.LinksDefs
@@ -146,7 +146,7 @@ end Val
 
 section Frames
 
-open Formalism.L2.Col Formalism.L2.DIV GlobalTheory.TopStep
+open _root_.Formalism.L2.Col Formalism.L2.DIV GlobalTheory.TopStep
 
 variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] [StarRing E]
 
@@ -311,7 +311,7 @@ end Frames
 
 section Top
 
-open Formalism.L2.Col Formalism.L2.DIV GlobalTheory.TopStep
+open _root_.Formalism.L2.Col Formalism.L2.DIV GlobalTheory.TopStep
 
 variable {X : Fields} {Pr : Primes X} {R : Ranks} {Ch : Chars X Pr R.m}
   {sel : HeightOneSpectrum (𝓞 X.F) → HeightOneSpectrum (𝓞 X.E)} {S : Set ℕ}

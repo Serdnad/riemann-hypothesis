@@ -1,12 +1,12 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Uniformization.ExistsUniqueSamePt
-public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.IsAffineHomOfIsPullbackSpecMap
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.SecBaseChangeAnySt
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsExpansionSectionLineBundlePowerStatement
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsPullSecSval
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExpFOfExpT
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.SvalSecComb
+public import Development.AbelianVarietyTheory.Definitions.Uniformization.Bundle003
+public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.Bundle001
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.Bundle005
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle094
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle089
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle071
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle067
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

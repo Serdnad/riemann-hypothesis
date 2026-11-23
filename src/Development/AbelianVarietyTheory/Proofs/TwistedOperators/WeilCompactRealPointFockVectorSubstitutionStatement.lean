@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.EqConjOfInFrame
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.WeilCompactRealPointFockVectorSubstitution
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle657
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle663
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -2,7 +2,7 @@ module
 
 public import CompanionTheory.AutomorphicTheory.JacobiDiagonalBounds.StarLoweringConstant
 public import CompanionTheory.AutomorphicTheory.JacobiDiagonalBounds.TieRad
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutJD
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle049
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutJDHat
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.RuleGD
 import Mathlib.Algebra.Order.Floor.Extended

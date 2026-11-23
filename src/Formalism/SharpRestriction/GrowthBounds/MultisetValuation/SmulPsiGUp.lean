@@ -1,7 +1,7 @@
 module
 
 public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.SmulMemLatOf
-public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.CountLoc
+public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle003
 public import Formalism.SubspaceCounting.SubspaceCountingProofs.TypeIIDown
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

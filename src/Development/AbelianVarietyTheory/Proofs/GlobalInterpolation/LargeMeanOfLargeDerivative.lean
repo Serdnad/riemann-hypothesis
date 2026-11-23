@@ -1,11 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.ZerosDisc
+public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.Bundle003
 public import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExistsTsumVonMangoldtDivRpowLeDiv
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.IntervalIntegrableDivOfBounded
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.SumPrimesIocEqSumIndicator
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.SummableNonPrimeVonMangoldtDivRpow
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle024
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle022
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle023
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

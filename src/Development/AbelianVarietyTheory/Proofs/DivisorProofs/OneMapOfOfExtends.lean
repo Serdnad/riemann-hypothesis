@@ -1,13 +1,12 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PinsMerge
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2187
 import Development.AbelianVarietyTheory.Definitions.ThetaValues.IoOverLeftUnique
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ActLevAndActBC
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.EqOfForallAlgClosed
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsEmbExt
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.IsIntegralCoeffCof
-import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.RuleBaseChangeSectionValuesSemilinear
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.SecBCAndCuspBC
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle076
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle079
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle078
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle048
+import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle077
 public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.ChartIndependenceUnconditional
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,9 +1,9 @@
 module
 
-public import Development.AutomorphicArithmetic.Foundations.Convolution.SplitEigenfunctions.SplitEig
+public import Development.AutomorphicArithmetic.Foundations.Convolution.SplitEigenfunctions.Bundle002
 public import CompanionTheory.AutomorphicTheory.UnitriangularMeasure.AdeleCoordinateMeasure.EllipticTorusNorm
-public import Development.AutomorphicArithmetic.AdelicQuotients.CentralSectionBaseChange
-public import GroundTheory.AutomorphicForms.CompactAbelianCharacters
+public import Development.AutomorphicArithmetic.AdelicQuotients.Bundle009
+public import GroundTheory.AutomorphicForms.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

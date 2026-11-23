@@ -1,7 +1,7 @@
 module
 
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.OrbitQuotientTopology.IsClosedRStab
-public import Formalism.SharpRestriction.CuspSpanNormBounds.RootMeasBig
+public import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle004
 public import Formalism.FormalDegreeBessel.FormalDegreeRatio.UnitaryWeylNormalHolds
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.BetaSesquilinearity
 import Mathlib.Algebra.Order.Floor.Extended

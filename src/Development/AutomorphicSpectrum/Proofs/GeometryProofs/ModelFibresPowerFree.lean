@@ -1,10 +1,10 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ToFirst
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle014
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.UniformisationConclusion
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.CompleteDvrDominatingValuationStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GeometricPowerFreeFunctorialStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.PelUniformisedGeometricFreeStatement
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle060
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle179
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle180
 public import GroundTheory.HeightsAndTheta.Heights.IntegralModels.Assembly
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -48,7 +48,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.AbProj
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle007
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Splits
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.ChartPullbacks.BaseChangeKernels.GtBaseChange
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.LawsProved
@@ -185,6 +185,7 @@ theorem exists_complete_dvr (A : Type) [CommRing A] [IsDomain A] [IsNoetherianRi
     exact (hA2 a).mpr hu ha⟩
   let _ : Algebra (ResidueField A) (ResidueField V) := (ResidueField.map g₀).toAlgebra
   let Ω := AlgebraicClosure (ResidueField V)
+  letI : Algebra (ResidueField V) Ω := AlgebraicClosure.instAlgebra (ResidueField V)
   let σ : k →ₐ[ResidueField A] Ω := (by
     refine @_root_.IsAlgClosed.lift _ _ _ _ _ _ _ _ _ _ _ ?_ ?_ ?_
     solve_by_elim* (maxDepth := 2) only [*,
@@ -200,6 +201,7 @@ theorem exists_complete_dvr (A : Type) [CommRing A] [IsDomain A] [IsNoetherianRi
     refine sum_mem fun i _ => ?_
     rw [map_smul, Algebra.smul_def, IsScalarTower.algebraMap_apply (ResidueField A) (ResidueField V) Ω]
     exact mul_mem (k'.algebraMap_mem _) (IntermediateField.subset_adjoin _ _ ⟨i, rfl⟩)
+  classical
   obtain ⟨R, iR, iD, iV, f, iL, s, hc, hf, hs⟩ := GlobalTheory.T.complete_dvr_dominating_valuation V k'
   refine ⟨R, iR, iD, iV, f.comp g₀, inferInstance, s.comp (σ.toRingHom.codRestrict k'.toSubring hmem), hc,
     hf.comp hg₀, ?_⟩

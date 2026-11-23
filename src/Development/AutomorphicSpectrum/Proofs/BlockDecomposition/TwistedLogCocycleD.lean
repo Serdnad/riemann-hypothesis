@@ -1,10 +1,10 @@
 module
 
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.PderivComp1PtZeroEqZero
-public import Development.WeilBound.CoreStatements.PadicHodgeComparison.HodgeSurjectivity.FirstChernCoboundary
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ConeLiftRatioMemIdeal
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsConeLift
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ThickJIsNilpotent
+public import Development.WeilBound.CoreStatements.PadicHodgeComparison.HodgeSurjectivity.Bundle001
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle158
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle317
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle302
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

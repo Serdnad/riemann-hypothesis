@@ -1,12 +1,12 @@
 module
 
-public import Development.WeilBound.ThetaLifts.LatticeBasics.HypothesesS
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle012
 public import Development.WeilBound.ThetaLifts.SphericalLattices.FunDefs
 public import Development.WeilBound.CoreStatements.AbelianHeightsDuality.PublishedTheoremStatements.SiegelSetUnitaryHolds
 public import Development.WeilBound.CoreStatements.GaussianSeminormBounds.RealSeminormFiltration.EvIHalfTrace
 public import Development.WeilBound.CoreStatements.LocalThetaKernels.Locrep
 public import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.BernsteinNarrowness.BernsteinClosure.RamifiedMultiplicityOne
-public import Development.WeilBound.ThetaLifts.Reductions.ArchLie
+public import Development.WeilBound.ThetaLifts.Reductions.Bundle002
 public import Development.WeilBound.ThetaLifts.Reductions.KReal
 import Development.WeilBound.ThetaLifts.Reductions.LieScalar2
 public import Development.WeilBound.ThetaLifts.Reductions.LocalLift
@@ -14,9 +14,9 @@ import Development.WeilBound.ThetaLifts.Reductions.SiegelOfCore
 public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.WeilEx
 public import Development.WeilBound.ThetaLifts.SphericalLattices.ExistsFixedSum
 public import Development.WeilBound.ThetaLifts.SphericalLattices.FinInert
-public import Development.WeilBound.ThetaLifts.SphericalLattices.FunTop
+public import Development.WeilBound.ThetaLifts.SphericalLattices.Bundle013
 public import Development.WeilBound.ThetaLifts.SphericalLattices.HoweDuality
-public import Development.WeilBound.ThetaLifts.SphericalLattices.ModSt2
+public import Development.WeilBound.ThetaLifts.SphericalLattices.Bundle010
 public import Development.WeilBound.ThetaLifts.SphericalLattices.SphericalClosure.CloseSph
 public import Development.WeilBound.ThetaLifts.SphericalSplitting.SphSplitGeo
 import Mathlib.Algebra.Order.Floor.Extended

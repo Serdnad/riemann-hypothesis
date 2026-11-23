@@ -1,14 +1,14 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.ThetaSetupStructureMapComp
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsNormalisedBlowupCyclotomicAwayProjective
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FiniteTypeCycAway
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsIsoMorphismRestrictFiniteOfIsNormalDenseStatement
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle067
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2789
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2752
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle390
 import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.ExistsUniqueLiftSpecOfIsLocalizationAway
 import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.IsIsoNormalizationPullbackOfToIntegralClosure
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsCartierOnNormalizedBlowup
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsSectionOfIsIsoRestrict
-public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.GeometricallyConnectedOfIsIsoRestrict
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle671
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle533
+public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -44,10 +44,10 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.AbProj
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle007
 import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsUnifOfIsMumfordOf
-import Development.AbelianVarietyTheory.Definitions.Divisors.FromBase
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HomExtNormalSt
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle068
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle532
 
 @[expose] public section
 

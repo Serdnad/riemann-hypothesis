@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.AnalyticForms.RegularLocalRings.ProjBCompl
+public import ReciprocityTheory.AnalyticForms.RegularLocalRings.Bundle013
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -41,8 +41,8 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 public import Mathlib.Topology.Algebra.MvPolynomial
-public import ReciprocityTheory.AnalyticForms.RegularLocalRings.BijOnClosedPointsOfIsIso
-public import ReciprocityTheory.AnalyticForms.RegularLocalRings.EvalValChartCoord
+public import ReciprocityTheory.AnalyticForms.RegularLocalRings.Bundle009
+public import ReciprocityTheory.AnalyticForms.RegularLocalRings.Bundle011
 public import ReciprocityTheory.AnalyticForms.RegularLocalRings.MemBasicOpenSecHomIff
 
 @[expose] public section

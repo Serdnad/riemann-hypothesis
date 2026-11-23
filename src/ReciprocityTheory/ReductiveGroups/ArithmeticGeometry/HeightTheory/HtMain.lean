@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.GenericSectionOfAxioms
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.Bundle015
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -51,15 +51,15 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.CardEmbPos
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.GeneratorNeZeroOfHeight
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.HFour
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.Bundle031
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.HHINDE
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.HSix
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.HeightMinMaxFormula
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.HtArith
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.Imports
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.IntNsg
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.Bundle002
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.Bundle016
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.Bundle029
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.LogHeightGeneratorLowerBound
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.NlNonnegFin
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.Bundle033
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.SumLogHeightUpperBound
 import Std.Tactic.BVDecide.Normalize.Prop
 

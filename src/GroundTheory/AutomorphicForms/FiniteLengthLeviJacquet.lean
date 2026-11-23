@@ -2,7 +2,7 @@ module
 
 public import GroundTheory.AutomorphicForms.LeviStagesInduction
 import GroundTheory.AutomorphicForms.AdmissibleInduction
-import GroundTheory.AutomorphicForms.SmoothRepSchur
+import GroundTheory.AutomorphicForms.Bundle009
 import GroundTheory.LocalFields.PadicLogSeries
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

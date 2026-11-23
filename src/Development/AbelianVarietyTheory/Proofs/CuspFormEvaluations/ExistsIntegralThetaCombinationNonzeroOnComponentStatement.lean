@@ -2,9 +2,9 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.ThetaValues.SWEqSOf
 public import Development.AbelianVarietyTheory.Definitions.ThetaValues.GamAt
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.SupBoundPageRows
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ThExprUniqOfChartIndep2
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsIntegralThetaCombinationNonzeroOnComponent
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.Bundle006
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle010
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle100
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

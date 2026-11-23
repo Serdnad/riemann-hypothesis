@@ -1,11 +1,11 @@
 module
 
-public import Formalism.PeriodIntegrals.QuotInv
+public import Formalism.PeriodIntegrals.Bundle004
 public import Formalism.FormalDegreeBessel.StatementG
 public import Mathlib.LinearAlgebra.Complex.FiniteDimensional
 public import Mathlib.MeasureTheory.Constructions.Pi
 public import Mathlib.MeasureTheory.Measure.Haar.OfBasis
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsUnitaryMulVecEqOfFormEq
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle012
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -62,7 +62,7 @@ import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.MatrixOfBesselTwoSidedAction
 import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.UpperOff
-import Formalism.SharpRestriction.CuspSpanNormBounds.Point
+import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle001
 public import Mathlib.MeasureTheory.Measure.Lebesgue.EqHaar
 public import Mathlib.RingTheory.Norm.Transitivity
 

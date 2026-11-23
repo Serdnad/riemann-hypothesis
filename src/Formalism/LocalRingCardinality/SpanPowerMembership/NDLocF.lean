@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalRingCardinality.SpanPowerMembership.NDLocE
+public import Formalism.LocalRingCardinality.SpanPowerMembership.Bundle006
 public import Mathlib.Topology.Algebra.Nonarchimedean.AdicTopology
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

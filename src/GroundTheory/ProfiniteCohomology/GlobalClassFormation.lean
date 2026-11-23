@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.ClassFormationGlobal
-public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.IdeleInvariants
+public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.Bundle008
 public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.IdeleLimits.SubsingletonCohomologyThreeInfiniteDecomposition
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,19 +1,18 @@
 module
 
-public import ReciprocityTheory.AnalyticForms.RegularLocalRings.ConeChartB
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FiniteMinimalPrimes
+public import ReciprocityTheory.AnalyticForms.RegularLocalRings.Bundle014
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle085
 public import Mathlib.Algebra.TrivSqZeroExt.Basic
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ArithmeticHilbertSamuelLowerBound
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterPC
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterRes
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle006
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle008
 public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.ExistsBasisKaehlerOfAlgebraicIndependent
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsStandardSmoothLocalization
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.SncResolutionCompactEmbedded
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.SncResolutionCoverAndCone
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.SncResolutionLocalChartPolynomial
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle127
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle090
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle091
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.SncResolutionRegularLocalRing
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.SncResolutionTransitionPolynomial
-import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PCoordArithOfFnField
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle098
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle077
 import Mathlib.Algebra.DualNumber
 import Mathlib.Algebra.Module.SpanRankOperations
 import Mathlib.Algebra.Order.Floor.Extended
@@ -63,10 +62,10 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import ReciprocityTheory.AnalyticForms.RegularLocalRings.ConeChart
-import ReciprocityTheory.AnalyticForms.RegularLocalRings.JacChartA
+import ReciprocityTheory.AnalyticForms.RegularLocalRings.Bundle003
 public import ReciprocityTheory.AnalyticForms.RegularLocalRings.SNCstep
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterAlgRes
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterMinor
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle013
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterPCProof
 import Std.Tactic.BVDecide.Normalize.Prop
 
@@ -217,6 +216,7 @@ theorem exists_params_of_regular {m : ℕ} (I : Ideal (MvPolynomial (Fin m) ℂ)
         Ideal.map (algebraMap _ (locRing I t)) (ptIdeal t) := by
   classical
   have hK : I ≤ ptI t := fun h hh => mem_ptIdeal.mpr (hI h hh)
+  haveI : IsLocalRing (locRing I t) := hreg.toIsLocalRing
   haveI : IsLocalRing (locR I t) := hreg.toIsLocalRing
   have hmax : IsLocalRing.maximalIdeal (locRing I t) =
       Ideal.map (algebraMap _ (locRing I t)) (ptIdeal t) := max_eq_map I hK

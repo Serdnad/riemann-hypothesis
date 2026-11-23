@@ -2,10 +2,10 @@ module
 
 public import Formalism.LocalToGlobal.Divisibility.Tuples
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsRationalUnitaryDeterminantMapRationalUnitaryTo
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HostCmEmbeddingProperties
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsIdempotentIsUnitOneAddOrSubAdele
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FiniteAdeleStrongApproximationModNat
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Hilbert90AdeleRingTensorQuadratic
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle163
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle007
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle009
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle011
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -189,17 +189,17 @@ theorem exists_nat_valued_lt_finset (T : Finset (HeightOneSpectrum (𝓞 L)))
     · exact (mul_le_of_le_one_right' (valued_natCast_le _ N)).trans_lt h'
     · exact (mul_le_of_le_one_left' (valued_natCast_le _ M)).trans_lt (h P hP)
 
-def compAt (P : HeightOneSpectrum (𝓞 L)) : Ideles L →* P.adicCompletion L where
+def compAt (P : HeightOneSpectrum (𝓞 L)) : _root_.Neutral.B1.Ideles L →* P.adicCompletion L where
   toFun a := (a : AdeleRing (𝓞 L) L).2 P
   map_one' := rfl
   map_mul' _ _ := rfl
 
-theorem compAt_ne_zero (P : HeightOneSpectrum (𝓞 L)) (a : Ideles L) : compAt P a ≠ 0 :=
+theorem compAt_ne_zero (P : HeightOneSpectrum (𝓞 L)) (a : _root_.Neutral.B1.Ideles L) : compAt P a ≠ 0 :=
   ((Group.isUnit a).map (compAt P)).ne_zero
 
 open Classical in
 theorem compAt_localIdele (P Q : HeightOneSpectrum (𝓞 L)) (k : Lˣ) :
-    compAt P (localIdele L Q (atFin Q k)) = if Q = P then algebraMap L _ (k : L) else 1 := by
+    compAt P (_root_.Neutral.B1.localIdele L Q (_root_.Formalism.L2.Host.atFin Q k)) = if Q = P then algebraMap L _ (k : L) else 1 := by
   change Function.update (fun w : HeightOneSpectrum (𝓞 L) => (1 : w.adicCompletion L)) Q
     (algebraMap L _ (k : L)) P = _
   split_ifs with h
@@ -210,15 +210,15 @@ variable {F : Type} [Field F] [NumberField F] [Algebra F L]
 
 open Classical in
 theorem compAt_locF (P : HeightOneSpectrum (𝓞 L)) (v : HeightOneSpectrum (𝓞 F)) (k : Fˣ) :
-    compAt P (locF F v k) = if v = P.under (𝓞 F) then algebraMap L _ (algebraMap F L k) else 1 := by
-  rw [locF, map_prod]
-  simp only [compAt_localIdele, Finset.prod_ite_eq', aboveF, Set.Finite.mem_toFinset, Set.mem_setOf_eq,
+    compAt P (_root_.GlobalTheory.Mem.Chr.locF F v k) = if v = P.under (𝓞 F) then algebraMap L _ (algebraMap F L k) else 1 := by
+  rw [_root_.GlobalTheory.Mem.Chr.locF, map_prod]
+  simp only [compAt_localIdele, Finset.prod_ite_eq', _root_.Formalism.L2.Host.aboveF, Set.Finite.mem_toFinset, Set.mem_setOf_eq,
     eq_comm (a := v)]
   rfl
 
 open Classical in
 theorem compAt_prod_locF (P : HeightOneSpectrum (𝓞 L)) (S : Finset (HeightOneSpectrum (𝓞 F))) (k : Fˣ) :
-    compAt P (∏ v ∈ S, locF F v k) =
+    compAt P (∏ v ∈ S, _root_.GlobalTheory.Mem.Chr.locF F v k) =
       if P.under (𝓞 F) ∈ S then algebraMap L _ (algebraMap F L k) else 1 := by
   rw [map_prod]
   simp only [compAt_locF, Finset.prod_ite_eq']
@@ -233,23 +233,23 @@ theorem div_sub_one_lt {K Γ : Type*} [Field K] [LinearOrderedCommGroupWithZero 
   rw [div_sub_one hy, map_div₀, div_lt_one₀ (zero_lt_iff.2 ((Valuation.ne_zero_iff _).2 hy)), hv]
   exact h
 
-theorem finite_compAt_ne_one (a : Ideles L) :
+theorem finite_compAt_ne_one (a : _root_.Neutral.B1.Ideles L) :
     {P : HeightOneSpectrum (𝓞 L) | Valued.v (compAt P a) ≠ 1}.Finite := by
   have hu : IsUnit ((a : AdeleRing (𝓞 L) L).2) :=
     a.isUnit.map (MonoidHom.snd (InfiniteAdeleRing L) (FiniteAdeleRing (𝓞 L) L))
   exact (FiniteAdeleRing.isUnit_iff.1 hu).2
 
-theorem exists_locF_approx (a : Ideles L) (T₀ : Set (HeightOneSpectrum (𝓞 L))) (hT₀ : T₀.Finite)
+theorem exists_locF_approx (a : _root_.Neutral.B1.Ideles L) (T₀ : Set (HeightOneSpectrum (𝓞 L))) (hT₀ : T₀.Finite)
     (ha : ∀ N : ℕ, 0 < N → ∃ k : F, ∀ P, Valued.v (compAt P a - algebraMap L _ (algebraMap F L k)) ≤
       Valued.v (N : P.adicCompletion L)) :
-    ∃ (S : Finset (HeightOneSpectrum (𝓞 F))) (k : Fˣ) (b : Ideles L), a = b * ∏ v ∈ S, locF F v k ∧
+    ∃ (S : Finset (HeightOneSpectrum (𝓞 F))) (k : Fˣ) (b : _root_.Neutral.B1.Ideles L), a = b * ∏ v ∈ S, _root_.GlobalTheory.Mem.Chr.locF F v k ∧
       b ∈ unitIdl L ∧ ∀ P ∈ T₀, Valued.v (compAt P b - 1) < 1 := by
   classical
   obtain ⟨S, hS⟩ : ∃ S : Finset (HeightOneSpectrum (𝓞 F)),
       ∀ P, P ∈ T₀ ∨ Valued.v (compAt P a) ≠ 1 → P.under (𝓞 F) ∈ S :=
     ⟨(hT₀.union (finite_compAt_ne_one a)).toFinset.image fun P => P.under (𝓞 F), fun P hP =>
       Finset.mem_image.2 ⟨P, (Set.Finite.mem_toFinset _).2 hP, rfl⟩⟩
-  obtain ⟨N, hN, hlt⟩ := exists_nat_valued_lt_finset (S.biUnion (aboveF (L := L) F))
+  obtain ⟨N, hN, hlt⟩ := exists_nat_valued_lt_finset (S.biUnion (_root_.Formalism.L2.Host.aboveF (L := L) F))
     (fun P => Valued.v (compAt P a)) fun P => (Valuation.ne_zero_iff _).2 (compAt_ne_zero P a)
   obtain ⟨k, hk⟩ := ha N hN
   have h1 : ∀ P, P.under (𝓞 F) ∈ S →
@@ -259,13 +259,13 @@ theorem exists_locF_approx (a : Ideles L) (T₀ : Set (HeightOneSpectrum (𝓞 L
     by_cases h : k = 0
     · exact ⟨1, fun h' => absurd h h'⟩
     · exact ⟨Units.mk0 k h, fun _ => rfl⟩
-  have h2 : ∀ P, P.under (𝓞 F) ∈ S → Valued.v (compAt P (a / ∏ v ∈ S, locF F v u) - 1) < 1 := by
+  have h2 : ∀ P, P.under (𝓞 F) ∈ S → Valued.v (compAt P (a / ∏ v ∈ S, _root_.GlobalTheory.Mem.Chr.locF F v u) - 1) < 1 := by
     intro P hP
     obtain ⟨h, h'⟩ := div_sub_one_lt _ (h1 P hP)
     have hk0 : k ≠ 0 := fun h0 => h (by rw [h0, map_zero, map_zero])
     rw [map_div, compAt_prod_locF, if_pos hP, hu hk0]
     exact h'
-  have h3 : ∀ P, Valued.v (compAt P (a / ∏ v ∈ S, locF F v u)) = 1 := by
+  have h3 : ∀ P, Valued.v (compAt P (a / ∏ v ∈ S, _root_.GlobalTheory.Mem.Chr.locF F v u)) = 1 := by
     intro P
     by_cases hP : P.under (𝓞 F) ∈ S
     · have := Valuation.map_one_add_of_lt _ (h2 P hP)
@@ -273,13 +273,13 @@ theorem exists_locF_approx (a : Ideles L) (T₀ : Set (HeightOneSpectrum (𝓞 L
     · rw [map_div, compAt_prod_locF, if_neg hP, div_one]
       by_contra h
       exact hP (hS P (Or.inr h))
-  exact ⟨S, u, a / ∏ v ∈ S, locF F v u, (div_mul_cancel _ _).symm, h3,
+  exact ⟨S, u, a / ∏ v ∈ S, _root_.GlobalTheory.Mem.Chr.locF F v u, (div_mul_cancel _ _).symm, h3,
     fun P hP => h2 P (hS P (Or.inl hP))⟩
 
 theorem exists_approx_of_eq_tmul (ι : AfE F L ≃+* FiniteAdeleRing (𝓞 L) L)
     (h1 : ∀ x : L, ι (x ⊗ₜ[F] 1) = algebraMap L _ x)
     (h2 : ∀ z, z ∈ RInt F L ↔ ∀ Q : HeightOneSpectrum (𝓞 L), Valued.v (ι z Q) ≤ 1)
-    (a : Ideles L) (t : FiniteAdeleRing (𝓞 F) F)
+    (a : _root_.Neutral.B1.Ideles L) (t : FiniteAdeleRing (𝓞 F) F)
     (ha : (a : AdeleRing (𝓞 L) L).2 = ι (1 ⊗ₜ[F] t)) (N : ℕ) (hN : 0 < N) :
     ∃ k : F, ∀ P, Valued.v (compAt P a - algebraMap L _ (algebraMap F L k)) ≤
       Valued.v (N : P.adicCompletion L) := by
@@ -299,16 +299,16 @@ theorem exists_approx_of_eq_tmul (ι : AfE F L ≃+* FiniteAdeleRing (𝓞 L) L)
   exact mul_le_of_le_one_right' ((h2 _).1 hr' P)
 
 theorem exists_lift {σ : L →ₐ[F] L} (htr : ∀ x, ∃ t : F, x + σ x = algebraMap F L t) (hrange : (h90 σ).range = U1 σ)
-    (ι : AfE F L ≃+* FiniteAdeleRing (𝓞 L) L) (K : Subgroup (Ideles L))
-    (hK : ∀ (a : Ideles L) (t : FiniteAdeleRing (𝓞 F) F), (a : AdeleRing (𝓞 L) L).2 = ι (1 ⊗ₜ[F] t) → a ∈ K) :
-    ∃ f : U1 σ →* Ideles L ⧸ K, Function.Surjective f ∧ ∀ (x : (AfE F L)ˣ) (h : h90 σ x ∈ U1 σ) (a : Ideles L),
+    (ι : AfE F L ≃+* FiniteAdeleRing (𝓞 L) L) (K : Subgroup (_root_.Neutral.B1.Ideles L))
+    (hK : ∀ (a : _root_.Neutral.B1.Ideles L) (t : FiniteAdeleRing (𝓞 F) F), (a : AdeleRing (𝓞 L) L).2 = ι (1 ⊗ₜ[F] t) → a ∈ K) :
+    ∃ f : U1 σ →* _root_.Neutral.B1.Ideles L ⧸ K, Function.Surjective f ∧ ∀ (x : (AfE F L)ˣ) (h : h90 σ x ∈ U1 σ) (a : _root_.Neutral.B1.Ideles L),
       (a : AdeleRing (𝓞 L) L).2 = ι (x : AfE F L) → f ⟨_, h⟩ = QuotientGroup.mk a := by
-  let j : (AfE F L)ˣ →* Ideles L :=
+  let j : (AfE F L)ˣ →* _root_.Neutral.B1.Ideles L :=
     Units.map ((MonoidHom.inr (InfiniteAdeleRing L) (FiniteAdeleRing (𝓞 L) L)).comp
       ι.toRingHom.toMonoidHom)
   have hj : ∀ x, (j x : AdeleRing (𝓞 L) L).2 = ι (x : AfE F L) := fun _ => rfl
-  let g : (AfE F L)ˣ →* Ideles L ⧸ K := (QuotientGroup.mk' K).comp j
-  have hg : ∀ (x : (AfE F L)ˣ) (a : Ideles L), (a : AdeleRing (𝓞 L) L).2 = ι (x : AfE F L) →
+  let g : (AfE F L)ˣ →* _root_.Neutral.B1.Ideles L ⧸ K := (QuotientGroup.mk' K).comp j
+  have hg : ∀ (x : (AfE F L)ˣ) (a : _root_.Neutral.B1.Ideles L), (a : AdeleRing (𝓞 L) L).2 = ι (x : AfE F L) →
       g x = QuotientGroup.mk a := by
     intro x a ha
     refine QuotientGroup.eq.2 (hK _ 1 ?_)
@@ -339,10 +339,10 @@ end Approx
 
 variable {R : Ranks} (H : Formalism.BasicNotions.Host R)
 
-theorem mem_KD_of_approx (a : Ideles H.E)
+theorem mem_KD_of_approx (a : _root_.Neutral.B1.Ideles H.E)
     (ha : ∀ N : ℕ, 0 < N → ∃ k : H.F, ∀ P, Valued.v (compAt P a - algebraMap H.E _ (algebraMap H.F H.E k)) ≤
       Valued.v (N : P.adicCompletion H.E)) : a ∈ KD H := by
-  have hfin : (⋃ k, {v | OverP H (H.g k) v}).Finite := Set.finite_iUnion fun k => by
+  have hfin : (⋃ k, {v | _root_.Formalism.L2.Host.OverP H (H.g k) v}).Finite := Set.finite_iUnion fun k => by
     have h0 : Ideal.span {((H.g k : ℕ) : 𝓞 H.E)} ≠ 0 := by
       simpa using (H.g_prime k).ne_zero
     refine (Ideal.finite_factors h0).subset fun v hv => ?_
@@ -353,7 +353,7 @@ theorem mem_KD_of_approx (a : Ideles H.E)
 
 
 open Classical in
-theorem exists_detClass : ∀ (R : Ranks) (H : Formalism.BasicNotions.Host R) (σ : H.E →ₐ[H.F] H.E), (∀ x, σ x = H.conj x) → ∀ (ι : Formalism.L2.DIV.AfE H.F H.E ≃+* FiniteAdeleRing (𝓞 H.E) H.E), (∀ x : H.E, ι (TensorProduct.tmul H.F x 1) = algebraMap H.E _ x) → (∀ z, z ∈ Formalism.L2.DIV.RInt H.F H.E ↔ ∀ Q : HeightOneSpectrum (𝓞 H.E), Valued.v (ι z Q) ≤ 1) → (Formalism.L2.DIV.h90 σ).range = Formalism.L2.DIV.U1 σ ∧ ∃ f : Formalism.L2.DIV.U1 σ →* DtT H, Function.Surjective f ∧ ∀ (x : (Formalism.L2.DIV.AfE H.F H.E)ˣ) (h : Formalism.L2.DIV.h90 σ x ∈ Formalism.L2.DIV.U1 σ) (a : Ideles H.E), (a : AdeleRing (𝓞 H.E) H.E).2 = ι (x : Formalism.L2.DIV.AfE H.F H.E) → f ⟨_, h⟩ = QuotientGroup.mk a := by
+theorem exists_detClass : ∀ (R : Ranks) (H : Formalism.BasicNotions.Host R) (σ : H.E →ₐ[H.F] H.E), (∀ x, σ x = H.conj x) → ∀ (ι : Formalism.L2.DIV.AfE H.F H.E ≃+* FiniteAdeleRing (𝓞 H.E) H.E), (∀ x : H.E, ι (TensorProduct.tmul H.F x 1) = algebraMap H.E _ x) → (∀ z, z ∈ Formalism.L2.DIV.RInt H.F H.E ↔ ∀ Q : HeightOneSpectrum (𝓞 H.E), Valued.v (ι z Q) ≤ 1) → (Formalism.L2.DIV.h90 σ).range = Formalism.L2.DIV.U1 σ ∧ ∃ f : Formalism.L2.DIV.U1 σ →* DtT H, Function.Surjective f ∧ ∀ (x : (Formalism.L2.DIV.AfE H.F H.E)ˣ) (h : Formalism.L2.DIV.h90 σ x ∈ Formalism.L2.DIV.U1 σ) (a : _root_.Neutral.B1.Ideles H.E), (a : AdeleRing (𝓞 H.E) H.E).2 = ι (x : Formalism.L2.DIV.AfE H.F H.E) → f ⟨_, h⟩ = QuotientGroup.mk a := by
   intro R H σ hσ ι h1 h2
   obtain ⟨c, hc, hcm, -⟩ := GlobalTheory.Mem.HostCM.host_cm R H
   have hσc : ∀ x, σ x = c x := fun x => (hσ x).trans (hc x).symm

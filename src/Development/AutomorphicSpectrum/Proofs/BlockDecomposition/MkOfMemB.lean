@@ -41,7 +41,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MapHCompEqSmul
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle096
 import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.PerfectoidPullbacks.TwistedRepresentations.Tens
 
 @[expose] public section

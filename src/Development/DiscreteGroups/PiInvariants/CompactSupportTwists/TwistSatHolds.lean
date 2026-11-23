@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.SubsingletonRankZero
-public import Formalism.SatakeDualWeyl.StatementE
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle004
+public import Formalism.SatakeDualWeyl.Bundle001
 public import Development.AbelianVarietyTheory.Definitions.Foundations.IsSatVecUOfIsSphericalU
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

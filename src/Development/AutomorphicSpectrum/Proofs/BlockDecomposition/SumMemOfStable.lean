@@ -46,7 +46,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsCliff
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle472
 
 @[expose] public section
 

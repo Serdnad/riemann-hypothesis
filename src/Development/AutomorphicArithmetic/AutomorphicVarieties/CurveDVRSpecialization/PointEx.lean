@@ -1,13 +1,13 @@
 module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CurveDVRSpecialization.SecondThirdPrimeConditionTransferAlt
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.CoQuot
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebraHeight.DGext
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebraHeight.DGmap
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.Bundle001
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebraHeight.Bundle017
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebraHeight.Bundle005
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CurveDVRSpecialization.SelfTwistEigenvalues.CurveNorm
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.CurveDVRSpecialization.SelfTwistEigenvalues.UnipTorsion
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.CurveDVRSpecialization.SelfTwistEigenvalues.Bundle001
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.FrobeniusSmoothVectors.LocRho
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.FrobeniusSmoothVectors.ZpowWNe
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.FrobeniusSmoothVectors.Bundle030
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -287,8 +287,9 @@ private theorem pe_flag (ρ : NRep F n A) (v : G.Vl)
   refine ⟨fun i j hij => ?_, fun i => ?_⟩
   · rw [key, Matrix.smul_apply, h1 i j hij, smul_zero]
   · rw [key, Matrix.smul_apply, h2 i]
-    simp [Pr.TwLink.twψ, mul_comm]
-    try rfl
+    change ((K.κA A) (G.φ v s) : A) * (ρ.ψ (K.e v) i (K.lam v s) : A) =
+      (ρ.ψ (K.e v) i (K.lam v s) : A) * ((K.κA A) (G.φ v s) : A)
+    exact mul_comm _ _
 
 private theorem pe_tw_cont [IsLocalRing A] [IsLocalHom (algebraMap O A)] (ρ : NRep F n A)
     (h : ∀ i j, AdicCont (maximalIdeal A) fun g => ρ.r g i j) (i j : Fin n) :

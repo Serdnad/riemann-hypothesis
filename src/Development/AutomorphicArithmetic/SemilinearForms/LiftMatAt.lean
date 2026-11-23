@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.BlockBaseChangeAt
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FormsOfSemilinear
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle128
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle121
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -41,7 +41,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.BlockBaseChange
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle122
 
 @[expose] public section
 

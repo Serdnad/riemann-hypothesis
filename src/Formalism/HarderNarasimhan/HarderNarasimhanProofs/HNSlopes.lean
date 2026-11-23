@@ -1,13 +1,13 @@
 module
 
-public import Formalism.HarderNarasimhan.DegSupermodZ
+public import Formalism.HarderNarasimhan.Bundle001
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.DegSupermod
-public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.ExistsSmulMemOfFinrankEq
+public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.Bundle001
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.FinSup
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.HNStep
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.MuChar
-import Formalism.HarderNarasimhan.HarderNarasimhanProofs.RatioMax
-import Formalism.HarderNarasimhan.HarderNarasimhanProofs.SatBasic
+import Formalism.HarderNarasimhan.HarderNarasimhanProofs.Bundle003
+import Formalism.HarderNarasimhan.HarderNarasimhanProofs.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

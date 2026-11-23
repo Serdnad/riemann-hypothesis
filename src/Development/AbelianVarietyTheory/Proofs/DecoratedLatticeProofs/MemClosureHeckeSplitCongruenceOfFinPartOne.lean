@@ -1,12 +1,12 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.SplitLoc
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle129
 public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.FiniteAdeleSndAlgebraMap
-public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.ContinuousCoB
+public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.Bundle004
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsFinsetNormOne
 import Formalism.LocalRingCardinality.SpanPowerMembership.ExampleLayerExistsGenerators
 import Formalism.LocalRingCardinality.SpanPowerMembership.LocAtA
-public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.SplitChar
+public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.Bundle008
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -127,7 +127,7 @@ theorem exists_pair (v₀ : HeightOneSpectrum (𝓞 F)) (N : ℕ) (hN : N ≠ 0)
       · exact one_mem _)
   obtain ⟨β, -, hβw, hβv⟩ := strong_approx v₀ b s (N * Q * P) (mul_ne_zero (mul_ne_zero hN hQ0) hP0) ε hε
   have hn0 := hns α β hα0
-  obtain ⟨B, hB⟩ := exists_finset_norm_one _ hn0
+  obtain ⟨B, hB⟩ := _root_.GlobalTheory.HeckeSplitAll.Approx.exists_finset_norm_one _ hn0
   have key : ∀ v, v ≠ v₀ → ¬ GoodAt N (Δ : F) α β v →
       ‖algebraMap F (v.adicCompletion F) (α * α - Δ * (β * β))‖ ≠ 1 ∧
         ∃ s, s * s = algebraMap F (v.adicCompletion F) Δ := by

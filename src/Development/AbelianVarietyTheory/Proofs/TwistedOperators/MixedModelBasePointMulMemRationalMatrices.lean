@@ -4,8 +4,8 @@ public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.QuasiOf
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.TowerEx
 import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ComplexEmbeddingHermitianQuadrupleSum
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.HeisenbergIntegralFourierBesselBasePointEqPairin
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IntegralFundamentalDomainEqIteratedDecomp
-import Formalism.LocalToGlobal.IndefiniteReal.PHeisFC
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle166
+import Formalism.LocalToGlobal.IndefiniteReal.Bundle014
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

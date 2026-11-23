@@ -1,0 +1,321 @@
+module
+
+public import GroundTheory.ProfiniteCohomology.Bundle006
+public import Mathlib.GroupTheory.Torsion
+import GroundTheory.ProfiniteCohomology.DiscreteModules.IsDiscreteRepIffForallExistsOpenNormalSubgroup
+public import GroundTheory.ProfiniteCohomology.Bundle004
+public import GroundTheory.ProfiniteCohomology.Bundle001
+public import Mathlib.Combinatorics.Quiver.ReflQuiver
+public import Mathlib.GroupTheory.DoubleCoset
+public import Mathlib.GroupTheory.Index
+public import Mathlib.Topology.Algebra.OpenSubgroup
+public import GroundTheory.ProfiniteCohomology.CohomologyFunctoriality
+import GroundTheory.ProfiniteCohomology.OpenNormal
+public import GroundTheory.TateCohomology.Bundle004
+public import GroundTheory.TateCohomology.Bundle006
+public import GroundTheory.TateCohomology.CupProduct
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.WittVector.IsPoly
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.Polynomial.Basic
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Topology.Sheaves.Init
+import Mathlib.Tactic.TypeStar
+
+@[expose] public section
+
+section
+
+set_option maxSynthPendingDepth 1
+
+namespace GroundTheory.ProfCoh
+
+open CategoryTheory
+
+universe u
+
+variable {k G H : Type u} [CommRing k] [Group G] [Group H]
+
+variable (U : Subgroup G) (ι : H →* G)
+
+abbrev MackeyDoubleCoset : Type u :=
+  DoubleCoset.Quotient (U : Set G) (ι.range : Set G)
+
+def mackeySubgroup (x : G) : Subgroup H :=
+  U.comap ((MulAut.conj x).toMonoidHom.comp ι)
+
+theorem mem_mackeySubgroup (x : G) (h : H) :
+    h ∈ mackeySubgroup U ι x ↔ x * ι h * x⁻¹ ∈ U :=
+  Iff.rfl
+
+def mackeyConj (x : G) : mackeySubgroup U ι x →* U :=
+  ((MulAut.conj x).toMonoidHom.comp ι).subgroupComap U
+
+@[simp]
+theorem mackeyConj_apply_coe (x : G) (h : mackeySubgroup U ι x) :
+    ((mackeyConj U ι x h : U) : G) = x * ι h * x⁻¹ :=
+  rfl
+
+variable (N : Rep.{u} k U)
+
+abbrev mackeyRep (x : G) : Rep.{u} k (mackeySubgroup U ι x) :=
+  Rep.res (mackeyConj U ι x) N
+
+noncomputable abbrev mackeySummand (x : G) : Rep.{u} k H :=
+  Rep.coind (mackeySubgroup U ι x).subtype (mackeyRep U ι N x)
+
+theorem mackeyProj_mem (x : G) (f : Rep.coind U.subtype N) :
+    (fun h : H => f.1 (x * ι h)) ∈
+      Representation.coindV (mackeySubgroup U ι x).subtype (mackeyRep U ι N x).ρ := by
+  intro h' h
+  have e : x * ι ((mackeySubgroup U ι x).subtype h' * h) =
+      U.subtype (mackeyConj U ι x h') * (x * ι h) := by
+    simp [mul_assoc]
+  change f.1 (x * ι ((mackeySubgroup U ι x).subtype h' * h)) = N.ρ (mackeyConj U ι x h') _
+  rw [e, f.2]
+
+noncomputable def mackeyProj (x : G) :
+    Rep.res ι (Rep.coind U.subtype N) ⟶ mackeySummand U ι N x :=
+  Rep.ofHom ⟨{
+      toFun := fun f => ⟨fun h => f.1 (x * ι h), mackeyProj_mem U ι N x f⟩
+      map_add' := fun _ _ => rfl
+      map_smul' := fun _ _ => rfl },
+    fun h₀ => by
+      ext f h
+      change f.1 (x * ι h * ι h₀) = f.1 (x * ι (h * h₀))
+      rw [map_mul, mul_assoc]⟩
+
+@[simp]
+theorem mackeyProj_hom_apply (x : G) (f : Rep.coind U.subtype N) (h : H) :
+    ((mackeyProj U ι N x).hom f).1 h = f.1 (x * ι h) :=
+  rfl
+
+theorem finite_mackeyDoubleCoset [U.FiniteIndex] : Finite (MackeyDoubleCoset U ι) := by
+  have : Finite (G ⧸ U) := Subgroup.finite_quotient_of_finiteIndex
+  refine Finite.of_surjective (fun c : G ⧸ U => Quotient.liftOn' c
+    (fun y => DoubleCoset.mk U ι.range y⁻¹) fun a b hab => ?_) ?_
+  · rw [QuotientGroup.leftRel_apply] at hab
+    rw [DoubleCoset.eq]
+    exact ⟨(a⁻¹ * b)⁻¹, U.inv_mem hab, 1, ι.range.one_mem, by group⟩
+  · intro d
+    induction d using Quotient.inductionOn' with
+    | h y => exact ⟨(y⁻¹ : G), by simp⟩
+
+section Topology
+
+variable [TopologicalSpace G] [IsTopologicalGroup G] [TopologicalSpace H]
+  (V : OpenSubgroup G) {ι} (hι : Continuous ι)
+
+include hι in
+theorem isOpen_mackeySubgroup (x : G) : IsOpen (mackeySubgroup (V : Subgroup G) ι x : Set H) :=
+  V.isOpen.preimage ((continuous_const.mul hι).mul continuous_const)
+
+def mackeyOpenSubgroup (x : G) : OpenSubgroup H :=
+  ⟨mackeySubgroup (V : Subgroup G) ι x, isOpen_mackeySubgroup V hι x⟩
+
+include hι in
+theorem continuous_mackeyConj (x : G) : Continuous (mackeyConj (V : Subgroup G) ι x) :=
+  Continuous.subtype_mk ((continuous_const.mul (hι.comp continuous_subtype_val)).mul
+    continuous_const) _
+
+include hι in
+theorem isDiscreteRep_mackeyRep (N : Rep.{u} k (V : Subgroup G)) [IsDiscreteRep N] (x : G) :
+    IsDiscreteRep (mackeyRep (V : Subgroup G) ι N x) :=
+  IsDiscreteRep.res (continuous_mackeyConj V hι x) N
+
+end Topology
+
+end GroundTheory.ProfCoh
+end
+
+section
+
+set_option maxSynthPendingDepth 1
+
+namespace GroundTheory.ProfCoh
+
+open CategoryTheory Limits groupCohomology
+
+universe u
+
+variable {k G : Type u} [CommRing k] [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
+
+namespace OpenNormalSubgroup
+
+
+omit [IsTopologicalGroup G] in
+theorem exists_le_of_finite {ι : Type*} [Finite ι] (V : ι → OpenNormalSubgroup G) :
+    ∃ W : OpenNormalSubgroup G, ∀ i, W ≤ V i := by
+  classical
+  have := Fintype.ofFinite ι
+  obtain ⟨W, hW⟩ := Finset.exists_le (α := (OpenNormalSubgroup G)ᵒᵈ)
+    (Finset.univ.image fun i => OrderDual.toDual (V i))
+  exact ⟨OrderDual.ofDual W, fun i => hW _ (Finset.mem_image_of_mem _ (Finset.mem_univ i))⟩
+
+end OpenNormalSubgroup
+
+theorem card_smul_groupCohomology {Q : Type u} [Group Q] [Fintype Q] (M : Rep.{u} k Q) {n : ℕ}
+    (hn : n ≠ 0) (x : groupCohomology M n) : Fintype.card Q • x = 0 := by
+  have : NeZero n := ⟨hn⟩
+  let e := (TateCohomology.isoGroupCohomology (R := k) (G := Q) n).app M
+  obtain ⟨t, rfl⟩ : ∃ t, e.hom.hom t = x := ⟨e.inv.hom x, Iso.inv_hom_id_apply e x⟩
+  have h := congrArg e.hom.hom (GroundTheory.GroupCoh.card_smul_tateCohomology M n t)
+  rw [map_nsmul, map_zero] at h
+  exact h
+
+section Level
+
+variable (A : Rep.{u} k G) [IsDiscreteRep A]
+
+theorem inflationCochains_f_injective (U : OpenNormalSubgroup G) (n : ℕ) :
+    Function.Injective ((inflationCochains A U).f n).hom := by
+  intro x y hxy
+  apply inhomogeneousCochains.ext
+  intro q
+  have h : ((x fun i => (((q i).out : G) : G ⧸ (U : Subgroup G))) : A) =
+      ((y fun i => (((q i).out : G) : G ⧸ (U : Subgroup G))) : A) :=
+    congrArg (fun c => ((cochainsComplexι A).f n).hom c fun i => (q i).out) hxy
+  simp only [QuotientGroup.out_eq'] at h
+  exact Subtype.ext h
+
+variable [CompactSpace G] [TotallyDisconnectedSpace G]
+
+theorem exists_inflationCochains_f_eq (n : ℕ) (x : (cochainsComplex A).X n) :
+    ∃ (U : OpenNormalSubgroup G)
+      (y : (inhomogeneousCochains (A.quotientToInvariants (U : Subgroup G))).X n),
+      ((inflationCochains A U).f n).hom y = x := by
+  have hx : IsLocallyConstant (((cochainsComplexι A).f n).hom x : (Fin n → G) → A) :=
+    (show locallyConstantCochains A n from x).2
+  obtain ⟨U₁, g, hg⟩ := exists_openNormalSubgroup_factor_fin_of_isLocallyConstant hx
+  have hV : ∀ p, ∃ V : OpenNormalSubgroup G,
+      g p ∈ Representation.invariants (A.ρ.comp (V : Subgroup G).subtype) := fun p =>
+    (isDiscreteRep_iff_forall_exists_openNormalSubgroup A).1 ‹_› (g p)
+  choose V hV using hV
+  obtain ⟨W, hW⟩ := OpenNormalSubgroup.exists_le_of_finite V
+  have hU₁ : W ⊓ U₁ ≤ U₁ := inf_le_right
+  refine ⟨W ⊓ U₁, fun q => ⟨g fun i => quotientMapOfLE hU₁ (q i),
+    invariants_comp_subtype_antitone A (fun _ hz => (inf_le_left.trans (hW _)) hz) (hV _)⟩, ?_⟩
+  apply (ModuleCat.mono_iff_injective ((cochainsComplexι A).f n)).1 inferInstance
+  funext h
+  rw [inflationCochains_f_hom_apply]
+  exact (congrFun hg h).symm
+
+theorem inflationCochainsCocone_surj (n : ℕ) (x : (inflationCochainsCocone A).pt.X n) :
+    ∃ (U : (OpenNormalSubgroup G)ᵒᵖ) (y : ((levelCochains A).obj U).X n),
+      (((inflationCochainsCocone A).ι.app U).f n).hom y = x := by
+  obtain ⟨U, y, hy⟩ := exists_inflationCochains_f_eq A n x
+  exact ⟨Opposite.op U, y, hy⟩
+
+omit [CompactSpace G] [TotallyDisconnectedSpace G] in
+theorem inflationCochainsCocone_inj (n : ℕ) (U : (OpenNormalSubgroup G)ᵒᵖ)
+    (y : ((levelCochains A).obj U).X n)
+    (hy : (((inflationCochainsCocone A).ι.app U).f n).hom y = 0) :
+    ∃ (V : (OpenNormalSubgroup G)ᵒᵖ) (f : U ⟶ V), (((levelCochains A).map f).f n).hom y = 0 := by
+  refine ⟨U, 𝟙 U, ?_⟩
+  simp only [CategoryTheory.Functor.map_id, HomologicalComplex.id_f, ModuleCat.hom_id,
+    LinearMap.id_apply]
+  exact inflationCochains_f_injective A U.unop n (hy.trans (map_zero _).symm)
+
+theorem exists_inflation_eq (n : ℕ) (x : cohomology A n) :
+    ∃ (U : OpenNormalSubgroup G)
+      (y : groupCohomology (A.quotientToInvariants (U : Subgroup G)) n),
+      (inflation A U n).hom y = x := by
+  obtain ⟨U, y, hy⟩ := exists_homologyMap_eq_of_cocone (inflationCochainsCocone A) n
+    (inflationCochainsCocone_surj A n) (inflationCochainsCocone_inj A _) x
+  exact ⟨U.unop, y, hy⟩
+
+theorem exists_transition_eq_zero (n : ℕ) (U : OpenNormalSubgroup G)
+    (y : groupCohomology (A.quotientToInvariants (U : Subgroup G)) n)
+    (hy : (inflation A U n).hom y = 0) :
+    ∃ (V : OpenNormalSubgroup G) (h : V ≤ U), (transition A h n).hom y = 0 := by
+  obtain ⟨V, f, hf⟩ := exists_homologyMap_map_eq_zero_of_cocone (inflationCochainsCocone A) n
+    (inflationCochainsCocone_surj A _) (inflationCochainsCocone_inj A n) (Opposite.op U) y hy
+  exact ⟨V.unop, leOfHom f.unop, hf⟩
+
+theorem exists_card_smul_eq_zero {n : ℕ} (hn : n ≠ 0) (x : cohomology A n) :
+    ∃ U : OpenNormalSubgroup G, Nat.card (G ⧸ (U : Subgroup G)) • x = 0 := by
+  obtain ⟨U, y, rfl⟩ := exists_inflation_eq A n x
+  have := Fintype.ofFinite (G ⧸ (U : Subgroup G))
+  refine ⟨U, ?_⟩
+  rw [Nat.card_eq_fintype_card, ← map_nsmul, card_smul_groupCohomology _ hn y, map_zero]
+
+theorem isTorsion_cohomology {n : ℕ} (hn : 1 ≤ n) : IsAddTorsion (cohomology A n) :=
+  fun x => by
+    obtain ⟨U, hU⟩ := exists_card_smul_eq_zero A (Nat.one_le_iff_ne_zero.1 hn) x
+    exact isOfFinAddOrder_iff_nsmul_eq_zero.2 ⟨_, Nat.card_pos, hU⟩
+
+end Level
+
+end GroundTheory.ProfCoh
+end
+
+section
+
+set_option maxSynthPendingDepth 1
+
+namespace GroundTheory.ProfCoh
+
+open CategoryTheory MonoidalCategory groupCohomology GroundTheory.GroupCoh
+
+section Generic
+
+universe u
+
+variable {k G : Type u} [CommRing k] [Group G] {A B : Rep k G} {p q n : ℕ}
+
+noncomputable def cupRight (h : p + q = n) (b : groupCohomology B q) :
+    groupCohomology A p ⟶ groupCohomology (A ⊗ B) n :=
+  ModuleCat.ofHom ((cupH h).flip b)
+
+end Generic
+
+variable {G : Type} [Group G]
+
+noncomputable def charClass (χ : Additive G →+ AddCircle (1 : ℚ)) : H2 (Rep.trivial ℤ G ℤ) :=
+  groupCohomology.δ (ratSES_shortExact G) 1 2 rfl ((h1RatModIntIso G).inv χ)
+
+noncomputable def cupCharClassH0 (A : Rep ℤ G) (χ : Additive G →+ AddCircle (1 : ℚ)) :
+    H0 A ⟶ H2 A :=
+  cupRight (A := A) (B := 𝟙_ (Rep ℤ G)) (zero_add 2) (charClass χ) ≫ map (MonoidHom.id G) (ρ_ A).hom 2
+
+noncomputable def cupCharClass (A : Rep ℤ G) (χ : Additive G →+ AddCircle (1 : ℚ)) :=
+  (H0Iso A).inv ≫ cupCharClassH0 A χ
+
+end GroundTheory.ProfCoh
+end

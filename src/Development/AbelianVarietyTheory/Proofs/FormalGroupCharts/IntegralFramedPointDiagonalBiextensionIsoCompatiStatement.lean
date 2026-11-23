@@ -1,7 +1,7 @@
 module
 
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ChartPrimTrSt
-public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.IntegralFramedPointDiagonalBiextensionIsoCompati
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle012
+public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.Bundle042
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

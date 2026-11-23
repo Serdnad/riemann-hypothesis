@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalToGlobal.IndefiniteForms.IndefiniteTree.FunctionalLowerBoundOfConditionsNumeric
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DualMatrixMetricMeans
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle957
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

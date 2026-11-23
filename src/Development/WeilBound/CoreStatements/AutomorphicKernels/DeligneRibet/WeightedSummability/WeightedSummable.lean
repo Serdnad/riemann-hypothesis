@@ -39,7 +39,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Development.AutomorphicSpectrum.Proofs.GlobalProofs.PartialSum
+import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle018
 
 @[expose] public section
 

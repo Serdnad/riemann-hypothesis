@@ -47,7 +47,7 @@ public import ReciprocityTheory.L2DbarEstimates.ChartDerivatives.ChartSymmEventu
 public import ReciprocityTheory.L2DbarEstimates.ChartDerivatives.IntegralFderivApplyEqZero
 import ReciprocityTheory.L2DbarEstimates.ChartDerivatives.TsupportDbSubset
 public import ReciprocityTheory.L2DbarEstimates.HormanderEstimate.GmSingleIsTestForm
-public import ReciprocityTheory.L2DbarEstimates.MinimalSolutions.MinimalSolution
+public import ReciprocityTheory.L2DbarEstimates.MinimalSolutions.Bundle001
 public import Mathlib.MeasureTheory.Integral.Bochner.ContinuousLinearMap
 
 @[expose] public section

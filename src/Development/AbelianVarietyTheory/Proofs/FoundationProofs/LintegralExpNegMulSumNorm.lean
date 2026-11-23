@@ -49,7 +49,7 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.CartanCoshPower
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.StarMulOfMemKc
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ContinuousExptPY
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle096
 import Formalism.LocalRingCardinality.DataTheta
 import Formalism.SharpRestriction.Divisibility.SchurIrreducible
 import Formalism.SharpRestriction.LevelLetterCocycles.DataNLoc

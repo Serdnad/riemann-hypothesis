@@ -1,7 +1,7 @@
 module
 
 public import Formalism.GradedWeylDivisibility.StatementA
-public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.ProdFactorialSupportSubSingle
+public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

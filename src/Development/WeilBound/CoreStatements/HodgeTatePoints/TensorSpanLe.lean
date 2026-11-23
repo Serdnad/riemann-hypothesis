@@ -2,7 +2,7 @@ module
 
 public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.IsTight
 public import Mathlib.FieldTheory.IsAlgClosed.Basic
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.EqOfProdEq
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -48,10 +48,10 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.DualLattices.ExistsSmulMemOfMemSpan
+public import ReciprocityTheory.DualLattices.Bundle007
 public import ReciprocityTheory.DualLattices.MemDualLat
-public import ReciprocityTheory.DualLattices.MemMapAugmentationIdealComapPullbackQuotient
-public import ReciprocityTheory.DualLattices.MemSupOfRestrictToSubgroupMemSq
+public import ReciprocityTheory.DualLattices.Bundle015
+public import ReciprocityTheory.DualLattices.Bundle017
 
 @[expose] public section
 

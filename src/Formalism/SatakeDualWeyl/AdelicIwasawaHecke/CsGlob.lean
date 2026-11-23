@@ -3,7 +3,7 @@ module
 import Formalism.LocalToGlobal.GroupLattices.TrivialTransfer.FiniteStabAtOfLocal
 public import Formalism.SatakeDualWeyl.DefsCS
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Adelstab
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.AdelstabL
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle012
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.CsGlobApprox
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Stabfin
 import Mathlib.Algebra.Order.Floor.Extended

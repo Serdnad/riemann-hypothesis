@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Foundations.EeProd
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.KaehlerDRootTwist
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.SmulKaehlerDReparametrizationEqStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.TorsionKaehlerSpanDlogIndepStatement
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle007
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle047
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle116
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle263
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -46,7 +46,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.Foundations.Integral
+import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle003
 
 @[expose] public section
 

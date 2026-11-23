@@ -1,6 +1,6 @@
 module
 
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.PsiCStarMul
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle121
 import Aesop.Main
 import Formalism.FormalDegreeBessel.FormalDegreeRatio.UnitaryWeylNormalHolds
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.BlkUUMapMuPRn

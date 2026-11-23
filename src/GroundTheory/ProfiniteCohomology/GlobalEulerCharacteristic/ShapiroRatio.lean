@@ -2,7 +2,7 @@ module
 
 public import GroundTheory.ProfiniteCohomology.GlobalEulerCharacteristic.CardCohomologyZeroMackeyRepOfNeTop
 public import GroundTheory.ProfiniteCohomology.RealPlaces.VanishingMackeyPlaces
-import GroundTheory.ProfiniteCohomology.EulerChar
+import GroundTheory.ProfiniteCohomology.Bundle010
 public import GroundTheory.ProfiniteCohomology.GlobalEulerCharacteristic.ShapiroCoind
 public import GroundTheory.ProfiniteCohomology.GlobalEulerCharacteristic.ShapiroReal
 import Mathlib.Algebra.Order.Floor.Extended

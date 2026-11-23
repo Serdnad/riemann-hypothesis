@@ -42,10 +42,10 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import ReciprocityTheory.ClassFieldTheory.LocalClassField.CyclicBr
-import ReciprocityTheory.ClassFieldTheory.LocalClassField.EqZeroOfMemBrKerOfCoprime
+import ReciprocityTheory.ClassFieldTheory.LocalClassField.Bundle013
 import ReciprocityTheory.ClassFieldTheory.LocalClassField.GalBasic
-import ReciprocityTheory.ClassFieldTheory.LocalClassField.RecCyclicA
-import ReciprocityTheory.GroupCohomology.DEqZeroOfMemB
+import ReciprocityTheory.ClassFieldTheory.LocalClassField.Bundle006
+import ReciprocityTheory.GroupCohomology.Bundle002
 
 @[expose] public section
 

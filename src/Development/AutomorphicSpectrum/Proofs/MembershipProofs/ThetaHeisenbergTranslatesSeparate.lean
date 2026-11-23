@@ -2,7 +2,7 @@ module
 
 public import Mathlib.MeasureTheory.Measure.Haar.DistribChar
 public import Mathlib.NumberTheory.NumberField.AdeleRing
-import GroundTheory.AutomorphicForms.ReductionMeasure
+import GroundTheory.AutomorphicForms.Bundle012
 public import GroundTheory.GlobalFields.TateThesis.AdeleScaling
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -44,9 +44,9 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.Divisors.HilbertNinetyQuotientHomEqIff
-public import GroundTheory.GlobalFields.Adele.Discrete
+public import GroundTheory.GlobalFields.Adele.Bundle003
 public import GroundTheory.GlobalFields.IdeleGroups.IdeleNorms
-public import GroundTheory.GlobalFields.TateThesis.AdeleMeasure
+public import GroundTheory.GlobalFields.TateThesis.Bundle006
 
 @[expose] public section
 

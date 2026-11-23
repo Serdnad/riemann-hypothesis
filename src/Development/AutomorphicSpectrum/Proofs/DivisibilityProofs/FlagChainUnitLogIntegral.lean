@@ -1,12 +1,12 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.IsChainFirst
+public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle030
 public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.GeoNum
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterNamed
-import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.IntNumRelabel
-import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.StatementsExamples
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle010
+import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.Bundle009
+import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.Bundle005
 public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.PHFlProdLinear
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.ConservationDegreeFormOfExistence
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle024
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.PConsequences
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -52,7 +52,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArithmeticIntersection.MultihomogeneousIdeals.InhDivCycleOfSuppEmpty
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArithmeticIntersection.MultihomogeneousIdeals.Bundle002
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section

@@ -2,7 +2,7 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.TupleReadBaseTupleEqFamily
 public import Development.AbelianVarietyTheory.Definitions.Divisors.NormNegCmConstantEqAtAllEmbeddings
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.FieldSmallIffOpo
+public import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle055
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -62,9 +62,9 @@ abbrev Gk : WTZ D.host.E := wtZ (wtA (p.κ i)) (p.κ i).n
 
 abbrev Gs (s : ℤ) : WTZ D.host.E := shiftG (dat p i) (wtA (p.κ i)) (p.κ i).n s
 
-abbrev uW : Weight (dat p i) := uWt (dat p i) (wtA (p.κ i)) (p.κ i).n (D.R.k - 1)
+abbrev uW : _root_.GlobalTheory.AllWt.Weight (dat p i) := uWt (dat p i) (wtA (p.κ i)) (p.κ i).n (D.R.k - 1)
 
-abbrev uM : Weight (dat p i) := uMinus (dat p i) (wtA (p.κ i)) (p.κ i).n (D.R.k - 1) (cZero D ((i : ℕ) + 1))
+abbrev uM : _root_.GlobalTheory.AllWt.Weight (dat p i) := uMinus (dat p i) (wtA (p.κ i)) (p.κ i).n (D.R.k - 1) (cZero D ((i : ℕ) + 1))
 
 abbrev kap : ℝ := sizeK (dat p i) (wtA (p.κ i)) (p.κ i).n
 
@@ -74,12 +74,12 @@ abbrev latDeep (Y : Cov p i) := Y.latOver (Gk p i) (typeK p.fw p.F.lv2 i)
 
 def lenT (PP : ℝ) : ℕ := ⌈PP ^ 2 * (dimFlag (dat p i) : ℝ) ^ 2 * (D.R.k : ℝ) / (D.R.m : ℝ)⌉₊
 
-def zed (PP : ℝ) (u1 : Weight (dat p i)) : ℝ :=
+def zed (PP : ℝ) (u1 : _root_.GlobalTheory.AllWt.Weight (dat p i)) : ℝ :=
   7 * ((dimFlag (dat p i) : ℝ) ^ 2 / lenT p i PP + dimFlag (dat p i) * rhoB (dat p i) u1)
 
 def binT (PP : ℝ) : ℝ := ((lenT p i PP - 1).choose (dimFlag (dat p i)) : ℕ)
 
-abbrev Quo (PP : ℝ) (u1 : Weight (dat p i)) : Prop := IsQuot (dat p i) (D.R.k - 1) (lenT p i PP) (cZero D ((i : ℕ) + 1)) (uW p i) u1
+abbrev Quo (PP : ℝ) (u1 : _root_.GlobalTheory.AllWt.Weight (dat p i)) : Prop := IsQuot (dat p i) (D.R.k - 1) (lenT p i PP) (cZero D ((i : ℕ) + 1)) (uW p i) u1
 
 def muCore : ℝ := slope_sq (nrmK p.fw i) (latTypeK p.fw p.F.lv2 i)
 
@@ -170,20 +170,20 @@ def FlatAt (C : ℝ) : Prop :=
 
 def UAt (C : ℝ) : Prop := -(C * unitE p) ≤ Y.mu (wtOf (dat p i) (uM p i) 0)
 
-def DegAt (u1 : Weight (dat p i)) : Prop :=
+def DegAt (u1 : _root_.GlobalTheory.AllWt.Weight (dat p i)) : Prop :=
   ∃ δ : ℝ, 0 < δ ∧ ∀ Z, δ ≤ Y.dg u1 Z ∧ Y.dg u1 Z ≤ δ / (1 - rhoB (dat p i) u1)
 
-def ShareAt (PP : ℝ) (u1 : Weight (dat p i)) : Prop :=
+def ShareAt (PP : ℝ) (u1 : _root_.GlobalTheory.AllWt.Weight (dat p i)) : Prop :=
   ∀ Z, binT p i PP * Y.dg u1 Z ≤ Y.rkC (uM p i) Z ∧ (1 - zed p i PP u1) * Y.rkC (uM p i) Z ≤ binT p i PP * Y.dg u1 Z
 
-def HeightAt (PP C : ℝ) (u1 : Weight (dat p i)) : Prop :=
+def HeightAt (PP C : ℝ) (u1 : _root_.GlobalTheory.AllWt.Weight (dat p i)) : Prop :=
   ∃ (cs cc X : ℝ) (sl : Comp Y.d.Xo₂ Y.d.c₂ → ℝ), 0 ≤ cs ∧ 0 ≤ cc ∧ 0 ≤ X ∧
     (∀ Z, 0 ≤ Y.ht u1 Z + cs) ∧ (∀ Z, (1 - rhoB (dat p i) u1) * max 0 (sl Z + cs) ≤ Y.ht u1 Z + cs + cc) ∧
     -X ≤ (∑ᶠ Z, sl Z) / (Nat.card (Comp Y.d.Xo₂ Y.d.c₂) : ℝ) ∧
     lenT p i PP * X ≤ C * unitE p ∧ lenT p i PP * cc ≤ C * unitE p ∧
     cs * (6 * dimFlag (dat p i) + 10 + lenT p i PP * (zed p i PP u1 + 2 * rhoB (dat p i) u1)) ≤ C * unitE p
 
-def HSAt (PP C : ℝ) (u1 : Weight (dat p i)) : Prop :=
+def HSAt (PP C : ℝ) (u1 : _root_.GlobalTheory.AllWt.Weight (dat p i)) : Prop :=
   ∃ A R : ℝ, 0 < A ∧ 0 ≤ R ∧ A * Real.log (max A 1) + R ≤ C * unitE p ∧
     ∀ Z, binT p i PP * Y.dg u1 Z * (lenT p i PP * Y.ht u1 Z - 3 * (dimFlag (dat p i) + 1) * |Y.ht u1 Z| -
       A * Real.log (2 + |Y.ht u1 Z|) - R) ≤ Y.degC (uM p i) Z

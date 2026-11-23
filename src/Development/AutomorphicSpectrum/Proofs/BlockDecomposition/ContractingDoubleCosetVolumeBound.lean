@@ -1,12 +1,12 @@
 module
 
 public import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.SquareIntegrableTempered.CasselmanCriterion.Zj
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.IsTemperedCoeff
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle002
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.IsSubquotientDetRepParInd
 public import GroundTheory.AutomorphicForms.GLnLocal
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.PadicIsNonarchimedeanLocalField
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.BlockIndexMonotone
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsPrincipalCongruence
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle292
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle019
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

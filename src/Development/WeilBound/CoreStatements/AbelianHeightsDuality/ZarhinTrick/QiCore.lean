@@ -1,10 +1,8 @@
 module
 
-public import Development.WeilBound.CoreStatements.AbelianHeightsDuality.ZarhinTrick.QiCoreDefs
-public import Development.WeilBound.CoreStatements.AbelianHeightsDuality.ZarhinTrick.QiCartier
+public import Development.WeilBound.CoreStatements.AbelianHeightsDuality.ZarhinTrick.Bundle001
+public import Development.WeilBound.CoreStatements.AbelianHeightsDuality.ZarhinTrick.Bundle002
 public import Development.WeilBound.CoreStatements.AbelianHeightsDuality.ZarhinTrick.QiCharP
-public import Development.WeilBound.CoreStatements.AbelianHeightsDuality.ZarhinTrick.QiIdem
-public import Development.WeilBound.CoreStatements.AbelianHeightsDuality.ZarhinTrick.QiStab
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

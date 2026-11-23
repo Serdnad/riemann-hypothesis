@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalToGlobal.GroupLattices.FockModels.TestSideDef
-public import Formalism.SharpRestriction.GrowthBounds.ObjBridge
+public import Formalism.SharpRestriction.GrowthBounds.Bundle001
 public import Formalism.LocalToGlobal.GroupLattices.FockModels.ElementaryDivisorBasis
 public import Formalism.LocalToGlobal.GroupLattices.FockModels.TestSidePos
 import Mathlib.Algebra.Order.Floor.Extended

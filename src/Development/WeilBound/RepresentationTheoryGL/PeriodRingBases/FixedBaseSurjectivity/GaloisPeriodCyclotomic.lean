@@ -2,10 +2,9 @@ module
 
 public import Development.WeilBound.RepresentationTheoryGL.PeriodRingBases.PeriodRingUnits.DieudonneManinBasisModification
 public import Development.WeilBound.CoreStatements.CrystallinePeriodRings.ExistsMapEqOfPowMul
-public import Development.WeilBound.CoreStatements.CrystallinePeriodRings.AinfMapSurjective
-public import Development.WeilBound.CoreStatements.CrystallinePeriodRings.AwayExistsSelf
+public import Development.WeilBound.CoreStatements.CrystallinePeriodRings.Bundle001
+public import Development.WeilBound.CoreStatements.CrystallinePeriodRings.Bundle003
 import Development.WeilBound.CoreStatements.CrystallinePeriodRings.FrobAinfMapFrobenius
-public import Development.WeilBound.CoreStatements.CrystallinePeriodRings.FundIotaTANeZero
 public import Development.WeilBound.CoreStatements.CrystallinePeriodRings.PhiGalCris
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

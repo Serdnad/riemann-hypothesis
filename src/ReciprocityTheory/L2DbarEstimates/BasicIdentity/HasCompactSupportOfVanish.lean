@@ -43,8 +43,8 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.L2DbarEstimates.BasicIdentity.HalfSumNormSubSq
-public import ReciprocityTheory.L2DbarEstimates.BasicIdentity.HasCompactSupportDTw
+public import ReciprocityTheory.L2DbarEstimates.BasicIdentity.Bundle001
+public import ReciprocityTheory.L2DbarEstimates.BasicIdentity.Bundle002
 public import ReciprocityTheory.L2DbarEstimates.BasicIdentity.ImportsTer
 import ReciprocityTheory.L2DbarEstimates.ChartDerivatives.ChartSymmEventuallyEq
 import ReciprocityTheory.L2DbarEstimates.ChartDerivatives.IntegralFderivApplyEqZero

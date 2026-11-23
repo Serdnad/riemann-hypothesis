@@ -1,6 +1,6 @@
 module
 
-public import Formalism.UnipotentAdelicQuotients.StdAdditiveCharExists
+public import Formalism.UnipotentAdelicQuotients.Bundle001
 public import Formalism.UnipotentAdelicQuotients.SWXSDefs
 public import Formalism.PeriodIntegrals.ExplicitFormulaCounts.BridgeStdAddChar
 import Mathlib.Algebra.Order.Floor.Extended

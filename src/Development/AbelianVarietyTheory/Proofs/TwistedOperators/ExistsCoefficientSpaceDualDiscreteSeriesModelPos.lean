@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ColLieApply
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle204
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsCompactAdele
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.AdelicUnitaryActionAtRealPlace
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContinuousOnAtTau
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FiniteSmoothIrreducible
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.TensorProductDefiniteUnitaryLocalModelsIrreducib
+public import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle042
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle313
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle221
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle209
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -49,7 +49,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.FactTypePrime
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle143
 
 @[expose] public section
 

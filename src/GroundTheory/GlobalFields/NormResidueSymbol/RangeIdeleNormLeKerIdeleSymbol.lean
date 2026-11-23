@@ -4,7 +4,7 @@ public import GroundTheory.GlobalFields.NormResidueSymbol.RangeFiniteLocalNormLe
 public import GroundTheory.GlobalFields.NormResidueSymbol.Infinite
 public import GroundTheory.GlobalFields.NormResidueSymbol.Abstract
 import GroundTheory.GlobalFields.IdeleGroups.LocalNormsEverywhere
-public import GroundTheory.GlobalFields.NormResidueSymbol.AbstractUnique
+public import GroundTheory.GlobalFields.NormResidueSymbol.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

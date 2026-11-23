@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.GlobalFields.TateThesis.IdeleMeasureNormOne
-public import GroundTheory.GlobalFields.Adele.Discrete
+public import GroundTheory.GlobalFields.Adele.Bundle003
 public import GroundTheory.GlobalFields.IdeleGroups.NormOneCompact
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

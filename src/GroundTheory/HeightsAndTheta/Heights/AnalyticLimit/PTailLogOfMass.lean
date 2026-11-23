@@ -1,7 +1,7 @@
 module
 
-public import ReciprocityTheory.AnalyticForms.PotentialTheory.Partition
-public import GroundTheory.HeightsAndTheta.Heights.AnalyticLimit.StTailLogOfMass
+public import ReciprocityTheory.AnalyticForms.PotentialTheory.Bundle004
+public import GroundTheory.HeightsAndTheta.Heights.AnalyticLimit.Bundle009
 public import GroundTheory.HeightsAndTheta.Heights.AnalyticLimit.PTailLogOfMassCharts
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -50,7 +50,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import ReciprocityTheory.AnalyticForms.PotentialTheory.PotentialContDiffAt
+import ReciprocityTheory.AnalyticForms.PotentialTheory.Bundle006
 
 @[expose] public section
 

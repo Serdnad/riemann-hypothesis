@@ -1,11 +1,11 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.PowerSeriesFrobeniusCongruence
-public import Formalism.LocalToGlobal.CharacterGerms.RowTieCartFB
+public import Formalism.SharpRestriction.GrowthBounds.Bundle006
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle008
 public import Formalism.LocalToGlobal.CharacterGerms.RowTiePHStab
 public import Formalism.SharpRestriction.GrowthBounds.AlongCvSmul
 import Formalism.SharpRestriction.GrowthBounds.CoeffIdentityPlainChartOfThree
-public import Formalism.SharpRestriction.GrowthBounds.PsOfIntS
+public import Formalism.SharpRestriction.GrowthBounds.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,7 +1,6 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.RootWeights.DegreeZeroWeightsBounded
-public import Formalism.SharpRestriction.GrowthBounds.RootWeights.NontrivialIsotypicWeightZeroKilled
+public import Formalism.SharpRestriction.GrowthBounds.RootWeights.Bundle003
 public import Formalism.SharpRestriction.GrowthBounds.RootWeights.MemWeightSpaceIffDiagonalEigen
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,12 +1,12 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CosetOff
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle101
 public import CompanionTheory.SpectralGeometry.CountingDefinitions.AdelicEulerProducts.IsEulerProd
 import Aesop.Main
-public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.CompletionIsLocalRing
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ImportsFurtherSide
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HaarMeasureLocalBallStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LocalFactorSandwichApprox
+public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.Bundle041
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle038
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle168
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle291
 import Formalism.LocalToGlobal.SiegelLatticeTheory.CasimirVolumeRatios.AdeleLC
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

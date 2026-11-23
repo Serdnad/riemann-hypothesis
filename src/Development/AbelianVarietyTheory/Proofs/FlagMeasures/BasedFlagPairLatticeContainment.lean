@@ -1,14 +1,14 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.LocClosed
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle017
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.PlacesOf
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.CompletionLatticeInfOrthEqOrthPartStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsNatSmulMemOfMemSpan
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle370
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle353
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.InnerPreimageEqOfLocalInnerLatticeEq
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsIntegralOfQuad
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.LocalOrbitLatticesInfFrameSpanEq
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.OrthogonalDecompositionLocalNondegenerateStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.TotallyPositiveOrthogonalOfTwoFlagExtendedSpacesStatement
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle049
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle382
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle373
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle377
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

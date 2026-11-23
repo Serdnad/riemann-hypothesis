@@ -55,7 +55,7 @@ open Formalism.MainNotions.TaylorLogMetric hiding admitted AdmittedStatements Al
 
 variable (D : Car)
 
-theorem embT_inj : Function.Injective (embT D) := by
+theorem embT_inj : Function.Injective (_root_.Formalism.L2.Ker.Cd.TaylorLogMetric.embT D) := by
   intro τ τ' h
   have h2 : D.host.sigmaOf ((D.eTau τ : D.R.Psi) : D.R.GG) =
       D.host.sigmaOf ((D.eTau τ' : D.R.Psi) : D.R.GG) := by
@@ -69,9 +69,9 @@ abbrev algKC : Algebra D.host.K ℂ := (D.host.φ₀.comp (algebraMap D.host.K D
 
 def embA (τ : D.what₂.Tau) : @AlgHom D.host.K D.host.E ℂ _ _ _ _ (algKC D) :=
   letI := algKC D
-  { embT D τ with
+  { _root_.Formalism.L2.Ker.Cd.TaylorLogMetric.embT D τ with
     commutes' := fun r => by
-      show embT D τ (r : D.host.E) = D.host.φ₀ (r : D.host.E)
+      show _root_.Formalism.L2.Ker.Cd.TaylorLogMetric.embT D τ (r : D.host.E) = D.host.φ₀ (r : D.host.E)
       exact embT_K D τ _ r.2 }
 
 theorem bE_mem : D.host.sqd ∈ D.host.K :=
@@ -106,7 +106,7 @@ theorem embA_bij : letI := algKC D; Function.Bijective (embA D) := by
       exact hs.ne' (by exact_mod_cast this)
 
 theorem sum_tau_trace (z : D.host.E) :
-    ∑ τ : D.what₂.Tau, embT D τ z =
+    ∑ τ : D.what₂.Tau, _root_.Formalism.L2.Ker.Cd.TaylorLogMetric.embT D τ z =
       D.host.φ₀ ((Algebra.trace D.host.K D.host.E z : D.host.K) : D.host.E) := by
   letI := algKC D
   have h := _root_.trace_eq_sum_embeddings (K := D.host.K) (L := D.host.E) ℂ (x := z)
@@ -131,7 +131,7 @@ theorem emb_conj (φ : D.host.E →+* ℂ) (x : D.host.E) :
     φ (D.host.conj x) = starRingEnd ℂ (φ x) := by
   exact D.host.conjE_apply φ x
 
-theorem Hf_embV (T : Tor D) (hT : ∀ τ x, T.emb τ x = embT D τ x) {N N' : ℕ}
+theorem Hf_embV (T : Tor D) (hT : ∀ τ x, T.emb τ x = _root_.Formalism.L2.Ker.Cd.TaylorLogMetric.embT D τ x) {N N' : ℕ}
     (A B : Matrix (Fin N') (Fin N) D.host.E) :
     Hf D T (embV D T A) (embV D T B) =
       D.host.φ₀ ((hYY D A B : D.host.K) : D.host.E) / (area T.abelian₂ : ℂ) := by

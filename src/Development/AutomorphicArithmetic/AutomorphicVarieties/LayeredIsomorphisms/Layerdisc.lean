@@ -1,7 +1,7 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.StmtFields
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.LayeredIsomorphisms.Imports
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.Bundle001
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.LayeredIsomorphisms.Bundle002
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.LayeredIsomorphisms.Layeremb
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,8 +1,8 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.RestSegCore
+public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.Bundle003
 public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.DegSplit
-public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.SymbolVariableLowerLetter
+public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

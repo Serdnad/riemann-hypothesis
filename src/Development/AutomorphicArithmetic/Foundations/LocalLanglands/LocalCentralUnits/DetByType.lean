@@ -2,12 +2,11 @@ module
 
 public import Development.AutomorphicArithmetic.Foundations.LocalLanglands.RecTTransport
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.AdmissibleLabelWeightsOfGreenCuspidalParametrisa
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SimpleIffIrreducibleStatement
-public import Development.DiscreteGroups.GlobalIrreducibility.DzIsoKO
-public import Development.DiscreteGroups.GlobalIrreducibility.DzIsoRes
-public import Development.DiscreteGroups.GlobalIrreducibility.DzKSchur
-public import Development.DiscreteGroups.GlobalIrreducibility.DzLcFin
-public import Development.DiscreteGroups.GlobalIrreducibility.DzLcPerm
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle111
+public import Development.DiscreteGroups.GlobalIrreducibility.Bundle020
+public import Development.DiscreteGroups.GlobalIrreducibility.Bundle009
+public import Development.DiscreteGroups.GlobalIrreducibility.Bundle018
+public import Development.DiscreteGroups.GlobalIrreducibility.Bundle010
 public import Development.WeilBound.RepresentationTheoryGL.GaloisPermutationReps.SubquotientEquivalence.ConjTorusSubApply
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

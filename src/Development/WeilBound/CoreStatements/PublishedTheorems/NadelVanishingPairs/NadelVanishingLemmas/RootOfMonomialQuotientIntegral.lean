@@ -2,7 +2,7 @@ module
 
 public import Mathlib.Algebra.Field.ZMod
 public import Mathlib.RingTheory.RingHom.Etale
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RootOfMonomialQuotientIntegral
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2254
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -42,8 +42,8 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.Divisors.IsEtCoord
-import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.ToroidalCompactification
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle007
+import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.Bundle006
 
 @[expose] public section
 

@@ -1,6 +1,6 @@
 module
 
-public import Formalism.FilteredPoleLength.ReducedBasisBounds.FilteredPoleLength
+public import Formalism.FilteredPoleLength.ReducedBasisBounds.Bundle001
 public import Formalism.GelfandTransference.HadamardGelfand.Hadamard
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

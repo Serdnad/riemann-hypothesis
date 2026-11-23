@@ -4,11 +4,11 @@ public import Mathlib.AlgebraicGeometry.Morphisms.QuasiFinite
 public import Mathlib.AlgebraicGeometry.Normalization
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
 public import Mathlib.Order.CompletePartialOrder
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AwayMapBijectiveOfRangeEqSubalgebraStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsFiniteCoequifiberedSubalgebraStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsFinsetAwayMapSubalgebraBijectiveStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.NormalizationBasicOpenCoverStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RelSpecMapIsIsoOverBasicOpenStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle182
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle530
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle232
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle194
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle196
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,7 +1,7 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.StatementsChartNormSep
-public import GroundTheory.HeightsAndTheta.Heights.ChowForms.StatementsNormForm
+public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle019
+public import GroundTheory.HeightsAndTheta.Heights.ChowForms.Bundle001
 public import Mathlib.Algebra.Module.StablyFree.Basic
 public import Mathlib.RingTheory.Flat.TorsionFree
 public import Mathlib.RingTheory.Henselian

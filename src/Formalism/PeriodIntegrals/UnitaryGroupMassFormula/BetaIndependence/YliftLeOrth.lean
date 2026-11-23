@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.ScalPairs
+public import Formalism.PeriodIntegrals.Bundle031
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.BetaUniqueness.Lemmas
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

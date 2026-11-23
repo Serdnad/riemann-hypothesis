@@ -52,12 +52,12 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.NStageTrivialCharacterCoeffEqAlt
-import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.ExistsReadingLaws
-import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.RankOneUnitary
-import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.ThetaMod
+import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle003
+import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle008
+import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle007
+import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle022
 import Formalism.AlgebraicWeights.IsAlgWeight
-import Formalism.ConjugateSelfDual.Statement
+import Formalism.ConjugateSelfDual.Bundle001
 import Formalism.LocalToGlobal.NormalizedHeckeFactors.TypesDefs
 import Formalism.LocalToGlobal.ProjectiveLattices.ErealAddIInf
 import Formalism.LocalToGlobal.UnitaryNorms.IsUnitaryNormOf
@@ -285,11 +285,11 @@ theorem isSpherical_twist_of_empty_block : ∀ (k : Type) [Field k] [ValuativeRe
     rw [jac_liftT_mk f hc, ← Submodule.Quotient.mk_smul, Submodule.Quotient.eq, twKer_eq_bot f hc,
       Submodule.mem_bot, sub_eq_zero] at h2
     exact h2
-  show fixed (twist π (detChar (Fin t) χ⁻¹)) (KO k (Fin t)) ≠ ⊥
+  show fixed (_root_.GlobalTheory.SmGL.twist π (detChar (Fin t) χ⁻¹)) (KO k (Fin t)) ≠ ⊥
   intro hbot
-  have hmem : v ∈ fixed (twist π (detChar (Fin t) χ⁻¹)) (KO k (Fin t)) := by
+  have hmem : v ∈ fixed (_root_.GlobalTheory.SmGL.twist π (detChar (Fin t) χ⁻¹)) (KO k (Fin t)) := by
     intro h
-    show twist π (detChar (Fin t) χ⁻¹) (h : GL (Fin t) k) v = (((1 : _ →* ℂˣ) h : ℂˣ) : ℂ) • v
+    show _root_.GlobalTheory.SmGL.twist π (detChar (Fin t) χ⁻¹) (h : GL (Fin t) k) v = (((1 : _ →* ℂˣ) h : ℂˣ) : ℂ) • v
     rw [twist_apply, key h h.2, smul_smul]
     simp
   rw [hbot] at hmem

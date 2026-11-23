@@ -1,8 +1,8 @@
 module
 
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.IsTypeIsRealConst
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ChernFormOfGramMatrixAtHolomorphicFrameChange
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ClosedFormsMulClosed
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1599
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1598
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.DiscreteSeriesHermitianUnique
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AdelicSchwartzSupportCompactInvarianceStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CharacterPartitionOfUnitySupportStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EqOfComponentTensorAdelicFunctionEq
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.WeilRepresentationPreservesSchwartz
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle055
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1332
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2104
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1968
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1794
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

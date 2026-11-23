@@ -1,9 +1,9 @@
 module
 
 public import Development.WeilBound.ThetaLifts.LatticeBasics.ContinuousFlat
-public import Development.WeilBound.ThetaLifts.LatticeBasics.HypothesesS
-public import Development.WeilBound.ThetaLifts.LatticeBasics.SecondFromFirstStatement
-public import Development.WeilBound.ThetaLifts.LatticeBasics.SiegelWeilAnisoOf
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle012
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle007
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle022
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,12 +1,11 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.HilbertNinetyQuotientHomEqIff
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ImportsFurtherExtra
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle021
 public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.ThetaDistributionHeisenbergInvariant
 public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.ThetaDistributionNonzeroAdmissible
 public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.ThetaSumAdmissibility
-import GroundTheory.GlobalFields.Adele.Compact
-import GroundTheory.GlobalFields.Adele.Discrete
+import GroundTheory.GlobalFields.Adele.Bundle003
 import Mathlib.Algebra.Module.Torsion.Prod
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

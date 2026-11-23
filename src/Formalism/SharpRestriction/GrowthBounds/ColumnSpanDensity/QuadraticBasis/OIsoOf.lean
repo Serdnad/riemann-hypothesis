@@ -1,8 +1,7 @@
 module
 
 public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.QuadraticBasis.StatementO
-public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.QuadraticBasis.PresIso
-public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.QuadraticBasis.QuadBasis
+public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.QuadraticBasis.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

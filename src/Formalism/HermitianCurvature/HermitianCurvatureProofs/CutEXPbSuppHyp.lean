@@ -47,8 +47,8 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Formalism.FormalDegreeBessel.StatementWR
-import Formalism.HermitianCurvature.StatementI
-import Formalism.RealPlaceAnalysis.StatementA
+import Formalism.HermitianCurvature.Bundle001
+import Formalism.RealPlaceAnalysis.Bundle001
 public import Mathlib.Algebra.BigOperators.Fin
 public import Mathlib.Analysis.CStarAlgebra.Basic
 public import Mathlib.Analysis.Complex.Basic

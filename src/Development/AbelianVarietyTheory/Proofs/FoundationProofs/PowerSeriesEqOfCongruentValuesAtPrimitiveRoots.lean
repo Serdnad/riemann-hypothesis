@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsIntegralIffNormLeOne
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle367
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.CoefficientCongruenceOfTwistedValues
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.SeriesEqZeroOfValsTendstoZero
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.CoefSup
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle376
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -41,7 +41,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-import Development.AbelianVarietyTheory.Definitions.Foundations.IsLocallyConstantCycMod
+import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle018
 
 @[expose] public section
 
@@ -267,7 +267,7 @@ theorem GlobalTheory.KZ.autoPin_congr : ∀ (l : ℕ) [Fact l.Prime] (c : Coef l
     | zero => simp only [add_zero, Cg, sub_self, norm_zero]; exact norm_nonneg _
     | succ d ih =>
       rw [show m + (d + 1) = m + d + 1 by omega]
-      exact cg_trans (cg_mono (hw (m + d)).2 (by omega)) ih
+      exact _root_.GlobalTheory.KZ.AutoPin.cg_trans (cg_mono (hw (m + d)).2 (by omega)) ih
   have hz1 : ∀ m (z : Qbar l), IsPrimitiveRoot z (l ^ m) → ‖z - 1‖ ≤ 1 := fun m z hz => (root_bound l m z hz).1
 
   have hA0 : A ≠ 0 := by
@@ -340,8 +340,8 @@ theorem GlobalTheory.KZ.autoPin_congr : ∀ (l : ℕ) [Fact l.Prime] (c : Coef l
       have := cg_mul hx (cg_mono (hw m).2 hkm)
       convert this using 1 <;> ring
     have eu : Cg k (u * (tval (compPow l A * B) N z)) (u * (w m * u ^ m * b0 * b1)) :=
-      cg_mul hu.le (cg_trans e3 (cg_trans e4 e6))
-    have etot := cg_sub' (cg_trans e1 (cg_trans e2 (cg_trans e5 e7))) eu
+      cg_mul hu.le (_root_.GlobalTheory.KZ.AutoPin.cg_trans e3 (_root_.GlobalTheory.KZ.AutoPin.cg_trans e4 e6))
+    have etot := cg_sub' (_root_.GlobalTheory.KZ.AutoPin.cg_trans e1 (_root_.GlobalTheory.KZ.AutoPin.cg_trans e2 (_root_.GlobalTheory.KZ.AutoPin.cg_trans e5 e7))) eu
     have hid : w m * u ^ (m + 1) * b1 * b0 - u * (w m * u ^ m * b0 * b1) = 0 := by ring
     rw [hid] at etot
     have htF : tval F N z = tval (A * compPow l B) N z - u * tval (compPow l A * B) N z := by
@@ -369,7 +369,7 @@ theorem GlobalTheory.KZ.autoPin_congr : ∀ (l : ℕ) [Fact l.Prime] (c : Coef l
       have := cg_mul nb (cg_mono (hwd m (L - m)) (by omega : k ≤ m))
       rw [show m + (L - m) = L by omega] at this
       rwa [mul_comm _ (w L), mul_comm _ (w m)] at this
-    have h3 := cg_zero_of_cg (cg_trans h1 h2)
+    have h3 := cg_zero_of_cg (_root_.GlobalTheory.KZ.AutoPin.cg_trans h1 h2)
     rw [hHdef, tval_sub, tval_smul]
     exact h3) n
   have : H.coeff n = A.coeff n - w m * B.coeff n := by

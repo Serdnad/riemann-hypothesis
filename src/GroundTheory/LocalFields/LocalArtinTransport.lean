@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.LocalFields.LocalArtinMap
-public import GroundTheory.LocalFields.LocalArtinUniqueness
+public import GroundTheory.LocalFields.Bundle013
 import GroundTheory.LocalFields.Uniqueness
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

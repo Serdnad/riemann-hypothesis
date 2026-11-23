@@ -38,8 +38,8 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 public import Formalism.LocalRingCardinality.DataDIV
-public import Formalism.LocalRingCardinality.DataExtra
-public import Formalism.LocalToGlobal.ClassOfRecordOfChoice
+public import Formalism.LocalRingCardinality.Bundle008
+public import Formalism.LocalToGlobal.Bundle001
 public import Formalism.LocalToGlobal.IndefiniteRealisationChoice
 import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.JoinSI
 import Formalism.LocalToGlobal.SiegelLatticeTheory.PtEquivApply

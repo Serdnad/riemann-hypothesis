@@ -1,7 +1,7 @@
 module
 
-public import Formalism.RealPlaceAnalysis.SmoothVectorGrowthBound
-public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.MemUnitaryGroupIffMulConjTranspose
+public import Formalism.RealPlaceAnalysis.Bundle005
+public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.Bundle002
 import Formalism.RealPlaceAnalysis.RealPlaceTaylor.KoszulLowersPower
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

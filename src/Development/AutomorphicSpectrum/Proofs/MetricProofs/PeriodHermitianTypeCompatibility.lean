@@ -1,9 +1,9 @@
 module
 
-import Development.WeilBound.CoreStatements.SesquilinearFractions.SesqSesquilinearSkewHermitian
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsHodgeGram
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsHolPeriods
-public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.EigProjRegNeZero
+import Development.WeilBound.CoreStatements.SesquilinearFractions.Bundle006
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle009
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle009
+public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -51,7 +51,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ExistsGenOfIsVBOne
+import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle004
 
 @[expose] public section
 

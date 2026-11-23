@@ -2,8 +2,8 @@ module
 
 public import GroundTheory.ArithmeticGeometry.AbelianVarieties.IsogenyPoints
 public import Mathlib.Analysis.Normed.Ring.Lemmas
-public import GroundTheory.ArithmeticGeometry.AbelianVarieties.IsogenyFrobeniusSep
-public import GroundTheory.ArithmeticGeometry.AbelianVarieties.IsogenySeparable
+public import GroundTheory.ArithmeticGeometry.AbelianVarieties.Bundle004
+public import GroundTheory.ArithmeticGeometry.AbelianVarieties.Bundle005
 import GroundTheory.ArithmeticGeometry.AbelianVarieties.WeilTranslate
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

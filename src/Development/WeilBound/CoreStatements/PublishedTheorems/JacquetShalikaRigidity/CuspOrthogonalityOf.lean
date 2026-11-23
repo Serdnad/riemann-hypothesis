@@ -1,7 +1,7 @@
 module
 
 public import Development.WeilBound.CoreStatements.PublishedTheorems.JacquetShalikaRigidity.ColumnConjugationMeasure
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContinuousOfIsOpenStab
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle133
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsFiniteMeasureQuotMeasure
 public import Development.WeilBound.CoreStatements.PublishedTheorems.JacquetShalikaRigidity.SameSatakeOfProjection
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.UnitaryClassMass.CardStepOf
@@ -206,6 +206,13 @@ theorem band_eq (hQ2 : Q2) (hD0 : D0) (hN3 : N3) (hk : 1 ≤ k) (μ : Measure (G
   have hint : Integrable Φ (μ.withDensity ((stdDom (latticeGL E k)).indicator 1)) := by
     rw [withDensity_indicator hD, withDensity_one]
     exact hi
+  haveI : Countable (latticeGL E k) := _root_.GlobalTheory.DiscreteUnit.countable_latticeGL
+  haveI : ∀ l : latticeGL E k, IsFiniteMeasure (Measure.dirac (l : GA E k)) :=
+    fun _ => Measure.dirac.instIsFiniteMeasure
+  haveI : SFinite ν :=
+    sfinite_sum_of_countable fun l : latticeGL E k => Measure.dirac (l : GA E k)
+  haveI : SFinite (Measure.dirac (1 : GA E k)) :=
+    @MeasureTheory.instSFiniteOfSigmaFinite _ _ _ Measure.dirac.instSigmaFinite
   obtain ⟨-, hE⟩ := hQ2 (GA E k) μ ν (Measure.dirac 1) (latticeGL E k : Set (GA E k))
     ((stdDom (latticeGL E k)).indicator 1) ((band E k).indicator β) hmap hae hwt (hβ.1.indicator hband) hone Φ hm
     (fun h hh g => hl h hh g) hint

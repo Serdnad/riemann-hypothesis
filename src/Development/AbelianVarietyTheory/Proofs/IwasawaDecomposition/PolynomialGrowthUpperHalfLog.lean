@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.PerValNeZero
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle631
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -38,7 +38,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsLatBasisZero
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle102
 
 @[expose] public section
 

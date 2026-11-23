@@ -44,8 +44,8 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 public import ReciprocityTheory.AnalyticForms.RegularLocalRings.ExistsClosedOfChartIdeal
-public import ReciprocityTheory.AnalyticForms.RegularLocalRings.NeZeroOfSpanEqMaximalIdeal
-import ReciprocityTheory.AnalyticForms.RegularLocalRings.RingKrullDimLocRingEqOfMinimalPrime
+public import ReciprocityTheory.AnalyticForms.RegularLocalRings.Bundle015
+import ReciprocityTheory.AnalyticForms.RegularLocalRings.Bundle010
 public import ReciprocityTheory.AnalyticForms.RegularLocalRings.ExistsBasicOpenCover
 
 @[expose] public section

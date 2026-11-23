@@ -49,8 +49,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.CommutativeAlgebra.CohenMacaulay.AssDim
-public import ReciprocityTheory.CommutativeAlgebra.CohenMacaulay.ExistsIsRegularAppendOfModDepthGE
+public import ReciprocityTheory.CommutativeAlgebra.CohenMacaulay.Bundle001
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section

@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalRingCardinality.DataSpaces
+public import Formalism.LocalRingCardinality.Bundle001
 public import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.GenusMassVolumes
 public import Formalism.LocalRingCardinality.DataHost
 import Mathlib.Algebra.Order.Floor.Extended

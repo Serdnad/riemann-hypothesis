@@ -1,13 +1,12 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.IsAdapted
+public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.Bundle001
 public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.LatNormGrLatNeZeroOfSpan
-public import GroundTheory.HeightsAndTheta.Heights.StabilizerCovolume.EigenLatDifferent
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.ProjSumSumEmbeddingsEqTrace
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.RelatedPairsOrbitalTermEq
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.EigenLatticesDifferentStatementHoldsStatement
+public import GroundTheory.HeightsAndTheta.Heights.StabilizerCovolume.Bundle003
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle018
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle089
 public import GroundTheory.HeightsAndTheta.Heights.StabilizerCovolume.PDifferentLatIndex
-import GroundTheory.HeightsAndTheta.Heights.StabilizerCovolume.PTorusIndex
+import GroundTheory.HeightsAndTheta.Heights.StabilizerCovolume.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -597,7 +596,7 @@ theorem genIndex_tor (hE : EigenLatDifferent.Statement)
     (hv : IsOFamily ρ I v) (hst : ∀ a, ∀ x ∈ I, ρ a x ∈ I)
     (hI : ∃ (n : ℕ) (e : Fin n → V), LinearIndependent L e ∧ AddSubgroup.closure (Set.range e) = I)
     (t : E →+* L) :
-    genIndex (Submodule.span (𝓞 L) (I : Set V) ⊓ (HT.eigSp ρ t).restrictScalars (𝓞 L)).toAddSubgroup
+    _root_.GroundTheory.Heights₂.Heights.NineStatements.genIndex (Submodule.span (𝓞 L) (I : Set V) ⊓ (HT.eigSp ρ t).restrictScalars (𝓞 L)).toAddSubgroup
       (Submodule.span (𝓞 L) (Set.range fun a => HT.eigProj ρ t (v a))).toAddSubgroup =
       ((((oSpan ρ v).relIndex I : ℕ) : ℝ) / |(discr E : ℝ)| ^ r) ^
         ((Module.finrank ℚ L : ℝ) / Module.finrank ℚ E) := by
@@ -609,7 +608,7 @@ theorem genIndex_tor (hE : EigenLatDifferent.Statement)
     exact DifferentLatIndex.proof Em K N J m w hw s
   have hT := hT E L ι (exists_split (V := V) hcard ι) r (lat ρ v I hst) r _ hnz t
   rw [hidx] at hT
-  rw [← hT, ← map_eigenLat hcard ρ hv hst hI, ← map_familyLat hcard ρ v t, genIndex, genIndex,
+  rw [← hT, ← map_eigenLat hcard ρ hv hst hI, ← map_familyLat hcard ρ v t, _root_.GroundTheory.Heights₂.Heights.NineStatements.genIndex, _root_.GroundTheory.Heights₂.Heights.NineStatements.genIndex,
     map_toAddSubgroup, map_toAddSubgroup]
   have hinj : Function.Injective (phi ρ v t).toAddMonoidHom := phi_injective hcard ρ hv hst hI t
   rw [AddSubgroup.relIndex_map_map_of_injective _ _ hinj,
@@ -697,3 +696,18 @@ theorem torusPartDegree : ∀ (E L Ψ : Type) [Field E] [NumberField E] [Field L
     exact key _ _ hg
 
 end GlobalTheory.CompanionTheory.Ar.Cusp
+
+end
+end
+
+section
+
+@[expose] public section
+
+open NumberField GlobalTheory.CompanionTheory.Ar GlobalTheory.CompanionTheory.Ar.Cusp GroundTheory.Heights₂.Heights
+
+theorem _root_.GlobalTheory.T.log_index_of_orthogonal_family : ∀ (E L Ψ : Type) [Field E] [NumberField E] [Field L] [NumberField L] [Fintype Ψ] (V : Type) [AddCommGroup V] [Module L V] [Module (𝓞 L) V] [IsScalarTower (𝓞 L) L V] (A : LinPt E L Ψ V) (r : ℕ) (v : Fin r → V), 2 * Fintype.card Ψ = Module.finrank ℚ E → IsOFamily A.ρ A.I v → ∀ s, logIdx (A.tor s) (fun a => eigComp A.ρ (A.σ s) (v a)) / Module.finrank ℚ L = -(r * Real.log (|(discr E : ℝ)| ^ (1 / (Module.finrank ℚ E : ℝ)))) + Real.log (((oSpan A.ρ v).relIndex A.I : ℕ) : ℝ) / Module.finrank ℚ E := by
+  first | exact @GlobalTheory.CompanionTheory.Ar.Cusp.torusPartDegree | exact GlobalTheory.CompanionTheory.Ar.Cusp.torusPartDegree | (intros; apply GlobalTheory.CompanionTheory.Ar.Cusp.torusPartDegree <;> assumption)
+
+end
+end

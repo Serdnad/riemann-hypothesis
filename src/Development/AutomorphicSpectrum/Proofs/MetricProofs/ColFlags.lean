@@ -1,7 +1,7 @@
 module
 
 public import Development.AutomorphicSpectrum.Statements.MetricStatements.ExistsFlagModelBaseMetric
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.CoordTieCompEquiv
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle032
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

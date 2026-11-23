@@ -1,18 +1,17 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.StatementsConeTangentAverage
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PConeFiniteFibreDim
+public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle022
+public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle028
 public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PConeJacMeasurable
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PConeKrullDimLe
-import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PConeTangentAverage
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PConeTangentDim
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PKernelProjMeasurable
+public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle015
+import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle030
+public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle035
+public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle003
 public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PTangentGaussInvariant
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PTangentJacCompress
+public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle031
 public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Assembly
-public import GroundTheory.HeightsAndTheta.Heights.ElementarySymmetric.PConormalGenerationGeneric
-public import GroundTheory.HeightsAndTheta.Heights.ElementarySymmetric.PFrameJacobianGeneric
-public import GroundTheory.HeightsAndTheta.Heights.ElementarySymmetric.PJacobianRankGeneric
+public import GroundTheory.HeightsAndTheta.Heights.ElementarySymmetric.Bundle003
+public import GroundTheory.HeightsAndTheta.Heights.ElementarySymmetric.Bundle011
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

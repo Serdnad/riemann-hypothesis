@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Foundations.HTBasis
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsCyclotomicTowerLevelGeneratorPropertiesStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IntegersEqSumZetaPowStatement
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NormPrimitiveRootPrimePowSubOnePadicComplex
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TateDecompositionCompletedCyclotomicIntegersStatement
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle010
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle404
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle431
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle180
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle449
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,11 +1,11 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.ImportsMoreFurther
+public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Bundle033
 public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.ClassListMapDomainPerm
 import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.IsVerticalDivOfIsVerticalDivisor
-public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.MemMinimalPrimesOfDivCycleNeZero
-public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.PCutByForm
-public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.PMinimalPrimeMultiHomog
+public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Bundle007
+public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Bundle010
+public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Bundle006
 public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.PRepresentative
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

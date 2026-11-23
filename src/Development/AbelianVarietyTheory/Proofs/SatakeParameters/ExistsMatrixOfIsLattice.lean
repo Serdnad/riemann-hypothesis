@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalToGlobal.HeckeThetaElements.IsHeckeElt
-public import Formalism.SatakeDualWeyl.StatementE
+public import Formalism.SatakeDualWeyl.Bundle001
 public import Development.AbelianVarietyTheory.Proofs.HeightProofs.MemAdelicLatticeIffLocalSelfDualCompletion
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

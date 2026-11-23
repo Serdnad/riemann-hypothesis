@@ -1,9 +1,8 @@
 module
 
 public import Development.AutomorphicArithmetic.Foundations.IwahoriReduction.LangPolynomials.FixedIntegersIsUnitOfNotMemPrimeSpan
-public import Development.AutomorphicArithmetic.Foundations.IwahoriReduction.LangPolynomials.PowCompPow
+public import Development.AutomorphicArithmetic.Foundations.IwahoriReduction.LangPolynomials.Bundle001
 public import Development.AutomorphicArithmetic.Foundations.IwahoriReduction.LangPolynomials.PresDl
-public import Development.AutomorphicArithmetic.Foundations.IwahoriReduction.LangPolynomials.PresMono
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

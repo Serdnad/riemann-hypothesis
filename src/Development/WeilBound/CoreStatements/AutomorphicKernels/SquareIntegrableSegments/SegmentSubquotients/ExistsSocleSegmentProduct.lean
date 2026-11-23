@@ -1,10 +1,10 @@
 module
 
 public import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.ZelevinskyJacquet.FineJacquetModules.SegDefs
-public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.IrreducibleAdmissibleGL
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.JacquetMultiplicityCuspidalProductStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SegmentTermInjectiveStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SocleOfMultiplicityOne
+public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.Bundle002
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle705
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle350
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle655
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

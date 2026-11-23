@@ -1,6 +1,6 @@
 module
 
-public import Formalism.ThetaLogCoordinates.FockResolutionOnto.StatementB
+public import Formalism.ThetaLogCoordinates.FockResolutionOnto.Bundle001
 public import Formalism.PolynomialDimension.MultinomialDepth.PartnerM
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

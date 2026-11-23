@@ -1,8 +1,8 @@
 module
 
 public import Formalism.AdmissibleDesigns.TensSubsingleton
-public import Formalism.AdmissibleDesigns.YtRepZero
-public import Formalism.AdmissibleDesigns.YtTarget
+public import Formalism.AdmissibleDesigns.Bundle005
+public import Formalism.AdmissibleDesigns.Bundle002
 import Mathlib.Algebra.NoZeroSMulDivisors.Pi
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,8 +1,8 @@
 module
 
 public import GroundTheory.AutomorphicForms.AnisotropicRestrict
-public import GroundTheory.AutomorphicForms.UnitaryGroupScheme
-public import GroundTheory.AutomorphicForms.AdelicUnitaryGroups.Anisotropic
+public import GroundTheory.AutomorphicForms.Bundle006
+public import GroundTheory.AutomorphicForms.AdelicUnitaryGroups.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

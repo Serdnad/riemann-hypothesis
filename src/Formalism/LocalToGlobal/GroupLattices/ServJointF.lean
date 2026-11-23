@@ -2,7 +2,7 @@ module
 
 public import Formalism.LocalToGlobal.GroupLattices.JointServices
 public import Formalism.LocalToGlobal.GroupLattices.JointServices.VAddEqVw
-public import Formalism.LocalToGlobal.GroupLattices.JointServices.ValIntNonneg
+public import Formalism.LocalToGlobal.GroupLattices.JointServices.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

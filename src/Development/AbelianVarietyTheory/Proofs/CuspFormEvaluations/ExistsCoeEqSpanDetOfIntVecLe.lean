@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.SemistableReduction.SemiDegCA
+public import ReciprocityTheory.SemistableReduction.Bundle004
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsSmulMemOfMemSpanFraction
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -53,15 +53,15 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.DualLattices.SmallLevelClassSet
-public import ReciprocityTheory.SemistableReduction.SemiDegCC
-public import ReciprocityTheory.SemistableReduction.SemiDegCD
+public import ReciprocityTheory.DualLattices.Bundle001
+public import ReciprocityTheory.SemistableReduction.Bundle011
+public import ReciprocityTheory.SemistableReduction.Bundle015
 public import ReciprocityTheory.SemistableReduction.SemiDegCE
 public import Mathlib.NumberTheory.NumberField.CMField
 import ReciprocityTheory.GeometryOfNumbers.LatticeCovolumes.ConjSymm
-public import ReciprocityTheory.GeometryOfNumbers.LatticeCovolumes.InhabSt
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.Signature
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SquareIntegrability.PerpSurj
+public import ReciprocityTheory.GeometryOfNumbers.LatticeCovolumes.Bundle001
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.Bundle001
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SquareIntegrability.Bundle002
 
 @[expose] public section
 

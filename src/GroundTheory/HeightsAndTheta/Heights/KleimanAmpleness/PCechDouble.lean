@@ -1,8 +1,8 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.CechDoubleSt
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle023
 public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.PCechDoubleStair
-public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.PCechDSq
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle011
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

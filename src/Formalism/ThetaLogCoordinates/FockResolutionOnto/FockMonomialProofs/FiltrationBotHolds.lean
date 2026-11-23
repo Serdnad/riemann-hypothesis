@@ -1,6 +1,6 @@
 module
 
-public import Formalism.ThetaLogCoordinates.FockResolutionOnto.StatementB
+public import Formalism.ThetaLogCoordinates.FockResolutionOnto.Bundle001
 public import Formalism.MahlerMeasure.MahlerMeasureProofs.MeanGam
 public import Formalism.ThetaLogCoordinates.FockResolutionOnto.FockMonomialProofs.InitPartZeroXMul
 public import Formalism.ThetaLogCoordinates.FockResolutionOnto.FockMonomialProofs.MulEarlyLettersHolds

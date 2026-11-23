@@ -1,10 +1,10 @@
 module
 
 public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.RigFactorWeightedHomogeneousLetter
-public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.PreDef
+public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.Bundle005
 public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.TopOddNeEndAny
 import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.MonomialWeightedHomogeneous
-public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.ThresholdStandardSeventeen
+public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.Bundle009
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

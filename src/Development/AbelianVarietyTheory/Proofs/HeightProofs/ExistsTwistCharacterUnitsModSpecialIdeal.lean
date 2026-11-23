@@ -2,8 +2,8 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.HeightFunctions.XiValIffXiAt
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsRootNear
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ContinuousCharacterFiniteOrderIntegralUnits
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.MemRangeOfOneTmulMem
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle073
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle063
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

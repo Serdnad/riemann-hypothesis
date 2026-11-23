@@ -1,11 +1,9 @@
 module
 
-public import Development.WeilBound.ThetaLifts.CartanFactorisation.UpdSelf
-public import Development.WeilBound.ThetaLifts.LocalTheory.SplitInv
+public import Development.WeilBound.ThetaLifts.CartanFactorisation.Bundle003
+public import Development.WeilBound.ThetaLifts.LocalTheory.Bundle001
 public import Development.AbelianVarietyTheory.Definitions.Divisors.MatchingOfParts
-public import Development.WeilBound.ThetaLifts.CartanFactorisation.ExistsBeta
-public import Development.WeilBound.ThetaLifts.CartanFactorisation.RinfZero
-public import Development.WeilBound.ThetaLifts.CartanFactorisation.TensOfEval
+public import Development.WeilBound.ThetaLifts.CartanFactorisation.Bundle005
 public import Development.WeilBound.ThetaLifts.CartanFactorisation.Unimod
 public import Development.WeilBound.ThetaLifts.ConeHypotheses.PureEqPureA
 import Mathlib.Algebra.Order.Floor.Extended

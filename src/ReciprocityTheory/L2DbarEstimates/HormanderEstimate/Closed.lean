@@ -1,9 +1,9 @@
 module
 
-public import ReciprocityTheory.L2DbarEstimates.LeviForms.HoloClosedNeed
+public import ReciprocityTheory.L2DbarEstimates.LeviForms.Bundle002
 public import ReciprocityTheory.L2DbarEstimates.Localization.UnweightBackStatement
-public import ReciprocityTheory.L2DbarEstimates.SkodaWeights.NeedBergmanClosed
-public import ReciprocityTheory.L2DbarEstimates.WeakHolomorphy.HoloWeakStatement
+public import ReciprocityTheory.L2DbarEstimates.SkodaWeights.Bundle002
+public import ReciprocityTheory.L2DbarEstimates.WeakHolomorphy.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -44,8 +44,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.L2DbarEstimates.HormanderEstimate.ClosedCoreOfRegM
-public import ReciprocityTheory.L2DbarEstimates.HormanderEstimate.ClosedEval
+public import ReciprocityTheory.L2DbarEstimates.HormanderEstimate.Bundle001
 import ReciprocityTheory.L2DbarEstimates.HormanderEstimate.ExistsLintegralCompactLe
 
 @[expose] public section

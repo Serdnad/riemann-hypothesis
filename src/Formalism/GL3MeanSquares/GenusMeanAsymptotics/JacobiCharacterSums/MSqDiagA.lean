@@ -1,7 +1,7 @@
 module
 
 import Formalism.SharpRestriction.GlobalSchurBounds.GlobalRankLatticeProofs.GenericFramesLetters
-public import Formalism.GL3MeanSquares.SecondEstimateOfIntervalHypothesis
+public import Formalism.GL3MeanSquares.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

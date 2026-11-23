@@ -1,7 +1,7 @@
 module
 
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.RationalHermitianMeasures.IncMScalarMul
-public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.WhittakerCovolume.IsPureTIff
+public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.WhittakerCovolume.Bundle001
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.WhittakerCovolume.MeasProps
 import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.FourierCompactness.SigmaSigmaOfGood
 import Mathlib.Algebra.Order.Floor.Extended
@@ -108,13 +108,14 @@ theorem meas_hOf {d : SD σ} {R : RD d} {x : d.G} {t u : GL (Fin d.n) (AE F E)} 
   let eM := e.toHomeomorph.toMeasurableEquiv
   have hemb : MeasurableEmbedding hOf := eM.measurableEmbedding
   refine ⟨hemb, ?_, ?_, ?_⟩
-  · exact e.toAddEquiv.isAddHaarMeasure_map lam e.continuous e.symm.continuous
+  · exact @AddEquiv.isAddHaarMeasure_map _ _ _ _ lam hlam _ _ _ _ _ _ _ _ e.toAddEquiv e.continuous e.symm.continuous
   · refine hfd.image_of_equiv eM.toEquiv (eM.measurePreserving_symm lam).quasiMeasurePreserving
       (ratE hR.ne hR.hof hR.herm) ?_
     intro S β
     show e (e.symm S.1 + β) = S.1 + e β
     rw [map_add (f := _), ContinuousAddEquiv.apply_symm_apply]
-  · rw [hemb.map_apply, Set.preimage_image_eq _ hemb.injective, h1]
+  · rw [hemb.map_apply, Set.preimage_image_eq _ hemb.injective]
+    exact h1
 
 end PositivityTheory.SiegelWeilFormula.MeasD
 

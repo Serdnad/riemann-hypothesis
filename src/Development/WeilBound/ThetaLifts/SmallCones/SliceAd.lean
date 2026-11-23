@@ -1,10 +1,10 @@
 module
 
 public import Development.WeilBound.ThetaLifts.SmallCones.SliceArch
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.WeilRepresentationPreservesSchwartz
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1794
 public import Development.AbelianVarietyTheory.Definitions.Divisors.CTSmallCone
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsCompactOpenAddSubgroup
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsStdCharNegOneOfStandardTraceAdelicAddChar
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1891
 public import Development.WeilBound.ThetaLifts.LatticeBasics.IsCompactIntV
 public import GroundTheory.GlobalFields.TateThesis.AdelicCharDual
 public import GroundTheory.GlobalFields.TateThesis.SchwartzBruhatFinite

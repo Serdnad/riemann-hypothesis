@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HeckeCompatFiniteIsometry
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1150
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.OpFullImp
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsFiniteAdelicUnitaryGroupIso
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsUnitaryPart

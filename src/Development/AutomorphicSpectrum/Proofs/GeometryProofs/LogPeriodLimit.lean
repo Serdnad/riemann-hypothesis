@@ -1,13 +1,12 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.ClopenCondOnto
+public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.Bundle001
 public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.ExistsAdaptedUnimodular
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.RiemannFormHermitianLatticeStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.SiegelLimitImagBoundStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.SymplecticPolydiscPeriodBasisStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ImLowerOnKernel
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle025
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle113
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle002
 import GroundTheory.HeightsAndTheta.Heights.Regularisation.Assembly
-import GroundTheory.HeightsAndTheta.Heights.Regularisation.PLogCoverDescent
+import GroundTheory.HeightsAndTheta.Heights.Regularisation.Bundle004
 import GroundTheory.HeightsAndTheta.Heights.Regularisation.PPuncturedExpOrder
 import GroundTheory.HeightsAndTheta.Heights.Regularisation.PRiemannExtensionSlices
 import Mathlib.Algebra.Order.Floor.Extended
@@ -64,7 +63,7 @@ import Mathlib.CategoryTheory.Monoidal.Category
 public import Mathlib.CategoryTheory.Monoidal.Mon
 import Mathlib.Topology.Sheaves.Presheaf
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsCompletedStrictHens
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.CubicalStructures.CubeSymmetricSwapFirst
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.CubicalStructures.Bundle001
 
 @[expose] public section
 

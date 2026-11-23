@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.LocalFields.FiniteExtension
+public import GroundTheory.LocalFields.Bundle001
 public import GroundTheory.LocalFields.Integers
 public import GroundTheory.LocalFields.UnitsBasic
 public import GroundTheory.LocalFields.SeparableClosure

@@ -3,7 +3,7 @@ module
 public import ReciprocityTheory.ThetaQuasiPeriods.ThetaQuasiPeriodStatement
 public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.EqZeroOfSemicharacterMultiplier
 public import Mathlib.Tactic.ENatToNat
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsLieBasis
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle004
 public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.DifferentiableOnOfTendstoLocallyUniformlyOn
 public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.SurjectiveOfComplexPointsLiftOfUniversallyClosed
 import Mathlib.Algebra.Order.Floor.Extended
@@ -54,7 +54,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-import ReciprocityTheory.ThetaQuasiPeriods.Transl
+import ReciprocityTheory.ThetaQuasiPeriods.Bundle001
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section

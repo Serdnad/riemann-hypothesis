@@ -1,9 +1,9 @@
 module
 
-public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.RightOnto
+public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.Bundle001
 public import Development.AbelianVarietyTheory.Definitions.Foundations.T2SpaceTensorProductFiniteExtension
 public import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.VaceigenDual
-public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.KdMulRight
+public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.Bundle003
 public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.PfDictSec
 import GroundTheory.LocalFields.PadicLogSeries
 import Mathlib.Algebra.Order.Floor.Extended

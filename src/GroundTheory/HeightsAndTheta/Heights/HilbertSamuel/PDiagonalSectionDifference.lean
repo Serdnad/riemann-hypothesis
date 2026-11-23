@@ -1,16 +1,16 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsDiagonalSectionDifference
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle060
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PSectionsDimZero
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsSerreGraded
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.GradedSpanProducts
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle001
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle005
 import GroundTheory.HeightsAndTheta.Heights.HeightsOfSets.PCoordCurveAlgebraic
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PEventualPolynomial
-import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PHilbFnValueSpan
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PMultigradedHilbertPolynomial
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle021
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle019
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PSerreGraded
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PShiftDegreePolynomial
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.AvoidRing
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle086
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

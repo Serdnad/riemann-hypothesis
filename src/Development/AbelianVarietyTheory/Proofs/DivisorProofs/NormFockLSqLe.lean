@@ -1,13 +1,13 @@
 module
 
-public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.PaddedWittNormSquare
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.NormLeOfCoord
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FockSubstLe
+public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.Bundle012
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle062
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1016
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.TaylorCoefficientForms
 public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.DifferentiableOnOfTendstoLocallyUniformlyOn
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DifferentiableOfUnitCoord
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle910
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExistsMulOfApprox
-import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.SubDSharpInDeg
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle081
 import Formalism.LocalToGlobal.Columns.CoefficientsModP.FkPderivBlockEmbNe
 public import Formalism.ThetaSupremumBounds.LiftOperatorBoundOfFockJet
 import Mathlib.Algebra.Order.Floor.Extended
@@ -54,8 +54,8 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
-public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.TensorCoordinateForms
-public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.LineDerivListEqIteratedFDeriv
+public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.Bundle004
 
 @[expose] public section
 

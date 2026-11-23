@@ -4,7 +4,7 @@ public import Formalism.LocalToGlobal.Divisibility.CoefMod
 import Formalism.GradedWeylDivisibility.DualWeylDominanceOf
 public import Formalism.GradedWeylDivisibility.FinalB
 import Formalism.GradedWeylDivisibility.FinalD
-import Formalism.RealPlaceAnalysis.RealPlaceTaylor.ProdFactorialSupportSubSingle
+import Formalism.RealPlaceAnalysis.RealPlaceTaylor.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

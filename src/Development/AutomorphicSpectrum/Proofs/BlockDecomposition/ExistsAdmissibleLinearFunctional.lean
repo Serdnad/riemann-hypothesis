@@ -1,10 +1,10 @@
 module
 
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ConjTransposeAntidiagFixed
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RelIndexUpLatEqProd
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LocCompactSecondCountable
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.UnipLatIsOpenIsCompact
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.RelIndexMulMeasure
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle525
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle995
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle528
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle238
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

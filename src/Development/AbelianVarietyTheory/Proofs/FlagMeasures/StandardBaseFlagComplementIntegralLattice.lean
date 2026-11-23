@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.RowMinor
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.ChartGen
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsBoundUnitary
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsLatticeLatIn
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle012
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle003
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1473
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle182
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsLocalizedModuleSubtype
 import Formalism.HermitianLattices.HermitianLatticesProofs.DualBasic
 import Formalism.HermitianLattices.HermitianLatticesProofs.DualLattice
@@ -188,7 +188,7 @@ theorem perp_lattice (h : V →ₗ⋆[K] V →ₗ[K] K) (hs : h.IsSymm) (hn : h.
     Submodule.mem_one.1 (GlobalTheory.UnimodQuot.star_mem_one (Submodule.mem_one.2 ⟨r, rfl⟩))
   have hLat : Submodule.IsLattice K L := by
     refine ⟨?_, ?_⟩
-    · refine Submodule.FG.of_le (dualLattice (𝓞 K) K W hW hsW hnW hst _ hL1full).1.fg fun w hw => ?_
+    · refine Submodule.FG.of_le (Formalism.HermitianLatticesTheory.dualLattice (𝓞 K) K W hW hsW hnW hst _ hL1full).1.fg fun w hw => ?_
       exact (dualBasic_mem_dual _ _ _).2 fun y hy => hI y (hle1 hy) w hw
     · intro s hs hli
       exact (LinearIndependent.iff_fractionRing _ _).mp hli

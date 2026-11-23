@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.GenericFiberGluing.SemistableCompleteSplit
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.GenericFiberGluing.Bundle001
 import Mathlib.Algebra.Order.BigOperators.Ring.Finset
 public import Mathlib.Algebra.Polynomial.Eval.Irreducible
 import Mathlib.Basic.NNReal.Defs

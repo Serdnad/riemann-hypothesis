@@ -1,7 +1,7 @@
 module
 
 public import Mathlib.NumberTheory.NumberField.Completion.FinitePlace
-public import GroundTheory.GlobalFields.LocalAtPlace
+public import GroundTheory.GlobalFields.Bundle001
 public import GroundTheory.GlobalFields.LocalFieldAtPlace
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

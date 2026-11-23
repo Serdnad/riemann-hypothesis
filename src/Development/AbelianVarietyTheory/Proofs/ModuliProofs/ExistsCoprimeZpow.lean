@@ -1,8 +1,8 @@
 module
 
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.HeckeKer
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsObjTwistBySimilitude
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.TateIsoDifferBySimilitude
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle067
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle030
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

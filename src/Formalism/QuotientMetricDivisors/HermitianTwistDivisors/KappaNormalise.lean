@@ -1,9 +1,9 @@
 module
 
-public import Formalism.QuotientMetricDivisors.PassageScaleFree
+public import Formalism.QuotientMetricDivisors.Bundle004
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.DualPl
 public import Formalism.HarderNarasimhan.ShiftInvariance
-public import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.DualMu
+public import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

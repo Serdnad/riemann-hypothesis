@@ -1,7 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.LocProdFormula
-public import Formalism.PeriodIntegrals.ProdFormulaE
+public import Formalism.PeriodIntegrals.Bundle015
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

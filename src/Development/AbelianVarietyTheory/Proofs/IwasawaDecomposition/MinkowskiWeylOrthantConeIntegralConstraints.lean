@@ -55,8 +55,8 @@ import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsNatDiagIffIsDiag
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.SumMulEqZeroOfSumToReal
 import Development.AbelianVarietyTheory.Definitions.Divisors.IsProperToroidalModelStructureMap
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HomExtNormalSt
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsStrictIff
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle532
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle667
 public import Mathlib.Algebra.Module.Submodule.Ker
 public import Mathlib.Data.Nat.Cast.Field
 public import Mathlib.Data.Rat.BigOperators

@@ -1,6 +1,6 @@
 module
 
-public import Formalism.GL3MeanSquares.SmoothedRemainderRealIntegralFormula
+public import Formalism.GL3MeanSquares.Bundle002
 public import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
 import Aesop.Main
 import Mathlib.Algebra.Order.Floor.Extended
@@ -47,7 +47,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.ZerosDisc
+import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.Bundle003
 public import Mathlib.NumberTheory.AbelSummation
 
 @[expose] public section

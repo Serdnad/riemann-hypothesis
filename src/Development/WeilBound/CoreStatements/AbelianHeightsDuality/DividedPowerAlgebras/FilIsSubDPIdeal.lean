@@ -1,6 +1,6 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DividedPowerFiltrationIdealLeMapOfIsDPMorphism
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle922
 public import Development.AbelianVarietyTheory.Definitions.Divisors.RatBasisLinearIndependentInt
 public import Mathlib.RingTheory.DividedPowers.SubDPIdeal
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DividedPowerFiltration

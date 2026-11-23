@@ -1,12 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Degenerations.OfDerivationFnOn
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsEqDivOfIsPullback
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsStalkDerivationOfIsPullback
+public import Development.AbelianVarietyTheory.Definitions.Degenerations.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle020
 public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsUniqueModelHasJacobianOrder
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsVf
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.LeOfZpowMulUnitEq
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ProdIrrAndWeakNeron
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle018
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle027
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

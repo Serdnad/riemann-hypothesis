@@ -1,7 +1,7 @@
 module
 
-public import Formalism.PeriodIntegrals.BesselPeriodGGP
-public import Formalism.SharpRestriction.CuspSpanNormBounds.RootMeasBig
+public import Formalism.PeriodIntegrals.Bundle018
+public import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle004
 public import Formalism.SharpRestriction.CuspSpanNormBounds.FrobeniusCoefficientMemLp.SigmaFiniteAmplitudes.SigmaFiniteOfUnfold
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

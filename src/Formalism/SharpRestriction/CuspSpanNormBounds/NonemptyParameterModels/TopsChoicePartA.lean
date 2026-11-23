@@ -1,6 +1,6 @@
 module
 
-import ReciprocityTheory.ReductiveGroups.DiscreteSeries.MultiplicityOne.JInvCharA
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.MultiplicityOne.Bundle004
 public import Formalism.SharpRestriction.CuspSpanNormBounds.AuxiliarySlotStates
 public import Mathlib.Algebra.Group.MinimalAxioms
 import Mathlib.Algebra.Order.Floor.Extended

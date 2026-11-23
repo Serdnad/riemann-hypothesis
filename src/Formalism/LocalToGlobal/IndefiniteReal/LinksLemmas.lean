@@ -1,7 +1,7 @@
 module
 
-public import Formalism.LocalToGlobal.IndefiniteReal.LiftCoordinatesInGoodPartOfDefinite
-public import Formalism.LocalRingCardinality.HeightBoundGeFourthPowerRank
+public import Formalism.LocalToGlobal.IndefiniteReal.Bundle007
+public import Formalism.LocalRingCardinality.Bundle006
 public import Formalism.LocalToGlobal.IndefiniteReal.LinksChar
 public import Formalism.LocalToGlobal.IndefiniteReal.BridgeLemmas
 import Mathlib.Algebra.Order.Floor.Extended

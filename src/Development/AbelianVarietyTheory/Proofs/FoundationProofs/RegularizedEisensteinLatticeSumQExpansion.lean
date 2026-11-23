@@ -1,12 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Foundations.PetIPSmulRight
-public import Development.AbelianVarietyTheory.Definitions.Foundations.RepL
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.CoeffEisensteinSeriesTwistedQExpansionDoubleStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.LipschitzFormulaPeriodicWeightStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.LipschitzWeightOnePeriodicMeanZeroStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.SummableRegularizedEisensteinLatticeTermStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.TendstoAtTopOfCofinite
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle005
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle002
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle169
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle190
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle154
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

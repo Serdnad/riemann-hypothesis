@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalToGlobal.Columns.FiniteSumNonzeroLargeDepth
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.NormalFormAtPrime
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle061
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.LambdaCharSymMulInvEqOne
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.MemZmuOfPowPred
 import Mathlib.Algebra.Order.Floor.Extended
@@ -48,7 +48,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.UnipotentCharacterArgumentMulStabilizer
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsAdmissibleIntegralBasisChangeOne
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle180
 
 @[expose] public section
 

@@ -2,9 +2,9 @@ module
 
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.L2UnitaryRepresentationData
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FockPolynomialActionOneMulAdjoint
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.APlusComm
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle294
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.EqZeroOfPderivStable
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FockPolynomialVectorChangeOrthonormalBasesSubst
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle305
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,6 +1,6 @@
 module
 
-public import Development.AutomorphicArithmetic.Foundations.Convolution.SplitEigenfunctions.ThetaLiftEqAnisotropicPart
+public import Development.AutomorphicArithmetic.Foundations.Convolution.SplitEigenfunctions.Bundle001
 import GroundTheory.GlobalFields.CompletionAtPlace.Integers
 import GroundTheory.LocalFields.LocalFourierHaar
 import Mathlib.Algebra.Order.Floor.Extended

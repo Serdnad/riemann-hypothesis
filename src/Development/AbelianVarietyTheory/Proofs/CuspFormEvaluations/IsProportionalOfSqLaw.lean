@@ -4,7 +4,7 @@ public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.MatRmu
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.DifferentiableOnDetHMat
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.HasSumPolyDerivMulProdAddMatrix
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.FromBlocksMapIntCastMemSymplecticGroup
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.EntireEqZeroOrEqZeroOfMulEqZero
+public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle001
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ChangeOfNormalisation
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

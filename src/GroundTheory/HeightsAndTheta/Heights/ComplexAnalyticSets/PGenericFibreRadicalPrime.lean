@@ -1,8 +1,6 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StGenericFibreRadicalPrime
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StGenericFibreTor
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StHypersurfacePresentation
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

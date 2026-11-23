@@ -1,24 +1,20 @@
 module
 
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ChartTransportSt
-public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.AdjointSeriesFramesPullbackStatement
-public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.CubeFramesMoveToPullbackTripleStatement
-public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.ExistsCubeFramesFromPullbackTripleStatement
-public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.ExistsFramesCoefficientRingBaseChangeStatement
-public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.FrameAdjointnessSeriesOfPullbackStatement
-public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.FrameFirstPartialLawIffPullbackStatement
-public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.FrameSecondPartialLawIffPullbackStatement
-public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.FrameSymmetryIffPullbackStatement
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle012
+public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.Bundle034
+public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.Bundle023
+public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.Bundle025
+public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.Bundle032
+public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.Bundle030
+public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.Bundle028
+public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.Bundle019
 public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.IntegralFramedPointDiagonalBiextensionIsoCompatiStatement
-public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.IsAbelianSchemePullbackUniversalTripleStatement
-public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.IsFrameGCoefficientRingBaseChangeStatement
-public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.JetPointsUnitLawActionBaseChangeStatement
-public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.JetPointsUnitLawActionIffPullbackStatement
-public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.RigidificationAtOriginBaseChangeStatement
-public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.RigidificationAtOriginIffPullbackStatement
-public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.RigidifiedIsoMapsCubicalGeneratorStatement
+public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.Bundle014
+public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.Bundle021
+public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.Bundle018
+public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.Bundle033
 public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.ConstantCoeffEv
-import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.AllUniformizationLawsHold
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle127
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -173,3 +169,21 @@ theorem GlobalTheory.chartFrameTransport : ∀ (E : Type) [Field E] [NumberField
     wP', hwP', tw2, tw1⟩
   obtain ⟨c₂, k₁, k₂⟩ := tie2 m
   exact ⟨c₂, corr_trans I.G.PP.isLB k₁ (hc'' m), k₂⟩
+
+end
+
+section
+
+@[expose] public section
+
+open AlgebraicGeometry CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj NumberField
+open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Out ReciprocityTheory.ChartRestriction.G.Geo.Tor Formalism.L2.Pj Formalism.MainNotions.ModuliIntegralCharts.H1
+attribute [local instance] Over.cartesianMonoidalCategory
+open ReciprocityTheory.ChartRestriction.G.Geo.Tor.Germ (PS Pt ev pt comp1 FGLaw)
+open MvPolynomial (X)
+
+theorem _root_.GlobalTheory.T.integral_frames_transport_to_framed_point : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Host E) (Dw : Datum H) (l : Level H) (Xo : Moduli Dw l) (c : Coeff l) [StarRing (𝓞 E)], ChartFrameTrSt Xo c := by
+  first | exact @GlobalTheory.chartFrameTransport | exact GlobalTheory.chartFrameTransport | (intros; apply GlobalTheory.chartFrameTransport <;> assumption)
+
+end
+end

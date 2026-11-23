@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.BlockTheory.UniformisationCharts.BaseChangeCharts
+public import Development.AbelianVarietyTheory.BlockTheory.UniformisationCharts.Bundle003
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExpansionBijectiveOverFields
-public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.GlobalFnsHolds
+public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle012
 public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.ProdSumReindex
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

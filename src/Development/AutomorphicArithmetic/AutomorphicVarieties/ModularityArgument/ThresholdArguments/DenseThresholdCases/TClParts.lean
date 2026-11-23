@@ -1,11 +1,11 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.UnitaryPointProperties
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.Bundle009
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.DecompSigmaOrd
 import Development.AbelianVarietyTheory.Definitions.Divisors.T2SpaceGeneralLinearGroup
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.OrdinaryHeckeCharacters.GlBridge
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.OrdinaryHeckeCharacters.UOpLevel
-import Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.OrdinaryHeckeCharacters.UOpMul
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.OrdinaryHeckeCharacters.Bundle004
+import Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.OrdinaryHeckeCharacters.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -149,6 +149,7 @@ private theorem cl_avg {G : Type} [Group G] (ρ : Representation ℂ G M) (K : S
       conv_rhs => rw [← h1, smul_smul, mul_inv_cancel₀ (hne k a ha), one_smul]
   have h3 := Submodule.sum_mem _ key
   rwa [← this] at h3
+attribute [-instance] UpperTheory.V.Pr.IsCD.toIsDomain UpperTheory.V.Pr.IsCD.toIsDiscreteValuationRing UpperTheory.V.Pr.IsCD.complete in
 private theorem cl_multi {J : Type} [Fintype J] {G : J → Type} [∀ j, Group (G j)] (ρ : ∀ j, Representation ℂ (G j) M)
     (K : ∀ j, Subgroup (G j)) (hc : ∀ j j', j ≠ j' → ∀ g g' y, ρ j g (ρ j' g' y) = ρ j' g' (ρ j g y))
     {κ : Type*} (Y : κ → Submodule ℂ M)
@@ -199,6 +200,7 @@ private theorem cl_iso {G : Type} [Group G] [TopologicalSpace G] [IsTopologicalG
     obtain ⟨U, hU, h1⟩ := ha.2 K hK
     obtain ⟨U', hU', h2⟩ := hb.2 K hK
     exact ⟨U ⊓ U', Subgroup.relIndex_inf_ne_zero hU hU', add_mem (fun u hu => h1 u hu.1) (fun u hu => h2 u hu.2)⟩
+attribute [-instance] UpperTheory.V.Pr.IsCD.toIsDomain UpperTheory.V.Pr.IsCD.toIsDiscreteValuationRing UpperTheory.V.Pr.IsCD.complete in
 private theorem cl_gen {κ : Type*} (Y : κ → Submodule ℂ M) (W : Submodule ℂ M) [FiniteDimensional ℂ W] (T : Module.End ℂ M)
     (hW : ∀ y ∈ W, T y ∈ W) (hY : ∀ i, ∀ y ∈ Y i, T y ∈ Y i) (h : W ≤ ⨆ i, Y i ⊓ W) (μ : ℂ) :
     W ⊓ T.maxGenEigenspace μ ≤ ⨆ i, Y i ⊓ (W ⊓ T.maxGenEigenspace μ) := by
@@ -238,6 +240,7 @@ private def clSub {G M : Type} [Group G] [AddCommGroup M] [Module ℂ M] (π : R
     rw [← Module.End.mul_apply, ← map_mul, inv_mul_cancel, map_one]; rfl
 private theorem cl_fixd {G M : Type} [Group G] [AddCommGroup M] [Module ℂ M] (π : Representation ℂ G M) (y : M) (U : Subgroup G) :
     y ∈ fixd π U ↔ U ≤ clSub π y := Iff.rfl
+attribute [-instance] UpperTheory.V.Pr.IsCD.toIsDomain UpperTheory.V.Pr.IsCD.toIsDiscreteValuationRing UpperTheory.V.Pr.IsCD.complete in
 private theorem cl_pi {J M : Type} [Fintype J] [DecidableEq J] {G : J → Type} [∀ j, Group (G j)] [AddCommGroup M] [Module ℂ M]
     (π : Representation ℂ (∀ j, G j) M) (Y : Submodule ℂ M) (h : ∀ j g, ∀ y ∈ Y, π (Pi.mulSingle j g) y ∈ Y) :
     ∀ g, ∀ y ∈ Y, π g y ∈ Y := by

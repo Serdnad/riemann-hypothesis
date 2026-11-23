@@ -1,13 +1,13 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Foundations.Letter
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle005
 public import Mathlib.FieldTheory.RatFunc.Basic
 public import Mathlib.RingTheory.Flat.FaithfullyFlat.Basic
 public import Mathlib.RingTheory.Flat.TorsionFree
 public import Mathlib.RingTheory.Henselian
 public import Mathlib.RingTheory.RegularLocalRing.Defs
-public import Development.AbelianVarietyTheory.Definitions.Foundations.HahnPowOrderLeadingCoeff
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.EqOneOfPowEqOne
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle007
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle129
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsUnitMulPowOfKummerVanishesOnInertiaCurve
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -57,8 +57,8 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-public import Development.AbelianVarietyTheory.Definitions.Foundations.IsFirstChernClassOfLineBundle
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.DiagMod
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle003
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle023
 
 @[expose] public section
 

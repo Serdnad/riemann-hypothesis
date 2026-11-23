@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Small2
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsOpenNormalSubgroupUnderInertia
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsPlaceOverMoveValCc
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TameInertiaElementActsByScalar
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle016
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle344
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle297
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle293
 public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.ExistsCoprimePowOfMemIneKer
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

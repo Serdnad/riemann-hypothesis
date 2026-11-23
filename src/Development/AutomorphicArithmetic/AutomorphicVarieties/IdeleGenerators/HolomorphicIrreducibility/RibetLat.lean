@@ -1,7 +1,7 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.ShapeFacts
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.IrreducibleInvariant
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.Bundle001
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle048
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

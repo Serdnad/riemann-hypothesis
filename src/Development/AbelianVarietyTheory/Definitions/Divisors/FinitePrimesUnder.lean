@@ -2,7 +2,7 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsNotRelZero
 public import Development.AbelianVarietyTheory.Statements.CuspidalUnitaryTwists.ExistsSmallSpherical
-public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.VpBounds
+public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.Bundle007
 public import Development.AbelianVarietyTheory.Counterexamples.RotationExamples.LeafHypothesesConst
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsOfBalanced
 import Mathlib.Algebra.Order.Floor.Extended
@@ -303,7 +303,7 @@ def IsIntExp (C : ℝ) (dl : Formalism.PairingDivisionLocalBalance.Pl D.what₂.
     GlobalTheory.NormSum.CoordInt D (bigN D) (maxWt D sc.cGap) (levQ G.pl) del_vp ∧
     GlobalTheory.NormSum.NormInt D (bigN D) (maxWt D sc.cGap) (levQ G.pl) S del_vp
       (GlobalTheory.NormSum.intBound C D.R.f (bigN D) (maxWt D sc.cGap) (Real.log sc.b) (levQ G.pl)) ∧
-    dl = wt S del_vp
+    dl = _root_.Formalism.PairingDivisionLocalBalance.wt S del_vp
 
 variable {G t i j}
 

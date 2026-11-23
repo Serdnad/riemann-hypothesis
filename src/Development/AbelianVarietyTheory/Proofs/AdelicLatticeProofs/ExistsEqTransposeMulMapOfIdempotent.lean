@@ -2,7 +2,7 @@ module
 
 public import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
 public import Mathlib.RingTheory.Henselian
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.BinaryFormUniversal
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle001
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsIsUnitFormSelfOfNotMem
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,17 +1,16 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.ThetaValues.Generic
+public import Development.AbelianVarietyTheory.Definitions.ThetaValues.Bundle002
 public import Formalism.SharpRestriction.GenusPolyhedralBounds.RelativeIndexClassSets.AdmissibleModuleIffLatticeQuotients
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.InterpolationModelInequalities
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SquareIntegrability.TorusAt
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ComponentModelWeightDimensionDictionary
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsBaseEmbeddingReadingForms
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsIsHomogeneousAevalEqZero
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.MarginsOfGaps
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.MemSpanCuspReadingsIffComponents
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.Bundle010
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SquareIntegrability.Bundle003
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle057
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle076
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle078
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle055
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.RunWeightDom
 public import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.FirstMinimumInvariantContinuousPosOnFrames
-import Formalism.LocalToGlobal.ProjectiveLattices.CuspMulOf
+import Formalism.LocalToGlobal.ProjectiveLattices.Bundle032
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -52,8 +51,8 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.CurvNumStatementPf
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.JInjRdOf
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.Bundle019
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.Bundle011
 
 @[expose] public section
 

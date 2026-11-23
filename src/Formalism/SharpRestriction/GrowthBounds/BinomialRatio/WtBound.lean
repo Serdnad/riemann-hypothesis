@@ -1,7 +1,7 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.NotKept
-public import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.WdimUp
+public import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.Bundle010
+public import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.Bundle008
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

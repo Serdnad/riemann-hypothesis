@@ -1,7 +1,7 @@
 module
 
-public import ReciprocityTheory.DualLattices.ExistsReductionOfCoordinateCombination
-public import ReciprocityTheory.DualLattices.UnramifiedCokernelLengthStatement
+public import ReciprocityTheory.DualLattices.Bundle013
+public import ReciprocityTheory.DualLattices.Bundle014
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -2,7 +2,7 @@ module
 
 public import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalIdeles.SphConj
 public import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalIdeles.Imports
-public import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalIdeles.TwoLeAbsNorm
+public import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalIdeles.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

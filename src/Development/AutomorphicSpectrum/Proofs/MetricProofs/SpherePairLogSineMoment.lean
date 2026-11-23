@@ -1,11 +1,11 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.StatementsFibreLocal
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.EvalW
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle004
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle001
 public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.InFlagDomainOne
-public import GroundTheory.HeightsAndTheta.Heights.ElementarySymmetric.StWWFibrePoly
+public import GroundTheory.HeightsAndTheta.Heights.ElementarySymmetric.Bundle006
 import Aesop.Main
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.SphereMeasureStereographicIntegralStatement
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle039
 public import GroundTheory.HeightsAndTheta.Heights.ElementarySymmetric.PDiagFibreMoment
 import GroundTheory.HeightsAndTheta.Heights.Intersections.PFibreLocal
 import Mathlib.Algebra.Order.Archimedean.Real.Hom
@@ -52,7 +52,7 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 import Mathlib.Topology.UniformSpace.Uniformizable
-import ReciprocityTheory.AnalyticForms.LeviForms.IsRegFamilyInhabitStatement
+import ReciprocityTheory.AnalyticForms.LeviForms.Bundle001
 import ReciprocityTheory.AnalyticForms.MaIntEmpty
 import ReciprocityTheory.AnalyticForms.PotentialTheory.IsPotentialOfFun
 

@@ -3,12 +3,12 @@ module
 public import Formalism.SharpRestriction.CuspSpanNormBounds.CntPartners
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.CyclicDiscriminantLatticesFormOneGenus
 import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsIsometryOfUnimodularLatticesAtPlace
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IndepOfGqNeZero
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle026
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.MemOfPerpPerp
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LatticeUnimodular
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle127
 import Formalism.HermitianLattices.HermitianLatticesProofs.DualBasic
 import Formalism.HermitianLattices.HermitianLatticesProofs.DualLattice
-import Formalism.HermitianLattices.HermitianLatticesProofs.LocDual
+import Formalism.HermitianLattices.HermitianLatticesProofs.Bundle002
 import Formalism.SharpRestriction.CuspSpanNormBounds.AbsoluteAmplitudeSecondOfSource
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
@@ -52,7 +52,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.FrameLats
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle001
 import Formalism.HermitianLattices.HermitianLatticesProofs.UnimodularSpan
 
 @[expose] public section
@@ -87,7 +87,7 @@ theorem exists_unimodular_ge {h : V →ₗ⋆[K] V →ₗ[K] K} (hs : h.IsSymm) 
       exact { toIsLattice := Submodule.IsLattice.of_fg K (hA.fg.sup hG)
               span_eq_top := top_le_iff.1 ((Submodule.IsFullLattice.span_eq_top (A := K) (M := A)).ge.trans
                 (Submodule.span_mono (le_sup_left (a := A) (b := G)))) }
-  obtain ⟨h1, h2, -⟩ := dualLattice (𝓞 K) K V h hs hn star_algebraMap_ringOfIntegers_mem_range _ (lat M hM)
+  obtain ⟨h1, h2, -⟩ := _root_.Formalism.HermitianLatticesTheory.dualLattice (𝓞 K) K V h hs hn star_algebraMap_ringOfIntegers_mem_range _ (lat M hM)
   refine ⟨dual h (M ⊔ G) ⊔ G, lat _ h1, ?_, le_sup_right⟩
   unfold IsUnimodular at hu ⊢
   rw [hsup, h2, hsup, hu, sup_comm M G, sup_comm _ G, sup_inf_assoc_of_le _ hi]

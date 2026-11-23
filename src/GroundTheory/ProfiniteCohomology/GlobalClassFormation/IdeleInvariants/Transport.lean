@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.ResLocal
+public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.Bundle004
 public import GroundTheory.LocalFields.MainTheorem
 import GroundTheory.ProfiniteCohomology.LocalClassFormation.CupSymbolUnramified
 import Mathlib.Algebra.Order.Floor.Extended

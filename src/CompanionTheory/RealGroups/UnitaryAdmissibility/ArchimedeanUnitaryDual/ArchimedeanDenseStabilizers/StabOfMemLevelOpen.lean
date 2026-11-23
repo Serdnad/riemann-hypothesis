@@ -1,15 +1,15 @@
 module
 
 public import CompanionTheory.RealGroups.UnitaryAdmissibility.ArchimedeanUnitaryDual.StDefinite
-public import Formalism.PeriodIntegrals.UJClassFin
+public import Formalism.PeriodIntegrals.Bundle009
 public import CompanionTheory.RealGroups.UnitaryAdmissibility.ArchimedeanUnitaryDual.ArchimedeanDenseStabilizers.DenseRangeOfNotIsReal
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.LocalHeightBasePairEqModuleProduct
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.EventuallyAlgebraMapMemIntegers
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsOpenIsCompactLevelOffFinEmpty
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.NonarchimedeanGroupOfIsCompactIsOpen
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle293
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle299
 public import Formalism.LocalToGlobal.GlobalTheory.GL5.PClassDecomp
 public import Formalism.LocalToGlobal.IndefiniteReal.CoreTExist
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.UJClassFin
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle022
 import Formalism.SatakeDualWeyl.KpqSubgroupCompact
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,19 +1,19 @@
 module
 
 public import Formalism.LocalToGlobal.IndefiniteReal.LinksDefs
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DcOpCommOfCommute
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.MemRangeOfOneTmulMem
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DoubleCosetSumFundamentalDomain
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FinPartConjMem
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsMulRightInvariantHaarAdelicUnitaryGroupHermitiStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MultiplicativeInnerProductModel
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle994
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle063
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle048
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1728
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1471
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1117
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContDiffDerivSnoc
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContinuousOnAtTau
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsAntiInvolutionOfChars
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.HeckeElementComponentMemStandardDoubleCoset
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.InvolutionSphericalHeckeAntiStatement
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.LevelHyperspecialTrivialCharacterSplitsOffPlacesStatement
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.SupportedSubgroupSplitCommutePrimeIdempotentsStatement
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle313
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle107
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle140
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle189
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle166
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle156
 public import Formalism.LocalToGlobal.GlobalTheory.GL5.FamilyMassVolumeIdentityOfClassDecomp
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -171,7 +171,7 @@ variable {β : GL (Fin V.rank) (Lev.EAf D)} {Λ : Submodule (𝓞 D.host.E) (Fin
 
 def OffLevel (L : LevDat D.host.E ℂ V.rank) (N : ℕ) (P : Pl D.host.E) : Prop :=
   Formalism.HermitianLatticesTheory.conjIdeal (K := D.host.E) P.asIdeal ≠ P.asIdeal ∧ ((N : ℕ) : 𝓞 D.host.E) ∉ P.asIdeal ∧
-    ∀ PP, PP ∈ L.Pg ∨ PP ∈ L.Q → PP ≠ P ∧ ¬ IsConjPl PP P
+    ∀ PP, PP ∈ L.Pg ∨ PP ∈ L.Q → PP ≠ P ∧ ¬ _root_.Formalism.IndefR.Lev.IsConjPl PP P
 
 def LocRep (J : Subgroup (GA D V)) (P : Pl D.host.E) (x : GA D V) (A : Finset (GA D V)) : Prop :=
   (∃ e, IsIdemAt e P ∧ SuppAt e V x ∧ ∀ a ∈ A, SuppAt e V a) ∧ IsDC J x A

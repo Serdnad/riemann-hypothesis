@@ -1,8 +1,7 @@
 module
 
-public import Formalism.CyclotomicNorms.StatementI
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.CardPowEqOneLeOfIsCyclicUnits
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExceptionalPrimesFiniteCardLe
+public import Formalism.CyclotomicNorms.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle038
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

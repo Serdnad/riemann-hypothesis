@@ -2,12 +2,12 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.HasDefect
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsTorusInvariantHeatOperatorOfSymmetricRelat
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.InvariantFieldCombKillsWeightZeroOfCoboundaryStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RaynaudExtensionInvariantFieldCoeffsUniqueStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RaynaudWeightZeroCompatibleFunctionsEqBaseConstaStatement
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TorusInvariantLiftAddInvariantCombination
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TorusInvariantLiftsSubEqSumInvariantFieldsStatement
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.LeISupInfPreimage
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3250
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2941
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2940
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2717
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3169
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle022
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -111,7 +111,7 @@ theorem within {R : Type} [CommRing R] [Algebra ℚ R] {G : Over (Sp R)} [GrpObj
     have c := ringOp_conj hdi hdd' (Θ := h.Θ.map (constFn G.hom Wo)) hs (fun a => constFn G.hom Wo (h.u a))
       (rsT (h.p i) Wo) (rsT (h.p' i) Wo) hg k f
     have gl := h.glue k i i' Wo hW f
-    simp only [op] at gl
+    simp only [_root_.GlobalTheory.Heat.op] at gl
     simp only [ringOp, Matrix.map_apply] at c
     rw [c] at gl
     have canc : ∀ z : Γ(G.left, Wo), g ^ k * z = 0 → z = 0 := fun z hz => by

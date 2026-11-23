@@ -1,12 +1,12 @@
 module
 
-public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.CarrierJointPin
-public import Formalism.HermitianCurvature.StatementJF
+public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.Bundle027
+public import Formalism.HermitianCurvature.Bundle004
 public import Formalism.FormalDegreeBessel.FormalDegreeRatio.UnitaryWeylNormalHolds
 public import Formalism.HermitianCurvature.HeisenbergConjugationMeasurePreserving
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.BigCellInversePair
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.BigCellZetaMinors
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.OrbitalIntegralIdentities
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle045
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle083
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle110
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.RegularisedPairingViaPhase
 import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.InfCut
 import Mathlib.Algebra.Order.Floor.Extended
@@ -152,7 +152,7 @@ theorem hs_smul [FiniteDimensional ℂ Wq] (c : ℂ) (hc : ‖c‖ = 1) (X : Wq 
 theorem hSsgs_holds : HSsgs := by
   intro k r Wp Wq _ _ _ _ _ _ D F p hp g
   have hj := Formalism.FourierDecayAlt.P.OrbitalIntegralIdentities.jf_equiv D F p hp g
-  unfold rho at hj
+  unfold _root_.Formalism.FourierDecayAlt.B.rho at hj
   have hh : Matrix.of p.1.1 ∈ UWset k r D.z := hp.1
   have hh' : (Matrix.of p.2.1)⁻¹ ∈ UWset k r D.z' := Formalism.FourierDecayAlt.P.BigCellInversePair.uw_inv hp.2.2.1
   calc ‖hsVec (JF D F (sgs p g))‖

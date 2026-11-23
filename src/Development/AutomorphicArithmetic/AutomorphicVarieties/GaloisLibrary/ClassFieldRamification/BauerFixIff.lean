@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.GlobalFields.KummerTheory.Splitting
+public import GroundTheory.GlobalFields.KummerTheory.Bundle001
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.ClassFieldRamification.Cheb
 import GroundTheory.GlobalFields.SplittingFromInequality.Decomposition
 import Mathlib.Algebra.Order.Floor.Extended

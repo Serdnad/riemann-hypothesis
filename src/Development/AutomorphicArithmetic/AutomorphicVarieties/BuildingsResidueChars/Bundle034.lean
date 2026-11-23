@@ -1,0 +1,158 @@
+module
+
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.NonemptyEquivMultiProdOne
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle124
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.Bundle030
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.Bundle033
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Basify
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Linter.Style
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Topology.Sheaves.Init
+import Std.Tactic.BVDecide.Normalize.Prop
+
+@[expose] public section
+
+section
+
+open GlobalTheory.PRep GlobalTheory.SmGL GlobalTheory.SplitWeil GlobalTheory.LocGL ValuativeRel
+
+theorem UpperTheory.jacquet_borel_exists_torus_congruence_fixed :
+    GlobalTheory.Published.GeometricLemma → GlobalTheory.Published.ZelevinskyPolynomialRing → ∀ (k : Type) [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchimedeanLocalField k] (N : ℕ) (V : Type) [AddCommGroup V] [Module ℂ V] (π : Representation ℂ (GL (Fin N) k) V)
+    (s : Multiset (IrrGL (k := k))) (γ : (ValueGroupWithZero k)ˣ), γ ≤ 1 → HasSupport π s → (∀ y ∈ s, ∃ χ hχ, y = IrrGL.ofChar χ hχ ∧ ∀ u : kˣ, valuation k ((u : k) - 1) < γ → χ u = 1) →
+    Nontrivial (Jacquet π (unipB k (Fin N))) →
+    ∃ y : Jacquet π (unipB k (Fin N)), y ≠ 0 ∧ ∀ t : Fin N → kˣ, (∀ i, valuation k ((t i : k) - 1) < γ) → jacBU π t y = y := by
+  intro hG hZ k _ _ _ _ N V _ _ π s γ hγ hs hχ hnt
+  let f := Equiv.sigmaUnique (Fin N) fun _ : Fin N => Fin 1
+  have hmono : StrictMono (blk f) := fun a b h => by simpa [blk, f] using h
+  have h3 : twKer π (unipRad k f) 1 = twKer π (unipB k (Fin N)) 1 := by
+    rw [EmptyBlocks.unipRad_eq k f hmono]
+  let E : Jacquet π (unipRad k f) ≃ₗ[ℂ] Jacquet π (unipB k (Fin N)) := Submodule.quotEquivOfEq _ _ h3
+  have hE : ∀ v : V, E (Submodule.Quotient.mk v) = Submodule.Quotient.mk v := fun _ => rfl
+  obtain ⟨y, hy0, hy⟩ := UpperTheory.jacquet_exists_levi_congruence_fixed_of_char_support hG hZ k N V π s γ hγ hs hχ f E.toEquiv.nontrivial
+  refine ⟨E y, E.map_ne_zero_iff.2 hy0, fun t ht => ?_⟩
+  obtain ⟨v, rfl⟩ := Submodule.Quotient.mk_surjective _ y
+  have hγ' : (γ : ValueGroupWithZero k) ≤ 1 := hγ
+  have h1 := hy (EmptyBlocks.torusToLevi k f t) fun a i j => by
+    rw [EmptyBlocks.val_torusToLevi, Subsingleton.elim i j, Matrix.sub_apply, Matrix.diagonal_apply_eq,
+      Matrix.one_apply_eq]
+    exact ht _
+  have hv : ∀ i, valuation k (t i : k) = 1 := fun i => by
+    have := Valuation.map_one_add_of_lt (valuation k) ((ht i).trans_le hγ')
+    rwa [add_sub_cancel] at this
+  have hd : deltaHalf k (fun _ : Fin N => Fin 1) (EmptyBlocks.torusToLevi k f t) = 1 := by
+    rw [deltaHalf_apply]
+    refine Finset.prod_eq_one fun a _ => isUnram_absPow k _ _ ?_
+    have := (EmptyBlocks.det_torusToLevi k f t a).trans (Fin.prod_univ_one _)
+    exact (congrArg (fun u : kˣ => valuation k (u : k)) this).trans (hv _)
+  rw [jac_mk, hd, inv_one, Units.val_one, one_smul, EmptyBlocks.leviEmb_torusToLevi] at h1
+  have h2 := congrArg E h1
+  rw [hE, hE] at h2
+  rw [hE, jacBU_mk]
+  exact h2
+end
+
+section
+
+open GlobalTheory.PRep GlobalTheory.SmGL GlobalTheory.SplitWeil GlobalTheory.LocGL ValuativeRel
+
+theorem UpperTheory.jacquet_borel_nontrivial_of_character_support :
+    GlobalTheory.Published.GeometricLemma → GlobalTheory.Published.ZelevinskyPolynomialRing → ∀ (k : Type) [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchimedeanLocalField k] (N : ℕ) (V : Type) [AddCommGroup V] [Module ℂ V] (π : Representation ℂ (GL (Fin N) k) V)
+    (s : Multiset (IrrGL (k := k))), HasSupport π s → (∀ y ∈ s, y.1 = 1) → Nontrivial (Jacquet π (unipB k (Fin N))) := by
+  intro hG hZ k _ _ _ _ N V _ _ π s hs h1
+  have hV : Nontrivial V := by
+    obtain ⟨h, x, hx, hirr, hcu, e0, hsub⟩ := hs
+    by_contra hV
+    rw [not_nontrivial_iff_subsingleton] at hV
+    obtain ⟨a, b, hab⟩ := (hirr.toNontrivial).exists_pair_ne
+    apply hab
+    obtain ⟨a1, a2⟩ := a
+    obtain ⟨b1, b2⟩ := b
+    have : a1 = b1 := Subsingleton.elim _ _
+    subst this
+    rfl
+  let S : ∀ {r : ℕ} {d : Fin r → ℕ}, ((a : Fin r) × Fin (d a) ≃ Fin N) → Finset (Fin N × Fin N) :=
+    fun e => Finset.univ.filter (fun pq : Fin N × Fin N => ¬ blk e pq.1 < blk e pq.2)
+  have key : ∀ m : ℕ, ∀ (r : ℕ) (d : Fin r → ℕ) (e : (a : Fin r) × Fin (d a) ≃ Fin N),
+      (S e).card ≤ m → Nontrivial (Jacquet π (unipRad k e)) →
+      Nontrivial (Jacquet π (unipB k (Fin N))) := by
+    intro m
+    induction m using Nat.strong_induction_on with
+    | _ m ih =>
+      intro r d e hm hJ
+      by_cases hd : ∀ a, d a ≤ 1
+      · exact UpperTheory.jacquet_borel_nontrivial_of_blocks_le_one k N V π r d e hd hJ
+      push_neg at hd
+      obtain ⟨j, hj⟩ := hd
+      obtain ⟨t, c, f, hf, hmono, p, q, hpq, hnpq⟩ :=
+        UpperTheory.jacquet_finer_parabolic_of_character_support hG hZ k N V π s hs h1 r d e j (by omega) hJ
+      have hlt : (S f).card < (S e).card := by
+        apply Finset.card_lt_card
+        rw [Finset.ssubset_iff_of_subset]
+        · refine ⟨(p, q), ?_, ?_⟩
+          · simp only [S, Finset.mem_filter, Finset.mem_univ, true_and]
+            exact hnpq
+          · simp [S, hpq]
+        · intro x hx
+          simp only [S, Finset.mem_filter, Finset.mem_univ, true_and] at hx ⊢
+          exact fun h => hx (hmono _ _ h)
+      exact ih _ (lt_of_lt_of_le hlt hm) t c f le_rfl hf
+  let e1 : (a : Fin 1) × Fin ((fun _ : Fin 1 => N) a) ≃ Fin N :=
+    { toFun := fun p => p.2
+      invFun := fun i => ⟨0, i⟩
+      left_inv := by
+        rintro ⟨a, i⟩
+        fin_cases a
+        rfl
+      right_inv := fun i => rfl }
+  have hU : ∀ g ∈ unipRad k e1, g = 1 := by
+    intro g hg
+    obtain ⟨p, hp, rfl⟩ := Subgroup.mem_map.mp hg
+    have h0 := congrFun (MonoidHom.mem_ker.mp hp) 0
+    ext i j
+    have h2 := congrArg (fun u : GL (Fin N) k => (u : Matrix (Fin N) (Fin N) k) i j) h0
+    simpa [leviProj, diagBlock, MonoidHom.pi, e1] using h2
+  have hker : twKer π (unipRad k e1) 1 = ⊥ := by
+    rw [twKer, Submodule.span_eq_bot]
+    rintro w ⟨n, v, rfl⟩
+    rw [hU n.1 n.2]
+    simp
+  apply key _ 1 (fun _ => N) e1 le_rfl
+  show Nontrivial (V ⧸ twKer π (unipRad k e1) 1)
+  rw [hker, Submodule.Quotient.nontrivial_iff]
+  exact bot_ne_top
+end

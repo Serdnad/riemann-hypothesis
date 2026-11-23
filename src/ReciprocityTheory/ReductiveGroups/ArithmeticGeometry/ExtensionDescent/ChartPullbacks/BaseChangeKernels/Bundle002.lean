@@ -1,0 +1,181 @@
+module
+
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.ChartPullbacks.BaseChangeKernels.Bundle001
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.CubicalStructures.Bundle001
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.AlgebraicGeometry.Modules.Sheaf
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Linter.Style
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsCompletedStrictHens
+
+@[expose] public section
+
+section
+
+set_option autoImplicit false
+
+namespace ReciprocityTheory.ChartRestriction.G.Out.GtBCPf
+
+theorem affineBCSt : AffineBCSt := by
+  intro G B G' B' g q' q b sq hq X _ V hV V' hV' hle hleG φ φ' hφ' hφ
+  exact coord_affineBC sq hq hV hV' hle hleG φ φ' hφ' hφ
+
+end ReciprocityTheory.ChartRestriction.G.Out.GtBCPf
+end
+
+section
+
+set_option autoImplicit false
+
+noncomputable section
+
+open CategoryTheory CategoryTheory.Limits AlgebraicGeometry
+
+namespace ReciprocityTheory.ChartRestriction.G.Out.GtBCPf
+
+abbrev cmap {κ X A : Type} [AddCommGroup X] [CommRing A] (b : Module.Basis κ ℤ X) (v : κ → Aˣ) :
+    Multiplicative X →* A :=
+  (Units.coeHom A).comp (AddMonoidHom.toMultiplicativeLeft
+    (b.constr ℤ (fun k => Additive.ofMul (v k))).toAddMonoidHom)
+
+theorem cmap_comp {κ X A A' : Type} [AddCommGroup X] [CommRing A] [CommRing A']
+    (b : Module.Basis κ ℤ X) (ρ : A →+* A') (v : κ → Aˣ) (v' : κ → A'ˣ)
+    (hv : ∀ k, (v' k).val = ρ (v k).val) (x : Multiplicative X) :
+    cmap b v' x = ρ (cmap b v x) := by
+  have hlin : b.constr ℤ (fun k => Additive.ofMul (v' k)) =
+      (MonoidHom.toAdditive (Units.map (ρ : A →* A'))).toIntLinearMap ∘ₗ
+        b.constr ℤ (fun k => Additive.ofMul (v k)) := by
+    refine b.ext (fun k => ?_)
+    rw [LinearMap.comp_apply, Module.Basis.constr_basis, Module.Basis.constr_basis]
+    show Additive.ofMul (v' k) = Additive.ofMul (Units.map (ρ : A →* A') (v k))
+    congr 1
+    exact Units.ext (by simpa using hv k)
+  have hx := congrArg (fun f => ((Additive.toMul (f (Multiplicative.toAdd x)) : A'ˣ) : A')) hlin
+  first
+  | exact hx
+  | simpa using hx
+
+open ReciprocityTheory.ChartRestriction.G.Semi in
+theorem appLE_res {X Y : Scheme.{0}} (g : Y ⟶ X) {U U₀ : X.Opens} (hU : U ≤ U₀) {V W : Y.Opens}
+    (hV : V ≤ g ⁻¹ᵁ U) (hW : W ≤ g ⁻¹ᵁ U₀) (hVW : V ≤ W) (u : Γ(X, U₀)ˣ) :
+    (res hVW (res hW (pullU g U₀ u))).val = (g.appLE U V hV).hom (res hU u).val := by
+  have key : g.app U₀ ≫ Y.presheaf.map (homOfLE hW).op ≫ Y.presheaf.map (homOfLE hVW).op =
+      X.presheaf.map (homOfLE hU).op ≫ g.appLE U V hV := by
+    rw [Scheme.Hom.map_appLE, ← Functor.map_comp, Scheme.Hom.app_eq_appLE, Scheme.Hom.appLE_map]
+  have h2 := congrArg (fun f => f.hom u.val) key
+  first
+  | exact h2
+  | simpa [res, pullU] using h2
+
+end ReciprocityTheory.ChartRestriction.G.Out.GtBCPf
+end
+end
+
+section
+
+set_option autoImplicit false
+
+noncomputable section
+
+open CategoryTheory CategoryTheory.Limits AlgebraicGeometry
+
+namespace ReciprocityTheory.ChartRestriction.G.Out.GtBCPf
+
+open Semi Geo.Tor
+
+def pidx {X Y : Scheme.{0}} (L : LB X) (F : Y ⟶ X) (i : L.ι) : (L.pull F).ι := fun _ => i
+
+private theorem res_res_lemma {X : Scheme.{0}} {U V W : X.Opens} (h₁ : V ≤ U) (h₂ : W ≤ V)
+    (x : Γ(X, U)ˣ) : res h₂ (res h₁ x) = res (h₂.trans h₁) x := by
+  ext
+  change (X.presheaf.map (homOfLE h₁).op ≫ X.presheaf.map (homOfLE h₂).op).hom (x : Γ(X, U)) = _
+  rw [← Functor.map_comp]
+  rfl
+
+private theorem pullU_res_lemma_2 {X Y : Scheme.{0}} (f : Y ⟶ X) {U V : X.Opens} (h : V ≤ U)
+    (x : Γ(X, U)ˣ) : pullU f V (res h x) = res (f.preimage_mono h) (pullU f U x) := by
+  ext
+  change (X.presheaf.map (homOfLE h).op ≫ f.app V).hom (x : Γ(X, U)) =
+    (f.app U ≫ Y.presheaf.map (homOfLE (f.preimage_mono h)).op).hom (x : Γ(X, U))
+  rw [f.naturality]
+  rfl
+
+private theorem app_map_lemma_3 {X Y : Scheme.{0}} (φ ψ : Y ⟶ X) (e : φ = ψ) (U : X.Opens)
+    {W : Y.Opens} (h₁ : W ≤ φ ⁻¹ᵁ U) (h₂ : W ≤ ψ ⁻¹ᵁ U) (x : Γ(X, U)ˣ) :
+    res h₁ (pullU φ U x) = res h₂ (pullU ψ U x) := by
+  subst e
+  rfl
+
+private theorem fin_lemma_4 {X Y Z : Scheme.{0}} (f : Z ⟶ Y) (g : Y ⟶ X) (U : X.Opens)
+    {A B : Y.Opens} (k₁ : A ≤ g ⁻¹ᵁ U) (k₂ : B ≤ A) (x : Γ(X, U)ˣ) :
+    res (f.preimage_mono (k₂.trans k₁)) (pullU (f ≫ g) U x) =
+      pullU f B (res k₂ (res k₁ (pullU g U x))) := by
+  rw [res_res_lemma, pullU_res_lemma_2]
+  all_goals rfl
+
+theorem trans_pull {G' G B' B : Scheme.{0}} (a : G' ⟶ G) (q : G ⟶ B) (q' : G' ⟶ B') (F : B' ⟶ B)
+    (hqb : q' ≫ F = a ≫ q) (L : LB B) (i i' : L.ι) {U U' : B.Opens} (hU : U ≤ L.U i)
+    (hU' : U' ≤ L.U i') {V V' : B'.Opens} (hVi : V ≤ (L.pull F).U (pidx L F i))
+    (hVi' : V' ≤ (L.pull F).U (pidx L F i'))
+    (u : Γ(G, q ⁻¹ᵁ U)ˣ) (u' : Γ(G, q ⁻¹ᵁ U')ˣ)
+    (h : res (q.preimage_mono (inf_le_right : U ⊓ U' ≤ U')) u' =
+      pullU q _ (res (le_inf (inf_le_left.trans hU) (inf_le_right.trans hU')) (L.g i i')) *
+        res (q.preimage_mono (inf_le_left : U ⊓ U' ≤ U)) u)
+    (p : q' ⁻¹ᵁ V ≤ a ⁻¹ᵁ (q ⁻¹ᵁ U)) (p' : q' ⁻¹ᵁ V' ≤ a ⁻¹ᵁ (q ⁻¹ᵁ U')) :
+    res (q'.preimage_mono (inf_le_right : V ⊓ V' ≤ V')) (res p' (pullU a _ u')) =
+      pullU q' _ (res (le_inf (inf_le_left.trans hVi) (inf_le_right.trans hVi'))
+        ((L.pull F).g (pidx L F i) (pidx L F i'))) *
+        res (q'.preimage_mono (inf_le_left : V ⊓ V' ≤ V)) (res p (pullU a _ u)) := by
+  have hW1 : q' ⁻¹ᵁ (V ⊓ V') ≤ a ⁻¹ᵁ (q ⁻¹ᵁ U) :=
+    (q'.preimage_mono (inf_le_left : V ⊓ V' ≤ V)).trans p
+  have hW2 : q' ⁻¹ᵁ (V ⊓ V') ≤ a ⁻¹ᵁ (q ⁻¹ᵁ U') :=
+    (q'.preimage_mono (inf_le_right : V ⊓ V' ≤ V')).trans p'
+  have hW : q' ⁻¹ᵁ (V ⊓ V') ≤ a ⁻¹ᵁ (q ⁻¹ᵁ (U ⊓ U')) := le_inf hW1 hW2
+  have h1 := congrArg (fun y => res hW (pullU a (q ⁻¹ᵁ (U ⊓ U')) y)) h
+  simp only [map_mul, pullU_res_lemma_2, res_res_lemma] at h1
+  simp only [LB.pull, LB.LinComb, pidx, Fintype.prod_unique, zpow_one, pullU_res_lemma_2,
+    res_res_lemma]
+  rw [h1]
+  congr 1
+  exact (app_map_lemma_3 (a ≫ q) (q' ≫ F) hqb.symm (L.U i ⊓ L.U i') _ _ (L.g i i')).trans
+    (fin_lemma_4 q' F (L.U i ⊓ L.U i') _ _ (L.g i i'))
+
+end ReciprocityTheory.ChartRestriction.G.Out.GtBCPf
+end
+end

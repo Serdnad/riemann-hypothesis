@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.PAdicHodge.ExtRobbaTeich
-public import GroundTheory.PAdicHodge.RobbaSeries
+public import GroundTheory.PAdicHodge.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,17 +1,17 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.ArchimedeanThetaValues.FinLocalCutAt
+public import Development.AbelianVarietyTheory.Definitions.ArchimedeanThetaValues.Bundle003
 public import Development.AbelianVarietyTheory.Definitions.RegularCharts.ModelAt
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.SecBaseChangeAnySt
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.Bundle005
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.IsSmulPtSmulPt
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.BcRigidAtOfIntModel
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExistsFinSiteNormEqZpowSiteAlg
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExistsLiftOpen
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle058
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle031
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle052
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExistsNormalFormArcDatumFramedPointRootOfUnity
 import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExistsUniqueConstantTangentVectorsAlongArc
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.LcoeffPolyConstMul
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.RecordAtOfIsArcFr
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.CorrOfValFieldExtension
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle020
 import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.NonemptyCubicalPull
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -55,7 +55,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.OneArc
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.RigidSys
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle006
 
 @[expose] public section
 

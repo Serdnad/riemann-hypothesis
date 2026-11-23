@@ -1,10 +1,9 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.ThetaValues.ThConst
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.AbelianHolomorphicFrameReadingConstOfFormsCancelStatement
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.GeneratorReadingCorrMulInvStatement
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.GeneratorReadingPullbackPeriodRigidStatement
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermBPrim
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle039
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle035
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle024
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -2,8 +2,8 @@ module
 
 public import Formalism.HermitianCurvature.StatementWd
 public import Mathlib.CategoryTheory.Category.Basic
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.PositionInsertionDiagonalCompat
-public import Formalism.YangianSpanCharacter.YangianRelationFirst
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle019
+public import Formalism.YangianSpanCharacter.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

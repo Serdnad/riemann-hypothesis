@@ -1,16 +1,14 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.PrimitiveStructureSheafDegTwoVanish
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsUnitMpTenExtIff
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CommaDescentInjective
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CommaDescentRestrictionEquiv
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GlueCommaOfBasis
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HasLocOAff
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle577
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle155
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle292
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle452
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.OneCocycleCoboundaryCommaLocalBasis
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Pull1RestrictSurjectiveOfComma
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RestrictPull1InjectiveOfSepGlue
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SepOfFactoringCover
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TwoCocycleCoboundaryOfBasisFunctor
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle157
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle290
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle576
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

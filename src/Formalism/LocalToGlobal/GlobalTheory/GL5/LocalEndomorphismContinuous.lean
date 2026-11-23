@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalToGlobal.GlobalTheory.GL5.LevelsProGOfSplitAlgebra
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.LocalEnd
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle008
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

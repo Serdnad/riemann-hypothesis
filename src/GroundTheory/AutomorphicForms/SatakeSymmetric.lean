@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.AutomorphicForms.SphericalLaurent
+public import GroundTheory.AutomorphicForms.Bundle002
 public import Mathlib.Data.Fintype.Perm
 public import Mathlib.RingTheory.MvPolynomial.Symmetric.Defs
 public import Mathlib.Tactic.Continuity

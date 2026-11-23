@@ -1,21 +1,21 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.CMLattices.ExistsIsThetaDegOfIsLocalModel
-public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.AppellHumbertUnifTangentWeilPairing
-public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.CmCurveLieCharacterOfAdjoinGenerator
-public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.ExistsCmCurveHomFamilyToFibreAtPeriod
+public import Development.AbelianVarietyTheory.Definitions.CMLattices.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle035
+public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle030
+public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle070
 import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.ExistsHomOfLinearScalingHermForm
 import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.ExistsIsHomFamilyComplex
-import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.ExistsLinearOfIsMonHom
-import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.IsCMPairingFamilyOfPolarisationDiagonalComplexStatement
+import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle015
+import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle068
 import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.LbIsoPowOfHermFormPullEq
-public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.PolFibreIdCompCancel
+public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle027
 import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.SurjectiveOfComplexPointsLiftOfUniversallyClosed
-import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.WeilEqIffHermFormEqComplex
-public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.WeilPairingEqOfIsomorphicCubePairings
+import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle040
+public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle031
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsUniformisationOfPoint
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.TwoMulEqOfIsTypeFn
-import Development.AbelianVarietyTheory.Proofs.ToricGeometry.IsReducedSchemeOfSmoothOfIsIntegrallyClosed
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle054
+import Development.AbelianVarietyTheory.Proofs.ToricGeometry.Bundle007
 public import Development.AbelianVarietyTheory.Statements.HyperbolicHypotheses.HypothesesInhabitedHyperbolic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -309,4 +309,22 @@ theorem exists_isFam_of_pureType : ThetaUnifAV → Out.Laws → ∀ (E : Type) [
   rw [e, ← Submodule.map_span, e', Submodule.map_top, LinearEquiv.range]
 
 end GlobalTheory.CM
+end
+
+end
+
+section
+
+@[expose] public section
+
+open AlgebraicGeometry CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj NumberField IsDedekindDomain
+open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Geo.Tor ReciprocityTheory.GeometryOfNumbersTheory
+open scoped CategoryTheory.Obj
+open GlobalTheory GlobalTheory.CM
+
+
+theorem _root_.GlobalTheory.T.exists_homFamily_of_pureType_complex_triple : ThetaUnifAV → Out.Laws → ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Host E) (ω : ℂ) (C : Ell H ℂ ω) (T : PAT H (Sp ℂ)) (r : ℕ), C.IsPrincipalAt (RingHom.id ℂ) → HasType H T.t.act (2 * ω - 1) r 0 → ∃ (D : Datum H) (ε : ℤˣ) (h : D.La → D.La → OK H) (ψ : (⊤ : Submodule (𝓞 E) D.La) → (C.P.A ⟶ T.t.G)), D.p + D.q = r ∧ IsKForm D ε h ∧ (∀ x : D.La, x ≠ 0 → 0 < (ε : ℤ) * D.EF (H.w0 • x) x) ∧ IsFam C T h ⊤ ψ ∧ OntoAt ψ (spMap (RingHom.id ℂ)) := by
+  first | exact @GlobalTheory.CM.exists_isFam_of_pureType | exact GlobalTheory.CM.exists_isFam_of_pureType | (intros; apply GlobalTheory.CM.exists_isFam_of_pureType <;> assumption)
+
+end
 end

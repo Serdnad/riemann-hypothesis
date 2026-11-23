@@ -1,7 +1,7 @@
 module
 
-public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.CyclicPowerClassOfExpEquiv
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.BallRing
+public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.Bundle001
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle027
 public import Mathlib.RingTheory.PowerSeries.Expand
 public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.FrobeniusLiftNorms.TopsChoicePartB
 import Mathlib.Algebra.Order.Floor.Extended

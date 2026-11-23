@@ -40,9 +40,9 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-import ReciprocityTheory.ReductiveGroups.DiscreteSeries.AnalyticVectors.ConjTransposeEqOfInG
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.AnalyticVectors.Bundle001
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.DiscreteSeriesExistence.MeasurePreservingMulRight
-import ReciprocityTheory.ReductiveGroups.DiscreteSeries.RigidityTheorems.MultOneA
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.RigidityTheorems.Bundle002
 
 @[expose] public section
 

@@ -1,6 +1,6 @@
 module
 
-public import Formalism.GaussJetBounds.StatementI
+public import Formalism.GaussJetBounds.Bundle004
 public import Formalism.GaussJetBounds.GaussJetProofs.MinorProductSupportTop
 public import Formalism.GaussJetBounds.MonoShapeTop
 import Mathlib.Algebra.Order.Floor.Extended

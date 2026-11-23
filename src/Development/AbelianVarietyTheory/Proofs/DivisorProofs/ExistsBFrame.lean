@@ -1,9 +1,9 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.EqZeroOfForallPowDvd
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DvdOfEqZero
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FontaineAinfLocalDomainXiAdicOrder
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MuDvdOfDvdIterates
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle789
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle393
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle755
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

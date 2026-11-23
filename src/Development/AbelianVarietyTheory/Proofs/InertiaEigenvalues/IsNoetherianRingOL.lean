@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Saturated
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CompletionLines
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.AlgebraMapPadicIntFinExtInjective
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.DvrComplete
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsIntegralCyclotomicChar
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsSubstInvariants
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle008
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle231
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle153
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle155
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle377
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle424
 import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WachDeltaInvariantCoboundaries
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -384,8 +384,9 @@ theorem exists_gam (h : K.1 ≤ Ks K 1) : ∃ g : W.Gam, (W.χΓ g : ↥(OL LL))
   refine ⟨W.resΓ ⟨g₀, hg₀⟩, ?_⟩
   have hinj : Function.Injective (algebraMap ↥(OL LL) ↥LL.1) := Subtype.val_injective
   apply hinj
-  rw [W.χΓ_res, P.PD_χ, ← hχ, hg₀', hu.unit_spec, map_add (f := _), map_one, map_natCast, PadicInt.coe_add,
-    PadicInt.coe_one, PadicInt.coe_natCast, map_add, map_one, map_natCast]
+  rw [W.χΓ_res, P.PD_χ, ← hχ, hg₀', hu.unit_spec]
+  simp only [PadicInt.coe_add, PadicInt.coe_one, PadicInt.coe_natCast, RingHom.map_add, RingHom.map_one,
+    map_natCast]
 
 theorem gam_X {g : W.Gam} (hg : (W.χΓ g : ↥(OL LL)) = 1 + (l : ↥(OL LL))) :
     W.γ₀ g X = (1 + X) ^ (1 + l) - 1 := by
@@ -395,8 +396,8 @@ theorem gam_X {g : W.Gam} (hg : (W.χΓ g : ↥(OL LL)) = 1 + (l : ↥(OL LL))) 
   rw [GlobalTheory.WachTie.γ₀_eq W (P.PD_p K) χ' hχ', h1, GlobalTheory.CycFr.act_nat_X]
 
 theorem isNoetherianRing_OL : IsNoetherianRing ↥(OL LL) := by
-  obtain ⟨_, -, -⟩ := GlobalTheory.FinExtIntegers.dvr_complete LL
-  infer_instance
+  obtain ⟨hdvr, -⟩ := GlobalTheory.FinExtIntegers.dvr_complete LL
+  exact @PrincipalIdealRing.isNoetherianRing _ _ hdvr.toIsPrincipalIdealRing
 
 theorem rankOne_of_caseA (h : CaseA K LL) (hs : W.s = 1) (h1 : InvBasis W) (h2 : SenOp W) : RankOne W := by
   have hp := P.PD_p K

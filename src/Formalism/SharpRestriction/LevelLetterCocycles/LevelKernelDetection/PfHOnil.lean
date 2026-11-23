@@ -44,7 +44,7 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Formalism.DistinguishedUnitIdeals.ExistsConstOfInvariantMod
 import Formalism.DistinguishedUnitIdeals.Statement
-import Formalism.SharpRestriction.LevelLetterCocycles.ArcParametersShiftInvariant
+import Formalism.SharpRestriction.LevelLetterCocycles.Bundle016
 public import Formalism.SharpRestriction.LevelLetterCocycles.DataNLoc
 import Formalism.SharpRestriction.LevelLetterCocycles.WachCoordinates
 

@@ -3,9 +3,8 @@ module
 public import GroundTheory.AutomorphicForms.AutomorphicFormSpaces.ArchSliceUAction
 public import GroundTheory.AutomorphicForms.CuspidalDiscreteness.Smoothing
 public import Mathlib.NumberTheory.NumberField.InfinitePlace.TotallyRealComplex
-public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.KernelTransforms.CenterTr
-public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.KernelTransforms.ExpGen
-public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.KernelTransforms.InvSmooth
+public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.KernelTransforms.Bundle002
+public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.KernelTransforms.Bundle003
 public import GroundTheory.AutomorphicForms.GKModules.KernelCalculus
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

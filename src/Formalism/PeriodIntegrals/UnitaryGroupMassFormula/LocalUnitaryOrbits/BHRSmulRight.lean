@@ -1,6 +1,6 @@
 module
 
-import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.DualFamilyCounting.NcSIntWittOEv
+import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.DualFamilyCounting.Bundle050
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalUnitaryOrbits.TraceEqAdd
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalUnitaryOrbits.SdVolWOfTop
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalUnitaryOrbits.PairHermZeroRight
@@ -101,7 +101,7 @@ theorem b_int_of_sc {a : Fv F v} (ha : sc (E := E) v a ∈ OEv (E := E) v) : a �
   exact y.2
 
 theorem b_sigR_mem (σ : E →ₐ[F] E) {z : Fv F v ⊗[F] E} (hz : z ∈ OEv (E := E) v) :
-    sigR (Fv F v) σ z ∈ OEv (E := E) v := by
+    _root_.Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.sigR (Fv F v) σ z ∈ OEv (E := E) v := by
   apply Formalism.L2.SG.Pf.NcS.IntWittPf.oev_sigR <;> assumption
 
 theorem b_tr_sc (s : Fv F v) (w : Fv F v ⊗[F] E) :
@@ -123,7 +123,7 @@ theorem b_hR_smul_right (x y : Fin n → Fv F v ⊗[F] E) (c : Fv F v ⊗[F] E) 
   exact Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun j _ => by ring
 
 theorem b_hR_smul_left (c : Fv F v ⊗[F] E) (x y : Fin n → Fv F v ⊗[F] E) :
-    hR (Fv F v) σ J (c • x) y = sigR (Fv F v) σ c * hR (Fv F v) σ J x y := by
+    hR (Fv F v) σ J (c • x) y = _root_.Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.sigR (Fv F v) σ c * hR (Fv F v) σ J x y := by
   simp only [hR, Formalism.UG.hform, Pi.smul_apply, smul_eq_mul, map_mul, Finset.mul_sum]
   exact Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun j _ => by ring
 
@@ -162,7 +162,7 @@ theorem dualW_of_perf (a : ℕ) (hP : TrPerf σ J ψ v) : DualW σ J ψ v Λ a :
   · intro h
     refine ⟨dV v • Y, fun i => ?_, by rw [smul_smul, inv_mul_cancel₀ hd0, one_smul]⟩
     refine (hSD _).2 fun x hx => hP hS hU _ fun c hc => ?_
-    have hcx : Pi.single i (sigR (Fv F v) σ c • x) ∈ LamT v (L : Set (Fin n → E)) a := by
+    have hcx : Pi.single i (_root_.Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.sigR (Fv F v) σ c • x) ∈ LamT v (L : Set (Fin n → E)) a := by
       intro j
       by_cases hj : j = i
       · subst hj

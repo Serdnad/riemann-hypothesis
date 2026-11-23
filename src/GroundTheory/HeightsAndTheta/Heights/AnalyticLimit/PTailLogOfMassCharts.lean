@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.AnalyticForms.PotentialTheory.Partition
+public import ReciprocityTheory.AnalyticForms.PotentialTheory.Bundle004
 public import GroundTheory.HeightsAndTheta.Heights.AnalyticLimit.Objects
 public import ReciprocityTheory.AnalyticForms.PlurisubharmonicFunctions.LintegralImageEqLintegralNormSqDetMul
 import Mathlib.Algebra.Order.Floor.Extended
@@ -47,8 +47,8 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import ReciprocityTheory.AnalyticForms.PlurisubharmonicFunctions.MdiscSt
 public import ReciprocityTheory.AnalyticForms.PotentialTheory.LocDens
-public import ReciprocityTheory.AnalyticForms.PotentialTheory.MaMeasureA
-public import ReciprocityTheory.AnalyticForms.PotentialTheory.PotentialContDiffAt
+public import ReciprocityTheory.AnalyticForms.PotentialTheory.Bundle005
+public import ReciprocityTheory.AnalyticForms.PotentialTheory.Bundle006
 
 @[expose] public section
 

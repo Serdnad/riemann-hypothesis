@@ -1,7 +1,7 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.StatementsPFFibreBij
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.PPFFibreSum
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle023
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle028
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

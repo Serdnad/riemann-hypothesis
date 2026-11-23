@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.CyclicCupProf
+public import GroundTheory.ProfiniteCohomology.Bundle010
 public import GroundTheory.ProfiniteCohomology.LocalClassFormation.CupSymbol
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

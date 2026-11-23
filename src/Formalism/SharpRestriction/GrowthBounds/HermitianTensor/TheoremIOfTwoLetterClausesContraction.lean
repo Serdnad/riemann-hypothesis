@@ -1,14 +1,14 @@
 module
 
 public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.CloudPropOfMapsRetractionBasis
-public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.CloudADef
+public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.Bundle001
 public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.TieDefs
 public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.TheoremIOfLatticeFunctorComparison
-public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.CloudA
-public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.CloudB
-public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.CloudC
+public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.Bundle003
+public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.Bundle006
+public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.Bundle008
 import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.CloudIso
-public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.NuOfWtPQCast
+public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

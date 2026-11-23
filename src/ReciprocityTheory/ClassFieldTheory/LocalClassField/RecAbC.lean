@@ -42,7 +42,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import ReciprocityTheory.ClassFieldTheory.LocalClassField.GalBasic
-public import ReciprocityTheory.ClassFieldTheory.LocalClassField.NormOpen
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.Bundle016
 public import ReciprocityTheory.ClassFieldTheory.LocalClassField.RecCyclic
 public import ReciprocityTheory.ClassFieldTheory.LocalClassField.RecFunct
 import ReciprocityTheory.ClassFieldTheory.LocalClassField.RecPair

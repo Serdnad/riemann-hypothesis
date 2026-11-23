@@ -1,18 +1,18 @@
 module
 
 public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.HasFiniteLengthOfIsIrreducible
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.ExistsReadingLaws
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle008
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.NonemptyEquivMultiProdOne
 import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.NotInSupportOfSubsingleton
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.AlgebraMapIntertwiningMapBijectiveOfIsSmooth
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SupercuspidalSupportUniqueGL
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.CuspidalJacquetSubquotientAtMostOneNonemptyBlock
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.CuspidalPairIrreducibleProduct
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle254
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle303
 import Development.AbelianVarietyTheory.Proofs.SatakeParameters.GeometricLemmaCellOneBlockSwapEquiv
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsCovBySubmodule
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsInSupportOfMultiProd
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle055
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle131
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.JhMultSubAddQuot
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.PiExteriorTensorSmoothIrreducibleIsIrreducible
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle466
 public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.EqOfSubsingletonStep
 public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.IsSubquotientCompMulSingle
 import Mathlib.Algebra.Order.Floor.Extended
@@ -147,12 +147,12 @@ theorem cell_antidiag (d : Fin 2 → ℕ) (σ : ∀ i, Irr k (d i))
       Jacquet (piTensor fun i => (σ i).π) (relUnip k f) :=
     R.symm.trans (Submodule.quotEquivOfEqBot _ hbot).symm
   have hΨ : ∀ u, Ψ u = Submodule.Quotient.mk (R.symm u) := fun u => rfl
-  let τ := (twist ((relJac f (piTensor fun i => (σ i).π)).comp (swapBlocks k (fun i j => Fin (b.1 i j))))
+  let τ := (_root_.GlobalTheory.SmGL.twist ((relJac f (piTensor fun i => (σ i).π)).comp (swapBlocks k (fun i j => Fin (b.1 i j))))
         (relDeltaHalf k (fun j i => Fin (b.1 i j)))).comp (relProj k g)
   have law : ∀ (p : relParab k g) u, τ p (Ψ u) =
         Ψ ((piTensor fun j => (σ (Equiv.swap 0 1 j)).π) p u) := by
     intro p u
-    rw [MonoidHom.comp_apply, twist_apply, MonoidHom.comp_apply, hΨ, relJac_mk, hδ, hδ', hΨ]
+    rw [MonoidHom.comp_apply, _root_.GlobalTheory.SmGL.twist_apply, MonoidHom.comp_apply, hΨ, relJac_mk, hδ, hδ', hΨ]
     simp only [inv_one, Units.val_one, one_smul]
     congr 1
     apply R.injective
@@ -280,7 +280,7 @@ variable (k) in
 theorem exists_jac_map_of_ne (hG : GeometricLemma) (n : Type) [Fintype n] [DecidableEq n] (d : Fin 2 → ℕ)
     (σ : ∀ i, Irr k (d i)) (hσ : ∀ i, 0 < d i ∧ IsCuspidal (σ i).π) (hd : d 0 ≠ d 1)
     (e : (Σ i, Fin (d i)) ≃ n) (e' : (Σ i, Fin (d (Equiv.swap 0 1 i))) ≃ n) :
-    ∃ (φ : (jac e' (multiProd e fun i => (σ i).π)).IntertwiningMap
+    ∃ (φ : (_root_.GlobalTheory.SmGL.jac e' (multiProd e fun i => (σ i).π)).IntertwiningMap
         (piTensor fun i => (σ (Equiv.swap 0 1 i)).π)) (x : Jacquet (multiProd e fun i => (σ i).π) (unipRad k e')),
       φ x ≠ 0 := by
   obtain ⟨N, b, hb⟩ := (hG k).1 (Fin 2) (Fin 2) n (fun i => Fin (d i)) (fun j => Fin (d (Equiv.swap 0 1 j))) e e'
@@ -323,7 +323,7 @@ variable (k) in
 theorem exists_jac_map_of_eq (hG : GeometricLemma) (hBZ : BernsteinZelevinskyFiniteness) (n : Type) [Fintype n]
     [DecidableEq n] {D : ℕ} (hD : 0 < D) (σ : Fin 2 → Irr k D) (hc : ∀ i, IsCuspidal (σ i).π)
     (hne : ¬ Nonempty ((σ 0).π.Equiv (σ 1).π)) (e e' : (Σ _ : Fin 2, Fin D) ≃ n) :
-    ∃ (φ : (jac e' (multiProd e fun i => (σ i).π)).IntertwiningMap
+    ∃ (φ : (_root_.GlobalTheory.SmGL.jac e' (multiProd e fun i => (σ i).π)).IntertwiningMap
         (piTensor fun i => (σ (Equiv.swap 0 1 i)).π)) (x : Jacquet (multiProd e fun i => (σ i).π) (unipRad k e')),
       φ x ≠ 0 := by
   obtain ⟨N, b, hb⟩ := (hG k).1 (Fin 2) (Fin 2) n (fun _ => Fin D) (fun _ => Fin D) e e'
@@ -376,7 +376,7 @@ theorem exists_jac_map_of_eq (hG : GeometricLemma) (hBZ : BernsteinZelevinskyFin
   have hsm : IsSmooth (piTensor fun i => (σ i).π) := isSmooth_piTensor fun i => (σ i).smooth
   obtain ⟨f₁, g₁, ⟨E₁⟩⟩ := GlobalTheory.CompanionTheory.Hypotheses₂.TD.cell_diag (k := k) (b (b.symm G1)) (fun i j hj => by
     rw [Equiv.apply_symm_apply, hG1]
-    fin_cases i <;> fin_cases j <;> simp_all) (piTensor fun i => (σ i).π) hsm
+    fin_cases i <;> fin_cases j <;> first | exact (hj rfl).elim | rfl) (piTensor fun i => (σ i).π) hsm
   have F₀ := (h4 (b.symm G0) f₀ g₀).some.trans E₀
   have F₁ := (h4 (b.symm G1) f₁ g₁).some.trans E₁
   haveI : Nontrivial (⨂[ℂ] i, (σ (Equiv.swap 0 1 i)).V) := GlobalTheory.ProdSupport.nontrivial_piTensor _
@@ -417,7 +417,7 @@ theorem exists_jac_map_of_eq (hG : GeometricLemma) (hBZ : BernsteinZelevinskyFin
 
 theorem swap_equiv_of_irreducible : GlobalTheory.Published.GeometricLemma → GlobalTheory.Published.BernsteinZelevinskyFiniteness → ∀ (k : Type) [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchimedeanLocalField k] (n : Type) [Fintype n] [DecidableEq n] (d : Fin 2 → ℕ) (σ : ∀ i, GlobalTheory.SplitRead.Irr k (d i)), (∀ i, 0 < d i ∧ GlobalTheory.SmGL.IsCuspidal (σ i).π) → GlobalTheory.LocGL.IrrGL.of (σ 0).π (σ 0).smooth (σ 0).irr ≠ GlobalTheory.LocGL.IrrGL.of (σ 1).π (σ 1).smooth (σ 1).irr → ∀ (e : (Σ i, Fin (d i)) ≃ n) (e' : (Σ i, Fin (d (Equiv.swap 0 1 i))) ≃ n), (GlobalTheory.SmGL.multiProd e fun i => (σ i).π).IsIrreducible → (GlobalTheory.SmGL.multiProd e' fun i => (σ (Equiv.swap 0 1 i)).π).IsIrreducible → Nonempty ((GlobalTheory.SmGL.multiProd e fun i => (σ i).π).Equiv (GlobalTheory.SmGL.multiProd e' fun i => (σ (Equiv.swap 0 1 i)).π)) := by
   intro hG hBZ k _ _ _ _ n _ _ d σ hσ hne e e' h1 h2
-  have key : ∃ (φ : (jac e' (multiProd e fun i => (σ i).π)).IntertwiningMap
+  have key : ∃ (φ : (_root_.GlobalTheory.SmGL.jac e' (multiProd e fun i => (σ i).π)).IntertwiningMap
         (piTensor fun i => (σ (Equiv.swap 0 1 i)).π)) (x : Jacquet (multiProd e fun i => (σ i).π) (unipRad k e')),
       φ x ≠ 0 := by
     by_cases hd : d 0 = d 1

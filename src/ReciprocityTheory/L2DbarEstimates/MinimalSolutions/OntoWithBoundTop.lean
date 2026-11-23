@@ -42,7 +42,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.L2DbarEstimates.MinimalSolutions.MinimalSolution
+public import ReciprocityTheory.L2DbarEstimates.MinimalSolutions.Bundle001
 
 @[expose] public section
 

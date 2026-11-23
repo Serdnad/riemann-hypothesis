@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.IsCoreLat
+public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.Bundle005
 import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.FinTensMemLatO
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.HermitianAdjointLawsStandardCharacter
-import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.FactPrincipalDatum
+import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.Bundle002
 import Formalism.LocalToGlobal.ProjectiveLattices.HostInt
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

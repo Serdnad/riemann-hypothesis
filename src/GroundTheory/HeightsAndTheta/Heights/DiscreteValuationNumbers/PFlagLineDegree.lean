@@ -1,7 +1,7 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.StatementsFlagLineDegree
-public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.PSplitRelDeg
+public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Bundle020
+public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

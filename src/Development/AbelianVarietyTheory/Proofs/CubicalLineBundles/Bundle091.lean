@@ -1,0 +1,96 @@
+module
+
+public import Development.AbelianVarietyTheory.Definitions.CMLattices.IntegralOf
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle032
+public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.LawsFieldsSeparately
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.Bundle011
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle029
+public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle090
+public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle087
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle068
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FramedModuliAlgebraicLawsChartWeightIntegrality
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FramedPointReducedFromTestRing
+import Formalism.LocalToGlobal.ProjectiveLattices.Bundle039
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+public import Development.AbelianVarietyTheory.Definitions.RegularCharts.BaseNorm
+
+@[expose] public section
+
+section
+
+open AlgebraicGeometry CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj NumberField IsDedekindDomain MeasureTheory
+open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Geo.Tor Formalism.L2.LamCM Formalism.L2.Pj
+open scoped ComplexOrder
+open GlobalTheory GlobalTheory.CM GlobalTheory.Frames GlobalTheory.LamT
+
+namespace GlobalTheory.LamT
+
+theorem cusp_bound_allEmb : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Host E) (Dw : Datum H) (l : Level H) (Xo : Moduli Dw l) (c : Coeff l) (r : ℕ) (U : ∀ σ : c.F →+* ℂ, Unf Xo c σ r) (ξ : ℝ), (∀ σ, GoodEmb c σ → IsUnf (U σ)) → (∀ σ, GoodEmb c σ → ∀ k (τ : E →+* ℂ), ‖τ ((U σ).X k).ξ0‖ = ξ) → 1 ≤ Dw.p + Dw.q → ∀ a n, Dom a n → ∀ F ∈ cusp Xo c U a n, ∀ (σ : c.F →+* ℂ) (y : FrPt Xo c (CAt σ)) (N : ℝ), IsMetric y N (fun _ => 1) → cabs (evR Xo c F y) ≤ Real.sqrt N ^ n * supC Xo c U ξ (goodOf c σ) a n F := by
+  intro E _ _ _ H Dw l Xo c r U ξ hU hξ hpq a n hd F hF σ y N hm
+  by_cases hσ : GoodEmb c σ
+  · have e : goodOf c σ = σ := if_pos hσ
+    rw [e]
+    exact GlobalTheory.T.cuspForm_value_le_supNorm_at_orthonormal_frame E H Dw l Xo c r U ξ hU hξ hpq a n hd F hF σ hσ y N hm
+  · have e : goodOf c σ = (starRingEnd ℂ).comp σ := if_neg hσ
+    have hg : GoodEmb c ((starRingEnd ℂ).comp σ) := e ▸ goodEmb_goodOf c σ
+    rw [e]
+    have hB : Out.SecBaseChangeSt := GlobalTheory.lawsFieldsSeparately.2.1
+    obtain ⟨y', hy'⟩ := GlobalTheory.Frames.FramedBaseChange.exists_frMap hB E H Dw l Xo c (CAt σ)
+      (CAt ((starRingEnd ℂ).comp σ)) (FrameNorm.conjAlg σ) y
+    have hm' := GlobalTheory.T.isMetric_conjugate_framedPoint E H Dw l Xo c σ y y' N (fun _ => 1) hpq hy' hm
+    have h1 : (fun b : E →+* ℂ => ((1 : Matrix (Fin (Dw.mult b)) (Fin (Dw.mult b)) ℂ)).map (starRingEnd ℂ)) =
+        fun _ => 1 := funext fun b => Matrix.map_one _ (map_zero _) (map_one _)
+    rw [h1] at hm'
+    have hb := GlobalTheory.T.cuspForm_value_le_supNorm_at_orthonormal_frame E H Dw l Xo c r U ξ hU hξ hpq a n hd F hF _ hg y' N hm'
+    haveI : IsReduced (CAt σ) := inferInstanceAs (IsReduced ℂ)
+    have hev := evR_frMap (GlobalTheory.Frames.algebraic_laws hB E H Dw l Xo c).2.2.1 F (cusp_le_sec Xo c U a n hF).1
+      (FrameNorm.conjAlg σ) y (GlobalTheory.Frames.allTest_of_secBaseChange hB E H Dw l Xo c (CAt σ) y) y' hy'
+    rw [hev] at hb
+    refine le_trans (le_of_eq ?_) hb
+    exact (Complex.norm_conj _).symm
+
+end GlobalTheory.LamT
+end
+
+section
+
+open AlgebraicGeometry CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj NumberField IsDedekindDomain MeasureTheory
+open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Geo.Tor Formalism.L2.LamCM Formalism.L2.Pj
+open scoped ComplexOrder
+open GlobalTheory GlobalTheory.CM GlobalTheory.Frames GlobalTheory.LamT
+
+
+theorem _root_.GlobalTheory.T.exists_good_cmPoint_at_cmBasis_frame : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Host E) (Dw : Datum H) (l : Level H) (Xo : Moduli Dw l) (c : Coeff l) [StarRing (𝓞 E)], (∀ a : 𝓞 E, star a = H.bar a) → ∀ (r : ℕ) (U : Unf Xo c c.F.val.toRingHom r), IsUnf U → 0 < r → ∀ (k : U.Comp) (x₀ : (U.X k).dom) (Xx : FD.DataX E r) (hX : Xx.toData = U.X k) (𝔄 : FractionalIdeal (nonZeroDivisors (𝓞 E)) E), 𝔄 ≠ 0 → Xx.Λ = Submodule.span (𝓞 E) {v | ∃ a ∈ 𝔄, ∃ u ∈ Xx.L', v = a • u} → ∀ (La : ℝ) (lam : Fin r → Fin r → E), FD.LamBasis Xx La (hX ▸ x₀.1) lam → ∃ (z : CMPt Xo c) (σ₁ : z.K →ₐ[c.F] CAt c.F.val.toRingHom), z.Good (Module.finrank ℚ E / 2) La ∧ spMap σ₁.toRingHom ≫ z.y.x = (U.un k x₀).x := by
+  first | exact @GlobalTheory.LamT.exists_good_cmPt_at_frame | exact GlobalTheory.LamT.exists_good_cmPt_at_frame | (intros; apply GlobalTheory.LamT.exists_good_cmPt_at_frame <;> assumption)
+end

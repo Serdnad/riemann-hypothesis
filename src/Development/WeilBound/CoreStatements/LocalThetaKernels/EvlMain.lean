@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LatAtVAtStable
-public import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.InertDef
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsStdCharNegOneOfStandardTraceAdelicAddChar
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1874
+public import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1891
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.StandardAddCharSymplecticLocalLatticeEqOne
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.StandardAdelicCharacterNontrivialAtPlaces
-public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.ExistsInvariantForm
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1905
+public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.Bundle002
 public import Development.WeilBound.CoreStatements.LocalThetaKernels.EvlBridge
 public import Development.WeilBound.CoreStatements.LocalThetaKernels.EvlDual
 public import Development.WeilBound.CoreStatements.LocalThetaKernels.EvlLoc
@@ -44,8 +44,8 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ContinuousAtPlace
-import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.FinSplit
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1199
+import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.Bundle002
 
 @[expose] public section
 

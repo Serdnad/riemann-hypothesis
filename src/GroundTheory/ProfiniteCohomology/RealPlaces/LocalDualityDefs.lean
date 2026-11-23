@@ -1,8 +1,8 @@
 module
 
 public import GroundTheory.ProfiniteCohomology.LocalClassFormation.CupSymbolReal
-public import GroundTheory.ProfiniteCohomology.LocalClassFormation.CupSymbolBridge
-public import GroundTheory.ProfiniteCohomology.CartierDual
+public import GroundTheory.ProfiniteCohomology.LocalClassFormation.Bundle001
+public import GroundTheory.ProfiniteCohomology.Bundle011
 public import GroundTheory.ProfiniteCohomology.PoincareDuality.NsmulEqZeroOfNonemptyAddEquiv
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

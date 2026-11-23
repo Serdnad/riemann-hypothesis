@@ -1,11 +1,9 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.XcNotMemOfIsRelevant
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.ImportsTerFurther
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.TwoMemFunFieldSpecZ
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.ImportsTerTer
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.ImportsTerMore
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.ImportsTerTail
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle017
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle023
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle025
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

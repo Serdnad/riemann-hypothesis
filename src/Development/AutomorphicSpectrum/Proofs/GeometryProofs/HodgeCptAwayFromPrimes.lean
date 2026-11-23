@@ -1,9 +1,9 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsHodgeLine
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle010
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.ExistsUniqueWeilIs
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.RegularUnitPoints
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeCptInteriorGenericStatement
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle019
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle132
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsExcisionNbhdAway
 import Mathlib.Algebra.AffineMonoid.Basic
 import Mathlib.Algebra.Order.Floor.Extended

@@ -1,10 +1,10 @@
 module
 
-public import Formalism.LocalToGlobal.ClassOfRecordOfChoice
+public import Formalism.LocalToGlobal.Bundle001
 public import Formalism.LocalToGlobal.GlobalTheory.GL5.DiscreteSeriesOfFormalDegree
 public import Formalism.SharpRestriction.GlobalSchurBounds.LinkTied
-public import Formalism.SharpRestriction.GlobalSchurBounds.MassRatioUnfoldedOfTheoremTwo
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HermRepUnram
+public import Formalism.SharpRestriction.GlobalSchurBounds.Bundle004
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle312
 public import Formalism.SharpRestriction.GlobalSchurBounds.TuSizeOfRealPlaceSecondLayer
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -41,7 +41,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Formalism.LocalToGlobal.IndefiniteRealisationChoice
-public import Formalism.SharpRestriction.GlobalSchurBounds.LogXLowerFamilyOfTheorems
+public import Formalism.SharpRestriction.GlobalSchurBounds.Bundle006
 
 @[expose] public section
 

@@ -1,19 +1,18 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.FinTensMemLatO
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.OmAtSmulRight
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GramAtPosDef
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle066
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1651
 public import Formalism.LocalToGlobal.Divisibility.CoefMod
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.HomSymplecticHalfFormAlgebraicLawsContinuousStatement
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.SelfDualLatticePairingDualStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CmTraceEqAddStarStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsIsThetaAtOfVac
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsSelfDualLatticeSemicharacterVacuumStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RationalHomHermitianTraceFormSelfEqFrameNormSumStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RationalPointFinitePartIsotropicPairing
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.StdCharFiniteAdeleRationalEqExpTraceStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TorusHermitianFormScaledCoordinateEq
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsIntegerMapEqHalfOneAddSqrt
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle075
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle080
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1691
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2180
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1764
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1712
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1634
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1882
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle226
 import Development.AbelianVarietyTheory.Proofs.HeightProofs.ExistsIsArchimedeanAdeleChartOfRealChart
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -52,7 +51,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.HolomorphicFamilies.ModelDataX
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.HolomorphicFamilies.Bundle018
 
 @[expose] public section
 

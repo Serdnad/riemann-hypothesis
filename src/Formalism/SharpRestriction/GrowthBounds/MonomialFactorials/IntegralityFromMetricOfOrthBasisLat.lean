@@ -1,9 +1,9 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.OrthCountOf
+public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.Bundle017
 public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.SymmetryWindowOnAdmissible
 public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.ClosedOfOrthogonalBasis
-public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.CommCondition
+public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.Bundle018
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

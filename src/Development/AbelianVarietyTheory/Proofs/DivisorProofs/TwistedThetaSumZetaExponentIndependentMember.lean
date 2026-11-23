@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsStalkZeta
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsTermsDividingLabelGroupMemberStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.NegMemDividingLabelsThetaModelPointStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TwistWeightWellDefinedOnLatticeClassStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TwistedSumExponentsAffineTwoMembersStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TwistedThetaSumZetaPowerResidueDividingLabelStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3112
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3350
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3096
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3332
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3375
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3371
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -41,7 +41,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
-import Development.AbelianVarietyTheory.Definitions.Divisors.FromBase
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle068
 
 @[expose] public section
 

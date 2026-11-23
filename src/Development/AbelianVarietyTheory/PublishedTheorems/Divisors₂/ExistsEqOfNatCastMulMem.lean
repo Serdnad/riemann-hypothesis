@@ -1,12 +1,12 @@
 module
 
-public import ReciprocityTheory.NeutralLocalFields.Reciprocity
+public import ReciprocityTheory.NeutralLocalFields.Bundle001
 public import Development.AbelianVarietyTheory.PublishedTheorems.GlobalTheta.ExistsMemIdealInvariants
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsUniqueIdeleOfLinearEquivQuotientLocal
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.GalStarComplexMultiplicationPoints
-public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.ExistsLineOfAddAddEqZero
+public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.Bundle001
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ConjugateCurveDatumLatticeIsCurveLattice
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExistsConjLattice
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle029
 import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.WeierstrassPAddOfNeOfDerivNeZero
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -104,7 +104,7 @@ def EllipticMainTheoremCM : Prop :=
     ∀ (σ : ℂ ≃ₐ[K] ℂ) (s : Ideles K), RestrictsTo σ (Art (QuotientGroup.mk s)) →
     ∀ (X : WeierstrassCurve ℂ) [X.IsElliptic] (𝔞 : FractionalIdeal (𝓞 K)⁰ K) (h𝔞 : 𝔞 ≠ 0)
       (ξ : (ℂ ⧸ idealSub 𝔞) ≃+ X.toAffine.Point), IsAnalyticIso ξ →
-      Transports σ (finitePart s) h𝔞 ξ
+      Transports σ (GlobalTheory.EllipticCM.finitePart s) h𝔞 ξ
 
 def HilbertClassFieldJ : Prop :=
   ∀ (K : Type) [Field K] [NumberField K] [_root_.NumberField.IsTotallyComplex K] [Algebra K ℂ],
@@ -173,7 +173,7 @@ end GlobalTheory.Published
 
 namespace GlobalTheory.EllipticCM
 
-open WeierstrassCurve
+open _root_.WeierstrassCurve
 
 section Analytic
 

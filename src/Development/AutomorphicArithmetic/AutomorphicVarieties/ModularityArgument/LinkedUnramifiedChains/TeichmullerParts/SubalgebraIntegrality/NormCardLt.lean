@@ -1,6 +1,6 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.LinkedUnramifiedChains.TeichmullerParts.UnramifiedTrivialInertialType
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.LinkedUnramifiedChains.TeichmullerParts.Bundle001
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.PredMemGamRanks
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -116,7 +116,7 @@ private theorem card_dvd (hl : ((l : ℕ) : 𝓞 L) ∈ w.asIdeal) : l ∣ Nat.c
     rcases (Nat.dvd_prime (Fact.out : l.Prime)).mp hdvd with h | h
     · have h1 := addOrderOf_nsmul_eq_zero (1 : 𝓞 L ⧸ w.asIdeal)
       rw [h, one_nsmul] at h1
-      exact absurd h1 one_ne_zero
+      exact (w.isPrime.ne_top (w.asIdeal.eq_top_iff_one.mpr ((Ideal.Quotient.eq_zero_iff_mem (I := w.asIdeal)).mp h1))).elim
     · exact h
   rw [← hord]
   exact addOrderOf_dvd_natCard _

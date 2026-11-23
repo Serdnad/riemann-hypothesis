@@ -58,7 +58,7 @@ theorem unfold : Unfold := by
   obtain ⟨U, p, Ê, t, -, -, -, -, -, -, -, hmaj⟩ := hE 0
   refine ⟨t, fun z hz nb lam 𝓖 hc ε w hw x => ?_⟩
   have hΦ : (fun x => ((d.Ht x : ℝ) : ℂ) ^ (z - s₁) * f x) = flat d.a f s₁ z := funext fun x => by
-    rw [flat, ht_eq]
+    rw [GlobalTheory.ThK.Dbl.flat, ht_eq]
   have hmaj' := (hmaj z hz).1
   rw [hΦ] at hmaj'
   have hlaw : Law d.χ (s₁ + d.n / 2) f := hf.law

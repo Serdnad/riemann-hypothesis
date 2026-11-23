@@ -1,17 +1,17 @@
 module
 
 public import Development.WeilBound.ThetaLifts.EigenvalueEndgame.OrthogonalDecomposition.Imports
-public import Development.WeilBound.ThetaLifts.LatticeBasics.SchToPol
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle004
 public import Development.AbelianVarietyTheory.Definitions.Divisors.MatchingOfParts
-public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.RightOnto
-public import Development.WeilBound.ThetaLifts.CartanFactorisation.CartanConj
-public import Development.WeilBound.ThetaLifts.EigenvalueEndgame.OrthogonalDecomposition.HodgeTateFromSandwich
+public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.Bundle001
+public import Development.WeilBound.ThetaLifts.CartanFactorisation.Bundle002
+public import Development.WeilBound.ThetaLifts.EigenvalueEndgame.OrthogonalDecomposition.Bundle001
 public import Development.WeilBound.ThetaLifts.FrameEstimates.SquareIntegrableWeilRange
 public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.PfActs
-public import Development.WeilBound.ThetaLifts.CartanFactorisation.IntegrableOnRight
+public import Development.WeilBound.ThetaLifts.CartanFactorisation.Bundle001
 public import Development.WeilBound.ThetaLifts.EigenvalueEndgame.OrthogonalDecomposition.ActsOfReads
 public import Development.WeilBound.ThetaLifts.FrameEstimates.ThickFrames
-import Formalism.LocalToGlobal.IndefiniteReal.PHeisFC
+import Formalism.LocalToGlobal.IndefiniteReal.Bundle014
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

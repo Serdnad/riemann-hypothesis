@@ -1,7 +1,7 @@
 module
 
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StandardSlopeBound.NablaBasis
-public import Formalism.PeriodIntegrals.HookBound
+public import Formalism.PeriodIntegrals.Bundle019
 public import Formalism.GradedWeylDivisibility.DualWeylDominanceOf
 public import Formalism.GradedWeylDivisibility.FinalB
 import Mathlib.Algebra.Order.Floor.Extended

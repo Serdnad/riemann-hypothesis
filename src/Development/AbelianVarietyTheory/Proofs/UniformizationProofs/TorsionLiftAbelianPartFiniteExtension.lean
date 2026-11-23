@@ -1,15 +1,15 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Uniformization.IsCPPullback
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.AbelianPartImageEqOneIffTorusPoint
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.AbelianPartImageOneMulInv
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.CardTorsionGeometricPointOfField
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ConnectedSpaceSpecOfIsLocalRing
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsCompleteDvrFiniteSubalgebra
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsFinsetPointExtendsValuationSubalgebra
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsFormalTorusPointsSemiAbelianModel
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsLiftExtending
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.OverPointsExtOfInjective
+public import Development.AbelianVarietyTheory.Definitions.Uniformization.Bundle003
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle071
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle080
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle054
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle041
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle006
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle053
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle075
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle076
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -58,6 +58,12 @@ open scoped CategoryTheory.Obj
 attribute [local instance] Over.cartesianMonoidalCategory
 noncomputable section
 namespace GlobalTheory.TorsionLift
+
+local instance (priority := high) grpObjThickForTorsionLift {R : Type} [CommRing R]
+    (I : Ideal R) (e : ℕ) (G : Over (Spec (CommRingCat.of R))) [GrpObj G] : GrpObj (thickObj R I e G) :=
+  letI : (Over.pullback (thick R I e)).Monoidal :=
+    (Over.instBraidedPullback (f := thick R I e)).toMonoidal
+  Functor.grpObjObj (F := Over.pullback (thick R I e))
 
 theorem exists_char_root {X M : Type} [AddCommGroup X] [CommGroup M] {I : Type} (β : Module.Basis I ℤ X)
     (N : ℕ) (c : Multiplicative X →* M) (h : ∀ i, ∃ u : M, u ^ N = c (Multiplicative.ofAdd (β i))) :

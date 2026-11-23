@@ -1,8 +1,8 @@
 module
 
-public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.RealDescent.RealLeviDescent.ExpansionTerms
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.RealCompression
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SignAntisymmetric
+public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.RealDescent.RealLeviDescent.Bundle003
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle474
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle500
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.GlobalFields.IdeleClassGroup.IdeleClassEquivIdeleClassMapOfComm
-public import GroundTheory.ProfiniteCohomology.DiscreteModules
+public import GroundTheory.ProfiniteCohomology.Bundle001
 import GroundTheory.GlobalFields.IdeleGroups.IdeleNorms.InfiniteAdeleRingMapInfiniteAdeleRingMap
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

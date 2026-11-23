@@ -1,0 +1,289 @@
+module
+
+public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.Bundle003
+public import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.Bundle002
+public import Formalism.SharpRestriction.GrowthBounds.RootWeights.Bundle017
+public import Formalism.SharpRestriction.GrowthBounds.FrobeniusPaths.LiftSubstitutionCoeffDivisible
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Basify
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.Polynomial.Basic
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Topology.Sheaves.Init
+import Std.Tactic.BVDecide.Normalize.Prop
+
+@[expose] public section
+
+section
+
+noncomputable section
+
+namespace Formalism.MainNotions.ColumnSystems.Pf
+
+open Formalism.MainNotions.G MvPolynomial
+
+theorem eig_one {R : Type} [CommSemiring R] {σ : Type} (ν μ : σ →₀ ℕ) (u : MvPolynomial σ R) :
+    AddMonoidAlgebra.coeff (monomial ν (1 : R) * divDer ν u) μ = AddMonoidAlgebra.coeff u μ * ((ν.prod fun k i => (μ k).choose i : ℕ) : R) := by
+  classical
+  unfold divDer
+  rw [Finset.mul_sum, coeff_sum]
+  have key : ∀ m ∈ u.support, AddMonoidAlgebra.coeff (monomial ν (1 : R) * (if ν ≤ m then
+      monomial (m - ν) (AddMonoidAlgebra.coeff u m * ((ν.prod fun k i => (m k).choose i : ℕ) : R)) else 0)) μ =
+      if m = μ then AddMonoidAlgebra.coeff u μ * ((ν.prod fun k i => (μ k).choose i : ℕ) : R) else 0 := by
+    intro m _
+    by_cases h1 : ν ≤ m
+    · rw [ite_eq_left h1, monomial_mul_monomial, one_mul, add_tsub_cancel_of_le h1, coeff_monomial]
+      by_cases h2 : m = μ
+      · subst h2; simp
+      · rw [ite_eq_right h2, ite_eq_right h2]
+    · rw [ite_eq_right h1, mul_zero, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply]
+      by_cases h2 : m = μ
+      · subst h2
+        rw [ite_eq_left rfl]
+        obtain ⟨k, hk⟩ : ∃ k, ¬ ν k ≤ m k := by
+          by_contra hcon
+          push Not at hcon
+          exact h1 hcon
+        have hk' : m k < ν k := not_le.1 hk
+        have h0 : (ν.prod fun k i => (m k).choose i) = 0 :=
+          Finset.prod_eq_zero (i := k) (Finsupp.mem_support_iff.2 (by omega)) (Nat.choose_eq_zero_of_lt hk')
+        rw [h0]; simp
+      · rw [ite_eq_right h2]
+  rw [Finset.sum_congr rfl key, Finset.sum_ite_eq']
+  split_ifs with h
+  · rfl
+  · rw [notMem_support_iff.1 h, zero_mul]
+
+theorem eigAt : EigAt := by
+  intro O _ _ σ T q u μ
+  unfold gOp gEv
+
+  rw [coeff_sum, map_sum, Finset.sum_mul]
+  refine Finset.sum_congr rfl fun ν _ => ?_
+  rw [MvPolynomial.coeff_smul, eig_one, Algebra.smul_def, map_mul, map_natCast]
+  ring
+
+theorem fock_monoMap {K : Type} [Field K] {σ τ : Type} (f : MvPolynomial σ K →ₗ[K] MvPolynomial τ K)
+    (ε : (σ →₀ ℕ) → (τ →₀ ℕ)) (hε : Function.Injective ε) (hf : ∀ μ c, f (monomial μ c) = monomial (ε μ) c)
+    (u u' : MvPolynomial σ K) :
+    fock (f u) (f u') = ∑ μ ∈ u.support, u.coeff μ * u'.coeff μ * (expFact (ε μ) : K) := by
+  classical
+  have hexp : ∀ v : MvPolynomial σ K, f v = ∑ μ ∈ v.support, monomial (ε μ) (v.coeff μ) := by
+    intro v
+    conv_lhs => rw [← v.support_sum_monomial_coeff]
+
+    rw [map_sum]
+    exact Finset.sum_congr rfl fun μ _ => hf μ _
+  have hco : ∀ (v : MvPolynomial σ K) (μ : σ →₀ ℕ), AddMonoidAlgebra.coeff (f v) (ε μ) = AddMonoidAlgebra.coeff v μ := by
+    intro v μ
+    rw [hexp, coeff_sum]
+    have : ∀ μ' ∈ v.support, AddMonoidAlgebra.coeff (monomial (ε μ') (v.coeff μ')) (ε μ) = if μ' = μ then v.coeff μ else 0 := by
+      intro μ' _
+      rw [coeff_monomial]
+      by_cases h : μ' = μ
+      · subst h; simp
+      · rw [ite_eq_right h, ite_eq_right fun h' => h (hε h')]
+    rw [Finset.sum_congr rfl this, Finset.sum_ite_eq']
+    split_ifs with h
+    · rfl
+    · exact (notMem_support_iff.1 h).symm
+  have hsupp : (f u).support ⊆ u.support.image ε := by
+    rw [hexp]
+    refine (support_sum).trans ?_
+    intro m hm
+    obtain ⟨μ, hμ, hm⟩ := Finset.mem_biUnion.1 hm
+    have := support_monomial_subset hm
+    rw [Finset.mem_singleton] at this
+    exact Finset.mem_image.2 ⟨μ, hμ, this.symm⟩
+  rw [Formalism.MainNotions.G.GLWeightTheory.fock_form_finset_sum _ _ _ hsupp, Finset.sum_image fun a _ b _ h => hε h]
+  exact Finset.sum_congr rfl fun μ _ => by rw [hco, hco]
+
+theorem topOdd_inj (X : Loc) (j : Fin (numSeg X.TT)) : Function.Injective (topOdd X j) := by
+  intro i i' e
+  have e' : segPos X.TT j i = segPos X.TT j i' := congrArg Subtype.val e
+  have h1 := (pos_spec X.TT j i).2
+  have h2 := (pos_spec X.TT j i').2
+  rw [e'] at h1
+  exact (dist_strictMono X.TT j).injective (h1.symm.trans h2)
+
+theorem topOdd_ne_end (X : Loc) (j : Fin (numSeg X.TT)) (i : Fin (segS X.TT j)) : topOdd X j i ≠ topEnd X j := by
+  intro e
+  have e' : segPos X.TT j i = segNext X.TT j := congrArg Subtype.val e
+  exact (pos_mem X.TT j i).2 (e' ▸ (next_mem X.TT j).2)
+
+end Formalism.MainNotions.ColumnSystems.Pf
+end
+end
+
+section
+
+noncomputable section
+
+namespace Formalism.MainNotions.ColumnSystems.Pf
+
+open Formalism.MainNotions.G MvPolynomial Formalism.MainNotions.LemmaBAlt
+
+theorem liftSubst_one_X {p f : ℕ} [Fact p.Prime] {O : Type} [CommRing O] [IsDomain O] [Algebra (WF p f) O] (w : O) (r : ℕ)
+    {ι : Type} {k : ℕ} (LL : LiftLetters ι) (v : ι × Fin k) :
+    liftSubst p f O w r LL (1 : Matrix (Fin k) (Fin k) (WF p f)) (X v) =
+      C (algebraMap O (KK O) (dW O w LL r v.1 v.2)) * X v := by
+  unfold liftSubst
+  rw [MvPolynomial.aeval_X, sigMat_one, inv_one]
+  by_cases hv : LL.vec v.1 <;> simp [hv, Matrix.one_apply, dW] <;> split_ifs <;> simp_all
+
+theorem liftSubst_one_hh {X : Loc} [Fact X.p.Prime] {O : Type} [CommRing O] [IsDomain O] [Algebra (WF X.p X.n') O] (w : O)
+    (x : X.TT × Bool) (b : Fin (X.m + 1)) :
+    liftSubst X.p X.n' O w 1 (hhLetters X.TT) (1 : Matrix (Fin (X.m + 1)) (Fin (X.m + 1)) (WF X.p X.n'))
+        (MvPolynomial.X (x, b)) =
+      (if (x.2 = true ∧ 1 ≤ (b : ℕ)) ∨ (x.2 = false ∧ (b : ℕ) < 1) then
+        C (algebraMap O (KK O) w) * MvPolynomial.X (x, b) else MvPolynomial.X (x, b)) := by
+  rw [liftSubst_one_X]
+  have hd : dW O w (hhLetters X.TT) 1 x b =
+      if (x.2 = true ∧ 1 ≤ (b : ℕ)) ∨ (x.2 = false ∧ (b : ℕ) < 1) then w else 1 := rfl
+  rw [hd]
+  split_ifs <;> simp
+
+private theorem liftSubst_X_true_zero_eq_X {X : Loc} [Fact X.p.Prime] {O : Type} [CommRing O] [IsDomain O]
+    [Algebra (WF X.p X.n') O] (w : O) (y : X.TT) :
+    liftSubst X.p X.n' O w 1 (hhLetters X.TT) (1 : Matrix (Fin (X.m + 1)) (Fin (X.m + 1)) (WF X.p X.n'))
+      (MvPolynomial.X ((y, true), (0 : Fin (X.m + 1)))) = MvPolynomial.X ((y, true), 0) := by
+  rw [liftSubst_one_hh]
+  simp
+
+private theorem liftSubst_X_true_succ_eq_C_mul_X {X : Loc} [Fact X.p.Prime] {O : Type} [CommRing O] [IsDomain O]
+    [Algebra (WF X.p X.n') O] (w : O) (y : X.TT) (c : Fin X.m) :
+    liftSubst X.p X.n' O w 1 (hhLetters X.TT) (1 : Matrix (Fin (X.m + 1)) (Fin (X.m + 1)) (WF X.p X.n'))
+      (MvPolynomial.X ((y, true), c.succ)) =
+        C (algebraMap O (KK O) w) * MvPolynomial.X ((y, true), c.succ) := by
+  rw [liftSubst_one_hh]
+  simp
+
+private theorem liftSubst_X_false_zero_eq_C_mul_X {X : Loc} [Fact X.p.Prime] {O : Type} [CommRing O] [IsDomain O]
+    [Algebra (WF X.p X.n') O] (w : O) (y : X.TT) :
+    liftSubst X.p X.n' O w 1 (hhLetters X.TT) (1 : Matrix (Fin (X.m + 1)) (Fin (X.m + 1)) (WF X.p X.n'))
+      (MvPolynomial.X ((y, false), (0 : Fin (X.m + 1)))) =
+        C (algebraMap O (KK O) w) * MvPolynomial.X ((y, false), 0) := by
+  rw [liftSubst_one_hh]
+  simp
+
+private theorem liftSubst_X_false_succ_eq_X {X : Loc} [Fact X.p.Prime] {O : Type} [CommRing O] [IsDomain O]
+    [Algebra (WF X.p X.n') O] (w : O) (y : X.TT) (c : Fin X.m) :
+    liftSubst X.p X.n' O w 1 (hhLetters X.TT) (1 : Matrix (Fin (X.m + 1)) (Fin (X.m + 1)) (WF X.p X.n'))
+      (MvPolynomial.X ((y, false), c.succ)) = MvPolynomial.X ((y, false), c.succ) := by
+  rw [liftSubst_one_hh]
+  simp
+
+theorem key3One_S {X : Loc} [Fact X.p.Prime] {O : Type} [CommRing O] [IsDomain O] [Algebra (WF X.p X.n') O] (w : O)
+    (j : Fin (numSeg X.TT)) (i : Fin (segS X.TT j)) :
+    liftSubst X.p X.n' O w 1 (hhLetters X.TT) 1 (kSkey O X j i) =
+      w • (MvPolynomial.X ((topStart X j, true), 0) ^ (X.p ^ (segDists X.TT j).get i) * MvPolynomial.X ((topOdd X j i, false), 0) +
+        w ^ (X.p ^ (segDists X.TT j).get i - 1) • (∑ c : Fin X.m,
+          MvPolynomial.X ((topStart X j, true), c.succ) ^ (X.p ^ (segDists X.TT j).get i) *
+            MvPolynomial.X ((topOdd X j i, false), c.succ) : RHH O X) : RHH O X) := by
+  have hq1 : 1 ≤ X.p ^ (segDists X.TT j).get i := Nat.one_le_pow _ _ (Fact.out : X.p.Prime).pos
+  unfold kSkey
+
+  rw [map_sum, Fin.sum_univ_succ]
+  simp only [map_mul, map_pow, liftSubst_X_true_zero_eq_X, liftSubst_X_true_succ_eq_C_mul_X, liftSubst_X_false_zero_eq_C_mul_X, liftSubst_X_false_succ_eq_X]
+  rw [Algebra.smul_def, Algebra.smul_def, MvPolynomial.algebraMap_apply,
+    MvPolynomial.algebraMap_apply, map_pow, map_pow]
+  obtain ⟨q', hq'⟩ : ∃ q', X.p ^ (segDists X.TT j).get i = q' + 1 :=
+    ⟨_, (Nat.sub_add_cancel hq1).symm⟩
+  rw [hq', Nat.add_sub_cancel]
+  have hsum : ∑ c : Fin X.m, (C (algebraMap O (KK O) w) * MvPolynomial.X ((topStart X j, true), c.succ)) ^
+      (q' + 1) * MvPolynomial.X ((topOdd X j i, false), c.succ) =
+      C (algebraMap O (KK O) w) ^ (q' + 1) * ∑ c : Fin X.m,
+        MvPolynomial.X ((topStart X j, true), c.succ) ^ (q' + 1) * MvPolynomial.X ((topOdd X j i, false), c.succ) := by
+    rw [Finset.mul_sum]
+    exact Finset.sum_congr rfl fun c _ => by ring
+  rw [hsum]
+  ring
+
+theorem key_lift_identity_lower {X : Loc} [Fact X.p.Prime] {O : Type} [CommRing O] [IsDomain O] [Algebra (WF X.p X.n') O] (w : O)
+    (j : Fin (numSeg X.TT)) (i : Fin (segS X.TT j)) (c : Fin X.m) :
+    liftSubst X.p X.n' O w 1 (hhLetters X.TT) 1 (kWkey O X j i c.succ) =
+      w • (MvPolynomial.X ((topOdd X j i, true), c.succ) * MvPolynomial.X ((topStart X j, true), 0) ^ (X.p ^ (segDists X.TT j).get i) -
+        w ^ (X.p ^ (segDists X.TT j).get i - 1) •
+          (MvPolynomial.X ((topOdd X j i, true), 0) *
+            MvPolynomial.X ((topStart X j, true), c.succ) ^ (X.p ^ (segDists X.TT j).get i) : RHH O X) : RHH O X) := by
+  have hq1 : 1 ≤ X.p ^ (segDists X.TT j).get i := Nat.one_le_pow _ _ (Fact.out : X.p.Prime).pos
+  unfold kWkey
+  simp only [map_sub, map_mul, map_pow, liftSubst_X_true_zero_eq_X, liftSubst_X_true_succ_eq_C_mul_X]
+  rw [Algebra.smul_def, Algebra.smul_def, MvPolynomial.algebraMap_apply,
+    MvPolynomial.algebraMap_apply, map_pow, map_pow]
+  obtain ⟨q', hq'⟩ : ∃ q', X.p ^ (segDists X.TT j).get i = q' + 1 :=
+    ⟨_, (Nat.sub_add_cancel hq1).symm⟩
+  rw [hq', Nat.add_sub_cancel]
+  ring
+
+theorem loc4One {X : Loc} [Fact X.p.Prime] {O : Type} [CommRing O] [IsDomain O] [Algebra (WF X.p X.n') O] (w : O)
+    (c : Fin X.m) :
+    liftSubst X.p X.n' O w 1 (hhLetters X.TT) 1 (locC O X c.succ) =
+      ∏ j : Fin (numSeg X.TT), MvPolynomial.X ((topStart X j, true), 0) ^ (X.p ^ segG X.TT j - 1) -
+        w ^ (∑ j : Fin (numSeg X.TT), (X.p ^ segG X.TT j - 1)) •
+          (∏ j : Fin (numSeg X.TT), MvPolynomial.X ((topStart X j, true), c.succ) ^ (X.p ^ segG X.TT j - 1) : RHH O X) := by
+  unfold locC
+  simp only [map_sub, map_prod, map_pow, liftSubst_X_true_zero_eq_X, liftSubst_X_true_succ_eq_C_mul_X]
+  rw [Algebra.smul_def, MvPolynomial.algebraMap_apply, map_pow, map_pow,
+    ← Finset.prod_pow_eq_pow_sum, ← Finset.prod_mul_distrib]
+  congr 1
+  exact Finset.prod_congr rfl fun j _ => mul_pow _ _ _
+
+def CoarseMultiplicityOrderBound : Prop :=
+  ∀ (X : Loc) [Fact X.p.Prime] (O : Type) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
+    [Algebra (WF X.p X.n') O] (S : UniformizedDVR X.p O), S.SqP → D1num X →
+    ∀ (j : Fin (numSeg X.TT)) (i : Fin (segS X.TT j)),
+      ∀ g : Matrix (Fin (X.m + 1)) (Fin (X.m + 1)) (WF X.p X.n'), IsGLW g →
+        InWjRg X.p X.n' O S.w 1 (hhLetters X.TT) g (kSkey O X j i) 1 ∧
+        ∀ c : Fin X.m, InWjRg X.p X.n' O S.w 1 (hhLetters X.TT) g (kWkey O X j i c.succ) 1
+
+def LocalOrderBound : Prop :=
+  ∀ (X : Loc) [Fact X.p.Prime] (O : Type) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
+    [Algebra (WF X.p X.n') O] (S : UniformizedDVR X.p O), S.SqP → D1num X → 2 ≤ numSeg X.TT →
+    ∀ (j0 : Fin (numSeg X.TT)) (g : Matrix (Fin (X.m + 1)) (Fin (X.m + 1)) (WF X.p X.n')), IsGLW g →
+      ratPlane X.p X.n' 1 g ≠ ratPlane X.p X.n' 1 1 →
+      InWjRg X.p X.n' O S.w 1 (hhLetters X.TT) g (locR O X j0) 1
+
+theorem third_key_of_order (h : CoarseMultiplicityOrderBound) : CoarseMultiplicityBoundAtIdentity := by
+  intro X _ O _ _ _ _ S hSq hD j i
+  exact ⟨fun g hg => h X O S hSq hD j i g hg, key3One_S S.w j i, fun c => key_lift_identity_lower S.w j i c⟩
+
+theorem local_fourth_of_order (h : LocalOrderBound) : LocalBoundAtIdentity := by
+  intro X _ O _ _ _ _ S hSq hD hn
+  exact ⟨fun j0 g hg hr => h X O S hSq hD hn j0 g hg hr, fun c => loc4One S.w c⟩
+
+end Formalism.MainNotions.ColumnSystems.Pf
+end
+end

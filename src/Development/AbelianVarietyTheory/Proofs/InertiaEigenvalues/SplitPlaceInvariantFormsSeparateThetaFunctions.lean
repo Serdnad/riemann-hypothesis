@@ -1,13 +1,13 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.HasShape
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle567
 public import Development.AbelianVarietyTheory.Counterexamples.HeightSurvey.StarPurelyImaginaryEqNeg
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.IsSelfDualCLatFrame
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.NotMemSpanOfCommute
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.OmVacuumEqSplitFacSmulSum
 import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.SelfDualLatticePairingDual
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsRepsLatticeQuotientConjugateHalfOrthogonalStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ThetaCoefficientIsSchwartzBruhatUniformSplitStatement
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle723
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle871
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsInvariantForm
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.InfPartOneSubEInfSmul
 import Mathlib.Algebra.Order.Floor.Extended
@@ -48,9 +48,9 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.ParamsEx
+import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle022
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.FinTensMemLatO
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.HeisOAdd
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle534
 
 @[expose] public section
 

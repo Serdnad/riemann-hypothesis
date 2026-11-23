@@ -4,7 +4,7 @@ public import Formalism.SharpRestriction.LevelLetterCocycles.JointConditionsZpow
 public import Formalism.SharpRestriction.LevelLetterCocycles.AdmissibleParameterJ
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsRhoPtOfSplitting
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.FinrankMaxUnramifiedSubfieldPadicFinExtPos
-public import Development.AbelianVarietyTheory.BlockTheory.NonGaloisCusps.SplitPlaceTypes
+public import Development.AbelianVarietyTheory.BlockTheory.NonGaloisCusps.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.PowerSubgroups.CountableNeighbourhoods.SingleMemInitialCoordSubspace
+public import GroundTheory.PowerSubgroups.CountableNeighbourhoods.Bundle001
 public import Mathlib.LinearAlgebra.Matrix.GeneralLinearGroup.Defs
 public import Mathlib.LinearAlgebra.Matrix.Rank
 import Mathlib.Algebra.Order.Floor.Extended

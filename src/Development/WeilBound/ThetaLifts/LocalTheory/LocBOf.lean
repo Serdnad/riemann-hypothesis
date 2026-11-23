@@ -3,7 +3,7 @@ module
 public import Development.WeilBound.ThetaLifts.LocalTheory.StepFacEq
 public import Development.WeilBound.ThetaLifts.LocalTheory.AdmissiblePureTensorSchwartz
 import Development.WeilBound.ThetaLifts.ConeHypotheses.PureEqPureA
-public import Development.WeilBound.ThetaLifts.LocalTheory.MemPolData
+public import Development.WeilBound.ThetaLifts.LocalTheory.Bundle003
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

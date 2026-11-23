@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RevPosRevPos
-public import Development.AbelianVarietyTheory.Definitions.AdelicHermitianForms.IsHermHyperbolic
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.CircleHomEqZpow
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsArchimedeanLiftUnitaryGroupProduct
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.CharEqOneOfDetEqOne
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RealIsotropicOrOneClass
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle236
+public import Development.AbelianVarietyTheory.Definitions.AdelicHermitianForms.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle004
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1806
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle061
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle031
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -46,7 +46,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
-public import Development.AbelianVarietyTheory.Definitions.Divisors.IsSmoothVector
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle036
 
 @[expose] public section
 

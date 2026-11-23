@@ -1,10 +1,9 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.DivisibilityTowers.HeckeSectionsIsotropicCommutatorPairingPower
-public import Development.WeilBound.CoreStatements.FlagImmersions.CoeffShift
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.FlagDegreeWeightFormulaStatement
-public import Development.WeilBound.CoreStatements.FlagImmersions.AltEqZero
-public import Development.WeilBound.CoreStatements.FlagImmersions.SumChooseLe
+public import Development.AutomorphicSpectrum.Definitions.DivisibilityTowers.Bundle002
+public import Development.WeilBound.CoreStatements.FlagImmersions.Bundle002
+public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle005
+public import Development.WeilBound.CoreStatements.FlagImmersions.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

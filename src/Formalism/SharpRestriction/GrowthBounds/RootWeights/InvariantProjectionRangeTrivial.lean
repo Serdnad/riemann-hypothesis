@@ -1,8 +1,8 @@
 module
 
 public import Formalism.SharpRestriction.GrowthBounds.CovariantDegrees
-public import Formalism.SharpRestriction.GrowthBounds.RootWeights.OperatorsKillInvariantProjection
-public import Formalism.SharpRestriction.GrowthBounds.RootWeights.WeightSpaceEqBotOutsideSupport
+public import Formalism.SharpRestriction.GrowthBounds.RootWeights.Bundle002
+public import Formalism.SharpRestriction.GrowthBounds.RootWeights.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

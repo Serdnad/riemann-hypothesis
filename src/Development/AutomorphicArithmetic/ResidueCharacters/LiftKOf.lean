@@ -3,7 +3,7 @@ module
 public import Development.AutomorphicArithmetic.ResidueCharacters.LocRes
 public import Development.AutomorphicArithmetic.ResidueCharacters.InvariantsKilledOverCyclotomicAlt
 public import Development.AutomorphicArithmetic.ResidueCharacters.LocNum
-public import Formalism.SharpRestriction.LevelLetterCocycles.JointConditionsZpowers.LiftingConditionOfCrystallineLift
+public import Formalism.SharpRestriction.LevelLetterCocycles.JointConditionsZpowers.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

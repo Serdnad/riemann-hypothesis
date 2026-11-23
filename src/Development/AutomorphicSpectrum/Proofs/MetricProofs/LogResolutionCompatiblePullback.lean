@@ -1,11 +1,11 @@
 module
 
 public import ReciprocityTheory.AnalyticForms.PotentialTheory.IsPotentialPullbackStatement
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterRes
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.HolomorphicDegreeOneBiholomorphism
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.SameOrbitRefl
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle008
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle156
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle152
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.AssemblyBase
-import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PAnResNullForm
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle041
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -47,8 +47,8 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Development.AutomorphicSpectrum.Definitions.MetricPeriods.PairRelationOfScaledRatio
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.ArithRes
-import ReciprocityTheory.AnalyticForms.LeviForms.IsRegFamilyInhabitStatement
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle028
+import ReciprocityTheory.AnalyticForms.LeviForms.Bundle001
 
 @[expose] public section
 

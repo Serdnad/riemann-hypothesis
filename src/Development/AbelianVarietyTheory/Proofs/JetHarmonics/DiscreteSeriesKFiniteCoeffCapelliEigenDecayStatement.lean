@@ -2,8 +2,8 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.Jets.SupWOfSup
 public import Development.AbelianVarietyTheory.Definitions.Jets.SumIoPrAlt
-public import Formalism.PeriodIntegrals.CapelliEig
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.DiscreteSeriesKFiniteCoeffCapelliEigenDecay
+public import Formalism.PeriodIntegrals.Bundle024
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle186
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

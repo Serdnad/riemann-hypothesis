@@ -1,8 +1,8 @@
 module
 
-public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.AutDef
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IntegralGaussianRealIsometryNoFixed
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IntegralComplexGaussianPosDefHermitianPart
+public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.Bundle003
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1825
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle203
 public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.ContinuousTheta
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

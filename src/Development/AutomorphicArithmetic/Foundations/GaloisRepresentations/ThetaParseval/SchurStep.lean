@@ -1,8 +1,8 @@
 module
 
 public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.BaseChangeDefiniteUnitary
-public import Development.WeilBound.ThetaLifts.LatticeBasics.HodgeTateFromSandwich
-public import Development.WeilBound.ThetaLifts.LatticeBasics.PairsStable
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle006
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,18 +1,17 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.WeightChange
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.Bundle001
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.GalUnitary
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsPowHeckeCharUnramifiedEverywhere
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsDecompositionGroupCyclotomicCharacterZpowN
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CyclotomicCharInertiaSurjective
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HeckeCharacterUnramifiedAeAndExistsLevel
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle085
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle143
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle182
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle118
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.TemperedLocalComponents.AlgOfCyc
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.TemperedLocalComponents.RealExistenceFromPublished
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.TemperedLocalComponents.Bundle010
 import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.ResMapBijective
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.HolomorphicIrreducibility.OrdAbove
-public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.AdmissibleResidues.RatioWOfHasSat
-public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.AdmissibleResidues.RealOld
-import Formalism.PadicSubsetSums.StableGradedCounts.ZBrauerNesbittAlg
+public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.AdmissibleResidues.Bundle006
+import Formalism.PadicSubsetSums.StableGradedCounts.Bundle003
 import Mathlib.Algebra.AffineMonoid.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -56,7 +55,9 @@ import Mathlib.Tactic.ReduceModChar
 
 noncomputable section
 
-open NumberField IsDedekindDomain Neutral.B1 Formalism.L2.Host Formalism.ConjugateSelfDual ReciprocityTheory.Gal Formalism.BasicNotions Formalism.MainNotions.N Polynomial
+open NumberField IsDedekindDomain
+open Neutral.B1 hiding G Dec IsPlaceOver
+open Formalism.L2.Host Formalism.ConjugateSelfDual ReciprocityTheory.Gal Formalism.BasicNotions Formalism.MainNotions.N Polynomial
 open GlobalTheory.CuspRep GlobalTheory.WeilDeligne GlobalTheory.HeckeGal GlobalTheory.GalOfCusp UpperTheory.V.Af
 open scoped Matrix
 
@@ -67,6 +68,7 @@ private theorem inf_places (K : Type) [Field K] [NumberField K] : Infinite (Heig
     Infinite.of_surjective _ (Rat.HeightOneSpectrum.primesEquiv (R := 𝓞 ℚ)).surjective
   refine Infinite.of_surjective (fun w : HeightOneSpectrum (𝓞 K) => w.under (𝓞 ℚ)) fun v => ?_
   have := v.isMaximal
+  haveI : FaithfulSMul (𝓞 ℚ) (𝓞 K) := FaithfulSMul.of_field_isFractionRing (𝓞 ℚ) (𝓞 K) ℚ K
   obtain ⟨Q, hQ, hl⟩ := Ideal.exists_maximal_ideal_liesOver_of_isIntegral (S := 𝓞 K) v.asIdeal
   exact ⟨⟨Q, hQ.isPrime, Ideal.ne_bot_of_liesOver_of_ne_bot v.ne_bot Q⟩, HeightOneSpectrum.ext hl.over.symm⟩
 
@@ -158,7 +160,7 @@ private theorem cyc_ine {v : HeightOneSpectrum (𝓞 F)} {A : ValuationSubring �
   have : IsAlgClosure ℚ Ω := ⟨inferInstance, inferInstance⟩
   have : IsGalois ℚ Ω := IsAlgClosure.isGalois ℚ Ω
   have hv : A.valuation (l : Ω) < 1 := by
-    simpa using (hA _).2 hl
+    simpa only [map_natCast] using (hA _).2 hl
   obtain ⟨u, hu⟩ := GlobalTheory.CycDec.exists_unit_infinite_order l
   obtain ⟨σ, hσ, hσu⟩ := GlobalTheory.CycInertia.cycZ_Ine_surjective Ω l A hv u
   let K : IntermediateField ℚ Ω := (IsScalarTower.toAlgHom ℚ F Ω).fieldRange

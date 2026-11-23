@@ -1,0 +1,240 @@
+module
+
+public import GroundTheory.PAdicHodge.UnramifiedClosure
+public import GroundTheory.PAdicHodge.BCrisNewtonFrac
+public import GroundTheory.PAdicHodge.BCrisRegular
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.RegularLocalRing.Defs
+import Mathlib.RingTheory.SimpleRing.Principal
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.TypeStar
+import Mathlib.Topology.Sheaves.Init
+
+@[expose] public section
+
+section
+
+set_option maxSynthPendingDepth 1
+
+noncomputable section
+
+namespace GroundTheory.PAdicHodge
+
+section Abstract
+
+theorem exists_eq_div_of_mem_closure_range {R F : Type*} [CommRing R] [Field F] (f : R →+* F)
+    {x : F} (hx : x ∈ Subfield.closure (Set.range f)) : ∃ u v : R, x = f u / f v := by
+  obtain ⟨y, hy, z, hz, rfl⟩ := Subfield.mem_closure_iff.1 hx
+  have hle : Subring.closure (Set.range f) ≤ f.range :=
+    Subring.closure_le.2 (by rintro _ ⟨w, rfl⟩; exact ⟨w, rfl⟩)
+  obtain ⟨u, rfl⟩ := hle hy
+  obtain ⟨v, rfl⟩ := hle hz
+  exact ⟨u, v, rfl⟩
+
+theorem exists_mul_eq_of_away_away {A B F : Type*} [CommRing A] [CommRing B] [CommRing F] {r : A}
+    {t : Localization.Away r} (ι : A →+* B) (ιP : Localization.Away r →+* B)
+    (hP : ∀ a, ιP (algebraMap A _ a) = ι a) (φ : B →+* F) (ιB : Localization.Away t →+* F)
+    (hB : ∀ x, ιB (algebraMap _ _ x) = φ (ιP x)) (u : Localization.Away t) :
+    ∃ (w : A) (n m : ℕ), ιB u * φ (ιP t ^ n * ι r ^ m) = φ (ι w) := by
+  obtain ⟨x, n, hx⟩ := ACris.exists_mul_pow_eq_of_away (φ.comp ιP) ιB hB u
+  obtain ⟨w, m, hw⟩ := ACris.exists_mul_pow_eq_of_away ι ιP hP x
+  refine ⟨w, n, m, ?_⟩
+  rw [RingHom.comp_apply, RingHom.comp_apply] at hx
+  rw [map_mul, map_pow, ← mul_assoc, hx, ← map_mul, hw]
+
+theorem mul_eq_mul_of_eqs {F : Type*} [CommRing F] {Y U V Wu Wv Su Sv : F} (h1 : Y * V = U)
+    (hu : U * Su = Wu) (hv : V * Sv = Wv) : Wu * Sv = Y * (Wv * Su) := by
+  rw [← hu, ← hv, ← h1]
+  ac_rfl
+
+private theorem clear_denominator_of_away_away {A B F : Type*}
+    [CommRing A] [CommRing B] [IsDomain B] [CommRing F] {r a : A}
+    (i : A →+* B) (iP : Localization.Away r →+* B)
+    (hP : ∀ x, iP (algebraMap A (Localization.Away r) x) = i x)
+    (j : B →+* F) (iB : Localization.Away (algebraMap A (Localization.Away r) a) →+* F)
+    (hB : ∀ x, iB (algebraMap _ _ x) = j (iP x))
+    (u : Localization.Away (algebraMap A (Localization.Away r) a)) (hr : i r ≠ 0) (ha : i a ≠ 0) :
+    ∃ w s : A, s ≠ 0 ∧ iB u * j (i s) = j (i w) := by
+  obtain ⟨w, n, m, hw⟩ := exists_mul_eq_of_away_away i iP hP j iB hB u
+  refine ⟨w, a ^ n * r ^ m, ?_, ?_⟩
+  · intro hz
+    apply mul_ne_zero (pow_ne_zero n ha) (pow_ne_zero m hr)
+    simpa only [map_mul, map_pow, map_zero] using congrArg i hz
+  · simpa only [hP, map_mul i, map_pow i] using hw
+
+private theorem exists_fraction_of_mem_closure_range {A B R F : Type*}
+    [CommRing A] [CommRing B] [CommRing R] [Field F]
+    (g : A →+* B) (j : B →+* F) (f : R →+* F) (hg : Function.Injective g)
+    (hj : Function.Injective j)
+    (clear : ∀ u, ∃ w s : A, s ≠ 0 ∧ f u * j (g s) = j (g w))
+    {y : B} (hy : j y ∈ Subfield.closure (Set.range f)) :
+    ∃ a b : A, b ≠ 0 ∧ g a = y * g b := by
+  let i := j.comp g
+  have hi : Function.Injective i := hj.comp hg
+  by_cases hy0 : y = 0
+  · subst y
+    exact ⟨0, 1, (map_ne_zero_iff i hi).1 i.map_one_ne_zero, (map_zero g).trans (zero_mul _).symm⟩
+  obtain ⟨u, v, huv⟩ := exists_eq_div_of_mem_closure_range f hy
+  have hv : f v ≠ 0 := fun hz => (map_ne_zero_iff j hj).2 hy0 (by rw [huv, hz, div_zero])
+  have h1 : j y * f v = f u := by rw [huv, div_mul_cancel₀ _ hv]
+  obtain ⟨wu, su, hsu, hu⟩ := clear u
+  obtain ⟨wv, sv, hsv, hv'⟩ := clear v
+  have hwv : i wv ≠ 0 := hv' ▸ mul_ne_zero hv ((map_ne_zero_iff i hi).2 hsv)
+  refine ⟨wu * sv, wv * su, ?_, hj ?_⟩
+  · apply (map_ne_zero_iff i hi).1
+    rw [map_mul i]
+    exact mul_ne_zero hwv ((map_ne_zero_iff i hi).2 hsu)
+  · simp only [map_mul j, map_mul g]
+    exact mul_eq_mul_of_eqs h1 hu hv'
+
+end Abstract
+
+namespace ACris
+
+open _root_.WittVector Polynomial
+
+variable {p : ℕ} [hp : Fact p.Prime]
+
+local notation "𝔹" => BDeRhamPlus (normInteger ℂ_[p]) p
+local notation "𝔹dR" => BDeRham (normInteger ℂ_[p]) p
+
+variable {ε : PreTilt (normInteger ℂ_[p]) p} (hε : PreTilt.untilt ε = 1)
+  (hζ : PreTilt.untilt ((_root_.frobeniusEquiv (PreTilt (normInteger ℂ_[p]) p) p).symm ε) ≠ 1)
+
+def fracBCris : Subfield 𝔹dR := Subfield.closure (Set.range (iotaB hε hζ))
+
+theorem iotaB_mem_fracBCris (x : BCris hε) : iotaB hε hζ x ∈ fracBCris hε hζ :=
+  Subfield.subset_closure (s := Set.range (iotaB hε hζ)) (Set.mem_range_self x)
+
+theorem natCast_p_ne_zero_bdR : (p : 𝔹) ≠ 0 := by
+  exact (IsPerfectoidField.isUnit_natCast_p_bDeRhamPlus (K := ℂ_[p]) p).ne_zero
+
+
+
+theorem exists_iotaB_mul_eq (u : BCris hε) : ∃ w s : ACris ℂ_[p] p, s ≠ 0 ∧
+    iotaB hε hζ u * algebraMap 𝔹 𝔹dR (iota ℂ_[p] p s) = algebraMap 𝔹 𝔹dR (iota ℂ_[p] p w) := by
+  have hr : iota ℂ_[p] p (p : ACris ℂ_[p] p) ≠ 0 :=
+    fun hz => natCast_p_ne_zero_bdR (p := p) ((map_natCast (iota ℂ_[p] p) p).symm.trans hz)
+  have ha : iota ℂ_[p] p (periodT hε) ≠ 0 :=
+    fun hz => fontaineT_ne_zero hε hζ ((iota_periodT hε).symm.trans hz)
+  exact clear_denominator_of_away_away (r := (p : ACris ℂ_[p] p)) (a := periodT hε)
+    (iota ℂ_[p] p) (iotaPlus ℂ_[p] p) (iotaPlus_algebraMap (K := ℂ_[p]) (p := p))
+    (algebraMap 𝔹 𝔹dR) (iotaB hε hζ) (iotaB_algebraMap hε hζ) u hr ha
+
+
+
+theorem isACrisFraction_of_mem_fracBCris {y : PadicAlgCl p}
+    (hy : algClToBdRField p y ∈ fracBCris hε hζ) : IsACrisFraction y := by
+  exact exists_fraction_of_mem_closure_range (iota ℂ_[p] p) (algebraMap 𝔹 𝔹dR) (iotaB hε hζ)
+    (iota_injective (K := ℂ_[p]) (p := p))
+    (IsPerfectoidField.algebraMap_bDeRham_injective (K := ℂ_[p]) (p := p))
+    (exists_iotaB_mul_eq hε hζ) (y := algClToBdR p y) hy
+
+theorem mem_unramifiedClosure_of_mem_fracBCris {y : PadicAlgCl p}
+    (hy : algClToBdRField p y ∈ fracBCris hε hζ) : y ∈ unramifiedClosure p :=
+  (isACrisFraction_of_mem_fracBCris hε hζ hy).mem_unramifiedClosure
+
+variable {K : IntermediateField ℚ_[p] (PadicAlgCl p)}
+
+
+
+theorem fracBCris_fixed [FiniteDimensional ℚ_[p] K] {x : 𝔹dR} (hx : x ∈ fracBCris hε hζ)
+    (hfix : ∀ σ : Gal(PadicAlgCl p/K), σ • x = x) :
+    ∃ k ∈ maxUnramified p K, x = algClToBdRField p k := by
+  obtain ⟨k, hk⟩ := bDeRham_fixed K x hfix
+  have e : x = algClToBdRField p (k : PadicAlgCl p) := hk.symm
+  have hmem : algClToBdRField p (k : PadicAlgCl p) ∈ fracBCris hε hζ := e ▸ hx
+  exact ⟨(k : PadicAlgCl p), mem_maxUnramified.2
+    ⟨k.property, mem_unramifiedClosure_of_mem_fracBCris hε hζ hmem⟩, e⟩
+
+
+end ACris
+
+end GroundTheory.PAdicHodge
+end
+end
+
+section
+
+set_option maxSynthPendingDepth 1
+
+noncomputable section
+
+
+
+
+namespace GroundTheory.PAdicHodge
+
+namespace ACris
+
+variable {p : ℕ} [hp : Fact p.Prime] (K : IntermediateField ℚ_[p] (PadicAlgCl p))
+
+section Frob
+
+variable [FiniteDimensional ℚ_[p] K]
+
+end Frob
+
+section Valuation
+
+variable {K}
+
+theorem exists_norm_eq_zpow_maxUnramified {x : maxUnramified p K} (hx : x ≠ 0) :
+    ∃ D : ℤ, ‖(x : PadicAlgCl p)‖ = ‖(p : PadicAlgCl p)‖ ^ D :=
+  (isACrisFraction_of_mem (mem_maxUnramified.1 x.2).2).exists_norm_eq_zpow
+    (fun h => hx (Subtype.ext h))
+
+theorem norm_p_algCl_pos : 0 < ‖(p : PadicAlgCl p)‖ :=
+  norm_pos_iff.2 (Nat.cast_ne_zero.2 hp.out.ne_zero)
+
+
+
+end Valuation
+
+section FrobValuation
+
+variable [FiniteDimensional ℚ_[p] K]
+
+end FrobValuation
+
+end ACris
+
+end GroundTheory.PAdicHodge
+end
+end

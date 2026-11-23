@@ -1,7 +1,7 @@
 module
 
 public import Development.WeilBound.RepresentationTheoryGL.GenericUnitaryGL.LeibnizOrders.ProdGPn
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.PhiPreservesIsomorphism
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle324
 import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SubsingletonOfGiso
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

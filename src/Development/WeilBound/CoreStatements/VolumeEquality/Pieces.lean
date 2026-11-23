@@ -2,14 +2,14 @@ module
 
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsSheetCover
 public import Development.WeilBound.CoreStatements.VolumeEquality.RootBranches
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ConstantsValueOverPointStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HolomorphicCoordsOfGenericPointStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle124
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle140
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LocalRingPointsExistsUnique
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.MemAbLocusIff
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.NormalSchemeCoordsInjectiveStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.RingOfIntegersHomInjective
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.MultiprojectivePointsNonemptyStatement
-public import Development.WeilBound.CoreStatements.VolumeEquality.RootBr
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle096
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle123
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle115
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle117
+public import Development.WeilBound.CoreStatements.VolumeEquality.Bundle008
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -50,7 +50,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.AbProj
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle007
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.OneArc
 import Std.Tactic.BVDecide.Normalize.Prop
 

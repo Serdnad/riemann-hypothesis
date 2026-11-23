@@ -1,12 +1,12 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.DiscreteSeriesHermitianUnique
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.FinPartIdemMulMemIff
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AdelicSchwartzMemL2Statement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EqOfComponentTensorAdelicFunctionEq
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle055
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle304
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1577
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1968
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EventuallyIntegralPointsIndicatorIsVacuum
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsFactorPureTensorComponentAtPlace
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MeasurableThetaSumOfSchrodinger
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1770
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1294
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

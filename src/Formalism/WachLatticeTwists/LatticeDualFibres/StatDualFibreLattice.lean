@@ -41,7 +41,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import Formalism.CharacterColumnKernels.Statement
+public import Formalism.CharacterColumnKernels.Bundle001
 
 @[expose] public section
 

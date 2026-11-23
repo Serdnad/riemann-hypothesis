@@ -1,24 +1,24 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.BlocksUnique
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.GoodIdempotentFixesMemGoodTypeSpace
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle015
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle028
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.GeneralAdmissibleOfIrreducibilityStmt
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.RepERankOne
-public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.TypeConditions.IsPotCrysAtOfMono0
-public import Formalism.PeriodIntegrals.EntAtD
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle556
+public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.TypeConditions.Bundle009
+public import Formalism.PeriodIntegrals.Bundle028
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.DepthZeroLabelsOfLabelLaws
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ForallFieldIffForallSubgroup
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ContinuousCharpolyCoeffOfMatrix
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.EqOneOfIsOfFinOrderOfCharpoly
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IotaOQContinuousInjective
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle149
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle284
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle701
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle277
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.MemMaximalIdealIff
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.MonodromyTrivialEverywhere
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle547
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.PolarizedGaloisRep
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ResidualCompatibleRows
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SideEigenExport
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle928
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle848
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.InertialOrderFifteenCharAuxiliaryPrimeSpec
-public import Development.DiscreteGroups.GlobalIrreducibility.DzBigDef
-public import Formalism.LocalToGlobal.NormalizedHeckeFactors.ValLeOneOfIsIntegral
+public import Development.DiscreteGroups.GlobalIrreducibility.Bundle018
+public import Formalism.LocalToGlobal.NormalizedHeckeFactors.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -57,7 +57,7 @@ import Mathlib.Topology.Connected.Separation
 import Mathlib.Topology.MetricSpace.Ultra.TotallySeparated
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.CharpolyEqOfIsRowPar
 import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsSplitOfMemAdmissibleConjugatePairPlaces
-import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.NoFormsOff
+import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle029
 import Formalism.LocalToGlobal.IndefiniteReal.LinksDefs
 import ReciprocityTheory.NeutralLocalFields.LocalFieldComparison.HCFFromRecipA
 
@@ -238,7 +238,7 @@ end
 section
 section
 namespace GlobalTheory.ResLoc
-open Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.N Formalism.ConjugateSelfDual ReciprocityTheory.Gal Formalism.L2 Formalism.L2.Host GlobalTheory.HeightCounting NumberField IsDedekindDomain Polynomial
+open Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.N Formalism.ConjugateSelfDual ReciprocityTheory.Gal _root_.Formalism.L2 Formalism.L2.Host GlobalTheory.HeightCounting NumberField IsDedekindDomain Polynomial
 open GlobalTheory.EigTie (ResTied IsRowPar plRed resTied_of_plSide)
 open GlobalTheory.IndefiniteRowSideFullHecke.RayClassPrimeCounting (IsGaloisRepOf Zbar GalE OnW)
 
@@ -285,7 +285,7 @@ end
 section
 section
 namespace GlobalTheory.ResLoc
-open Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.N Formalism.ConjugateSelfDual ReciprocityTheory.Gal Formalism.L2 Formalism.L2.Host GlobalTheory.HeightCounting NumberField IsDedekindDomain Polynomial
+open Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.N Formalism.ConjugateSelfDual ReciprocityTheory.Gal _root_.Formalism.L2 Formalism.L2.Host GlobalTheory.HeightCounting NumberField IsDedekindDomain Polynomial
 open GlobalTheory.EigTie (ResTied IsRowPar plRed resTied_of_plSide)
 open GlobalTheory.IndefiniteRowSideFullHecke.RayClassPrimeCounting (IsGaloisRepOf Zbar GalE OnW)
 
@@ -342,7 +342,7 @@ variable {D : D7} {X : NTw D.R D.host D.what₂ D.LL0 D.nd} {i : X.Tw}
 
 theorem unramified_of_isGaloisRepOfN_of_unr {a : ℕ} {π : D.naut.CG a} {l : ℕ} [Fact l.Prime] {ι : Qbar l ≃+* ℂ}
     {r : GalE D →* GL (Fin a) (Qbar l)} (h : UpperTheory.GalS.IsGaloisRepOfN D π l ι r) {w : PlE D.host} (hl : w ∉ placesOver D.host.E l)
-    (hu : D.naut.unr (D.naut.locG π w)) {A : ValuationSubring D.nd.Om} (hA : IsPlaceOver (F := D.host.E) A w)
+    (hu : D.naut.unr (D.naut.locG π w)) {A : ValuationSubring D.nd.Om} (hA : _root_.Formalism.ConjugateSelfDual.IsPlaceOver (F := D.host.E) A w)
     {σ : GalE D} (hσ : σ ∈ Ine (F := D.host.E) A) : r σ = 1 := by
   refine GlobalTheory.PointIrredCompare.Ine_le_of_normal (D.nd.plOm.2 w) hA r.ker (fun τ hτ => ?_) hσ
   obtain ⟨h1, h2, -⟩ := h.2.2 w hl

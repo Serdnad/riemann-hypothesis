@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.DualLattices.SubgroupQuotientStatement
+public import ReciprocityTheory.DualLattices.Bundle008
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -51,7 +51,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.DualLattices.MapTensorSpan
+public import ReciprocityTheory.DualLattices.Bundle006
 import Std.Tactic.BVDecide.Normalize.Prop
 public import Mathlib.LinearAlgebra.Basis.Basic
 public import Mathlib.LinearAlgebra.Dimension.StrongRankCondition

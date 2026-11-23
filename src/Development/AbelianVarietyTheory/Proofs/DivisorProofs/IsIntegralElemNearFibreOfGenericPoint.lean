@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsToricRankOne
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ChartValueIsIntegralOfIntegralAtPoints
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IntegralElementAffineSectionGenerated
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsAffineOpenPreimageGenericBaseChangeModificatio
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle069
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3127
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3058
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2802
 import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.IsReducedAlgebraOfSmoothOfIsNoetherianRing
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

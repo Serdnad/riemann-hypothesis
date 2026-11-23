@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalToGlobal.Columns.PolyFn
-public import Formalism.LocalToGlobal.Divisibility.Frames
+public import Formalism.LocalToGlobal.Divisibility.Bundle001
 public import Formalism.LocalToGlobal.KernelLattices.ThDistC
 public import Formalism.LocalToGlobal.Columns.DecorationStabilizerTrivialUnipotent
 import Formalism.HermitianLattices.FinalNeighbourConstruct

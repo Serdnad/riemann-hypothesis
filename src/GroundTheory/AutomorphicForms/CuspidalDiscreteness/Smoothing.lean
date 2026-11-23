@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.AutomorphicForms.AutomorphicFormSpaces.Archimedean
-public import GroundTheory.AutomorphicForms.ReductionSplitting
+public import GroundTheory.AutomorphicForms.Bundle017
 public import Mathlib.Topology.ContinuousMap.CompactlySupported
 public import GroundTheory.AutomorphicForms.AutomorphicFormSpaces.Uniform
 import GroundTheory.AutomorphicForms.Reduction

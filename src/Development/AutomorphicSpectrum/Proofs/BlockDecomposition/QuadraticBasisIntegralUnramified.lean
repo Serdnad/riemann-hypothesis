@@ -1,6 +1,6 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsContent
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle106
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -52,9 +52,9 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.TensorIntegerRingAlmostAllPlaces
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HypOneZeroZero
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsCovolOne
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.TrMMemFramesEIff
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle002
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle089
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle430
 
 @[expose] public section
 

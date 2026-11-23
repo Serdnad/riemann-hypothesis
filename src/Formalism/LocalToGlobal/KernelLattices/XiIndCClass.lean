@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.TorsionIntegrality.QuadraticSemicharacters.ProductThetaMem
+public import Formalism.LocalToGlobal.TorsionIntegrality.QuadraticSemicharacters.Bundle002
 public import Formalism.LocalToGlobal.PairingIndexBounds.ModelLatticeMoves.GoodLat
 public import Formalism.LocalToGlobal.Columns.FiniteSumNonzeroLargeDepth
 public import Formalism.LocalToGlobal.PairingIndexBounds.ModelLatticeMoves.IsBichar

@@ -1,6 +1,6 @@
 module
 
-public import Formalism.MahlerMeasure.LevelLattice
+public import Formalism.MahlerMeasure.Bundle004
 public import Formalism.MahlerMeasure.MahlerMeasureProofs.RemoveS
 import Formalism.MahlerMeasure.MahlerMeasureProofs.LevelAct
 public import Formalism.MahlerMeasure.MahlerMeasureProofs.LevelDecomp

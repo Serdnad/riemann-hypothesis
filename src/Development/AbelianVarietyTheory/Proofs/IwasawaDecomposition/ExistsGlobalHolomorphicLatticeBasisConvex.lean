@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsLatBasisZero
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle102
 public import Mathlib.Topology.Covering.Basic
 import Mathlib.Algebra.Order.Archimedean.Real.Hom
 import Mathlib.Algebra.Order.Floor.Extended

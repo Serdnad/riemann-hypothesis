@@ -2,9 +2,9 @@ module
 
 public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.PairwiseDisjointCell
 import Development.AbelianVarietyTheory.Definitions.Divisors.T2SpaceGeneralLinearGroup
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SeedOrbKVanish
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IwahoriDoubleCosetTorusNilpotent
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IwahoriGlCasselmanDatum
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1647
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle393
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle133
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -48,7 +48,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.DiagPairs
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle027
 
 @[expose] public section
 

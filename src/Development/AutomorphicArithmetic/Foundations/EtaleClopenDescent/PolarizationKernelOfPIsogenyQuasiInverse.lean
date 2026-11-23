@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsQuasiInv
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.BirigidifiedPullbackMulPairIsoTensorPowSq
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LbIsoOfPullbackQuasiInverseIsogenyTrivialAxes
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle644
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1147
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2748
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

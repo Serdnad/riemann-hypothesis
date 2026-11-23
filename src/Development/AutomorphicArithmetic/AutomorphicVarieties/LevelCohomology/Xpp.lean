@@ -1,12 +1,12 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.HostNumber
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.UnramifiedCocycleIsCoboundaryOfBernoulliUnit
-import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.DvrFacts
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.Bundle015
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.Bundle006
+import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.Bundle008
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.DirGPowOne
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.HcUnrOf
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.HcVanOf
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.HcXppOf
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.Bundle009
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.Bundle011
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.Bundle008
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -103,9 +103,12 @@ theorem UpperTheory.V.X.xpp :
     simp [γ', h1, h2]
   have hl : (A F.vl).valuation (l : Ω) < 1 := by
     have h := (hF.isOver F.vl ((l : ℕ) : 𝓞 ℚ)).2 hF.vl
-    simpa using h
+    simpa only [map_natCast] using h
   have hV := vanOf Ω l _ γ (hX Ω l c _ (residue c.O) d f n φ ξ hx γ (.inr rfl)) {l} (fun _ => A F.vl) κ.ker
-    (by simpa using ⟨Fact.out, hl⟩) inferInstance hidx
+    (fun p hp => by
+      have hpEq : p = l := Finset.mem_singleton.mp hp
+      subst p
+      exact ⟨hlp.out, hl⟩) inferInstance hidx
   refine xppOf F γ' (fun g => by simp only [γ']; rw [mul_right_comm, ← mul_pow]; simp) fun z z1 z2 z3 z4 => ?_
   have hz : ∀ g h, z (toGS Ω _ (g * h)) = z (toGS Ω _ g) + (γ g : ResidueField c.O) * z (toGS Ω _ h) := fun g h => by
     rw [map_mul, z2, hγ']

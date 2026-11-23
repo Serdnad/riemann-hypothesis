@@ -1,10 +1,10 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LocalDualityPerfectPairFiniteModules
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle394
 public import Mathlib.Topology.Instances.ZMod
 public import ReciprocityTheory.Hypotheses.GalCohDefs
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.CardDualZmodModuleEqCard
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CardCocyclesMulInvariantsDiscrete
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle041
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle276
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -51,7 +51,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Development.AutomorphicSpectrum.Definitions.NonGaloisLines.TopLine
-import Formalism.SharpRestriction.CuspSpanNormBounds.Point
+import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle001
 import Formalism.SharpRestriction.LevelLetterCocycles.LocCoh
 
 @[expose] public section

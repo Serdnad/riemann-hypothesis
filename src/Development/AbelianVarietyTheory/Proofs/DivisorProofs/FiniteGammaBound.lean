@@ -5,10 +5,10 @@ public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HighestWeigh
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.CardFiniteSubgroupGLIntDvd
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.UnitaryRationalConjIntersectionCardDvdInvariant
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IntegralEqVolMulSum
-public import Development.AbelianVarietyTheory.Statements.PlaceShiftStatements.NotLossLeOne
-public import Formalism.LocalToGlobal.Divisibility.LinkDef
+public import Development.AbelianVarietyTheory.Statements.PlaceShiftStatements.Bundle004
+public import Formalism.LocalToGlobal.Divisibility.Bundle004
 import Formalism.LocalToGlobal.ProjectiveLattices.HalfOneAddSqrtNegIsIntegral
-import Formalism.MirabolicMackeyTheory.MirabolicMackeyProofs.RamBasic
+import Formalism.MirabolicMackeyTheory.MirabolicMackeyProofs.Bundle002
 import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.ValBasic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

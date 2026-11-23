@@ -2,9 +2,9 @@ module
 
 public import Formalism.SharpRestriction.GrowthBounds.FockGramWindow.GramWindow2
 public import Formalism.MahlerMeasure.CoarseLevelSlackInequalities
-public import Formalism.MahlerMeasure.FinalD
+public import Formalism.MahlerMeasure.Bundle005
 public import Formalism.MahlerMeasure.MahlerMeasureProofs.MeanGam
-public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.BejjSmulLeft
+public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.Bundle012
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,8 +1,8 @@
 module
 
 public import GroundTheory.ArithmeticGeometry.SchemeCohomology.CechNaturality.NaturalLeray
-public import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProperCohomology.HasExtInstances
-public import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProperCohomology.ReesSheafBase
+public import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProperCohomology.Bundle001
+public import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProperCohomology.Bundle009
 public import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProjectiveCohomology.ImmersionCech
 public import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProjectiveCohomology.SerrePAux
 public import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProperFiniteness

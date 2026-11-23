@@ -1,6 +1,6 @@
 module
 
-public import Formalism.TowerValuationBounds.HermitianSumValuationBound
+public import Formalism.TowerValuationBounds.Bundle001
 public import Mathlib.NumberTheory.Padics.PadicVal.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

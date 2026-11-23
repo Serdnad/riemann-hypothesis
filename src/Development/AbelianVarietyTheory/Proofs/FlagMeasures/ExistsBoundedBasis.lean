@@ -1,18 +1,18 @@
 module
 
 public import Formalism.HermitianLattices.HermitianLatticesProofs.MassTelescope
-public import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.GapAtLeast
+public import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.Bundle001
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.FundamentalDomainPointBound
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.EmbeddingHermSelf
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle007
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsFinsetSelfDualClassesHerm
-import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.IsLocalizedModuleSubtype
+import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle003
 import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.TraceHermNondegenerate
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HermitianMassUpperBound
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsFinsetSelfDualClassesRootDiscr
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsPositiveAdd
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1182
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle310
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle009
 import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.FiniteClassesSelfDualOfSelfDual
 import Formalism.HermitianLattices.HermitianLatticesProofs.GenusBasic
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.TransferenceMinima
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle014
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -58,7 +58,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.DiscriminantEstimates.DiscriminantTheorems.ScaledBoundInequality
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.DiscriminantEstimates.DiscriminantTheorems.Bundle001
 
 @[expose] public section
 

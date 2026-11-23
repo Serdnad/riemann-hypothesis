@@ -53,28 +53,28 @@ structure UnrSplit (L : Type) [Field L] [NumberField L] [IsCMField L] (M : ℕ) 
   split : ∀ w : Plc L, (M : 𝓞 L) ∈ w.asIdeal → IsSplitAt w
 
 structure AdIn {L Ω : Type} [Field L] [NumberField L] [IsCMField L] [Field Ω] [Algebra L Ω] [IsAlgClosure L Ω] {l : ℕ} [Fact l.Prime]
-    (ι : Qbar l ≃+* ℂ) (M m : ℕ) (r : G L Ω →* GL (Fin 2) (Qbar l)) : Prop where
+    (ι : Qbar l ≃+* ℂ) (M m : ℕ) (r : _root_.Formalism.ConjugateSelfDual.G L Ω →* GL (Fin 2) (Qbar l)) : Prop where
   cont : Continuous r
   aut : IsAutCsd ι r
   irr : IrrOpen r
   gap : 2 ≤ m
-  unr : ∀ A : ValuationSubring Ω, ¬ A.valuation (M : Ω) < 1 → ∀ s ∈ Ine (F := L) A, r s = 1
-  away : ∃ τ : Fin 2 → G L Ω →* (Qbar l)ˣ, (∀ i, Continuous (τ i)) ∧ TypeAway r τ
+  unr : ∀ A : ValuationSubring Ω, ¬ A.valuation (M : Ω) < 1 → ∀ s ∈ _root_.ReciprocityTheory.Gal.Ine (F := L) A, r s = 1
+  away : ∃ τ : Fin 2 → _root_.Formalism.ConjugateSelfDual.G L Ω →* (Qbar l)ˣ, (∀ i, Continuous (τ i)) ∧ TypeAway r τ
   above : ∀ A : ValuationSubring Ω, A.valuation (l : Ω) < 1 →
-    ∃ (b : ℤ) (k : ℕ) (κ : Fin 2 → ↥(Dec (F := L) A) →* (Qbar l)ˣ), 0 < k ∧ IsFlagOn r (Dec (F := L) A) κ ∧
-      ∀ s : ↥(Dec (F := L) A), (s : G L Ω) ∈ Ine (F := L) A →
+    ∃ (b : ℤ) (k : ℕ) (κ : Fin 2 → ↥(_root_.ReciprocityTheory.Gal.Dec (F := L) A) →* (Qbar l)ˣ), 0 < k ∧ IsFlagOn r (_root_.ReciprocityTheory.Gal.Dec (F := L) A) κ ∧
+      ∀ s : ↥(_root_.ReciprocityTheory.Gal.Dec (F := L) A), (s : _root_.Formalism.ConjugateSelfDual.G L Ω) ∈ _root_.ReciprocityTheory.Gal.Ine (F := L) A →
         κ 0 s ^ k = (cycBar L Ω l s ^ (b + m)) ^ k ∧ κ 1 s ^ k = (cycBar L Ω l s ^ b) ^ k
 
 def TwEx : Prop :=
   ∀ (L Ω : Type) [Field L] [NumberField L] [IsCMField L] [Field Ω] [CharZero Ω] [IsAlgClosure ℚ Ω] [Algebra L Ω] (l : ℕ) [Fact l.Prime],
-    l ≠ 2 → ∀ (ι : Qbar l ≃+* ℂ) (c : G ℚ Ω), Sd.IsCC c → ∀ M : ℕ, M ≠ 0 → l ∣ M → UnrSplit L M →
-    ∀ (χ : G ℚ Ω →* (Qbar l)ˣ) (a : ℤ), IsOpen (χ.ker : Set (G ℚ Ω)) → χ c = (-1) ^ a →
-    (∀ A : ValuationSubring Ω, ¬ A.valuation (M : Ω) < 1 → ∀ s ∈ Ine (F := L) A, χ (galEmb ℚ L Ω s) = 1) →
-    ∃ κ : G L Ω →* (Qbar l)ˣ, Sd.IsAlgChar ι κ ∧
-      (∀ s s' : G L Ω, galEmb ℚ L Ω s' = c * galEmb ℚ L Ω s * c⁻¹ → κ s * κ s' = cycBar L Ω l s ^ a * χ (galEmb ℚ L Ω s)) ∧
-      (∀ A : ValuationSubring Ω, ¬ A.valuation (M : Ω) < 1 → ∀ s ∈ Ine (F := L) A, κ s = 1) ∧
+    l ≠ 2 → ∀ (ι : Qbar l ≃+* ℂ) (c : _root_.Formalism.ConjugateSelfDual.G ℚ Ω), Sd.IsCC c → ∀ M : ℕ, M ≠ 0 → l ∣ M → UnrSplit L M →
+    ∀ (χ : _root_.Formalism.ConjugateSelfDual.G ℚ Ω →* (Qbar l)ˣ) (a : ℤ), IsOpen (χ.ker : Set (_root_.Formalism.ConjugateSelfDual.G ℚ Ω)) → χ c = (-1) ^ a →
+    (∀ A : ValuationSubring Ω, ¬ A.valuation (M : Ω) < 1 → ∀ s ∈ _root_.ReciprocityTheory.Gal.Ine (F := L) A, χ (galEmb ℚ L Ω s) = 1) →
+    ∃ κ : _root_.Formalism.ConjugateSelfDual.G L Ω →* (Qbar l)ˣ, Sd.IsAlgChar ι κ ∧
+      (∀ s s' : _root_.Formalism.ConjugateSelfDual.G L Ω, galEmb ℚ L Ω s' = c * galEmb ℚ L Ω s * c⁻¹ → κ s * κ s' = cycBar L Ω l s ^ a * χ (galEmb ℚ L Ω s)) ∧
+      (∀ A : ValuationSubring Ω, ¬ A.valuation (M : Ω) < 1 → ∀ s ∈ _root_.ReciprocityTheory.Gal.Ine (F := L) A, κ s = 1) ∧
       ∀ A : ValuationSubring Ω, A.valuation (l : Ω) < 1 → ∃ (b : ℤ) (k : ℕ), 0 < k ∧
-        ∀ s ∈ Ine (F := L) A, κ s ^ k = (cycBar L Ω l s ^ b) ^ k
+        ∀ s ∈ _root_.ReciprocityTheory.Gal.Ine (F := L) A, κ s ^ k = (cycBar L Ω l s ^ b) ^ k
 
 end UpperTheory.V.Z.Sym
 

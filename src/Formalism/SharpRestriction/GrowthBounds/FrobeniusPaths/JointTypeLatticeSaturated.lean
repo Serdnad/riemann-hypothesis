@@ -2,7 +2,7 @@ module
 
 public import Formalism.SharpRestriction.GrowthBounds.StatementOfDegreeAndBound
 public import Formalism.SharpRestriction.GrowthBounds.FrobeniusPaths.AntitoneOfAppend
-public import Formalism.SharpRestriction.GrowthBounds.RootWeights.DvrFractionFieldCharZeroPrime
+public import Formalism.SharpRestriction.GrowthBounds.RootWeights.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

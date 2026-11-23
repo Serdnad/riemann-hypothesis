@@ -1,6 +1,6 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsIsDPMorphismOfFlatAlgebra
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle488
 public import Development.AbelianVarietyTheory.Definitions.Divisors.RatBasisLinearIndependentInt
 public import Mathlib.RingTheory.Flat.Basic
 public import Development.WeilBound.CoreStatements.AbelianHeightsDuality.DividedPowerAlgebras.ChooseFac

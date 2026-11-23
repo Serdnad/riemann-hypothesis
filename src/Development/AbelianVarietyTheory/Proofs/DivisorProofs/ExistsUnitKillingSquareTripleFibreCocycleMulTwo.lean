@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MulIncl
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GrpPullbackId
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsBaseGlobalUnitAbelianSchemeBaseChangeStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SymmetricTwoCocycleFiniteCommGroupSchemeCoboundaStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TripleFiberProductOverMulTwoIsPullbackStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle576
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2184
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1139
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2246
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2250
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -48,7 +48,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ZbLeftWhiskerRight
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1043
 import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsLineBundleDescentToSubfield
 
 @[expose] public section

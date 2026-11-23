@@ -1,13 +1,13 @@
 module
 
 public import Formalism.SharpRestriction.CuspSpanNormBounds.IsPrimitiveSub
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.ChartGen
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle003
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HermitianLatticeDiscriminantOrderNeZeroUnimodula
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsLatticeLatIn
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle182
 import Formalism.HermitianLattices.HermitianLatticesProofs.DualBasic
 import Formalism.HermitianLattices.HermitianLatticesProofs.DualLattice
 import Formalism.HermitianLattices.HermitianLatticesProofs.IndexBasic
-import Formalism.HermitianLattices.HermitianLatticesProofs.LocDual
+import Formalism.HermitianLattices.HermitianLatticesProofs.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

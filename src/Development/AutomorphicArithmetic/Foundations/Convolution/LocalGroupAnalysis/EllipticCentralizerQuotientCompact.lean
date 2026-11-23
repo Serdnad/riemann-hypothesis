@@ -1,6 +1,6 @@
 module
 
-public import Development.WeilBound.RepresentationTheoryGL.TwistedFactors.SelmerRankBounds.EllipticityFromProductFormula
+public import Development.WeilBound.RepresentationTheoryGL.TwistedFactors.SelmerRankBounds.Bundle001
 import GroundTheory.AutomorphicForms.ReductionCore
 import GroundTheory.AutomorphicForms.ReductionFinite
 import Mathlib.Algebra.Order.Floor.Extended

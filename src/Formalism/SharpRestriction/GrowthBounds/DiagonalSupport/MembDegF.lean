@@ -1,9 +1,9 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.DiagonalSupport.MembTop
-public import Formalism.SharpRestriction.GrowthBounds.DiagonalSupport.NoMonMultideg
-public import Formalism.SharpRestriction.GrowthBounds.DiagonalSupport.HomCompRename
-public import Formalism.SharpRestriction.GrowthBounds.DiagonalSupport.MembAlgF
+public import Formalism.SharpRestriction.GrowthBounds.DiagonalSupport.Bundle003
+public import Formalism.SharpRestriction.GrowthBounds.DiagonalSupport.Bundle002
+public import Formalism.SharpRestriction.GrowthBounds.DiagonalSupport.Bundle004
+public import Formalism.SharpRestriction.GrowthBounds.DiagonalSupport.Bundle006
 public import Formalism.SharpRestriction.GrowthBounds.DiagonalSupport.PosTLSurj
 public import Formalism.SharpRestriction.GrowthBounds.DiagonalSupport.Proposition5OfThreeParts
 import Formalism.SharpRestriction.GrowthBounds.DiagonalSupport.SlackBoundReal

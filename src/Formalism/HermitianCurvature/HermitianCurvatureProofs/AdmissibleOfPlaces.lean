@@ -1,6 +1,6 @@
 module
 
-public import Formalism.HermitianCurvature.StatementKB
+public import Formalism.HermitianCurvature.Bundle007
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.BlockOfCauchySchwarz
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

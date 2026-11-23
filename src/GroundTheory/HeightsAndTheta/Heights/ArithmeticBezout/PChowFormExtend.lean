@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.StatementsBaseChange
+public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle006
 public import Mathlib.RingTheory.Nullstellensatz
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,14 +1,14 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.HasDefect
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsRem
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2685
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsProperToroidalModelStructureMap
-import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.InvariantFunctionsDescend
+import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle005
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AbelianPartConst
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsHeatOperatorGluedPullbackBundlePower
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.SmoothRayQuotient
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsGlobalLocDerOfIsCob
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.LeISupInfPreimage
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2654
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle497
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle095
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle022
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -101,7 +101,7 @@ theorem rsT_op (k : ℕ) (i : h.J) (O : G.left.Opens) (hO : O ≤ h.W i) (f : Γ
     rw [← rsT_of_le hO, rsT_rsT le_rfl hO]
   rw [rsT_of_le hO, rsT_of_le hO]
 
-  simp only [op, map_add (f := _), map_sub, map_mul, map_sum, map_pow, map_natCast, map_ofNat, hd, hdd', hc, hp]
+  simp only [Heat.op, map_add (f := _), map_sub, map_mul, map_sum, map_pow, map_natCast, map_ofNat, hd, hdd', hc, hp]
 
 theorem rem_eq (k : ℕ) (i : h.J) (O : G.left.Opens) (hO : O ≤ h.W i) {A : Type} [CommRing A] (π : Γ(G.left, O) →+* A)
     (hΘ : ∀ a b, π (constFn G.hom O (h.Θ a b)) = 0) (F T g : Γ(G.left, O)) (hT : IsUnit T)
@@ -116,7 +116,7 @@ theorem rem_eq (k : ℕ) (i : h.J) (O : G.left.Opens) (hO : O ≤ h.W i) {A : Ty
     rw [(hdd a).2.1 O le_top, map_add (f := _), map_mul, map_mul]
     ring
 
-  simp only [op, map_add (f := _), map_sub, map_mul, map_sum, hΘ, zero_mul, Finset.sum_const_zero, sub_zero, map_ofNat, map_pow,
+  simp only [Heat.op, map_add (f := _), map_sub, map_mul, map_sum, hΘ, zero_mul, Finset.sum_const_zero, sub_zero, map_ofNat, map_pow,
   map_natCast] at e₁
   rw [hs, (h.lift i).1.2.1 O hO, map_add (f := _), map_mul, map_mul] at e₁
   refine (hT.map π).mul_left_cancel ?_

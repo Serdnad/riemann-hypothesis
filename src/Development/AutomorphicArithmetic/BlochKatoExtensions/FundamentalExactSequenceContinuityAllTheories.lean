@@ -1,7 +1,7 @@
 module
 
 public import Formalism.SharpRestriction.CuspSpanNormBounds.ChainLength
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.SimpLemmas
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle071
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

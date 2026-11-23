@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.AutomorphicForms.SmoothRepContragredient
+public import GroundTheory.AutomorphicForms.Bundle008
 public import GroundTheory.AutomorphicForms.GL2.GJUnramified
 public import GroundTheory.AutomorphicForms.GL2.GJStandardLUnramified
 public import GroundTheory.AutomorphicForms.WhittakerCriterion

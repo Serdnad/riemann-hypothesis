@@ -1,7 +1,7 @@
 module
 
-public import ReciprocityTheory.Automorphisms.Unitary
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsIntegerUnitSplitPlaceConjugatePrime
+public import ReciprocityTheory.Automorphisms.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle016
 import Formalism.LocalRingCardinality.SpanPowerMembership.LocAtA
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

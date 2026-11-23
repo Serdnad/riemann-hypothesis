@@ -1,11 +1,11 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsGraphIsometricForms
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle034
 public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Objects
-public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.IsMultiHomogIdealIff
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PGraphChangeOfModel
+public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.Bundle003
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle081
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PGraphIsometric
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.StatementsSemilocRing
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle026
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.Columns.ColForms
+public import Formalism.LocalToGlobal.Columns.Bundle007
 public import Formalism.LocalToGlobal.Columns.DecoFin
 public import Formalism.LocalToGlobal.Columns.AlgebraMapMemMaximalIdealPowIff
 import Mathlib.Algebra.Order.Floor.Extended

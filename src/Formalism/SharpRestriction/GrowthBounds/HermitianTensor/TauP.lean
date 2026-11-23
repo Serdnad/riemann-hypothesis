@@ -1,14 +1,13 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.DetFactsPAlt
+public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.Bundle003
 import Formalism.GradedWeylDivisibility.DualWeylDominanceOf
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LBidetLemmas
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LRowstLemmas
+import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle004
+public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle002
 public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.OneMemDualWeyl
-public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.DerivativeRepresentation
-public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.DetYNeZero
+public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.Bundle005
 import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.NuOfLoZero
-public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.PdAevalScale
+public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.Bundle004
 import Mathlib.Algebra.AffineMonoid.UniqueSums
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

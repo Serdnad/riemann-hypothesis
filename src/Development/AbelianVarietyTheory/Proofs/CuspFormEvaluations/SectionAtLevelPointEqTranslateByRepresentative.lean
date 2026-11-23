@@ -2,11 +2,10 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.ThetaValues.ThConst
 public import Formalism.LocalToGlobal.ProjectiveLattices.ThShort
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.AppellHumbertFrameSemicharacter
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExpNsmulEqPowVt
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.FockLaws
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.HalfIntegralGeneratorTraceEqOne
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.SectionReadingExistsUniqueIsTheta
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle029
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle049
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle043
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle031
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -47,7 +46,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
-import Development.AbelianVarietyTheory.Definitions.ThetaValues.IsBlockProd
+import Development.AbelianVarietyTheory.Definitions.ThetaValues.Bundle001
 import Development.AbelianVarietyTheory.Definitions.TorusSections.IsTorusOf
 
 @[expose] public section

@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.NotDominatesTopPlace
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ChainRuleAndJacobianCriterion
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsTranscendenceBasisOfKaehlerWedgeFreeGenerator
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle041
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle008
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1324
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

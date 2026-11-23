@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.HookBound
+public import Formalism.PeriodIntegrals.Bundle019
 public import Formalism.GradedWeylDivisibility.DualWeylDominanceOf
 public import Formalism.LocalToGlobal.Columns.CoefficientsModP.WeTransposeWordTransposeWord
 import Mathlib.Algebra.AffineMonoid.Basic

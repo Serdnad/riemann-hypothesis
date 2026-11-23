@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.IsInvDer
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsDualFamilyModSubspace
+public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle027
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

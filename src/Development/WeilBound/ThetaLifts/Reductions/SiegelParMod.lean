@@ -4,8 +4,8 @@ public import Development.WeilBound.ThetaLifts.Reductions.SiegelCore
 public import Development.WeilBound.ThetaLifts.Reductions.SiegelMod
 public import Development.WeilBound.ThetaLifts.FrameEstimates.SquareIntegrableWeilRange
 import Development.AbelianVarietyTheory.Definitions.Foundations.ExistsUniqueIsProdMeasureFinAway
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.AddHaarLeftRightMulAdelicMatricesModule
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.LcscAdelicUnitaryGroup
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle145
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle018
 public import Development.WeilBound.ThetaLifts.FrameEstimates.LeHeightOfIsTorusElt
 public import Development.WeilBound.ThetaLifts.Reductions.SiegelAbs
 import Mathlib.Algebra.Order.Floor.Extended

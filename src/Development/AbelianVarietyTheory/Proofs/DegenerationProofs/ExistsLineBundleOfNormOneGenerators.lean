@@ -1,9 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Degenerations.CompanionTheory
+public import Development.AbelianVarietyTheory.Definitions.Degenerations.Bundle002
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsDiscreteValuationRingIntegralClosurePadicInt
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.JacobsonClosedPointsToolsInt
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.MemPadicAlgClValuationSubringIffNormLeOne
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle038
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsUniqueExtensionOfForallNormLeOne
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -49,7 +48,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.BCTools
-import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.RegularOfBoundedAtPadicAlgClPoints
+import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle044
 
 @[expose] public section
 
@@ -91,7 +90,10 @@ theorem exists_point_norm_valF_eq {X : Scheme.{0}} {p : ℕ} [Fact p.Prime]
     (y : Spec (.of (integralClosure ℤ_[p] K)) ⟶ X) (U : X.Opens)
     (hy : ⊤ ≤ (Spec.map (CommRingCat.ofHom (algebraMap (integralClosure ℤ_[p] K) K)) ≫ y) ⁻¹ᵁ U)
     (φ : Γ(X, U)) :
-    ∃ y' : Sp (OO p) ⟶ X, y' (cPt p) = y (IsLocalRing.closedPoint (integralClosure ℤ_[p] K)) ∧
+    ∃ y' : Sp (OO p) ⟶ X, y' (cPt p) = y (by
+      letI : IsLocalRing (integralClosure ℤ_[p] K) :=
+        (GlobalTheory.isDiscreteValuationRing_integralClosure_padicInt p K).toIsLocalRing
+      exact IsLocalRing.closedPoint (integralClosure ℤ_[p] K)) ∧
       Set.range (gPt p ≫ y') ⊆ U ∧
       valF (gPt p ≫ y') U φ = (((Scheme.ΓSpecIso (.of K)).hom
         ((Spec.map (CommRingCat.ofHom (algebraMap (integralClosure ℤ_[p] K) K)) ≫ y).appLE

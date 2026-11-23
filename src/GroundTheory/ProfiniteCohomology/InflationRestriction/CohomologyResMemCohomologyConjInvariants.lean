@@ -1,8 +1,8 @@
 module
 
-public import GroundTheory.TateCohomology.ConjAction
+public import GroundTheory.TateCohomology.Bundle001
 public import GroundTheory.ProfiniteCohomology.CohomologyFunctoriality
-public import GroundTheory.ProfiniteCohomology.FilteredHomology
+public import GroundTheory.ProfiniteCohomology.Bundle001
 public import GroundTheory.ProfiniteCohomology.InflationRestriction.DegreeOne
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

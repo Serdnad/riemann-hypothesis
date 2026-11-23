@@ -3,7 +3,7 @@ module
 public import GroundTheory.ProfiniteCohomology.CohomologyFunctoriality.QuotientToInvariantsFunctorPreservesZeroMorphism
 public import GroundTheory.ProfiniteCohomology.CoinducedModules.CohomologyCoindCokernelIsoHom
 import GroundTheory.ProfiniteCohomology.CoinducedModules.Acyclic
-public import GroundTheory.ProfiniteCohomology.CupProducts.Projection
+public import GroundTheory.ProfiniteCohomology.CupProducts.Bundle003
 public import GroundTheory.ProfiniteCohomology.GaloisCohomology.Kummer
 import GroundTheory.ProfiniteCohomology.InflationRestriction.Coinduced
 public import GroundTheory.ProfiniteCohomology.InflationRestriction.Higher

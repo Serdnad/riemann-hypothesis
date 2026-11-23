@@ -2,7 +2,7 @@ module
 
 public import GroundTheory.AutomorphicForms.ArchimedeanWhittaker.ComplexWhittaker.IsClosedDivisorComponent
 import GroundTheory.AutomorphicForms.RealGroupsIwasawa
-import GroundTheory.AutomorphicForms.RealGroupsKAK
+import GroundTheory.AutomorphicForms.Bundle008
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

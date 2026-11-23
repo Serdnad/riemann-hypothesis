@@ -1,7 +1,6 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.MultMk
-public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.TopKeyFormSelfSoft
+public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.Bundle008
 import Formalism.SharpRestriction.GrowthBounds.WittFrameLocaliserOrders
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

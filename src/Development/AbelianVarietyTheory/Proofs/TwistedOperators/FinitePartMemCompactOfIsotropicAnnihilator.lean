@@ -2,9 +2,9 @@ module
 
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.CoefIntegralEq
 public import Mathlib.LinearAlgebra.Matrix.Rank
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsCompactAnnihilatorFiniteAdelesStdCharStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsRationalTestMatrixIsolatesEntryStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.FinitePartEqSumTraceTraceDualBasisStatement
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle226
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle343
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle134
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.Divisibility.LiftLat
+public import Formalism.LocalToGlobal.Divisibility.Bundle002
 public import Formalism.LocalToGlobal.Columns.RowForms
 public import Formalism.LocalToGlobal.Columns.RowFormsLemmas
 import Mathlib.Algebra.Order.Floor.Extended

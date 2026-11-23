@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.GTDefs
+public import Formalism.PeriodIntegrals.Bundle022
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.GelfandTsetlinTopCoefficient.CardEraseIccMin
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

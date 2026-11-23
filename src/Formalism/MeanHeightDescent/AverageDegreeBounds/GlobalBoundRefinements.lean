@@ -1,12 +1,12 @@
 module
 
-public import Formalism.HarderNarasimhan.StatementPl
+public import Formalism.HarderNarasimhan.Bundle001
 public import Mathlib.RingTheory.FractionalIdeal.Norm
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.DiscreteSpanOfLinIndep
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.HtGram
-public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.SizeMu
-public import Formalism.MeanHeightDescent.AverageDegreeBounds.MuMaxMinkowski
-public import Formalism.MeanHeightDescent.AverageDegreeBounds.SpanMuMin
+public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.Bundle004
+public import Formalism.MeanHeightDescent.AverageDegreeBounds.Bundle003
+public import Formalism.MeanHeightDescent.AverageDegreeBounds.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

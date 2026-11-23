@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ToQMemMaximalIdealIff
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MinOrdLeOrdAdd
-import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.EqZeroOfForallLTensorEqZero
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1326
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1328
+import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

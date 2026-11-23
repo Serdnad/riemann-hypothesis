@@ -1,7 +1,7 @@
 module
 
 public import Formalism.HermitianCurvature.StatementHeads
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.OperatorPreservesFusionForms
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle072
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LevelImageArithmetic.GlevImageOf
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LevelLiftBasics.LevelGroupUnitaryHermitian
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LevelTransfer.SecondCapelliMinorLevel

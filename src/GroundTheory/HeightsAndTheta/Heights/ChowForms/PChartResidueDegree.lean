@@ -1,7 +1,7 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.ChowForms.ImportsBis
-public import GroundTheory.HeightsAndTheta.Heights.ChowForms.Imports
+public import GroundTheory.HeightsAndTheta.Heights.ChowForms.Bundle006
+public import GroundTheory.HeightsAndTheta.Heights.ChowForms.Bundle004
 public import GroundTheory.HeightsAndTheta.Heights.ChowForms.PChowFormSection
 import Mathlib.Algebra.AffineMonoid.UniqueSums
 import Mathlib.Algebra.Order.Floor.Extended

@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.SplitLinearModelNorm
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.IsIntOv
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsUnitaryGroupCharacterOfHeckeChar
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.SplitChartUniformiserAndResidueCard
+public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.Bundle007
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle133
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1096
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle141
 public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.ExistsSplitIdempotentsOfRelTraceOneModTwo
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsNsmulActO
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle547
 import Formalism.LocalRingCardinality.SpanPowerMembership.LocAtA
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

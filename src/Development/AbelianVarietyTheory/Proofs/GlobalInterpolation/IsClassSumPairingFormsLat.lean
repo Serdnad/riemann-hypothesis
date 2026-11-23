@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.MinkowskiBoundComapLattice
-public import Formalism.LocalToGlobal.Columns.ToHLat
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle249
+public import Formalism.LocalToGlobal.Columns.Bundle013
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.LatticeExtensionAlongFieldEmbeddingDuals
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.TransportedWeylLatticeHermitianDuality
 import Formalism.LocalToGlobal.Columns.CoefficientsModP.PairingNondegenerateHolds
@@ -52,7 +52,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import Development.AbelianVarietyTheory.BlockTheory.ThetaLiftGeometry.ColumnAvoidanceConditions
+public import Development.AbelianVarietyTheory.BlockTheory.ThetaLiftGeometry.Bundle004
 
 @[expose] public section
 
@@ -60,7 +60,7 @@ noncomputable section
 
 namespace GlobalTheory.PeriodClassSum
 
-open NumberField IsDedekindDomain Module Formalism.BasicNotions Formalism.L2.Col Formalism.L2.DIV
+open NumberField IsDedekindDomain Module Formalism.BasicNotions _root_.Formalism.L2.Col Formalism.L2.DIV
 open GlobalTheory.IndefiniteRowSideFullHecke
 open scoped Matrix ComplexOrder
 

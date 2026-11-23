@@ -1,7 +1,7 @@
 module
 
 public import Mathlib.NumberTheory.Padics.RingHoms
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NormPowSubOneOfNotDvd
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle160
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

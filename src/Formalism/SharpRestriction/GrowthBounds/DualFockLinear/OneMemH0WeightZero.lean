@@ -3,8 +3,8 @@ module
 public import Formalism.SharpRestriction.GrowthBounds.DualFockLinear.FilterOfSupported
 public import Formalism.SharpRestriction.GrowthBounds.UnramifiedQuadraticSetting
 public import Formalism.GradedWeylDivisibility.FinalD
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LBidetLemmas
-public import Formalism.SharpRestriction.GrowthBounds.DualFockLinear.OneSidedLemma4
+import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle004
+public import Formalism.SharpRestriction.GrowthBounds.DualFockLinear.Bundle004
 public import Formalism.SharpRestriction.GrowthBounds.LatticeSystems
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

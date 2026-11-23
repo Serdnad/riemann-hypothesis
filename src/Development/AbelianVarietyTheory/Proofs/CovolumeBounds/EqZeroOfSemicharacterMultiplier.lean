@@ -51,8 +51,7 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SquareIntegrability.ContinuousRl
-public import ReciprocityTheory.ThetaQuasiPeriods.Change
-public import ReciprocityTheory.ThetaQuasiPeriods.Transl
+public import ReciprocityTheory.ThetaQuasiPeriods.Bundle001
 
 @[expose] public section
 

@@ -1,8 +1,8 @@
 module
 
-public import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.CompFintype
-public import Formalism.LocalRingCardinality.DataGatTies
-public import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.CmpCMemFunMod
+public import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.Bundle002
+public import Formalism.LocalRingCardinality.Bundle003
+public import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.Bundle004
 public import Formalism.LocalToGlobal.GroupLattices.FockModels.Sandwich
 public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.StabilizerCount
 import Mathlib.Algebra.Order.Floor.Extended

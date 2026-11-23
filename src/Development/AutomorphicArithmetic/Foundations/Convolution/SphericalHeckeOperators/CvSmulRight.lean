@@ -1,11 +1,11 @@
 module
 
 public import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalHeckeOperators.SymSum
-public import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalHeckeOperators.GapDom
+public import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalHeckeOperators.Bundle002
 public import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalHeckeOperators.SandId
 public import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalHeckeOperators.SatAvg
-import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalHeckeOperators.ThPMul
-import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalHeckeOperators.VandSum
+import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalHeckeOperators.Bundle006
+import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalHeckeOperators.Bundle001
 import GroundTheory.LocalFields.LocalFourierHaar
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

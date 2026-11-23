@@ -3,29 +3,18 @@ module
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.FramePositiveSum
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.PadicIsNonarchimedeanLocalField
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.CharEqOneOfOpENeZero
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsAdaptedExponentSchwartzBruhatLastColumnStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsGenericLevelOfFrameStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsIsSymmetricPositionLevelStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsParabolicDoubleCosetFunctionEqOneStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.FiniteQuotientCosetsScaledStandardLatticeBoxStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.FirstVertexIteratedLevelChainInFrameStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.FirstVertexParahoricLevelChainTwistStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.GenericLevelOfFrameBlockAndCharacterStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.HaarCompactOpenRatioEqZpowOfTopNilpotentStatement
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle067
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle066
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle068
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle059
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IntegralCompBlocks
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IntegralTranslateIndicatorStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsCOPrXCgrpStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsClosedEmbeddingAffPtUncurry
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsMulLeftInvariantVolGL
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsQuotIntCosetFnStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.OpEOmTargetUnipotent
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ParabolicHaarVolumeConjIntersectionEqMulStatement
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle070
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle042
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle049
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle051
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.QuotientIntegralParabolicUnfolding
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RootExchangeUnipotentExistsResidueCardPowMemNhdsStatement
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RootExchangeUnipotentHaarAndModulus
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SchwartzBruhatMatrixExistsOpenAddSubgroupInvaria
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SecondCountableLocal
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SymmetricPositionLevelShapeOnParabolicStatement
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle031
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.UnipotentRadicalBasic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -362,6 +351,9 @@ theorem chainFinite (hψ : HasConductor ψ 1) : ChainFinite ψ ν := by
 end Laws
 
 section Volumes
+
+attribute [local instance 2000] _root_.GlobalTheory.SplitWeil.matrixMeasurableSpace
+
 variable [MeasurableSpace k] [BorelSpace k] {ν : Measure k} [ν.IsAddHaarMeasure]
   {n : Type} [Fintype n] [DecidableEq n] {c : ℕ}
 
@@ -389,19 +381,25 @@ theorem cosetMeasure : CosetMeasure ν := by
   intro n _ _ c hc J hJ h
   obtain ⟨hC, hd⟩ := GlobalTheory.T.isCO_prX_Cgrp_and_det_valuation_deltaR_eq_one k n c J hJ h
   refine ⟨hC, hd, GlobalTheory.T.exists_parabolicDoubleCosetFunction_eq_one k n c J h fun g hg => (hd g hg).2, fun hq => volNat_zpow hq hJ h, fun m hm => ?_⟩
-  have hv := GlobalTheory.T.parabolicHaarVolume_conjIntersection_eq_mul k ν n c J h hC.1
+  have hv (m' : Measure (GL n k)) :
+      volR ν m' (Cgrp J h) = volN ν n c 1 ((Cgrp J h).subgroupOf (N k n c 1)) * m' (prX (Cgrp J h)) :=
+    GlobalTheory.T.parabolicHaarVolume_conjIntersection_eq_mul k ν n c J h hC.1 m'
   obtain ⟨h0, h1⟩ := volN_Cgrp ν hJ.1 hJ.2 h
   have m0 : m (prX (Cgrp J h)) ≠ 0 := hC.1.measure_ne_zero m ⟨1, one_mem _⟩
   have m1 : m (prX (Cgrp J h)) ≠ ⊤ := hC.2.measure_lt_top.ne
-  have v0 : volR ν m (Cgrp J h) ≠ 0 := by rw [hv]; exact mul_ne_zero h0 m0
-  have v1 : volR ν m (Cgrp J h) ≠ ⊤ := by rw [hv]; exact ENNReal.mul_ne_top h1 m1
+  have v0 : volR ν m (Cgrp J h) ≠ 0 := by rw [hv m]; exact mul_ne_zero h0 m0
+  have v1 : volR ν m (Cgrp J h) ≠ ⊤ := by rw [hv m]; exact ENNReal.mul_ne_top h1 m1
   refine ⟨hv m, v0, v1, fun b => ?_, fun μG hμG f hf z => ?_⟩
-  · rw [hv, rescale, volNat, Measure.smul_apply, smul_eq_mul, ENNReal.toReal_mul, ENNReal.toReal_mul,
+  · rw [hv (rescale ν b m), rescale, volNat, Measure.smul_apply, smul_eq_mul, ENNReal.toReal_mul, ENNReal.toReal_mul,
       ENNReal.toReal_inv]
     ring
-  · have key := GlobalTheory.T.isQuotInt_cosetFn_alt k ν n c J hJ h m (volR ν m (Cgrp J h)).toReal (ENNReal.toReal_pos v0 v1).ne'
-      (fun u hu g => by rw [GlobalTheory.T.integral_indicator_Cgrp_translate_eq_deltaR_mul k ν n c hc J hJ h hC m u hu g, hv, ENNReal.toReal_mul]) μG f hf
-    exact ⟨fun hz => (QuotInt.quotInt_unique_exists k n c 1 le_rfl hc ν m μG f).1 _ _ hz key, fun e => e ▸ key⟩
+  · have key := @GlobalTheory.T.isQuotInt_cosetFn_alt k _ _ _ _ _ _ ν _ n _ _ c J hJ h m
+      (volR ν m (Cgrp J h)).toReal (ENNReal.toReal_pos v0 v1).ne' (fun u hu g => by
+        rw [hv m, ENNReal.toReal_mul]
+        exact @GlobalTheory.T.integral_indicator_Cgrp_translate_eq_deltaR_mul k _ _ _ _ _ _
+          ν _ n _ _ c hc J hJ h hC m hm u hu g) μG hμG f hf
+    have huniq := (@QuotInt.quotInt_unique_exists k _ _ _ _ _ _ n _ _ c 1 le_rfl hc ν _ m hm μG hμG f).1
+    exact ⟨fun hz => huniq _ _ hz key, fun e => e ▸ key⟩
 
 theorem volumeCancels : VolumeCancels ν := by
   intro n _ _ c hc J hJ b h m hm μG hμG h1 f hf

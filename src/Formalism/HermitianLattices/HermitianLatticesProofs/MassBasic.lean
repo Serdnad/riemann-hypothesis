@@ -1,8 +1,8 @@
 module
 
-public import Formalism.HermitianLattices.StatementMass
+public import Formalism.HermitianLattices.Bundle003
 public import Formalism.ThetaLiftIndependence.ThetaOrbitSums.ClassRepsDefinite
-import Formalism.ThetaLiftIndependence.ThetaOrbitSums.LatLiftIndep
+import Formalism.ThetaLiftIndependence.ThetaOrbitSums.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

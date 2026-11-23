@@ -2,8 +2,8 @@ module
 
 public import Formalism.SharpRestriction.LevelLetterCocycles.LemmasUnramifiedOfRingCondition
 import Formalism.SharpRestriction.LevelLetterCocycles.CoordHomMapTrace
-public import Formalism.SharpRestriction.LevelLetterCocycles.CoprimeFrobeniusUniformizerPowers
-public import Formalism.SharpRestriction.LevelLetterCocycles.InNOfPiLam
+public import Formalism.SharpRestriction.LevelLetterCocycles.Bundle028
+public import Formalism.SharpRestriction.LevelLetterCocycles.Bundle032
 import Formalism.SharpRestriction.LevelLetterCocycles.JumpsLetOfWin
 import Formalism.SharpRestriction.LevelLetterCocycles.SaturationUnramifiedOfRingCondition
 import Mathlib.Algebra.Order.Floor.Extended

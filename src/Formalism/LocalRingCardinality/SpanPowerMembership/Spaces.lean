@@ -1,7 +1,7 @@
 module
 
-public import Formalism.LocalRingCardinality.DataSpaces
-public import Formalism.LocalRingCardinality.SpanPowerMembership.ExampleRanksRankComplement
+public import Formalism.LocalRingCardinality.Bundle001
+public import Formalism.LocalRingCardinality.SpanPowerMembership.Bundle004
 public import Formalism.FockGram.SymGramPosSemidef
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Stdform
 import Mathlib.Algebra.Order.Floor.Extended

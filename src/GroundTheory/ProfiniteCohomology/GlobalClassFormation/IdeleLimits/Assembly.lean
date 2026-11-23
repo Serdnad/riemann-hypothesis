@@ -1,8 +1,7 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.IdeleLimits.LevelsColimit
+public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.IdeleLimits.Bundle002
 public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.IdeleCohomology
-public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.IdeleLimits.LevelsTrans
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

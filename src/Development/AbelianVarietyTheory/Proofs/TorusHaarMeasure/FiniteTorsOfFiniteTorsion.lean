@@ -1,10 +1,10 @@
 module
 
 public import ReciprocityTheory.DualLattices.FormalChartAtZero
-public import Development.AbelianVarietyTheory.BlockTheory.PoincareCuspForms.FormalGroupTorsionCharts
+public import Development.AbelianVarietyTheory.BlockTheory.PoincareCuspForms.Bundle001
 public import Mathlib.CategoryTheory.Category.Basic
 public import Mathlib.RingTheory.MvPowerSeries.Substitution
-public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.EvBasicNEvalSubCoeffMem
+public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.Bundle019
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

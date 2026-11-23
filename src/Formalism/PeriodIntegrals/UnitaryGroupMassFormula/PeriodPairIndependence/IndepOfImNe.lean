@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.KerLat
+public import Formalism.PeriodIntegrals.Bundle005
 public import Mathlib.Analysis.CStarAlgebra.Classes
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,6 +1,6 @@
 module
 
-public import Formalism.ThetaLogCoordinates.DualWeylCoordinates.DualWeylProofs.QaRowStrictMono
+public import Formalism.ThetaLogCoordinates.DualWeylCoordinates.DualWeylProofs.Bundle001
 public import Formalism.GradedWeylDivisibility.StatementD
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,11 +1,11 @@
 module
 
-public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.AutEtaB
+public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.Bundle002
 public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.GoodLat
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.UnitaryIdeleCharTrivialCongruentOneModulo
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1177
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.RamificationIdxEqOneOfIsSquare
-public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.AutDef
-public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.LatRepBI
+public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.Bundle003
+public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.Bundle004
 import Formalism.LocalRingCardinality.SpanPowerMembership.LocAtA
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

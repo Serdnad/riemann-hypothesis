@@ -50,7 +50,7 @@ public import GroundTheory.AutomorphicForms.FourierWhittaker.IsAddFundamentalDom
 public import GroundTheory.AutomorphicForms.FourierWhittaker.Series
 import GroundTheory.AutomorphicForms.LocallyProfinite
 import GroundTheory.GlobalFields.HerbrandQuotients.RationalForm
-import GroundTheory.LocalFields.FilteredSurj
+import GroundTheory.LocalFields.Bundle001
 
 @[expose] public section
 

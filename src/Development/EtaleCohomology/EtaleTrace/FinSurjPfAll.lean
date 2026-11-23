@@ -1,8 +1,8 @@
 module
 
-import Development.EtaleCohomology.EtaleTrace.GenOnAgreePf
-public import Development.EtaleCohomology.EtaleTrace.FinSurjPf
-public import Development.EtaleCohomology.EtaleTrace.FinSurjPfDense
+import Development.EtaleCohomology.EtaleTrace.Bundle010
+public import Development.EtaleCohomology.EtaleTrace.Bundle006
+public import Development.EtaleCohomology.EtaleTrace.Bundle009
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

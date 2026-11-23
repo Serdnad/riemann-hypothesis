@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.RowMinor
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.CardIntegralFramesFixedLiftLeStatement
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle012
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle349
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.EncardBiUnionLe
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsSublatticeLiftsModuloFixingUnipotentStatement
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle338
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

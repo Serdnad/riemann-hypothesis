@@ -2,7 +2,7 @@ module
 
 public import Formalism.SharpRestriction.LevelLetterCocycles.QuotientHomNonvanishingBound
 public import Formalism.LocalRingCardinality.DataDIV
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Alternates
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle009
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

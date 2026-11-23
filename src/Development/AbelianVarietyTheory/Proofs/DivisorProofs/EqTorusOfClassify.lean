@@ -1,27 +1,27 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.TorMatch
-public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsToricRankOne
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle065
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle069
 public import Development.AbelianVarietyTheory.BlockTheory.CMModuli.FlatIsoUnitGenerator
-public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.AllTorsMap
-public import Development.AbelianVarietyTheory.Counterexamples.JetSurvey.ExistsUniquePairIff
-import Development.AbelianVarietyTheory.Definitions.Uniformization.IsCPPullback
-import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.AbelianSchemeLawsUnconditional
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsToricTorsionSectionsUniformisation
-import Development.AbelianVarietyTheory.Proofs.JetHarmonics.IsFiniteFlatTorsionOfIsGt
-import Development.AbelianVarietyTheory.Proofs.JetHarmonics.IsPointOfIffThick
+public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.Bundle004
+public import Development.AbelianVarietyTheory.Counterexamples.JetSurvey.Bundle003
+import Development.AbelianVarietyTheory.Definitions.Uniformization.Bundle003
+import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle024
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle473
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle046
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle074
 import Development.AbelianVarietyTheory.Proofs.JetHarmonics.TorusExtensionOverCompleteLocalDvr
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.FinFlatEtSplitTorus
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.FinitePartImageGeneric
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.FinitePartOfIsFinitePart
-import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.ValueAtUnitSection
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle089
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle191
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle186
+import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.Bundle016
 import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExistsGtPtGenRelRField
 import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.PmapsOfGenRelR
-import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.AllUniformizationLawsHold
-import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.EqOfIsPullF
-import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.PtEqOfProportional
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle127
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle056
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle037
 import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.UniformisationEndomorphismsToCompleteDvr
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.IsUnitNatCastSections
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle011
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -58,7 +58,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Development.AbelianVarietyTheory.Definitions.Divisors.IsUnimodMod
-import Development.AbelianVarietyTheory.Definitions.Divisors.SharpOverIff
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle066
 
 @[expose] public section
 

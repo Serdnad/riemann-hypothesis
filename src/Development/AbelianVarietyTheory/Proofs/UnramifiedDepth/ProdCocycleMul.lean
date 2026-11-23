@@ -46,9 +46,9 @@ import Mathlib.Tactic.ReduceModChar
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.RosVal
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.LBPull
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.PhiGenPf
-import ReciprocityTheory.DualLattices.CotangentSurjective
+import ReciprocityTheory.DualLattices.Bundle007
 import ReciprocityTheory.DualLattices.FormalChartAtZero
-import ReciprocityTheory.DualLattices.SqZeroOfSpan
+import ReciprocityTheory.DualLattices.Bundle002
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.ChartPullbacks.UniversalCharts.LePreimageOfNil
 
 @[expose] public section

@@ -2,7 +2,7 @@ module
 
 public import Mathlib.Algebra.Algebra.Hom
 public import Mathlib.Algebra.CharP.Defs
-public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.AlphaPMultiplicativeCharacterEqOne
+public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.Bundle072
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -44,9 +44,9 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 public import Development.AbelianVarietyTheory.Definitions.Uniformization.PointEqOfSubsingleton
-import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.CubWeilOfInjective
+import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.Bundle068
 import Formalism.LocalToGlobal.CharacterGerms.GeNatCast
-import Formalism.LocalToGlobal.ProjectiveLattices.SubConstMemOrig
+import Formalism.LocalToGlobal.ProjectiveLattices.Bundle001
 
 @[expose] public section
 

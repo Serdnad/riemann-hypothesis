@@ -1,16 +1,13 @@
 module
 
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.LinearIndependentEigProj
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsLineGenOn
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ExistsGenOfIsVBOne
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.AdaptedSpan
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.EigProjMemOfFree
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsFrameInter
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsUnitWedge
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExtFrameOfQuotientKernel
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle004
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle076
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle078
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle007
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LatticeEigenVectorBundle
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.MatrixEqOfLinearIndependent
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.WedgeEqSpanOfIsFrameAt
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle006
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle030
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,16 +1,16 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.FromBaseAlt
-import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.GlobalFnsHolds
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AbelianPartDescendsOfThetaTermsRatiosStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DescendsAbelianPartOfIsPullDegStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsApproximatingElementsNormalCoverUnitaryStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsCommonModule
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsSupportingTupleSmoothConeCmFieldStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsUnitaryFourierSystemTraitsFamilyStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PeriodsInCoordinatesFromBasePullDegStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PoincareApproxValuesAtPointOfElementsStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ThetaTermCoefficientSqEqMonomialSubfieldStatement
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle075
+import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle012
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3351
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3229
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3383
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2655
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3040
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3446
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3213
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3158
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3320
 import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.TauBimultOfIsPullDeg
 import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ValEqOfAppInjective
 import Mathlib.Algebra.Order.Floor.Extended
@@ -51,7 +51,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
-public import Development.AbelianVarietyTheory.Definitions.Divisors.OrdGeOfForall
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle069
 
 @[expose] public section
 

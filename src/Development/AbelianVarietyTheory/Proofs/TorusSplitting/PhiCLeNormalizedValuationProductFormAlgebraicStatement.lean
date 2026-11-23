@@ -1,8 +1,8 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.TorusSections.IsTorusOf
-public import Formalism.LocalToGlobal.ProjectiveLattices.DataAtPointN3
-public import Formalism.LocalToGlobal.ProjectiveLattices.LiesOverBaseChange
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle023
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle025
 public import Development.AbelianVarietyTheory.Proofs.TorusSplitting.PhiCLeNormalizedValuationProductFormAlgebraic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

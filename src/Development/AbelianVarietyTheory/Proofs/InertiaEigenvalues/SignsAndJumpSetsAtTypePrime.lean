@@ -1,8 +1,8 @@
 module
 
 public import Formalism.SharpRestriction.LevelLetterCocycles.AdmissibleParameterJ
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.EqOfStabilizerTrivial
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.InducesWAndExistsEmb
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle332
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle457
 public import Formalism.LocalToGlobal.LatticeGeometry.CmTypeMeetsConjugatePair
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

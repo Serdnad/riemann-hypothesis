@@ -1,18 +1,18 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.RigidForFan
-public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.IsInvDer
+public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.Bundle001
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.DenseInterior
-import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsUnitExtendOfGeneric
+import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle050
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsPolAVInterior
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GroupPullbackTangentVectorsCompat
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsAffineHomOfField
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsCechOneCoboundaryOfRefinementStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2591
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2295
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle614
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.GradedLineBundleExists
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsUniqueInvariantVectorFieldOfTangent
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.LeISupInfPreimage
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.LevelLabelExtendsOfOrthogonalToExtended
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.LogDerivativePrincipalPolarisationIndependent
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle084
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle022
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle168
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle089
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -48,7 +48,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsBlockMetricDiagForm
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsLinearHomPull
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle031
 import Development.AbelianVarietyTheory.Definitions.Divisors.HasDefect
 
 @[expose] public section

@@ -1,8 +1,8 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.IdempotentSubMulComplementEqComplement
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.IdemAtUniqueOrth
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.IsThetaAtMoveLat
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle335
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle546
 import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsInvariantForm
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -39,7 +39,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.CxTiesOf
+public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.Bundle017
 import Development.AbelianVarietyTheory.Definitions.LatticeFrames.MiStarOfMid
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.NotBadPrimeBase
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.PlaceLaws

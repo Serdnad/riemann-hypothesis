@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.ArithmeticGeometry.AbelianVarieties.TorsionGalois
+public import GroundTheory.ArithmeticGeometry.AbelianVarieties.Bundle002
 public import GroundTheory.ArithmeticGeometry.AbelianVarieties.DivisorsTranslate
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

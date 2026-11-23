@@ -1,8 +1,8 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.FiniteCovolume.StatementsRadicalTorusModulus
-public import GroundTheory.HeightsAndTheta.Heights.FiniteCovolume.PRadicalTorusModulusDet
-public import GroundTheory.HeightsAndTheta.Heights.FiniteCovolume.PUnipotentModulusHomeo
+public import GroundTheory.HeightsAndTheta.Heights.FiniteCovolume.Bundle024
+public import GroundTheory.HeightsAndTheta.Heights.FiniteCovolume.Bundle029
+public import GroundTheory.HeightsAndTheta.Heights.FiniteCovolume.Bundle027
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -46,7 +46,6 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Algebra.Group.Units
 import Mathlib.Topology.Sheaves.Init
-public import GroundTheory.HeightsAndTheta.Heights.FiniteCovolume.PRadicalTorusModulusCoords
 
 @[expose] public section
 

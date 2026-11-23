@@ -1,6 +1,6 @@
 module
 
-public import Formalism.FlagUnipotentLattices.LatticeDeterminantIndexSq
+public import Formalism.FlagUnipotentLattices.Bundle001
 public import Formalism.FlagUnipotentLattices.MinkowskiFactorialBounds.IntegerGroupLocalParametrization
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

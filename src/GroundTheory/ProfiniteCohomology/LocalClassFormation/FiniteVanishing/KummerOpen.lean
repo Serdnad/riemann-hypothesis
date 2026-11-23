@@ -8,7 +8,7 @@ public import GroundTheory.ProfiniteCohomology.CohomologicalDimension.Subsinglet
 import GroundTheory.ProfiniteCohomology.CohomologyFunctoriality.QuotientToInvariantsFunctorPreservesZeroMorphism
 public import GroundTheory.ProfiniteCohomology.GaloisCohomology.Kummer
 public import GroundTheory.ProfiniteCohomology.LocalClassFormation.FiniteVanishing.Devissage
-public import GroundTheory.ProfiniteCohomology.TorsionDualFinite
+public import GroundTheory.ProfiniteCohomology.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

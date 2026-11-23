@@ -1,7 +1,7 @@
 module
 
-public import Formalism.GaussJetBounds.GenLogInverse
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.HomWProd
+public import Formalism.GaussJetBounds.Bundle003
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle026
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

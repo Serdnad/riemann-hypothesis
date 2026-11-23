@@ -1,16 +1,12 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.TCoefMInMMul
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.BarMSingle
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CoefMPencil
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DMBlockEntries
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DMDetbPEqZero
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DMuEqExtDerivation
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LambdaCoeffCommutesModeDerivation
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LambdaMonomialCoeffDualNumberProductEq
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MuCoeffPartialDerivMuEqSuccMul
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TDualProd
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.WeightedDetDivergenceMemIdeal
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle152
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle153
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle151
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle249
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle154
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle312
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

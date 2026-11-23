@@ -1,7 +1,7 @@
 module
 
-public import Formalism.HermitianLattices.DefsCS
-public import Formalism.FockGram.FockGramProofs.CovolGram
+public import Formalism.HermitianLattices.Bundle002
+public import Formalism.FockGram.FockGramProofs.Bundle001
 public import Formalism.HermitianLattices.HermitianLatticesProofs.GenusBasic
 public import Formalism.HermitianLattices.HermitianLatticesProofs.GenusCovolBound
 import Formalism.HermitianLattices.HermitianLatticesProofs.GenusScale

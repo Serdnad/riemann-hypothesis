@@ -1,16 +1,15 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.AbelianSchemeLaws.IsScalarTowerOfAlgebraMapEq
-public import Development.AbelianVarietyTheory.Definitions.KeyFormula.IsSquareDeterminantComparison
+public import Development.AbelianVarietyTheory.Definitions.KeyFormula.Bundle001
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.GlobalSectionsRankAlgClosed
 public import Mathlib.RingTheory.Regular.RegularSequence
 public import Development.AbelianVarietyTheory.Definitions.ThetaMetrics.ExistsSecNonzeroLocusEqBasicOpen
 public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.CubeCutRegularSequence
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.ExistsLeNatCastNeZero
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.IsMaximalOfFinitePrimes
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.KoszulExactOfRegular
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.MemSpanOfForallGermMemSpan
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.RingKrullDimLocalizationQuotientLe
+public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle048
+public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle015
+public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle017
+public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle045
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

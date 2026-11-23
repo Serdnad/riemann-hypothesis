@@ -3,10 +3,10 @@ module
 public import Mathlib.Analysis.Normed.Field.Basic
 public import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
 public import Mathlib.Topology.MetricSpace.Ultra.Basic
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CommOfBezout
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsUnitAndIntegInvOfNormDetEqOne
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NormDetLeOneOfEntriesNormLeOne
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.UltrametricNormDetOneAddSmulStatement
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle255
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle285
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle282
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle310
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.InterPolyProdSum
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.BlockSymApply
+public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.Bundle008
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

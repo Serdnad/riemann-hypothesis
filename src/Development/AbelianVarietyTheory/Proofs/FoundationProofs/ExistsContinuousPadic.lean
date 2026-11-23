@@ -1,8 +1,8 @@
 module
 
-public import Formalism.SharpRestriction.CuspSpanNormBounds.PsiEDef
+public import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle001
 public import Mathlib.NumberTheory.NumberField.Completion.FinitePlace
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.LcscAdelicUnitaryGroup
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle018
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

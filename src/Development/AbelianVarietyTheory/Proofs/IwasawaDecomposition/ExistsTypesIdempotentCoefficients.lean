@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.GoodChi
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle008
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.GoodTupleConditionOfIdempotentZero
 import Formalism.CyclotomicNorms.NonsquarefreeBounds.NonsquarefreeMonicBoundHolds
 import Mathlib.Algebra.Order.Floor.Extended

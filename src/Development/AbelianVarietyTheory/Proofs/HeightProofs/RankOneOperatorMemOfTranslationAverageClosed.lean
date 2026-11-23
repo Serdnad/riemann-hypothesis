@@ -1,9 +1,9 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.NormDwLeSobNorm
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CompactAverageKFiniteFiniteRank
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsRankOneIsAvg
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.InnerKAvgNeZero
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle282
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle307
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle222
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

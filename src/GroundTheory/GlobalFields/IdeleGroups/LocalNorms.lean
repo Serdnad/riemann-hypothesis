@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.GlobalFields.IdeleGroups.Restricted
+public import GroundTheory.GlobalFields.IdeleGroups.Bundle001
 public import GroundTheory.GlobalFields.IdeleGroups.IdeleNorms.BaseChange
 public import GroundTheory.GlobalFields.IdeleGroups.IdeleNorms.CompletionsOverBasisRepr
 import Mathlib.Algebra.Order.Floor.Extended

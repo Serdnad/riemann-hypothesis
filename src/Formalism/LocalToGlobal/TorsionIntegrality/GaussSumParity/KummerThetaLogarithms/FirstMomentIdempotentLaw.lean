@@ -1,10 +1,10 @@
 module
 
-public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.BiextensionPointsIntegral
+public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.Bundle003
 public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.KummerThetaLogarithms.EqZeroOfPowEqOne
 public import Formalism.FormalGroupWitt.Statement
-public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.StatementA
-public import Formalism.FormalGroupWitt.FormalGroupWittProofs.EqSingleOfDegreeEqOne
+public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.Bundle002
+public import Formalism.FormalGroupWitt.FormalGroupWittProofs.Bundle001
 public import Formalism.FormalGroupWitt.WeightInvariance
 public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.KummerThetaLogarithms.IpNormPowSubPowLe
 public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.KummerThetaLogarithms.SubstFirstCoboundaryThree

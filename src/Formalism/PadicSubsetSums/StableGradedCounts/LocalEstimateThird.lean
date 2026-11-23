@@ -2,8 +2,8 @@ module
 
 public import Formalism.PadicSubsetSums.StableGradedCounts.LocalEstimateIVOfTypeSetWeight
 public import Mathlib.RingTheory.SimpleRing.Principal
-public import Formalism.PadicSubsetSums.StableGradedCounts.FourMulSumLeProduct
-import Formalism.PadicSubsetSums.StableGradedCounts.IRRIrredCountUpper
+public import Formalism.PadicSubsetSums.StableGradedCounts.Bundle007
+import Formalism.PadicSubsetSums.StableGradedCounts.Bundle005
 public import Formalism.PadicSubsetSums.StableGradedCounts.ProdPowFactorizationLe
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

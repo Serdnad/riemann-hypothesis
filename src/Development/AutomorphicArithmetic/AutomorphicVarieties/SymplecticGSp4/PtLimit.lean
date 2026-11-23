@@ -1,7 +1,7 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.EntryMem
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.SInternal
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Bundle007
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Bundle008
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.SpanMono
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,8 +1,8 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Foundations.SimpleSum
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsMulLeftInvariantVolGL
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RootExchangeUnipotentHaarAndModulusStatement
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle049
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle057
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.UnipotentRadicalBasic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -60,6 +60,8 @@ open MeasureTheory ValuativeRel Matrix GlobalTheory.SplitWeil GlobalTheory.RootE
 
 noncomputable section
 namespace GlobalTheory.QuotInt
+
+attribute [local instance 2000] _root_.GlobalTheory.SplitWeil.matrixMeasurableSpace
 
 section Abstract
 variable {G : Type*} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]

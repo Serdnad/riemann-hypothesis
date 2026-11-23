@@ -1,11 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.VolEqIdxRatio
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1616
 public import Mathlib.GroupTheory.Commensurable
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MassMulVolumeCommensurable
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RelIndexNeZeroOpenCompact
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1495
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TwistedOrbitalIntegralProductGroup
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.VolConjEqOneOfMassCNeZero
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -46,7 +45,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsRootSelectionUnitaryRankOne
 import Development.AbelianVarietyTheory.Definitions.Divisors.IsCyclotomicExtensionQI
-import Development.AbelianVarietyTheory.Definitions.Divisors.TwOrbMEqTwOrbUOfNormal
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle040
 
 @[expose] public section
 

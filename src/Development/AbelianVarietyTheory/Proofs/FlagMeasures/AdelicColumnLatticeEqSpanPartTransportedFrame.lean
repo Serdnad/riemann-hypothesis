@@ -1,11 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.LevelMatchIff
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.FrLink
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.AdelicLatticeConcreteDataEqAdelicSpanStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ColumnWittFrameBasisBlockGramStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.CoordinateLatticeSelfDualIsFullRankStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IntegralFiniteAdeleIsoCommutesWithConjugationStatement
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle016
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle349
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle350
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle339
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.MulVecMemLatS
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

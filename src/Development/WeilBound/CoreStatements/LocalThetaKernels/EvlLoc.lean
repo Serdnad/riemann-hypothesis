@@ -2,11 +2,10 @@ module
 
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LagrangianInvariantFormsProportionalFinitePlace
 public import Development.AbelianVarietyTheory.Definitions.Divisors.HilbertNinetyQuotientHomEqIff
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsLocallyConstantAddChar
-public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.CyclicAndLine
-public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.DualNumberGraphFiltrationIsotropicOfSkew
-public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.ExistsInvariantForm
-public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.IntegrablePair
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle345
+public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.Bundle008
+public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.Bundle005
+public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -62,7 +61,7 @@ import Mathlib.Topology.Algebra.Nonarchimedean.TotallyDisconnected
 import Mathlib.Topology.Separation.CompletelyRegular
 import Mathlib.Topology.Separation.Connected
 import Mathlib.Topology.Sheaves.Init
-public import Development.AutomorphicSpectrum.Definitions.MembershipCriteria.LaEqSqrtSmulLam
+public import Development.AutomorphicSpectrum.Definitions.MembershipCriteria.Bundle001
 
 @[expose] public section
 

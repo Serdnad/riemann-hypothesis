@@ -1,8 +1,8 @@
 module
 
 public import Formalism.LocalToGlobal.BesselHermitianTheta.IsAutFunDef
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsIsFundamentalDomain
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LocallyCompactSecondCountableT2
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle194
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle184
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -40,7 +40,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Formalism.LocalToGlobal.Divisibility.CoefMod
 import Formalism.LocalToGlobal.IndefiniteForms.IndefSide
-import Formalism.LocalToGlobal.IndefiniteReal.IndefiniteWeightData
+import Formalism.LocalToGlobal.IndefiniteReal.Bundle001
 import Formalism.LocalToGlobal.IndefiniteReal.LinksDefs
 
 @[expose] public section

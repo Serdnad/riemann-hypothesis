@@ -1,8 +1,8 @@
 module
 
 public import Development.WeilBound.CoreStatements.FlagImmersions.Transport
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FamilyPeriodRiemannLattice
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.IsometryPreservesHermitianAndAction
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle256
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle069
 public import Development.WeilBound.CoreStatements.VolumeEquality.BaseUnifRiem
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.IsMirClass
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle007
 public import Mathlib.GroupTheory.Nilpotent
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

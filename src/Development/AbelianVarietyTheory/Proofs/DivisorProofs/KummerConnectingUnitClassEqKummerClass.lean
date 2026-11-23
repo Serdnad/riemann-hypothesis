@@ -1,13 +1,13 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.SecClass
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleSheafSectionsGlueOfLocallyUniqueStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsEtaleLocalRootOfUnitOfKummerStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle461
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle456
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ImageCochainExists
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsZeroChains
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.KummerClassOfUnitCocycleNaturalAdditiveStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.KummerSplittingDifferenceMulRootOfUnityStatement
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SubsingletonSecOfSubsingleton
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle800
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle970
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle921
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

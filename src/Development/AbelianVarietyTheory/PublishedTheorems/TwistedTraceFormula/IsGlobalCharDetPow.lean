@@ -40,8 +40,8 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.Foundations.MeasurePreservingRmulQuotMeas
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.DefClassNum
-import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.DiscreteSeriesCharacter
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle008
+import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.Bundle008
 
 @[expose] public section
 

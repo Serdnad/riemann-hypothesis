@@ -1,10 +1,10 @@
 module
 
-public import Formalism.RealPlaceAnalysis.StatementE
+public import Formalism.RealPlaceAnalysis.Bundle003
 public import GroundTheory.AutomorphicForms.AutomorphicFormSpaces.HasModerateGrowthZero
-public import GroundTheory.AutomorphicForms.GL2.GodementSectionFactor
-public import GroundTheory.AutomorphicForms.MacdonaldWhittaker
-public import GroundTheory.GlobalFields.TateThesis.AdeleMeasure
+public import GroundTheory.AutomorphicForms.GL2.Bundle003
+public import GroundTheory.AutomorphicForms.Bundle019
+public import GroundTheory.GlobalFields.TateThesis.Bundle006
 public import GroundTheory.GlobalFields.TateThesis.AdelicCharLocal
 public import GroundTheory.GlobalFields.TateThesis.IdeleMeasure
 public import GroundTheory.LocalFields.LocalZetaEpsilon

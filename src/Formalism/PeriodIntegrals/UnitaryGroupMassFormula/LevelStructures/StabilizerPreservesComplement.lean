@@ -1,10 +1,9 @@
 module
 
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LevelStructures.LeviInt
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LevelStructures.LocLevi
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LevelStructures.CMInst
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LevelStructures.FrameStd
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LevelStructures.LatAdapted
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LevelStructures.Bundle002
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LevelStructures.Bundle004
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LevelStructures.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

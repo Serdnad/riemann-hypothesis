@@ -1,6 +1,6 @@
 module
 
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ExpAct
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle012
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ExpChartJet
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ExpOfPf
 import Mathlib.Algebra.Order.Floor.Extended

@@ -1,6 +1,6 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.HermiteNormalForms.SmulStrictMono
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.HermiteNormalForms.Bundle001
 public import Mathlib.Topology.Algebra.Group.Matrix
 import Mathlib.Algebra.Order.Archimedean.Real.Hom
 import Mathlib.Algebra.Order.Floor.Extended

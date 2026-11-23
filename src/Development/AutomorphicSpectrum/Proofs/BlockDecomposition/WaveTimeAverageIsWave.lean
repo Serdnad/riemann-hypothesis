@@ -1,11 +1,11 @@
 module
 
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.ArchimedeanGelfandKernels.IsMultZero
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsOpenInvertibleMatrices
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SmoothTimeRightDerivativesCommute
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle216
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle213
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.WaveSolutionExistence
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.WaveTimeReversal
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.WaveUniqOfWaveSpeed
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle215
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle223
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

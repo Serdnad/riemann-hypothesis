@@ -2,11 +2,11 @@ module
 
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.PerfectoidPullbacks.ConeSectionRestriction.ZeroC
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CupListRepresentativeOfForms
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CechDOneZero
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle094
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ConeCocycleClassIndependent
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.RepUnique
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SheafFiltrationProperty
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.StCocycle
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle173
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle145
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle158
 import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.CechPairings.TotPairing
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

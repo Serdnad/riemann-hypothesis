@@ -1,20 +1,19 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.LevelSectionsExactKernelLocusOpen
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ExistsGenOfIsVBOne
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsGenericFlag
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle006
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle004
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle005
 public import Mathlib.AlgebraicGeometry.Morphisms.Proper
 public import Mathlib.AlgebraicGeometry.Noetherian
 public import Mathlib.RingTheory.DiscreteValuationRing.Basic
 public import Mathlib.RingTheory.SimpleRing.Principal
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.DvrOrderExistsUnitEqUnitMulZpowIff
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.ExistsMaxRatioCleared
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.NormalNoethLocalDimOneIsDVR
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GenMapStalkSpecializes
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GenPtSpecializesOfSpecializes
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.MemRegAtOfCodimOne
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.StalkClosedPointToGermTop
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.SurjectiveOfDualHomomorphismKernelKilled
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle005
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle002
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle011
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle074
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle040
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle037
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle004
 import Mathlib.Algebra.GroupWithZero.Submonoid.CancelMulZero
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

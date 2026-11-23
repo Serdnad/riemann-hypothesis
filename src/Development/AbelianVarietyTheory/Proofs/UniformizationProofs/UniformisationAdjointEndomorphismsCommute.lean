@@ -1,21 +1,21 @@
 module
 
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.VRatioGtStatement
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.Bundle012
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.PeriodicValuation
 public import Development.AbelianVarietyTheory.Definitions.Uniformization.TXFrame
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.RelationsAreFunctions
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.AdicBaseEmbedsValuationAlgebraicClosure
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.CardQuotientKTorsionPairs
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.EndomorphismTorusExtensionPeriodOfAdjointStatement
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsAddInjective
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsEndomorphismActionUniformizationDataStatement
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle015
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle025
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle090
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle126
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle046
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle120
 public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsNsmulAndNeg
-import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.MemOfNonempty
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.QkToAkUInvariantUnderFieldEmbeddingStatement
-import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.TorsionPointEndomorphismImageEqMovedGtPointStatement
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.UniformisationEndomorphismsToCompleteDvrStatement
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.UniformisationTorsionIdentificationWithPairingStatement
-import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.UniformizationEndomorphismCalculusStatement
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle031
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle042
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle124
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle048
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle121
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle035
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -88,9 +88,12 @@ variable (U) {F : Type} [Field F] [Algebra (FractionRing R) F]
 def toG (x : TFK (R := R) F ⟶ A.A) : Sp F ⟶ G.left := x.left ≫ U.gen.inv.left ≫ pullback.fst G.hom (jK R)
 
 theorem toG_injective {x x' : TFK (R := R) F ⟶ A.A} (h : toG U x = toG U x') : x = x' := by
-  refine (cancel_mono U.gen.inv).1 (Over.OverMorphism.ext (pullback.hom_ext ?_ ?_))
-  · exact (Category.assoc _ _ _).trans (h.trans (Category.assoc _ _ _).symm)
-  · exact (Over.w (x ≫ U.gen.inv)).trans (Over.w (x' ≫ U.gen.inv)).symm
+  have h' : x ≫ U.gen.inv = x' ≫ U.gen.inv := by
+    refine Over.OverMorphism.ext (pullback.hom_ext ?_ ?_)
+    · exact (Category.assoc _ _ _).trans (h.trans (Category.assoc _ _ _).symm)
+    · exact (Over.w (x ≫ U.gen.inv)).trans (Over.w (x' ≫ U.gen.inv)).symm
+  simpa only [Category.assoc, Iso.inv_hom_id, Category.comp_id] using
+    congrArg (fun f => f ≫ U.gen.hom) h'
 
 theorem toG_over (x : TFK (R := R) F ⟶ A.A) : toG U x ≫ G.hom = jFK (R := R) F ≫ jK R := by
   rw [toG, Category.assoc, Category.assoc, pullback.condition, ← Category.assoc, ← Category.assoc]
@@ -277,6 +280,7 @@ theorem exists_add (E : EndU U.toUnifPre) (m : ℕ) : ∃ E₁ : EndU U.toUnifPr
   have := U.gen_hom
   obtain ⟨E₁, eG, eA⟩ := GlobalTheory.T.exists_endomorphism_action_uniformization_data hL R I hR D A G hG U (E.aG * M.aG) (E.aA * M.aA) (isMonHom_mul _ _)
     (isMonHom_mul _ _) (by
+    letI : (Over.pullback (jK R)).Monoidal := (Over.instBraidedPullback (f := jK R)).toMonoidal
     rw [Functor.map_mul, MonObj.mul_comp, MonObj.comp_mul, E.ext, M.ext])
   obtain ⟨-, eh, -⟩ := (GlobalTheory.T.uniformizationEndomorphism_calculus hL R I hR D A G hG U (AlgebraicClosure (FractionRing R)) E M E₁).2.2.2.2.1 eG
   exact ⟨E₁, mG ▸ eG, mA ▸ eA, fun y => by rw [eh, AddMonoidHom.add_apply, mh]⟩

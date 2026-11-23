@@ -2,8 +2,8 @@ module
 
 import CompanionTheory.SpectralGeometry.LocalGlobalProofs.HermitianCharacters.CharacteristicIdentity
 public import CompanionTheory.RealGroups.DiscreteSeries.DiscreteSeriesClassification.DiscreteSeriesExhaustion.HeckeAlgebraActions.BackStable
-public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.QuantumDeterminantTensorStatement
-import Formalism.RealPlaceAnalysis.ThirdArithmeticHolds
+public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.Bundle032
+import Formalism.RealPlaceAnalysis.Bundle005
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

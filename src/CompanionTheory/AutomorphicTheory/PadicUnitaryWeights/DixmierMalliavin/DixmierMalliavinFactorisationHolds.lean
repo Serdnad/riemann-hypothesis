@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.IsClosedEmbeddingOfLocallyCompact
+public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.Bundle007
 public import GroundTheory.AutomorphicForms.RealGroupsLie
 public import CompanionTheory.AutomorphicTheory.PadicUnitaryWeights.DixmierMalliavin.DecompDirection
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ClosedMatrixSubgroupTheorem
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.GlueSmoothOfCompactSupportStatement
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle291
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle198
 import GroundTheory.AutomorphicForms.DixmierMalliavinSeries
 import GroundTheory.AutomorphicForms.GKModules.SmoothVectors
 import Mathlib.Algebra.Order.Floor.Extended

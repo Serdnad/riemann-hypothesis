@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.OddDualWeyl
+public import Formalism.PeriodIntegrals.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

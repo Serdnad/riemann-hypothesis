@@ -1,6 +1,6 @@
 module
 
-public import Formalism.YangianSpanCharacter.StatementF
+public import Formalism.YangianSpanCharacter.Bundle002
 public import Formalism.YangianSpanCharacter.YangianRTTProofs.DiagonalEntryEqOfModularRelation
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

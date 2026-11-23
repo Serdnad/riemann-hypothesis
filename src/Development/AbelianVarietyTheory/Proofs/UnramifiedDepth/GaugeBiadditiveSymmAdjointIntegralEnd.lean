@@ -1,7 +1,7 @@
 module
 
-public import Formalism.LocalToGlobal.CharacterGerms.RowTieAxes
-public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.IntSOfMulEqOne
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle007
+public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.Bundle033
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -46,7 +46,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Formalism.LocalToGlobal.ProjectiveLattices.SubConstMemOrig
+import Formalism.LocalToGlobal.ProjectiveLattices.Bundle001
 
 @[expose] public section
 

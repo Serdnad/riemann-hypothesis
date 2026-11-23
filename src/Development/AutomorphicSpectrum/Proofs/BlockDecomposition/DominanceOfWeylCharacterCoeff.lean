@@ -1,7 +1,7 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsCliff
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CPoly
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle472
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle003
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.RealDescent.RealLeviDescent.IsCoreMod
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

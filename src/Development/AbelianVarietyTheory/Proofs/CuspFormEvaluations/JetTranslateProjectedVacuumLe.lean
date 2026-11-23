@@ -3,18 +3,18 @@ module
 import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.DeterminantBlockProductRenameTorusPolynomial
 public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.IsStabForm
 public import Development.AbelianVarietyTheory.Definitions.ThetaValues.FlatMemLatIffStdLat
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.IsotropicCoefficientSplitting
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.DifferentiablePolyDeriv
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.Bundle007
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle057
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsTorusOfSelfD
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.L2OneEqIntegralFundamentalDomainDivVolume
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.NormalisedThetaValueBound
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle013
 import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.NsmulApplyMemOfMemTensorLat
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ProjAEqSumReps
-public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.ExistsRowHighestHarmonicPolyDerivUnitaryAction
-public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.FockHxDifferentiable
-import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.HermitianFormAtFrameLaws
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle067
+public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle030
+public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle031
+import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle036
 public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.LevelTestFunctionFiniteSumEquivariant
-import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.WeilActionPreservesThetaAndInnerProduct
+import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle038
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -58,7 +58,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SquareIntegrability.PolyDerivMonomialOne
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SquareIntegrability.Bundle004
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section
@@ -218,8 +218,8 @@ theorem jet_projA_le : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (r
   have hΦL (a : Matrix (Fin n) (Fin r) E) (k) : Φ a k ∈ T.L ↔ a k ∈ L := by
     rw [hTL]
     exact ⟨fun ⟨u, hu, h⟩ => hinj (ψ.injective h) ▸ hu, fun h => ⟨_, h, rfl⟩⟩
-  have hΦe (a : Matrix (Fin n) (Fin r) E) : TensorLat.tensorEps w (-Φ a) = epsW X (w : E) a := by
-    rw [TensorLat.tensorEps_neg, TensorLat.tensorEps, epsW, I2.HC, Complex.im_sum]
+  have hΦe (a : Matrix (Fin n) (Fin r) E) : TensorLat.tensorEps w (-Φ a) = _root_.GlobalTheory.SW.epsW X (w : E) a := by
+    rw [TensorLat.tensorEps_neg, TensorLat.tensorEps, _root_.GlobalTheory.SW.epsW, I2.HC, Complex.im_sum]
     simp only [hΦ, rowPt_apply, ← hact, hH, him]
     push_cast
     rfl
@@ -268,11 +268,11 @@ theorem jet_projA_le : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (r
     Finset.card_singleton, Nat.cast_one, _root_.one_mul, ← Fintype.card_congr e, Fintype.card_fin,
     Finset.sum_image fun a _ b _ h => hΦinj h] at key
   simp only [hΦe] at key
-  set G := T.U 1 (-Φ y) (∑ a ∈ R, epsW X (w : E) a • T.U 1 (-Φ a) (I2.tens T fun _ => s)) with hG
+  set G := T.U 1 (-Φ y) (∑ a ∈ R, _root_.GlobalTheory.SW.epsW X (w : E) a • T.U 1 (-Φ a) (I2.tens T fun _ => s)) with hG
   let A : (Fin n → Fin g → ℂ) ≃L[ℂ] (Fin n → I2.Vsp T.dim) :=
     ContinuousLinearEquiv.piCongrRight fun _ => ψ.toContinuousLinearEquiv
   obtain ⟨-, -, -, hdiff, hlast⟩ := fock_laws E r X g bas idx n hs hn x hx 1 θ
-  have hGA (z : Fin n → Fin g → ℂ) : G (A z) = ∑ a ∈ R, epsW X (w : E) a *
+  have hGA (z : Fin n → Fin g → ℂ) : G (A z) = ∑ a ∈ R, _root_.GlobalTheory.SW.epsW X (w : E) a *
       ∏ b, fock X bas idx x 1 (pv X idx x (y b)) (fock X bas idx x 1 (pv X idx x (a b)) θ) (z b) := by
     have h1 (a : Matrix (Fin n) (Fin r) E) : T.U 1 (-Φ a) (I2.tens T fun _ => s) =
         fun v => ∏ b, fock X bas idx x 1 (pv X idx x (a b)) θ (ψ.symm (v b)) := by

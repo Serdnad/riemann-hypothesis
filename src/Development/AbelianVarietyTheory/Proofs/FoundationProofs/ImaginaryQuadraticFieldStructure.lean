@@ -2,8 +2,8 @@ module
 
 public import Formalism.SharpRestriction.GlobalSchurBounds.StandardLatticesGL3
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.InducedTypeThetaGenusOnePermutes
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.OrthonormalTransitionDetMulConjEqOne
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.RatOfImEqZero
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle226
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle175
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -49,7 +49,7 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AbelianVarietyTheory.Definitions.Foundations.NormSumPairRankZeroOfCurveCoordNorm
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.DifferentiableComb
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle222
 
 @[expose] public section
 

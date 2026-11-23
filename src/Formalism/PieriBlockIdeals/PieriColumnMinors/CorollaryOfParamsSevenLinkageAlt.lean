@@ -1,7 +1,7 @@
 module
 
-public import Formalism.PieriBlockIdeals.StatementTop
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.PrimeCount
+public import Formalism.PieriBlockIdeals.Bundle006
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle008
 public import Formalism.PieriBlockIdeals.PieriColumnMinors.CorollaryOfParamsSevenLinkage
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

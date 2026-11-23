@@ -1,12 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.MemUnitOff
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle070
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.PredMemGamRanks
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ValOUnramifiedDegreeOne
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsMatrixBasisLatticeUpToDenominatorNotMem
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsMulMemSpan
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsUnimodularLatticeLocalMatch
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.UnimodularLatticeLocalConjSymm
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle085
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle003
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle176
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle086
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -54,7 +53,7 @@ noncomputable section
 
 namespace GlobalTheory.LvT.Pts
 
-open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.L2.Col Formalism.L2.DIV Formalism.L2.Forms Matrix GlobalTheory.Mem.Col2 GlobalTheory.LvT.Inh
+open NumberField IsDedekindDomain Formalism.BasicNotions _root_.Formalism.L2.Col Formalism.L2.DIV Formalism.L2.Forms Matrix GlobalTheory.Mem.Col2 GlobalTheory.LvT.Inh
 open Formalism.HermitianLatticesTheory (localization₂ gmap IsUnimodular dual)
 
 section Loc
@@ -257,9 +256,10 @@ theorem redL_spec {x : Fin n → E} {s : 𝓞 E} (hs : s ∉ P.asIdeal) (hx : s 
   exact Subtype.ext (smul_comm _ _ _)
 
 theorem redL_eq {x : Fin n → E} {s : 𝓞 E} (hs : s ∉ P.asIdeal) (hx : s • x ∈ M) {y : TDat.Red M P}
-    (h : (Ideal.Quotient.mk P.asIdeal s : Res P) • y = Submodule.Quotient.mk (⟨_, hx⟩ : M)) : redL M P x = y :=
-  smul_right_injective _ (show (Ideal.Quotient.mk P.asIdeal s : Res P) ≠ 0 from mk_ne_zero hs)
-    ((redL_spec hs hx).trans h.symm)
+    (h : (Ideal.Quotient.mk P.asIdeal s : Res P) • y = Submodule.Quotient.mk (⟨_, hx⟩ : M)) : redL M P x = y := by
+  letI : Module.IsTorsionFree (Res P) (TDat.Red M P) := DivisionSemiring.to_moduleIsTorsionFree
+  exact smul_right_injective (TDat.Red M P) (show (Ideal.Quotient.mk P.asIdeal s : Res P) ≠ 0 from mk_ne_zero hs)
+      ((redL_spec hs hx).trans h.symm)
 
 theorem redL_coe (z : M) : redL M P z = Submodule.Quotient.mk z :=
   redL_eq (one_notMem P) (by rw [one_smul]; exact z.2) (by rw [mk_smul_mk]; rfl)

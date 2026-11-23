@@ -1,24 +1,23 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.ConcreteTwistFrameExtraExcludedOverSmallPrimes
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle017
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.InertialOrderFifteenCharAuxiliaryPrimeSpec
 public import Mathlib.Topology.Sheaves.Presheaf
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.DepthZeroLabelsOfLabelLaws
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.BlockValAeStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CardPadicAlgClPadicComplexEqComplexStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.EtaTildeIsUnitArgAtCmTypePlacesStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsCmConjugationOmega
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsCoefficientFieldLowerBoundsStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsCyclotomicUnramifiedCompletedIntegersStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsIntegersToCompletedUnramifiedCompositumStatement
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle305
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle139
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle268
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle308
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle398
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle295
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle137
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsRingClassHost
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsRingEquivAlgClosedOverNumberFieldCompEqStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsRingEquivFinExtIntegersPadicIntOfStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FinitePrimitiveRootStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FiniteResidueField
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.MemFiniteExtPadicRingOfIntegersIffNormLeOneStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.MemMaximalIdealIffNormLtOneStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.UnramifiedHeckeCharIdeleValueUniformiserStatement
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle141
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle323
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle266
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle138
+
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle136
 import Mathlib.Algebra.AffineMonoid.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -196,10 +195,10 @@ theorem vals_zero {E : Type} [Field E] [NumberField E] {K : Type} [Field K] (ε 
 
 theorem frob_read {E Ω : Type} [Field E] [NumberField E] [Field Ω] [Algebra E Ω] {l : ℕ} [Fact l.Prime]
     {O : Type} [CommRing O] [IsDomain O] [TopologicalSpace O] {art : Ideles E →* Gab E Ω} (ha : IsGlobalArtin art)
-    {κ : FractionRing O →+* Qbar l} {ι : Qbar l ≃+* ℂ} {χ : HChar E} {n : (E →+* ℂ) → ℤ} {r : G E Ω →* Oˣ}
+    {κ : FractionRing O →+* Qbar l} {ι : Qbar l ≃+* ℂ} {χ : HChar E} {n : (E →+* ℂ) → ℤ} {r : _root_.Formalism.ConjugateSelfDual.G E Ω →* Oˣ}
     (h : IsGal art κ ι χ n r) {L : Type} [Field L] (eL : L →+* FractionRing O) (embC : L →+* ℂ)
     (hL : ∀ x, ι (κ (eL x)) = embC x) {v : HeightOneSpectrum (𝓞 E)} (hv : ((l : ℕ) : 𝓞 E) ∉ v.asIdeal ∨ n = 0)
-    (hu : χ.UnrAt v) {A : ValuationSubring Ω} (hA : IsPlaceOver A v) {σ : G E Ω}
+    (hu : χ.UnrAt v) {A : ValuationSubring Ω} (hA : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A v) {σ : _root_.Formalism.ConjugateSelfDual.G E Ω}
     (hσ : IsFrob (F := E) A (normV v) σ) {y : L} (hy : embC y = ((χ.val v : ℂˣ) : ℂ)⁻¹) :
     algebraMap O (FractionRing O) (r σ : O) = eL y := by
   apply κ.injective
@@ -209,8 +208,8 @@ theorem frob_read {E Ω : Type} [Field E] [NumberField E] [Field Ω] [Algebra E 
 
 theorem read_of_isGal {E Ω : Type} [Field E] [NumberField E] [Field Ω] [Algebra E Ω] {l : ℕ} [Fact l.Prime]
     {O : Type} [CommRing O] [IsDomain O] [TopologicalSpace O] {art : Ideles E →* Gab E Ω} (ha : IsGlobalArtin art)
-    {κ : FractionRing O →+* Qbar l} {ι : Qbar l ≃+* ℂ} {χ : HChar E} {n : (E →+* ℂ) → ℤ} {r : G E Ω →* Oˣ}
-    (h : IsGal art κ ι χ n r) (pl : HeightOneSpectrum (𝓞 E) → ValuationSubring Ω) (hpl : ∀ P, IsPlaceOver (pl P) P)
+    {κ : FractionRing O →+* Qbar l} {ι : Qbar l ≃+* ℂ} {χ : HChar E} {n : (E →+* ℂ) → ℤ} {r : _root_.Formalism.ConjugateSelfDual.G E Ω →* Oˣ}
+    (h : IsGal art κ ι χ n r) (pl : HeightOneSpectrum (𝓞 E) → ValuationSubring Ω) (hpl : ∀ P, _root_.Formalism.ConjugateSelfDual.IsPlaceOver (pl P) P)
     {L : Type} [Field L] (eL : L →+* FractionRing O) (embC : L →+* ℂ) (hL : ∀ x, ι (κ (eL x)) = embC x)
     (χH : Formalism.L2.NC.HC E) (w : ℤ)
     (hχ : ∀ᶠ v in Filter.cofinite, χH.At v (((χ.val v : ℂˣ) : ℂ) * (Real.sqrt (normV v) : ℂ) ^ w) ∧
@@ -234,7 +233,7 @@ open GlobalTheory.GalChar Neutral.B1 ReciprocityTheory.Neutral.Bridge.HCFR Globa
 theorem exists_padicBaseField_integral_places (D : D7) : ∃ c0 : Big D, ∀ (l : ℕ) [Fact l.Prime] (j : ↥D.LL0 →+* PadicAlgCl l),
     (∀ x, j x ∈ (c0 l j).1) ∧ muK l 1 ≤ (c0 l j).1 ∧
     ∀ K0 : Loc.FinExt l, (c0 l j).1 ≤ K0.1 → ∀ w ∈ placesOver D.host.E l,
-      ∃ Bw : LocBridge l D.host.E D.nd.Om (Dec (F := D.host.E) (D.nd.plOm.1 w)) ↥(Loc.OL K0),
+      ∃ Bw : LocBridge l D.host.E D.nd.Om (_root_.ReciprocityTheory.Gal.Dec (F := D.host.E) (D.nd.plOm.1 w)) ↥(Loc.OL K0),
         ∀ x, x ∈ D.nd.plOm.1 w ↔ ‖Bw.j x‖ ≤ 1 :=
   GlobalTheory.T.exists_coefficientField_lower_bounds D
 

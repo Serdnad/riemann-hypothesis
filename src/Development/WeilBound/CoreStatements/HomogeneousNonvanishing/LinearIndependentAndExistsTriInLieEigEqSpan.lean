@@ -1,18 +1,17 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsFrameVec
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle133
 public import Development.AutomorphicSpectrum.Definitions.DivisibilityTowers.GoodOrigin
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LabelSigBijective
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.AbelianMapLieModelEigenFrameStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.AbelianMapLieModelLatticeStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.CompleteDvrPullbackSemiabelianStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.EigenLieModelCompleteDvrStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FramePointAbelianMapCompatStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle222
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle158
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle150
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle141
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsExcisionNbhdAway
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieLatticeEvalFractionField
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.RootOriginGenericFrameFinalStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.SpecFracExt
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.TangentVectorLieModelLiftStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle202
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle214
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle207
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle216
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -47,9 +46,9 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.DefiniteFormStabilizerFiniteAwayFromP
+import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle002
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.ArakelovInstances.IsStrictDom
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.LiftFactorization
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.Bundle002
 
 @[expose] public section
 

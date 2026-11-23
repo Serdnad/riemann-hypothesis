@@ -1,0 +1,147 @@
+module
+
+public import Formalism.HermitianCurvature.FiniteOrderIntersectionInSmooth
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Topology.Sheaves.Init
+
+@[expose] public section
+
+section
+
+open Matrix Formalism.QuantumDeterminants Formalism.FourierDecayAlt Formalism.FourierDecayAlt.C2
+
+noncomputable section
+
+namespace PI.PolynomialProperness
+
+def MXFacts : Prop :=
+  ∀ (k r : ℕ) (vX : Matrix (Fin r) (Fin r) ℂ), vX ∈ UTset r →
+    mX k r vX ∈ Nset k r ∧ (∀ p : Fin r → ℂ, mX k r vX *ᵥ xiV k r p = xiV k r (vX *ᵥ p)) ∧
+    ∀ w : Fin (2 * r + k + 1) → ℂ, inWb k r w → mX k r vX *ᵥ w = w
+
+def NEFacts : Prop :=
+  ∀ (k r : ℕ) (z : Fin (2 * r + k + 1) → ℂ), StdZ k r z → ∀ ξ : Fin r → ℂ,
+    nEich k r z ξ ∈ Nset k r ∧ (∀ p : Fin r → ℂ, nEich k r z ξ *ᵥ xiV k r p = xiV k r p) ∧
+    nEich k r z ξ *ᵥ z = z + xiV k r ξ
+
+end PI.PolynomialProperness
+end
+end
+
+section
+
+open Matrix Formalism.QuantumDeterminants Formalism.FourierDecayAlt Formalism.FourierDecayAlt.C2
+open scoped ComplexConjugate
+
+noncomputable section
+
+namespace PI.PolynomialProperness
+
+def nsq {n : ℕ} (x : Fin n → ℂ) : ℝ := ∑ i, Complex.normSq (x i)
+
+def gramOf {n : ℕ} {ι : Type} [Fintype ι] (H : Matrix (Fin n) (Fin n) ℂ) (m : ι → Fin n → ℂ) :
+    Matrix ι ι ℂ :=
+  Matrix.of fun i j => herm H (m j) (m i)
+
+def fmul (k r : ℕ) (z : Fin (2 * r + k + 1) → ℂ) (c : Matrix (Fin (r + 1)) (Fin (r + 1)) ℂ)
+    (b : Fin (r + 1)) : Fin (2 * r + k + 1) → ℂ :=
+  ∑ a, c a b • fvec k r z a
+
+def HpkInvol : Prop := ∀ k r : ℕ, (Hpk k r)ᴴ = Hpk k r ∧ Hpk k r * Hpk k r = 1
+
+def GVGroup : Prop :=
+  ∀ k r : ℕ, (∀ g ∈ B.GV k r, ∀ h ∈ B.GV k r, g * h ∈ B.GV k r) ∧
+    ∀ g ∈ B.GV k r, g⁻¹ = Hpk k r * gᴴ * Hpk k r ∧ g⁻¹ ∈ B.GV k r ∧ g * g⁻¹ = 1 ∧ g⁻¹ * g = 1
+
+def GNFacts : Prop :=
+  ∀ (k r : ℕ), (∀ g : B.Mat k r, 0 ≤ B.gN g) ∧
+    (∀ g h : B.Mat k r, B.gN (g * h) ≤ B.gN g * B.gN h) ∧
+    (∀ (g : B.Mat k r) (x : Fin (2 * r + k + 1) → ℂ), nsq (g *ᵥ x) ≤ B.gN g ^ 2 * nsq x) ∧
+    (∀ g : B.Mat k r, B.gN g ^ 2 = ∑ j, nsq (g *ᵥ bvec j))
+
+def FmulBound : Prop :=
+  ∀ (k r : ℕ) (z : Fin (2 * r + k + 1) → ℂ), ∃ C : ℝ, ∀ c b, nsq (fmul k r z c b) ≤ C * mx c ^ 2
+
+def ZhatMove : Prop :=
+  ∀ (k r : ℕ) (z z' : Fin (2 * r + k + 1) → ℂ) (γ σ s' : B.Mat k r)
+    (v u' : Matrix (Fin (r + 1)) (Fin (r + 1)) ℂ), σ ∈ B.GV k r → s' ∈ B.GV k r →
+    (∀ b, σ *ᵥ fvec k r z b = fmul k r z v b) → (∀ b, s' *ᵥ fvec k r z' b = fmul k r z' u' b) →
+    Zhat k r z z' (σ⁻¹ * γ * s') = vᴴ * Zhat k r z z' γ * u'
+
+def FrameS : Prop :=
+  ∀ (k r : ℕ) (z : Fin (2 * r + k + 1) → ℂ), StdZ k r z → ∀ s ∈ Sset k r z, s ∈ B.GV k r ∧
+    ∃ u ∈ UTset (r + 1), ∀ b, s *ᵥ fvec k r z b = fmul k r z u b
+
+def FrameSg : Prop :=
+  ∀ (k r : ℕ) (z z' : Fin (2 * r + k + 1) → ℂ) (γ : B.Mat k r), Std k r z z' →
+    ∀ σ ∈ Sg k r z z' γ, σ ∈ B.GV k r ∧ ∃ v ∈ UTset (r + 1), vᴴ ∈ LPg (Zhat k r z z' γ) ∧
+      ∀ b, σ *ᵥ fvec k r z b = fmul k r z v b
+
+def FrameSg' : Prop :=
+  ∀ (k r : ℕ) (z z' : Fin (2 * r + k + 1) → ℂ) (γ : B.Mat k r), Std k r z z' →
+    ∀ σ ∈ Sg' k r z z' γ, σ ∈ B.GV k r ∧ ∃ v ∈ UTset (r + 1),
+      Zhat k r z z' γ * v * (Zhat k r z z' γ)⁻¹ ∈ UTset (r + 1) ∧
+      ∀ b, σ *ᵥ fvec k r z' b = fmul k r z' v b
+
+def UnitriangularInversePolynomialBound : Prop :=
+  ∀ (k r : ℕ) (z z' : Fin (2 * r + k + 1) → ℂ) (γ : B.Mat k r), IsMonomial (Zhat k r z z' γ) →
+    ∃ C : ℝ,
+    (∀ v ∈ UTset (r + 1), vᴴ ∈ LPg (Zhat k r z z' γ) → ∀ u' ∈ UTset (r + 1), ∀ g : B.Mat k r,
+      1 ≤ B.gN g → Zhat k r z z' g = vᴴ * Zhat k r z z' γ * u' →
+      mx v⁻¹ ≤ C * B.gN g ^ (r * (r + 1)) ∧ mx u'⁻¹ ≤ C * B.gN g ^ (r * (r + 1))) ∧
+    (∀ u ∈ UTset (r + 1), ∀ v' ∈ UTset (r + 1),
+      Zhat k r z z' γ * v' * (Zhat k r z z' γ)⁻¹ ∈ UTset (r + 1) → ∀ g : B.Mat k r,
+      1 ≤ B.gN g → Zhat k r z z' g = uᴴ * Zhat k r z z' γ * v' →
+      mx u⁻¹ ≤ C * B.gN g ^ (r * (r + 1)) ∧ mx v'⁻¹ ≤ C * B.gN g ^ (r * (r + 1)))
+
+def IsoCore : Prop :=
+  ∀ (n : ℕ) (H : Matrix (Fin n) (Fin n) ℂ) (ι : Type) [Fintype ι] [DecidableEq ι] (m : ι → Fin n → ℂ),
+    Hᴴ = H → H * H = 1 → IsUnit (gramOf H m).det →
+    (∀ x, (∀ i, herm H x (m i) = 0) → 0 ≤ (herm H x x).re) →
+    ∃ C : ℝ, ∀ s : Matrix (Fin n) (Fin n) ℂ, sᴴ * H * s = H → ∀ K : ℝ, 0 ≤ K →
+      (∀ i, nsq (s *ᵥ m i) ≤ K) → ∀ x, nsq (s *ᵥ x) ≤ C * (1 + K) ^ 2 * nsq x
+
+def CoreInst : Prop :=
+  ∀ (k r : ℕ) (z z' : Fin (2 * r + k + 1) → ℂ) (γ : B.Mat k r), Std k r z z' → PosPt k r z z' γ →
+    ∃ C : ℝ, ∀ s ∈ B.GV k r, ∀ K : ℝ, 0 ≤ K → (∀ i, nsq (s *ᵥ gramVec k r z z' γ i) ≤ K) →
+      B.gN s ^ 2 ≤ C * (1 + K) ^ 2
+
+end PI.PolynomialProperness
+end
+end

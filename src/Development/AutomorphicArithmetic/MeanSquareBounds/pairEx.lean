@@ -1,8 +1,8 @@
 module
 
-public import Development.AutomorphicArithmetic.CharacterBoxes.PairGood
+public import Development.AutomorphicArithmetic.CharacterBoxes.Bundle002
 public import Development.AutomorphicArithmetic.MeanSquareBounds.IndDrop
-public import Development.AutomorphicArithmetic.MeanSquareBounds.Kappa4Loglog
+public import Development.AutomorphicArithmetic.MeanSquareBounds.Bundle003
 public import Development.AutomorphicArithmetic.MeanSquareBounds.PairExists
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

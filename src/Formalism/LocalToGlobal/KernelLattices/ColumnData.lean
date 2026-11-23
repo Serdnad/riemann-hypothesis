@@ -1,10 +1,10 @@
 module
 
 public import Formalism.LocalToGlobal.KernelLattices.ThDistC
-public import Formalism.LocalToGlobal.Columns.WordFin
+public import Formalism.LocalToGlobal.Columns.Bundle034
 public import Formalism.LocalToGlobal.GlobalTheory.JetPositivity.DeltaPowTwelveEqDiscr
 public import Formalism.LocalToGlobal.GlobalTheory.GL3.Statement
-public import Formalism.PeriodIntegrals.KerIso
+public import Formalism.PeriodIntegrals.Bundle009
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,11 +1,11 @@
 module
 
 public import Formalism.GradedWeylDivisibility.StatementE
-public import Formalism.PieriBlockIdeals.StatementLD
+public import Formalism.PieriBlockIdeals.Bundle003
 import Formalism.GradedWeylDivisibility.DualWeylDominanceOf
 import Formalism.GradedWeylDivisibility.FinalB
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.FockQHW
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LRowstLemmas
+public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle016
+public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle002
 public import Formalism.PieriBlockIdeals.PieriColumnMinors.DividedPowerZeroZeroVector
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

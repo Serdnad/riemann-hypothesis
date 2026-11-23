@@ -5,8 +5,7 @@ public import Mathlib.Algebra.Module.Lattice.Full
 public import Mathlib.RingTheory.KrullDimension.PID
 public import Mathlib.RingTheory.OrderOfVanishing.Basic
 public import Mathlib.RingTheory.RegularLocalRing.Defs
-public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.LengthCommensurableIffOfLeOfLe
-public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.LengthQuotientMaximalIdealPowSmulTop
+public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -42,7 +42,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 public import Development.AbelianVarietyTheory.Definitions.ThetaMetrics.TwistingSheafOneChartEqPreimageStandardChart
-public import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProjectiveSpaceChart
+public import GroundTheory.ArithmeticGeometry.SchemeCohomology.Bundle004
 
 @[expose] public section
 

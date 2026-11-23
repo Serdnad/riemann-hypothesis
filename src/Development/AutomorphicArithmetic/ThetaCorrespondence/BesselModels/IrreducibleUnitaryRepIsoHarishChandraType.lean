@@ -4,7 +4,7 @@ public import Formalism.PeriodIntegrals.UpqRep
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.IsWtOnIffOfTorus
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.BesselModels.HWSpan
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.BesselModels.KShift
-import Formalism.RealPlaceAnalysis.RealPlaceTaylor.IsCompactInvariantCompactSpan
+import Formalism.RealPlaceAnalysis.RealPlaceTaylor.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -44,9 +44,9 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 public import CompanionTheory.HarishChandraModules.LowKTypeMultiplicity.DiscreteSeriesCharacters.CapelliDeterminantBlockProduct
-public import Development.AbelianVarietyTheory.BlockTheory.JetGauges.HarishChandraParameters
+public import Development.AbelianVarietyTheory.BlockTheory.JetGauges.Bundle001
 import Development.AbelianVarietyTheory.Proofs.FlagMeasures.BesselFrameTranslatedPerpOfIsFrame
-import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.BesselFormsTrivialNeBot
+import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.Bundle005
 
 @[expose] public section
 

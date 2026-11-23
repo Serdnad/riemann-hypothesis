@@ -6,11 +6,11 @@ public import Development.AbelianVarietyTheory.Definitions.ThetaMetrics.CoeNonze
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ObjMapIdCompCancel
 public import Mathlib.RingTheory.Henselian
 public import Mathlib.RingTheory.MvPowerSeries.Inverse
-public import Development.AbelianVarietyTheory.Counterexamples.LevelGroupExamples.BetaAtClosedPoint
+public import Development.AbelianVarietyTheory.Counterexamples.LevelGroupExamples.Bundle004
 public import Development.AbelianVarietyTheory.Definitions.ArchimedeanThetaValues.IsCoprimeTwoSubRtTwoAddRt
-public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.IsRegularRingOfIsDiscreteValuationRing
+public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle012
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.IsRegularRingOfSmooth
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.PsiCoordExistsUniqueUpToUnitLocal
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle032
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -56,8 +56,8 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-public import ReciprocityTheory.AnalyticForms.RegularLocalRings.WChartsC
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.AbProj
+public import ReciprocityTheory.AnalyticForms.RegularLocalRings.Bundle003
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle007
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section

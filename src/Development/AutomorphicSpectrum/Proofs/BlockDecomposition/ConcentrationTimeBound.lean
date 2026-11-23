@@ -1,7 +1,7 @@
 module
 
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.ArchimedeanGelfandKernels.FriedrichsKernels.Friedrichs
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ClosureOperatorFacts
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle232
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

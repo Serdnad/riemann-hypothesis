@@ -1,10 +1,9 @@
 module
 
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.ArchimedeanGelfandKernels.WaveSt
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.RdEqFderiv
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle215
 public import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.EventuallyEqOfAgreeGLs
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ZOpSmooth
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle236
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

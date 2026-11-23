@@ -1,7 +1,7 @@
 module
 
-public import Formalism.HermitianCurvature.CapelliDeterminantAndBranching
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.LemmaDDeterminantIdentity
+public import Formalism.HermitianCurvature.Bundle009
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle065
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.IntegerProductCast.OfFnProdIntCast
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended

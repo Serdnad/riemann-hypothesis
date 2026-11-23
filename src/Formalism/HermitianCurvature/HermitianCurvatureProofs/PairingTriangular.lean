@@ -1,6 +1,6 @@
 module
 
-public import Formalism.HermitianCurvature.LatticeHerglotzBound
+public import Formalism.HermitianCurvature.Bundle002
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.HerglotzLowerSemicontinuous
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

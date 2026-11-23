@@ -1,18 +1,18 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.IsGaugeAll
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle009
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.AdelicUnitaryHaarBiInvariant
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.AutPointRationalEquivariance
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsFrameOfHasSignature
 import Development.AbelianVarietyTheory.Proofs.FlagMeasures.FiniteAdelicUnitaryCongruenceTopology
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsClosedEmbeddingOfCongruenceSubgroupsConj
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.MuGPreimageConj
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle200
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle126
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsFiniteAdeleBaseChangeEquiv
 import Formalism.RealPlaceAnalysis.RealPlaceTaylor.KoszulLowersPower
-import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.CsApprox
+import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle011
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.CsScale
-import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.CsSpan
-import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.SignatureConjugationInvariant
+import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle014
+import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

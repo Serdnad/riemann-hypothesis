@@ -1,10 +1,10 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Lap
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SobolevOperatorFacts
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.DifferentiableAtOfSmooth
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle216
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle424
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle217
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FunctionalCalculusJointCurve
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SectionNormBound
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle270
 import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SobolevIntegrationByParts
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

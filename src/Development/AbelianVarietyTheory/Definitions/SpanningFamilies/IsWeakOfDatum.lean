@@ -1,8 +1,8 @@
 module
 
-public import Formalism.LocalToGlobal.IndefiniteReal.DatumVec
-public import Formalism.LocalToGlobal.ProjectiveLattices.PartitionExtendByZeroAntitone
-public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.Fischer
+public import Formalism.LocalToGlobal.IndefiniteReal.Bundle013
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle025
+public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

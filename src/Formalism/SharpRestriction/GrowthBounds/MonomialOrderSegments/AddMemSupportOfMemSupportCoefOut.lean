@@ -1,6 +1,6 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.MonomialOrderSegments.MemPolKIff
+public import Formalism.SharpRestriction.GrowthBounds.MonomialOrderSegments.Bundle001
 public import Mathlib.CategoryTheory.Category.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

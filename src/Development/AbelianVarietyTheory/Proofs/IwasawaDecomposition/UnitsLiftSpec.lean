@@ -4,11 +4,11 @@ public import Formalism.LocalToGlobal.NumberFieldFamilies.NPartCNdStd
 public import Formalism.LocalToGlobal.NumberFieldFamilies.HeckeLift0
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.LocAutHodgeTateWeightsLevelZeroDef
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.WdOfMono0L
-public import Formalism.LocalToGlobal.NormalizedHeckeFactors.HeckeStdTwOfStd
+public import Formalism.LocalToGlobal.NormalizedHeckeFactors.Bundle004
 public import Formalism.LocalToGlobal.ProjectiveLattices.HalfOneAddSqrtNegIsIntegral
 public import Formalism.SharpRestriction.LevelLetterCocycles.BlochKatoPhases
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsTameGenAt
-public import Formalism.LocalToGlobal.NumberFieldFamilies.NPartCNdProj
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle269
+public import Formalism.LocalToGlobal.NumberFieldFamilies.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -45,7 +45,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-import Formalism.LocalToGlobal.IndefiniteReal.DoubleCosetOperators.Objects
+import Formalism.LocalToGlobal.IndefiniteReal.DoubleCosetOperators.Bundle001
 import Formalism.LocalToGlobal.NormalizedHeckeFactors.TypesDefs
 
 @[expose] public section

@@ -2,9 +2,9 @@ module
 
 public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.IsOrthFull
 public import GroundTheory.HeightsAndTheta.Heights.LatticeLemmas.StatementsBundles
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.NormalizedDegreeBoundedMapStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.NormalizedDegreeFullRankSublatticeStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.SlopeBoundComparableMetricStatement
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle061
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle055
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle069
 import GroundTheory.HeightsAndTheta.Heights.HeightsOfSets.DegreeTopEqArithDegree
 public import GroundTheory.HeightsAndTheta.Heights.HeightsOfSets.HeightsSetAll
 public import GroundTheory.HeightsAndTheta.Heights.LatticeLemmas.PExactSequence

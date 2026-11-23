@@ -1,7 +1,7 @@
 module
 
 public import Formalism.SharpRestriction.GrowthBounds.ChartedClasses.ExistsIsCGBases
-import Formalism.LocalToGlobal.GroupLattices.TiedFamilies.TiePtRec
+import Formalism.LocalToGlobal.GroupLattices.TiedFamilies.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

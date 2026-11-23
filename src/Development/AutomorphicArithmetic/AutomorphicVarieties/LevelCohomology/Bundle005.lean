@@ -1,0 +1,198 @@
+module
+
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.DirichletPrimeToLPartMulLPowerPart
+import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.ResMapBijective
+import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.LocalRingsCompletion.Bundle002
+public import Mathlib.NumberTheory.Padics.PadicIntegers
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle108
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.SoLevFacts
+public import Development.AutomorphicArithmetic.CyclotomicBounds.ClassNumberBounds.SelmerDuality.Bundle001
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.AdicCompletion.Noetherian
+import Mathlib.RingTheory.Coalgebra.IsFrobenius
+import Mathlib.RingTheory.HopfAlgebra.Basic
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Linter.HaveILetI
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Topology.Sheaves.Init
+import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.SoDefs
+
+@[expose] public section
+
+section
+
+open NumberField IsDedekindDomain Formalism.ConjugateSelfDual ReciprocityTheory.Gal Formalism.GaloisCohomology IsLocalRing UpperTheory.V UpperTheory.V.Base UpperTheory.V.X
+
+private theorem int_iff_norm {l : ℕ} [Fact l.Prime] {K : Type} [Field K]
+    [Algebra ℚ_[l] K] [Algebra ℤ_[l] K] [IsScalarTower ℤ_[l] ℚ_[l] K] [FiniteDimensional ℚ_[l] K]
+    (φ : K →ₐ[ℚ_[l]] PadicAlgCl l) (x : K) : IsIntegral ℤ_[l] x ↔ ‖φ x‖ ≤ 1 := by
+  have hi : IsIntegral ℚ_[l] x := Algebra.IsIntegral.isIntegral x
+  have h0 : ‖φ x‖ = spectralValue (minpoly ℚ_[l] (φ x)) := rfl
+  rw [h0, minpoly.algHom_eq φ φ.injective, spectralValue_le_one_iff (minpoly.monic hi)]
+  constructor
+  · intro h n
+    rw [minpoly.isIntegrallyClosed_eq_field_fractions' ℚ_[l] h, Polynomial.coeff_map]
+    exact PadicInt.norm_le_one _
+  · intro h
+    have hl' : minpoly ℚ_[l] x ∈ Polynomial.lifts (algebraMap ℤ_[l] ℚ_[l]) :=
+      (Polynomial.lifts_iff_coeff_lifts _).mpr fun n => ⟨⟨_, h n⟩, rfl⟩
+    obtain ⟨q, hq, -, hqm⟩ := Polynomial.lifts_and_degree_eq_and_monic hl' (minpoly.monic hi)
+    exact ⟨q, hqm, by
+      rw [← Polynomial.aeval_def, ← Polynomial.aeval_map_algebraMap ℚ_[l], hq, minpoly.aeval]⟩
+
+theorem UpperTheory.V.X.So.coefOf :
+    ∀ (l : ℕ) [Fact l.Prime] (E : IntermediateField ℚ_[l] (PadicAlgCl l)) [FiniteDimensional ℚ_[l] E], ∃ c : HV.Coef l, ∀ x : PadicAlgCl l, x ∈ c.O ↔ x ∈ E ∧ ‖x‖ ≤ 1 := by
+  intro l _ K _
+  obtain ⟨h1, h2, -⟩ := UpperTheory.V.abelian₂.dvr_intClosure l K
+  let f : K →ₐ[ℤ_[l]] PadicAlgCl l := K.val.restrictScalars ℤ_[l]
+  have hf : Function.Injective f := Subtype.val_injective
+  let e := (integralClosure ℤ_[l] K).equivMapOfInjective f hf
+  refine ⟨⟨(integralClosure ℤ_[l] K).map f, IsDiscreteValuationRing.RingEquivClass.isDiscreteValuationRing e,
+    Module.Finite.equiv e.toLinearEquiv⟩, fun x => ⟨?_, ?_⟩⟩
+  · rintro ⟨y, hy, rfl⟩
+    exact ⟨y.2, (int_iff_norm K.val y).1 hy⟩
+  · rintro ⟨hx, hn⟩
+    exact ⟨⟨x, hx⟩, (int_iff_norm K.val ⟨x, hx⟩).2 hn, rfl⟩
+end
+
+section
+
+open NumberField IsDedekindDomain Formalism.ConjugateSelfDual ReciprocityTheory.Gal Formalism.GaloisCohomology IsLocalRing UpperTheory.V UpperTheory.V.Base UpperTheory.V.X
+
+theorem UpperTheory.V.X.So.dualGen :
+    ∀ (l : ℕ) [Fact l.Prime] (O : Type) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O] [Algebra ℤ_[l] O] [Module.Finite ℤ_[l] O] (a : O), a ≠ 0 → ∀ (r : ℕ) (M : Type) [AddCommGroup M] [Module O M] [Module (ZMod (l ^ r)) M], Nonempty (M ≃ₗ[O] (O ⧸ Ideal.span {a})) → ∃ φ₀ : M →ₗ[ZMod (l ^ r)] ZMod (l ^ r), (∀ x : O, (∀ m, φ₀ (x • m) = 0) ↔ a ∣ x) ∧ ∀ φ : M →ₗ[ZMod (l ^ r)] ZMod (l ^ r), ∃ x : O, ∀ m, φ m = φ₀ (x • m) := by
+  intro l _ O _ _ _ _ _ a ha r M _ _ _ hne
+  obtain ⟨e⟩ := hne
+  haveI : NeZero (l ^ r) := ⟨pow_ne_zero _ (Fact.out : l.Prime).ne_zero⟩
+  obtain ⟨hMfin, -, -⟩ := UpperTheory.V.X.So.levFacts l O a ha M ⟨e⟩
+  have hsm : ∀ x y : O,
+      x • e.symm (Ideal.Quotient.mk (Ideal.span {a}) y) = e.symm (Ideal.Quotient.mk _ (x * y)) := by
+    intro x y
+    rw [← map_smul, Algebra.smul_def, Ideal.Quotient.algebraMap_eq, ← map_mul]
+  have hmk0 : ∀ y : O, e.symm (Ideal.Quotient.mk (Ideal.span {a}) y) = 0 ↔ a ∣ y := by
+    intro y
+    rw [LinearEquiv.map_eq_zero_iff, Ideal.Quotient.eq_zero_iff_mem, Ideal.mem_span_singleton]
+  have hsurj : ∀ m : M, ∃ y : O, e.symm (Ideal.Quotient.mk (Ideal.span {a}) y) = m := by
+    intro m
+    obtain ⟨y, hy⟩ := Ideal.Quotient.mk_surjective (e m)
+    exact ⟨y, by rw [hy, LinearEquiv.symm_apply_apply]⟩
+  obtain ⟨φ₀, hφ₀⟩ : ∃ φ₀ : M →ₗ[ZMod (l ^ r)] ZMod (l ^ r),
+      ∀ x : O, ¬ a ∣ x → ∃ m : M, φ₀ (x • m) ≠ 0 := by
+    by_cases hu : IsUnit a
+    · exact ⟨0, fun x hx => absurd hu.dvd hx⟩
+    · obtain ⟨ϖ, hϖ⟩ := IsDiscreteValuationRing.exists_irreducible O
+      obtain ⟨s, hs⟩ := IsDiscreteValuationRing.associated_pow_irreducible ha hϖ
+      have hs0 : s ≠ 0 := by
+        rintro rfl
+        exact hu (associated_one_iff_isUnit.mp (by simpa using hs))
+      have hpd : ∀ t u : ℕ, ϖ ^ t ∣ ϖ ^ u ↔ t ≤ u :=
+        fun t u => pow_dvd_pow_iff hϖ.ne_zero hϖ.not_isUnit
+      have hz : e.symm (Ideal.Quotient.mk (Ideal.span {a}) (ϖ ^ (s - 1))) ≠ 0 := by
+        rw [Ne, hmk0, hs.dvd_iff_dvd_left, hpd]
+        omega
+      obtain ⟨f, -, hf⟩ := KStar.Selmer.exists_form_ne_zero (⊥ : Submodule (ZMod (l ^ r)) M)
+        (z := e.symm (Ideal.Quotient.mk (Ideal.span {a}) (ϖ ^ (s - 1))))
+        (by rw [Submodule.mem_bot]; exact hz)
+      refine ⟨f, fun x hx => ?_⟩
+      have hx0 : x ≠ 0 := by
+        rintro rfl
+        exact hx (dvd_zero a)
+      obtain ⟨t, ht⟩ := IsDiscreteValuationRing.associated_pow_irreducible hx0 hϖ
+      have hts : t < s := by
+        by_contra h
+        apply hx
+        rw [hs.dvd_iff_dvd_left, ht.dvd_iff_dvd_right]
+        exact (hpd s t).mpr (by omega)
+      obtain ⟨w, hw⟩ := ht
+      refine ⟨e.symm (Ideal.Quotient.mk _ (↑w * ϖ ^ (s - 1 - t))), ?_⟩
+      rw [hsm]
+      have hprod : x * (↑w * ϖ ^ (s - 1 - t)) = ϖ ^ (s - 1) := by
+        rw [← mul_assoc, hw, ← pow_add]
+        congr 1
+        omega
+      rw [hprod]
+      exact hf
+  have hann : ∀ x : O, a ∣ x → ∀ m : M, x • m = 0 := by
+    intro x hx m
+    obtain ⟨y, rfl⟩ := hsurj m
+    rw [hsm, hmk0]
+    exact hx.mul_right y
+  have hcond : ∀ x : O, (∀ m, φ₀ (x • m) = 0) ↔ a ∣ x := by
+    intro x
+    constructor
+    · intro h
+      by_contra hx
+      obtain ⟨m, hm⟩ := hφ₀ x hx
+      exact hm (h m)
+    · intro hx m
+      rw [hann x hx m, map_zero]
+  refine ⟨φ₀, hcond, fun φ => ?_⟩
+  let sm : O → (M →ₗ[ZMod (l ^ r)] M) :=
+    fun x => (DistribSMul.toAddMonoidHom M x).toZModLinearMap (l ^ r)
+  let Ψ : O →+ Module.Dual (ZMod (l ^ r)) M :=
+    { toFun := fun x => φ₀ ∘ₗ sm x
+      map_zero' := by
+        ext m
+        simp [sm]
+      map_add' := by
+        intro x y
+        ext m
+        simp [sm, add_smul] }
+  have hΨ : ∀ x m, Ψ x m = φ₀ (x • m) := fun x m => rfl
+  have hker : Ψ.ker = (Ideal.span {a}).toAddSubgroup := by
+    ext x
+    simp only [AddMonoidHom.mem_ker, Submodule.mem_toAddSubgroup, Ideal.mem_span_singleton]
+    rw [← hcond]
+    constructor
+    · intro h m
+      rw [← hΨ, h]
+      rfl
+    · intro h
+      ext m
+      exact h m
+  have hcardR : Nat.card Ψ.range = Nat.card M := by
+    rw [← Nat.card_congr (QuotientAddGroup.quotientKerEquivRange Ψ).toEquiv,
+      Nat.card_congr (QuotientAddGroup.quotientAddEquivOfEq hker).toEquiv]
+    exact Nat.card_congr e.symm.toEquiv
+  have hcardD := GlobalTheory.T.card_dual_zmod_module_eq_card (l ^ r) M
+  haveI : Finite (Module.Dual (ZMod (l ^ r)) M) :=
+    Nat.finite_of_card_ne_zero (by rw [hcardD]; exact Nat.card_pos.ne')
+  have htop : Ψ.range = ⊤ := AddSubgroup.eq_top_of_card_eq _ (by rw [hcardR, hcardD])
+  obtain ⟨x, hx⟩ : φ ∈ Ψ.range := htop ▸ AddSubgroup.mem_top φ
+  exact ⟨x, fun m => by rw [← hx]; rfl⟩
+end

@@ -1,10 +1,10 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.HasLevelStd
-public import Development.AbelianVarietyTheory.Definitions.Divisors.HasQIff
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HasSumHilbertEisensteinJetSplitLattice
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HilbertEisensteinCoeffSupportTraceFinite
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HilbertEisensteinLatticeJetSplitDirectionAdd
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle920
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle687
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle942
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,6 +1,6 @@
 module
 
-public import Development.WeilBound.CoreStatements.PublishedTheorems.SmoothVectorEstimates.RowS
+public import Development.WeilBound.CoreStatements.PublishedTheorems.SmoothVectorEstimates.Bundle001
 import Mathlib.Algebra.Order.Archimedean.Real.Hom
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

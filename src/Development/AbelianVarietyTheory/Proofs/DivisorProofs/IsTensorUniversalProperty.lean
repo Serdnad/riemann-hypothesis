@@ -1,10 +1,10 @@
 module
 
-import Development.EtaleCohomology.TateTwists.EtaleTensorUniversalPropertyOfDegreewise
+import Development.EtaleCohomology.TateTwists.Bundle016
 public import Development.AbelianVarietyTheory.Definitions.Divisors.SecClass
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleLocalPropertyCalculusRules
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleSheafSectionsExtAndGlue
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SheafComplexPairingTensorUniversalPropertyStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle405
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle406
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle613
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

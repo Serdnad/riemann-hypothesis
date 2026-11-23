@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.FubiniStudyChowHeight
-public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.EqOfIsometricTrivShift
+public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.Bundle013
+public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.Bundle014
 public import Development.WeilBound.CoreStatements.MinimalPrimeDimensions.GenIdeal
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.MahlerSectionStatementHolds
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle077
 public import Development.WeilBound.CoreStatements.MinimalPrimeDimensions.ChowDegreeSection
 public import Development.WeilBound.CoreStatements.MinimalPrimeDimensions.EvaluationGenEqZero
 public import Development.WeilBound.CoreStatements.MinimalPrimeDimensions.FormHeightOneEq
@@ -14,7 +14,7 @@ import Development.WeilBound.CoreStatements.MinimalPrimeDimensions.SpecializesIf
 public import Development.WeilBound.CoreStatements.MinimalPrimeDimensions.StCharts
 public import Development.WeilBound.CoreStatements.MinimalPrimeDimensions.SumNormSqUnitary
 import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Assembly
-import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.OfLeaves
+import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle027
 import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Assembly
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

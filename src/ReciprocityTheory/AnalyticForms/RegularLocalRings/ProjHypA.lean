@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.AnalyticForms.RegularLocalRings.FinTypeQE
+public import ReciprocityTheory.AnalyticForms.RegularLocalRings.Bundle003
 public import ReciprocityTheory.AnalyticForms.RegularLocalRings.SegreIdealIsHomogeneous
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

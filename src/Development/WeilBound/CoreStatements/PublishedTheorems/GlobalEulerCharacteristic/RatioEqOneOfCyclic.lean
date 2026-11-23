@@ -1,9 +1,8 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.GlobalEulerCharacteristic.GlobalEulerFormulaInf
+public import GroundTheory.ProfiniteCohomology.GlobalEulerCharacteristic.Bundle002
 public import GroundTheory.ProfiniteCohomology.RestrictedRamification.Brauer
-public import Development.WeilBound.CoreStatements.PublishedTheorems.GlobalEulerCharacteristic.WorkCoinfB
-public import Development.WeilBound.CoreStatements.PublishedTheorems.GlobalEulerCharacteristic.WorkQuotV
+public import Development.WeilBound.CoreStatements.PublishedTheorems.GlobalEulerCharacteristic.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

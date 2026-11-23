@@ -1,12 +1,12 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.CmQuadraticFormEqAlternatingForm
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.SpreadLe
-import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExplicitRanksBasicBoundsLargeScale
-import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ScalePolynomialQuantitiesComparison
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle008
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle073
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle046
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.WindowLower
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.DsPPosAndLower
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsHFrameDtPackPre
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle385
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle264
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

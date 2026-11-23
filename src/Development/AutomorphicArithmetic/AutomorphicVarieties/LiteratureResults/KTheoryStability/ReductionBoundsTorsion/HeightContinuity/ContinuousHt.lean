@@ -1,7 +1,7 @@
 module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.LiteratureResults.KTheoryStability.ReductionBoundsTorsion.HeightContinuity.MatrixTupleDistortionPos
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.HermiteNormalForms.Detlow
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.HermiteNormalForms.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

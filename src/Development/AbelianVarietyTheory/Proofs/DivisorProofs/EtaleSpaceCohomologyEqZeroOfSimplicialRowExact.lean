@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LaurentMapIsIntegral
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ChosenInjectiveResolutionEtaleSheafBasicProperti
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CohomologyComplexOfSheafCocycleClassProperties
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsDiscreteSpaceCocycleVanishingPos
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SimplicialCochainClassesBasicProperties
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle422
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle262
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle339
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle264
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle335
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

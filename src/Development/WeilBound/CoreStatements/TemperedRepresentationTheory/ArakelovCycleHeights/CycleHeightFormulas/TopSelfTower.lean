@@ -40,8 +40,8 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AbelianVarietyTheory.Definitions.Divisors.IsHtFunGenericIff
-import Development.AbelianVarietyTheory.Definitions.Divisors.NefFibOfIsNef
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle072
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle035
 
 @[expose] public section
 

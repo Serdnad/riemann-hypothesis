@@ -1,13 +1,13 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.BlkEquivInl
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.BlockMatrixMulVecBasis
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CommutingMonicOperatorPolynomials
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FiniteDimensionalSpanAdjoinStatement
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FiniteModuleGradedQuantumDet
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PolyMapOfSum
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.QdetPolyMapMonic
-public import Formalism.RealPlaceAnalysis.ThirdArithmeticHolds
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle099
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1997
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2083
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle189
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2044
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2097
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle042
+public import Formalism.RealPlaceAnalysis.Bundle005
 import Mathlib.Algebra.AffineMonoid.UniqueSums
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -45,7 +45,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Development.AutomorphicArithmetic.IntegralCasts.IsOpenStabOfMemNhds
+import Development.AutomorphicArithmetic.IntegralCasts.Bundle001
 
 @[expose] public section
 

@@ -1,6 +1,6 @@
 module
 
-public import Development.AutomorphicArithmetic.CharacterBoxes.EveryCharacter
+public import Development.AutomorphicArithmetic.CharacterBoxes.Bundle001
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.TypeConditions.WeightsConjBis
 public import Development.AutomorphicArithmetic.Foundations.LocalLanglands.IsRecTOfIsRec
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.VwinOfRow

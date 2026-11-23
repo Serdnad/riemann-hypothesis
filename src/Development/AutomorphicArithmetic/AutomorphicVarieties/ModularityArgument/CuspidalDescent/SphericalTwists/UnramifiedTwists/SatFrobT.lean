@@ -1,18 +1,18 @@
 module
 
 public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.GaloisRepOfPolarizedCuspidal
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsSubquotSmIndCongr
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle456
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.HasSatakeGLOfIsSatVecGL
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.EpsilonFactorRecCompatible
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.GoodToralOfIsSubquotientProdIrr
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SphericalSatakeEqLanglandsQuotientUnramifiedStatement
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle591
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle839
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle567
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsEquivOfMapEq
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Mono0OfLpDimEqOne
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle053
 import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.ExistsSteinberg
-import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.FixedNeBotOfEquiv
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.AutomorphyLifting.GalUnitaryT
+import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.Bundle007
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.AutomorphyLifting.Bundle001
 public import Development.AutomorphicArithmetic.Foundations.LocalLanglands.Multi
-import GroundTheory.ProfiniteCohomology.LocalClassFormation.UnramifiedRes
+import GroundTheory.ProfiniteCohomology.LocalClassFormation.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -99,7 +99,7 @@ private theorem gd_diag {n : ℕ} (c : Fin n → ℂˣ) : Z.Win.Gd (WD.mk (WDRep
     ring
   show WD.charPol _ _ = _
   rw [WD.charPol_mk, WDRep.diag_ρ, charpoly_diagEnd, hd]
-  simp
+  simp only [zpow_zero, Polynomial.C_1, Fin.prod_const, WD.lpDim_mk, Module.finrank_fin_fun]
 
 private theorem val_inv_eq (n : ℕ) (a : ℂˣ) :
     (((a⁻¹ * qPow w ((1 - (n : ℝ)) / 2) : ℂˣ) : ℂ)) ^ (-1 : ℤ) =

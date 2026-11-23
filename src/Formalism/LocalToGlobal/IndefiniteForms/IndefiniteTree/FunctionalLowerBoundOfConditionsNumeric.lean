@@ -3,11 +3,11 @@ module
 public import Formalism.LocalToGlobal.IndefiniteForms.IndefSide
 public import Formalism.LocalToGlobal.ExponentGrids.ExplicitSizeInequalityIndexed
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.SlopeIneqMean
-import Formalism.HarderNarasimhan.HarderNarasimhanProofs.TwistFinrankEq
+import Formalism.HarderNarasimhan.HarderNarasimhanProofs.Bundle001
 public import Formalism.LocalToGlobal.ExponentGrids.ExponentGridsProofs.FrameHeightOfDualSlope
 public import Formalism.LocalToGlobal.ExponentGrids.ExponentGridsProofs.GridSquaresIndexEstimate
-public import Formalism.LocalToGlobal.LatticeGeometry.OperatorNormFibers.PDescentCutA
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.LocGlobIncl
+public import Formalism.LocalToGlobal.LatticeGeometry.OperatorNormFibers.Bundle001
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle016
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalGlobalInclusion.SmulMemIdealSmul
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

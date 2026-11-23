@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisGeometry₂.DepthZeroJacquetInjective
+public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisGeometry₂.Bundle002
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.ValuationDetOfMemKO
-public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.DoubleCosetSetoidRelIffMem
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.BlockSplitAll
+public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.Bundle003
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle009
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -46,8 +46,8 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.NStageTrivialCharacterCoeffEqAlt
-import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.ThetaMod
+import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle003
+import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle022
 import Formalism.AlgebraicWeights.IsAlgWeight
 import Formalism.LocalToGlobal.NormalizedHeckeFactors.TypesDefs
 import Formalism.LocalToGlobal.ProjectiveLattices.ErealAddIInf

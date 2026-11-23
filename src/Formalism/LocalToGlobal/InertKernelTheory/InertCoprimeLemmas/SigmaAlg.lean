@@ -1,9 +1,9 @@
 module
 
-public import Formalism.LocalToGlobal.InertKernelTheory.DefsSigma
+public import Formalism.LocalToGlobal.InertKernelTheory.Bundle001
 public import Formalism.LocalToGlobal.TorsionIntegrality.CMGoodModels.Statement
 public import Formalism.LocalToGlobal.TorsionIntegrality.SecondCoefficientNorms.HasSecondLogDeriv
-public import Formalism.LocalToGlobal.GlobalTheory.GL3.CubicFields.PeriodRelations.ConjCls
+public import Formalism.LocalToGlobal.GlobalTheory.GL3.CubicFields.PeriodRelations.Bundle001
 public import Formalism.LocalToGlobal.GlobalTheory.GL3.CubicFields.WeierstrassUniqueness.ExistsPeriodPairOfIsLat
 public import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.FourthTensorThetaEqKernel
 public import Formalism.LocalToGlobal.TorsionIntegrality.CMGoodModels.CmAll

@@ -4,10 +4,10 @@ public import Development.AbelianVarietyTheory.Proofs.HeightProofs.IsCuspFunIffC
 public import Formalism.LocalToGlobal.IndefiniteReal.LinksDefs
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.CovolOneIntegralAdd
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContDiffDerivSnoc
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsNeZeroAdeleCharEqCompMulTotallyReal
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsCompactParahoricLevelAndContainsLifts
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.AdelicUnitaryEqRealMulFiniteSplit
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.LcscAdelicUnitaryGroup
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle197
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle257
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle077
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle018
 import Formalism.LocalToGlobal.GlobalTheory.GL5.FamilyMassVolumeIdentityOfClassDecomp
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -50,8 +50,8 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilGramSignature
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ReadingsExistRow
+import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.Bundle015
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1389
 import Formalism.LocalToGlobal.IndefiniteReal.ExistsChosenExtremalVector
 
 @[expose] public section

@@ -36,9 +36,9 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsToricRankOne
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsSumPolAV
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LinHomIffLinEnd
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle069
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle440
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2932
 
 @[expose] public section
 

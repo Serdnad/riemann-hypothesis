@@ -1,9 +1,9 @@
 module
 
-public import Formalism.HermitianCurvature.StatementKB
+public import Formalism.HermitianCurvature.Bundle007
 public import Formalism.HermitianCurvature.WeylElementCommutesLevelOne
 public import Formalism.HermitianCurvature.StatementJCT
-public import Formalism.HermitianCurvature.StatementTop
+public import Formalism.HermitianCurvature.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

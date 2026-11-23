@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LieDerivativeL2InnerProduct
-public import Development.AbelianVarietyTheory.Definitions.Divisors.IsAddHaarMeasureVolumeLie
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EqZeroOfMemWeakIn
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1296
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle024
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1298
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.CuspDiscreteDecompositionGL
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LieDerivativeRealLieSmoothingEqDensity
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContinuousOfIsOpenStab
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1530
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle133
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsFiniteMeasureQuotMeasure
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -46,7 +46,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GrowthOfTame
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1446
 import ReciprocityTheory.NeutralLocalFields.LocalFieldComparison.HCFFromRecipA
 
 @[expose] public section
@@ -251,6 +251,8 @@ theorem pet_smoothing_left (hω : ω.IsUnitary) (hα : IsTest (invSet E a) α) (
   have hD := isFundamentalDomain_stdDom (latticeGL E a) μ
   haveI : IsFiniteMeasure (μ.restrict (stdDom (latticeGL E a))) :=
     ⟨by rw [Measure.restrict_apply_univ, ← quotMeasure_univ hD]; exact measure_lt_top _ _⟩
+  haveI : SFinite (μ.restrict (stdDom (latticeGL E a))) :=
+    @MeasureTheory.instSFiniteOfSigmaFinite _ _ _ (IsFiniteMeasure.toSigmaFinite _)
   obtain ⟨C, hC⟩ := h.2.2.2
   obtain ⟨D, hD'⟩ := h'.2.2.2
   have hαi : Integrable α ν := hα.1.continuous.integrable_of_hasCompactSupport hα.2.1

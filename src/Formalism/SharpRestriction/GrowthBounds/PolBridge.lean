@@ -5,11 +5,10 @@ public import Formalism.SharpRestriction.GrowthBounds.ProjectionOfIsotypicDecomp
 public import Formalism.SharpRestriction.GrowthBounds.RootWeights.DescendingProdEqFactorialChoose
 public import Formalism.SharpRestriction.GrowthBounds.RootWeights.ExistsHighestWeightVectorFindim
 public import Formalism.SharpRestriction.GrowthBounds.RootWeights.GeneratedModuleWeightLemmaOfInterfaces
-public import Formalism.SharpRestriction.GrowthBounds.RootWeights.GeneratedModuleWeightLemmaPartB
-public import Formalism.SharpRestriction.GrowthBounds.RootWeights.GeneratedWeightLemmaOfReducibility
-public import Formalism.SharpRestriction.GrowthBounds.RootWeights.HighestWeightDominantHolds
-public import Formalism.SharpRestriction.GrowthBounds.RootWeights.IntegralEnvelopingPreservesStable
-import Formalism.SharpRestriction.GrowthBounds.RootWeights.MonomialsAreWeightVectors
+public import Formalism.SharpRestriction.GrowthBounds.RootWeights.Bundle022
+public import Formalism.SharpRestriction.GrowthBounds.RootWeights.Bundle011
+public import Formalism.SharpRestriction.GrowthBounds.RootWeights.Bundle009
+import Formalism.SharpRestriction.GrowthBounds.RootWeights.Bundle010
 import Formalism.SharpRestriction.GrowthBounds.RootWeights.WeightEntryRestrictionMem
 public import Formalism.SharpRestriction.GrowthBounds.ValuationLowestDegreeMapFractionField
 import Mathlib.Algebra.Order.Floor.Extended
@@ -53,7 +52,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Presheaf
 import Std.Tactic.BVDecide.Normalize.Prop
-public import Formalism.SharpRestriction.GrowthBounds.RootWeights.ContravariantIsotypicOrthogonal
+public import Formalism.SharpRestriction.GrowthBounds.RootWeights.Bundle003
 
 @[expose] public section
 

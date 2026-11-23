@@ -52,7 +52,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.ThetaQuasiPeriods.Transl
+public import ReciprocityTheory.ThetaQuasiPeriods.Bundle001
 
 @[expose] public section
 

@@ -1,6 +1,6 @@
 module
 
-import ReciprocityTheory.SemistableReduction.SemiContractC
+import ReciprocityTheory.SemistableReduction.Bundle018
 public import Mathlib.NumberTheory.NumberField.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

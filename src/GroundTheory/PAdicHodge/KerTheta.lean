@@ -1,7 +1,7 @@
 module
 
-public import GroundTheory.PAdicHodge.PerfectoidField
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.LeSpanSingletonOfForallMemEq
+public import GroundTheory.PAdicHodge.Bundle002
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle064
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

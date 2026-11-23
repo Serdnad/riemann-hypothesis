@@ -3,7 +3,7 @@ module
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.LoopTieOf
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.SaturatedPf
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.TermDefPf
-public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.FibreCounting
+public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.Bundle017
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -186,14 +186,14 @@ theorem nlam_congr {Λ₁ Λ₂ : Submodule (𝓞 D.host.E) (VS D).V} (h : Λ₁
 theorem gmap_congr {Λ₁ Λ₂ Λ₃ : Submodule (𝓞 D.host.E) (VS D).V} {c : (VS D).V ≃ₗ[D.host.E] (VS D).V}
     (h : Formalism.HermitianLatticesTheory.gmap c Λ₁ = Λ₃) (e : Λ₁ = Λ₂) : Formalism.HermitianLatticesTheory.gmap c Λ₂ = Λ₃ := e ▸ h
 
-theorem fib_c {s₀ s : TT Y u u'} (h : s₀.toTerm = s.toTerm) :
+theorem fib_c {s₀ s : _root_.Formalism.L2.SG.PackageTie2.TT Y u u'} (h : s₀.toTerm = s.toTerm) :
     ∃ c : (VS D).V ≃ₗ[D.host.E] (VS D).V, c ∈ Formalism.HermitianLatticesTheory.isom (VS D).hT ∧ Formalism.HermitianLatticesTheory.gmap c s₀.lam' = s₀.lam' ∧
       (∀ a, c ((X.Fu u').fvec a) = (X.Fu u').fvec a) ∧
       ∃ n ∈ NLam s₀.lam (lf D (X.Fu u)), ∃ ν ∈ NLam s₀.lam' (lf D (X.Fu u')), s.lin = n * s₀.lin * ν * c := by
   obtain ⟨-, n, hn, ν, hν, c, hc, hg, hfix, he⟩ := fib_dec h
   exact ⟨c, hc, gmap_congr hg (lam'_eq h).symm, hfix, n, hn, ν, hν, he⟩
 
-theorem eq_of_dec {s₀ s s' : TT Y u u'} (h : s₀.toTerm = s.toTerm) (h' : s₀.toTerm = s'.toTerm)
+theorem eq_of_dec {s₀ s s' : _root_.Formalism.L2.SG.PackageTie2.TT Y u u'} (h : s₀.toTerm = s.toTerm) (h' : s₀.toTerm = s'.toTerm)
     {n n' ν ν' c c' : (VS D).V ≃ₗ[D.host.E] (VS D).V}
     (hn : n ∈ NLam s₀.lam (lf D (X.Fu u))) (hn' : n' ∈ NLam s₀.lam (lf D (X.Fu u)))
     (hν : ν ∈ NLam s₀.lam' (lf D (X.Fu u'))) (hν' : ν' ∈ NLam s₀.lam' (lf D (X.Fu u')))
@@ -219,13 +219,13 @@ theorem eq_of_dec {s₀ s s' : TT Y u u'} (h : s₀.toTerm = s.toTerm) (h' : s�
   rw [he, he']
   group
 
-theorem card_le {t : RT Y u u'} (S0 : Finset (TT Y u u')) (hS0 : ∀ s ∈ S0, s.toTerm = t) {s₀ : TT Y u u'}
+theorem card_le {t : RT Y u u'} (S0 : Finset (_root_.Formalism.L2.SG.PackageTie2.TT Y u u')) (hS0 : ∀ s ∈ S0, s.toTerm = t) {s₀ : _root_.Formalism.L2.SG.PackageTie2.TT Y u u'}
     (h₀ : s₀.toTerm = t) [Finite (autLz D (X.Fu u') s₀.lam')] :
     S0.card ≤ Nat.card (autLz D (X.Fu u') s₀.lam') := by
   have hex : ∀ s : S0, ∃ c : (VS D).V ≃ₗ[D.host.E] (VS D).V, c ∈ Formalism.HermitianLatticesTheory.isom (VS D).hT ∧
       Formalism.HermitianLatticesTheory.gmap c s₀.lam' = s₀.lam' ∧ (∀ a, c ((X.Fu u').fvec a) = (X.Fu u').fvec a) ∧
       ∃ n ∈ NLam s₀.lam (lf D (X.Fu u)), ∃ ν ∈ NLam s₀.lam' (lf D (X.Fu u')),
-        (s : TT Y u u').lin = n * s₀.lin * ν * c :=
+        (s : _root_.Formalism.L2.SG.PackageTie2.TT Y u u').lin = n * s₀.lin * ν * c :=
     fun s => fib_c (h₀.trans (hS0 s s.2).symm)
   let cf : S0 → (VS D).V ≃ₗ[D.host.E] (VS D).V := fun s => (hex s).choose
   have hcf : ∀ s, _ := fun s => (hex s).choose_spec
@@ -251,7 +251,7 @@ variable {D : D7} {X : HidaSetting D}
 
 variable (Y) in
 def RowFree (Y : Full X) : Prop :=
-  ∀ (u u' : D.what₂.Word) (s s' : TT Y u u'), s.toTerm = s'.toTerm →
+  ∀ (u u' : D.what₂.Word) (s s' : _root_.Formalism.L2.SG.PackageTie2.TT Y u u'), s.toTerm = s'.toTerm →
     Formalism.L2.SG.LoopTieOf.rowL (Y := Y) s = Formalism.L2.SG.LoopTieOf.rowL (Y := Y) s' → s = s'
 
 theorem fibreCount_of {Y : Full X} (hR : RowFree Y) : Formalism.L2.SG.LoopTieOf.FibreCount Y := by
@@ -262,7 +262,7 @@ theorem fibreCount_of {Y : Full X} (hR : RowFree Y) : Formalism.L2.SG.LoopTieOf.
   rw [Finset.sum_congr rfl (fun x hx => by rw [hlam x hx]), Finset.sum_const, nsmul_eq_mul]
   unfold wRow
   by_cases hfin : Finite (autLz D (X.Fu u') x₀.1.lam')
-  · have hinj : Set.InjOn Prod.fst (S : Set (TT Y u u' × TT Y u u')) := by
+  · have hinj : Set.InjOn Prod.fst (S : Set (_root_.Formalism.L2.SG.PackageTie2.TT Y u u' × _root_.Formalism.L2.SG.PackageTie2.TT Y u u')) := by
       intro x hx y hy hxy
       have h2 : x.2 = y.2 := hR u u' x.2 y.2 ((hS x hx).2.1.trans (hS y hy).2.1.symm)
         (((hS x hx).2.2.symm.trans (congrArg _ hxy)).trans (hS y hy).2.2)

@@ -1,11 +1,11 @@
 module
 
 public import Formalism.SharpRestriction.GrowthBounds.BinomialPolynomialIdentities.ContragredientIrreducibleGeneratedByHighestWeigh
-public import Formalism.SharpRestriction.GrowthBounds.RootWeights.DeltaIntegralEnvelopingStable
-import Formalism.SharpRestriction.GrowthBounds.RootWeights.IntegralEnvelopingPreservesSubmodule
+public import Formalism.SharpRestriction.GrowthBounds.RootWeights.Bundle018
+import Formalism.SharpRestriction.GrowthBounds.RootWeights.Bundle006
 import Formalism.SharpRestriction.GrowthBounds.RootWeights.IrreducibleStableContainsEqTop
 public import Formalism.SharpRestriction.GrowthBounds.RootWeights.RaiseLowerPowCommutatorOnWeight
-import Formalism.SharpRestriction.GrowthBounds.RootWeights.WeightEntriesBetweenExtremeHighest
+import Formalism.SharpRestriction.GrowthBounds.RootWeights.Bundle020
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

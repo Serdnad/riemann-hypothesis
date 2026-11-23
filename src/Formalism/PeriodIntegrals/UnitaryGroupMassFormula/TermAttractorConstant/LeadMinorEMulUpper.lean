@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.TermDef
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsUpUniMulAlt
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle262
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.RelativeEquivalence.DCRelEquivAllHolds
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

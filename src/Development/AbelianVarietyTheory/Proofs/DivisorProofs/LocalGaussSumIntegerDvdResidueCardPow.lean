@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GSEqZeroOfLt
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GaussUnitsNormSq
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.NormSatakeLeOfUnitarySphericalGL
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1284
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle015
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle212
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

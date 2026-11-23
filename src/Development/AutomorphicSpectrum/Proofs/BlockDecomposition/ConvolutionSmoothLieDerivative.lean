@@ -1,12 +1,12 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsTestZero
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle403
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.T2SpaceAdelicGeneralLinearGroupNumberField
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ContinuousOfIsBlockEmb
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EqZeroOfMemWeakIn
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContinuousOfIsOpenStab
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ContDiffIntegralDensity
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.TestFunctionContinuousCompactSupport
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2034
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1298
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle133
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle005
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle663
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,13 +1,13 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.PullData
-public import Development.AbelianVarietyTheory.Definitions.Divisors.GalRigidOfSurjective
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AbLocusIffOfMonomialTau
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsCanonicalMumfordFamilyMonomialPeriodsStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsRegularLocalRingAndIsRelParam
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.NTorsionRationalCanonicalFamilyDividedDataStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.XMemNonZeroDivisors
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.RegularLocalRingNormalDomain
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle074
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3303
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsCanonicalMumfordFamilyMonomialPeriods
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3102
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3339
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3160
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle032
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -44,7 +44,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsMinAt
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle067
 
 @[expose] public section
 

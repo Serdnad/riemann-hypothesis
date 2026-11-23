@@ -4,12 +4,9 @@ public import Mathlib.Analysis.Matrix.MeasurableSpace
 public import Formalism.DoubleCosetMeasures.StatementZ
 public import Development.AbelianVarietyTheory.Definitions.Divisors.RankEqCardIffExistsFrameMatrixFirstColumnBlock
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SumOKEx
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.FlipGridPathAtSquareSplitStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsSplitThetaGridPathFlipGridPathAtSquareStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.MemGridPathInnerVerticesFlipGridPathAtSquareStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SplitThetaGridPathAvoidsOppositeCornerStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SquareFlipEquivariantBlockDiagonalColumnSubstituStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SquareFlipRowsIntegralGLInvariantStatement
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle053
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle669
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle434
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -50,8 +47,8 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsGivenStageEqOne
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.PairPtsClasses
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ValuationGdetKapAt
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle287
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle324
 
 @[expose] public section
 
@@ -85,6 +82,10 @@ section
 variable {k : Type} [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchimedeanLocalField k] [MeasurableSpace k]
   [BorelSpace k]
 
+attribute [-instance] Formalism.DoubleCosetMeasures.instMeasGL
+  Formalism.DoubleCosetMeasures.instBorelGL Formalism.DoubleCosetMeasures.instMeasMat
+  GlobalTheory.CompanionTheory.QL.instMeasGL GlobalTheory.CompanionTheory.QL.instBorelGL
+  GroundTheory.Automorphic.GJMatrix.measurableSpace_matrix in
 theorem squareFlip_const_mul {A A' D : Type} [Fintype A] [DecidableEq A] [Fintype A'] [DecidableEq A'] [Fintype D]
     [DecidableEq D] (μ : Measure (GL A' k)) (σ : A ⊕ A' ≃ D) (ψ : AddChar k Circle) (ν : kˣ →* ℂˣ) (ϖ : kˣ) (e : ℕ)
     (P : Finset D) (c : ℂ) (Φ : Matrix A' D k → ℂ) (X : Matrix A D k) :
@@ -107,7 +108,9 @@ theorem squareFlip_const_mul {A A' D : Type} [Fintype A] [DecidableEq A] [Fintyp
     · rw [hf]
     · simp
   have h0 : (fun Z => c * Φ Z) = c • Φ := rfl
-  rw [h0, squareFlip, map_smul, h1, map_smul]
+  rw [h0]
+  unfold GlobalTheory.SplitFlip.squareFlip
+  rw [map_smul, h1, map_smul]
   rfl
 
 variable {G : Grid k}
@@ -183,6 +186,10 @@ namespace GlobalTheory.FlipAdm
 variable {k : Type} [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchimedeanLocalField k] [MeasurableSpace k]
   [BorelSpace k] {G : Grid k}
 
+attribute [-instance] Formalism.DoubleCosetMeasures.instMeasGL
+  Formalism.DoubleCosetMeasures.instBorelGL Formalism.DoubleCosetMeasures.instMeasMat
+  GlobalTheory.CompanionTheory.QL.instMeasGL GlobalTheory.CompanionTheory.QL.instBorelGL
+  GroundTheory.Automorphic.GJMatrix.measurableSpace_matrix in
 theorem pathAct_flipTensor {ψ : AddChar k Circle} {ϖ : kˣ} {e : ℕ} (hϖ : IsUnif ϖ) (hψ : HasConductor ψ 1) (he : 1 ≤ e)
     {i j : ℕ} (hν : CondLE ϖ e (G.nu i j)) {J : G.Level} (hJ : IsOpen (J (i, j) : Set (GL (Fin (G.rank (i, j))) k)))
     (hJK : J (i, j) ≤ KO k _) (l₁ l₂ : List Edge) {T : G.Args → ℂ}
@@ -191,15 +198,17 @@ theorem pathAct_flipTensor {ψ : AddChar k Circle} {ϖ : kˣ} {e : ℕ} (hϖ : I
     G.pathAct .one (l₁ ++ [Edge.ex i (j + 1), Edge.theta (i + 1) j] ++ l₂) g (G.flipTensor .one ψ ϖ e i j J T) =
       G.flipTensor .one ψ ϖ e i j J (G.pathAct .one (l₁ ++ [Edge.theta i j, Edge.ex i j] ++ l₂) g T) := by
   have hJ' := isOpen_map_invT hJ hJK
-  haveI := isHaarMeasure_haarVol hJ'.1 hJ'.2
+  have hμ := isHaarMeasure_haarVol hJ'.1 hJ'.2
   funext x
   set Φ := G.sliceB i j T (G.moveArgs .one g x) with hΦ
   have hN : IsNatDatum ϖ e Φ := isNatDatum_sliceB hT (by simp) (by simp) _
   have hM₁ : invT (g (i, j + 1)) ∈ KO k _ := invT_mem_KO (hK _)
   have hM₂ : g (i + 1, j) ∈ KO k _ := hK _
-  have hcol := GlobalTheory.T.squareFlip_equivariant_blockDiagonal_columnSubstitution (haarVol ((J (i, j)).map invT)) (stdSplit (G.rank_square i j)) ψ (G.nu i j) ϖ e hϖ hψ he hν
+  have hcol := @GlobalTheory.T.squareFlip_equivariant_blockDiagonal_columnSubstitution k _ _ _ _ _ _
+    _ _ _ _ _ _ _ _ _ _ _ _ (haarVol ((J (i, j)).map invT)) hμ (stdSplit (G.rank_square i j)) ψ (G.nu i j) ϖ e hϖ hψ he hν
     Φ hN _ hM₁ _ hM₂ (G.joinA i j x)
-  have hrow := GlobalTheory.T.squareFlip_rows_integralGL_invariant (haarVol ((J (i, j)).map invT)) (stdSplit (G.rank_square i j)) ψ (G.nu i j) ϖ e hϖ hψ he hν
+  have hrow := @GlobalTheory.T.squareFlip_rows_integralGL_invariant k _ _ _ _ _ _
+    _ _ _ _ _ _ _ _ _ _ _ _ (haarVol ((J (i, j)).map invT)) hμ (stdSplit (G.rank_square i j)) ψ (G.nu i j) ϖ e hϖ hψ he hν
     Φ hN _ (hK (i + 1, j + 1))
     (G.joinA i j x * fromBlocks (invT (g (i, j + 1))).val 0 0 (g (i + 1, j)).val)
   have hsl : G.sliceB i j (G.pathAct .one (l₁ ++ [Edge.theta i j, Edge.ex i j] ++ l₂) g T) x =

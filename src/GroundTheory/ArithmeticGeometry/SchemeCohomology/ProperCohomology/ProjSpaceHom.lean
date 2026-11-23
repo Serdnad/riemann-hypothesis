@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProperCohomology.ProjHom
-public import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProjectiveSpaceChart
+public import GroundTheory.ArithmeticGeometry.SchemeCohomology.Bundle004
 public import Mathlib.Tactic.ENatToNat
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

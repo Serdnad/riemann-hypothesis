@@ -2,12 +2,12 @@ module
 
 public import Formalism.LocalToGlobal.GlobalTheory.GL4.PColSlopeEq
 public import Formalism.LocalToGlobal.HermitianColumns.InLocalDiscriminantKernel
-public import Formalism.LocalToGlobal.LatticeGeometry.GeometryDefinitions.ClsSum
+public import Formalism.LocalToGlobal.LatticeGeometry.GeometryDefinitions.Bundle001
 public import Formalism.QuotientMetricDivisors.Statement
-public import Formalism.LocalRingCardinality.PosOfIsomEmb
-public import Formalism.LocalToGlobal.Columns.BrpStarLatLattice
-import Formalism.LocalToGlobal.Columns.BrzColLatOneLattice
-public import Formalism.LocalToGlobal.GlobalTheory.GL4.MemDualCrdLat
+public import Formalism.LocalRingCardinality.Bundle009
+public import Formalism.LocalToGlobal.Columns.Bundle030
+import Formalism.LocalToGlobal.Columns.Bundle029
+public import Formalism.LocalToGlobal.GlobalTheory.GL4.Bundle003
 public import Formalism.LocalToGlobal.GlobalTheory.GL4.PZBasis
 import Formalism.LocalToGlobal.GlobalTheory.HLatOpsP
 import Formalism.LocalToGlobal.LatticeGeometry.GeometryDefinitions.ExistsFrameOfSig

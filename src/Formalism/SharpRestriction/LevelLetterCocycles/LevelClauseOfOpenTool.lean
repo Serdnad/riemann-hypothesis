@@ -1,7 +1,7 @@
 module
 
 public import Formalism.SharpRestriction.LevelLetterCocycles.CrystallineLiftingInputs
-public import Formalism.GaussValuationBounds.GaussValueContraction.GaussValueContractionProofFactBis
+public import Formalism.GaussValuationBounds.GaussValueContraction.Bundle002
 public import Formalism.JumpKernelCokernel.LengthTheoremsWithEarlier
 public import Formalism.SharpRestriction.LevelLetterCocycles.ExistsPosConstLagrangeCondition
 import Formalism.TruncatedSeriesCounting.EtaDeterminantPolynomialIdentities

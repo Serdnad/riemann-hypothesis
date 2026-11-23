@@ -1,9 +1,9 @@
 module
 
-public import Formalism.LocalToGlobal.BesselHermitianTheta.TiedWeil
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.ExistsCompactAdeleRingModNumberField
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.ExistsNhdsZeroPrincipalEqZero
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.LcscAdelicUnitaryGroup
+public import Formalism.LocalToGlobal.BesselHermitianTheta.Bundle002
+public import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle019
+public import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle003
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle018
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

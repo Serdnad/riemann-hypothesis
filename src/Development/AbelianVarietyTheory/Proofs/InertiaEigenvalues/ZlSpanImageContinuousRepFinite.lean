@@ -3,7 +3,7 @@ module
 public import Mathlib.NumberTheory.Padics.Complex
 public import Mathlib.NumberTheory.Padics.PadicIntegers
 public import Mathlib.Topology.Instances.Matrix
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsFiniteExtensionEntriesOfCompactRepStatement
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle194
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -50,8 +50,8 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Connected.Separation
 import Mathlib.Topology.MetricSpace.Ultra.TotallySeparated
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.PolyApproxZeroPadic
-import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsPsCharOne
+import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle002
+import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle001
 import Formalism.SharpRestriction.LevelLetterCocycles.LocCoh
 
 @[expose] public section

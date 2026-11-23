@@ -1,9 +1,9 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.ChowForms.StatementsChartMax
-public import GroundTheory.HeightsAndTheta.Heights.ChowForms.ImportsBis
+public import GroundTheory.HeightsAndTheta.Heights.ChowForms.Bundle004
+public import GroundTheory.HeightsAndTheta.Heights.ChowForms.Bundle006
 public import Mathlib.Order.CompletePartialOrder
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.LowerBoundConditional
+public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle019
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

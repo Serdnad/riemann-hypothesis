@@ -44,9 +44,9 @@ import Mathlib.Topology.Sheaves.Init
 public import Formalism.LocalRingCardinality.RhoDetPrimeEqMuTildeMulChiPow
 public import Formalism.LocalToGlobal.Divisibility.DefGroup
 import Formalism.LocalToGlobal.IndefiniteReal.GramCEqTranspose
-public import Formalism.LocalToGlobal.ProjectiveLattices.CuspidalL2Subspace
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle034
 import Formalism.LocalToGlobal.ProjectiveLattices.ErealAddIInf
-import Formalism.SharpRestriction.CuspSpanNormBounds.Point
+import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle001
 import Formalism.SharpRestriction.LevelLetterCocycles.DataNLoc
 
 @[expose] public section

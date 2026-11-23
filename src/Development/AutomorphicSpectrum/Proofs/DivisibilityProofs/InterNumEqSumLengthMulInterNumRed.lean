@@ -6,13 +6,13 @@ import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.ExistsLi
 import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.IsFiniteLengthOfIsArtinianRingAnnihilator
 public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.IsProjOverCompOfIsClosedImmersion
 import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.IsProjOverIffIsProperAndExistsIsAmpleLB
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LengthStalkNeTopOfNoGenerisation
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LengthStalkReducedClosedGenericPointEqRank
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LineBundleIntersectionNumberEqGenericRankMulStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TopologicalKrullDimAddOneLeOfSsubset
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsPowVanishingIdealLeAnnihilator
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1037
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1136
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1430
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle112
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle192
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FiniteCohOfForallModification
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.SupportPushforwardSubsetImageOfIsClosedImmersion
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle147
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -50,8 +50,8 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AbelianVarietyTheory.Definitions.Divisors.NefFibOfIsNef
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PolEqMultiDiff
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle035
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1270
 
 @[expose] public section
 

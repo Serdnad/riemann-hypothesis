@@ -1,11 +1,11 @@
 module
 
-public import Formalism.HarderNarasimhan.DegSupermodZ
-public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.ExistsSmulMemOfFinrankEq
+public import Formalism.HarderNarasimhan.Bundle001
+public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.Bundle001
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.MuChar
-import Formalism.HarderNarasimhan.HarderNarasimhanProofs.SatBasic
+import Formalism.HarderNarasimhan.HarderNarasimhanProofs.Bundle002
 import Formalism.LatticeSlopes.ExistsSaturatedSlopeEqMuMax
-import Formalism.LatticeSlopes.LatticeSlopesProofs.SlopeInequality
+import Formalism.LatticeSlopes.LatticeSlopesProofs.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

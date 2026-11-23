@@ -1,17 +1,16 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DgMatOne
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.UNInjective
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.BlockUpperTimesUnipotentMulBlockDiagonal
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FinsumParabolicQuotientFubini
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HaarIntegralNormalizedIntegralMatricesTwoSidedMu
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HasCompactSupportTwistedConstantTermSplitPlace
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LeviProjectionMaximalCompact
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ComapUNAndMapSM
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ContinuousBlkOneVal
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsBlocksOfUpper
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FinsumOutOfLe
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HintEqOfLe
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1623
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1665
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1678
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1271
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1664
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1681
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1716
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle538
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle483
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle482
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle508
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -4,8 +4,8 @@ public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HaarQK
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MapWithDensityEqOfScale
 public import Development.WeilBound.RepresentationTheoryGL.TwistedFactors.IntegralUnitBaseChange.InvTransposeGLInvTransposeGL
 public import Mathlib.Analysis.CStarAlgebra.Classes
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IntegralNonnegNormaliserEq
-import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerVolume.TopoPolish
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle413
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerVolume.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,11 +1,11 @@
 module
 
-public import Formalism.UnipotentAdelicQuotients.WeylLatDual
+public import Formalism.UnipotentAdelicQuotients.Bundle001
 public import Formalism.LocalToGlobal.Columns.TiedValLatG
 public import Formalism.LocalToGlobal.GlobalTheory.GL4.PColLoc
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.LatAtLattice
 public import Formalism.LocalToGlobal.GlobalTheory.GL4.PZBasis
-import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LFunctionMinors.InfinitePadicComplex
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LFunctionMinors.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

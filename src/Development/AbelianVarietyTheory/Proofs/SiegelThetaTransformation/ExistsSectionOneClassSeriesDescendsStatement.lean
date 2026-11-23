@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.DatEqZero
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ThExprUniqOfChartIndep2
-public import Formalism.LocalToGlobal.ProjectiveLattices.ThClass
+public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.Bundle002
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle010
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle035
 public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.ExistsSectionOneClassSeriesDescends
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

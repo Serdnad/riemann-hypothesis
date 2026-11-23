@@ -2,8 +2,8 @@ module
 
 public import Development.AutomorphicArithmetic.Foundations.Convolution.GeneralizedMeasures.LocHeckeInert
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TwistedLocalOrbits.HoweSpace
-public import Development.AutomorphicArithmetic.Foundations.Convolution.GeneralizedMeasures.MatchOne
-public import Development.AutomorphicArithmetic.Foundations.Convolution.TwistedLocalOrbits.PlaceDown
+public import Development.AutomorphicArithmetic.Foundations.Convolution.GeneralizedMeasures.Bundle001
+public import Development.AutomorphicArithmetic.Foundations.Convolution.TwistedLocalOrbits.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -40,7 +40,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.IwahoriDoubleCosets
+import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.Bundle004
 
 @[expose] public section
 

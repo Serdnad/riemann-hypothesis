@@ -2,9 +2,8 @@ module
 
 public import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.ClosedProperAlt
 public import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.GeoAbs
-public import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.GlueBasic
-import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.PushTest
-import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.QuotAny
+public import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.Bundle001
+import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

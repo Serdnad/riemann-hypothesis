@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.LocalFields.LubinTateReciprocity.Descent
-public import GroundTheory.LocalFields.LocalAxiom
+public import GroundTheory.LocalFields.Bundle008
 public import GroundTheory.LocalFields.AbstractLocalReciprocity.ReciprocityMap
 public import GroundTheory.LocalFields.LubinTateTower
 public import Mathlib.Tactic.ENatToNat

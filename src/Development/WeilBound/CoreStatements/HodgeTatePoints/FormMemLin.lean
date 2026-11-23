@@ -2,7 +2,7 @@ module
 
 public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.IsTight
 public import Mathlib.FieldTheory.IsAlgClosed.Basic
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.ComapFgOfValuationRing
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

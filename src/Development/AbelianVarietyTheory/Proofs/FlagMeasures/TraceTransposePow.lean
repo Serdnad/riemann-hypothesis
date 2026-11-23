@@ -4,7 +4,7 @@ import Development.AbelianVarietyTheory.Proofs.FlagMeasures.PhiCentreEigenfuncti
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.SmoothAddSmul
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.PosPartUnitaryMul
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ScalarOfMultOne
-public import Formalism.RealPlaceAnalysis.ThirdArithmeticHolds
+public import Formalism.RealPlaceAnalysis.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

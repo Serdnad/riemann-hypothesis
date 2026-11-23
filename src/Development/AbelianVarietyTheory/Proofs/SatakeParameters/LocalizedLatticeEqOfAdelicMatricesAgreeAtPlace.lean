@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.UnderTie
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.AdelicMatrixOneAtPlaceScaledPreservesCompletedLaStatement
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.PrimeLocalizationCompanionLatticeEqOfLocalizatioStatement
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle025
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle187
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle177
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

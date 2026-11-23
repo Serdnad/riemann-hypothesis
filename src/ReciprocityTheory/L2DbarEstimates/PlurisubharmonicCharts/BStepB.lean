@@ -46,10 +46,10 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 import ReciprocityTheory.L2DbarEstimates.ChartDerivatives.ChartSymmEventuallyEq
-public import ReciprocityTheory.L2DbarEstimates.ChartDerivatives.CommFderivApply
+public import ReciprocityTheory.L2DbarEstimates.ChartDerivatives.Bundle001
 import ReciprocityTheory.L2DbarEstimates.ChartDerivatives.HoloSmooth
 import ReciprocityTheory.L2DbarEstimates.ChartDerivatives.TsupportDbSubset
-public import ReciprocityTheory.L2DbarEstimates.PlurisubharmonicCharts.BStepA
+public import ReciprocityTheory.L2DbarEstimates.PlurisubharmonicCharts.Bundle004
 public import ReciprocityTheory.L2DbarEstimates.PlurisubharmonicCharts.FlatLoc
 
 @[expose] public section

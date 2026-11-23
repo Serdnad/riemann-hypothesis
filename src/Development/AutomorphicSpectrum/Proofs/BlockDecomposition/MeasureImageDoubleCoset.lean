@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.IsTemperedCoeff
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle002
 public import Mathlib.NumberTheory.LocalField.Basic
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsPrincipalCongruence
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsOpenIsCompactPrincipal
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle019
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle104
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ValZpowIff
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

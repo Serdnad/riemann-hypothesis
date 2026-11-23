@@ -1,8 +1,8 @@
 module
 
 public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.EqZeroOfBrauerLocalApplyEqZero
-import GroundTheory.ProfiniteCohomology.Factor
-import GroundTheory.ProfiniteCohomology.FilteredHomology
+import GroundTheory.ProfiniteCohomology.Bundle004
+import GroundTheory.ProfiniteCohomology.Bundle001
 import GroundTheory.ProfiniteCohomology.InflationRestriction.DegreeOne
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

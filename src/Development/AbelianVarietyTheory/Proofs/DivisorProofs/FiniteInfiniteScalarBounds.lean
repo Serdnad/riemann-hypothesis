@@ -1,14 +1,14 @@
 module
 
 public import Development.AbelianVarietyTheory.Statements.PlaceShiftStatements.InfClassAt
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsMemValuationEq
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1844
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FiniteCoefficientBound
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FlatIntegrableAaVacOfConductor
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LinearCombinationLogBoundRealInequality
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.AdelicUnitaryLatticeSelfDualTraceForm
-import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.FactPrincipalDatum
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle090
+import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.Bundle002
 import Formalism.LocalToGlobal.ProjectiveLattices.HostInt
-import Formalism.MirabolicMackeyTheory.MirabolicMackeyProofs.RamBasic
+import Formalism.MirabolicMackeyTheory.MirabolicMackeyProofs.Bundle002
 import Mathlib.Algebra.AffineMonoid.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

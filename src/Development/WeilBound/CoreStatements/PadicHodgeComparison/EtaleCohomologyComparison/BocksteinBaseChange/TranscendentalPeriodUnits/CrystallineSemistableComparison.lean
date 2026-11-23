@@ -1,10 +1,10 @@
 module
 
-public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.BocksteinBaseChange.BcrisRegularPeriodRing
+public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.BocksteinBaseChange.Bundle003
 public import GroundTheory.PAdicHodge.BCrisPlusInvariants
 public import GroundTheory.PAdicHodge.BCrisRegular
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.BocksteinBaseChange.TranscendentalPeriodUnits.CrBase
-import GroundTheory.PAdicHodge.BCrisNewton
+import GroundTheory.PAdicHodge.Bundle016
 public import GroundTheory.PAdicHodge.BCrisRegularFinal
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

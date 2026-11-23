@@ -1,7 +1,7 @@
 module
 
 public import ReciprocityTheory.Hypotheses.GalCoh
-public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.IsDiscreteRepResMuROrep
+public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle016
 import GroundTheory.GlobalFields.CyclotomicCharacters.Character
 import GroundTheory.ProfiniteCohomology.GlobalClassFormation.IdeleLimits.NormalFixingSubgroupGaloisClosure
 public import GroundTheory.ProfiniteCohomology.RestrictedRamification.IsUnramifiedOutsideIffLeMaxUnramifiedOutside

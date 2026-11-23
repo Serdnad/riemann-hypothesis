@@ -1,9 +1,9 @@
 module
 
 public import Formalism.SharpRestriction.LevelLetterCocycles.MapEvalPsPi
-public import Formalism.SharpRestriction.LevelLetterCocycles.LevelKernelDetection.DetectPt
+public import Formalism.SharpRestriction.LevelLetterCocycles.LevelKernelDetection.Bundle002
 public import Formalism.SharpRestriction.LevelLetterCocycles.LevelKernelDetection.GradedClassDecomposition
-public import Formalism.SharpRestriction.LevelLetterCocycles.LevelKernelDetection.HfracOf
+public import Formalism.SharpRestriction.LevelLetterCocycles.LevelKernelDetection.Bundle010
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

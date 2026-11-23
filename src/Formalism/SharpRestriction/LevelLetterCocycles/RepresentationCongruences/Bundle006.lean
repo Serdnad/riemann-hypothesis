@@ -1,0 +1,415 @@
+module
+
+public import Formalism.SharpRestriction.LevelLetterCocycles.ArcLiftingSetup
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Linter.Style
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.Polynomial.Basic
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Topology.Sheaves.Init
+
+@[expose] public section
+
+section
+
+noncomputable section
+
+namespace Formalism.MainNotions.N.FrobeniusPowerSeries.DYB
+
+open Formalism.WeaklyAdmissibleFiltrations Formalism.BasicNotions Formalism.BasicNotions.Loc Formalism.MainNotions.ArcLiftingSetup
+
+variable {G : Type} [Group G] [TopologicalSpace G] {Qp K₀ K : Type} [Field Qp] [Field K₀] [Field K]
+    [Algebra Qp K₀] [Algebra Qp K] [Algebra K₀ K] [IsScalarTower Qp K₀ K]
+    {B BdR : Type} [CommRing B] [CommRing BdR] [Algebra Qp B] [Algebra K₀ B] [IsScalarTower Qp K₀ B]
+    [Algebra Qp BdR] [Algebra K₀ BdR] [Algebra K BdR] [IsScalarTower Qp K BdR]
+    [IsScalarTower K₀ K BdR] [IsScalarTower Qp K₀ BdR]
+    {LL O : Type} [Field LL] [Algebra Qp LL] [TopologicalSpace LL] [CommRing O] [Algebra O LL]
+    {v : AddValuation LL (WithTop ℚ)} {n : ℕ}
+    {PD : PeriodData G Qp K₀ K B BdR}
+
+variable [FiniteDimensional Qp LL]
+
+variable (W : LocWach PD LL O v n)
+
+theorem φD_smulA (T : LocLat G Qp LL O) (a : LetA O n) (x : W.DD T) :
+    W.φD T (a • x) = W.φA a • W.φD T x := by
+  rw [← algebraMap_smul W.EE a x, W.φD_smul, W.φE_ext, algebraMap_smul]
+  rfl
+
+theorem γ_smulA (T : LocLat G Qp LL O) (a : LetA O n) (x : W.DD T) :
+    W.γ T (a • x) = W.γA W.gam a • W.γ T x := by
+  show W.γD T W.gam (a • x) = W.γA W.gam a • W.γD T W.gam x
+  rw [← algebraMap_smul W.EE a x, W.γD_smul, W.γE_ext, algebraMap_smul]
+  rfl
+
+theorem γA_lA_pow (k : ℕ) : W.γA W.gam (lA W ^ k) = lA W ^ k := by
+  unfold lA
+  rw [map_pow, map_natCast]
+
+def HLD (T : LocLat G Qp LL O) (c : ZMod n) : AddSubgroup (W.DD T) where
+  carrier := {x | (letE (O := O) c : LetA O n) • x = x ∧ ∀ δ ∈ W.DelF, W.γD T δ x = x}
+  zero_mem' := ⟨smul_zero _, fun δ _ => map_zero _⟩
+  add_mem' := by
+    rintro x y ⟨hx1, hx2⟩ ⟨hy1, hy2⟩
+    exact ⟨by rw [smul_add, hx1, hy1], fun δ hδ => by rw [map_add (f := _), hx2 δ hδ, hy2 δ hδ]⟩
+  neg_mem' := by
+    rintro x ⟨hx1, hx2⟩
+    exact ⟨by rw [smul_neg, hx1], fun δ hδ => by rw [map_neg, hx2 δ hδ]⟩
+
+theorem Pp_le_HLD (T : LocLat G Qp LL O) (c : ZMod n) : Pp W T c 1 ≤ HLD W T (c + 1) := by
+  have hφE : W.φA (letE (O := O) c) = letE (c + 1) := by
+    funext k
+    unfold letE LocWach.φA letφ
+    change W.φ₀ ((Pi.single c 1 : LetA O n) (k - 1)) = (Pi.single (c + 1) 1 : LetA O n) k
+    by_cases hk : k = c + 1
+    · subst hk
+      simp
+    · have hk' : k - 1 ≠ c := by
+        intro h'
+        apply hk
+        rw [← h', sub_add_cancel]
+      rw [Pi.single_eq_of_ne hk', Pi.single_eq_of_ne hk, map_zero]
+  have hid : ∀ d : ZMod n, (letE (O := O) d : LetA O n) * letE d = letE d := by
+    intro d
+    funext k
+    unfold letE
+    by_cases hk : k = d
+    · subst hk
+      simp
+    · simp [Pi.single_eq_of_ne hk]
+  have hsl : ∀ δ (a : LetA O n) (z : W.DD T), W.γD T δ (a • z) = W.γA δ a • W.γD T δ z := by
+    intro δ a z
+    rw [← algebraMap_smul W.EE a z, W.γD_smul, W.γE_ext, algebraMap_smul]
+    rfl
+  unfold Pp
+  rw [AddSubgroup.closure_le]
+  rintro z ⟨a, ha, x, ⟨hxN, hxl⟩, rfl⟩
+  obtain ⟨_, hxD⟩ : x ∈ W.N T ∧ ∀ δ ∈ W.DelF, W.γD T δ x = x := hxN
+  obtain ⟨y, _, rfl⟩ := hxl
+  simp only [pow_one, LinearMap.smul_apply, LinearMap.id_apply] at hxD ⊢
+  change _ ∧ _
+  refine ⟨?_, fun δ hδ => ?_⟩
+  · rw [φD_smulA W T, hφE]
+    simp only [smul_smul]
+    congr 1
+    linear_combination a * hid (c + 1)
+  · rw [hsl, ← W.φγ_comm, hxD δ hδ, ha δ hδ]
+
+theorem Pp_smul (T : LocLat G Qp LL O) (c : ZMod n) {a : LetA O n} (ha : a ∈ W.AΔ) {y : W.DD T}
+    (hy : y ∈ Pp W T c 1) : a • y ∈ Pp W T c 1 := by
+  unfold Pp at hy ⊢
+  induction hy using AddSubgroup.closure_induction with
+  | mem z hz =>
+    obtain ⟨b, hb, x, hx, rfl⟩ := hz
+    apply AddSubgroup.subset_closure
+    exact ⟨a * b, W.AΔ.mul_mem ha hb, x, hx, by rw [smul_smul]⟩
+  | zero => rw [smul_zero]; exact zero_mem _
+  | add u w _ _ hu hw => rw [smul_add]; exact add_mem hu hw
+  | neg u _ hu => rw [smul_neg]; exact neg_mem hu
+
+theorem InNΔi_γ (T : LocLat G Qp LL O) (c : ZMod n) {x : W.DD T}
+    (hx : Formalism.MainNotions.LiftingTheory.InNΔi W T c x) : Formalism.MainNotions.LiftingTheory.InNΔi W T c (W.γ T x) := by
+  obtain ⟨h1, h2⟩ := hx
+  obtain ⟨hN, hD⟩ : x ∈ W.N T ∧ ∀ δ ∈ W.DelF, W.γD T δ x = x := h1
+  have hsl : ∀ δ (a : LetA O n) (z : W.DD T), W.γD T δ (a • z) = W.γA δ a • W.γD T δ z := by
+    intro δ a z
+    rw [← algebraMap_smul W.EE a z, W.γD_smul, W.γE_ext, algebraMap_smul]
+    rfl
+  have hγE : W.γA W.gam (letE (O := O) c) = letE c := by
+    funext k
+    unfold letE LocWach.γA letγ
+    change W.γ₀ W.gam ((Pi.single c 1 : LetA O n) k) = (Pi.single c 1 : LetA O n) k
+    by_cases hk : k = c
+    · subst hk
+      simp
+    · rw [Pi.single_eq_of_ne hk, map_zero]
+  refine ⟨?_, ?_⟩
+  · show W.γD T W.gam x ∈ W.N T ∧ ∀ δ ∈ W.DelF, W.γD T δ (W.γD T W.gam x) = W.γD T W.gam x
+    refine ⟨W.N_Γ T W.gam x hN, fun δ hδ => ?_⟩
+    rw [← W.γD_mul, mul_comm, W.γD_mul, hD δ hδ]
+  · obtain ⟨y, hy, rfl⟩ := h2
+    refine ⟨W.γD T W.gam y, W.N_Γ T W.gam y hy, ?_⟩
+    show (letE c • LinearMap.id) (W.γD T W.gam y) = W.γD T W.gam ((letE c • LinearMap.id) y)
+    simp only [LinearMap.smul_apply, LinearMap.id_apply]
+    rw [hsl, hγE]
+
+theorem Pp_γ (T : LocLat G Qp LL O) (c : ZMod n) {y : W.DD T} (hy : y ∈ Pp W T c 1) :
+    W.γ T y ∈ Pp W T c 1 := by
+  have hsl : ∀ δ (a : LetA O n) (z : W.DD T), W.γD T δ (a • z) = W.γA δ a • W.γD T δ z := by
+    intro δ a z
+    rw [← algebraMap_smul W.EE a z, W.γD_smul, W.γE_ext, algebraMap_smul]
+    rfl
+  have hcomm : ∀ (g h : W.Gam) (a : LetA O n), W.γA g (W.γA h a) = W.γA h (W.γA g a) := by
+    intro g h a
+    funext k
+    unfold LocWach.γA letγ
+    change W.γ₀ g (W.γ₀ h (a k)) = W.γ₀ h (W.γ₀ g (a k))
+    rw [← AlgHom.mul_apply, ← map_mul, mul_comm, map_mul, AlgHom.mul_apply]
+  unfold Pp at hy ⊢
+  induction hy using AddSubgroup.closure_induction with
+  | mem z hz =>
+    obtain ⟨a, ha, x, hx, rfl⟩ := hz
+    apply AddSubgroup.subset_closure
+    refine ⟨W.γA W.gam a, ?_, W.γ T x, InNΔi_γ W T c hx, ?_⟩
+    · show ∀ δ ∈ W.DelF, W.γA δ (W.γA W.gam a) = W.γA W.gam a
+      intro δ hδ
+      rw [hcomm, ha δ hδ]
+    · show W.γD T W.gam (a • (W.φD T ^ 1) x) = W.γA W.gam a • (W.φD T ^ 1) (W.γD T W.gam x)
+      rw [pow_one, hsl, W.φγ_comm]
+  | zero => rw [map_zero]; exact zero_mem _
+  | add u w _ _ hu hw => rw [map_add (f := _)]; exact add_mem hu hw
+  | neg u _ hu => rw [map_neg]; exact neg_mem hu
+
+theorem Pp_qpow (T : LocLat G Qp LL O) (c : ZMod n) (k : ℕ)
+    (hq : ∀ x, Formalism.MainNotions.LiftingTheory.InNΔi W T c x → qA W ^ k • W.φD T x ∈ W.N T) {y : W.DD T}
+    (hy : y ∈ Pp W T c 1) : qA W ^ k • y ∈ W.NΔ T := by
+  have hsl : ∀ δ (a : LetA O n) (z : W.DD T), W.γD T δ (a • z) = W.γA δ a • W.γD T δ z := by
+    intro δ a z
+    rw [← algebraMap_smul W.EE a z, W.γD_smul, W.γE_ext, algebraMap_smul]
+    rfl
+  have htor : ∀ g h : W.Gam, g ∈ W.DelF → h ∈ W.DelF → g * h ∈ W.DelF := by
+    intro g h hg hh
+    rw [W.DelF_def] at hg hh ⊢
+    obtain ⟨a, ha, hga⟩ := hg
+    obtain ⟨b, hb, hhb⟩ := hh
+    refine ⟨a * b, Nat.mul_pos ha hb, ?_⟩
+    rw [mul_pow, pow_mul, hga, one_pow, mul_comm a b, pow_mul, hhb, one_pow, one_mul]
+  have hinv : ∀ g : W.Gam, g ∈ W.DelF → g⁻¹ ∈ W.DelF := by
+    intro g hg
+    rw [W.DelF_def] at hg ⊢
+    obtain ⟨a, ha, hga⟩ := hg
+    exact ⟨a, ha, by rw [inv_pow, hga, inv_one]⟩
+  have hπ : ∀ δ ∈ W.DelF, W.γA δ W.π₀ = W.π₀ := by
+    intro δ hδ
+    funext k
+    unfold LocWach.γA letγ LocWach.π₀
+    change W.γ₀ δ W.π₀₁ = W.π₀₁
+    unfold LocWach.π₀₁
+
+    rw [map_add (f := _), map_sub, map_one, map_natCast, map_sum]
+    congr 1
+    have hm : ∀ δ' : W.Gam, W.γ₀ δ (W.γ₀ δ' (1 + PowerSeries.X)) = W.γ₀ (δ * δ') (1 + PowerSeries.X) :=
+      fun δ' => by rw [map_mul, AlgHom.mul_apply]
+    simp only [hm]
+    exact Finset.sum_nbij' (δ * ·) (δ⁻¹ * ·) (fun a ha => htor δ a hδ ha)
+      (fun a ha => htor _ a (hinv δ hδ) ha) (fun a _ => inv_mul_cancel_left δ a)
+      (fun a _ => mul_inv_cancel_left δ a) (fun a _ => rfl)
+  have hqΔ : ∀ δ ∈ W.DelF, W.γA δ (qA W) = qA W := by
+    intro δ hδ
+    unfold qA lA
+    rw [map_add (f := _), hπ δ hδ, map_natCast]
+  unfold Pp at hy
+  induction hy using AddSubgroup.closure_induction with
+  | mem z hz =>
+    obtain ⟨a, ha, x, hx, rfl⟩ := hz
+    obtain ⟨_, hxD⟩ : x ∈ W.N T ∧ ∀ δ ∈ W.DelF, W.γD T δ x = x := hx.1
+    have hN : qA W ^ k • W.φD T x ∈ W.N T := hq x hx
+    rw [pow_one, smul_smul, mul_comm (qA W ^ k) a, ← smul_smul]
+    show a • qA W ^ k • W.φD T x ∈ W.N T ∧
+      ∀ δ ∈ W.DelF, W.γD T δ (a • qA W ^ k • W.φD T x) = a • qA W ^ k • W.φD T x
+    refine ⟨(W.N T).smul_mem a hN, fun δ hδ => ?_⟩
+    rw [hsl, hsl, ← W.φγ_comm, hxD δ hδ, ha δ hδ, map_pow, hqΔ δ hδ]
+  | zero => rw [smul_zero]; exact (W.NΔ T).zero_mem
+  | add u w _ _ hu hw => rw [smul_add]; exact (W.NΔ T).add_mem hu hw
+  | neg u _ hu => rw [smul_neg]; exact (W.NΔ T).neg_mem hu
+
+end Formalism.MainNotions.N.FrobeniusPowerSeries.DYB
+
+end
+end
+
+section
+
+noncomputable section
+
+namespace Formalism.MainNotions.N.FrobeniusPowerSeries
+
+open Formalism.WeaklyAdmissibleFiltrations Formalism.BasicNotions Formalism.BasicNotions.Loc Formalism.MainNotions.ArcLiftingSetup
+
+variable {G : Type} [Group G] [TopologicalSpace G] {Qp K₀ K : Type} [Field Qp] [Field K₀] [Field K]
+    [Algebra Qp K₀] [Algebra Qp K] [Algebra K₀ K] [IsScalarTower Qp K₀ K]
+    {B BdR : Type} [CommRing B] [CommRing BdR] [Algebra Qp B] [Algebra K₀ B] [IsScalarTower Qp K₀ B]
+    [Algebra Qp BdR] [Algebra K₀ BdR] [Algebra K BdR] [IsScalarTower Qp K BdR]
+    [IsScalarTower K₀ K BdR] [IsScalarTower Qp K₀ BdR]
+    {LL O : Type} [Field LL] [Algebra Qp LL] [TopologicalSpace LL] [CommRing O] [Algebra O LL]
+    {v : AddValuation LL (WithTop ℚ)} {n : ℕ}
+    {PD : PeriodData G Qp K₀ K B BdR}
+
+variable [FiniteDimensional Qp LL]
+
+def InFF (W : LocWach PD LL O v n) (A : ArcP n) (c : ZMod n) (f : W.EE) : Prop :=
+  InFr W c 1 (nnDen W A c) f ∧
+  ∀ s < A.len c, ∀ bs, A.ty (c - (s : ZMod n)) = Formalism.MainNotions.LocalTheoryWindows.LT.down bs →
+    ∃ (κ : ℕ) (x : O), InFr W c (ps W s ^ (bs + A.S)) (nnDen W A c)
+      (lE W κ * f - algebraMap (LetA O n) W.EE (letE c) * algebraMap O W.EE x)
+
+def InLpp (W : LocWach PD LL O v n) (A : ArcP n) (T : LocLat G Qp LL O) (c : ZMod n) {d : ℕ}
+    (b : Fin d → W.DD T) (k₀ : Fin d) : Prop :=
+  ∀ s < A.len c, ∀ bs, A.ty (c - (s : ZMod n)) = Formalism.MainNotions.LocalTheoryWindows.LT.up bs →
+    dv W T (A.len c) b (Pi.single k₀ 1) ∈ FilS W T c s bs
+
+def LiftsAt (W : LocWach PD LL O v n) (A : ArcP n) {T₁ T₂ : LocLat G Qp LL O} (F : LatHom T₁.L T₂.L)
+    (c : ZMod n) {d : ℕ} (b : Fin d → W.DD T₂) (sol : Fin d → ℕ → Fin d → LL) (k₀ : Fin d) (f : W.EE)
+    (e : ℕ) : Prop :=
+  ∃ (w₁ : W.DD T₁) (z : W.DD T₂), InI W T₁ c w₁ ∧ (∃ Λ' ∈ Ps W, InFNc W T₁ c 1 (Λ' • w₁)) ∧
+    InFP W T₂ (c - ((A.len c : ℕ) : ZMod n)) (A.len c) 1 (abelian₂ W A c (A.len c) • W.map F w₁) ∧
+    InFNc W T₂ c W.π₀ z ∧
+    RepVV W T₂ (c - ((A.len c : ℕ) : ZMod n)) (A.len c) (A.M PD.p) (abelian₂ W A c (A.len c)) b sol
+      (W.map F w₁ - z) (fun k => if k = k₀ then lE W e * f else 0)
+
+def ArcSecMapCore (W : LocWach PD LL O v n) : Prop :=
+  Formalism.MainNotions.LiftingTheory.CaseA W → 5 ≤ PD.p → ∀ A : ArcP n, A.OK → ∀ c ∈ A.cuts, ∀ e : ℕ, A.j ≤ e → e ≤ A.len c →
+  ∀ (T₁ T₂ : LocLat G Qp LL O) (F : LatHom T₁.L T₂.L), Win W A T₁ → Win W A T₂ →
+  ∀ (d₁ : ℕ) (b₁ : Fin d₁ → W.DD T₁) (sol₁ : Fin d₁ → ℕ → Fin d₁ → LL), IsHor W T₁ (c - ((A.len c : ℕ) : ZMod n)) b₁ sol₁ →
+  ∀ (d : ℕ) (b : Fin d → W.DD T₂) (sol : Fin d → ℕ → Fin d → LL), IsHor W T₂ (c - ((A.len c : ℕ) : ZMod n)) b sol →
+    (∀ x, InFP W T₁ (c - ((A.len c : ℕ) : ZMod n)) e 1 x → InFP W T₂ (c - ((A.len c : ℕ) : ZMod n)) e 1 (W.map F x)) ∧
+    ∃ μ : Fin d₁ → Fin d → O,
+      (∀ m, Formalism.MainNotions.TruncatedSeriesCountingBounds.crisMap B F.f (dv W T₁ e b₁ (Pi.single m 1)) = dvO W T₂ e b (μ m)) ∧
+      ∀ (x : W.DD T₁) (g : Fin d₁ → W.EE), InFP W T₁ (c - ((A.len c : ℕ) : ZMod n)) e 1 ((abelian₂ W A (c - ((A.len c : ℕ) : ZMod n) + (e : ZMod n)) e) • x) →
+        (∀ m, InFr W (c - ((A.len c : ℕ) : ZMod n) + (e : ZMod n)) 1 (abelian₂ W A (c - ((A.len c : ℕ) : ZMod n) + (e : ZMod n)) e) (g m)) →
+        RepVV W T₁ (c - ((A.len c : ℕ) : ZMod n)) e (A.M PD.p) (abelian₂ W A (c - ((A.len c : ℕ) : ZMod n) + (e : ZMod n)) e) b₁ sol₁ x g →
+        RepVV W T₂ (c - ((A.len c : ℕ) : ZMod n)) e (A.M PD.p) (abelian₂ W A (c - ((A.len c : ℕ) : ZMod n) + (e : ZMod n)) e) b sol (W.map F x)
+          (fun k => ∑ m, g m * algebraMap O W.EE (μ m k))
+
+def ArcGamLiftCore (W : LocWach PD LL O v n) : Prop :=
+  Formalism.MainNotions.LiftingTheory.CaseA W → 5 ≤ PD.p → ∀ A : ArcP n, A.OK → ∀ c ∈ A.cuts, ∀ e : ℕ, A.j ≤ e → e ≤ A.len c →
+  ∀ T : LocLat G Qp LL O, Win W A T →
+  ∀ (d : ℕ) (b : Fin d → W.DD T) (sol : Fin d → ℕ → Fin d → LL), IsHor W T (c - ((A.len c : ℕ) : ZMod n)) b sol →
+  ∀ g : Fin d → W.EE, (∀ k, InFr W (c - ((A.len c : ℕ) : ZMod n) + (e : ZMod n)) 1 (abelian₂ W A (c - ((A.len c : ℕ) : ZMod n) + (e : ZMod n)) e) (g k)) →
+    (∃ h : Fin d → W.EE, (∀ k, W.γE W.gam (g k) - g k = algebraMap (LetA O n) W.EE W.π₀ * h k) ∧
+      (∀ k, InFr W (c - ((A.len c : ℕ) : ZMod n) + (e : ZMod n)) 1 (abelian₂ W A (c - ((A.len c : ℕ) : ZMod n) + (e : ZMod n)) e) (h k)) ∧
+      ∀ s < e, ∃ κ : ℕ, SecIn W (c - ((A.len c : ℕ) : ZMod n) + (e : ZMod n)) e
+        (fun α c₀ => dvO W T e b c₀ ∈ FilS W T (c - ((A.len c : ℕ) : ZMod n) + (e : ZMod n)) s (-(α s))) (fun k => lE W κ * h k)) →
+    ∃ v, InI W T (c - ((A.len c : ℕ) : ZMod n) + (e : ZMod n)) v ∧ InFP W T (c - ((A.len c : ℕ) : ZMod n)) e 1 ((abelian₂ W A (c - ((A.len c : ℕ) : ZMod n) + (e : ZMod n)) e) • v) ∧
+      RepVV W T (c - ((A.len c : ℕ) : ZMod n)) e (A.M PD.p) (abelian₂ W A (c - ((A.len c : ℕ) : ZMod n) + (e : ZMod n)) e) b sol v (fun k => lE W (A.σ PD.p) * g k)
+
+def ArcFilLowCore (W : LocWach PD LL O v n) : Prop :=
+  Formalism.MainNotions.LiftingTheory.CaseA W → 5 ≤ PD.p → ∀ A : ArcP n, A.OK → ∀ c ∈ A.cuts, ∀ e : ℕ, A.j ≤ e → e ≤ A.len c →
+  ∀ T : LocLat G Qp LL O, Win W A T →
+  ∀ (d : ℕ) (b : Fin d → W.DD T) (sol : Fin d → ℕ → Fin d → LL), IsHor W T (c - ((A.len c : ℕ) : ZMod n)) b sol →
+  ∀ c₀ : Fin d → O, ∀ s < e,
+    (∀ u : ℤ, (∀ a ∈ (A.ty ((c - ((A.len c : ℕ) : ZMod n) + (e : ZMod n)) - (s : ZMod n))).win A.G₀ A.S A.η, u ≤ a) →
+      dvO W T e b c₀ ∈ FilS W T (c - ((A.len c : ℕ) : ZMod n) + (e : ZMod n)) s u) ∧
+    (∀ bs : ℕ, A.ty ((c - ((A.len c : ℕ) : ZMod n) + (e : ZMod n)) - (s : ZMod n)) = Formalism.MainNotions.LocalTheoryWindows.LT.up bs →
+      dvO W T e b c₀ ∈ FilS W T (c - ((A.len c : ℕ) : ZMod n) + (e : ZMod n)) s ((A.η : ℤ) + 1) → dvO W T e b c₀ ∈ FilS W T (c - ((A.len c : ℕ) : ZMod n) + (e : ZMod n)) s bs)
+
+def HorFrameCore (W : LocWach PD LL O v n) : Prop :=
+  Formalism.MainNotions.LiftingTheory.CaseA W → 5 ≤ PD.p → ∀ A : ArcP n, A.OK → ∀ T : LocLat G Qp LL O, Win W A T → ∀ c : ZMod n,
+    ∃ (d : ℕ) (b : Fin d → W.DD T) (sol : Fin d → ℕ → Fin d → LL), IsHor W T c b sol
+
+variable (W : LocWach PD LL O v n) (A : ArcP n) {T₁ T₂ : LocLat G Qp LL O} (F : LatHom T₁.L T₂.L)
+    (c : ZMod n) {d : ℕ} (b : Fin d → W.DD T₂) (sol : Fin d → ℕ → Fin d → LL) (k₀ : Fin d)
+
+end Formalism.MainNotions.N.FrobeniusPowerSeries
+end
+end
+
+section
+
+noncomputable section
+
+namespace Formalism.MainNotions.N.FrobeniusPowerSeries
+
+open Formalism.WeaklyAdmissibleFiltrations Formalism.BasicNotions Formalism.BasicNotions.Loc Formalism.MainNotions.ArcLiftingSetup
+
+variable {G : Type} [Group G] [TopologicalSpace G] {Qp K₀ K : Type} [Field Qp] [Field K₀] [Field K]
+    [Algebra Qp K₀] [Algebra Qp K] [Algebra K₀ K] [IsScalarTower Qp K₀ K]
+    {B BdR : Type} [CommRing B] [CommRing BdR] [Algebra Qp B] [Algebra K₀ B] [IsScalarTower Qp K₀ B]
+    [Algebra Qp BdR] [Algebra K₀ BdR] [Algebra K BdR] [IsScalarTower Qp K BdR]
+    [IsScalarTower K₀ K BdR] [IsScalarTower Qp K₀ BdR]
+    {LL O : Type} [Field LL] [Algebra Qp LL] [TopologicalSpace LL] [CommRing O] [Algebra O LL]
+    {v : AddValuation LL (WithTop ℚ)} {n : ℕ}
+    {PD : PeriodData G Qp K₀ K B BdR}
+
+variable [FiniteDimensional Qp LL]
+
+def InLppT (W : LocWach PD LL O v n) (A : ArcP n) (T : LocLat G Qp LL O) (c : ZMod n) {d : ℕ}
+    (b : Fin d → W.DD T) (k₀ : Fin d) : Prop :=
+  ∀ s < A.len c, ∀ bs, A.ty (c - (s : ZMod n)) = Formalism.MainNotions.LocalTheoryWindows.LT.up bs →
+    dv W T (A.len c) b (Pi.single k₀ 1) ∈ FilS W T c s bs
+
+def LiftsAtT (W : LocWach PD LL O v n) (A : ArcP n) {T₁ T₂ : LocLat G Qp LL O} (F : LatHom T₁.L T₂.L)
+    (c : ZMod n) {d : ℕ} (b : Fin d → W.DD T₂) (sol : Fin d → ℕ → Fin d → LL) (k₀ : Fin d) (f : W.EE)
+    (e : ℕ) : Prop :=
+  ∃ (w₁ : W.DD T₁) (z : W.DD T₂), InI W T₁ c w₁ ∧ (∃ Λ' ∈ Ps W, InFNc W T₁ c 1 (Λ' • w₁)) ∧
+    InFP W T₂ (c - ((A.len c : ℕ) : ZMod n)) (A.len c) 1 (abelian₂ W A c (A.len c) • W.map F w₁) ∧
+    InFNc W T₂ c W.π₀ z ∧
+    RepVV W T₂ (c - ((A.len c : ℕ) : ZMod n)) (A.len c) (A.M PD.p) (abelian₂ W A c (A.len c)) b sol
+      (W.map F w₁ - z) (fun k => if k = k₀ then lE W e * f else 0)
+
+def ArcSecMapCoreT (W : LocWach PD LL O v n) : Prop :=
+  Formalism.MainNotions.LiftingTheory.CaseA W → 5 ≤ PD.p → ∀ A : ArcP n, A.OK → ∀ c ∈ A.cuts, ∀ e : ℕ, A.j ≤ e → e ≤ A.len c →
+  ∀ (T₁ T₂ : LocLat G Qp LL O) (F : LatHom T₁.L T₂.L), Win W A T₁ → Win W A T₂ →
+  ∀ (d₁ : ℕ) (b₁ : Fin d₁ → W.DD T₁) (sol₁ : Fin d₁ → ℕ → Fin d₁ → LL), IsHor W T₁ (c - ((A.len c : ℕ) : ZMod n)) b₁ sol₁ →
+  ∀ (d : ℕ) (b : Fin d → W.DD T₂) (sol : Fin d → ℕ → Fin d → LL), IsHor W T₂ (c - ((A.len c : ℕ) : ZMod n)) b sol →
+    (∀ x, InFP W T₁ (c - ((A.len c : ℕ) : ZMod n)) e 1 x → InFP W T₂ (c - ((A.len c : ℕ) : ZMod n)) e 1 (W.map F x)) ∧
+    ∃ μ : Fin d₁ → Fin d → O,
+      (∀ m, Formalism.MainNotions.TruncatedSeriesCountingBounds.crisMap B F.f (dv W T₁ e b₁ (Pi.single m 1)) = dvO W T₂ e b (μ m)) ∧
+      ∀ (x : W.DD T₁) (g : Fin d₁ → W.EE), InFP W T₁ (c - ((A.len c : ℕ) : ZMod n)) e 1 ((abelian₂ W A (c - ((A.len c : ℕ) : ZMod n) + (e : ZMod n)) e) • x) →
+        (∀ m, InFr W (c - ((A.len c : ℕ) : ZMod n) + (e : ZMod n)) 1 (abelian₂ W A (c - ((A.len c : ℕ) : ZMod n) + (e : ZMod n)) e) (g m)) →
+        RepVV W T₁ (c - ((A.len c : ℕ) : ZMod n)) e (A.M PD.p) (abelian₂ W A (c - ((A.len c : ℕ) : ZMod n) + (e : ZMod n)) e) b₁ sol₁ x g →
+        RepVV W T₂ (c - ((A.len c : ℕ) : ZMod n)) e (A.M PD.p) (abelian₂ W A (c - ((A.len c : ℕ) : ZMod n) + (e : ZMod n)) e) b sol (W.map F x)
+          (fun k => ∑ m, g m * algebraMap O W.EE (μ m k))
+
+def ArcGamLiftCoreT (W : LocWach PD LL O v n) : Prop :=
+  Formalism.MainNotions.LiftingTheory.CaseA W → 5 ≤ PD.p → ∀ A : ArcP n, A.OK → ∀ c ∈ A.cuts, ∀ e : ℕ, A.j ≤ e → e ≤ A.len c →
+  ∀ T : LocLat G Qp LL O, Win W A T →
+  ∀ (d : ℕ) (b : Fin d → W.DD T) (sol : Fin d → ℕ → Fin d → LL), IsHor W T (c - ((A.len c : ℕ) : ZMod n)) b sol →
+  ∀ g : Fin d → W.EE, (∀ k, InFr W (c - ((A.len c : ℕ) : ZMod n) + (e : ZMod n)) 1 (abelian₂ W A (c - ((A.len c : ℕ) : ZMod n) + (e : ZMod n)) e) (g k)) →
+    (∃ h : Fin d → W.EE, (∀ k, W.γE W.gam (g k) - g k = algebraMap (LetA O n) W.EE W.π₀ * h k) ∧
+      (∀ k, InFr W (c - ((A.len c : ℕ) : ZMod n) + (e : ZMod n)) 1 (abelian₂ W A (c - ((A.len c : ℕ) : ZMod n) + (e : ZMod n)) e) (h k)) ∧
+      ∀ s < e, ∃ κ : ℕ, SecIn W (c - ((A.len c : ℕ) : ZMod n) + (e : ZMod n)) e
+        (fun α c₀ => dvO W T e b c₀ ∈ FilS W T (c - ((A.len c : ℕ) : ZMod n) + (e : ZMod n)) s (-(α s))) (fun k => lE W κ * h k)) →
+    ∃ v, InI W T (c - ((A.len c : ℕ) : ZMod n) + (e : ZMod n)) v ∧ InFP W T (c - ((A.len c : ℕ) : ZMod n)) e 1 ((abelian₂ W A (c - ((A.len c : ℕ) : ZMod n) + (e : ZMod n)) e) • v) ∧
+      RepVV W T (c - ((A.len c : ℕ) : ZMod n)) e (A.M PD.p) (abelian₂ W A (c - ((A.len c : ℕ) : ZMod n) + (e : ZMod n)) e) b sol v (fun k => lE W (A.σ PD.p) * g k)
+
+def ArcFilLowCoreT (W : LocWach PD LL O v n) : Prop :=
+  Formalism.MainNotions.LiftingTheory.CaseA W → 5 ≤ PD.p → ∀ A : ArcP n, A.OK → ∀ c ∈ A.cuts, ∀ e : ℕ, A.j ≤ e → e ≤ A.len c →
+  ∀ T : LocLat G Qp LL O, Win W A T →
+  ∀ (d : ℕ) (b : Fin d → W.DD T) (sol : Fin d → ℕ → Fin d → LL), IsHor W T (c - ((A.len c : ℕ) : ZMod n)) b sol →
+  ∀ c₀ : Fin d → O, ∀ s < e,
+    (∀ u : ℤ, (∀ a ∈ (A.ty ((c - ((A.len c : ℕ) : ZMod n) + (e : ZMod n)) - (s : ZMod n))).win A.G₀ A.S A.η, u ≤ a) →
+      dvO W T e b c₀ ∈ FilS W T (c - ((A.len c : ℕ) : ZMod n) + (e : ZMod n)) s u) ∧
+    (∀ bs : ℕ, A.ty ((c - ((A.len c : ℕ) : ZMod n) + (e : ZMod n)) - (s : ZMod n)) = Formalism.MainNotions.LocalTheoryWindows.LT.up bs →
+      dvO W T e b c₀ ∈ FilS W T (c - ((A.len c : ℕ) : ZMod n) + (e : ZMod n)) s ((A.η : ℤ) + 1) → dvO W T e b c₀ ∈ FilS W T (c - ((A.len c : ℕ) : ZMod n) + (e : ZMod n)) s bs)
+
+def HorFrameCoreT (W : LocWach PD LL O v n) : Prop :=
+  Formalism.MainNotions.LiftingTheory.CaseA W → 5 ≤ PD.p → ∀ A : ArcP n, A.OK → ∀ T : LocLat G Qp LL O, Win W A T → ∀ c : ZMod n,
+    ∃ (d : ℕ) (b : Fin d → W.DD T) (sol : Fin d → ℕ → Fin d → LL), IsHor W T c b sol
+
+end Formalism.MainNotions.N.FrobeniusPowerSeries
+end
+end

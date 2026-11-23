@@ -1,6 +1,6 @@
 module
 
-public import Development.WeilBound.ThetaLifts.LocalTheory.ConeShifts.PureIte
+public import Development.WeilBound.ThetaLifts.LocalTheory.ConeShifts.Bundle003
 public import Development.WeilBound.ThetaLifts.EigenvalueEndgame.EigenKilling.ConeIntegralFactorisation
 public import Development.WeilBound.ThetaLifts.LocalTheory.UnramifiedDeterminedBySpherical
 public import Development.WeilBound.ThetaLifts.ConeHypotheses.PureEqPureA

@@ -1,8 +1,8 @@
 module
 
 public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.LaTwInvT
-public import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.FinalTheorems
-import Formalism.LocalToGlobal.GroupLattices.FockModels.EdgePlane
+public import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.Bundle002
+import Formalism.LocalToGlobal.GroupLattices.FockModels.Bundle001
 import Formalism.LocalToGlobal.GroupLattices.FockModels.ElementaryDivisorBasis
 import Formalism.LocalToGlobal.GroupLattices.FockModels.FlatModels.LetterWtAnti
 import Mathlib.Algebra.Order.Floor.Extended

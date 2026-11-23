@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.ExistsSplitTorusPointsMulEquiv
+public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle009
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.LocallyOfFinitePresentationDiagMap
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.CubicalSymmetryTransport
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle055
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.WeilIsGrpPullbackIff
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -66,6 +66,13 @@ attribute [local instance] Over.cartesianMonoidalCategory
 
 noncomputable section
 namespace GlobalTheory.UU
+
+local instance (priority := high) grpObjThick {R : Type} [CommRing R] (I : Ideal R) (e : ℕ)
+    (G : Over (Spec (CommRingCat.of R))) [GrpObj G] : GrpObj (thickObj R I e G) :=
+  letI : (Over.pullback (thick R I e)).Monoidal :=
+    (Over.instBraidedPullback (f := thick R I e)).toMonoidal
+  Functor.grpObjObj (F := Over.pullback (thick R I e))
+
 variable {S S' : Scheme.{0}}
 
 structure CP (G : Over S) [GrpObj G] [IsCommMonObj G] where

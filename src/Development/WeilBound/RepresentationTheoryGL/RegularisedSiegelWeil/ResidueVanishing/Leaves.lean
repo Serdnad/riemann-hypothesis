@@ -1,9 +1,9 @@
 module
 
-public import Development.WeilBound.RepresentationTheoryGL.RegularisedSiegelWeil.SingularNullSets.HasLevel
-public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.HalfData
-public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.PrinInf
-public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.EisRegularAtOfEisPoleLE
+public import Development.WeilBound.RepresentationTheoryGL.RegularisedSiegelWeil.SingularNullSets.Bundle004
+public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.Bundle020
+public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.Bundle016
+public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.Bundle011
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

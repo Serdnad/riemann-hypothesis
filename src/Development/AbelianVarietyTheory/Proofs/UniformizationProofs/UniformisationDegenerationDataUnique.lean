@@ -1,15 +1,14 @@
 module
 
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.UnifUniqSt
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.Bundle007
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ValCalc
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.GlobalSectionsRankAlgClosed
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.AbelianPartIsoIsMonHomAndRigidified
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsFiniteCubeInduction
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.IdentificationLinear
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.UnifPreCAndCoordCorrespondStatement
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.UnifPreCharacterGroupIso
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.UniformisationPolarisedAbelianSchemesIsoStatement
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.UniformisationTrivialisationsCorrespondStatement
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle032
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle037
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle041
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle039
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle089
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle055
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -49,7 +48,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.AdmissibleBasePowerSeries
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle019
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.BCTools
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.CocycleIdentityIso
 
@@ -208,6 +207,9 @@ theorem unifUniq : GlobalFnsSt → SecBaseChangeSt → AmpleSt → UnifUniqSt :=
   obtain ⟨hc₁, hc₂⟩ := hc
   have gp : IsGrpPullback D'.toPre.P.A D.toPre.P.A (specOf (RingHom.id R)) Φ.hom.left :=
     (isGrpPullback_of_iso Φ).congr hs.symm rfl
+  let f := specOf (RingHom.id R)
+  letI : (Over.pullback f).Monoidal := (Over.instBraidedPullback (f := f)).toMonoidal
+  letI : GrpObj ((Over.pullback f).obj D.toPre.P.A) := Functor.grpObjObj (F := Over.pullback f)
   obtain ⟨e, me, hF⟩ := grpPullback_iso gp (isGrpPullback_pullback D.toPre.P.A (specOf (RingHom.id R)))
   have hE : eSec D'.toPre.P.A ≫ Φ.hom.left = eSec D.toPre.P.A := by
     rw [eSec, eSec, ← Over.comp_left, IsMonHom.one_hom]

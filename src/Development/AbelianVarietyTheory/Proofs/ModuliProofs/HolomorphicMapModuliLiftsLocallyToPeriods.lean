@@ -2,8 +2,8 @@ module
 
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsLinearEquivLift
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.GlobalSectionsRankAlgClosed
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsHolLinearLift
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.TwoMulEqOfIsTypeFn
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle081
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle054
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.DifferentiableOnLeftInverse
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.HostGeneratorPowFourTraceNormModEight
 import Mathlib.Algebra.Order.Floor.Extended

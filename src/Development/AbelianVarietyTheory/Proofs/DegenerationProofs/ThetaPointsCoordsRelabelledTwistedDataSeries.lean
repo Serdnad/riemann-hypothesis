@@ -1,13 +1,13 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.WithISelf
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle121
 public import Development.AbelianVarietyTheory.Definitions.Degenerations.AdmissibleBaseOfCompleteDvr
 public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.HomTransport
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.IsCoordPtFibre
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.IsThetaPtDown
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle123
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle077
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.HasThetaConstantsIffOfThetaLevelPullback
 import Development.AbelianVarietyTheory.Proofs.ThetaFamilyOrigin.IsThetaPtOverOfSubsingleton
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.UniformisationTorsionMapsCompatibleInLevelStatement
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle122
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

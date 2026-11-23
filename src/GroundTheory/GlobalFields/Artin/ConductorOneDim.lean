@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.GlobalFields.LocalFieldAtPlace
-public import GroundTheory.GlobalFields.TateThesis.LocalConductor
+public import GroundTheory.GlobalFields.TateThesis.Bundle003
 public import GroundTheory.LocalFields.ExistsUnitFiltrationUnitsLeAndRangePowLe
 public import GroundTheory.GlobalFields.ClassFieldConsequences.ConductorLocal
 import GroundTheory.GlobalFields.ClassFieldConsequences.RayClassFieldLocal

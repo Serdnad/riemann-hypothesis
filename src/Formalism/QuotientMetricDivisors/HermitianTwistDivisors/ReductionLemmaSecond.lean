@@ -1,13 +1,11 @@
 module
 
-public import Formalism.QuotientMetricDivisors.ProdFormula
-public import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.SpecDet
+public import Formalism.QuotientMetricDivisors.Bundle004
+public import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.Bundle001
 public import Formalism.HermitianLattices.HermitianLatticesProofs.LocBasic
-public import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.ConjTransposeEqOfPosDef
-public import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.DeterminantCauchySchwarz
+public import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.Bundle002
 public import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.IdxChange
 public import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.LcvBasis
-public import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.ProdFormula
 public import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.ValBasic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

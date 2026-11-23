@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.ReductiveGroups.SymplecticTraces.WeylCharacters.BlockCombStatement
+public import ReciprocityTheory.ReductiveGroups.SymplecticTraces.WeylCharacters.Bundle001
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.HighestWeights.ContinuousTorepK
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -42,7 +42,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import ReciprocityTheory.ReductiveGroups.DiscreteSeries.HighestWeights.OneParam
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.HighestWeights.Bundle002
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section

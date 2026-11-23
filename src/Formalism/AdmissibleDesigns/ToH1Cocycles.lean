@@ -1,10 +1,10 @@
 module
 
-public import Formalism.AdmissibleDesigns.InvariantsMapEquivariant
+public import Formalism.AdmissibleDesigns.Bundle009
 public import Formalism.AdmissibleDesigns.CoboundaryMemFiniteClasses
 public import Formalism.AdmissibleDesigns.FgTopContinuousLinearMap
 public import Formalism.WachLatticeTwists.RealDisplaySplitting.RealDisplayProofs.SurjectionOfRankOneIdempotent
-public import Formalism.AdmissibleDesigns.BkLocCol
+public import Formalism.AdmissibleDesigns.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

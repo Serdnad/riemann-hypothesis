@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.GermCompatId
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle045
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.LocalMaximality.MonoM
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

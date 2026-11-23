@@ -1,13 +1,13 @@
 module
 
 public import Formalism.LocalRingCardinality.RhoDetPrimeEqMuTildeMulChiPow
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.NotFullBot
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle005
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.FinrankDdRFinsum
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.DeRhamDieudonneSpansTensorDeRhamPeriods
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FinrankDcrisLetterDeRhamComponentEqDim
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle428
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle511
 import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FontaineFormalismOfRegular
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsDeRhamOfIsCrystallineSpan
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.UnramifiedSubfieldLeCyclotomicExt
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle501
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle376
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

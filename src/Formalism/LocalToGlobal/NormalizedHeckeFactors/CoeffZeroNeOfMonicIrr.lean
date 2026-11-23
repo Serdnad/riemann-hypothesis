@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PadicSubsetSums.CentralIdempotents.GaloisConjCentralIdempotent
+public import Formalism.PadicSubsetSums.CentralIdempotents.Bundle002
 public import Formalism.LocalToGlobal.NormalizedHeckeFactors.TypesDefs
 public import Mathlib.RepresentationTheory.Character
 import Mathlib.Algebra.Order.Floor.Extended

@@ -1,12 +1,12 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HInv
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle344
 public import Mathlib.RingTheory.PiTensorProduct
 public import Development.AbelianVarietyTheory.Definitions.ShimuraVarieties.PiTensorLiftCompSingle
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleCohomologyEquivalenceBasicPropertiesStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IntegralSurjectionCechDescentTateTwist
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LevelwiseEquivalenceIsEquivalenceStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SpecWidePushoutIsoWidePullbackYonedaStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle677
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1779
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle645
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle195
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

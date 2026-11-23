@@ -4,7 +4,7 @@ public import Formalism.SharpRestriction.GrowthBounds.FockGramWindow.GramWindow2
 public import Formalism.SharpRestriction.GrowthBounds.FockGramWindow.PhiPair
 public import Formalism.MahlerMeasure.MahlerMeasureProofs.MeanGam
 import Formalism.MahlerMeasure.MahlerMeasureProofs.RemoveS
-public import Formalism.SharpRestriction.GrowthBounds.FockGramWindow.BinMatNatDegreeLe
+public import Formalism.SharpRestriction.GrowthBounds.FockGramWindow.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

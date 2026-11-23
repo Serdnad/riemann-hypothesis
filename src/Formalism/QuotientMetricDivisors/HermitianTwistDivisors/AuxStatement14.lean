@@ -1,12 +1,12 @@
 module
 
-public import Formalism.QuotientMetricDivisors.ClassSumDualLe
+public import Formalism.QuotientMetricDivisors.Bundle004
 public import Formalism.HermitianLattices.HermitianLatticesProofs.DualLattice
 public import Formalism.HermitianLattices.HermitianLatticesProofs.IndexBasic
 public import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.IdxChange
 public import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.LocBasis
 public import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.RatHerm
-public import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.ReductionLemmaFirst
+public import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.Bundle001
 import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.ValBasic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

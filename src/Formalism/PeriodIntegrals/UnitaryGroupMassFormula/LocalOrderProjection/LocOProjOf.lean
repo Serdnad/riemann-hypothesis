@@ -1,7 +1,7 @@
 module
 
-public import Formalism.PeriodIntegrals.LocHerm
-public import Formalism.PeriodIntegrals.AlgebraMapMemO
+public import Formalism.PeriodIntegrals.Bundle016
+public import Formalism.PeriodIntegrals.Bundle015
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

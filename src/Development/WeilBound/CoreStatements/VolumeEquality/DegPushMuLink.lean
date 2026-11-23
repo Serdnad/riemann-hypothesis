@@ -2,9 +2,9 @@ module
 
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.PotentialsBoundedRegSettingEqReference
 public import Development.WeilBound.CoreStatements.VolumeEquality.DegPushDefs
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.DetLatticeFlagTensorStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IntersectionDatumDegreeSumStatement
-public import Development.WeilBound.CoreStatements.VolumeEquality.DegPushMuLinkA
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle174
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle304
+public import Development.WeilBound.CoreStatements.VolumeEquality.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -103,6 +103,7 @@ theorem mu_rootLat (τ : CMType H) (m : Fin D.q) : Fl.rootLat (τ, muRev D.p D.q
   unfold HodgeCpt.Flag.rootLat
   rw [h1, h2]
 
+attribute [-instance] GlobalTheory.CompHt.fintypePsi in
 theorem mu_flag_side (hC : ChartVal) {x : CMType H × Fin (D.p + D.q) → K' → ℤ} {e : CMType H × Fin (D.p + D.q) → Ω'}
     (hR : Fl.RootLines x e) (hb : ∀ s, LinearIndependent Ω' (Fl.b s)) {Ω₃ : Type} [Field Ω₃] {O : ValuationSubring Ω₃}
     {i : Ω' →+* Ω₃} {q : Cpt 𝔐'.ξ} (hD : Dom O i 𝔐'.ξ q) {t : CMType H → Ω'}
@@ -131,6 +132,7 @@ theorem mu_flag_side (hC : ChartVal) {x : CMType H × Fin (D.p + D.q) → K' →
 
 end
 
+attribute [-instance] GlobalTheory.CompHt.fintypePsi in
 theorem muLink : ChartVal → Centre → CoordLat → MuLink := by
   intro hC hZ hL E _ _ _ _ H D Xo l c Y S' Ω' _ K' _ J' _ y' 𝔐' Fl x e II K _ J _ Ω _ _ W _ _ Dc Hd S₀ Or ψ Ω₃ _ _ i₁ i₂ hR hbg hsm hS
     hψ hi

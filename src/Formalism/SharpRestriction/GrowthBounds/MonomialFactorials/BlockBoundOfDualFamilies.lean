@@ -1,9 +1,8 @@
 module
 
 public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.BlockBoundUniformiser
-public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.MemIntPolIff
-public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.PadicIntegersEmbeddingMapPrime
-public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.StructureSheafH1BaseChange
+public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.Bundle007
+public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

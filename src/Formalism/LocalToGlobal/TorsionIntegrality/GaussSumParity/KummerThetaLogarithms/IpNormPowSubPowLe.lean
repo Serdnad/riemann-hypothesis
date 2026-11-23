@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.LetterShift
+public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.Bundle002
 public import Formalism.FormalGroupWitt.WeightInvariance
 public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.FrobeniusLiftNorms.TopsChoicePartA
 public import Lemmata.GeneralBFactUpper.Imports

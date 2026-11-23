@@ -1,12 +1,12 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.CongAt
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle115
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.IntMOfMulRight
 public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.LevelGroupNeTopNeBot
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.TwistPrimeCongruentMapsFrameReadingsBoundStatement
-import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.IntegralPowerExpansion
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.BaseFieldsDefiniteLaws
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsTupleUnitaryFormsEquivPeriodRowForms
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle316
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle065
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle277
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle359
 import Formalism.LocalToGlobal.Columns.ChainInst
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -43,7 +43,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AbelianVarietyTheory.Definitions.LatticeFrames.FiniteDimensionalMram
+import Development.AbelianVarietyTheory.Definitions.LatticeFrames.Bundle004
 import Development.AbelianVarietyTheory.Definitions.LatticeFrames.MidChart
 import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.WittSmallGroupEmbeddingMemPointwiseStabilizerIso
 import Formalism.LocalToGlobal.IndefiniteReal.LinksDefs
@@ -62,7 +62,7 @@ namespace GlobalTheory.Transport.LastTw
 
 section TopQ
 
-open Formalism.L2.Col Formalism.L2.DIV GlobalTheory.TopStep GlobalTheory.TopStep.Model
+open _root_.Formalism.L2.Col Formalism.L2.DIV GlobalTheory.TopStep GlobalTheory.TopStep.Model
 
 variable {X : Fields} {Pr : Primes X} {R : Ranks} {Ch : Chars X Pr R.m}
   {sel : HeightOneSpectrum (𝓞 X.F) → HeightOneSpectrum (𝓞 X.E)} {S : Set ℕ}

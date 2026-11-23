@@ -3,8 +3,8 @@ module
 public import Formalism.HermitianCurvature.StatementWd
 public import Mathlib.CategoryTheory.Category.Basic
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.DiagScalarCommuteOfEntries
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.PositionInsertionDiagonalCompat
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.TransferMatrixFactorization
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle019
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle022
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

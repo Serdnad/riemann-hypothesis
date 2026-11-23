@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.ImportsBisFurther
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle021
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -206,11 +206,11 @@ variable (S : Type) [CommRing S] [∀ k, Fintype (ι k)] {Ω : Type} [Field Ω] 
 
 
 open Classical in
-def ext (m : ℕ) (t : Cell K ι m → Ω) (J : ∀ k, Finset (ι k)) : Ω :=
+def ext (m : ℕ) (t : _root_.ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.KH.Cell K ι m → Ω) (J : ∀ k, Finset (ι k)) : Ω :=
   if h : (∀ l, (J l).Nonempty) ∧ ∑ l, ((J l).card - 1) = m then t ⟨J, h⟩ else 0
 
 omit [LinearOrder K] [∀ k, LinearOrder (ι k)] [∀ k, Fintype (ι k)] [Algebra S Ω] in
-theorem ext_ne_zero {m : ℕ} (t : Cell K ι m → Ω) (J : ∀ k, Finset (ι k)) (h : ext m t J ≠ 0) :
+theorem ext_ne_zero {m : ℕ} (t : _root_.ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.KH.Cell K ι m → Ω) (J : ∀ k, Finset (ι k)) (h : ext m t J ≠ 0) :
     ∀ l, (J l).Nonempty := by
   unfold ext at h
   split_ifs at h with hc
@@ -218,7 +218,7 @@ theorem ext_ne_zero {m : ℕ} (t : Cell K ι m → Ω) (J : ∀ k, Finset (ι k)
   · exact absurd rfl h
 
 omit [∀ k, Fintype (ι k)] in
-theorem cellD_apply (y : (Σ k, ι k) → Ω) (m : ℕ) (t : Cell K ι m → Ω) (J : Cell K ι (m + 1))
+theorem cellD_apply (y : (Σ k, ι k) → Ω) (m : ℕ) (t : _root_.ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.KH.Cell K ι m → Ω) (J : _root_.ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.KH.Cell K ι (m + 1))
     (hJ : CellMeets y J.1) :
     cellD S y m t J = ∑ k, ∑ i ∈ J.1 k, faceSign J.1 k i • ext m t (rem J.1 ⟨k, i⟩) := by
   simp only [cellD, LinearMap.pi_apply, if_pos hJ, LinearMap.sum_apply]
@@ -230,7 +230,7 @@ theorem cellD_apply (y : (Σ k, ι k) → Ω) (m : ℕ) (t : Cell K ι m → Ω)
   · rw [dite_eq_right h, dite_eq_right h, smul_zero]; rfl
 
 omit [∀ k, Fintype (ι k)] in
-theorem cellD_apply_not (y : (Σ k, ι k) → Ω) (m : ℕ) (t : Cell K ι m → Ω) (J : Cell K ι (m + 1))
+theorem cellD_apply_not (y : (Σ k, ι k) → Ω) (m : ℕ) (t : _root_.ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.KH.Cell K ι m → Ω) (J : _root_.ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.KH.Cell K ι (m + 1))
     (hJ : ¬ CellMeets y J.1) : cellD S y m t J = 0 := by
   simp only [cellD, LinearMap.pi_apply, if_neg hJ, LinearMap.zero_apply]
 
@@ -249,7 +249,7 @@ theorem meets_rem {y : (Σ k, ι k) → Ω} {I : ∀ k, Finset (ι k)} (hI : Cel
 
 
 omit [∀ k, Fintype (ι k)] [Algebra S Ω] in
-theorem rem_isCell {m : ℕ} (J : Cell K ι (m + 1)) {k : K} {i : ι k} (hi : i ∈ J.1 k)
+theorem rem_isCell {m : ℕ} (J : _root_.ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.KH.Cell K ι (m + 1)) {k : K} {i : ι k} (hi : i ∈ J.1 k)
     (hne : ((J.1 k).erase i).Nonempty) :
     (∀ l, (rem J.1 ⟨k, i⟩ l).Nonempty) ∧ ∑ l, ((rem J.1 ⟨k, i⟩ l).card - 1) = m := by
   have hdeg := J.2.2
@@ -264,7 +264,7 @@ theorem rem_isCell {m : ℕ} (J : Cell K ι (m + 1)) {k : K} {i : ι k} (hi : i 
     omega
 
 omit [∀ k, Fintype (ι k)] [∀ k, LinearOrder (ι k)] [LinearOrder K] [Algebra S Ω] in
-theorem ext_of_empty {m : ℕ} (t : Cell K ι m → Ω) {J : ∀ k, Finset (ι k)} {k : K} (h : J k = ∅) :
+theorem ext_of_empty {m : ℕ} (t : _root_.ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.KH.Cell K ι m → Ω) {J : ∀ k, Finset (ι k)} {k : K} (h : J k = ∅) :
     ext m t J = 0 := by
   unfold ext
   rw [dite_eq_right]

@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.LocalFields.LocalReciprocityFinite
-public import GroundTheory.LocalFields.LocalReciprocityLimitAbstract
+public import GroundTheory.LocalFields.Bundle012
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

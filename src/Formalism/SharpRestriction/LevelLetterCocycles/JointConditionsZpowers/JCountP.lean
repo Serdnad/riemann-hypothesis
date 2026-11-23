@@ -1,7 +1,7 @@
 module
 
-public import Formalism.SharpRestriction.LevelLetterCocycles.JointConditionsZpowers.JCount
-public import Formalism.SharpRestriction.CuspSpanNormBounds.BridgeCountE
+public import Formalism.SharpRestriction.LevelLetterCocycles.JointConditionsZpowers.Bundle007
+public import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle016
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -37,7 +37,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Formalism.SharpRestriction.LevelLetterCocycles.FamilyStatementsLocal
+import Formalism.SharpRestriction.LevelLetterCocycles.Bundle007
 
 @[expose] public section
 

@@ -3,9 +3,9 @@ module
 public import Formalism.SharpRestriction.LevelLetterCocycles.TableLineDegreeTwo
 import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.MkMemAdmissibleAtIffCocycle
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.CoboundaryMemBlochKatoCocycles
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.BlochKatoDimensionFormulaConcretePeriodRings
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.DeRhamComponentsCrystallineLettersFinrank
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.UnramifiedTrivialLocalStatement
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle696
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle546
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle728
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

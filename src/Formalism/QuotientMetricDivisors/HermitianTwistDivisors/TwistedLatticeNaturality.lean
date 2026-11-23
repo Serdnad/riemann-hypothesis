@@ -1,11 +1,11 @@
 module
 
-public import Formalism.QuotientMetricDivisors.DivIntoDualShift
+public import Formalism.QuotientMetricDivisors.Bundle004
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.DiscreteSpanOfLinIndep
-public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.SizeMu
+public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.Bundle004
 public import Formalism.HermitianLattices.HermitianLatticesProofs.IndexBasic
 import Formalism.HermitianLattices.HermitianLatticesProofs.LocBasic
-public import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.DivIntoDual
+public import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.Bundle003
 public import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.IdxChange
 public import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.ImageLcv
 public import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.LcvBasis

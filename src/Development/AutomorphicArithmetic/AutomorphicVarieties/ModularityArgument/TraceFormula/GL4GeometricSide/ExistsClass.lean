@@ -1,13 +1,13 @@
 module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.TraceFormula.GL4GeometricSide.InnerEq
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContinuousOfIsOpenStab
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CuspRapidDecaySiegelGL
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsRightHaarMeasure
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsThetaInvolution
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LieActionSkewAdjointL2
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.NormalisedCuspFormL2Bounded
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.OnlyStableSubspaces
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle133
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle452
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle605
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle544
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle606
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle614
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle411
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

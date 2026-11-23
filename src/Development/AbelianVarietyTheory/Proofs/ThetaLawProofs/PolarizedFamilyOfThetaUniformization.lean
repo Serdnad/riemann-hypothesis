@@ -1,26 +1,25 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.KeyFormula.GeomIntSelf
+public import Development.AbelianVarietyTheory.Definitions.KeyFormula.Bundle001
 public import Development.AbelianVarietyTheory.Statements.ThetaLevelCharacters.MemThetaLevelCharDimZero
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.SecBaseChangeAnySt
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.Bundle005
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.IsAbelianSchemeThick
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsAlgHomOfFiniteTypeOfIsAlgClosed
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsIsAffineOpenLeOfIsQProjOver
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.SiegelStructurePullback
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle018
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle092
 public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.ExistsKeyPBRing
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.ExistsNumberFieldPointSiegelFamilyKnownValueStatement
-import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.ExistsPerLev
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.ExistsPointOfPerLev
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.ExistsRigidTranslatePrincipalPolarisationOrderTwStatement
+public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle056
+import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle017
+public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle053
 public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.ExistsSiegelFamilyOverNumberFieldStatement
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.ExistsSymmetricSqrtPrincipalSiegelFiniteEtaleStatement
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.ExistsTwoTorsionTranslateSameLambdaBundleStatement
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.GeomIntegralOfEtaleFaithfullyFlatCoverStatement
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.LiftIdempotentEqOfSameComplexComponentStatement
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.PotentiallyKnownOfSameLambdaBundleStatement
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.SiegelFamilyStandardLevelPointsSameComponentStatement
-import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.SqOfCalculus
-import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.StalkOfAppLEEq
+public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle057
+public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle062
+public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle028
+public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle021
+public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle063
+public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle065
+import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle035
+import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle037
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -64,11 +63,11 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.BCTools
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.OneArc
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.LBLocal
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.LBLocalC
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.Bundle001
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.Bundle005
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.LBPull
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.PrecompleteBases.PsbLb
-public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.IsSeparatedOfIsQProjOver
+public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.Bundle003
 
 @[expose] public section
 
@@ -251,3 +250,21 @@ theorem GlobalTheory.KeyFam.polFam : Out.Laws → Out.Laws2 → ThetaUnifAV → 
   rw [e] at a₁
   obtain ⟨ε, hε, -, hl⟩ := (sqOf_calculus _ k K ζ F.X _ (Sp k') F.s F.univ _).2.1 _ _ _ _ a₂ a₁
   exact GlobalTheory.T.potentiallyKnown_of_same_lambdaBundle hL hU k' y' P₀ ε hε hl hk'
+
+end
+
+section
+
+@[expose] public section
+
+open AlgebraicGeometry CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj
+open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Geo.Tor
+open scoped CategoryTheory.Obj TensorProduct
+attribute [local instance] Over.cartesianMonoidalCategory
+open GlobalTheory.KeyPow GlobalTheory.KeyFam GlobalTheory.ZM GlobalTheory.AbLaw
+
+theorem _root_.GlobalTheory.T.polarized_family_of_theta_uniformization : Out.Laws → Out.Laws2 → ThetaUnifAV → GlobalTheory.TorusAlgebraic → PolFam := by
+  first | exact @GlobalTheory.KeyFam.polFam | exact GlobalTheory.KeyFam.polFam | (intros; apply GlobalTheory.KeyFam.polFam <;> assumption)
+
+end
+end

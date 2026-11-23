@@ -1,0 +1,286 @@
+module
+
+public import GroundTheory.GlobalFields.NormResidueSymbol.RangeIdeleNormLeKerIdeleSymbol
+public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.Bundle005
+public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.Bundle003
+public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.LevelDefs
+import GroundTheory.ProfiniteCohomology.GlobalClassFormation.Bundle002
+import GroundTheory.ProfiniteCohomology.GlobalClassFormation.Bundle001
+import GroundTheory.ProfiniteCohomology.GlobalClassFormation.NatCardGroupCohomologyTwoIdeleClassRepDvd
+import GroundTheory.ProfiniteCohomology.InflationRestriction.Higher
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+
+@[expose] public section
+
+section
+
+set_option maxSynthPendingDepth 1
+
+namespace GroundTheory.ProfCoh
+
+open NumberField IntermediateField GroundTheory.Global FiniteSubfield IsDedekindDomain IdeleGroup
+
+noncomputable section
+
+local notation "ℚ̄" => AlgebraicClosure ℚ
+
+attribute [local instance] FiniteSubfield.isGalois_of_normal galCommGroup
+
+variable {K : FiniteSubfield} (ι : LocalEmbeddings K) (E : FiniteSubfield) [Fact (K ≤ E)]
+  [(E.1.fixingSubgroup.subgroupOf K.1.fixingSubgroup).Normal] [IsMulCommutative (E.1 ≃ₐ[K.1] E.1)]
+
+theorem restrictHom_localSymbolAt_inr (v : HeightOneSpectrum (𝓞 K.1)) (a : K.1ˣ) :
+    restrictHom (E := E) (localSymbolAt ι (.inr v) a) =
+      localSymbol E.1 v (Units.map (algebraMap K.1 (v.adicCompletion K.1) : K.1 →* v.adicCompletion K.1) a) :=
+  restrictHom_globalDecomp_of_finite E (ι.fin v) fun y hy ↦
+    AlgEquiv.liftNormal_commutes _ _ (⟨y, hy⟩ : GroundTheory.LocalField.maximalAbelianExtension
+      (v.adicCompletion K.1) (AlgebraicClosure (v.adicCompletion K.1)))
+
+theorem restrictHom_localSymbolAt_inl (v : InfinitePlace K.1) (a : K.1ˣ) :
+    restrictHom (E := E) (localSymbolAt ι (.inl v) a) =
+      infiniteLocalSymbol E.1 v (Units.map (algebraMap K.1 v.Completion : K.1 →* v.Completion) a) :=
+  restrictHom_globalDecomp_of_infinite E (ι.inf v)
+    (exists_eq_one_iff_mem_range_norm v (algebraMap K.1 v.Completion (a : K.1))).choose_spec
+
+theorem finsum_char_localSymbolAt_eq (χ : Additive K.1.fixingSubgroup →ₜ+ QZ)
+    (hχ : ∀ h : K.1.fixingSubgroup, (h : ℚ̄ ≃ₐ[ℚ] ℚ̄) ∈ E.1.fixingSubgroup → χ (Additive.ofMul h) = 0)
+    (a : K.1ˣ) (g : K.1.fixingSubgroup)
+    (hg : restrictHom (E := E) g = ideleSymbol K.1 E.1 (diagonal K.1 a)) :
+    ∑ᶠ v : Place K.1, χ (Additive.ofMul (localSymbolAt ι v a)) = χ (Additive.ofMul g) := by
+  classical
+  set R := (restrictHom : K.1.fixingSubgroup →* (E.1 ≃ₐ[K.1] E.1)) with hR
+  set χm : K.1.fixingSubgroup →* Multiplicative QZ :=
+    AddMonoidHom.toMultiplicativeRight χ.toAddMonoidHom with hχm
+  have hχm_apply : ∀ h, χ (Additive.ofMul h) = Multiplicative.toAdd (χm h) := fun _ ↦ rfl
+  have hker : R.ker ≤ χm.ker := by
+    intro h hh
+    rw [hR, ker_restrictHom, Subgroup.mem_subgroupOf] at hh
+    rw [MonoidHom.mem_ker, ← ofAdd_toAdd (χm h), ← hχm_apply, hχ h hh, ofAdd_zero]
+  set χ' := R.liftOfSurjective restrictHom_surjective ⟨χm, hker⟩ with hχ'
+  have hχ'R : ∀ h, χ' (R h) = χm h := fun h ↦
+    R.liftOfRightInverse_comp_apply _ (Function.rightInverse_surjInv restrictHom_surjective) ⟨χm, hker⟩ h
+  have hfin : ∀ v, finiteProj v (diagonal K.1 a) =
+      Units.map (algebraMap K.1 (v.adicCompletion K.1) : K.1 →* v.adicCompletion K.1) a := fun v ↦
+    Units.ext (coe_finiteProj_diagonal v a)
+  have hinf : ∀ w, infiniteProj w (diagonal K.1 a) =
+      Units.map (algebraMap K.1 w.Completion : K.1 →* w.Completion) a := by
+    intro w
+    apply Units.ext
+    change (↑(infiniteProj w (diagonal K.1 a)) : w.Completion) = algebraMap K.1 w.Completion (a : K.1)
+    rw [AbsoluteValue.Completion.algebraMap_def, WithAbs.algebraMap_right_apply,
+      Algebra.algebraMap_self_apply]
+    exact coe_infiniteProj_diagonal w a
+  have hF_inr : ∀ v, χ (Additive.ofMul (localSymbolAt ι (.inr v) a)) = Multiplicative.toAdd (χ' (localSymbol E.1 v (finiteProj v (diagonal K.1 a)))) := by
+    intro v
+    rw [hχm_apply, ← hχ'R, hR, restrictHom_localSymbolAt_inr, ← hfin]
+  have hF_inl : ∀ w, χ (Additive.ofMul (localSymbolAt ι (.inl w) a)) = Multiplicative.toAdd (χ' (infiniteLocalSymbol E.1 w (infiniteProj w (diagonal K.1 a)))) := by
+    intro w
+    rw [hχm_apply, ← hχ'R, hR, restrictHom_localSymbolAt_inl, ← hinf]
+  obtain ⟨S, hS⟩ : ∃ S : Finset (HeightOneSpectrum (𝓞 K.1)), Function.mulSupport (fun v ↦ localSymbol E.1 v (finiteProj v (diagonal K.1 a))) ⊆ S :=
+    ⟨(hasFiniteMulSupport_localSymbol E.1 (diagonal K.1 a)).toFinset, fun v hv ↦
+      (Set.Finite.mem_toFinset _).2 hv⟩
+  have hψ : ideleSymbol K.1 E.1 (diagonal K.1 a) = (∏ v ∈ S, localSymbol E.1 v (finiteProj v (diagonal K.1 a))) *
+      ∏ w, infiniteLocalSymbol E.1 w (infiniteProj w (diagonal K.1 a)) := by
+    rw [ideleSymbol_apply, finprod_eq_prod_of_mulSupport_subset _ hS]
+  have hsupp : Function.support (fun v : Place K.1 ↦ χ (Additive.ofMul (localSymbolAt ι v a))) ⊆
+      (Finset.univ.disjSum S : Finset (Place K.1)) := by
+    rintro (w | v) hv
+    · exact Finset.inl_mem_disjSum.2 (Finset.mem_univ w)
+    · refine Finset.inr_mem_disjSum.2 (hS ?_)
+      intro h1
+      apply hv
+      change χ (Additive.ofMul (localSymbolAt ι (.inr v) a)) = 0
+      rw [hF_inr]
+      rw [show localSymbol E.1 v (finiteProj v (diagonal K.1 a)) = 1 from h1, map_one, toAdd_one]
+  rw [finsum_eq_sum_of_support_subset _ hsupp, Finset.sum_disjSum, hχm_apply, ← hχ'R, hg, hψ, map_mul,
+    toAdd_mul, map_prod χ', map_prod χ', toAdd_prod, toAdd_prod, add_comm]
+  congr 1
+  · exact Finset.sum_congr rfl fun v _ ↦ hF_inr v
+  · exact Finset.sum_congr rfl fun w _ ↦ hF_inl w
+
+end
+
+end GroundTheory.ProfCoh
+end
+
+section
+
+set_option maxSynthPendingDepth 1
+
+namespace GroundTheory.ProfCoh
+
+open CategoryTheory NumberField IntermediateField GroundTheory.Global FiniteSubfield
+
+noncomputable section
+
+section Res
+
+variable (K E : FiniteSubfield) [Fact (K ≤ E)]
+
+def classResMor : Rep.res (fixingIncl K E) (classLimitRep K) ⟶ classLimitRep E :=
+  Rep.ofHom ⟨LinearMap.id, fun _ => rfl⟩
+
+def classResField (n : ℕ) : cohomology (classLimitRep K) n ⟶ cohomology (classLimitRep E) n :=
+  cohomologyMapAlong (fixingIncl K E) (continuous_fixingIncl K E) (classResMor K E) n
+
+end Res
+
+variable {K E : FiniteSubfield} [Fact (K ≤ E)] [IsGalois K.1 E.1]
+
+attribute [local instance] normal_subgroupOf_of_isGalois
+
+
+variable (K E) in
+def quotGalEquiv :
+    (K.1.fixingSubgroup ⧸ E.1.fixingSubgroup.subgroupOf K.1.fixingSubgroup) ≃* Gal(E.1/K.1) :=
+  (QuotientGroup.quotientMulEquivOfEq (ker_restrictHom (F := K) (E := E)).symm).trans
+    (QuotientGroup.quotientKerEquivOfSurjective _ (restrictHom_surjective (F := K) (E := E)))
+
+instance isDiscreteRep_res_classLimitRep (S : Subgroup K.1.fixingSubgroup) :
+    IsDiscreteRep (Rep.res S.subtype (classLimitRep K)) :=
+  isDiscreteRep_res_res classRep K.1.fixingSubgroup S
+
+
+omit [Fact (K ≤ E)] [IsGalois K.1 E.1] in
+theorem mem_invariants_of (c : IdeleClassGroup E.1) :
+    Additive.ofMul (IdeleClassLimit.of E c) ∈
+      ((Rep.res (E.1.fixingSubgroup.subgroupOf K.1.fixingSubgroup).subtype (classLimitRep K)).ρ).invariants :=
+  fun h => congrArg Additive.ofMul (IdeleClassLimit.smul_of_eq_of_mem_fixingSubgroup
+    (Subgroup.mem_subgroupOf.1 h.2) c)
+
+
+variable (K E) in
+def classInvMor : Rep.res (quotGalEquiv K E).toMonoidHom (ideleClassRep K.1 E.1) ⟶
+    (classLimitRep K).quotientToInvariants (E.1.fixingSubgroup.subgroupOf K.1.fixingSubgroup) :=
+  Rep.ofHom ⟨LinearMap.codRestrict _ (MonoidHom.toAdditive (IdeleClassLimit.of E)).toIntLinearMap
+    fun c => mem_invariants_of (Additive.toMul c), fun q => by
+    induction q using QuotientGroup.induction_on with
+    | H g =>
+      ext c
+      let σ := restrictHom (F := K) (E := E) g
+      let x : IdeleClassGroup E.1 := Additive.toMul c
+      have h := (IdeleClassLimit.smul_of g.val E x).trans
+        (of_ideleClassEquiv_congr (mapEquiv g.val E) σ.toRingEquiv (fun _ => rfl) x)
+      exact congrArg Additive.ofMul h.symm⟩
+
+theorem classInvMor_bijective : Function.Bijective (classInvMor K E).hom := by
+  constructor
+  · intro c d h
+    have h' : IdeleClassLimit.of E (Additive.toMul c) = IdeleClassLimit.of E (Additive.toMul d) := by
+      have h2 : Additive.ofMul (IdeleClassLimit.of E (Additive.toMul (α := IdeleClassGroup E.1) c)) =
+          Additive.ofMul (IdeleClassLimit.of E (Additive.toMul (α := IdeleClassGroup E.1) d)) :=
+        congrArg Subtype.val h
+      exact congrArg Additive.toMul h2
+    exact congrArg Additive.ofMul (IdeleClassLimit.of_injective E h')
+  · rintro ⟨z, hz⟩
+    change Additive IdeleClassLimit at z
+    have hz' : Additive.toMul z ∈ GroundTheory.LocalField.Abstract.fixedModule IdeleClassLimit E.1.fixingSubgroup := by
+      intro g hg
+      exact congrArg Additive.toMul (hz ⟨⟨g, IntermediateField.fixingSubgroup_le (Fact.out : K ≤ E) hg⟩,
+        Subgroup.mem_subgroupOf.2 hg⟩)
+    rw [IdeleClassLimit.fixedModule_fixingSubgroup] at hz'
+    obtain ⟨c, hc⟩ := hz'
+    exact ⟨Additive.ofMul c, Subtype.ext (congrArg Additive.ofMul hc)⟩
+
+section Count
+
+variable (K E)
+
+theorem natCard_cohomology_quotientToInvariants :
+    Nat.card (cohomology ((classLimitRep K).quotientToInvariants
+      (E.1.fixingSubgroup.subgroupOf K.1.fixingSubgroup)) 2) =
+      Nat.card (groupCohomology (ideleClassRep K.1 E.1) 2) := by
+  have hopen : IsOpen ((E.1.fixingSubgroup.subgroupOf K.1.fixingSubgroup : Subgroup K.1.fixingSubgroup) :
+      Set K.1.fixingSubgroup) := E.1.fixingSubgroup_isOpen.preimage continuous_subtype_val
+  have : DiscreteTopology (K.1.fixingSubgroup ⧸ E.1.fixingSubgroup.subgroupOf K.1.fixingSubgroup) :=
+    QuotientGroup.discreteTopology hopen
+  have hiso := isIso_cohomologyMapAlong_of_mulEquiv (quotGalEquiv K E) continuous_of_discreteTopology
+    continuous_of_discreteTopology (classInvMor K E) (classInvMor_bijective) 2
+  rw [← Nat.card_congr (cohomologyIsoGroupCohomology (ideleClassRep K.1 E.1) 2).toLinearEquiv.toEquiv]
+  exact (Nat.card_congr (asIso (cohomologyMapAlong (quotGalEquiv K E).toMonoidHom
+    continuous_of_discreteTopology (classInvMor K E) 2)).toLinearEquiv.toEquiv).symm
+
+theorem natCard_ker_classResField :
+    Nat.card (LinearMap.ker (classResField K E 2).hom) =
+      Nat.card (groupCohomology (ideleClassRep K.1 E.1) 2) := by
+  set N := E.1.fixingSubgroup.subgroupOf K.1.fixingSubgroup with hN
+  have hle : E.1.fixingSubgroup ≤ K.1.fixingSubgroup :=
+    IntermediateField.fixingSubgroup_le (Fact.out : K ≤ E)
+  have hopen : IsOpen (N : Set K.1.fixingSubgroup) :=
+    E.1.fixingSubgroup_isOpen.preimage continuous_subtype_val
+  have hNc : IsClosed (N : Set K.1.fixingSubgroup) := Subgroup.isClosed_of_isOpen N hopen
+  have h1 : Limits.IsZero (cohomology (Rep.res N.subtype (classLimitRep K)) 1) :=
+    (isZero_cohomology_one_classLimitRep E).of_iso (asIso (cohomologyMapAlong
+      (Subgroup.subgroupOfEquivOfLe hle).symm.toMonoidHom (continuous_subgroupOfEquivOfLe_symm hle)
+      (resSubgroupOfHom hle classRep) 1))
+  have hA : ∀ i, 0 < i → i < 2 → Limits.IsZero (cohomology (Rep.res N.subtype (classLimitRep K)) i) :=
+    fun i hi hi2 => by
+      obtain rfl : i = 1 := by omega
+      exact h1
+  have hr := range_cohomologyInfl_eq_ker_cohomologyRes (A := classLimitRep K) hNc two_ne_zero hA
+  have hinj := cohomologyInfl_injective (A := classLimitRep K) hNc two_ne_zero hA
+  have hker : ∀ x : cohomology (classLimitRep K) 2, x ∈ LinearMap.ker (classResField K E 2).hom ↔
+      x ∈ LinearMap.range (cohomologyInfl (classLimitRep K) N 2).hom := by
+    intro x
+    rw [hr, LinearMap.mem_ker, LinearMap.mem_ker]
+    exact cohomologyResLE_apply_eq_zero_iff hle classRep 2 x
+  rw [← natCard_cohomology_quotientToInvariants K E]
+  calc Nat.card (LinearMap.ker (classResField K E 2).hom)
+      = Nat.card (LinearMap.range (cohomologyInfl (classLimitRep K) N 2).hom) :=
+        Nat.card_congr (Equiv.subtypeEquivRight hker)
+    _ = Nat.card (Set.range (cohomologyInfl (classLimitRep K) N 2).hom) := rfl
+    _ = _ := (Nat.card_congr (Equiv.ofInjective _ hinj)).symm
+
+theorem natCard_ker_classResField_dvd :
+    Nat.card (LinearMap.ker (classResField K E 2).hom) ∣ Module.finrank K.1 E.1 := by
+  rw [natCard_ker_classResField]
+  exact natCard_groupCohomology_two_ideleClassRep_dvd
+
+theorem natCard_ker_classResField_of_isCyclic [IsCyclic Gal(E.1/K.1)] :
+    Nat.card (LinearMap.ker (classResField K E 2).hom) = Module.finrank K.1 E.1 := by
+  rw [natCard_ker_classResField]
+  exact natCard_groupCohomology_two_ideleClassRep_of_isCyclic
+
+end Count
+
+end
+
+end GroundTheory.ProfCoh
+end

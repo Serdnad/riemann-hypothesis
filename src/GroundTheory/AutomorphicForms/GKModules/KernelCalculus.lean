@@ -2,7 +2,7 @@ module
 
 public import GroundTheory.AutomorphicForms.GKModules.Garding
 public import GroundTheory.AutomorphicForms.AutomorphicFormSpaces.GKStableConv
-import GroundTheory.AutomorphicForms.DixmierMalliavinBasic
+import GroundTheory.AutomorphicForms.Bundle004
 import GroundTheory.AutomorphicForms.GKModules.ParametricIntegral
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

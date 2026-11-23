@@ -1,18 +1,18 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsContent
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsCovolOne
-public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.IntegralAlmostAllPlaces
-public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.LatticeGramScalarAlmostAll
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle106
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle089
+public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.Bundle022
+public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.Bundle039
 import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.TensorIntegerRingAlmostAllPlaces
 import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.FiniteResidueFieldAdicCompletionIntegers
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.FiniteAlgebrasOverHenselianAndComplete
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.EulerProductLintegralLimit
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.EventuallyMeasurableSetPrimV
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HyperbolicPairUnitaryTransitiveStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LocalOrderQuadraticAlmostAllStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SplitQuadraticOrderPrincipalStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.UnramifiedQuadraticOrderPrincipalStatement
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle083
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle455
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle485
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle101
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle185
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle059
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle060
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -59,7 +59,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.TrMMemFramesEIff
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle430
 
 @[expose] public section
 

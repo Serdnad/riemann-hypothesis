@@ -1,9 +1,8 @@
 module
 
-public import Formalism.QuotientMetricDivisors.RatHermLcvTwist
-public import Formalism.QuotientMetricDivisors.LatticeGlueUnique
-public import Formalism.QuotientMetricDivisors.HeightBoundExactNorms
-public import Formalism.MirabolicMackeyTheory.StatementT
+public import Formalism.QuotientMetricDivisors.Bundle005
+public import Formalism.QuotientMetricDivisors.Bundle003
+public import Formalism.MirabolicMackeyTheory.Bundle001
 public import Mathlib.Analysis.CStarAlgebra.Module.Constructions
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

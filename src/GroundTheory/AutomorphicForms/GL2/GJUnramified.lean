@@ -6,7 +6,7 @@ public import GroundTheory.AutomorphicForms.Satake
 import GroundTheory.AutomorphicForms.GL2.ExistsEqPowMulOfValuationLe
 public import GroundTheory.AutomorphicForms.GL2.GJUnramifiedDegree
 import GroundTheory.AutomorphicForms.GL2.GJZetaCore
-import GroundTheory.AutomorphicForms.SmoothRepContragredient
+import GroundTheory.AutomorphicForms.Bundle008
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

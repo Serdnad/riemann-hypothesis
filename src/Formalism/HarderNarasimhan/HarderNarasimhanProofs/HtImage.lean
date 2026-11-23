@@ -1,6 +1,6 @@
 module
 
-public import Formalism.HarderNarasimhan.DefsPl
+public import Formalism.HarderNarasimhan.Bundle002
 public import Mathlib.CategoryTheory.Category.Basic
 public import Mathlib.RingTheory.Coalgebra.IsFrobenius
 public import Mathlib.RingTheory.HopfAlgebra.Basic

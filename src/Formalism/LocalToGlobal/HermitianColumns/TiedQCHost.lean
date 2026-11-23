@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalToGlobal.HermitianColumns.TiedQC
-public import Formalism.LocalToGlobal.UnitaryNorms.CharDiv
+public import Formalism.LocalToGlobal.UnitaryNorms.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

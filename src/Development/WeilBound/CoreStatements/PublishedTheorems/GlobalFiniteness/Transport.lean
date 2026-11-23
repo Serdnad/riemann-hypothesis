@@ -1,11 +1,10 @@
 module
 
 public import GroundTheory.ProfiniteCohomology.CohomologyFunctoriality
-public import GroundTheory.ProfiniteCohomology.RestrictedRamification.MaxUnramifiedOutside
+public import GroundTheory.ProfiniteCohomology.RestrictedRamification.Bundle001
 public import ReciprocityTheory.Hypotheses.GalCohDefs
-public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.GaloisUnramifiedOutsideCohomologyStatement
-public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.NormalSubgroupLeUnramifiedFixingStatement
-public import Development.WeilBound.CoreStatements.EulerCharacteristicCounts.GcohCmp
+public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle012
+public import Development.WeilBound.CoreStatements.EulerCharacteristicCounts.Bundle001
 import GroundTheory.ProfiniteCohomology.RestrictedRamification.IsUnramifiedOutsideIffLeMaxUnramifiedOutside
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

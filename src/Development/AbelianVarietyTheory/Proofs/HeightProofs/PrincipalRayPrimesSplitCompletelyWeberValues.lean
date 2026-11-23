@@ -2,11 +2,11 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.HeightFunctions.FiniteDimensionalOfSz
 public import Mathlib.NumberTheory.NumberField.InfinitePlace.TotallyRealComplex
-public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.LatticeDeterminedByInvariants
+public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle004
 public import Development.AbelianVarietyTheory.Proofs.HeightProofs.PrimesOneModNSplitCompletelyWeberField
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.WeberValuesCongruencesModDegreeOnePrimeStatement
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.WeberValuesFiniteAlgebraicPermutedStatement
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsRingEquivComplexCompEq
+public import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle022
+public import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle083
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

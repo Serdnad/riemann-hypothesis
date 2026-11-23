@@ -42,8 +42,8 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.HighestWeights.OneParam
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.HighestWeights.OpEqExp
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.HighestWeights.Bundle002
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.HighestWeights.Bundle003
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.HighestWeights.SingleMulJmComm
 public import Mathlib.Analysis.Calculus.Deriv.Comp
 public import Mathlib.Analysis.Calculus.Deriv.Mul

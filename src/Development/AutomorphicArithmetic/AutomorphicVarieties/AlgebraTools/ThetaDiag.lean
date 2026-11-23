@@ -1,8 +1,8 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.InvAlg
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.Bundle005
 public import Mathlib.LinearAlgebra.Matrix.Trace
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.UnitsBasic
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

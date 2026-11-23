@@ -1,20 +1,20 @@
 module
 
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.GtBaseChangeSt
-public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.AuxiliaryInertOddPrime
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.SecBaseChangeAnySt
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.Bundle003
+public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.Bundle002
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.Bundle005
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.IsDomainAndIsIntegrallyClosedAtPrimeOfSmoothOfCo
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.CmModelCoefficientInclusionsEtaleOpenImmersion
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.CmModelCoefficientSubringDedekindCompatibleEmbed
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsSabCancel
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle046
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsTorsionSectionsOfRoot
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.FinitePointsOfIsOpenImmersion
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.GenericPartDenseProOpen
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.IsIsoStalkMapOfFlatOfSurjectiveOnStalks
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.MinkowskiDivisible
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ObjPull
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle023
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle008
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle006
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle113
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.SerreLemmaSemiAbelian
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.TorsionPointFixedOfGenericSectionsFixed
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle027
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ObjMapIdCompCancel
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -59,7 +59,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.BCTools
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FirstCohomology.SectionDivision
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FirstCohomology.Bundle001
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section
@@ -160,6 +160,8 @@ theorem fibre_fixed {X : Scheme.{0}} (G : Over X) [GrpObj G] (hG : IsSemiAbelian
     apply hπ.1.hom_ext
     · rw [hpow, hτ]; exact (Category.comp_id _).trans (Category.id_comp _).symm
     · rw [Over.w, Over.w]
+  have hG' : IsSemiAbelian G' := IsSemiAbelian.pullback x G hG
+  haveI : IsCommMonObj G' := hG'.comm
   have hfix' (z : 𝟙_ (Over (Sp k)) ⟶ G') (hz : z ^ N = 1) : z ≫ u.hom = z := by
     have hzw : z.left ≫ G'.hom = 𝟙 (Sp k) := Over.w z
     let y : Over.mk x ⟶ G := Over.homMk (z.left ≫ π) (by
@@ -171,8 +173,6 @@ theorem fibre_fixed {X : Scheme.{0}} (G : Over X) [GrpObj G] (hG : IsSemiAbelian
     · rw [Over.comp_left, Category.assoc, hul, ← Category.assoc]; exact this
     · rw [Over.w, Over.w]
   have h1 : a = 1 := by
-    have hG' : IsSemiAbelian G' := IsSemiAbelian.pullback x G hG
-    have := hG'.comm
     obtain ⟨p, hp, hpN⟩ := Nat.exists_prime_and_dvd (n := N) (by omega)
     have hpo : Odd p := Odd.of_dvd_nat hodd hpN
     have hpk : (p : k) ≠ 0 := by

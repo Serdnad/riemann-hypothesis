@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.LocClosed
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsUniqueIsometryFixingBothFramesOfFrameAdaptStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.TermRowDoubleCosetEqIffIsometriesStatement
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle017
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle371
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle411
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

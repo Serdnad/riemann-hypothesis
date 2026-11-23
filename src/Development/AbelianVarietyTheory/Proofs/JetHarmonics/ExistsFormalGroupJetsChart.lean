@@ -1,12 +1,12 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Jets.JetsOnCopiesCompatibleFrames
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PlaceDivisors.StChartF
-public import Development.AbelianVarietyTheory.Counterexamples.LevelGroupExamples.JetTruncNotInjective
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsUniversalJetCoordinatesPullbackStatement
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PlaceDivisors.Bundle001
+public import Development.AbelianVarietyTheory.Counterexamples.LevelGroupExamples.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle080
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.IntegralChartFormalBiext
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.UniversalStatement
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.FBMapPf
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle018
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -44,7 +44,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AbelianVarietyTheory.Definitions.Jets.TwoPlaces
+import Development.AbelianVarietyTheory.Definitions.Jets.Bundle002
 
 @[expose] public section
 

@@ -1,6 +1,6 @@
 module
 
-import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.PAmpleTwistLocal
+import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle012
 public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Objects
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

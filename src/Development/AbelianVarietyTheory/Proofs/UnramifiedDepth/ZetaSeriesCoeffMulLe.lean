@@ -1,8 +1,8 @@
 module
 
-public import ReciprocityTheory.DualLattices.VEqZeroOfPowEqOne
-public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.ChainLemmaMultivariatePowerSeriesCoordinateFormStatement
-public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.WeightedOrderGePrimePowOfSumPurePowersAddStatement
+public import ReciprocityTheory.DualLattices.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.Bundle012
+public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.Bundle011
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

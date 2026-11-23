@@ -1,0 +1,97 @@
+module
+
+public import Formalism.LocalToGlobal.HermitianColumns.Bundle001
+public import Formalism.LocalToGlobal.HermitianColumns.Bundle003
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Topology.Sheaves.Init
+
+@[expose] public section
+
+section
+
+noncomputable section
+
+open Formalism.BasicNotions NumberField IsDedekindDomain Matrix Formalism.UG
+open scoped TensorProduct
+
+namespace Formalism.L2.Herm
+
+attribute [local instance] Formalism.BasicNotions.Host.cmStar
+
+def Ad0 (D : D7) (H : HermCols D) (u : D.what₂.Word) (c c' : (D.mem u).C.cls 0) (γ : GX D 0)
+    (v : (D.mem u).A.vT) : Prop :=
+  AdStep D.sp.cm.sig D.sp.gram0 (H.lev0 u).U ((H.lev0 u).y c) ((H.lev0 u).y c')
+    (toGLb ((D.sp.X 0).frame.reindex (finCongr D.sp.rank0)) γ.1) (H.vT u v).1
+
+def AdI (D : D7) (H : HermCols D) (u : D.what₂.Word) (i : ℕ) (h1 : 1 ≤ i) (hm : i ≤ D.R.m)
+    (c c' : (D.mem u).C.cls i) (γ : GX D i) (v : (D.mem u).A.vT) : Prop :=
+  AdStep D.sp.cm.sig (D.sp.X i).gram (H.lev u i h1 hm).U ((H.cls u i h1 hm).y c) ((H.cls u i h1 hm).y c')
+    (toGLb (D.sp.X i).frame γ.1) (H.vT u v).1
+
+structure AdTied (D : D7) (H : HermCols D) (aT : ∀ u, AtT D u (H.vT u) (H.Fv u)) : Prop where
+  up0 : ∀ u v c (y : Ld D u 0 c), (D.fm u).fv 0 v c ((aT u).pr 0 v c y) = 1 →
+    Ad0 D H u c ((D.fm u).up 0 v c ((aT u).pr 0 v c y)) ((aT u).upG 0 v c y) v
+  upI : ∀ u i h1 hm v c (y : Ld D u i c), (D.fm u).fv i v c ((aT u).pr i v c y) = 1 →
+    AdI D H u i h1 hm c ((D.fm u).up i v c ((aT u).pr i v c y)) ((aT u).upG i v c y) v
+  dn0 : ∀ u v c g, g ≠ 0 → Ad0 D H u c ((D.fm u).dn 0 v c g) ((aT u).dnG 0 v c g) v
+  dnI : ∀ u i h1 hm v c g, g ≠ 0 → AdI D H u i h1 hm c ((D.fm u).dn i v c g) ((aT u).dnG i v c g) v
+  dil0 : ∀ u v a c, Ad0 D H u c ((D.fm u).dil 0 v a c) ((aT u).dilG 0 v a c) v
+  dilI : ∀ u i h1 hm v a c, AdI D H u i h1 hm c ((D.fm u).dil i v a c) ((aT u).dilG i v a c) v
+
+end Formalism.L2.Herm
+
+end
+end
+
+section
+
+noncomputable section
+
+open Formalism.BasicNotions NumberField IsDedekindDomain Matrix Formalism.UG
+open scoped TensorProduct
+
+namespace Formalism.L2.Herm
+
+attribute [local instance] Formalism.BasicNotions.Host.cmStar
+
+def Lev0Tied (D : D7) (H : HermCols D) (aT : ∀ u, AtT D u (H.vT u) (H.Fv u)) : Type :=
+  ∀ u, ColLevelX (H.lev0 u) (fun x => x ∈ D.host.K) (aT u).piU (H.vT u)
+    (fun v c z => (D.fm u).fv 0 v c ((aT u).pr 0 v c z))
+
+end Formalism.L2.Herm
+
+end
+end

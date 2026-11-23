@@ -1,6 +1,6 @@
 module
 
-public import Formalism.ConjugateSelfDual.Statement
+public import Formalism.ConjugateSelfDual.Bundle001
 public import Formalism.SharpRestriction.LevelLetterCocycles.DataNLoc
 public import Mathlib.RingTheory.Flat.FaithfullyFlat.Basic
 public import Mathlib.RingTheory.Flat.TorsionFree
@@ -49,7 +49,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.TrivialOnInertiaOfUnr
 import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.Newform
-import Development.AutomorphicArithmetic.AutomorphicVarieties.PublishedTheorems.QuotRepMk
+import Development.AutomorphicArithmetic.AutomorphicVarieties.PublishedTheorems.Bundle001
 import Formalism.SharpRestriction.LevelLetterCocycles.LocCoh
 public import Mathlib.Algebra.Algebra.Hom.Rat
 import ReciprocityTheory.GaloisValuations.GlobalA

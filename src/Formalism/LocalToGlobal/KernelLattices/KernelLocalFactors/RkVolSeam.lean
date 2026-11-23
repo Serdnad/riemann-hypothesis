@@ -1,9 +1,9 @@
 module
 
-public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.RkVolKerStd
+public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.Bundle003
 public import Formalism.LocalToGlobal.KernelLattices.ColumnData.Smooth
-public import Formalism.LocalToGlobal.AlgebraicTheory.StatementEig
-public import Formalism.LocalToGlobal.KernelLattices.ColumnData.BaseExP
+public import Formalism.LocalToGlobal.AlgebraicTheory.Bundle002
+public import Formalism.LocalToGlobal.KernelLattices.ColumnData.Bundle001
 import Formalism.LocalToGlobal.KernelLattices.ColumnData.StdOKP
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

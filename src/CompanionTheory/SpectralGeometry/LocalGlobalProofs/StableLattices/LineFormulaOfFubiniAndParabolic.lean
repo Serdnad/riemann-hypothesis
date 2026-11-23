@@ -2,8 +2,8 @@ module
 
 public import CompanionTheory.RealGroups.DiscreteSeries.DiscreteSeriesClassification.DiscreteSeriesExhaustion.MatrixCoefficientDecay.HilbertSchmidtDecay.AbsoluteL2Bound
 public import CompanionTheory.RealGroups.DiscreteSeries.DiscreteSeriesClassification.DiscreteSeriesExhaustion.MatrixCoefficientDecay.LineFormulas.Fub2
-public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.HaarExistence
-public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.InitialStatement
+public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.Bundle035
+public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.Bundle042
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

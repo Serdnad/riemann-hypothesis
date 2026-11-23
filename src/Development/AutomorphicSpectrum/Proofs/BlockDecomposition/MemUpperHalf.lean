@@ -1,8 +1,8 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ContinuousRxSymm
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle643
 public import Development.WeilBound.ThetaLifts.LatticeBasics.FrameConj
-import Development.WeilBound.ThetaLifts.LatticeBasics.UnfoldB
+import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle011
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -266,7 +266,7 @@ theorem mem_P (g : GlobalTheory.StdUnn.G D n) :
   stab_iff D _
 
 theorem bdet_eq (g : GL (Fin (n + n)) (AE D)) (a : GL (Fin n) (AE D)) (h : GlobalTheory.StdUnn.blkA g.1 = a.1) :
-    bdet (Sum.inl '' (Set.univ : Set (Fin n))) (rx g) = Matrix.GeneralLinearGroup.det a := by
+    _root_.PositivityTheory.RgEis.bdet (Sum.inl '' (Set.univ : Set (Fin n))) (rx g) = Matrix.GeneralLinearGroup.det a := by
   let e' : Fin n ≃ (Sum.inl '' (Set.univ : Set (Fin n)) : Set (Fin n ⊕ Fin n)) :=
     Equiv.ofBijective (fun i => ⟨Sum.inl i, i, trivial, rfl⟩)
       ⟨fun i j e => Sum.inl_injective (congrArg Subtype.val e), fun ⟨_, i, _, e⟩ => ⟨i, Subtype.ext e⟩⟩
@@ -276,7 +276,7 @@ theorem bdet_eq (g : GL (Fin (n + n)) (AE D)) (a : GL (Fin n) (AE D)) (h : Globa
     intro _ _
     rw [← Matrix.det_submatrix_equiv_self e', ← h]
     rfl
-  rw [bdet]
+  rw [_root_.PositivityTheory.RgEis.bdet]
   split_ifs with hu
   · exact Units.ext (hu.unit_spec.trans (hd _ _))
   · exact absurd ((hd _ _).symm ▸ (Matrix.GeneralLinearGroup.det a).isUnit) hu

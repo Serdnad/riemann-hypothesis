@@ -1,17 +1,16 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.IsRealFam
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SmulMtCutPartCompl
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle576
 import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.AdelicPointComponentsAtPlacesLatticesVacua
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.IdemAtUniqueOrth
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.OneSubIdemQMulSelf
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.UnitaryAdelicInfFinSplitPeriodsUnimodular
-import Development.AbelianVarietyTheory.Proofs.HeightProofs.AtPlaceIffEqAtTau
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle335
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle229
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle263
+import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle055
 import Development.AbelianVarietyTheory.Proofs.SatakeParameters.LevelHyperspecialTrivialCharacterSplitsOffPlaces
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.GridBasePointTrivialOffTensorPlaces
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsRowFlagTiltUnique
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.MemFinitePointsOfHasLocalLatticeMatrices
-import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.InclusionInjective
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle692
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle690
+import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -54,8 +53,8 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.PairPtsClasses
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RealLineOfPeriodsOnLine
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle287
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle469
 
 @[expose] public section
 

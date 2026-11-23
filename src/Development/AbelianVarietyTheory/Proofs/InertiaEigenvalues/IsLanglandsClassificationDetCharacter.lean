@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.StandardCosocleGL
+public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.Bundle008
 import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.NotInSupportOfSubsingleton
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsContinuousPadic
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NonemptyEquivContraOfChar
@@ -49,7 +49,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Formalism.ConjugateSelfDual.Statement
+import Formalism.ConjugateSelfDual.Bundle001
 import ReciprocityTheory.GaloisValuations.GlobalA
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.ExistsNotCongPow
 import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.HasExponentZeroIff
@@ -79,7 +79,7 @@ theorem exists_embedding {α n : Type} {m : α → Type} [Fintype α] [LinearOrd
     [∀ a, DecidableEq (m a)] [Fintype n] [DecidableEq n] (e : (Σ a, m a) ≃ n) {η : kˣ →* ℂˣ} (hη : IsSmoothChar η) :
     ∃ f : (detRep n η).IntertwiningMap (parInd e (ofChar (detLevi e η))), Function.Injective f := by
   have hsm : IsSmooth (detRep n η) := (isSmooth_ofChar_iff _).2 hη.detChar
-  let ψ : (jac e (detRep n η)).IntertwiningMap (ofChar (detLevi e η)) :=
+  let ψ : (_root_.GlobalTheory.SmGL.jac e (detRep n η)).IntertwiningMap (ofChar (detLevi e η)) :=
     { toLinearMap := (twKer (detRep n η) (unipRad k e) 1).liftQ LinearMap.id
         (by rw [twKer_detRep]; exact bot_le)
       isIntertwining' := fun g => LinearMap.ext fun x => by

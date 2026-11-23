@@ -42,7 +42,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.ExistsNotCongPow
 public import Development.AbelianVarietyTheory.Definitions.Divisors.LineOppositeParabolicUnitaryLeviSectionEq
-import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.GuDefs
+import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.Bundle008
 
 @[expose] public section
 

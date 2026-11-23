@@ -1,11 +1,11 @@
 module
 
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.ArchimedeanGelfandKernels.FriedrichsKernels.Friedrichs
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ContDiffOnUncurryOfFrame
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ContinuousOnFderivApply
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.DerivativeAsRightWords
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle237
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle406
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle225
 import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LengthFunctionFactsHold
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.WordSmooth
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle226
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

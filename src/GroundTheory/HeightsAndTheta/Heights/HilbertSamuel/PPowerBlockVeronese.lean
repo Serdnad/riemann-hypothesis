@@ -1,7 +1,7 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsPowerBlockVeronese
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsSectionRing
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle079
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle056
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.ArithModel
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -2,7 +2,7 @@ module
 
 public import GroundTheory.AutomorphicForms.FourierWhittaker.IsAddFundamentalDomainImageOfMapVecLattice
 public import GroundTheory.GlobalFields.TateThesis.AdelicCharLocal
-import GroundTheory.AutomorphicForms.ReductionMeasure
+import GroundTheory.AutomorphicForms.Bundle012
 import GroundTheory.GlobalFields.Adele.Topology
 public import GroundTheory.GlobalFields.TateThesis.AdelicCharDual
 import Mathlib.Algebra.Order.Floor.Extended

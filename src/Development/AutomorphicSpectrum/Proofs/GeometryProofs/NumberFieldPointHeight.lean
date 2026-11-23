@@ -1,47 +1,34 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ArchBetween
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle008
 public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.HeightPtsIntegralPoints
-public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.HeightRecR
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LineHeightInvariantScaling
-public import GroundTheory.HeightsAndTheta.Heights.Antisymmetric.PNefOnFibresRelabel
+public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.Bundle004
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle156
+public import GroundTheory.HeightsAndTheta.Heights.Antisymmetric.Bundle001
 public import GroundTheory.HeightsAndTheta.Heights.ElementarySymmetric.PFlZArithVar
-public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.HeightAssemblyFull
-public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.PCentredPlacesFinite
-public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.PCentredRingNormal
-import GroundTheory.HeightsAndTheta.Heights.HeightComparison.PHeightRecR
-public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.PLocalLengthPlaces
+public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.Bundle013
+public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.Bundle012
+public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.Bundle011
+import GroundTheory.HeightsAndTheta.Heights.HeightComparison.Bundle005
+public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.Bundle009
 public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.PLocalNormalIndex
-import GroundTheory.HeightsAndTheta.Heights.HeightComparison.PLocalQuotCard
-import GroundTheory.HeightsAndTheta.Heights.HeightComparison.PLocalQuotCentred
-public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.POrbitCenterChart
+import GroundTheory.HeightsAndTheta.Heights.HeightComparison.Bundle010
+public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.Bundle014
 public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.POrbitCenterDivSupp
-public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.POrbitCenterLe
+public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.Bundle006
 import GroundTheory.HeightsAndTheta.Heights.HeightComparison.POrbitCenterMemIff
-public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.POrbitCenterPrime
-public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.POrbitCenterZero
-public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.POrbitChartDehom
+public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.Bundle008
 import GroundTheory.HeightsAndTheta.Heights.HeightComparison.POrbitChartMax
 public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.POrbitChartMult
-import GroundTheory.HeightsAndTheta.Heights.HeightComparison.POrbitChartQuot
-import GroundTheory.HeightsAndTheta.Heights.HeightComparison.POrbitChartResidue
-public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.POrbitChartRing
-public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.POrbitChartTerm
-public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.POrbitConjSum
 import GroundTheory.HeightsAndTheta.Heights.HeightComparison.POrbitCurve
-import GroundTheory.HeightsAndTheta.Heights.HeightComparison.POrbitDegree
-public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.POrbitDegreeRatio
-public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.POrbitDivVertical
-public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.POrbitFiniteSum
-public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.POrbitLocalSum
-public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.PPlaceCentredSum
-public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.PPlacesRingQuot
-import GroundTheory.HeightsAndTheta.Heights.HeightComparison.PSubringPrimeMaximal
+public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.Bundle007
+public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.Bundle003
+import GroundTheory.HeightsAndTheta.Heights.HeightComparison.Bundle002
 import GroundTheory.HeightsAndTheta.Heights.HeightsOfSets.FieldChange
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.PRFormula
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.PWWArithVar
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.PCurveRatSectionSum
-import GroundTheory.HeightsAndTheta.Heights.WeightedHomogeneous.Reading
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle008
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle038
+import GroundTheory.HeightsAndTheta.Heights.WeightedHomogeneous.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -88,10 +75,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterRedF
-public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.HeightOrbitCenterMemIff
-public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.HeightOrbitChartMax
-public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.HeightOrbitChartQuot
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle013
 
 @[expose] public section
 

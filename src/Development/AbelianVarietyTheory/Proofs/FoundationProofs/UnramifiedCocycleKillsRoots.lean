@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Foundations.FinalTheorems
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle016
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.ResMapBijective
 public import Mathlib.RingTheory.AdicCompletion.Noetherian
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.HermitianCodeWordWeilElementMemQuadraticField
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.NormSmulLeSelf
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.MemIneSmulIff
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle185
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle029
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -46,7 +46,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Connected.Separation
 import Mathlib.Topology.MetricSpace.Ultra.TotallySeparated
-import ReciprocityTheory.GaloisValuations.ArithOfA
+import ReciprocityTheory.GaloisValuations.Bundle002
 import ReciprocityTheory.GaloisValuations.GlobalA
 
 @[expose] public section

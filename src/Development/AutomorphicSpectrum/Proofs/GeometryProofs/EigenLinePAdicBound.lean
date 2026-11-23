@@ -1,20 +1,20 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsFlatAnIffIsConstMul
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle011
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.UniformisationConclusion
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.LinearIndependentEigProj
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.AmplePointsLocalizedModel
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.GenericPartDenseProOpen
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.HermitianSignatureCharacterStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsGermSystemStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsHodgeLatticeGermSystemStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GermSystemHeightFreeStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeLatticeDvrDegreeStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeLatticeTransportEquivStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieModelExistsUniqueEquivStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ModelFibresPowerFreeStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.PowFnsOfAbelianGenericStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ProperNormalCompactificationStatement
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle541
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle023
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle066
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle231
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle188
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle264
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle251
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle088
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle021
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle193
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle158
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle195
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -57,7 +57,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.GermComp1ZeroPointLeft
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.GermSys
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle015
 
 @[expose] public section
 

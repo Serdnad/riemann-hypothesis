@@ -4,8 +4,8 @@ public import Development.WeilBound.ThetaLifts.EigenvalueEndgame.CuspidalAverage
 public import Development.WeilBound.ThetaLifts.EigenvalueEndgame.CuspidalAverages.AvgEqOfIsAv
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ContinuousInfiniteAdeleMap
 public import Development.WeilBound.ThetaLifts.EigenvalueEndgame.UnipotentGroups.UnipUGood
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.UnitaryAdelicGroupTopology
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ColumnWhittakerTransformKeepsLaterLaw
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1387
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle382
 import Development.WeilBound.ThetaLifts.CartanFactorisation.Unimod
 public import Development.WeilBound.ThetaLifts.EigenvalueEndgame.CuspidalAverages.StageB
 import Development.WeilBound.ThetaLifts.EigenvalueEndgame.UnipotentGroups.ContinuousExpG
@@ -51,8 +51,8 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AbelianVarietyTheory.Definitions.Divisors.MatchingOfParts
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsGenericOfIsLocComp
-import Development.AutomorphicArithmetic.IntegralCasts.IsOpenStabOfMemNhds
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle785
+import Development.AutomorphicArithmetic.IntegralCasts.Bundle001
 
 @[expose] public section
 

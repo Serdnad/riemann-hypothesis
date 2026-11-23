@@ -1,14 +1,14 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ContinuousAtPlace
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LatAtVAtStable
-public import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.InertDef
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AdelicHeisenbergActsByLocalSchrodinger
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.StandardAdelicCharacterNontrivialAtPlaces
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1199
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1874
+public import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1989
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1905
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.PadicIsNonarchimedeanLocalField
-public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.CyclicAndLine
-public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.DualNumberGraphFiltrationIsotropicOfSkew
-public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.LocallyCompactOfGoodChar
+public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.Bundle008
+public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.Bundle005
+public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.Bundle006
 public import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.VaceigenAlg
 public import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.VaceigenDual
 import Mathlib.Algebra.Order.Floor.Extended
@@ -46,7 +46,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import Development.AutomorphicSpectrum.Definitions.MembershipCriteria.LaEqSqrtSmulLam
+public import Development.AutomorphicSpectrum.Definitions.MembershipCriteria.Bundle001
 
 @[expose] public section
 

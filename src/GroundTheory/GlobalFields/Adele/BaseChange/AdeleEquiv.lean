@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.GlobalFields.Adele.BaseChange.FiniteTensor
-public import GroundTheory.GlobalFields.SemilocalAlgebras.InfiniteAdeleTopology
+public import GroundTheory.GlobalFields.SemilocalAlgebras.Bundle002
 public import Mathlib.NumberTheory.NumberField.AdeleRing
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

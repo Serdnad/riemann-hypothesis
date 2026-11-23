@@ -2,7 +2,7 @@ module
 
 public import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.HurwitzSubstituteTwoSeries
 public import Formalism.LocalToGlobal.TorsionIntegrality.CMGoodModels.Statement
-public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.TrDual
+public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.Bundle001
 public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.KummerThetaLogarithms.ExistsUnitFactorizationBounded
 public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.KummerThetaLogarithms.ExponentialSpecification
 public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.KummerThetaLogarithms.SubstFirstCoboundaryThree
@@ -50,8 +50,8 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.StdBases
-public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.StatementB
+import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle010
+public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.Bundle002
 import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.IsDiscriminantTwelfthRootOfIdealLattice
 
 @[expose] public section

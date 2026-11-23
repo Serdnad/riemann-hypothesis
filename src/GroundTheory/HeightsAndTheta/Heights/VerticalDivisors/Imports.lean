@@ -1,8 +1,8 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.StatementsFreeParAlgIndep
+public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.Bundle008
 public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.OfFreeParAlgIndep
-public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.PFreeParAlgIndep
+public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.Bundle013
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

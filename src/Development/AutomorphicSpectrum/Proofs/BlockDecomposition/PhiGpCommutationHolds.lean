@@ -1,25 +1,17 @@
 module
 
-public import Development.WeilBound.RepresentationTheoryGL.GenericUnitaryGL.LeibnizOrders.LeibnizOrd
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CompactInductionCongrEquivStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CompactInductionTwistEquivStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ContinuousMirabolicEmbeddingStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ContinuousParabolicProjStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.DerivativeFunctorTwistEquivStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.EmbeddedSmallNeighbourhoodFactorStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsUnipotentLiftParabolicProjStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsClosedParabolicMulEmbeddedMirabolicStatement
+public import Development.WeilBound.RepresentationTheoryGL.GenericUnitaryGL.LeibnizOrders.Bundle001
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle327
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle331
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle337
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle346
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle330
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle341
 import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsOpenFixedOfSubgroup
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.JacquetKernelSpanTwistedCharacterStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MemParabolicIffMemEmbeddedStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MirabolicDoubleCosetDichotomyStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MirabolicUnipotentLeParabolicStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MirabolicUnipotentNormalStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ModulusParabolicProjFactorStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ParabolicProjEmbeddingCompatStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ParabolicProjUnipotentCharacterCompatStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.QuotientMapInducedSurjectiveIntertwinerStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.QuotientMapIntertwinesRestrictionStatement
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle368
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle320
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle373
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle342
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -272,7 +264,7 @@ variable {k : Type} [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchim
 
 def twistEquiv {G V W : Type} [Group G] [AddCommGroup V] [Module ℂ V] [AddCommGroup W] [Module ℂ W]
     {ρ : Representation ℂ G V} {ρ' : Representation ℂ G W} (e : ρ.Equiv ρ') (χ : G →* ℂˣ) :
-    (twist ρ χ).Equiv (twist ρ' χ) :=
+    (_root_.GlobalTheory.SmGL.twist ρ χ).Equiv (_root_.GlobalTheory.SmGL.twist ρ' χ) :=
   Representation.Equiv.mk e.toLinearEquiv fun g => by
     refine LinearMap.ext fun v => ?_
     have h := LinearMap.congr_fun (e.isIntertwining' g) v
@@ -307,16 +299,16 @@ theorem prodGP_congr {m j : ℕ} {V V' W W' : Type} [AddCommGroup V] [Module ℂ
 
 theorem tw_rep {m j : ℕ} {V W : Type} [AddCommGroup V] [Module ℂ V] [AddCommGroup W] [Module ℂ W]
     (a : Representation ℂ (GL (Fin m) k) V) (c : Representation ℂ (Mir k j) W) (r : ℝ) :
-    twist ((extTensor a c).comp (gpProj k m j)) ((dpowM (m + j) r).comp (MirabolicParabolic k m j).subtype) =
-      (extTensor (twist a (dpow m r)) (twist c (dpowM j r))).comp (gpProj k m j) := by
+    _root_.GlobalTheory.SmGL.twist ((extTensor a c).comp (gpProj k m j)) ((dpowM (m + j) r).comp (MirabolicParabolic k m j).subtype) =
+      (extTensor (_root_.GlobalTheory.SmGL.twist a (dpow m r)) (_root_.GlobalTheory.SmGL.twist c (dpowM j r))).comp (gpProj k m j) := by
   refine MonoidHom.ext fun h => LinearMap.ext fun x => ?_
   induction x using TensorProduct.induction_on with
   | zero => simp
   | add x y hx hy => simp only [map_add (f := _), hx, hy]
   | tmul v w =>
     show (dpowM (m + j) r (h : Mir k (m + j)) : ℂ) • extTensor a c (gpProj k m j h) (v ⊗ₜ w) =
-      extTensor (twist a (dpow m r)) (twist c (dpowM j r)) (gpProj k m j h) (v ⊗ₜ w)
-    rw [extTensor_tmul, extTensor_tmul, twist_apply, twist_apply, GlobalTheory.T.modulus_parabolic_proj_factor k m j r h, Units.val_mul,
+      extTensor (_root_.GlobalTheory.SmGL.twist a (dpow m r)) (_root_.GlobalTheory.SmGL.twist c (dpowM j r)) (gpProj k m j h) (v ⊗ₜ w)
+    rw [extTensor_tmul, extTensor_tmul, _root_.GlobalTheory.SmGL.twist_apply, _root_.GlobalTheory.SmGL.twist_apply, GlobalTheory.T.modulus_parabolic_proj_factor k m j r h, Units.val_mul,
       TensorProduct.smul_tmul_smul]
 
 theorem cInd_of_eq {G W : Type} [Group G] [TopologicalSpace G] [IsTopologicalGroup G] [AddCommGroup W] [Module ℂ W]
@@ -325,7 +317,7 @@ theorem cInd_of_eq {G W : Type} [Group G] [TopologicalSpace G] [IsTopologicalGro
 
 theorem twist_prodGP {m j : ℕ} {V W : Type} [AddCommGroup V] [Module ℂ V] [AddCommGroup W] [Module ℂ W]
     (a : Representation ℂ (GL (Fin m) k) V) (c : Representation ℂ (Mir k j) W) (r : ℝ) :
-    Nonempty ((twist (prodGP a c) (dpowM (m + j) r)).Equiv (prodGP (twist a (dpow m r)) (twist c (dpowM j r)))) := by
+    Nonempty ((_root_.GlobalTheory.SmGL.twist (prodGP a c) (dpowM (m + j) r)).Equiv (prodGP (_root_.GlobalTheory.SmGL.twist a (dpow m r)) (_root_.GlobalTheory.SmGL.twist c (dpowM j r)))) := by
   have A2 := GlobalTheory.T.compactInduction_twist_equiv (MirabolicParabolic k m j) ((extTensor a c).comp (gpProj k m j)) (dpowM (m + j) r) (isOpen_ker_dpowM _ _)
   have B := cInd_of_eq (MirabolicParabolic k m j) (tw_rep a c r)
   obtain ⟨A2⟩ := A2
@@ -341,22 +333,22 @@ set_option synthInstance.maxHeartbeats 100000 in
 theorem main_twisted (ψ : AddChar k Circle) (hψ1 : ψ ≠ 1) {m j : ℕ} {V W : Type} [AddCommGroup V] [Module ℂ V]
     [AddCommGroup W] [Module ℂ W] (ρ : Representation ℂ (GL (Fin m) k) V)
     (τ : Representation ℂ (Mir k (j + 1)) W) (hρ : IsSmooth ρ) (hτ : IsSmooth τ) (s₀ s₁ t r : ℝ) (hs : r + s₀ = s₁) :
-    Nonempty ((twist (phiMinus k ψ (n := m + j) (prodGP (twist ρ (dpow m s₀)) (twist τ (dpowM (j + 1) t))))
+    Nonempty ((_root_.GlobalTheory.SmGL.twist (phiMinus k ψ (n := m + j) (prodGP (_root_.GlobalTheory.SmGL.twist ρ (dpow m s₀)) (_root_.GlobalTheory.SmGL.twist τ (dpowM (j + 1) t))))
       (dpowM (m + j) r)).Equiv
-      (prodGP (twist ρ (dpow m s₁)) (twist (twist (phiMinus k ψ τ) (dpowM j r)) (dpowM j t)))) := by
-  have ha : IsSmooth (twist ρ (dpow (k := k) m s₀)) := isSmooth_twist hρ (isOpen_ker_dpow k m s₀)
-  have hb : IsSmooth (twist τ (dpowM (k := k) (j + 1) t)) := isSmooth_twist hτ (isOpen_ker_dpowM _ _)
-  have E0 := phiMinus_prodGP ψ hψ1 (twist ρ (dpow (k := k) m s₀)) (twist τ (dpowM (k := k) (j + 1) t)) ha hb
-  have A2 := twist_prodGP (twist ρ (dpow (k := k) m s₀)) (phiMinus k ψ (twist τ (dpowM (k := k) (j + 1) t))) r
+      (prodGP (_root_.GlobalTheory.SmGL.twist ρ (dpow m s₁)) (_root_.GlobalTheory.SmGL.twist (_root_.GlobalTheory.SmGL.twist (phiMinus k ψ τ) (dpowM j r)) (dpowM j t)))) := by
+  have ha : IsSmooth (_root_.GlobalTheory.SmGL.twist ρ (dpow (k := k) m s₀)) := _root_.GlobalTheory.SmGL.isSmooth_twist hρ (isOpen_ker_dpow k m s₀)
+  have hb : IsSmooth (_root_.GlobalTheory.SmGL.twist τ (dpowM (k := k) (j + 1) t)) := _root_.GlobalTheory.SmGL.isSmooth_twist hτ (isOpen_ker_dpowM _ _)
+  have E0 := phiMinus_prodGP ψ hψ1 (_root_.GlobalTheory.SmGL.twist ρ (dpow (k := k) m s₀)) (_root_.GlobalTheory.SmGL.twist τ (dpowM (k := k) (j + 1) t)) ha hb
+  have A2 := twist_prodGP (_root_.GlobalTheory.SmGL.twist ρ (dpow (k := k) m s₀)) (phiMinus k ψ (_root_.GlobalTheory.SmGL.twist τ (dpowM (k := k) (j + 1) t))) r
   obtain ⟨E0⟩ := E0
   obtain ⟨A2⟩ := A2
-  have A4 : twist (twist ρ (dpow (k := k) m s₀)) (dpow m r) = twist ρ (dpow m s₁) := by
-    rw [twist_twist, ← dpow_add, hs]
+  have A4 : _root_.GlobalTheory.SmGL.twist (_root_.GlobalTheory.SmGL.twist ρ (dpow (k := k) m s₀)) (dpow m r) = _root_.GlobalTheory.SmGL.twist ρ (dpow m s₁) := by
+    rw [_root_.GlobalTheory.SmGL.twist_twist, ← dpow_add, hs]
   have E3 := GlobalTheory.T.derivative_functor_twist_equiv k ψ j W τ t
   obtain ⟨E3⟩ := E3
-  have A5 : (twist (twist (phiMinus k ψ τ) (dpowM j t)) (dpowM j r)) =
-      twist (twist (phiMinus k ψ τ) (dpowM j r)) (dpowM j t) := by
-    rw [twist_twist, twist_twist, mul_comm]
+  have A5 : (_root_.GlobalTheory.SmGL.twist (_root_.GlobalTheory.SmGL.twist (phiMinus k ψ τ) (dpowM j t)) (dpowM j r)) =
+      _root_.GlobalTheory.SmGL.twist (_root_.GlobalTheory.SmGL.twist (phiMinus k ψ τ) (dpowM j r)) (dpowM j t) := by
+    rw [_root_.GlobalTheory.SmGL.twist_twist, _root_.GlobalTheory.SmGL.twist_twist, mul_comm]
   have E5 := (twistEquiv E3 (dpowM j r)).trans (eqvOfEq A5)
   have E7 := prodGP_congr (eqvOfEq A4) E5
   obtain ⟨E7⟩ := E7

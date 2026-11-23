@@ -4,7 +4,7 @@ import Formalism.HarderNarasimhan.HarderNarasimhanProofs.DualPl
 public import Mathlib.Algebra.Module.LinearMap.Rat
 public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Mathlib.NumberTheory.NumberField.InfinitePlace.TotallyRealComplex
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.TransferenceCoverHolds
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle078
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

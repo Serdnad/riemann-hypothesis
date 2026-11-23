@@ -5,7 +5,7 @@ public import Formalism.HermitianCurvature.HermitianCurvatureProofs.IntegrableUn
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.NormDiagonalEntryDilationGeneratorLeOne
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.RegularisedPairingViaPhase
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.SlicesFiniteRegularityBuilt
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.SmoothLevOfCk
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle077
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

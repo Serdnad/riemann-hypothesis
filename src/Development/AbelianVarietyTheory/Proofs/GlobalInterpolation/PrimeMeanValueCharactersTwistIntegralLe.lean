@@ -1,11 +1,11 @@
 module
 
 import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.HybridLargeSieve
-public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.ZerosDisc
+public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.Bundle003
 public import Mathlib.NumberTheory.DirichletCharacter.Orthogonality
 public import Mathlib.RingTheory.SimpleRing.Principal
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.BrunTitchmarshExistsConstStatement
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.IntegralNormSqLp
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle052
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

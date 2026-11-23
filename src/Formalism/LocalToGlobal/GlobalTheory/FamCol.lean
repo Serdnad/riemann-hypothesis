@@ -38,13 +38,13 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Formalism.RankGapBounds.MeanBoundSecondForm
-import Formalism.SizeWindowBrackets.Chain2aCoreNoAnalytic
+import Formalism.RankGapBounds.Bundle001
+import Formalism.SizeWindowBrackets.Bundle003
 import Formalism.SizeWindowBrackets.ErrorFormsWeakWindowsFalse
 import Formalism.SizeWindowBrackets.FirstPrimeNeSecondPrime
-import Formalism.SizeWindowBrackets.GrowthBoundGivesRiemannHypothesis
+import Formalism.SizeWindowBrackets.Bundle002
 import Formalism.SizeWindowBrackets.QuotientSlopeBoundsWith
-import Formalism.SizeWindowBrackets.RealSlopeBoundsSplit
+import Formalism.SizeWindowBrackets.Bundle001
 import Formalism.SizeWindowBrackets.SChain
 import Formalism.ThickAverageLoss.PartnersToFactorsAt
 

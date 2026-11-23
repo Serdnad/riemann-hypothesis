@@ -1,19 +1,19 @@
 module
 
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.NuChain
-public import Development.AbelianVarietyTheory.Definitions.Jets.ExistsSecTieFOfTies
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.Bundle008
+public import Development.AbelianVarietyTheory.Definitions.Jets.Bundle004
 public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.ProdSumReindex
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExpansionBijectiveOverFields
-public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.AbelianSchemeLawsUnconditional
+public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle024
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsIsUUOver
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.LineBundleIsoValuesConstantOfSameCubeTheta
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle139
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.SymmetricLiftActsRootOfUnityOnExpansions
 public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.ExistsBasisOfEq
-public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.NuGeIffOfIsActOfOfPowEqOne
-public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.TwistingStatementsOfLaws
+public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.Bundle023
+public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.Bundle036
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExistsSecThroughUp
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.AdicBaseEmbedsValuationAlgebraicClosure
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.TwistedPrincipalPolarisationSectionsBaseChange
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle025
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle125
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -51,7 +51,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ThetaCore
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.LBLocalC
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.Bundle005
 
 @[expose] public section
 

@@ -38,11 +38,11 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.KinstSecondCountable
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.PolarHaarA
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.Bundle004
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.Bundle010
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.PolarInv
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.PolarRight
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.PolarBasic
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.Bundle013
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.Bundle007
 
 @[expose] public section
 

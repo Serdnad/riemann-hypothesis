@@ -1,6 +1,6 @@
 module
 
-public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.StringRepresentations.AdmissibleTemperedUnramified
+public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.StringRepresentations.Bundle001
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.TypeConditions.Transported
 import Mathlib.Algebra.AffineMonoid.UniqueSums
 import Mathlib.Algebra.Order.Floor.Extended

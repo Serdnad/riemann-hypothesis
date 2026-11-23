@@ -1,7 +1,7 @@
 module
 
-import Formalism.LogFactorialIndices.SignedSubspaceIndex.IdxBase
-public import Formalism.LogFactorialIndices.StatementIdx
+import Formalism.LogFactorialIndices.SignedSubspaceIndex.Bundle001
+public import Formalism.LogFactorialIndices.Bundle001
 public import Mathlib.Algebra.Module.Lattice.Full
 public import Mathlib.LinearAlgebra.Determinant
 public import Lemmata.DiscreteValuationQuotients.LenQuotSpan

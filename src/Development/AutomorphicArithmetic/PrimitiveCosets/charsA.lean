@@ -2,7 +2,7 @@ module
 
 public import Development.AutomorphicArithmetic.PrimitiveCosets.CoreAtH
 public import Development.AutomorphicArithmetic.PrimitiveCosets.CardPsiA
-public import Development.AutomorphicArithmetic.PrimitiveCosets.PrimRead
+public import Development.AutomorphicArithmetic.PrimitiveCosets.Bundle003
 public import Development.AutomorphicArithmetic.PrimitiveCosets.TopsSum
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

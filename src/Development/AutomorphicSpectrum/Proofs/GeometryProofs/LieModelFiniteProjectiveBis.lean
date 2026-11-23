@@ -1,13 +1,10 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsCocharLie
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieChart
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.DualModuleFiniteProjectiveStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.DualNumberPointsGlueStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieModelExistsUniqueSemilinearStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LocalizationSheafGlueModulesStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LocalizedModuleBaseChangeStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ProjectiveModulesGlueCoverStatement
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle002
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle015
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle016
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle130
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle064
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

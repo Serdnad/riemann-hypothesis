@@ -1,7 +1,7 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IntAFSmulMemLatOF
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EqSelfOfTrivial
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle177
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ThetaFunctionHeisenbergInvariant
 import Mathlib.Algebra.Order.Floor.Extended

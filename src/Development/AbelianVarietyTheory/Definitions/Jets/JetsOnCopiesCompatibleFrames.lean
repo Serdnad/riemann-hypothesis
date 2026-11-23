@@ -1,16 +1,15 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Jets.ColValMonomial
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermCut
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.BidegreeTwoJet
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.LemmaBStatement
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.BoxTuple
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.BoxLeOfComp
+public import Development.AbelianVarietyTheory.Definitions.Jets.Bundle002
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle010
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle017
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle020
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.Bundle005
 public import Formalism.LocalToGlobal.ProjectiveLattices.PlaceBelow
 public import Mathlib.RingTheory.MvPowerSeries.Rename
 public import Mathlib.RingTheory.WittVector.IsPoly
 public import Mathlib.Tactic.ReduceModChar
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsLieBasis
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

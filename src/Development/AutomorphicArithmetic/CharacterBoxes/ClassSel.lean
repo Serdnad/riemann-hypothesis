@@ -1,12 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.NotBaseCondFalse
-public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.EventuallyAllScaleContextsAndOfBoth
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle022
+public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.Bundle011
 public import Formalism.SharpRestriction.GlobalSchurBounds.ThickPlacesCorollaryOfAnyTranslate
 public import Development.AutomorphicArithmetic.CharacterBoxes.Supply
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExistsClassSelOfRowL
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.AddLargeBaseCoreSlotStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.MemberTopFinalContextParameters
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle160
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle460
 public import Development.AutomorphicArithmetic.CharacterBoxes.ObjCTrue
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,12 +1,12 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ConjugatePairRelated
-public import Development.AbelianVarietyTheory.Definitions.Divisors.DiagHermitianTrivialOfSumFourSquares
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AdelicConjugateOfTrivialisation
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DefinitePairsRatioLocallyRationalTimesNormStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsNumberFieldInvolutionSimilitudeCentralizerStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1510
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle046
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1547
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1930
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1670
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LocalNormOutsideFiniteSet
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SkolemNoetherConjugacy
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1577
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

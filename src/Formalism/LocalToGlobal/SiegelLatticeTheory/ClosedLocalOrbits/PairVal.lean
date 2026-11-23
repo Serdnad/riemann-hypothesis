@@ -2,10 +2,10 @@ module
 
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.TermDef
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.CntLocal
-public import Formalism.LocalRingCardinality.DataTies
+public import Formalism.LocalRingCardinality.Bundle004
 public import Formalism.SharpRestriction.CuspSpanNormBounds.CntPartners
 public import Formalism.SharpRestriction.CuspSpanNormBounds.NonemptyParameterModels.TermTiesEmptyOfLargeIndex
-public import Formalism.SharpRestriction.CuspSpanNormBounds.FrameFixingOrbitRelation
+public import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle008
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

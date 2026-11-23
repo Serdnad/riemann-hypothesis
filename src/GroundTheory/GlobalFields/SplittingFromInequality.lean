@@ -2,8 +2,8 @@ module
 
 public import GroundTheory.GlobalFields.FirstInequalityStatement
 public import GroundTheory.GlobalFields.IdeleGroups.LocalNorms
-public import GroundTheory.GlobalFields.KummerTheory.Splitting
-public import GroundTheory.GlobalFields.Adele.WeakApproxUnits
+public import GroundTheory.GlobalFields.KummerTheory.Bundle001
+public import GroundTheory.GlobalFields.Adele.Bundle002
 public import GroundTheory.GlobalFields.IdeleGroups.LocalNormGroups
 public import GroundTheory.GlobalFields.IdeleGroups.LocalNormsEverywhere
 import GroundTheory.GlobalFields.LocalFieldAtPlace

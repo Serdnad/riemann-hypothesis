@@ -39,7 +39,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.FinIso
+import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle021
 public import Development.AutomorphicArithmetic.Foundations.BaseChangeIdentities.Narrow
 
 @[expose] public section

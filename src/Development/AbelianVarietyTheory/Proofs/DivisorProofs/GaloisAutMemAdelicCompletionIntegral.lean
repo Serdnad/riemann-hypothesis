@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Statements.PlaceShiftStatements.DefiniteBound
+public import Development.AbelianVarietyTheory.Statements.PlaceShiftStatements.Bundle001
 public import Mathlib.RingTheory.SimpleRing.Principal
 public import Development.AbelianVarietyTheory.Definitions.ExistenceOfLattices.SmulBasisMemHatIff
 import Mathlib.Algebra.Order.Floor.Extended

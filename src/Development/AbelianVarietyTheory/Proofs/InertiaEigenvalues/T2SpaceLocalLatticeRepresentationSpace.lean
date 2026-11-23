@@ -1,10 +1,10 @@
 module
 
 public import Formalism.SharpRestriction.LevelLetterCocycles.LocalSituation
-public import Development.AbelianVarietyTheory.Definitions.Foundations.HTBasis
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CyclotomicCharacterPadicBasicProperties
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsCyclotomicTowerLevelGeneratorProperties
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.PadicNormZpowSubOnePadicValIntStatement
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle010
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle164
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle383
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle184
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

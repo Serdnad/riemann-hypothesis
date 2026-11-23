@@ -1,7 +1,7 @@
 module
 
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.Rationality.QuotSt
-public import Formalism.FilteredPoleLength.ReducedBasisBounds.ReductionQuotient
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.Rationality.Bundle001
+public import Formalism.FilteredPoleLength.ReducedBasisBounds.Bundle001
 public import Formalism.FilteredPoleLength.LocalDescentLevels.MemSpanBasisFun
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

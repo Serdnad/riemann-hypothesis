@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.ProfiniteCohomology.ClassFormations.CorestrictionDefs
-public import GroundTheory.ProfiniteCohomology.CartierDualDefs
+public import GroundTheory.ProfiniteCohomology.Bundle010
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

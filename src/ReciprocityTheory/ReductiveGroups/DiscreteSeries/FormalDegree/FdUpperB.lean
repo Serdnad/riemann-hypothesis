@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.FdDefs
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.Bundle001
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.PmatIsHermitian
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -42,12 +42,12 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.HsEighthLeOfSmall
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.JacBound
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.Bundle012
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.Bundle007
 import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.JacobianLeExp
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.PBridge
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.Bundle009
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.ProdSubLtEqFactorial
-import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.SCoefGeTwoOfHc
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.Bundle011
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section

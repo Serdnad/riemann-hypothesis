@@ -1,7 +1,7 @@
 module
 
-public import Formalism.PeriodIntegrals.ClassNumImQ
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.ClassNumImQInt
+public import Formalism.PeriodIntegrals.Bundle009
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle006
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.QuadraticInvariants.QuadPolyIrreducible
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

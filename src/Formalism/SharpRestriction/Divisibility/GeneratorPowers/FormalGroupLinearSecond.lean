@@ -1,8 +1,8 @@
 module
 
 public import Formalism.LocalToGlobal.ProjectiveLattices.ThGerm
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.PairEvaluation
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.ChartChg
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle002
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.Bundle003
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.AevalDiagMonomial
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -46,7 +46,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
-import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermDJet
+import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle013
 
 @[expose] public section
 

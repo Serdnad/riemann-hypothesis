@@ -1,8 +1,8 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.PullHlComp
-public import Development.AbelianVarietyTheory.Definitions.Divisors.BlockGLMap
-public import GroundTheory.ProfiniteCohomology.ContinuousCochains
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle005
+public import GroundTheory.ProfiniteCohomology.Bundle005
 public import Mathlib.FieldTheory.KrullTopology
 public import Mathlib.RingTheory.PicardGroup
 import Mathlib.Algebra.Order.Floor.Extended

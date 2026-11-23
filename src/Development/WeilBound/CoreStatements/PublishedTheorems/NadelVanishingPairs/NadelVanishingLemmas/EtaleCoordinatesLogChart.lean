@@ -1,12 +1,13 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.IsEtCoord
-public import Development.AbelianVarietyTheory.Definitions.Divisors.IsEulerContraction
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle007
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle028
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RegularLocalStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.UnitAtFnOfOfNotMem
-public import Development.WeilBound.CoreStatements.PublishedTheorems.NadelVanishingPairs.NadelVanishingLemmas.FractionFieldCoordinatesDlog
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1328
+public import Development.WeilBound.CoreStatements.PublishedTheorems.NadelVanishingPairs.NadelVanishingLemmas.Bundle012
 public import Development.WeilBound.CoreStatements.PublishedTheorems.NadelVanishingPairs.NadelVanishingLemmas.RootOfMonomialQuotientIntegral
-public import Development.WeilBound.CoreStatements.PublishedTheorems.NadelVanishingPairs.NadelVanishingLemmas.UnitOfHeightOnePrimesStatement
+public import Development.WeilBound.CoreStatements.PublishedTheorems.NadelVanishingPairs.NadelVanishingLemmas.Bundle009
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1020
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

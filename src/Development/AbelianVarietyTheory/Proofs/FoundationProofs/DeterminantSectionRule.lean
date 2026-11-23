@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.FibreIff
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle276
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.RamifiedPlacesSplitEigen
 public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.LieCombBaseChange
 import Mathlib.Algebra.Order.Floor.Extended
@@ -41,10 +41,10 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Development.AbelianVarietyTheory.Definitions.CMLattices.IsCyclotomicExtensionCyclotomicField28
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.VecMulMapEqZero
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsAbelianGaloisHost
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle964
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle323
 import Formalism.LocalToGlobal.ProjectiveLattices.ErealAddIInf
-import Formalism.SharpRestriction.CuspSpanNormBounds.Point
+import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle001
 import Formalism.SharpRestriction.LevelLetterCocycles.DataNLoc
 
 @[expose] public section

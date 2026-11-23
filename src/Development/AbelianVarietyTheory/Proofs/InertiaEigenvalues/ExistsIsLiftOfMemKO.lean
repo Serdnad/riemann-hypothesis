@@ -53,7 +53,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.ValuationDetOfMemKO
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsContractNeZero
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle303
 
 @[expose] public section
 

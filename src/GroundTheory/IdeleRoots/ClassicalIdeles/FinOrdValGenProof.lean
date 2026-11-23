@@ -43,7 +43,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 import GroundTheory.GlobalFields.IdeleGroups.InfiniteProjInfiniteEmbeddingOfNe
-import GroundTheory.GlobalFields.TateThesis.NoSmallSubgroups
+import GroundTheory.GlobalFields.TateThesis.Bundle001
 public import Mathlib.Algebra.Polynomial.Roots
 public import Mathlib.NumberTheory.NumberField.Basic
 

@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Degenerations.IsBasisB
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsProjectiveModel
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsUnitCharts
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsUnitWeightZeroIntegralCoordsStatement
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.NormConstSec
+public import Development.AbelianVarietyTheory.Definitions.Degenerations.Bundle005
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle107
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle041
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle116
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle069
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.GeometricallyIntegralIffGeometricallyConnectedOf
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

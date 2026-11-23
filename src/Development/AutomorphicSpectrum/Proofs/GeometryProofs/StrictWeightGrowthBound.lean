@@ -2,9 +2,9 @@ module
 
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ModelSmall
 public import Development.AutomorphicSpectrum.Definitions.DivisibilityTowers.GoodOrigin
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GoodOriginRootWeightBoundStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ExistsFormDefiningValueStatement
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.SumFundCoMulSumIic
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle179
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle036
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle021
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -41,7 +41,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.DefiniteFormStabilizerFiniteAwayFromP
+import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle002
 
 @[expose] public section
 

@@ -1,8 +1,8 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.KeyFormula.KeyRootOfKeyFormula
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExactKeyFormulaProofStatement
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.KeyFamOfKeyFormula
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle210
+public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle045
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

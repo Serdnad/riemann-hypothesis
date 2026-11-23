@@ -3,11 +3,11 @@ module
 public import Development.AbelianVarietyTheory.Statements.CuspFrameWeights.DiscreteSpectrumKFiniteDecomposition
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.InnerRepK
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IwasawaDecompComplexifiedMaxCompact
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IwasawaInt
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.PhiPositiveDefiniteCholeskyFormula
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ProdPartialZpow
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle167
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle152
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle126
 import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ScalarOfMultOne
-public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.HalfSumRootsStandard
+public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

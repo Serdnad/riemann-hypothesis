@@ -1,6 +1,6 @@
 module
 
-public import Development.WeilBound.ThetaLifts.LatticeBasics.LocDistC
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle002
 import Development.WeilBound.ThetaLifts.LatticeBasics.LocDistA
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

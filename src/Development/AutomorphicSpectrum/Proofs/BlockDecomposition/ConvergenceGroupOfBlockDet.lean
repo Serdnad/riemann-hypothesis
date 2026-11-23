@@ -3,7 +3,7 @@ module
 public import Development.WeilBound.RepresentationTheoryGL.EisensteinSeries.SiegelEisensteinContinuation.ConvGrOf
 public import Mathlib.CategoryTheory.Category.Basic
 public import Mathlib.Data.Set.PowersetCard
-public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.MulConjTransposeEqOneOfOrthonormal
+public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EnvRepAllEnvIncl
-import Development.AbelianVarietyTheory.Proofs.HeightProofs.RightDerivativeAlongLieSmoothAndLinear
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1724
+import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

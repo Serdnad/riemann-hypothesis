@@ -7,7 +7,7 @@ public import Mathlib.RepresentationTheory.Irreducible
 public import GroundTheory.AutomorphicForms.AdmissibleInduction
 import GroundTheory.AutomorphicForms.GLnLattice
 public import GroundTheory.AutomorphicForms.LeviCartan
-public import GroundTheory.AutomorphicForms.SmoothRepSchur
+public import GroundTheory.AutomorphicForms.Bundle009
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

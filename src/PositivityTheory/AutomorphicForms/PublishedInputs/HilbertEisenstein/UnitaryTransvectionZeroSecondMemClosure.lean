@@ -1,13 +1,13 @@
 module
 
-public import PositivityTheory.AutomorphicForms.PublishedInputs.HilbertEisenstein.SExpDefs
+public import PositivityTheory.AutomorphicForms.PublishedInputs.HilbertEisenstein.Bundle006
 public import GroundTheory.GlobalFields.TateThesis.TateTheta
-public import GroundTheory.GlobalFields.TateThesis.GaussianSchwartz
+public import GroundTheory.GlobalFields.TateThesis.Bundle001
 import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.MkMemAdmissibleAtIffCocycle
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsOpenIdeleSubgroupContainsCongruenceUnits
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle056
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.ExistsUniqueHcharOfFiniteOrder
 import GroundTheory.GlobalFields.TateThesis.AdelePoisson
-public import GroundTheory.GlobalFields.TateThesis.EulerFactorsInfinite
+public import GroundTheory.GlobalFields.TateThesis.Bundle008
 public import GroundTheory.GlobalFields.TateThesis.TateThetaDecay
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -49,7 +49,7 @@ import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.RestrictionMemInvariantH1
 import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.ConstSmall
-import Development.AutomorphicArithmetic.AutomorphicVarieties.PublishedTheorems.GelfandKazhdanReal
+import Development.AutomorphicArithmetic.AutomorphicVarieties.PublishedTheorems.Bundle001
 
 @[expose] public section
 

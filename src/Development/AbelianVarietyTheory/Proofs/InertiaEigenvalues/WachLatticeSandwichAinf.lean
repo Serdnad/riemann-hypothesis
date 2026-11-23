@@ -1,7 +1,7 @@
 module
 
 public import Formalism.SharpRestriction.LevelLetterCocycles.LocalSituation
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FrobeniusIntegralityTensorAinfCoefficientsStatement
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle334
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -40,7 +40,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.Foundations.HTBasis
+import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle010
 
 @[expose] public section
 
@@ -295,7 +295,7 @@ theorem φRW_teichmuller {l : ℕ} [Fact l.Prime] (LL : FinExt l) (e : OCb l) :
     φRW LL (inclR LL (1 + (1 : ↥(OL LL)) ⊗ₜ[ℤ_[l]] (WittVector.teichmuller l e - 1))) =
       inclR LL (1 + (1 : ↥(OL LL)) ⊗ₜ[ℤ_[l]] (WittVector.teichmuller l e - 1)) ^ l := by
   have h : (1 : RA LL) + (1 : ↥(OL LL)) ⊗ₜ[ℤ_[l]] (WittVector.teichmuller l e - 1) =
-      (1 : ↥(OL LL)) ⊗ₜ[ℤ_[l]] (WittVector.teichmuller l e : Ainf l) := by
+      (1 : ↥(OL LL)) ⊗ₜ[ℤ_[l]] (WittVector.teichmuller l e : _root_.Formalism.BasicNotions.Loc.Ainf l) := by
     rw [TensorProduct.tmul_sub, Algebra.TensorProduct.one_def]; abel
   rw [h]
   simp only [inclR, φRW, Algebra.TensorProduct.map_tmul, map_one, Algebra.TensorProduct.tmul_pow,

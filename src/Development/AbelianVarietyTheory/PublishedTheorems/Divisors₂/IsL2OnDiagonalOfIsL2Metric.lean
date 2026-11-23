@@ -37,8 +37,8 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.SiegelReframe
-import Development.AbelianVarietyTheory.Definitions.Divisors.IsEquivariantToBidual
+public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.Bundle004
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle029
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsIsoQuotToImOmegaLieOfSplit
 
 @[expose] public section

@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FlagCellFrameChangeTriangular
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2596
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.DenseInterior
 public import Development.AbelianVarietyTheory.Definitions.Divisors.BarCompSubsetClosure
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsRowPermLeadingMinorsNotMemStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FlagCellPointImageAndFrameStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LowerUnitriangularMulUpperTriangularOfIsUnitLeadStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle219
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2660
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle218
 public import Development.WeilBound.CoreStatements.ProjectiveValuations.IsIsoOfIntegral
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -5,9 +5,9 @@ public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.NatCas
 public import Formalism.LocalToGlobal.GroupLattices.PendingLemmas.ConditionIffAdditiveMaps
 public import Formalism.LocalToGlobal.GroupLattices.PendingLemmas.SuccMulSuccSubOneDivSucc
 public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.DifferentiableOnOfTendstoLocallyUniformlyOn
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.KernelThetaAdmissibleLatticesStatement
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle234
 public import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.LocalLevelIsKOneAtT
-import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.HkLatTupUpdate
+import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle021
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,12 +1,12 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.ClassFormationDefs
+public import GroundTheory.ProfiniteCohomology.Bundle008
 public import Mathlib.Topology.Sheaves.Presheaf
-public import GroundTheory.ProfiniteCohomology.Colimit
+public import GroundTheory.ProfiniteCohomology.Bundle007
 import GroundTheory.ProfiniteCohomology.DiscreteModules.IsDiscreteRepIffForallExistsOpenNormalSubgroup
-import GroundTheory.ProfiniteCohomology.Factor
-import GroundTheory.ProfiniteCohomology.FilteredHomology
-public import GroundTheory.ProfiniteCohomology.IsProPGroupSubgroupIffIsPGroupMap
+import GroundTheory.ProfiniteCohomology.Bundle004
+import GroundTheory.ProfiniteCohomology.Bundle001
+public import GroundTheory.ProfiniteCohomology.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,13 +1,13 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsPlaceOverMoveValCc
-public import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.TameGeneratorProjectors
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle297
+public import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.Bundle004
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.DepthZeroLabelsOfLabelLaws
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.InertiaTypePrimesOfAdmissible
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.SpanEqTopOfTraceEq
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ValuationPowApplyDivSubOneLt
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ConjPlMemPlacesOver
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SpanRepMatrixEqTopOfAbsIrreducible
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle192
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle049
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle124
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle277
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle236
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -48,7 +48,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.InjPrimeTo
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle009
 
 @[expose] public section
 

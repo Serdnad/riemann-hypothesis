@@ -104,7 +104,7 @@ structure TypeRel {r r' : ℕ} (G : TypeDat D r) (G' : TypeDat D' r') : Prop whe
   P : HEq G.P G'.P
   mu : HEq G.mu G'.mu
 
-structure WeightRel {n n' : ℕ} (w : Weight D n) (w' : Weight D' n') : Prop where
+structure WeightRel {n n' : ℕ} (w : _root_.GlobalTheory.ExportSeries.Weight D n) (w' : _root_.GlobalTheory.ExportSeries.Weight D' n') : Prop where
   p : HEq w.p w'.p
   q : HEq w.q w'.q
   ap : HEq w.ap w'.ap

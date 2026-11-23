@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.LevelMatchIff
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ColumnWittFrameBasisBlockGramStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.UnitaryStabiliserOrthogonalSummand
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle016
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle350
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle012
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

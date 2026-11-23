@@ -1,0 +1,194 @@
+module
+
+public import Development.WeilBound.RepresentationTheoryGL.TwistedFactors.IntegralUnitBaseChange.InvTransposeGLInvTransposeGL
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.TraceFormula.OrbitalIntegrals.TwistedOrbitalIntegrals.Bundle001
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.TraceFormula.OrbitalIntegrals.TwistedOrbitalIntegrals.HeckeRepresentationSatake
+public import Development.AutomorphicArithmetic.Foundations.Convolution.HermitianDescent.Bundle002
+public import Development.AutomorphicArithmetic.Foundations.Convolution.HermitianDescent.Bundle006
+import GroundTheory.LocalFields.Integers
+public import Development.AutomorphicArithmetic.Foundations.Convolution.HermitianDescent.Bundle003
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+public import Mathlib.LinearAlgebra.Matrix.Charpoly.Univ
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Coalgebra.IsFrobenius
+import Mathlib.RingTheory.Henselian
+import Mathlib.RingTheory.HopfAlgebra.Basic
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.WittVector.IsPoly
+import Mathlib.RingTheory.RegularLocalRing.Defs
+import Mathlib.RingTheory.SimpleRing.Principal
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Linter.HaveILetI
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.Polynomial.Basic
+import Mathlib.Tactic.ReduceModChar
+public import Mathlib.Topology.Algebra.Group.OpenMapping
+import Mathlib.Topology.Algebra.Group.Units
+public import Mathlib.Topology.Algebra.MvPolynomial
+import Mathlib.Topology.Baire.LocallyCompactRegular
+import Mathlib.Topology.Sheaves.Init
+import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.Bundle004
+import Development.AbelianVarietyTheory.Definitions.Foundations.MatrixMeasurableSpace
+import Development.AbelianVarietyTheory.Definitions.Foundations.SmoothPartStable
+import Development.AutomorphicArithmetic.Foundations.Convolution.TwistedLocalOrbits.HoweSpace
+
+@[expose] public section
+
+section
+
+open MeasureTheory ValuativeRel GlobalTheory.PRep GlobalTheory.SplitWeil GlobalTheory.IndefiniteRowSideFullHecke.IwahoriDoubleCosets PositivityTheory.Rg.Tf.Loc UpperTheory.ConvolutionTheory.Loc
+
+private theorem inj {k E : Type} [Field k] [Field E] [Algebra k E] [FiniteDimensional k E] [IsGalois k E] (σ : E ≃ₐ[k] E)
+    (hσ : ∀ τ : E ≃ₐ[k] E, τ ∈ Subgroup.zpowers σ) {n : ℕ} (δ δ' : GL (Fin n) E) (h : IsTwRegSemisimple σ δ)
+    (e : (normGL σ δ' : Matrix (Fin n) (Fin n) E).charpoly = (normGL σ δ : Matrix (Fin n) (Fin n) E).charpoly) :
+    TwConjugate (sigmaGL σ) δ δ' := by
+  have hn : ∀ x : GL (Fin n) E, UpperTheory.ConvolutionTheory.D.nm σ (Module.finrank k E) x = normGL σ x := fun x => by
+    unfold UpperTheory.ConvolutionTheory.D.nm normGL twNorm
+    congr 2
+    funext i
+    rw [← sigmaGL_pow]
+    rfl
+  obtain ⟨x, hx⟩ := UpperTheory.ConvolutionTheory.D.nmInj k E σ _ (UpperTheory.ConvolutionTheory.D.galField k E σ hσ) n δ δ' (by rw [hn]; exact h) (by rw [hn, hn]; exact e)
+  exact ⟨x, hx⟩
+
+private theorem openOrbit {G : Type} [Group G] [TopologicalSpace G] [IsTopologicalGroup G] [LocallyCompactSpace G]
+    [SecondCountableTopology G] [T2Space G] (θ : Monoid.End G) (hθ : Continuous θ) (δ : G) (hc : IsClosed {δ' | TwConjugate θ δ δ'})
+    (C : Set G) (hC : IsCompact C) :
+    ∃ D : Set G, IsCompact D ∧ ∀ x, twConj θ x δ ∈ C → ∃ t ∈ twCent θ δ, ∃ d ∈ D, x = t * d := by
+  have hm : ∀ a b y, twConj θ (a * b) y = twConj θ b (twConj θ a y) := fun a b y => by
+    simp only [twConj, map_mul]; group
+  have h1 : ∀ y, twConj θ 1 y = y := fun y => by simp [twConj]
+  let X := {δ' // δ' ∈ {δ' | TwConjugate θ δ δ'}}
+  letI : MulAction G X :=
+    { smul := fun g y => ⟨twConj θ g⁻¹ y.1, by
+        obtain ⟨a, ha⟩ := y.2
+        exact ⟨a * g⁻¹, by rw [hm, ← ha]⟩⟩
+      one_smul := fun y => Subtype.ext (by change twConj θ 1⁻¹ y.1 = y.1; rw [inv_one, h1])
+      mul_smul := fun a b y => Subtype.ext (by
+        change twConj θ (a * b)⁻¹ y.1 = twConj θ a⁻¹ (twConj θ b⁻¹ y.1)
+        rw [mul_inv_rev, hm]) }
+  have hs : ∀ (g : G) (y : X), (g • y).1 = twConj θ g⁻¹ y.1 := fun _ _ => rfl
+  haveI : ContinuousSMul G X := ⟨Continuous.subtype_mk (by
+    simp only [twConj]
+    exact ((continuous_fst.inv.inv).mul (continuous_subtype_val.comp continuous_snd)).mul (hθ.comp continuous_fst.inv)) _⟩
+  let x₀ : X := ⟨δ, 1, (h1 δ).symm⟩
+  have hx : ∀ y : X, ∃ g : G, g • x₀ = y := fun y => by
+    obtain ⟨a, ha⟩ := y.2
+    exact ⟨a⁻¹, Subtype.ext (by rw [hs, inv_inv]; exact ha.symm)⟩
+  haveI : MulAction.IsPretransitive G X := ⟨fun y z => by
+    obtain ⟨a, rfl⟩ := hx y
+    obtain ⟨b, rfl⟩ := hx z
+    exact ⟨b * a⁻¹, by rw [smul_smul, inv_mul_cancel_right]⟩⟩
+  haveI : LocallyCompactSpace X := hc.isClosedEmbedding_subtypeVal.locallyCompactSpace
+  have ho := isOpenMap_smul_of_sigmaCompact (G := G) x₀
+  have hK : IsCompact (Subtype.val ⁻¹' C : Set X) := hc.isClosedEmbedding_subtypeVal.isCompact_preimage hC
+  choose N hN hN' using fun g : G => exists_compact_mem_nhds g
+  obtain ⟨s, hs'⟩ := hK.elim_finite_subcover (fun g : G => (fun a : G => a • x₀) '' interior (N g))
+    (fun g => ho _ isOpen_interior) fun y _ => by
+      obtain ⟨g, rfl⟩ := hx y
+      exact Set.mem_iUnion.2 ⟨g, g, mem_interior_iff_mem_nhds.2 (hN' g), rfl⟩
+  refine ⟨Inv.inv '' (⋃ g ∈ s, N g), (s.isCompact_biUnion fun g _ => hN g).image continuous_inv, fun x hxC => ?_⟩
+  have := hs' (show (x⁻¹ • x₀ : X) ∈ Subtype.val ⁻¹' C by
+    rw [Set.mem_preimage, hs, inv_inv]; exact hxC)
+  simp only [Set.mem_iUnion] at this
+  obtain ⟨g, hg, a, ha, e⟩ := this
+  have e' : twConj θ a⁻¹ δ = twConj θ x δ := by
+    have := congrArg Subtype.val e
+    simpa only [hs, inv_inv] using this
+  refine ⟨x * a, ?_, a⁻¹, ?_, by group⟩
+  · change twConj θ (x * a) δ = δ
+    rw [hm, ← e', ← hm, inv_mul_cancel, h1]
+  · exact ⟨a, Set.mem_biUnion hg (interior_subset ha), rfl⟩
+
+private theorem contCoeff {K : Type} [CommRing K] [TopologicalSpace K] [IsTopologicalRing K] (n i : ℕ) :
+    Continuous fun M : Matrix (Fin n) (Fin n) K => M.charpoly.coeff i := by
+  have h : (fun M : Matrix (Fin n) (Fin n) K => M.charpoly.coeff i) =
+      fun M => MvPolynomial.eval (fun ij : Fin n × Fin n => M ij.1 ij.2) ((Matrix.charpoly.univ K (Fin n)).coeff i) := by
+    funext M
+    exact (Matrix.charpoly.univ_coeff_eval₂Hom (Fin n) (RingHom.id K) (fun ij : Fin n × Fin n => M ij.1 ij.2) i).symm
+  rw [h]
+  exact (MvPolynomial.continuous_eval _).comp (continuous_pi fun ij => (continuous_apply ij.2).comp (continuous_apply ij.1))
+
+theorem UpperTheory.ConvolutionTheory.Loc.orbProper :
+    ∀ (k E : Type) [Field k] [CharZero k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchimedeanLocalField k]
+        [Field E] [ValuativeRel E] [TopologicalSpace E] [IsNonarchimedeanLocalField E]
+        [Algebra k E] [ValuativeExtension k E] [FiniteDimensional k E] [IsGalois k E], ∀ σ : E ≃ₐ[k] E, (∀ τ : E ≃ₐ[k] E, τ ∈ Subgroup.zpowers σ) →
+      ∀ (n : ℕ) (δ : GL (Fin n) E), IsTwRegSemisimple σ δ → ∀ C : Set (GL (Fin n) E), IsCompact C →
+        ∃ D : Set (GL (Fin n) E), IsCompact D ∧ ∀ x, twConj (sigmaGL σ) x δ ∈ C → ∃ t ∈ twCent (sigmaGL σ) δ, ∃ d ∈ D, x = t * d := by
+  intro k E _ _ _ _ _ _ _ _ _ _ _ _ _ σ hσ n δ hδ C hC
+  obtain ⟨i1, i2, i3, -⟩ := UpperTheory.V.Z.Tf.Orb.gLTop E n
+  have hc := ((UpperTheory.V.Z.Tf.Orb.extCont k E).2.2 n).2
+  have hl : (sigmaGL σ : Monoid.End (GL (Fin n) E)) ^ Module.finrank k E = 1 := by
+    rw [← sigmaGL_pow, ← IsGalois.card_aut_eq_finrank, pow_card_eq_one', sigmaGL_one]
+  have hN : ∀ m, Continuous (twNorm (sigmaGL σ : Monoid.End (GL (Fin n) E)) m) := fun m => by
+    induction m with
+    | zero => exact continuous_const.congr fun x => (twNorm_zero _ x).symm
+    | succ m ih =>
+      refine (ih.mul (hc (σ ^ m))).congr fun x => ?_
+      rw [twNorm_succ, sigmaGL_pow]
+      rfl
+  refine openOrbit _ (hc σ) δ ?_ C hC
+  have e : {δ' | TwConjugate (sigmaGL σ) δ δ'} = ⋂ i, {δ' : GL (Fin n) E | (normGL σ δ' : Matrix (Fin n) (Fin n) E).charpoly.coeff i =
+      (normGL σ δ : Matrix (Fin n) (Fin n) E).charpoly.coeff i} := by
+    ext δ'
+    simp only [Set.mem_iInter, Set.mem_setOf_eq]
+    refine ⟨?_, fun h => inj σ hσ δ δ' hδ (Polynomial.ext h)⟩
+    rintro ⟨g, rfl⟩ i
+    rw [normGL, twNorm_twConj_of_pow_eq_one _ hl, Units.val_mul, Units.val_mul, Matrix.coe_units_inv, Matrix.charpoly_units_conj']
+    rfl
+  rw [e]
+  exact isClosed_iInter fun i => isClosed_eq ((contCoeff n i).comp (Units.continuous_val.comp (hN _))) continuous_const
+end
+
+section
+
+open MeasureTheory ValuativeRel GlobalTheory.PRep GlobalTheory.SplitWeil GlobalTheory.IndefiniteRowSideFullHecke.IwahoriDoubleCosets PositivityTheory.Rg.Tf.Loc UpperTheory.ConvolutionTheory.Loc
+
+theorem UpperTheory.ConvolutionTheory.Loc.conjDesc :
+    ∀ (k E : Type) [Field k] [Field E] [Algebra k E] (n : ℕ) (γ γ' : GL (Fin n) k), IsRegSemisimple γ →
+      (∃ h : GL (Fin n) E, incl γ' = h * incl γ * h⁻¹) → ∃ y : GL (Fin n) k, γ' = y * γ * y⁻¹ := by
+  intro k E _ _ _ n γ γ' hγ ⟨h, hh⟩
+  have hc : (γ' : Matrix (Fin n) (Fin n) k).charpoly = (γ : Matrix (Fin n) (Fin n) k).charpoly := by
+    apply Polynomial.map_injective (algebraMap k E) (algebraMap k E).injective
+    rw [← Matrix.charpoly_map, ← Matrix.charpoly_map]
+    have e := congrArg (fun g : GL (Fin n) E => (g : Matrix (Fin n) (Fin n) E).charpoly) hh
+    simp only [Units.val_mul, Matrix.coe_units_inv, Matrix.charpoly_units_conj] at e
+    exact e
+  obtain ⟨x, hx⟩ := (UpperTheory.ConvolutionTheory.D.conjSep k k n _ hγ).1 _ hc
+  refine ⟨x⁻¹, ?_⟩
+  have : γ * x = x * γ' := Units.ext hx
+  rw [inv_inv, mul_assoc, this, inv_mul_cancel_left]
+end

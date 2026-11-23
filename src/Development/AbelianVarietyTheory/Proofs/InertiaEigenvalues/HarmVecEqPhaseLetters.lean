@@ -1,17 +1,17 @@
 module
 
 public import Development.AbelianVarietyTheory.BlockTheory.NonGaloisCusps.TwistSeries
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CoefMapNormEquivariantBasis
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1648
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.OscillatorModelExtensionFirst
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PureTensorOInjective
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PureTensorOMulSource
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RationalPointsGenerate
-import Development.AbelianVarietyTheory.Proofs.HeightProofs.AdelicUnitaryRealPointsStructureRealPlaces
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ComplexCoefficientMapCoreFieldPropertiesStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LowestWeightVectorsAtRows
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsHarmonicCoefficientMapAtWeights
+import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle048
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle827
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle880
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle246
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.PureTensorOSmul
-import Development.AbelianVarietyTheory.Proofs.JetHarmonics.WeightExponentsEmbeddingsDegree
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle130
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -52,8 +52,8 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.FFVMap
-import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.DatEqZero
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.Bundle004
+import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.Bundle002
 import Development.AbelianVarietyTheory.BlockTheory.NonGaloisCusps.RationalRayLevels
 
 @[expose] public section

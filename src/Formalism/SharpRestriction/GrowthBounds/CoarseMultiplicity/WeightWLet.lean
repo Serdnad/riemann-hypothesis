@@ -1,6 +1,6 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.IoBlockWh
+public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.Bundle004
 import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.SegmentStatementHolds
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

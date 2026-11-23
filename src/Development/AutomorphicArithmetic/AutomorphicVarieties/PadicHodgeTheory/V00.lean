@@ -2,8 +2,8 @@ module
 
 public import Mathlib.NumberTheory.NumberField.Discriminant.Defs
 public import ReciprocityTheory.Hypotheses.GalCohDefs
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.AbsNormPrimeIffInertiaDegEqOneAndFiniteRamified
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ChebotarevDegreeOne
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle014
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle594
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

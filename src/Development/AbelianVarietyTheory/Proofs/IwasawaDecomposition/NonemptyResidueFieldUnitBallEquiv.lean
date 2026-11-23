@@ -1,9 +1,9 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.WdOfMono0L
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.AlgebraMapToZModEq
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsPadicAlgClRingEquivComplexCompEqOfCountabl
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.NormEmbeddingIntegerLeOne
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle017
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle030
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle048
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ValuationRingHenselianAndSmoothPointsLift
 public import Formalism.LocalRingCardinality.SpanPowerMembership.PlOver
 import Mathlib.Algebra.Order.Floor.Extended

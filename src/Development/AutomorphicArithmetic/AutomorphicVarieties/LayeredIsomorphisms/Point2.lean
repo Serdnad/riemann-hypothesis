@@ -1,8 +1,8 @@
 module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.LayeredIsomorphisms.SecondBound
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.LayeredIsomorphisms.ImportsAlt
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.LayeredIsomorphisms.Logs
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.LayeredIsomorphisms.Bundle003
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.LayeredIsomorphisms.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

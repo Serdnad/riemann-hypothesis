@@ -2,9 +2,9 @@ module
 
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.PotentialsBoundedRegSettingEqReference
 public import Development.AutomorphicSpectrum.Statements.GeometryStatements.NineGeoU
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.RegularizedWeightDominatesEventuallyStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.VerticalFactorSmoothHermitianMetricStatement
-import Development.WeilBound.CoreStatements.PlurisubharmonicCones.VerticalFactorSmoothLine
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle151
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle155
+import Development.WeilBound.CoreStatements.PlurisubharmonicCones.Bundle014
 import GroundTheory.HeightsAndTheta.Heights.Regularisation.RegMaxReindex
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

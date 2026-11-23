@@ -1,11 +1,11 @@
 module
 
-public import Development.WeilBound.ThetaLifts.LatticeBasics.ExistsIsHeckeLOfCompleted
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle016
 public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.NotIsCompactUnivFv
-public import Development.WeilBound.ThetaLifts.LatticeBasics.PairsStable
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.HeckeLEntireAndNonzeroAtOneHolds
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle007
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle158
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.IsCMTypeEmbedding
-public import Development.WeilBound.ThetaLifts.LatticeBasics.ConstOfGood
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle009
 public import Development.WeilBound.ThetaLifts.LatticeBasics.GoodNe
 public import Development.WeilBound.ThetaLifts.Reductions.WeightConstants.Bridge
 import Mathlib.Algebra.Order.Floor.Extended

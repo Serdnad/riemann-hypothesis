@@ -1,9 +1,8 @@
 module
 
-public import Formalism.ThetaLogCoordinates.TraceIsometryWeights.StatementB
-public import Formalism.ThetaLogCoordinates.TraceIsometryWeights.SchurTraceProofs.HomRelationHolds
+public import Formalism.ThetaLogCoordinates.TraceIsometryWeights.Bundle002
+public import Formalism.ThetaLogCoordinates.TraceIsometryWeights.SchurTraceProofs.Bundle001
 public import Formalism.PolynomialDimension.MultinomialDepth.MonoCount
-public import Formalism.ThetaLogCoordinates.TraceIsometryWeights.SchurTraceProofs.InvInt
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

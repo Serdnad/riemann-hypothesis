@@ -1,7 +1,7 @@
 module
 
 public import Mathlib.FieldTheory.IsAlgClosed.Basic
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.SimultaneousEigenvectors
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle041
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

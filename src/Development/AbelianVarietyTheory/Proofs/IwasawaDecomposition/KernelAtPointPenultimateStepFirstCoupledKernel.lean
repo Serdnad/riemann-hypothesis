@@ -1,12 +1,12 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsLowerEmbF
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle344
 public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.KerIsTerm
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.RightTranslationActionApply
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.SumFibreEqSumOrbits
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle120
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.ExtUHInjective
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.IsClassSumPairingOfIsFormsOf
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.TilLatticesOfLevel
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle143
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle115
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.EmbFColZeroMemMram
 public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.ThDistC
 import Mathlib.Algebra.Order.Floor.Extended
@@ -51,7 +51,7 @@ noncomputable section
 
 namespace GlobalTheory.Mem.Col2.KerRat
 
-open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.HermitianLatticesTheory Formalism.L2.Col Formalism.L2.DIV Formalism.L2.Forms Formalism.L2.Ker GlobalTheory.Mem.Col2 GlobalTheory.TopStep GlobalTheory.GO
+open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.HermitianLatticesTheory _root_.Formalism.L2.Col Formalism.L2.DIV Formalism.L2.Forms Formalism.L2.Ker GlobalTheory.Mem.Col2 GlobalTheory.TopStep GlobalTheory.GO
 open GlobalTheory.LvT.Built (kAt)
 
 theorem sum_cl {E K M : Type} [Field E] [NumberField E] [Field K] [AddCommMonoid M] {n : ℕ} (S : GStep E K n) {i : Fintype S.Cl}

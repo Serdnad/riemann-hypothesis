@@ -1,8 +1,8 @@
 module
 
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.GoodCoverEigenspaces.CubeCechEquivalences.CechCubeBaseChange.BcSumSingle
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.SortSign
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CoverRestrictionBaseChangeStatement
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle006
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle178
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

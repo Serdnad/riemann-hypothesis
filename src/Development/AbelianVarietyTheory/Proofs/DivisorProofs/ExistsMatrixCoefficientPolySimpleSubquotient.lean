@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.BlockSub
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle872
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ApplyCoefEqZeroOfCol
-public import Development.AbelianVarietyTheory.Definitions.Divisors.LiftFrameEmbeddingBase
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LRowstLemmas
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle060
+import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

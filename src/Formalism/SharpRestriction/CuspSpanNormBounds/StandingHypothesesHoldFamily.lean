@@ -1,11 +1,11 @@
 module
 
-public import Formalism.SharpRestriction.GlobalTheoremInputs
-public import Formalism.SharpRestriction.CuspSpanNormBounds.LeSCSCl
+public import Formalism.SharpRestriction.Bundle002
+public import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle012
 public import Formalism.SharpRestriction.CuspSpanNormBounds.AdmissibleBoundsFromSource
-public import Formalism.SharpRestriction.CuspSpanNormBounds.FrobeniusProjectedBounds
+public import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle008
 public import Formalism.SharpRestriction.GlobalSchurBounds.CMFieldLemmas
-public import Formalism.SharpRestriction.GlobalSchurBounds.ShortIntervalPrimes
+public import Formalism.SharpRestriction.GlobalSchurBounds.Bundle001
 public import Formalism.SharpRestriction.CuspSpanNormBounds.UniformConstantsAndStatements
 import Mathlib.Algebra.AffineMonoid.Basic
 import Mathlib.Algebra.Order.Floor.Extended

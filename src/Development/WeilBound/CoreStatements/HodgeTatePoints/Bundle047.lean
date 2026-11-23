@@ -1,0 +1,255 @@
+module
+
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.TwoWeightEqOneAddRoot
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsGenericWeilPairing
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle176
+import Mathlib.Algebra.AffineMonoid.Basic
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.NonzeroLocus
+public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.IsProjOverIffIsProperAndExistsIsAmpleLB
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ClsLinCombSingle
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.GroupTheory.FiniteAbelian.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.RegularLocalRing.Defs
+import Mathlib.Tactic.Basify
+import Mathlib.Tactic.ENatToNat
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Linter.Style
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.Bundle001
+import Development.AutomorphicSpectrum.PublishedTheorems.Algebra₂.FarguesHodgeTate
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.AbelianSchemeGerms
+import Development.AbelianVarietyTheory.Definitions.CMLattices.IsCyclotomicExtensionCyclotomicField28
+import Development.AbelianVarietyTheory.Definitions.CMLattices.LamLetters
+public import Development.AbelianVarietyTheory.Definitions.ThetaMetrics.IsAmpleLBOfRelAmpleOfIsAffine
+import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle026
+import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.IsTight
+import ReciprocityTheory.DualLattices.Bundle007
+import ReciprocityTheory.DualLattices.Bundle002
+import ReciprocityTheory.GeometryOfNumbers.LatticeCovolumes.ConjSymm
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.ChartPullbacks.UniversalCharts.LePreimageOfNil
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.ChartPullbacks.UniversalCharts.SpanXLeKerAevalZero
+
+@[expose] public section
+
+section
+
+noncomputable section
+
+namespace PositivityTheory.HtPt.Htat
+
+open CategoryTheory Limits AlgebraicGeometry MonoidalCategory CartesianMonoidalCategory MonObj NumberField
+open GlobalTheory.CompanionTheory.Ar ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Geo.Tor
+
+namespace Lev
+
+theorem eq_iff {La Q : Type} [AddCommGroup La] [Group Q] (m : ℕ) (ev : La → Q)
+    (hadd : ∀ a b, ev (a + b) = ev a * ev b) (hker : ∀ a, ev a = 1 ↔ ∃ b, a = m • b) (a b : La) :
+    ev a = ev b ↔ (Submodule.Quotient.mk a : La ⧸ LinearMap.range (m • (LinearMap.id : La →ₗ[ℤ] La))) =
+      Submodule.Quotient.mk b := by
+  have h : ev a = ev (a - b) * ev b := by rw [← hadd, sub_add_cancel]
+  rw [Submodule.Quotient.eq, h, mul_eq_right, hker]
+  exact ⟨fun ⟨c, hc⟩ => ⟨c, hc.symm⟩, fun ⟨c, hc⟩ => ⟨c, hc.symm⟩⟩
+
+theorem onto_of_count {La Q : Type} [AddCommGroup La] [Module.Finite ℤ La] [Group Q] (m : ℕ) (hm : 0 < m)
+    (ev ev' : La → Q) (hadd : ∀ a b, ev (a + b) = ev a * ev b) (hker : ∀ a, ev a = 1 ↔ ∃ b, a = m • b)
+    (hon : ∀ x, x ^ m = 1 ↔ ∃ a, ev a = x)
+    (hadd' : ∀ a b, ev' (a + b) = ev' a * ev' b) (hker' : ∀ a, ev' a = 1 ↔ ∃ b, a = m • b)
+    (ht : ∀ a, ev' a ^ m = 1) (x : Q) (hx : x ^ m = 1) : ∃ a, ev' a = x := by
+  have : Finite (La ⧸ LinearMap.range (m • (LinearMap.id : La →ₗ[ℤ] La))) := by
+    refine Module.finite_of_fg_torsion _ ?_
+    intro y
+    obtain ⟨a, rfl⟩ := Submodule.Quotient.mk_surjective _ y
+    refine ⟨⟨(m : ℤ), mem_nonZeroDivisors_of_ne_zero (by exact_mod_cast hm.ne')⟩, ?_⟩
+    show (m : ℤ) • (Submodule.Quotient.mk a : La ⧸ LinearMap.range (m • (LinearMap.id : La →ₗ[ℤ] La))) = 0
+    rw [← Submodule.Quotient.mk_smul, Submodule.Quotient.mk_eq_zero]
+    exact ⟨a, by simp⟩
+  choose g hg using fun a => (hon _).1 (ht a)
+  choose s hs using Submodule.Quotient.mk_surjective (LinearMap.range (m • (LinearMap.id : La →ₗ[ℤ] La)))
+  have hinj : Function.Injective fun y => (Submodule.Quotient.mk (g (s y)) :
+      La ⧸ LinearMap.range (m • (LinearMap.id : La →ₗ[ℤ] La))) := by
+    intro y y' h
+    have h1 := (eq_iff m ev hadd hker _ _).2 h
+    rw [hg, hg, eq_iff m ev' hadd' hker', hs, hs] at h1
+    exact h1
+  obtain ⟨c, rfl⟩ := (hon x).1 hx
+  obtain ⟨y, hy⟩ := Finite.surjective_of_injective hinj (Submodule.Quotient.mk c)
+  exact ⟨s y, by rw [← hg, eq_iff m ev hadd hker]; exact hy⟩
+
+variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E} (D : Datum H)
+
+theorem exists_ef_one (hpq : 0 < D.p + D.q) : ∃ a b, D.EF a b = 1 := by
+  have : Module.Projective (𝓞 E) D.La := D.proj
+  have : Module.Finite (𝓞 E) D.La := D.fin
+  have : Module.Finite ℤ D.La := Module.Finite.trans (𝓞 E) D.La
+  have : Module.Flat ℤ D.La := Module.Flat.trans ℤ (𝓞 E) D.La
+  have : Module.Free ℤ D.La := inferInstance
+  have : Nontrivial D.La := Module.nontrivial_of_finrank_pos (R := 𝓞 E) (by rw [D.rank]; exact hpq)
+  let B := Module.Free.chooseBasis ℤ D.La
+  obtain ⟨i⟩ := B.index_nonempty
+  obtain ⟨a, ha⟩ := D.unimod.2 (B.coord i)
+  exact ⟨a, B i, by rw [ha]; simp⟩
+
+theorem push {S : Scheme.{0}} (t : SAB H S) {k K : Type} [Field k] [Field K] (j : k →+* K) (q : Sp k ⟶ S)
+    (q' : Sp K ⟶ S) (hq : q' = spMap j ≫ q)
+    (I : TateIso D k (Over.mk q ⟶ t.G) (fun a g => g ≫ t.act.act a)
+      (fun n g g' c => Out.WeilIs t.G t.PP.L n g g' (unitOn c)))
+    (J : TateIso D K (Over.mk q' ⟶ t.G) (fun a g => g ≫ t.act.act a)
+      (fun n g g' c => Out.WeilIs t.G t.PP.L n g g' (unitOn c))) :
+    ∃ I' : TateIso D K (Over.mk q' ⟶ t.G) (fun a g => g ≫ t.act.act a)
+      (fun n g g' c => Out.WeilIs t.G t.PP.L n g g' (unitOn c)),
+      (∀ n, (I'.ζ n : K) = j (I.ζ n)) ∧ ∀ n a, (I'.ev n a).left = spMap j ≫ (I.ev n a).left := by
+  subst hq
+  have : Module.Finite (𝓞 E) D.La := D.fin
+  have : Module.Finite ℤ D.La := Module.Finite.trans (𝓞 E) D.La
+  have : Epi (spMap j) := WeilObj.epi_spMap_field k K j
+  let ψ := WeilObj.extPt q j
+  have inj : ∀ x x' : Over.mk q ⟶ t.G, ψ ≫ x = ψ ≫ x' → x = x' := fun x x' h => by
+    have h' : spMap j ≫ x.left = spMap j ≫ x'.left := congrArg CommaMorphism.left h
+    exact Over.OverMorphism.ext ((cancel_epi (spMap j)).1 h')
+  have hadd : ∀ n a b, ψ ≫ I.ev n (a + b) = (ψ ≫ I.ev n a) * (ψ ≫ I.ev n b) := fun n a b => by
+    rw [I.add, comp_mul]
+  have hker : ∀ n, 0 < n → ∀ a, ψ ≫ I.ev n a = 1 ↔ ∃ b, a = n • b := fun n hn a => by
+    rw [← I.ker n hn a]
+    exact ⟨fun h => inj _ _ (by rw [h, MonObj.comp_one]), fun h => by rw [h, MonObj.comp_one]⟩
+  have ht : ∀ n, 0 < n → ∀ a, (ψ ≫ I.ev n a) ^ n = 1 := fun n hn a => by
+    rw [← MonObj.comp_pow, (I.onto n hn _).2 ⟨a, rfl⟩, MonObj.comp_one]
+  refine ⟨{ ζ := fun n => Units.map j.toMonoidHom (I.ζ n)
+            ζ_prim := fun n hn => (I.ζ_prim n hn).map_of_injective (Units.map_injective j.injective)
+            ζ_pow := fun n m hn hm => by rw [← map_pow, I.ζ_pow n m hn hm]
+            ev := fun n a => ψ ≫ I.ev n a
+            add := hadd
+            lin := fun n c a => by rw [I.lin, Category.assoc]
+            ker := hker
+            onto := fun n hn x => ⟨onto_of_count n hn (J.ev n) _ (J.add n) (J.ker n hn) (J.onto n hn) (hadd n)
+              (hker n hn) (ht n hn) x, by rintro ⟨a, rfl⟩; exact ht n hn a⟩
+            tower := fun n m hn hm a => by rw [← MonObj.comp_pow, I.tower n m hn hm]
+            isom := fun n hn a b => ?_ }, fun n => rfl, fun n a => rfl⟩
+  obtain ⟨a', ha'⟩ := (J.onto n hn _).1 (ht n hn a)
+  obtain ⟨b', hb'⟩ := (J.onto n hn _).1 (ht n hn b)
+  have h1 := J.isom n hn a' b'
+  rw [ha', hb'] at h1
+  have h2 := weilIs_fieldExt t.G t.PP.L t.PP.isLB k K j q _ rfl n _ _ _ _ rfl rfl _ _ (I.isom n hn a b) h1
+  rw [h2, map_zpow] at h1
+  exact h1
+
+end Lev
+
+open CategoryTheory AlgebraicGeometry MonoidalCategory CartesianMonoidalCategory MonObj TensorProduct NumberField GlobalTheory.CompanionTheory.Ar GlobalTheory.CompanionTheory.Ar.BT GlobalTheory.CompanionTheory.Ar.HT ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Geo.Tor in
+theorem level_param : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Host E) (D : Datum H) (S : Scheme.{0}) (t : SAB H S) (Ω : Type) [Field Ω] [CharZero Ω] (ξ : Sp Ω ⟶ S) (n : ℕ), 1 ≤ n → 0 < D.p + D.q → IsProper (Limits.pullback.snd t.G.hom ξ) → (∀ (k : Type) [Field k] (f : Ω →+* k) (g : Over.mk (spMap f ≫ ξ) ⟶ t.G), g ^ n = 1 → ∃ x : Over.mk ξ ⟶ t.G, g.left = spMap f ≫ x.left) → (∀ (k : Type) [Field k] [IsAlgClosed k] (f : Ω →+* k), Nonempty (TateIso D k (Over.mk (spMap f ≫ ξ) ⟶ t.G) (fun a g => g ≫ t.act.act a) (fun n g g' c => Out.WeilIs t.G t.PP.L n g g' (unitOn c)))) → ∃ (ev : D.La → (Over.mk ξ ⟶ t.G)) (ζ₀ : Ωˣ), IsPrimitiveRoot ζ₀ n ∧ ∀ (k : Type) [Field k] [IsAlgClosed k] (f : Ω →+* k), ∃ I : TateIso D k (Over.mk (spMap f ≫ ξ) ⟶ t.G) (fun a g => g ≫ t.act.act a) (fun n g g' c => Out.WeilIs t.G t.PP.L n g g' (unitOn c)), (I.ζ n : k) = f ζ₀ ∧ ∀ a, (I.ev n a).left = spMap f ≫ (ev a).left := by
+  intro E _ _ _ H D S t Ω _ _ ξ n hn hpq _ hfull hT
+  obtain ⟨I⟩ := hT (AlgebraicClosure Ω) (algebraMap Ω _)
+  choose ev hev using fun a => hfull (AlgebraicClosure Ω) (algebraMap Ω _) (I.ev n a) ((I.onto n hn _).2 ⟨a, rfl⟩)
+  have hζ : ∃ z : Ω, algebraMap Ω (AlgebraicClosure Ω) z = I.ζ n := by
+    obtain ⟨a, b, hab⟩ := Lev.exists_ef_one D hpq
+    have h0 := I.isom n hn a b
+    rw [hab, zpow_one] at h0
+    refine (InfiniteGalois.mem_range_algebraMap_iff_fixed (k := Ω) (I.ζ n : AlgebraicClosure Ω)).2 fun σ => ?_
+    have hσ : spMap (σ : AlgebraicClosure Ω →+* AlgebraicClosure Ω) ≫ spMap (algebraMap Ω (AlgebraicClosure Ω)) =
+        spMap (algebraMap Ω (AlgebraicClosure Ω)) := by
+      rw [← WeilObj.spMap_comp_of]
+      exact congrArg spMap (RingHom.ext fun x => σ.commutes x)
+    have h2 := weilIs_fieldExt t.G t.PP.L t.PP.isLB _ _ (σ : AlgebraicClosure Ω →+* AlgebraicClosure Ω) _ _
+      (by rw [← Category.assoc, hσ]) n _ _ _ _ (by rw [hev, ← Category.assoc, hσ])
+      (by rw [hev, ← Category.assoc, hσ]) _ _ h0 h0
+    exact (congrArg Units.val h2).symm
+  obtain ⟨z, hz⟩ := hζ
+  have hz0 : z ≠ 0 := fun h => (I.ζ n).ne_zero (by rw [← hz, h, map_zero])
+  refine ⟨ev, Units.mk0 z hz0, ?_, fun k _ _ f => ?_⟩
+  · refine IsPrimitiveRoot.coe_units_iff.1 ?_
+    refine IsPrimitiveRoot.of_map_of_injective (f := algebraMap Ω (AlgebraicClosure Ω)) ?_ (RingHom.injective _)
+    rw [Units.val_mk0, hz]
+    exact IsPrimitiveRoot.coe_units_iff.2 (I.ζ_prim n hn)
+  · let _ : Algebra Ω k := f.toAlgebra
+    let j : AlgebraicClosure Ω →ₐ[Ω] k := (by
+      refine @_root_.IsAlgClosed.lift _ _ _ _ _ _ _ _ _ _ _ ?_ ?_ ?_
+      solve_by_elim* (maxDepth := 2) only [*,
+        @_root_.DivisionSemiring.to_moduleIsTorsionFree,
+        @_root_.Algebra.IsIntegral.isAlgebraic, @_root_.inferInstance])
+    have hj : spMap f = spMap j.toRingHom ≫ spMap (algebraMap Ω (AlgebraicClosure Ω)) := by
+      rw [← WeilObj.spMap_comp_of]
+      exact congrArg spMap (RingHom.ext fun x => (j.commutes x).symm)
+    obtain ⟨J⟩ := hT k f
+    obtain ⟨I', h1, h2⟩ := Lev.push D t j.toRingHom _ (spMap f ≫ ξ) (by rw [hj, Category.assoc]) I J
+    refine ⟨I', ?_, fun a => ?_⟩
+    · rw [h1, ← hz]
+      exact j.commutes z
+    · rw [h2, hev, ← Category.assoc, ← hj]
+
+end PositivityTheory.HtPt.Htat
+end
+end
+
+section
+
+open ReciprocityTheory.PGsh.L2 ReciprocityTheory.PGsh.Up GlobalTheory.CompanionTheory.Ar.GR
+open CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj AlgebraicGeometry
+open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi
+open ReciprocityTheory.ChartRestriction.G.Chart (sp spMap)
+open scoped CategoryTheory.Obj CategoryTheory.MonObj
+attribute [local instance] Over.cartesianMonoidalCategory
+
+noncomputable section
+
+namespace PositivityTheory.HtPt.Rg
+
+
+open ReciprocityTheory.ChartRestriction.G.Geo.Tor GlobalTheory GlobalTheory.CM GlobalTheory.LamF GlobalTheory.CechPic GlobalTheory.TripleProd ReciprocityTheory.GeometryOfNumbersTheory Formalism.L2.LamCM in
+theorem ample_prod : ∀ (R : Type) [CommRing R] (A A' : Over (Spec (CommRingCat.of R))) [GrpObj A] [GrpObj A'] (L : LB A.left) (L' : LB A'.left), IsAbelianScheme A → L.IsLB → Out.RelAmple A L → IsAbelianScheme A' → L'.IsLB → Out.RelAmple A' L' → IsAbelianScheme (A ⊗ A') ∧ ∃ M : LB (A ⊗ A').left, M.IsLB ∧ Out.RelAmple (A ⊗ A') M := by
+  intro R _ A A' _ _ L L' hA hL hLa hA' hL' hLa'
+  have hAA := ReciprocityTheory.ChartRestriction.G.Geo.Tor.AbelianSchemeGerms.isAbelianScheme_tensor A A' hA hA'
+  refine ⟨hAA, ?_⟩
+  haveI : IsProper (A ⊗ A').hom := hAA.proper
+  have hP : IsPullback (fst A A').left (snd A A').left A.hom A'.hom :=
+    Over.isPullback_of_binaryFan_isLimit _ (CartesianMonoidalCategory.tensorProductIsBinaryProduct A A')
+  have hp := ReciprocityTheory.ChartRestriction.G.Semi.LB.isLB_pull hL (fst A A').left
+  have hq := ReciprocityTheory.ChartRestriction.G.Semi.LB.isLB_pull hL' (snd A A').left
+  have hN := GlobalTheory.CechPic.isLB_tens hp hq
+  have hAmp := GlobalTheory.isAmpleLB_of_relAmple_of_isAffine A hL hLa
+  have hAmp' := GlobalTheory.isAmpleLB_of_relAmple_of_isAffine A' hL' hLa'
+  have h1 := ReciprocityTheory.ChartRestriction.G.Semi.LB.isLB_div hN hp
+  have h2 := ReciprocityTheory.ChartRestriction.G.Semi.LB.isLB_div h1 hq
+  have hgen : ∃ t : (((GlobalTheory.CechPic.tens (L.pull (fst A A').left) (L'.pull (snd A A').left)).div
+      (L.pull (fst A A').left)).div (L'.pull (snd A A').left)).Gen, t.IsGen := by
+    rw [← GlobalTheory.CechPic.cls_eq_zero_iff h2, GlobalTheory.CechPic.cls_div h1 hq h2, GlobalTheory.CechPic.cls_div hN hp h1,
+      GlobalTheory.CechPic.cls_tens hp hq hN]
+    abel
+  have hNamp := GlobalTheory.IsAmpleLB.box hAmp hAmp' hN hP hgen
+  exact ⟨_, hN, (GlobalTheory.relAmple_iff_isAmpleLB_of_isAffine (A ⊗ A') hN).2 hNamp⟩
+
+end PositivityTheory.HtPt.Rg
+end
+end

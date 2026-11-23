@@ -1,11 +1,11 @@
 module
 
-public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.AutDef
+public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.Bundle003
 public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.GoodLat
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AdelicHomActionRealCoordinatesEqStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HalvedSymplecticFormFiniteRealOrthogonalStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.StandardTraceAddCharIsStandardCharOfAdmissibleCM
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.StdCharHalfSymplecticFormRealCoordinatesStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1642
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1649
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1602
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1685
 public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.ContinuousTheta
 public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.LatRepC
 import Mathlib.Algebra.Module.StablyFree.Basic

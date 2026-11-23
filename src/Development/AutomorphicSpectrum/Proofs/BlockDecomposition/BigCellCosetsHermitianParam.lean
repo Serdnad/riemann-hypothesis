@@ -1,12 +1,12 @@
 module
 
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.UnitarySchrodingerModel.CoefDataExists
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CosetCell
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.EisensteinRationalPoints
-public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.ValueFormula
-import Development.AbelianVarietyTheory.PublishedTheorems.SiegelWeil₂.AdelicConjTransposeBlockMatrixTwoByTwoFin
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.EisensteinCellsDecomposition
-public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.SummableCell
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle431
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle443
+public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle039
+import Development.AbelianVarietyTheory.PublishedTheorems.SiegelWeil₂.Bundle001
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle472
+public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle077
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

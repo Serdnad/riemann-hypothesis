@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PolynomialDimension.StatementHar
+public import Formalism.PolynomialDimension.Bundle001
 public import Formalism.PolynomialDimension.FinalHar
 import Mathlib.Algebra.AffineMonoid.UniqueSums
 import Mathlib.Algebra.Module.StablyFree.Basic

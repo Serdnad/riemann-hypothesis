@@ -3,8 +3,8 @@ module
 public import GroundTheory.AutomorphicForms.MultiplicityOne.GL2BumpFunctions.ParametrixLie
 public import GroundTheory.AutomorphicForms.GKModules.Garding
 public import GroundTheory.AutomorphicForms.GKModules.RightRegular
-public import GroundTheory.AutomorphicForms.ArchimedeanWhittaker.Density
-import GroundTheory.AutomorphicForms.DixmierMalliavinBasic
+public import GroundTheory.AutomorphicForms.ArchimedeanWhittaker.Bundle001
+import GroundTheory.AutomorphicForms.Bundle004
 public import GroundTheory.AutomorphicForms.GKModules.ZKFinite
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,0 +1,186 @@
+module
+
+public import Mathlib.AlgebraicGeometry.Modules.Sheaf
+public import Mathlib.Combinatorics.Quiver.ReflQuiver
+public import Mathlib.RingTheory.AdicCompletion.Algebra
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+public import Mathlib.RingTheory.MvPowerSeries.Equiv
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Lemma
+import Mathlib.Tactic.Linter.Style
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.TypeStar
+import Mathlib.Topology.Sheaves.Init
+public import Mathlib.Algebra.MvPolynomial.Basic
+public import Mathlib.Algebra.MvPolynomial.Eval
+public import Mathlib.RingTheory.MvPolynomial.Ideal
+public import Mathlib.RingTheory.Noetherian.Basic
+
+@[expose] public section
+
+section
+
+set_option maxSynthPendingDepth 1
+
+namespace GroundTheory.Arith.Etale
+
+open CategoryTheory Limits Opposite AlgebraicGeometry
+
+universe u
+
+variable {T U W : Scheme.{u}}
+
+noncomputable def pullbackSection (g : T ⟶ U) (N : U.Modules) :
+    Γ(N, ⊤) →+ Γ((Scheme.Modules.pullback g).obj N, ⊤) :=
+  (((Scheme.Modules.pullbackPushforwardAdjunction g).unit.app N).app ⊤).hom
+
+lemma pullbackSection_smul (g : T ⟶ U) (N : U.Modules) (a : Γ(U, ⊤)) (n : Γ(N, ⊤)) :
+    pullbackSection g N (a • n) = g.appTop a • pullbackSection g N n :=
+  Scheme.Modules.Hom.app_smul _ a n
+
+lemma pullbackComp_inv_pullbackSection (f : W ⟶ T) (g : T ⟶ U) (N : U.Modules) (n : Γ(N, ⊤)) :
+    ((Scheme.Modules.pullbackComp f g).inv.app N).app ⊤ (pullbackSection (f ≫ g) N n) =
+      pullbackSection f _ (pullbackSection g N n) := by
+  have h := unit_conjugateEquiv ((Scheme.Modules.pullbackPushforwardAdjunction g).comp
+    (Scheme.Modules.pullbackPushforwardAdjunction f))
+    (Scheme.Modules.pullbackPushforwardAdjunction (f ≫ g)) (Scheme.Modules.pullbackComp f g).inv N
+  rw [Scheme.Modules.conjugateEquiv_pullbackComp_inv] at h
+  have h' := congrArg (fun ψ => (Scheme.Modules.Hom.app ψ ⊤).hom n) h
+  simp only [Adjunction.comp_unit_app, Scheme.Modules.Hom.comp_app, AddCommGrpCat.hom_comp,
+    AddMonoidHom.coe_comp, Function.comp_apply, Scheme.Modules.pushforwardComp_hom_app_app] at h'
+  exact h'.symm
+
+end GroundTheory.Arith.Etale
+end
+
+section
+
+set_option maxSynthPendingDepth 1
+
+namespace GroundTheory.Arith.Etale
+
+open IsLocalRing
+
+theorem isNoetherianRing_adicCompletion (R : Type*) [CommRing R] [IsNoetherianRing R]
+    (I : Ideal R) : IsNoetherianRing (AdicCompletion I R) := by
+  classical
+  obtain ⟨s, hs⟩ := (isNoetherianRing_iff_ideal_fg R).1 inferInstance I
+  set k := s.card
+  let a : Fin k → R := fun i ↦ (s.equivFin.symm i : R)
+  have ha : Set.range a = (s : Set R) := by
+    ext r
+    constructor
+    · rintro ⟨i, rfl⟩
+      exact (s.equivFin.symm i).2
+    · intro hr
+      exact ⟨s.equivFin ⟨r, hr⟩, by simp [a]⟩
+  let P := MvPolynomial (Fin k) R
+  let σ : P →+* R := MvPolynomial.eval a
+  let J := MvPolynomial.idealOfVars (Fin k) R
+  have hσX : ∀ i, σ (MvPolynomial.X i) = a i := fun i ↦ MvPolynomial.eval_X i
+  have hJ : J.map σ = I := by
+    show Ideal.map σ (Ideal.span (Set.range MvPolynomial.X)) = I
+    rw [Ideal.map_span, ← hs, ← ha, ← Set.range_comp]
+    congr 1
+    ext i
+    simp [hσX]
+  have hJn : ∀ n, (J ^ n).map σ = I ^ n := fun n ↦ by rw [Ideal.map_pow, hJ]
+  have hσs : Function.Surjective σ := fun r ↦ ⟨MvPolynomial.C r, MvPolynomial.eval_C _⟩
+  have hle : ∀ n, J ^ n ≤ (I ^ n).comap σ := fun n ↦ by
+    rw [← Ideal.map_le_iff_le_comap, hJn]
+  let g : (n : ℕ) → AdicCompletion J P →+* R ⧸ I ^ n := fun n ↦
+    (Ideal.quotientMap (I ^ n) σ (hle n)).comp (AdicCompletion.evalₐ J n).toRingHom
+  have hg : ∀ {m n : ℕ} (hmn : m ≤ n), (Ideal.Quotient.factorPow I hmn).comp (g n) = g m := by
+    intro m n hmn
+    ext x
+    obtain ⟨q, hq⟩ := Ideal.Quotient.mk_surjective (AdicCompletion.evalₐ J n x)
+    have hq' : AdicCompletion.evalₐ J m x = Ideal.Quotient.mk _ q := by
+      obtain ⟨f, rfl⟩ := AdicCompletion.mk_surjective J P x
+      rw [AdicCompletion.evalₐ_mk] at hq ⊢
+      have h1 := f.property hmn
+      rw [SModEq.sub_mem, smul_eq_mul, Ideal.mul_top] at h1
+      have h2 : f.val n - q ∈ J ^ m := Ideal.pow_le_pow_right hmn (Ideal.Quotient.eq.1 hq.symm)
+      rw [Ideal.Quotient.eq]
+      have := Ideal.add_mem _ h1 h2
+      rwa [sub_add_sub_cancel] at this
+    simp only [g, RingHom.coe_comp, Function.comp_apply, AlgHom.toRingHom_eq_coe,
+      RingHom.coe_coe, ← hq, hq', Ideal.quotientMap_mk, Ideal.Quotient.factor_mk]
+  let ψ := AdicCompletion.liftRingHom I g hg
+  have hψ : Function.Surjective ψ := by
+    intro x
+    obtain ⟨f, rfl⟩ := AdicCompletion.mk_surjective I R x
+    have hd : ∀ j, f.val (j + 1) - f.val j ∈ (J ^ j).map σ := by
+      intro j
+      have h1 := f.property (Nat.le_succ j)
+      rw [SModEq.sub_mem, smul_eq_mul, Ideal.mul_top] at h1
+      rw [hJn, ← neg_mem_iff, neg_sub]
+      exact h1
+    choose Pj hPj hσP using fun j ↦ (Ideal.mem_map_iff_of_surjective σ hσs).1 (hd j)
+    let Q : ℕ → P := fun n ↦ MvPolynomial.C (f.val 0) + ∑ j ∈ Finset.range n, Pj j
+    have hQ : AdicCompletion.IsAdicCauchy J P Q := by
+      intro m n hmn
+      rw [SModEq.sub_mem, smul_eq_mul, Ideal.mul_top, ← neg_mem_iff, neg_sub]
+      have : Q n - Q m = ∑ j ∈ Finset.Ico m n, Pj j := by
+        simp only [Q, add_sub_add_left_eq_sub]
+        rw [Finset.sum_Ico_eq_sub _ hmn]
+      rw [this]
+      exact Ideal.sum_mem _ fun j hj ↦
+        Ideal.pow_le_pow_right (Finset.mem_Ico.1 hj).1 (hPj j)
+    let Qc : AdicCompletion.AdicCauchySequence J P := ⟨Q, hQ⟩
+    refine ⟨AdicCompletion.mk J P Qc, AdicCompletion.ext_evalₐ fun n ↦ ?_⟩
+    rw [AdicCompletion.evalₐ_liftRingHom, AdicCompletion.evalₐ_mk]
+    change Ideal.quotientMap (I ^ n) σ (hle n)
+      (AdicCompletion.evalₐ J n (AdicCompletion.mk J P Qc)) = _
+    rw [AdicCompletion.evalₐ_mk, Ideal.quotientMap_mk]
+    refine congrArg _ ?_
+    change σ (Q n) = f.val n
+
+    simp only [Q, map_add (f := _), map_sum, hσP]
+    rw [show σ (MvPolynomial.C (f.val 0)) = f.val 0 from MvPolynomial.eval_C _]
+    rw [Finset.sum_range_sub (fun j ↦ f.val j) n]
+    ring
+  have : IsNoetherianRing (AdicCompletion J P) :=
+    isNoetherianRing_of_ringEquiv _ (MvPowerSeries.toAdicCompletionAlgEquiv (Fin k) R).toRingEquiv
+  exact isNoetherianRing_of_surjective _ _ ψ hψ
+
+instance instIsNoetherianRingAdicCompletion (R : Type*) [CommRing R] [IsNoetherianRing R]
+    (I : Ideal R) : IsNoetherianRing (AdicCompletion I R) :=
+  isNoetherianRing_adicCompletion R I
+
+end GroundTheory.Arith.Etale
+end

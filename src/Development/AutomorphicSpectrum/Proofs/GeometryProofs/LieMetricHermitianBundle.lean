@@ -1,11 +1,11 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.SlopeBoundSt
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsCocharLie
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle010
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle002
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsLieModel
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieModelExistsUniqueSemilinear
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieModelFiniteProjectiveStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieModelIsBaseChangeStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle052
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle170
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle177
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -97,10 +97,10 @@ theorem spMap_spMap' {A B C : Type} [CommRing A] [CommRing B] [CommRing C] (f : 
   simp only [spMap, ← Spec.map_comp, ← CommRingCat.ofHom_comp]
 
 theorem dualMap_comp' {A B C : Type} [CommRing A] [CommRing B] [CommRing C] (f : A →+* B) (g : B →+* C) :
-    dualMap (g.comp f) = (dualMap g).comp (dualMap f) := by
+    _root_.GlobalTheory.CompanionTheory.Ar.dualMap (g.comp f) = (_root_.GlobalTheory.CompanionTheory.Ar.dualMap g).comp (_root_.GlobalTheory.CompanionTheory.Ar.dualMap f) := by
   apply RingHom.ext
   intro a
-  apply TrivSqZeroExt.ext <;> simp [dualMap]
+  apply TrivSqZeroExt.ext <;> simp [_root_.GlobalTheory.CompanionTheory.Ar.dualMap]
 
 theorem exists_fibreLift {L : Type} [Field L] {E : Type} [AddCommGroup E] [Module (𝓞 L) E] (σ : L →+* ℂ)
     {Q : Type} [AddCommGroup Q] [Module ℂ Q] (j : E →ₛₗ[σ.comp (algebraMap (𝓞 L) L)] Q) :
@@ -147,14 +147,14 @@ variable {X : Scheme.{0}} {G : Over X} [GrpObj G]
 
 theorem lifts_unique {R R' : Type} [CommRing R] [CommRing R'] {x : Sp R ⟶ X} {E : Type} [AddCommGroup E] [Module R E]
     (MB : LieModel G x E) (c : R →+* R') {x' : Sp R' ⟶ X} {e : E} {v v' : epsAt x' ⟶ G}
-    (h : (v.left ≫ (𝟙 G.left) = ReciprocityTheory.ChartRestriction.G.Geo.Tor.spMap (GlobalTheory.CompanionTheory.Ar.dualMap c) ≫ (MB.pt e).left)) (h' : (v'.left ≫ (𝟙 G.left) = ReciprocityTheory.ChartRestriction.G.Geo.Tor.spMap (GlobalTheory.CompanionTheory.Ar.dualMap c) ≫ (MB.pt e).left)) : v = v' := by
+    (h : (v.left ≫ (𝟙 G.left) = ReciprocityTheory.ChartRestriction.G.Geo.Tor.spMap (_root_.GlobalTheory.CompanionTheory.Ar.dualMap c) ≫ (MB.pt e).left)) (h' : (v'.left ≫ (𝟙 G.left) = ReciprocityTheory.ChartRestriction.G.Geo.Tor.spMap (_root_.GlobalTheory.CompanionTheory.Ar.dualMap c) ≫ (MB.pt e).left)) : v = v' := by
   rw [Category.comp_id] at h h'
   exact Over.OverMorphism.ext (h.trans h'.symm)
 
 theorem lie_universal [IsCommMonObj G] [Smooth G.hom] {R C : Type} [CommRing R] [CommRing C] (c : R →+* C) {x : Sp R ⟶ X}
     {E : Type} [AddCommGroup E] [Module R E] {V : Type} [AddCommGroup V] [Module C V]
     (MB : LieModel G x E) (Mz : LieModel G (spMap c ≫ x) V) (j : E →ₛₗ[c] V)
-    (hj : ∀ e, ((Mz.pt (j e)).left ≫ (𝟙 G.left) = ReciprocityTheory.ChartRestriction.G.Geo.Tor.spMap (GlobalTheory.CompanionTheory.Ar.dualMap c) ≫ (MB.pt e).left))
+    (hj : ∀ e, ((Mz.pt (j e)).left ≫ (𝟙 G.left) = ReciprocityTheory.ChartRestriction.G.Geo.Tor.spMap (_root_.GlobalTheory.CompanionTheory.Ar.dualMap c) ≫ (MB.pt e).left))
     {Q : Type} [AddCommGroup Q] [Module C Q] (g : E →ₛₗ[c] Q) :
     ∃ g' : V →ₗ[C] Q, (∀ e, g' (j e) = g e) ∧ ∀ g₂ : V →ₗ[C] Q, (∀ e, g₂ (j e) = g e) → g₂ = g' := by
   letI : Algebra R C := c.toAlgebra
@@ -188,7 +188,7 @@ variable {X : Scheme.{0}} {Ω : Type} [Field Ω] {K : Type} {J : K → Type} {y 
 theorem exists_fibreEquiv (MB : LieModel G z E) (σ : L →+* ℂ) :
     ∃ (V : Type) (_ : AddCommGroup V) (_ : Module ℂ V) (Mz : LieModel G (spMap (σ.comp (algebraMap (𝓞 L) L)) ≫ z) V)
       (Φ : Fibre σ E ≃ₗ[ℂ] V),
-      ∀ e, ((Mz.pt (Φ ((1 : ComplexAt σ) ⊗ₜ[𝓞 L] e))).left ≫ (𝟙 G.left) = ReciprocityTheory.ChartRestriction.G.Geo.Tor.spMap (GlobalTheory.CompanionTheory.Ar.dualMap (σ.comp (algebraMap (𝓞 L) L))) ≫ (MB.pt e).left) := by
+      ∀ e, ((Mz.pt (Φ ((1 : ComplexAt σ) ⊗ₜ[𝓞 L] e))).left ≫ (𝟙 G.left) = ReciprocityTheory.ChartRestriction.G.Geo.Tor.spMap (_root_.GlobalTheory.CompanionTheory.Ar.dualMap (σ.comp (algebraMap (𝓞 L) L))) ≫ (MB.pt e).left) := by
   obtain ⟨V, iA, iM, ⟨Mz⟩⟩ := lieModel_exists X G ℂ (spMap (σ.comp (algebraMap (𝓞 L) L)) ≫ z)
   obtain ⟨j, hj, -⟩ := LieBaseChange.existsUnique_semilinear_lifts X G (𝓞 L) ℂ (σ.comp (algebraMap (𝓞 L) L)) z E V MB Mz
   obtain ⟨f, hf⟩ := exists_fibreLift σ j
@@ -217,7 +217,7 @@ theorem exists_core (h : LieMetric M y) (MB : LieModel G z E) (σ : L →+* ℂ)
     ∃ (core : InnerProductSpace.Core ℂ (Fibre σ E))
       (P : Fibre σ E → (epsAt (spMap (σ.comp (algebraMap (𝓞 L) L)) ≫ z) ⟶ G)),
       (∀ a b, core.inner a b = h.ip _ (P a) (P b)) ∧
-        ∀ e, ((P ((1 : ComplexAt σ) ⊗ₜ[𝓞 L] e)).left ≫ (𝟙 G.left) = ReciprocityTheory.ChartRestriction.G.Geo.Tor.spMap (GlobalTheory.CompanionTheory.Ar.dualMap (σ.comp (algebraMap (𝓞 L) L))) ≫ (MB.pt e).left) := by
+        ∀ e, ((P ((1 : ComplexAt σ) ⊗ₜ[𝓞 L] e)).left ≫ (𝟙 G.left) = ReciprocityTheory.ChartRestriction.G.Geo.Tor.spMap (_root_.GlobalTheory.CompanionTheory.Ar.dualMap (σ.comp (algebraMap (𝓞 L) L))) ≫ (MB.pt e).left) := by
   obtain ⟨V, iA, iM, Mz, Φ, hΦ⟩ := exists_fibreEquiv MB σ
   obtain ⟨core, hcore⟩ := h.herm _ V Mz
   exact ⟨coreOfEquiv core Φ, fun a => Mz.pt (Φ a), fun a b => hcore _ _, hΦ⟩
@@ -225,13 +225,13 @@ theorem exists_core (h : LieMetric M y) (MB : LieModel G z E) (σ : L →+* ℂ)
 theorem ip_conj (h : LieMetric M y) (MB : LieModel G z E) (σ : L →+* ℂ) (e f : E)
     {v w : epsAt (spMap (σ.comp (algebraMap (𝓞 L) L)) ≫ z) ⟶ G}
     {v' w' : epsAt (spMap ((NumberField.ComplexEmbedding.conjugate σ).comp (algebraMap (𝓞 L) L)) ≫ z) ⟶ G}
-    (hv : (v.left ≫ (𝟙 G.left) = ReciprocityTheory.ChartRestriction.G.Geo.Tor.spMap (GlobalTheory.CompanionTheory.Ar.dualMap (σ.comp (algebraMap (𝓞 L) L))) ≫ (MB.pt e).left))
-    (hw : (w.left ≫ (𝟙 G.left) = ReciprocityTheory.ChartRestriction.G.Geo.Tor.spMap (GlobalTheory.CompanionTheory.Ar.dualMap (σ.comp (algebraMap (𝓞 L) L))) ≫ (MB.pt f).left))
-    (hv' : (v'.left ≫ (𝟙 G.left) = ReciprocityTheory.ChartRestriction.G.Geo.Tor.spMap (GlobalTheory.CompanionTheory.Ar.dualMap ((NumberField.ComplexEmbedding.conjugate σ).comp (algebraMap (𝓞 L) L))) ≫ (MB.pt e).left))
-    (hw' : (w'.left ≫ (𝟙 G.left) = ReciprocityTheory.ChartRestriction.G.Geo.Tor.spMap (GlobalTheory.CompanionTheory.Ar.dualMap ((NumberField.ComplexEmbedding.conjugate σ).comp (algebraMap (𝓞 L) L))) ≫ (MB.pt f).left)) :
+    (hv : (v.left ≫ (𝟙 G.left) = ReciprocityTheory.ChartRestriction.G.Geo.Tor.spMap (_root_.GlobalTheory.CompanionTheory.Ar.dualMap (σ.comp (algebraMap (𝓞 L) L))) ≫ (MB.pt e).left))
+    (hw : (w.left ≫ (𝟙 G.left) = ReciprocityTheory.ChartRestriction.G.Geo.Tor.spMap (_root_.GlobalTheory.CompanionTheory.Ar.dualMap (σ.comp (algebraMap (𝓞 L) L))) ≫ (MB.pt f).left))
+    (hv' : (v'.left ≫ (𝟙 G.left) = ReciprocityTheory.ChartRestriction.G.Geo.Tor.spMap (_root_.GlobalTheory.CompanionTheory.Ar.dualMap ((NumberField.ComplexEmbedding.conjugate σ).comp (algebraMap (𝓞 L) L))) ≫ (MB.pt e).left))
+    (hw' : (w'.left ≫ (𝟙 G.left) = ReciprocityTheory.ChartRestriction.G.Geo.Tor.spMap (_root_.GlobalTheory.CompanionTheory.Ar.dualMap ((NumberField.ComplexEmbedding.conjugate σ).comp (algebraMap (𝓞 L) L))) ≫ (MB.pt f).left)) :
     h.ip _ v' w' = starRingEnd ℂ (h.ip _ v w) := by
   have key : ∀ (z₁ z₂ : Sp ℂ ⟶ X) (_ : z₂ = spMap (starRingEnd ℂ) ≫ z₁) (v w : epsAt z₁ ⟶ G) (v' w' : epsAt z₂ ⟶ G),
-      v'.left = spMap (dualMap (starRingEnd ℂ)) ≫ v.left → w'.left = spMap (dualMap (starRingEnd ℂ)) ≫ w.left →
+      v'.left = spMap (_root_.GlobalTheory.CompanionTheory.Ar.dualMap (starRingEnd ℂ)) ≫ v.left → w'.left = spMap (_root_.GlobalTheory.CompanionTheory.Ar.dualMap (starRingEnd ℂ)) ≫ w.left →
       h.ip z₂ v' w' = starRingEnd ℂ (h.ip z₁ v w) := by
     intro z₁ z₂ hz v w v' w' h1 h2
     subst hz

@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.AutomorphicForms.CuspidalDiscreteness.Smoothing
-public import GroundTheory.AutomorphicForms.ReductionMeasure
+public import GroundTheory.AutomorphicForms.Bundle012
 import GroundTheory.AutomorphicForms.Reduction
 import GroundTheory.GlobalFields.Adele.Topology
 import Mathlib.Algebra.Order.Floor.Extended

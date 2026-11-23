@@ -1,11 +1,11 @@
 module
 
-public import Formalism.LocalToGlobal.InertKernelTheory.DefsInt
+public import Formalism.LocalToGlobal.InertKernelTheory.Bundle003
 public import Formalism.LocalToGlobal.GlobalTheory.GL3.PIopIso
 public import Formalism.LocalToGlobal.GlobalTheory.GL3.LinkThetaStatementFamily
 public import Formalism.LocalToGlobal.GlobalTheory.GL3.NormNatCoprime
-import Formalism.LocalToGlobal.GlobalTheory.GL3.PHfGen
-import Formalism.LocalToGlobal.GlobalTheory.GL3.PThIndep
+import Formalism.LocalToGlobal.GlobalTheory.GL3.Bundle002
+import Formalism.LocalToGlobal.GlobalTheory.GL3.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HInv
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle344
 public import Mathlib.RingTheory.PiTensorProduct
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleCohomologyProdRingProjectionsBijectiveStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleHomotopyInvarianceCechDescentIntegralStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleHomotopyInvariantTwistsOfRingEquivStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle651
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1850
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle469
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

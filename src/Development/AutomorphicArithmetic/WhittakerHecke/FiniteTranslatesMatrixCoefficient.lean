@@ -2,7 +2,7 @@ module
 
 public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Mathlib.Topology.Instances.Matrix
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ShiftMap
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle022
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

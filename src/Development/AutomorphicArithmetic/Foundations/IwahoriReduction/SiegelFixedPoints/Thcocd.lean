@@ -1,13 +1,12 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Foundations.IsLamOfLSmulIff
-public import Development.AbelianVarietyTheory.Definitions.Foundations.PieceEqPieceT
-public import Development.AbelianVarietyTheory.Definitions.Foundations.AdmissibleHodgeTateZetaClassParams
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle017
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle005
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle011
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.ResMapBijective
 public import Development.AutomorphicArithmetic.Foundations.IwahoriReduction.SiegelFixedPoints.IsThBIff
 public import Mathlib.RingTheory.AdicCompletion.Noetherian
-public import Development.AbelianVarietyTheory.Definitions.Foundations.ExistsOfEmbedding
-public import Development.AbelianVarietyTheory.Definitions.Foundations.KumValUnique
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle010
 public import Development.AutomorphicArithmetic.Foundations.IwahoriReduction.SiegelFixedPoints.Imports
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -45,7 +44,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-public import Development.AbelianVarietyTheory.Definitions.Foundations.ApplyEqOfMemAdjoin
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle009
 
 @[expose] public section
 

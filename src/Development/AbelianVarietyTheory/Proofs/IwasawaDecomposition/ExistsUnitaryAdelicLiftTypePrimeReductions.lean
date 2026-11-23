@@ -2,7 +2,7 @@ module
 
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ValuedLtOfMem
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.LatAtLattice
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.BcPrVEqOneOfAdAt
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle362
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsUnitaryDiagonalBasePointLevelPrime
 import Formalism.LocalToGlobal.Columns.AdelicLemmas
 import Formalism.LocalToGlobal.Columns.BaseLemmas
@@ -45,8 +45,8 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FiniteChart
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LocalCondMoveDecoratedLattice
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle340
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle341
 
 @[expose] public section
 

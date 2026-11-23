@@ -2,7 +2,7 @@ module
 
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutJABddSSn
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutJAPRhoFrameLoc
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutJASSnRepDatumUnit
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle094
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

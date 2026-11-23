@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsUnitaryWFrameToFrame
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle091
 public import Formalism.HermitianCurvature.StatementQ
 public import Formalism.FormalDegreeBessel.FormalDegreeRatio.GBasic
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.FrameCompletion
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.FrameExtension
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle091
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.HermitianFormRankFour
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

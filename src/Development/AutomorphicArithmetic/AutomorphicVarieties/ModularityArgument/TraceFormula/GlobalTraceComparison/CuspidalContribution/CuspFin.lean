@@ -3,10 +3,10 @@ module
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.TraceFormula.GlobalTraceComparison.CuspidalContribution.LevShrink
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.DiscreteSpectrumGLTwoOfCuspidalSpectrum
 public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.IsoEq
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CuspRapidDecaySiegelGL
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FiniteDiscriminantIdentityStatement
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle452
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle724
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.ArchimedeanGelfandKernels.ReproOf
-import Formalism.LocalToGlobal.IndefiniteReal.PHeisFCA
+import Formalism.LocalToGlobal.IndefiniteReal.Bundle009
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

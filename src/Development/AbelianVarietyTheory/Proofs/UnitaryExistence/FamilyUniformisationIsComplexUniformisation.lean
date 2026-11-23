@@ -2,10 +2,10 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.ExistenceOfLattices.NormConst
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.GlobalSectionsRankAlgClosed
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.BlockTriangularOfMulEqOne
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsInverseBlock
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FramedModuliAlgebraicLawsChartWeightIntegralityStatement
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.LowerTriIsUnitDet
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle060
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle061
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle097
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle052
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -60,8 +60,8 @@ variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : ReciprocityTheo
   {l : Level H} {Xo : Moduli Dw l} {c : Coeff l} {σ : c.F →+* ℂ} {r : ℕ}
 
 theorem cover_unfOf {g : ℕ} (e : Fin g ≃ Σ τ : E →+* ℂ, Fin (Dw.mult τ))
-    (F : FamilyUnif Xo (σ.comp (IntermediateField.inclusion c.le).toRingHom) (fun j => relab c σ (e j).1))
-    (M : ModelsOf F r) (un : ∀ k, (M.X k).dom → FrPt Xo c (CAt σ)) (hun : ∀ k x, FrameOK e F M k x (un k x))
+    (F : FamilyUnif Xo (σ.comp (IntermediateField.inclusion c.le).toRingHom) (fun j => _root_.Formalism.L2.PjFree.relab c σ (e j).1))
+    (M : _root_.GlobalTheory.FrameUnif.ModelsOf F r) (un : ∀ k, (M.X k).dom → FrPt Xo c (CAt σ)) (hun : ∀ k x, FrameOK e F M k x (un k x))
     (hT : CoverTri e F M) (y : FrPt Xo c (CAt σ)) :
     ∃ k, ∃ x : (M.X k).dom, ∃ t : Ix Dw → (CAt σ)ˣ, FrBor t (un k x) y := by
   obtain ⟨k, x, Pm, hPm, hxy, hv⟩ := hT y
@@ -77,8 +77,8 @@ theorem cover_unfOf {g : ℕ} (e : Fin g ≃ Σ τ : E →+* ℂ, Fin (Dw.mult �
   exact ⟨cf, h1, h2, by rw [← hxx]; exact h3⟩
 
 theorem fibre_unfOf {g : ℕ} (e : Fin g ≃ Σ τ : E →+* ℂ, Fin (Dw.mult τ))
-    (F : FamilyUnif Xo (σ.comp (IntermediateField.inclusion c.le).toRingHom) (fun j => relab c σ (e j).1))
-    (M : ModelsOf F r) (un : ∀ k, (M.X k).dom → FrPt Xo c (CAt σ)) (hun : FramesOK e F M un)
+    (F : FamilyUnif Xo (σ.comp (IntermediateField.inclusion c.le).toRingHom) (fun j => _root_.Formalism.L2.PjFree.relab c σ (e j).1))
+    (M : _root_.GlobalTheory.FrameUnif.ModelsOf F r) (un : ∀ k, (M.X k).dom → FrPt Xo c (CAt σ)) (hun : FramesOK e F M un)
     (hM : ModelBase M) (hB : FibTri e F M) (k k' : Fin F.n) (x : (M.X k).dom) (x' : (M.X k').dom) :
     (∃ t : Ix Dw → (CAt σ)ˣ, FrBor t (un k x) (un k' x')) ↔
       ∃ γ ∈ (M.X k).Γ, ∃ b ∈ Bor (M.X k).Ψ r,
@@ -108,33 +108,33 @@ theorem fibre_unfOf {g : ℕ} (e : Fin g ≃ Σ τ : E →+* ℂ, Fin (Dw.mult �
     exact ⟨t2 * t1, (GlobalTheory.Frames.frBor_calculus E H Dw l Xo c (CAt σ) _ _ _).2.2.1 t1 t2 ht1 ht2⟩
 
 theorem rdU_of_mem (U : Formalism.L2.PjFree.Unf Xo c σ r) (f : Rul Xo c) (k : U.Comp) {x : Frame (U.X k).Ψ r}
-    (h : x ∈ (U.X k).dom) : rdU U f k x = toC (evR Xo c f (U.un k ⟨x, h⟩)) := by
-  simp only [rdU, LinearMap.coe_mk, AddHom.coe_mk, dif_pos h]
+    (h : x ∈ (U.X k).dom) : _root_.Formalism.L2.PjFree.rdU U f k x = _root_.Formalism.L2.PjFree.toC (evR Xo c f (U.un k ⟨x, h⟩)) := by
+  simp only [_root_.Formalism.L2.PjFree.rdU, LinearMap.coe_mk, AddHom.coe_mk, dif_pos h]
 
 theorem readSec_unfOf {g : ℕ} (e : Fin g ≃ Σ τ : E →+* ℂ, Fin (Dw.mult τ))
-    (F : FamilyUnif Xo (σ.comp (IntermediateField.inclusion c.le).toRingHom) (fun j => relab c σ (e j).1))
-    (M : ModelsOf F r) (un : ∀ k, (M.X k).dom → FrPt Xo c (CAt σ)) (hun : FramesOK e F M un) (hM : ModelBase M)
+    (F : FamilyUnif Xo (σ.comp (IntermediateField.inclusion c.le).toRingHom) (fun j => _root_.Formalism.L2.PjFree.relab c σ (e j).1))
+    (M : _root_.GlobalTheory.FrameUnif.ModelsOf F r) (un : ∀ k, (M.X k).dom → FrPt Xo c (CAt σ)) (hun : FramesOK e F M un) (hM : ModelBase M)
     (hW : ∀ (a : (E →+* ℂ) × ℕ → ℕ) (n : ℕ), ∀ f ∈ sec Xo c a n, ∀ (t : Ix Dw → (CAt σ)ˣ)
       (y y' : FrPt Xo c (CAt σ)), FrBor t y y' → evR Xo c f y' = wchar (ex Dw a n) t * evR Xo c f y) :
     ∀ a n, Dom a n → ∀ f ∈ sec Xo c a n, ∀ k,
-      ((unfOf e F M un).X k).IsSec (laU (unfOf e F M un) a n k) (rdU (unfOf e F M un) f k) := by
+      ((unfOf e F M un).X k).IsSec (laU (unfOf e F M un) a n k) (_root_.Formalism.L2.PjFree.rdU (unfOf e F M un) f k) := by
   intro a n hd f hf k
   refine ⟨hun.2.2.2 a n hd f hf k, fun x hx b hb => ?_, fun γ hγ x hx => ?_⟩
   · have hxb : rmul x b ∈ ((unfOf e F M un).X k).dom := (hM.domStab k x hx).1 b hb
     obtain ⟨t, ht, hw⟩ := hun.2.1 k ⟨x, hx⟩ b hb hxb
     refine (rdU_of_mem _ f k hxb).trans ?_
     rw [rdU_of_mem _ f k hx, ← hw a n hd]
-    exact congrArg toC (hW a n f hf t _ _ ht)
+    exact congrArg _root_.Formalism.L2.PjFree.toC (hW a n f hf t _ _ ht)
   · have hxg : lact γ x ∈ ((unfOf e F M un).X k).dom := (hM.domStab k x hx).2 γ hγ
     obtain ⟨t, ht, hw⟩ := hun.2.2.1 k γ hγ ⟨x, hx⟩ hxg
     refine (rdU_of_mem _ f k hxg).trans ?_
     rw [rdU_of_mem _ f k hx, show ((unfOf e F M un).X k).χ (laU (unfOf e F M un) a n k) γ = 1 from hM.chi k _ γ,
       ← hw a n hd]
-    exact congrArg toC (hW a n f hf t _ _ ht)
+    exact congrArg _root_.Formalism.L2.PjFree.toC (hW a n f hf t _ _ ht)
 
 end
 
-theorem isUnf_built : Out.SecBaseChangeSt → ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E) (Dw : Datum H) (l : Level H) (Xo : Moduli Dw l) (c : Coeff l) (σ : c.F →+* ℂ) (g : ℕ) (e : Fin g ≃ Σ τ : E →+* ℂ, Fin (Dw.mult τ)) (F : FamilyUnif Xo (σ.comp (IntermediateField.inclusion c.le).toRingHom) (fun j => relab c σ (e j).1)) (r : ℕ) (M : ModelsOf F r) (un : ∀ k, (M.X k).dom → FrPt Xo c (CAt σ)), GoodEmb c σ → ModelBase M → NegXi M → FramesOK e F M un → IsUnf (unfOf e F M un) := by
+theorem isUnf_built : Out.SecBaseChangeSt → ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E) (Dw : Datum H) (l : Level H) (Xo : Moduli Dw l) (c : Coeff l) (σ : c.F →+* ℂ) (g : ℕ) (e : Fin g ≃ Σ τ : E →+* ℂ, Fin (Dw.mult τ)) (F : FamilyUnif Xo (σ.comp (IntermediateField.inclusion c.le).toRingHom) (fun j => _root_.Formalism.L2.PjFree.relab c σ (e j).1)) (r : ℕ) (M : _root_.GlobalTheory.FrameUnif.ModelsOf F r) (un : ∀ k, (M.X k).dom → FrPt Xo c (CAt σ)), _root_.Formalism.L2.PjFree.GoodEmb c σ → ModelBase M → NegXi M → FramesOK e F M un → _root_.Formalism.L2.PjFree.IsUnf (unfOf e F M un) := by
   intro hS E _ _ _ H Dw l Xo c σ g e F r M un hσ hM hN hun
   have hred : _root_.IsReduced (CAt σ) := inferInstanceAs (_root_.IsReduced ℂ)
   exact ⟨hM.rank, hM.type,
@@ -144,3 +144,20 @@ theorem isUnf_built : Out.SecBaseChangeSt → ∀ (E : Type) [Field E] [NumberFi
     g, e, F, id, M.φ, hM.ef, hun.1⟩
 
 end GlobalTheory.FrameUnif
+
+end
+end
+
+section
+
+@[expose] public section
+
+open NumberField ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Geo.Tor ReciprocityTheory.ChartRestriction.G.FD Formalism.L2.Pj Formalism.L2.PjFree
+open AlgebraicGeometry CategoryTheory Limits ReciprocityTheory.ChartRestriction.G.Semi GlobalTheory.Frames GlobalTheory.FrameUnif
+open scoped Matrix nonZeroDivisors
+
+theorem _root_.GlobalTheory.T.familyUniformisation_isComplexUniformisation : Out.SecBaseChangeSt → ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E) (Dw : Datum H) (l : Level H) (Xo : Moduli Dw l) (c : Coeff l) (σ : c.F →+* ℂ) (g : ℕ) (e : Fin g ≃ Σ τ : E →+* ℂ, Fin (Dw.mult τ)) (F : FamilyUnif Xo (σ.comp (IntermediateField.inclusion c.le).toRingHom) (fun j => _root_.Formalism.L2.PjFree.relab c σ (e j).1)) (r : ℕ) (M : _root_.GlobalTheory.FrameUnif.ModelsOf F r) (un : ∀ k, (M.X k).dom → FrPt Xo c (CAt σ)), _root_.Formalism.L2.PjFree.GoodEmb c σ → ModelBase M → NegXi M → FramesOK e F M un → _root_.Formalism.L2.PjFree.IsUnf (unfOf e F M un) := by
+  first | exact @GlobalTheory.FrameUnif.isUnf_built | exact GlobalTheory.FrameUnif.isUnf_built | (intros; apply GlobalTheory.FrameUnif.isUnf_built <;> assumption)
+
+end
+end

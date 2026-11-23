@@ -1,18 +1,18 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.LitAut
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.Bundle004
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.IsTheta
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.DecompSigmaOrd
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsPadicAlgClRingEquivComplexCompEqOfCountabl
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle030
 public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.ExistsCoprimePowOfMemIneKer
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.HidaCompleteRings.DenseBox
-import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.DvrFacts
+import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.Bundle008
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.OrdinaryHeckeCharacters.GlBridge
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.LaArtin
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.CycInertia
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.DecEmb
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.LaExists
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.CopNormLt
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.Bundle064
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.Bundle011
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.Bundle031
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.Bundle035
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Bundle007
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.WeilGroupCharacters.LamFree
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.WeilGroupCharacters.WeilCharactersModular.LocCFT
 import Mathlib.Algebra.Order.Floor.Extended
@@ -56,7 +56,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Connected.Separation
 import Mathlib.Topology.MetricSpace.Ultra.TotallySeparated
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.WeilGroupCharacters.Inertia
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.WeilGroupCharacters.Bundle001
 
 @[expose] public section
 
@@ -252,6 +252,7 @@ private theorem du_ker (Φ : Γ →* (Qbar l)ˣ) (hΦ : Continuous Φ) : ∃ M, 
     (hk g).1 (A.univ χ.range hp χ.rangeRestrict ho (fun x hx => (hk x).2 (by rw [h3 x hx]; exact B.one_mem)) hg)
   rw [zero_add]
   exact h4.le.trans (min_le_left _ _)
+attribute [-instance] UpperTheory.V.Pr.IsCD.toIsDomain UpperTheory.V.Pr.IsCD.toIsDiscreteValuationRing UpperTheory.V.Pr.IsCD.complete in
 private theorem du_fin (Φ : Γ →* (Qbar l)ˣ) (hΦ : Continuous Φ) (γ : Fin d → Γ)
     (hγ : ∀ j, A.a (γ j) = Multiplicative.ofAdd (Pi.single j 1, 0)) (ho : ∀ j, IsOfFinOrder (Φ (γ j))) :
     ∃ N, 0 < N ∧ ∀ g ∈ I, Φ g ^ N = 1 := by
@@ -319,6 +320,7 @@ variable {F Ω : Type} [Field F] [NumberField F] [Field Ω] [Algebra F Ω] [IsAl
 private theorem du_unit (ha : IsLocalArtin h a) (s : Weil h) : a s ∈ Uo (w.adicCompletion F) ↔ (s : G F Ω) ∈ Ine (F := F) A := by
   rw [← deg_eq_zero_iff, ← neg_eq_zero, ← ha.ord_eq, ord_eq_zero_iff]
   rfl
+attribute [-instance] UpperTheory.V.Pr.IsCD.toIsDomain UpperTheory.V.Pr.IsCD.toIsDiscreteValuationRing UpperTheory.V.Pr.IsCD.complete in
 private theorem du_alg (H : GlobalTheory.Published.GlobalArtinReciprocity) (ha : IsLocalArtin h a) (hh : (F →+* Qbar l) → ℤ) :
     ∃ δ : Dec (F := F) A →* (Qbar l)ˣ, Continuous δ ∧ ∀ s : Weil h, (s : G F Ω) ∈ Ine (F := F) A →
       (δ (Subgroup.inclusion (Weil_le_Dec h) s) : Qbar l) = algPow w hh (a s : w.adicCompletion F) := by

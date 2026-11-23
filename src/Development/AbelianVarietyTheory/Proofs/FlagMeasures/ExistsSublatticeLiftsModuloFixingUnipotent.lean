@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.RowMinor
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle012
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.EncardBiUnionLe
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IntegralOfUnimodular
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.LinearFormsBoundedRepresentativesStatement
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle275
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle318
 public import Formalism.FlagUnipotentLattices.CardSubgroupsOfIndexLe
 import Mathlib.Algebra.AffineMonoid.Basic
 import Mathlib.Algebra.Order.Floor.Extended

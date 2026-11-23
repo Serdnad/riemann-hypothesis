@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalToGlobal.Columns.ChainTopLawTw
-public import Formalism.LocalToGlobal.Columns.XtPhiTopGCongr
+public import Formalism.LocalToGlobal.Columns.Bundle024
 public import Formalism.LocalToGlobal.Columns.BlockTriangularMulVecMemPartialFlag
 import Formalism.LocalToGlobal.Columns.ChainInst
 public import Formalism.LocalToGlobal.Columns.ChainTopLaw

@@ -1,9 +1,9 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.TsumMeas
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle502
 import Development.AbelianVarietyTheory.Proofs.HeightProofs.IsTopologicalRingAE
-public import Development.AbelianVarietyTheory.PublishedTheorems.SiegelWeil₂.AdelicConjTransposeBlockMatrixTwoByTwoFin
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.BlockMatrixInjective
+public import Development.AbelianVarietyTheory.PublishedTheorems.SiegelWeil₂.Bundle001
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle503
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FourierZeroHolds
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.PartialConstantTermBound
 import Mathlib.Algebra.Order.Floor.Extended

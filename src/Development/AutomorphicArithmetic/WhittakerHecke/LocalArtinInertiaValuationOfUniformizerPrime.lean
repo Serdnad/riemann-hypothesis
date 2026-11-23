@@ -2,22 +2,20 @@ module
 
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.HasExponentZeroIff
 public import CompanionTheory.AutomorphicTheory.UnitriangularMeasure.AdeleCoordinateMeasure.EllipticTorusNorm
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ArtinTransportAlgClosureEquiv
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ChevalleyUnits
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsAbelianizedGaloisHomOfClosureIso
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.GlobalArtinLocalIdeleInjective
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LocalArtinInertiaIsUnitAt
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.AbsoluteGaloisAbelianizationEqOneOfMemOpenSubgro
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle191
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle612
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle302
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle454
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle428
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle057
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.DenseRangeUnits
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsUnitPowNormVSubOneStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FrobeniusInvMulMemInertiaStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FrobeniusRatioPiCongrTameUnitStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.GlobalArtinReciprocityHolds
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.InertiaPowResidueCardSubOneApplyOfPowMemStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsOpenIdeleSubgroupContainsCongruenceUnits
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.MinpolyAndNormOfPowEqUniformizer
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.TameEisensteinExtensionUniqueTotallyRamifiedPlacStatement
-public import Development.DiscreteGroups.GlobalIrreducibility.DzTameRec
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle075
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle058
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle394
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle056
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle048
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle059
+public import Development.DiscreteGroups.GlobalIrreducibility.Bundle006
 import GroundTheory.GlobalFields.IdeleGroups.IdeleNorms.CompletionsOverBasisRepr
 import GroundTheory.GlobalFields.NormResidueSymbol.FunctorialFinite
 import Mathlib.Algebra.Order.Floor.Extended
@@ -125,7 +123,7 @@ private theorem art_diag {Ω : Type} [Field Ω] [Algebra K Ω] {art : Ideles K �
 
 private theorem glob_norm {Ω : Type} [Field Ω] [Algebra K Ω] [Algebra L Ω] [IsScalarTower K L Ω] [IsAlgClosure K Ω]
     [IsAlgClosure L Ω] {art : Ideles K →* Gab K Ω} {art' : Ideles L →* Gab L Ω} (ha : IsGlobalArtin art)
-    (ha' : IsGlobalArtin art') (x : Ideles L) (τ : G L Ω) (σ : G K Ω) (hσ : ∀ z, σ z = τ z) (hx : art' x = toAb L Ω τ) :
+    (ha' : IsGlobalArtin art') (x : Ideles L) (τ : _root_.Formalism.ConjugateSelfDual.G L Ω) (σ : _root_.Formalism.ConjugateSelfDual.G K Ω) (hσ : ∀ z, σ z = τ z) (hx : art' x = toAb L Ω τ) :
     art (GroundTheory.Global.ideleNorm K L x) = toAb K Ω σ := by
   obtain ⟨ρ, hρc, hρ⟩ := exists_abHom_of_ringEquiv K Ω L Ω (RingEquiv.refl Ω) (algebraMap K L)
     (fun z => IsScalarTower.algebraMap_apply K L Ω z)
@@ -212,7 +210,7 @@ private theorem res_art_norm (E Ω : Type) [Field E] [NumberField E] [Field Ω] 
     (v : HeightOneSpectrum (𝓞 E)) (W : HeightOneSpectrum (𝓞 K))
     (hW : W.asIdeal.comap (algebraMap (𝓞 E) (𝓞 K)) = v.asIdeal)
     (hu : ∀ W' : HeightOneSpectrum (𝓞 K), W'.asIdeal.comap (algebraMap (𝓞 E) (𝓞 K)) = v.asIdeal → W' = W)
-    (y : Kˣ) (τ : G K Ω)
+    (y : Kˣ) (τ : _root_.Formalism.ConjugateSelfDual.G K Ω)
     (hτ : toAb K Ω τ = artK (localIdele K W (Units.map (algebraMap K (W.adicCompletion K)).toMonoidHom y))) :
     toAb E Ω (τ.restrictScalars E) =
       art (localIdele E v (Units.map (algebraMap E (v.adicCompletion E)).toMonoidHom
@@ -228,9 +226,9 @@ open NumberField IsDedekindDomain Neutral.B1 ReciprocityTheory.Neutral.Bridge.HC
 
 private theorem frob_fix : GlobalTheory.Published.GlobalArtinReciprocity → ∀ (E Ω : Type) [Field E] [NumberField E] [Field Ω]
     [Algebra E Ω] [IsAlgClosure E Ω] (art : Ideles E →* Gab E Ω), IsGlobalArtin art →
-    ∀ (v : HeightOneSpectrum (𝓞 E)) (A : ValuationSubring Ω), IsPlaceOver A v →
+    ∀ (v : HeightOneSpectrum (𝓞 E)) (A : ValuationSubring Ω), _root_.Formalism.ConjugateSelfDual.IsPlaceOver A v →
     ∀ ϖ : 𝓞 E, ϖ ∈ v.asIdeal → ϖ ∉ v.asIdeal ^ 2 → ∀ π : Ω, π ^ (normV v - 1) = algebraMap E Ω (ϖ : E) →
-    ∃ τ : G E Ω, IsFrob (F := E) A (normV v) τ ∧ τ π = π ∧
+    ∃ τ : _root_.Formalism.ConjugateSelfDual.G E Ω, IsFrob (F := E) A (normV v) τ ∧ τ π = π ∧
       ∀ c : (v.adicCompletion E)ˣ, (c : v.adicCompletion E) = (-1) ^ normV v * algebraMap E (v.adicCompletion E) (ϖ : E) →
         toAb E Ω τ⁻¹ = art (localIdele E v c) := by
   intro hGAR E Ω _ _ _ _ _ art ha v A hA ϖ hϖ hϖ2 π hπ
@@ -371,26 +369,26 @@ section Main
 open Polynomial Neutral.B1 GlobalTheory.HeckeGal
 
 private theorem weil_smul_eq_of_local_artin_eq {M Ω : Type} [Field M] [NumberField M] [Field Ω] [Algebra M Ω] [IsAlgClosure M Ω]
-    {A : ValuationSubring Ω} {v : HeightOneSpectrum (𝓞 M)} (h : IsPlaceOver A v)
+    {A : ValuationSubring Ω} {v : HeightOneSpectrum (𝓞 M)} (h : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A v)
     (a : Weil h →* (v.adicCompletion M)ˣ) (ha : IsLocalArtin h a) (π : Ω) (c : M) (hπ0 : π ≠ 0)
     (hπ : π ^ (normV v - 1) = algebraMap M Ω c) (s s' : Weil h) (hs : a s = a s') :
-    (s : G M Ω) π = (s' : G M Ω) π := by
+    (s : _root_.Formalism.ConjugateSelfDual.G M Ω) π = (s' : _root_.Formalism.ConjugateSelfDual.G M Ω) π := by
   have hn : 0 < normV v - 1 := by
     have := one_lt_normV v
     omega
-  have hne : ∀ s : Weil h, (s : G M Ω) π ≠ 0 := fun s => (_root_.map_ne_zero _).2 hπ0
-  have hroot : ∀ s : Weil h, ((s : G M Ω) π / π) ^ (normV v - 1) = 1 := by
+  have hne : ∀ s : Weil h, (s : _root_.Formalism.ConjugateSelfDual.G M Ω) π ≠ 0 := fun s => (_root_.map_ne_zero _).2 hπ0
+  have hroot : ∀ s : Weil h, ((s : _root_.Formalism.ConjugateSelfDual.G M Ω) π / π) ^ (normV v - 1) = 1 := by
     intro s
     rw [div_pow, ← map_pow, hπ, AlgEquiv.commutes, ← hπ, div_self (pow_ne_zero _ hπ0)]
-  have hmul : ∀ s s' : Weil h, ((s * s' : Weil h) : G M Ω) π / π =
-      ((s : G M Ω) π / π) * ((s' : G M Ω) π / π) := by
+  have hmul : ∀ s s' : Weil h, ((s * s' : Weil h) : _root_.Formalism.ConjugateSelfDual.G M Ω) π / π =
+      ((s : _root_.Formalism.ConjugateSelfDual.G M Ω) π / π) * ((s' : _root_.Formalism.ConjugateSelfDual.G M Ω) π / π) := by
     intro s s'
-    have hs' : (s' : G M Ω) π = ((s' : G M Ω) π / π) * π := (div_mul_cancel₀ _ hπ0).symm
+    have hs' : (s' : _root_.Formalism.ConjugateSelfDual.G M Ω) π = ((s' : _root_.Formalism.ConjugateSelfDual.G M Ω) π / π) * π := (div_mul_cancel₀ _ hπ0).symm
     have hfix := DiscreteGroups.sglob.DzType.weil_fix_root h s _ (hroot s')
     rw [Subgroup.coe_mul, AlgEquiv.mul_apply, hs', map_mul, hfix]
     field_simp
   let κ : Weil h →* Ωˣ :=
-    { toFun := fun s => Units.mk0 ((s : G M Ω) π / π) (div_ne_zero (hne s) hπ0)
+    { toFun := fun s => Units.mk0 ((s : _root_.Formalism.ConjugateSelfDual.G M Ω) π / π) (div_ne_zero (hne s) hπ0)
       map_one' := by
         ext
         simp [hπ0]
@@ -412,7 +410,7 @@ private theorem weil_smul_eq_of_local_artin_eq {M Ω : Type} [Field M] [NumberFi
     rw [HasEnoughRootsOfUnity.natCard_rootsOfUnity, Complex.card_rootsOfUnity]
   let e := mulEquivOfCyclicCardEq hcard
   let ξ : Weil h →* ℂˣ := (rootsOfUnity (normV v - 1) ℂ).subtype.comp (e.toMonoidHom.comp κ')
-  have hξ : ∀ s, ξ s = 1 ↔ (s : G M Ω) π = π := by
+  have hξ : ∀ s, ξ s = 1 ↔ (s : _root_.Formalism.ConjugateSelfDual.G M Ω) π = π := by
     intro s
     have h1 : ξ s = 1 ↔ κ' s = 1 := by
       simp only [ξ, MonoidHom.comp_apply, Subgroup.coe_subtype, MulEquiv.coe_toMonoidHom,
@@ -436,10 +434,10 @@ private theorem weil_smul_eq_of_local_artin_eq {M Ω : Type} [Field M] [NumberFi
   have h2 : ξ (s'⁻¹ * s) = 1 := by
     rw [map_mul, map_inv, hχ, MonoidHom.comp_apply, MonoidHom.comp_apply, hs, inv_mul_cancel]
   have h3 := (hξ _).1 h2
-  have h4 := congrArg (s' : G M Ω) h3
+  have h4 := congrArg (s' : _root_.Formalism.ConjugateSelfDual.G M Ω) h3
   rwa [← AlgEquiv.mul_apply, ← Subgroup.coe_mul, mul_inv_cancel_left] at h4
 
-private theorem tame_all : ∀ (M Ω : Type) [Field M] [NumberField M] [Field Ω] [Algebra M Ω] [IsAlgClosure M Ω] (g : ℕ) [Fact g.Prime] (A : ValuationSubring Ω) (v : HeightOneSpectrum (𝓞 M)) (h : IsPlaceOver A v), ((g : ℕ) : 𝓞 M) ∈ v.asIdeal → ((g : ℕ) : 𝓞 M) ∉ v.asIdeal ^ 2 → ∀ a : Weil h →* (v.adicCompletion M)ˣ, IsLocalArtin h a → ∀ π : Ω, π ^ (normV v - 1) = (g : Ω) → ∀ (t : Ine (F := M) A) (x : 𝓞 M), Valued.v ((a (ineIncl h t) : v.adicCompletion M) - algebraMap M (v.adicCompletion M) (x : M)) < 1 → A.valuation ((t : G M Ω) π / π - algebraMap M Ω (x : M)) < 1 := by
+private theorem tame_all : ∀ (M Ω : Type) [Field M] [NumberField M] [Field Ω] [Algebra M Ω] [IsAlgClosure M Ω] (g : ℕ) [Fact g.Prime] (A : ValuationSubring Ω) (v : HeightOneSpectrum (𝓞 M)) (h : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A v), ((g : ℕ) : 𝓞 M) ∈ v.asIdeal → ((g : ℕ) : 𝓞 M) ∉ v.asIdeal ^ 2 → ∀ a : Weil h →* (v.adicCompletion M)ˣ, IsLocalArtin h a → ∀ π : Ω, π ^ (normV v - 1) = (g : Ω) → ∀ (t : Ine (F := M) A) (x : 𝓞 M), Valued.v ((a (ineIncl h t) : v.adicCompletion M) - algebraMap M (v.adicCompletion M) (x : M)) < 1 → A.valuation ((t : _root_.Formalism.ConjugateSelfDual.G M Ω) π / π - algebraMap M Ω (x : M)) < 1 := by
   intro M Ω _ _ _ _ _ g _ A v h hg hg2 a ha π hπ t x hx
   obtain ⟨art, hart⟩ := GlobalTheory.globalArtinReciprocity_holds M Ω
   have hu := GlobalTheory.ArtinInertia.isUnitAt_artin_ine h a ha t
@@ -461,12 +459,12 @@ private theorem tame_all : ∀ (M Ω : Type) [Field M] [NumberField M] [Field Ω
     rw [ha.glob art hart] at hσ
     exact hσ
   have key := weil_smul_eq_of_local_artin_eq h a ha π _ hπ0 hπ' _ _ heq
-  have key' : (t : G M Ω) π = σ π := key.symm
+  have key' : (t : _root_.Formalism.ConjugateSelfDual.G M Ω) π = σ π := key.symm
   rw [key']
   exact hσv
 
 end Main
 
 theorem UpperTheory.localArtin_inertia_valuation_of_uniformizer_prime :
-    ∀ (M Ω : Type) [Field M] [NumberField M] [Field Ω] [Algebra M Ω] [IsAlgClosure M Ω] (g : ℕ) [Fact g.Prime] (A : ValuationSubring Ω) (v : HeightOneSpectrum (𝓞 M)) (h : IsPlaceOver A v), ((g : ℕ) : 𝓞 M) ∈ v.asIdeal → ((g : ℕ) : 𝓞 M) ∉ v.asIdeal ^ 2 → ∀ a : Weil h →* (v.adicCompletion M)ˣ, IsLocalArtin h a → ∀ π : Ω, π ^ (normV v - 1) = (g : Ω) → ∀ (t : Ine (F := M) A) (x : 𝓞 M), Valued.v ((a (ineIncl h t) : v.adicCompletion M) - algebraMap M (v.adicCompletion M) (x : M)) < 1 → A.valuation ((t : G M Ω) π / π - algebraMap M Ω (x : M)) < 1 :=
+    ∀ (M Ω : Type) [Field M] [NumberField M] [Field Ω] [Algebra M Ω] [IsAlgClosure M Ω] (g : ℕ) [Fact g.Prime] (A : ValuationSubring Ω) (v : HeightOneSpectrum (𝓞 M)) (h : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A v), ((g : ℕ) : 𝓞 M) ∈ v.asIdeal → ((g : ℕ) : 𝓞 M) ∉ v.asIdeal ^ 2 → ∀ a : Weil h →* (v.adicCompletion M)ˣ, IsLocalArtin h a → ∀ π : Ω, π ^ (normV v - 1) = (g : Ω) → ∀ (t : Ine (F := M) A) (x : 𝓞 M), Valued.v ((a (ineIncl h t) : v.adicCompletion M) - algebraMap M (v.adicCompletion M) (x : M)) < 1 → A.valuation ((t : _root_.Formalism.ConjugateSelfDual.G M Ω) π / π - algebraMap M Ω (x : M)) < 1 :=
   tame_all

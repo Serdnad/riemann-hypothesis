@@ -5,7 +5,7 @@ public import Development.AutomorphicArithmetic.IntegralCasts.CrystallinePeriods
 public import Development.AutomorphicArithmetic.IntegralCasts.CrystallinePeriods.EqZeroOfPMulEqZero
 public import Development.AutomorphicArithmetic.IntegralCasts.CrystallinePeriods.ExistsFactorialMulEqPow
 public import Development.AutomorphicArithmetic.IntegralCasts.CrystallinePeriods.Kernel
-public import Development.AutomorphicArithmetic.IntegralCasts.CrystallinePeriods.Period
+public import Development.AutomorphicArithmetic.IntegralCasts.CrystallinePeriods.Bundle002
 import Mathlib.Algebra.AffineMonoid.Basic
 import Mathlib.Algebra.AffineMonoid.UniqueSums
 import Mathlib.Algebra.Order.Floor.Extended

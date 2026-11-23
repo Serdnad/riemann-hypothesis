@@ -3,7 +3,7 @@ module
 public import Formalism.SharpRestriction.LevelLetterCocycles.LatticeBoundsOfThreeParts
 public import Formalism.SharpRestriction.LevelLetterCocycles.LemmasUnramifiedOfRingCondition
 public import Formalism.SharpRestriction.LevelLetterCocycles.ArcCoordinatesOfMembership
-public import Formalism.SharpRestriction.LevelLetterCocycles.QuotientImageDivisibility.FrobeniusUniformizerPowDvd
+public import Formalism.SharpRestriction.LevelLetterCocycles.QuotientImageDivisibility.Bundle004
 import Formalism.SharpRestriction.LevelLetterCocycles.SaturationPullbackOfRingCondition
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

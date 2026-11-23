@@ -1,11 +1,8 @@
 module
 
-public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.ThetaKernels.GalTPDefs
-public import Development.AutomorphicArithmetic.AdelicQuotients.InnerProductIntegralFundamentalDomainOfCompact
-public import Development.AutomorphicArithmetic.AdelicQuotients.InvariantSesquilinearFormEqSmulOfIrreducible
-public import Development.AutomorphicArithmetic.AdelicQuotients.IrreducibleHermitianFormUnique
-public import Development.AutomorphicArithmetic.AdelicQuotients.MeasurableOfSeparatingFunctionals
-public import Development.AutomorphicArithmetic.AdelicQuotients.RieszRepresentationSesquilinear
+public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.ThetaKernels.Bundle022
+public import Development.AutomorphicArithmetic.AdelicQuotients.Bundle001
+public import Development.AutomorphicArithmetic.AdelicQuotients.Bundle002
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.ThetaKernels.TPGDecomp
 public import Development.WeilBound.ThetaLifts.LatticeBasics.ThetaBox
 public import Development.WeilBound.ThetaLifts.LocalTheory.ArchimedeanBumps.ArchHeisOf
@@ -45,7 +42,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ProductFunctionOnSumCoordsMemAdelicSchwartzSpace
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1191
 
 @[expose] public section
 

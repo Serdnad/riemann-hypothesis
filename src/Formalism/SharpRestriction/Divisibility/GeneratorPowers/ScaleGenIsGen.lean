@@ -1,7 +1,7 @@
 module
 
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ExpTie
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.CPfSym
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle009
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle003
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.FBIdJet
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermDPf
 import Mathlib.Algebra.Order.Floor.Extended
@@ -47,7 +47,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.HarmonicValueIntegral
-public import Formalism.LocalToGlobal.ProjectiveLattices.IsChartIff
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle018
 
 @[expose] public section
 

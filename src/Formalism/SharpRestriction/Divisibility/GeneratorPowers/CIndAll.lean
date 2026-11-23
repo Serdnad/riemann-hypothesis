@@ -1,19 +1,19 @@
 module
 
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.CIndEnc
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.CIndVerb
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle006
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle018
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.GlobalSectionsRankAlgClosed
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.CIndVerbB
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.EvalSinglePointId
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ExpActOf
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle023
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ExpChartOf
 import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ExpTiePf
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ExpUniqChart
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GaugeUniqPf
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.HarmInvPf
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle020
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle019
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle025
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.KillAddVal
-import Formalism.SharpRestriction.Divisibility.GeneratorPowers.LinEigPf
-import Formalism.SharpRestriction.Divisibility.GeneratorPowers.PsiCover
+import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle030
+import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle008
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

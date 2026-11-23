@@ -1,19 +1,19 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.SameOrbitRefl
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle152
 public import Development.WeilBound.CoreStatements.CentralCharts.ExistsPermFirst
 public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.FlagIndices.InstFintypeFlIdx
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.AdaptedAtlasSncSectionStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.AdaptedAtlasSmoothPotentialLocalStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ConjugationAntiholomorphicChartsStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ConjugationInvariantSingularPotentialStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle276
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle040
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle162
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle165
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagModelAnalyticDataExists
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.FubiniStudyMetricSmooth
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.LiftSystemComplexConjugationStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.LiftSystemRealStructureStatement
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.LogResolutionFubiniStudyPositive
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.SingularPotentialLogGrowthPshStatement
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.SingularWeightMonotoneRegularization
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle103
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle157
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle164
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle117
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle045
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle020
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.SmoothContinuous
 import Development.AutomorphicSpectrum.Proofs.MetricProofs.SmoothFunctionAsDegreeZeroMetric
 public import Development.WeilBound.CoreStatements.CentralCharts.SmoothOnOfTame
@@ -56,7 +56,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import ReciprocityTheory.AnalyticForms.LeviForms.TailCutA
+import ReciprocityTheory.AnalyticForms.LeviForms.Bundle002
 import ReciprocityTheory.AnalyticForms.PotentialTheory.PshShiftA
 
 @[expose] public section

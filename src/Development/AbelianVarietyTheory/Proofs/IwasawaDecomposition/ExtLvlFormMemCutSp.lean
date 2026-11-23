@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.DatVtEq
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle271
 public import Formalism.LocalToGlobal.Divisibility.ClassSumLemmas
 public import Formalism.LocalToGlobal.Divisibility.ProjLemmas
 public import Formalism.LocalToGlobal.IndefiniteReal.BridgeLemmas
@@ -43,7 +43,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.StableIffCarrierEq
-import Development.AbelianVarietyTheory.Definitions.Foundations.RayPrimes
+import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle001
 
 @[expose] public section
 

@@ -1,19 +1,18 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RowGrpEq
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle692
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RepresentationAtEveryPlace
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.InverseUnipotentVolumeConjDiagonalUnitsGLMul
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.CoefProd
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.FourierJacobiMeasureUnitriangularCoordinates
-import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.PeriodIdealZpowCompletionAdeleConjIff
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle452
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle691
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle147
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle400
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DiagonalBlockDetBlockTriangular
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExistsMemProjEqOnFinset
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.MemFinitePointsOfHasLocalLatticeMatrices
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RowPeriodGroupsSplitRealFiniteLargeDepth
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RowTestMemLatticeStabilizerOfLocalMatrices
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle049
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle690
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle693
 import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.IdemElt
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdelicLocalCompactness.T2SpaceTensorProductFiniteExtension
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.IwasawaMeasureExistence.MeasureEqRelIndexMul
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.IwasawaMeasureExistence.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -54,7 +53,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RealLineOfPeriodsOnLine
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle469
 
 @[expose] public section
 

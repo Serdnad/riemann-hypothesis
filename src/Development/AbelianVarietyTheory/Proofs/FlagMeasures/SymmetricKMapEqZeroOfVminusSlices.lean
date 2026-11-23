@@ -1,6 +1,6 @@
 module
 
-public import Formalism.RealPlaceAnalysis.StatementU
+public import Formalism.RealPlaceAnalysis.Bundle004
 public import Formalism.RealPlaceAnalysis.QuotientSettingHolds
 import Formalism.RealPlaceAnalysis.RealPlaceTaylor.FirstSlotSliceSlotMixedCasimirZero
 import Mathlib.Algebra.Order.Floor.Extended
@@ -48,12 +48,12 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.ActSingleNeZero
+import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle007
 import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.LayerProd
 import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.PosPartUnitaryMul
 import Development.AbelianVarietyTheory.Statements.CuspFrameWeights.EigenfunctionFiniteCoefficients
 import Formalism.FormalDegreeBessel.StatementWR
-import Formalism.SharpRestriction.CuspSpanNormBounds.Point
+import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle001
 
 @[expose] public section
 

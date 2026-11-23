@@ -1,7 +1,7 @@
 module
 
 public import Development.AutomorphicArithmetic.CommutativeAlgebra.EtaleCohomology.VanishOfExact
-public import Development.AutomorphicArithmetic.CommutativeAlgebra.EtaleCohomology.FaceSnocCastSucc
+public import Development.AutomorphicArithmetic.CommutativeAlgebra.EtaleCohomology.Bundle002
 import Mathlib.Algebra.Homology.ShortComplex.Ab
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.SemistableReduction.SphereLogIntegrableStatement
+public import ReciprocityTheory.SemistableReduction.Bundle001
 public import Mathlib.Topology.Separation.CompletelyRegular
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

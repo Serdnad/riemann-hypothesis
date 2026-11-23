@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.SpecializesGenericImage
-public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsMonoFamNontrivial
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle074
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle070
 import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.RingKrullDimQuotientEqOfMemMinimalPrimes
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.RingKrullDimQuotientAddOneOfMemMinimalPrimesSup
-import Development.AbelianVarietyTheory.Proofs.GenericRegularity.ExistsIsOpenImmersionIsStandardSmoothOfRelativeD
-public import Formalism.LocalToGlobal.ProjectiveLattices.KapTrdegPf
+import Development.AbelianVarietyTheory.Proofs.GenericRegularity.Bundle001
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle023
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -43,7 +43,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.AbProj
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle007
 
 @[expose] public section
 

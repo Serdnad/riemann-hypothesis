@@ -1,7 +1,7 @@
 module
 
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.ThickTransComp
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.LinCombTrivG
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.Bundle001
 public import Mathlib.RingTheory.PowerSeries.NoZeroDivisors
 public import Mathlib.Tactic.ENatToNat
 import Mathlib.Algebra.Order.Floor.Extended

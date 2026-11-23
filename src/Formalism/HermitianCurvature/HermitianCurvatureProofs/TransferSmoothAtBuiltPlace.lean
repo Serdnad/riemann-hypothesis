@@ -1,7 +1,7 @@
 module
 
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.JfSmoothBuiltOfLeaves
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.JfSmoothBuiltOfCapJoints
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle183
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle227
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.ModelPlaceBuilt2OfChartEqs
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.SinglePairFinsuppEqIff
 import Mathlib.Algebra.Order.Floor.Extended

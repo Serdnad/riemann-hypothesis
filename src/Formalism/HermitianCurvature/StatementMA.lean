@@ -1,6 +1,6 @@
 module
 
-public import Formalism.HermitianCurvature.LetterProductDoubleDegreeCount
+public import Formalism.HermitianCurvature.Bundle004
 public import Mathlib.Analysis.Calculus.ContDiff.Operations
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

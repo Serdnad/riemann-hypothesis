@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.PolarAct
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.Bundle009
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.HasDerivAtMexpCommAddBracket
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -46,8 +46,8 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.PolarBasic
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.ProdShcSqEqJacPow
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.Bundle007
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.Bundle010
 
 @[expose] public section
 

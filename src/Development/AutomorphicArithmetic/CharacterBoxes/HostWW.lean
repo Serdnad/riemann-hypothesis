@@ -1,12 +1,11 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.AuxiliaryPrimeMemAvoidedPrimes
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExistsFamPOfKits
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExistsWeightsInWindows
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.KitOfPoints
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.MPowFiveMulFMulLLe
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.SzRowNumAt
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.WeightWindowRequirementHostOfPoint
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle084
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle094
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle104
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle073
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle112
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

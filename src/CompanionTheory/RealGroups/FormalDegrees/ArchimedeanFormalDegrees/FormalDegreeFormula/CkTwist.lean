@@ -1,7 +1,7 @@
 module
 
 public import CompanionTheory.RealGroups.FormalDegrees.ArchimedeanFormalDegrees.FormalDegreeFormula.ModelFunctionsMultiply
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.HighestWeights.ModelTwist
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.HighestWeights.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

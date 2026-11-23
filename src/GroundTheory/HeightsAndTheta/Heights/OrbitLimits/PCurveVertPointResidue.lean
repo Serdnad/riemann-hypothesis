@@ -1,12 +1,12 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.StatementsCurveVertIndexSteps
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.StatementsCurveClosedPointChart
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle017
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle012
 public import GroundTheory.HeightsAndTheta.Heights.HeightsOfSets.PCurveDivVertical
 public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.CoordinateIdeals.MemMCoordIdealOfAevalEqZero
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.AvoidRing
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle005
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.NotIsUnitOfNumMem
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.CurveCountObjects
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle023
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -54,7 +54,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterDivSupp
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle015
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterPCProof
 
 @[expose] public section
@@ -73,8 +73,8 @@ variable {K : Type} [Fintype K] {ι : K → Type} [∀ k, Fintype (ι k)]
 
 
 omit [Fintype K] in
-theorem isMultiHomog_sub' {f g : MRing ι} {a : K → ℕ} (hf : IsMultiHomog f a) (hg : IsMultiHomog g a) :
-    IsMultiHomog (f - g) a := by
+theorem isMultiHomog_sub' {f g : MRing ι} {a : K → ℕ} (hf : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog f a) (hg : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog g a) :
+    _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog (f - g) a := by
   classical
   intro m hm k
   rcases Finset.mem_union.mp (MvPolynomial.support_sub _ f g hm) with h | h
@@ -83,8 +83,8 @@ theorem isMultiHomog_sub' {f g : MRing ι} {a : K → ℕ} (hf : IsMultiHomog f 
 
 
 omit [Fintype K] in
-theorem isMultiHomog_add' {f g : MRing ι} {a : K → ℕ} (hf : IsMultiHomog f a) (hg : IsMultiHomog g a) :
-    IsMultiHomog (f + g) a := by
+theorem isMultiHomog_add' {f g : MRing ι} {a : K → ℕ} (hf : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog f a) (hg : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog g a) :
+    _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog (f + g) a := by
   classical
   intro m hm k
   rcases Finset.mem_union.mp (MvPolynomial.support_add hm) with h | h
@@ -93,7 +93,7 @@ theorem isMultiHomog_add' {f g : MRing ι} {a : K → ℕ} (hf : IsMultiHomog f 
 
 
 omit [Fintype K] in
-theorem isMultiHomog_C' (a : ℤ) : IsMultiHomog (C a : MRing ι) 0 := by
+theorem isMultiHomog_C' (a : ℤ) : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog (C a : MRing ι) 0 := by
   classical
   intro m hm k
   have hm' : m ∈ (monomial (0 : (Σ k, ι k) →₀ ℕ) a).support := hm
@@ -104,7 +104,7 @@ theorem isMultiHomog_C' (a : ℤ) : IsMultiHomog (C a : MRing ι) 0 := by
 
 theorem exists_homog {S : Type*} [CommRing S] (χ : MRing ι →+* S) (c : ∀ k, ι k)
     (hχ : ∀ k, χ (X ⟨k, c k⟩) = 1) (f : MRing ι) :
-    ∃ (n : K → ℕ) (G : MRing ι), IsMultiHomog G n ∧ χ G = χ f := by
+    ∃ (n : K → ℕ) (G : MRing ι), _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog G n ∧ χ G = χ f := by
   classical
   have hχp : ∀ n : K → ℕ, χ (∏ k, (X ⟨k, c k⟩ : MRing ι) ^ n k) = 1 := fun n => by
     simp [map_prod, hχ]
@@ -126,7 +126,7 @@ theorem exists_homog {S : Type*} [CommRing S] (χ : MRing ι →+* S) (c : ∀ k
 theorem exists_homog_mem {S : Type*} [CommRing S] (χ : MRing ι →+* S) (c : ∀ k, ι k)
     (hχ : ∀ k, χ (X ⟨k, c k⟩) = 1) {W : Ideal (MRing ι)} (hW : IsMultiHomogIdeal W)
     {f : MRing ι} (hf : f ∈ W) :
-    ∃ (n : K → ℕ) (G : MRing ι), G ∈ W ∧ IsMultiHomog G n ∧ χ G = χ f := by
+    ∃ (n : K → ℕ) (G : MRing ι), G ∈ W ∧ _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog G n ∧ χ G = χ f := by
   classical
   have hχp : ∀ n : K → ℕ, χ (∏ k, (X ⟨k, c k⟩ : MRing ι) ^ n k) = 1 := fun n => by
     simp [map_prod, hχ]
@@ -152,7 +152,7 @@ theorem exists_homog_mem {S : Type*} [CommRing S] (χ : MRing ι →+* S) (c : �
     rw [smul_eq_mul, map_mul, map_mul, eA, e]
 
 theorem aeval_div {Ω : Type} [Field Ω] (y : (Σ k, ι k) → Ω) (c : ∀ k, ι k)
-    (G : MRing ι) (n : K → ℕ) (hG : IsMultiHomog G n) :
+    (G : MRing ι) (n : K → ℕ) (hG : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog G n) :
     aeval (fun p => y p / y ⟨p.1, c p.1⟩) G = aeval y G * (∏ k, y ⟨k, c k⟩ ^ n k)⁻¹ := by
   classical
   rw [aeval_def, aeval_def, eval₂_eq, eval₂_eq, Finset.sum_mul]
@@ -222,7 +222,7 @@ theorem CurveVertPointResidue.proof (hC : CurveClosedPointChart.Statement) :
   let φ : MRing ι →+* Ω := (aeval fun p => y p / y ⟨p.1, c p.1⟩).toRingHom
   have hφX : ∀ p, φ (X p) = y p / y ⟨p.1, c p.1⟩ := fun p => aeval_X _ _
   have hφc : ∀ k, φ (X ⟨k, c k⟩) = 1 := fun k => by rw [hφX, div_self (hyc k)]
-  have hφform : ∀ G n, IsMultiHomog G n → φ G = aeval y G * (∏ k, y ⟨k, c k⟩ ^ n k)⁻¹ :=
+  have hφform : ∀ G n, _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog G n → φ G = aeval y G * (∏ k, y ⟨k, c k⟩ ^ n k)⁻¹ :=
     fun G n hG => aeval_div y c G n hG
   have hspan : I0 ≤ RingHom.ker φ := by
     refine Ideal.span_le.mpr ?_

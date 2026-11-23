@@ -2,8 +2,8 @@ module
 
 public import Development.WeilBound.ThetaLifts.LatticeBasics.PairsL
 public import Development.WeilBound.ThetaLifts.EigenvalueEndgame.PlaneRemovalConfiguration
-public import Development.WeilBound.ThetaLifts.LatticeBasics.PairsStable
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.LcscAdelicUnitaryGroup
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle007
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle018
 import Development.WeilBound.ThetaLifts.ConeHypotheses.PureEqPureA
 import Development.WeilBound.ThetaLifts.LatticeBasics.PairsD
 import Mathlib.Algebra.Order.Floor.Extended
@@ -48,7 +48,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.FinSplit
+import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.Bundle002
 
 @[expose] public section
 

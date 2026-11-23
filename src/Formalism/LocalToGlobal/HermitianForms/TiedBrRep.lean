@@ -1,7 +1,7 @@
 module
 
-public import Formalism.LocalToGlobal.HermitianForms.FramesLemmas
-public import Formalism.LocalToGlobal.GlobalTheory.GL4.BranchingNormalisedOfAdjoint
+public import Formalism.LocalToGlobal.HermitianForms.Bundle001
+public import Formalism.LocalToGlobal.GlobalTheory.GL4.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

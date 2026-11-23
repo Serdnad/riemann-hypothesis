@@ -1,24 +1,16 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.NonemptyInvFunEquiv
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.BranchesAlongOfIrreducible
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsIrreducibleSmallRepUnitary
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ContractsOfIsoDirectSumStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ContractsTensorProductChainStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsGanGrossPrasadColumnWeightsStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsGanGrossPrasadRowWeightsStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsPiTensorShuffleEquivStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.FockOnePlaceIsoDirectSumPartitionsStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsoOuterDualStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsoTwistDetIrrShiftStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsoUnitaryIrrepConjDualStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.NonemptyInvFunDualTprodEquivStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.OuterIrrIsoWeylRepStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.OuterTensorFockOnePlaceIsoUnitaryFockStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.PiTensorMapSurjectiveAndKerStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.StrictInterlaceGanGrossPrasadBigSmallStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.TensorRepresentationIntertwinerCompatStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.UnitaryIrrepCompConjIsoDualStatement
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle143
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle301
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle296
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle167
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle168
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle160
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle183
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle163
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle195
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle169
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle153
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -167,7 +159,7 @@ theorem domWeight_ext {n : ℕ} {lam mu : DomWeight n} (h : ∀ i, lam.w i = mu.
   exact funext h
 
 theorem iso_twist_conj (n : ℕ) (α : ℤ) (mu : DomWeight n) :
-    Iso (twist (detU n ^ α) ((irr n mu).comp (conjU n))) (irr n (addW mu (-α))).dual := by
+    Iso (GlobalTheory.IndefiniteRowSideFullHecke.MinorOrderedEntries.twist (detU n ^ α) ((irr n mu).comp (conjU n))) (irr n (addW mu (-α))).dual := by
   refine Iso.trans ?_ (GlobalTheory.T.iso_unitaryIrrep_conj_dual n _)
   refine Iso.trans ?_ ((GlobalTheory.T.iso_twist_detU_pow_irr_of_weight_shift n (-α) mu (addW mu (-α)) fun _ => rfl).comp (conjU n))
   refine ⟨LinearEquiv.refl _ _, fun g x => ?_⟩

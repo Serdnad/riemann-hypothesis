@@ -1,10 +1,10 @@
 module
 
-public import Formalism.HarderNarasimhan.StatementPl
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.DifferentSmulMemOfTraceIntegral
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HilbertSchmidtLowerBoundInverseDifferent
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ImportsTer
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.LatticeCoveringOfTraceDualLowerBoundStatement
+public import Formalism.HarderNarasimhan.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle175
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle031
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle157
 import Formalism.HarderNarasimhan.HarderNarasimhanProofs.DualPl
 import Formalism.HarderNarasimhan.ShiftInvariance
 import Formalism.SizeWindowBrackets.ChainSlopeWindows.ExistsNsmulMem

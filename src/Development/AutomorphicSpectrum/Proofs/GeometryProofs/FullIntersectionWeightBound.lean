@@ -1,13 +1,13 @@
 module
 
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ModelSmall
-public import Development.AutomorphicSpectrum.Definitions.DivisibilityTowers.HeckeSectionsIsotropicCommutatorPairingPower
+public import Development.AutomorphicSpectrum.Definitions.DivisibilityTowers.Bundle002
 public import Development.AutomorphicSpectrum.Definitions.DivisibilityTowers.GoodOrigin
 public import Development.AbelianVarietyTheory.Definitions.ArchimedeanThetaValues.OneAddZeta21PowSevenAddPowFourteenEqZero
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.StrictWeightGrowthBoundStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.HermitianLineShiftPropertiesStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ShiftHEqTensorConstLine
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.WeightThresholdLimitCoefficientsStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle303
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle042
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle048
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle103
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -43,7 +43,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.DefiniteFormStabilizerFiniteAwayFromP
+import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle002
 
 @[expose] public section
 

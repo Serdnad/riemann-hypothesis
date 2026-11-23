@@ -1,7 +1,7 @@
 module
 
 public import Formalism.CharacterColumnKernels.CharacterColumnKernelEqualityForm
-public import Formalism.CharacterColumnKernels.IdempotentNormalForms.GlobalConcreteOf
+public import Formalism.CharacterColumnKernels.IdempotentNormalForms.Bundle004
 public import Formalism.WachLatticeTwists.RealClassMaps.RealClassMapSecondPlace
 public import Formalism.WachLatticeTwists.RealClassMaps.RealClassMapTheorem
 public import Formalism.WachLatticeTwists.RealClassMaps.StatClassMapReal

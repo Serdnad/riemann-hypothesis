@@ -1,8 +1,8 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.HeckePairTop
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.Bundle017
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.IwDomMul
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.IwMonoidExt
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.Bundle023
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

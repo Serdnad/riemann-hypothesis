@@ -1,15 +1,15 @@
 module
 
-public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.SatakeExponents.UniformizerValuations.FrameReading.JoinType
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.UNInjective
+public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.SatakeExponents.UniformizerValuations.FrameReading.Bundle004
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1665
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsIrreducibleFixed
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ConstantTermLocallyConstant
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HkMemFixed
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.RelIndexEqCard
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle550
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle117
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle585
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SmVecTranslate
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.SatakeExponents.UniformizerValuations.FrameReading.PScFin
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.SatakeExponents.UniformizerValuations.FrameReading.PScKey
-public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.SatakeExponents.UniformizerValuations.FrameReading.PScLin
+public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.SatakeExponents.UniformizerValuations.FrameReading.Bundle005
 import GroundTheory.LocalFields.PadicLogSeries
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
@@ -48,7 +48,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DgMatOne
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1623
 import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.SatakeExponents.FiniteDiscreteFamilies.PeakCone
 
 @[expose] public section

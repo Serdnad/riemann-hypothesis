@@ -1,12 +1,12 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.FrameSymmetryIffPullback
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermBPrim
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.SabComp
+public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.Bundle018
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle024
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle008
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.GlobalSectionsRankAlgClosed
 import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermBFr
 import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermBSer
-import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermDJet
+import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle013
 import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermFunPf
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

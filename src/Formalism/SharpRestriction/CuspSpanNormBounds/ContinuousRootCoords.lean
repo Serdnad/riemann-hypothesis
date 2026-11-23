@@ -1,8 +1,8 @@
 module
 
 public import Formalism.SharpRestriction.CuspSpanNormBounds.SpanMemOfImage
-public import Formalism.SharpRestriction.CuspSpanNormBounds.StarVecMulDM
-import Formalism.SharpRestriction.CuspSpanNormBounds.DMiMulVecApply
+public import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle016
+import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle014
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -45,7 +45,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Separation.CompletelyRegular
 import Mathlib.Topology.Sheaves.Init
-import Formalism.SharpRestriction.CuspSpanNormBounds.OnePlaceEstimates
+import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle010
 
 @[expose] public section
 

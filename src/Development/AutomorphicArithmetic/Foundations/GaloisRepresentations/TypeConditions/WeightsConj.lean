@@ -45,9 +45,9 @@ import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.NonemptyEqu
 import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.HasExponentZeroIff
 import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.TrivialOnInertiaOfUnr
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.StringRepresentations.WeightsConj
-import Development.AutomorphicArithmetic.IntegralCasts.IsOpenStabOfMemNhds
+import Development.AutomorphicArithmetic.IntegralCasts.Bundle001
 import Formalism.LocalToGlobal.UnitaryNorms.IsUnitaryNormOf
-import ReciprocityTheory.NeutralLocalFields.Reciprocity
+import ReciprocityTheory.NeutralLocalFields.Bundle001
 
 @[expose] public section
 

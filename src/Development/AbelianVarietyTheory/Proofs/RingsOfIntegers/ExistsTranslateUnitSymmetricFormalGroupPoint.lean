@@ -2,25 +2,20 @@ module
 
 public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.SmallPointsSubstitutionAlgHomSinglePoint
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.WeilIsAlternatingSkewNatural
-public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.IsNilpotentOfMemKerJetTruncR
+public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.Bundle016
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsPref
 public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.RegularSectionIntegralGermUniqueScale
 public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.SurjectiveAppTopIntegralModelSquare
-import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.ValSerGermFnVal
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.TruncationFramesLocalSeries
-public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.ConstantSectionEqLimitChartPointStatement
-public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.EvalIotaSeriesEqQuadraticInversionPartialsStatement
-public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.EvalThetaSeriesMulQuadraticPartialsStatement
-public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.ExistsPowerSeriesLimitOfCompatibleJetPointsStatement
+import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.Bundle017
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle072
+public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.Bundle046
 public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.ExistsSymmetricLiftOddOrderLocalRingStatement
 import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.FormalGroupPointsOfIntegralChartSpec
-public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.GermSymmetricTranslateFibreEqModelStatement
-public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.IntegralChartFormalBiextensionGaugeBound
-import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.MvPowerSeriesSubstConstTermsLocalAlgHomSpec
-public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.SpecPowerSeriesHomExtOfJetsStatement
-public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.SymmetricLiftOrderSymmetryMultiplicativityStatement
+public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.Bundle055
+public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.Bundle037
+import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.Bundle035
 import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermDPf
-import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ThetaSwapFirstTwo
+import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle022
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -675,7 +670,7 @@ theorem exists_trUnit : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (
     have cc : ∀ p : Sm B 0, (cpt fun i => MvPowerSeries.constantCoeff (p.1 i) : Pt T.V 0 (chD C.ch)) = p.1 :=
       fun p => funext fun i => MvPowerSeries.ext fun e => by
         obtain rfl : e = 0 := Subsingleton.elim _ _
-        simp [cpt]
+        simp [_root_.GlobalTheory.PlaceInt.cpt]
     have pw : ∀ i : ℕ, FormPt C (a ^ i) fun l => MvPowerSeries.constantCoeff (((Sm.const B α hα : Sm B 0) ^ i).1 l) := by
       intro i
       induction i with

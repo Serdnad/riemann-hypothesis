@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.InstSecondCountableSub
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle105
 public import Development.AbelianVarietyTheory.Statements.CuspFrameWeights.DiscreteSpectrumKFiniteDecomposition
 import Formalism.RealPlaceAnalysis.RealPlaceTaylor.CompactHaarRightInvariantInst
 import Formalism.RealPlaceAnalysis.RealPlaceTaylor.KoszulLowersPower

@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Foundations.ChiK
-public import Development.AbelianVarietyTheory.Definitions.Foundations.IsLocallyConstantCycMod
-public import Development.AbelianVarietyTheory.Definitions.Foundations.IwSys2
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle011
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle018
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle019
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -36,11 +36,10 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AbelianVarietyTheory.Definitions.Foundations.EeProd
+import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle007
 import Development.AbelianVarietyTheory.Definitions.Foundations.ExistsRootOfIsAlgClosed
-import Development.AbelianVarietyTheory.Definitions.Foundations.Integral
-import Development.AbelianVarietyTheory.Definitions.Foundations.Mdl
-import Development.AbelianVarietyTheory.Definitions.Foundations.SumMulCoPtSbEqSumInv
+import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle003
+import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle004
 
 @[expose] public section
 

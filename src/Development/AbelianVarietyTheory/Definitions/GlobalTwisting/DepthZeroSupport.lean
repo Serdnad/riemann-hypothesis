@@ -1,9 +1,9 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.JacquetShalikaRigidity
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Brauer
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.HypothesesX
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.BoundAtTwoAndThreeForFamily
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle034
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle023
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle020
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

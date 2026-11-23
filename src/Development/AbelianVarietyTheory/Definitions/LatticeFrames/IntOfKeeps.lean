@@ -1,13 +1,13 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.MemLineIff
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.IncAdjYZeroMulVec
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle474
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.AdelicPointComponentsAtPlacesLatticesVacua
 import Development.AbelianVarietyTheory.Counterexamples.HeightSurvey.StarPurelyImaginaryEqNeg
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsNatMulSelfDualLatticeAtPlaceIntegral
-import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.IsSelfDualLatticeAtPlaceLatticeCompletion
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle192
 import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.MemHomLatticeCompletionIffSupportedMaps
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.SelfDualLatticeAtPlaceSmulIntegralMem
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle193
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.SelfDualLatticeHyperbolicLineIdealsAtPlace
 import Formalism.LocalToGlobal.BesselHermitianTheta.LemmasWeil
 import Mathlib.Algebra.Order.Floor.Extended
@@ -195,7 +195,7 @@ theorem top_line {L L'' S : HSp D} (τ : Matrix (Fin L.rank) (Fin L''.rank) D.ho
   have g4 : incA D lam * incA D lam⁻¹ = 1 := (inU lam hlam).mul_inv
   rw [RingHom.map_neg] at hti
   have hu := isU_of_norm hti (by
-    rw [RingHom.map_mul, RingHom.map_mul, RingHom.map_mul, RingHom.map_mul, RingHom.map_mul, RingHom.map_neg, cA_cA, cA_cA, cA_xi_inv, hc,
+    rw [RingHom.map_mul, RingHom.map_mul, RingHom.map_mul, RingHom.map_mul, RingHom.map_mul, RingHom.map_neg, _root_.Formalism.L2.Theta.cA_cA, _root_.Formalism.L2.Theta.cA_cA, cA_xi_inv, hc,
       alg_norm hN α.mul_inv g2 g3]
     exact (hn.mul h0).neg)
   intro a ha
@@ -221,7 +221,7 @@ theorem last_iff {V₀ W W₀ : HSp D} {ρ : ℕ} (d : HypDec W W₀ ρ) (z : Fi
     ← herm_conj V₀ y, int_conj, mul_smul]
   have e1 := herm_smul V₀ 1 m y (a • ratV z)
   rw [one_smul] at e1
-  rw [e1, Units.val_mul, Units.val_mul, RingHom.map_mul, RingHom.map_mul, cU_val, cA_cA, xiU, inU_val, cA_xi]
+  rw [e1, Units.val_mul, Units.val_mul, RingHom.map_mul, RingHom.map_mul, cU_val, _root_.Formalism.L2.Theta.cA_cA, xiU, inU_val, cA_xi]
   have e2 := α.mul_inv
   have e3 : incA D D.host.xi0 * incA D D.host.xi0⁻¹ = 1 := (xiU D).mul_inv
   refine iff_of_eq (congrArg (· ∈ _) ?_)
@@ -237,7 +237,7 @@ theorem dual_line {S S₀ : HSp D} {ρ : ℕ} (d : HypDec S S₀ ρ) {L : Lat S}
   have hb : (b : AE D) * (cA D a * p i) ∈ idAt D (· = x) := Ideal.mul_mem_left _ _ (Ideal.mul_mem_left _ _ (h1 i))
   have := (h4 i _ hb).symm.trans (hX _ hb)
   rw [Units.inv_mul_cancel_left, mul_assoc, mul_assoc, h3, mul_comm (cA D a), (mem_idAt_iff _ _).1 (id_conj ha)] at this
-  rw [h5 i a ha, ← int_conj, RingHom.map_mul, cA_cA, ← this, ← int_conj, RingHom.map_mul, cA_cA]
+  rw [h5 i a ha, ← int_conj, RingHom.map_mul, _root_.Formalism.L2.Theta.cA_cA, ← this, ← int_conj, RingHom.map_mul, _root_.Formalism.L2.Theta.cA_cA]
 
 theorem step_line {ψ : AddChar (AF D.host.F) ℂ} {σ : ℕ} {B : BesLev D (σ + 1)} {J : JacLev D (σ + 1)} {B' : BesLev D σ}
     {LV : Lat B.V} {LV₀ : Lat B.V₀} {LW : Lat J.W} {LW₀ : Lat J.W₀} {LV' : Lat B'.V} {LV₀' : Lat B'.V₀} {x : Pl D} {α m : (AE D)ˣ}

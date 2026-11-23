@@ -1,23 +1,21 @@
 module
 
-public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.HeckeLAdicCharacterDeRham
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HasPeriods
+public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.Bundle006
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle214
 public import Development.WeilBound.CoreStatements.CrystallinePeriodRings.LocTied6
-public import Development.AutomorphicArithmetic.ThetaCorrespondence.LocalComparison.LocTied6
-public import Development.AutomorphicArithmetic.ThetaCorrespondence.LocalComparison.LocTiedOf6
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.DeRhamRankLubinTateLineStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsLubinTateCharacterUnitaryStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsOpenUnitSubgroupKerStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.GaloisCharacterArtinCompatStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.GaloisOpenSubgroupLocalUnitsStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ImportsTer
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LocalCharacterFiniteExtensionStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LocalCharacterInducedTiedSixStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LocalCharacterInducedTiedStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LocalGaloisEmbeddingExtensionStatement
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.UniqueEmbeddingExtension
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.UniqueEmbeddingExtensionStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.UnramifiedCharactersDeRhamJumpZeroStatement
+public import Development.AutomorphicArithmetic.ThetaCorrespondence.LocalComparison.Bundle001
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle279
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle272
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle670
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle209
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle633
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle275
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle291
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle441
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle240
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle208
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle221
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle471
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -57,12 +55,14 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.TripleAtt
+import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle012
 
 @[expose] public section
 
 noncomputable section
-open NumberField IsDedekindDomain Neutral.B1 Formalism.ConjugateSelfDual ReciprocityTheory.Gal Formalism.L2.Host Formalism.BasicNotions Formalism.BasicNotions.Loc Formalism.WeaklyAdmissibleFiltrations
+open NumberField IsDedekindDomain
+open Neutral.B1 hiding G Dec IsPlaceOver
+open Formalism.ConjugateSelfDual ReciprocityTheory.Gal Formalism.L2.Host Formalism.BasicNotions Formalism.BasicNotions.Loc Formalism.WeaklyAdmissibleFiltrations
 open GlobalTheory.HeckeGal GlobalTheory.Pst GlobalTheory.TripleGal GlobalTheory.CompanionTheory.LTHodge
 open scoped Classical
 

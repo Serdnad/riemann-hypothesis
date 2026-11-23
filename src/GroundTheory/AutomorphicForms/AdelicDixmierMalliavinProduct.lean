@@ -3,7 +3,7 @@ module
 public import GroundTheory.AutomorphicForms.TraceFormulaConvolution
 public import GroundTheory.AutomorphicForms.HeckeAlgebra
 public import GroundTheory.AutomorphicForms.RealGroupsLie
-public import GroundTheory.AutomorphicForms.DixmierMalliavin
+public import GroundTheory.AutomorphicForms.Bundle012
 public import GroundTheory.AutomorphicForms.GKModules.Garding
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

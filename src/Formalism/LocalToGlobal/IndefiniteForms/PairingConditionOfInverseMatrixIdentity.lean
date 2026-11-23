@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalToGlobal.IndefiniteForms.IndefSide
-public import Formalism.QuotientMetricDivisors.DivIntoDualShift
+public import Formalism.QuotientMetricDivisors.Bundle004
 public import Formalism.LocalToGlobal.IndefiniteForms.IndefUse
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

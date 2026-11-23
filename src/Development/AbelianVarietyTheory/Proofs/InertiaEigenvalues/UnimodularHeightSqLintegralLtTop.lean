@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsTestRep
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.EtaleHermitianPairStructureFactsStatement
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsSubringEqOK
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IdempotentDecompositionOfIntegralityStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsIntegralOrInvIsIntegralFiniteExtUltrametricStatement
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle003
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle169
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle103
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle145
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle118
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

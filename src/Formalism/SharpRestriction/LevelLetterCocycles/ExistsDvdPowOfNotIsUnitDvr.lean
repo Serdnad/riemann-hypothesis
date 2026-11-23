@@ -1,7 +1,7 @@
 module
 
-public import Formalism.SharpRestriction.LevelLetterCocycles.InvLevCoreOfParts
-public import Formalism.SharpRestriction.LevelLetterCocycles.IsUnitOfMk
+public import Formalism.SharpRestriction.LevelLetterCocycles.Bundle036
+public import Formalism.SharpRestriction.LevelLetterCocycles.Bundle038
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

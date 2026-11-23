@@ -1,8 +1,8 @@
 module
 
 public import Development.WeilBound.CoreStatements.HodgeTatePoints.CbBase
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.CoeffEvPowOne
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.FirstPowerEqProdAt
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle010
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle019
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -51,9 +51,9 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Connected.Separation
 import Mathlib.Topology.Separation.CompletelyRegular
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.HasSubstEv
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle002
 import Std.Tactic.BVDecide.Normalize.Prop
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.ConnectionKillsSeries
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.Bundle002
 
 @[expose] public section
 

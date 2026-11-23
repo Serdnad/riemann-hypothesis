@@ -1,13 +1,13 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.IsOpenKerUnramMulTame
-public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.ExistsDoubleDescentRanksOneThreeFive
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsIsCombAt
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsOpenFix
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.IsOneCombSphLevel
+public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.Bundle022
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle376
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle380
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle406
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.PadicIsNonarchimedeanLocalField
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.EntriesWellDefined
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.FiniteQuotientCosetsScaledStandardLatticeBox
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle063
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -366,6 +366,7 @@ theorem exists_ext_of_reps : ∀ (D : D7) (c : Comm D) (v : VCom c) (B : GlobalT
     obtain rfl : d = G.s - j := by omega
     unfold wtT
     rw [dite_eq_left (by omega)]
+    rfl
   ·
     intro y
     unfold wtT

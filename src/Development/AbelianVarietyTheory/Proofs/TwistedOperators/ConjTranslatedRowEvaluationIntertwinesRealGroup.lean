@@ -1,12 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.TensTInner
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle231
 public import Formalism.LocalToGlobal.IndefiniteReal.LinksLemmas
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.AdelicUnitaryHaarBiInvariantStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.FiniteAdelicUnitaryCongruenceTopologyStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.RationalUnitaryPointsDiscreteFundamentalDomainStatement
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle106
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle097
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle107
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.AdelicIdentificationRespectsRealFinite
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.TranslatedRowEvaluationSquareIntegrableNorm
 import Formalism.LocalToGlobal.IndefiniteReal.SchurOrthogonality
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

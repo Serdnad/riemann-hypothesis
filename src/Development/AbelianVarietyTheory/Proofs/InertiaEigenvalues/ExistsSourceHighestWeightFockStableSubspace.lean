@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsKHwMap
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle514
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -45,7 +45,7 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.BitVec
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.ParamsEx
+import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle022
 
 @[expose] public section
 

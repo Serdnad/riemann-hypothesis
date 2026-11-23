@@ -1,8 +1,8 @@
 module
 
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.SatakeExponents.UniformizerValuations.BadEx2
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsBallSubset
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.StableTwistedOrbitalIntegralIntegralNormCongruen
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1784
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1826
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.HasSatakeGLOfIsSatVecGL
 import GroundTheory.LocalFields.PadicLogSeries
 import Mathlib.Algebra.Order.Floor.Extended

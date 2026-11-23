@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsTjCorrDiagModel
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AbelianSchemeCardKernelEqNormPowStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CardTorsionBySetPowOfDivisibleNumberField
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EpsZeroPtEpsScalePt
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsPowEqOfIsAlgClosed
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle019
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3373
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle020
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle622
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3386
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RemainderTermSummable
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

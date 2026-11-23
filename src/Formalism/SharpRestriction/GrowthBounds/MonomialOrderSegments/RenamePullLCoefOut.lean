@@ -3,8 +3,8 @@ module
 public import Formalism.SharpRestriction.GrowthBounds.MonomialOrderSegments.MonomialMemPolKSg
 public import Mathlib.CategoryTheory.Category.Basic
 public import Mathlib.Data.FunLike.Fintype
-import Formalism.SharpRestriction.GrowthBounds.MonomialOrderSegments.IntegralMonomial
-import Formalism.SharpRestriction.GrowthBounds.MonomialOrderSegments.SubstitutionXFirstEmbedding
+import Formalism.SharpRestriction.GrowthBounds.MonomialOrderSegments.Bundle002
+import Formalism.SharpRestriction.GrowthBounds.MonomialOrderSegments.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

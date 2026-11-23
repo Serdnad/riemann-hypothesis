@@ -1,7 +1,7 @@
 module
 
 public import Development.WeilBound.RepresentationTheoryGL.GenericUnitaryGL.ComplementarySeries.Complementary
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.SesquilinearFlipConj
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle034
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

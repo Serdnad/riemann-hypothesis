@@ -1,0 +1,234 @@
+module
+
+public import Formalism.HarderNarasimhan.Bundle002
+public import Formalism.QuotientMetricDivisors.Statement
+public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.DiscreteSpanOfLinIndep
+public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.DualPl
+import Formalism.HarderNarasimhan.HarderNarasimhanProofs.Bundle004
+public import Formalism.QuotientMetricDivisors.Bundle002
+public import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.TheoremDivIneq
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Algebra.Order.Star.Real
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Henselian
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.RegularLocalRing.Defs
+import Mathlib.RingTheory.SimpleRing.Principal
+import Mathlib.Tactic.Basify
+import Mathlib.Tactic.ENatToNat
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Linter.HaveILetI
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Topology.Sheaves.Init
+import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.ConjugateWeightLatticeOfGeneral
+import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.RatHerm
+import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.ReductionSecondStep
+public import Mathlib.NumberTheory.NumberField.Basic
+
+@[expose] public section
+
+section
+
+open Module NumberField
+
+noncomputable section
+
+namespace Formalism.DivisionValues
+
+theorem dual_lattice_measure :
+    ∀ (K : Type) [Field K] [NumberField K] [StarRing K]
+      [_root_.NumberField.IsTotallyComplex K] (D : ℕ), 0 < D →
+      ∀ X : InfinitePlace K → Matrix (Fin D) (Fin D) ℂ, (∀ v, IsUnit (X v).det) →
+      ∀ R : Submodule (𝓞 K) (Fin D → K), Submodule.IsFullLattice K R →
+        Formalism.HN.muDef (Pi.basisFun K (Fin D)).dualBasis
+          (Formalism.HN.dualFrame X) (Formalism.HN.dualLat R) = lcv X R / D := by
+  intro K _ _ _ _ D hD X hX R hR
+  have hFG : R.FG := hR.toIsLattice.fg
+  have hsp : Submodule.span K (R : Set (Fin D → K)) = ⊤ := by
+    letI : Submodule.IsFullLattice K R := hR
+    exact Submodule.IsFullLattice.span_eq_top
+  obtain ⟨hdFG, hdsp, -, hsize, -⟩ :=
+    Formalism.HN.dual_polygon_identity K (Fin D → K) (Fin D) (Pi.basisFun K (Fin D)) X hX R hFG hsp
+  have hdX : ∀ v, IsUnit (Formalism.HN.dualFrame X v).det := by
+    intro v
+    apply Matrix.isUnit_nonsing_inv_det
+    rw [Matrix.det_transpose]
+    exact hX v
+  have hne : Formalism.HN.dualLat R ≠ ⊥ := by
+    intro h
+    rw [h, Submodule.bot_coe, Submodule.span_zero_singleton] at hdsp
+    have hmem : (Pi.basisFun K (Fin D)).dualBasis ⟨0, hD⟩ ∈ (⊤ : Submodule K _) := Submodule.mem_top
+    rw [← hdsp, Submodule.mem_bot] at hmem
+    exact (Pi.basisFun K (Fin D)).dualBasis.ne_zero _ hmem
+  have hmu := (Formalism.HN.size_maximal_slope K (Module.Dual K (Fin D → K)) (Fin D) (Pi.basisFun K (Fin D)).dualBasis
+    (Formalism.HN.dualFrame X) hdX (Formalism.HN.dualLat R) hdFG hne).2.1
+  have hht := (Formalism.HN.place_lattice_structure K (Fin D → K) (Fin D) (Pi.basisFun K (Fin D)) X hX R hFG).2.2
+  have hrk : Formalism.HN.rkK R = D := by
+    unfold Formalism.HN.rkK
+    erw [hsp]
+    simp
+  have hfr := Formalism.HN.sizeMu_finrank_eq K
+  have hn : (0 : ℝ) < (Formalism.HN.nPl K : ℝ) := by
+    have h0 : 0 < Module.finrank ℚ K := Module.finrank_pos
+    have : 0 < Formalism.HN.nPl K := by omega
+    exact_mod_cast this
+  have hDr : (0 : ℝ) < (D : ℝ) := by exact_mod_cast hD
+  rw [hmu, hsize, Real.log_inv, Formalism.HN.size, Real.log_rpow hht, hrk]
+  unfold Formalism.DivisionValues.lcv
+  rw [hfr]
+  push_cast
+  field_simp
+
+end Formalism.DivisionValues
+end
+end
+
+section
+
+open Module NumberField IsDedekindDomain
+open scoped Matrix ComplexOrder InnerProductSpace
+
+noncomputable section
+
+namespace Formalism.DivisionValues
+
+namespace DivisorInequalityBounds
+
+end DivisorInequalityBounds
+
+namespace DivisorInequalityBounds
+
+theorem eKaux (C0 f N La m L e : ℝ) (hC0 : 1 ≤ C0) (hf : 1 ≤ f) (hN : 1 ≤ N)
+    (h : e ≤ C0 * (f * N ^ 2 * La + f * m ^ 3 * N ^ 2 * L)) :
+    e ≤ C0 * (f * N ^ 2 * (La + 1) + f * m ^ 3 * N ^ 2 * L) := by
+  refine le_trans h (mul_le_mul_of_nonneg_left ?_ (by linarith))
+  have h0 : 0 ≤ f * N ^ 2 := by positivity
+  have h1 : f * N ^ 2 * (La + 1) = f * N ^ 2 * La + f * N ^ 2 := by ring
+  linarith
+
+theorem recAux (X B0 Nc m C0 ce Eb lx2 A : ℝ) (hX : 0 < X) (hNc : 0 ≤ Nc)
+    (hC0 : 1 ≤ C0) (hce : C0 ≤ ce) (hl : 0 ≤ lx2) (hEb : Eb ≤ ce * m * (X * B0 + lx2 * Nc)) :
+    0 ≤ lx2 * Nc / X ∧ X ≤ ce / C0 * X ∧ Eb ≤ C0 * m * (ce / C0 * X) * (B0 + lx2 * Nc / X) ∧
+    (50 * C0 + 10) * (A + m * (B0 + lx2 * Nc / X) * (ce / C0 * X)) =
+      (50 * C0 + 10) * A + (50 * C0 + 10) * (ce / C0) * (m * (X * B0 + lx2 * Nc)) := by
+  have hC : 0 < C0 := by linarith
+  refine ⟨by positivity, ?_, ?_, ?_⟩
+  · have : 1 ≤ ce / C0 := by rw [le_div_iff₀ hC]; linarith
+    nlinarith
+  · have : C0 * m * (ce / C0 * X) * (B0 + lx2 * Nc / X) = ce * m * (X * B0 + lx2 * Nc) := by
+      field_simp
+    rw [this]; exact hEb
+  · field_simp
+
+theorem constant_factor_le_sixty (C0 ce : ℝ) (hC0 : 1 ≤ C0) (hce : 0 ≤ ce) : (50 * C0 + 10) * (ce / C0) ≤ 60 * ce := by
+  have hC : 0 < C0 := by linarith
+  rw [mul_div_assoc', div_le_iff₀ hC]
+  nlinarith [mul_nonneg hce (sub_nonneg.2 hC0)]
+
+theorem divIneqRecord_of (H : TheoremDivIneq) : DivIneqRecord := by
+  intro J Pl _ _ TT _ muC mu0 Fo hu hP mlam logT hK aT phν nν fa
+    x eps L b a rd La B0 Nc m f k N S tt η w'' b' lam0 C0 ce Lpass Eb e6 eP logOm eK pq w eE δ
+  intro s1 s2 s3 s4 s5 s6 s7 s8 z1 z2 z3 z4 z5 l1 l2 l3 l4 hB0 hNc c1 c2 c3 c4 r1 r2 r3 r4 r5 hw
+    g1 g2 p1 p2 p3 p4 p5 p6 p7 p8 p9 p10 hC0 hce e1 e2 e3 e4 e5 e6' e7
+  have hX : 0 < x ^ eps := Real.rpow_pos_of_pos (by linarith only [z1]) _
+  have hb : 0 < b := by rw [z4]; exact Real.exp_pos _
+  have hB0' : 0 ≤ B0 := by rw [hB0]; positivity
+  obtain ⟨t0, t1, t2, t3⟩ := recAux (x ^ eps) B0 Nc m C0 ce Eb ((Real.log x) ^ 2) ((TT.card : ℝ) * a * La) hX hNc hC0 hce (sq_nonneg _) e2
+  have hc : 0 < 50 * C0 + 10 := by linarith only [hC0]
+  have hC00 : 0 ≤ C0 := by linarith only [hC0]
+  have p2' : N ^ 2 * 1 ≤ b := by rw [mul_one]; exact p2
+  have key := H J Pl TT muC mu0 Fo hu hP mlam logT hK aT phν nν fa
+    x eps L b a rd La B0 ((Real.log x) ^ 2 * Nc / x ^ eps) (ce / C0 * x ^ eps) m f k N S tt η w'' b' 1 (m * lam0) C0
+    Lpass Eb e6 eP logOm eK pq w eE δ
+    s1 s2 s3 s4 s5 s6 s7 s8 z1 z2 z3 z4 z5 l1 l2 l3 l4 hB0 t0 t1 c1 c2 c3 c4 r1 r2 r3 r4 r5 le_rfl hw
+    g1 g2 p1 p2' p3 p4 p5 p6 p7 p8 p9 p10 hC00 e1 t2
+    (fun j => eKaux C0 f N La m L (eK j) hC0 c4 r2 (e3 j))
+    e4 e5 e6' e7
+  rw [t3] at key
+  have hfac : (50 * C0 + 10) * (ce / C0) ≤ 60 * ce := constant_factor_le_sixty C0 ce hC0 (by linarith only [hC0, hce])
+  have hnn : 0 ≤ m * (x ^ eps * B0 + (Real.log x) ^ 2 * Nc) :=
+    mul_nonneg (by linarith only [c3]) (add_nonneg (mul_nonneg hX.le hB0') (mul_nonneg (sq_nonneg _) hNc))
+  have hmul := mul_le_mul_of_nonneg_right hfac hnn
+  linarith only [key, hmul]
+
+end DivisorInequalityBounds
+
+theorem divisor_inequality_explicit : DivIneqRecord := DivisorInequalityBounds.divIneqRecord_of divisor_inequality
+
+section Rho
+
+open Formalism.DivisionValues.RationalHermitianForm Formalism.DivisionValues.StepBAux Formalism.DivisionValues.ConjugateWeightGram
+
+namespace DivisorInequalityBounds
+
+section LocalW
+
+variable {K : Type} [Field K] [NumberField K] [StarRing K]
+
+end LocalW
+
+end DivisorInequalityBounds
+
+namespace DivisorInequalityBounds
+
+end DivisorInequalityBounds
+
+end Rho
+
+namespace DivisorInequalityBounds
+
+end DivisorInequalityBounds
+
+
+namespace DivisorInequalityBounds
+
+end DivisorInequalityBounds
+
+namespace DivisorInequalityBounds
+
+end DivisorInequalityBounds
+
+namespace DivisorInequalityBounds
+
+end DivisorInequalityBounds
+
+namespace DivisorInequalityBounds
+
+end DivisorInequalityBounds
+
+end Formalism.DivisionValues
+end
+end

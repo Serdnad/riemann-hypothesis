@@ -1,10 +1,10 @@
 module
 
-public import Development.AutomorphicArithmetic.CharacterBoxes.PairGood
-public import Formalism.GL3MeanSquares.SecondEstimateOfIntervalHypothesis
-public import Development.AutomorphicArithmetic.MeanSquareBounds.SmallZeros
+public import Development.AutomorphicArithmetic.CharacterBoxes.Bundle002
+public import Formalism.GL3MeanSquares.Bundle001
+public import Development.AutomorphicArithmetic.MeanSquareBounds.Bundle001
 public import Development.AutomorphicArithmetic.MeanSquareBounds.Thin
-public import Development.AutomorphicArithmetic.MeanSquareBounds.realCond
+public import Development.AutomorphicArithmetic.MeanSquareBounds.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -47,7 +47,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 public import Development.AutomorphicArithmetic.MeanSquareBounds.PrimeSetTwoBounds
-import Formalism.GL3MeanSquares.GenusMeanAsymptotics.JacobiCharacterSums.MeanSquareHypWIff
+import Formalism.GL3MeanSquares.GenusMeanAsymptotics.JacobiCharacterSums.Bundle006
 
 @[expose] public section
 

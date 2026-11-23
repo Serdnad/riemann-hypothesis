@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LogVandermondeBounds.FinrankFiberSumZero
+public import Formalism.LogVandermondeBounds.Bundle001
 public import Mathlib.CategoryTheory.Category.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.PointHeight
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle004
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IrreducibleOfIrreducibleMap
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -53,11 +53,11 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.SemistableReduction.AevalIsWeightedHomogeneous
-public import ReciprocityTheory.SemistableReduction.LagrangeIdealLiftsFact
-public import ReciprocityTheory.SemistableReduction.LogNormCoeffSubLeBlockSphereLogMean
+public import ReciprocityTheory.SemistableReduction.Bundle005
+public import ReciprocityTheory.SemistableReduction.Bundle014
+public import ReciprocityTheory.SemistableReduction.Bundle013
 import ReciprocityTheory.SemistableReduction.RestBlockSubstIsMultiHomogeneous
-public import ReciprocityTheory.SemistableReduction.TorusL2CauchyInequality
+public import ReciprocityTheory.SemistableReduction.Bundle027
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AbelianVarietyTheory.Definitions.Divisors.MemSubPtsCutBaseChangeIff
 public import Mathlib.NumberTheory.NumberField.ProductFormula

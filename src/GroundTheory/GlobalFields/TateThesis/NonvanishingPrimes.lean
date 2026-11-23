@@ -3,7 +3,7 @@ module
 public import GroundTheory.GlobalFields.IdeleGroups.IdeleNorms
 public import GroundTheory.GlobalFields.TateThesis.HeckeLFunction
 public import GroundTheory.GlobalFields.LocalFieldAtPlace
-public import GroundTheory.GlobalFields.TateThesis.HeckeTheoremScaling
+public import GroundTheory.GlobalFields.TateThesis.Bundle011
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

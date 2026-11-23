@@ -3,15 +3,15 @@ module
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.IsRealFam
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ValuationLeOneOfMem
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.PadicIsNonarchimedeanLocalField
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsSumPureTensorOfIsTensorDepthStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.FlatTensorMovedTensorFinsetSumLinearStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.FlippedFiniteTensorLocalIdentityStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IdempotentSumOverFinitePlacesUnique
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.LastRowColumnProductDataHaveVectorsStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.LocalFlipStageIsTensorPlaceDepth
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RealLineOfPeriodsOnLine
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.UnfoldedProductFunctionEqOfLocalIdentityStatement
-import Development.AutomorphicArithmetic.CyclotomicBounds.RamifiedDiscriminants.FunKit
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle058
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle067
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle699
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle587
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle708
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle664
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle469
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle701
+import Development.AutomorphicArithmetic.CyclotomicBounds.RamifiedDiscriminants.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -47,7 +47,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RangeSndRel
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle468
 
 @[expose] public section
 

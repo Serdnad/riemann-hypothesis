@@ -2,13 +2,13 @@ module
 
 public import Formalism.LocalToGlobal.Divisibility.CoefModLemmas
 public import Formalism.LocalToGlobal.Columns.AlgebraMapMemMaximalIdealPowIff
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SpanLocalIff
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle151
 import Formalism.GradedWeylDivisibility.DualWeylDominanceOf
 import Formalism.GradedWeylDivisibility.FinalC
 import Formalism.GradedWeylDivisibility.FinalD
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LClosedeqLemmas
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LDlatLemmas
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.NablaLTwist
+public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle002
+import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle011
+public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle003
 public import Formalism.LocalRingCardinality.RankBoundMonotoneInDimension
 public import Formalism.LocalToGlobal.Columns.CoefficientsModP.LatticeBasisExistsHolds
 public import Formalism.LocalToGlobal.Columns.PolyFnLemmas

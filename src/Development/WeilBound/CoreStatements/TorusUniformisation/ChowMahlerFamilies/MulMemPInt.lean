@@ -1,9 +1,9 @@
 module
 
-public import Development.WeilBound.CoreStatements.TorusUniformisation.ChowMahlerFamilies.IsDerAt0
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.RaCoord
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.RaCpaf
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.CntCoord
+public import Development.WeilBound.CoreStatements.TorusUniformisation.ChowMahlerFamilies.Bundle025
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle015
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle012
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle021
 import Development.WeilBound.CoreStatements.HodgeTatePoints.FormMemLin
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -47,7 +47,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import ReciprocityTheory.DualLattices.ProdDvdOfIso
-import ReciprocityTheory.DualLattices.SumValCoord
+import ReciprocityTheory.DualLattices.Bundle012
 
 @[expose] public section
 

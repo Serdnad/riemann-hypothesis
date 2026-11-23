@@ -1,13 +1,13 @@
 module
 
-public import Formalism.LocalToGlobal.CharacterGerms.SelfConjugateRowData
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle029
 public import Mathlib.NumberTheory.NumberField.Discriminant.Defs
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PlaceDivisors.StChartF
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ImportsRestBis
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ImportsRestTer
-public import Formalism.LocalToGlobal.CharacterGerms.CharacterHypothesisUnramified
-import Formalism.LocalToGlobal.CharacterGerms.RowTiePEmbIntSt
-public import Formalism.LocalToGlobal.CharacterGerms.RowTieUpFBrFin
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PlaceDivisors.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2413
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle841
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle031
+import Formalism.LocalToGlobal.CharacterGerms.Bundle030
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle036
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -47,7 +47,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Development.AutomorphicArithmetic.OrbitLabellings.RowDefs
-import Formalism.LocalToGlobal.CharacterGerms.ContentZeroAt
+import Formalism.LocalToGlobal.CharacterGerms.Bundle005
 
 @[expose] public section
 

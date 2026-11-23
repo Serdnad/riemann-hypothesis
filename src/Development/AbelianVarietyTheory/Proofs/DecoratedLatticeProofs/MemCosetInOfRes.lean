@@ -1,21 +1,21 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsTwIffCanonEq
-public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.LevChiEqOne
-public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.BelowFiniteNonempty
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.FrsFBaseEqSelf
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.LatEqOfCarries
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle027
+public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.Bundle018
+public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.Bundle008
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle455
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle115
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.PsiAtTransport
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ReferenceTupleOffPrimesEmpty
-import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.NormalFormAtPrime
-import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.RationalFractionsRepresentPrimeNormQuotient
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle160
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle061
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle070
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsMemberStepCharts
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ProdAbsNormDivsDvd
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle278
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.CouplingCosetsRightTranslateInFramesTypePrime
 import Development.AbelianVarietyTheory.Proofs.SatakeParameters.MemberRepresentativeMovedAtTwistEqTupleFrames
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.SameCosetOfMemCosetIn
-public import Formalism.LocalToGlobal.Columns.FixEColLevSym
-import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.KerEquivFr
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle307
+public import Formalism.LocalToGlobal.Columns.Bundle023
+import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -85,7 +85,7 @@ theorem normal_rep {G D A : Type} [Group G] [MulAction G D] (f : D → A) (pref 
 
 section Local
 
-open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.HermitianLatticesTheory Formalism.L2.Col Formalism.L2.DIV Formalism.L2.Ker GlobalTheory.Mem GlobalTheory.Mem.Col2
+open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.HermitianLatticesTheory _root_.Formalism.L2.Col Formalism.L2.DIV Formalism.L2.Ker GlobalTheory.Mem GlobalTheory.Mem.Col2
 open scoped Classical
 
 section Vec
@@ -247,7 +247,7 @@ end Local
 
 section True
 
-open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.HermitianLatticesTheory Formalism.L2.Col Formalism.L2.DIV Formalism.L2.Ker GlobalTheory.Mem GlobalTheory.Mem.Col2 GlobalTheory.Mem.Col2.TC GlobalTheory.AdForm
+open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.HermitianLatticesTheory _root_.Formalism.L2.Col Formalism.L2.DIV Formalism.L2.Ker GlobalTheory.Mem GlobalTheory.Mem.Col2 GlobalTheory.Mem.Col2.TC GlobalTheory.AdForm
 open scoped Classical
 attribute [local instance] GlobalTheory.Mem.Col2.starE
 

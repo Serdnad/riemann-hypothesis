@@ -4,7 +4,7 @@ public import Formalism.DropLevelBounds.Statement
 public import Mathlib.CategoryTheory.Category.Basic
 public import Mathlib.RingTheory.MvPolynomial.WeightedHomogeneous
 public import Mathlib.RingTheory.MvPowerSeries.Rename
-public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.LeWeightOfCoeffPow
+public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.Bundle010
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

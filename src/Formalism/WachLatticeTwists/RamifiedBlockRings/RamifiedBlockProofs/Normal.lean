@@ -52,7 +52,7 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Formalism.CharacterColumnKernels.Statement
+import Formalism.CharacterColumnKernels.Bundle001
 import Formalism.TruncatedSeriesCounting.LemmaDetPoly
 public import Mathlib.Algebra.Module.FinitePresentation
 public import Mathlib.LinearAlgebra.Matrix.Basis

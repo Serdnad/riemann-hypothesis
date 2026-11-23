@@ -1,8 +1,8 @@
 module
 
-public import Formalism.HermitianLattices.StatementMass
+public import Formalism.HermitianLattices.Bundle003
 public import Formalism.LocalToGlobal.Columns.DecoFin
-public import Formalism.LogVandermondeBounds.LogRatioLowerBound
+public import Formalism.LogVandermondeBounds.Bundle001
 import Formalism.HermitianLattices.FinalNeighbourConstruct
 public import Formalism.LocalToGlobal.Columns.HeckeSpCount
 import Mathlib.Algebra.Order.Floor.Extended
@@ -50,8 +50,8 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import Formalism.LocalToGlobal.Columns.CoefCol
-public import Formalism.LocalToGlobal.Columns.ColForms
+public import Formalism.LocalToGlobal.Columns.Bundle006
+public import Formalism.LocalToGlobal.Columns.Bundle007
 
 @[expose] public section
 

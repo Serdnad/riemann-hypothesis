@@ -43,8 +43,8 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Formalism.FormalDegreeBessel.StatementWR
-import Formalism.HermitianCurvature.StatementI
-import Formalism.RealPlaceAnalysis.StatementA
+import Formalism.HermitianCurvature.Bundle001
+import Formalism.RealPlaceAnalysis.Bundle001
 
 @[expose] public section
 

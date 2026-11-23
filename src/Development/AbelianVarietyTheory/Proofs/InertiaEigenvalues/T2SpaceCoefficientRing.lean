@@ -1,10 +1,10 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsIntSubMem
-public import Development.AbelianVarietyTheory.BlockTheory.NonGaloisCusps.BlockComplementLattice
-public import Development.AbelianVarietyTheory.BlockTheory.NonGaloisCusps.RepresentationOverSumChar
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.GaloisSideTwistedSelmerAuxiliaryPrimes
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NonemptyLinearEquivOfCharpolyEq
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle323
+public import Development.AbelianVarietyTheory.BlockTheory.NonGaloisCusps.Bundle007
+public import Development.AbelianVarietyTheory.BlockTheory.NonGaloisCusps.Bundle005
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle014
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle035
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

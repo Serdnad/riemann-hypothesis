@@ -2,10 +2,8 @@ module
 
 public import Development.WeilBound.CoreStatements.MultihomogeneousSquares.AntisymmetryFibreSquares
 public import Development.WeilBound.CoreStatements.JacobiBlockDeterminants.DetInvNe
-public import Development.WeilBound.CoreStatements.JacobiBlockDeterminants.JacobiBlocks
-public import Development.WeilBound.CoreStatements.JacobiBlockDeterminants.ValDetFac
-public import Development.WeilBound.CoreStatements.MultihomogeneousSquares.BlockDiagMinorNeZero
-public import Development.WeilBound.CoreStatements.MultihomogeneousSquares.IsValueAtValAtOfRegAt
+public import Development.WeilBound.CoreStatements.JacobiBlockDeterminants.Bundle001
+public import Development.WeilBound.CoreStatements.MultihomogeneousSquares.Bundle001
 public import Development.WeilBound.CoreStatements.MultihomogeneousSquares.SameOrbitTrans
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

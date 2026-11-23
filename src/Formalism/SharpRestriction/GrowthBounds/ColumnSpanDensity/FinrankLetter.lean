@@ -1,9 +1,9 @@
 module
 
-public import Formalism.PolynomialDimension.WeylDim
-public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.MeanDefs
-public import Formalism.PolynomialDimension.MultinomialDepth.WeylDimPosOfAntitone
-public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.FinrankTensor
+public import Formalism.PolynomialDimension.Bundle001
+public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.Bundle003
+public import Formalism.PolynomialDimension.MultinomialDepth.Bundle001
+public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

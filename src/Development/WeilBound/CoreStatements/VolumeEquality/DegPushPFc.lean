@@ -1,10 +1,10 @@
 module
 
 public import Development.WeilBound.CoreStatements.VolumeEquality.DegPushDefs
-public import Development.WeilBound.CoreStatements.VolumeEquality.DegPushPFb
-public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.Assembly
+public import Development.WeilBound.CoreStatements.VolumeEquality.Bundle001
+public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.Bundle014
 import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.PIntNumBaseChange
-public import GroundTheory.HeightsAndTheta.Heights.WeightedHomogeneous.PConeTrdeg
+public import GroundTheory.HeightsAndTheta.Heights.WeightedHomogeneous.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -203,7 +203,7 @@ theorem gen_cone {Φ : Type} [Field Φ] [Algebra (MvPolynomial K Ω₁) Φ] [IsF
 open Classical in
 theorem exists_genFibre {y : (Σ b, ι b) → Ω₁} (y' : (Σ b, ι' b) → Ω) (hb : Birational y) (hne : ∀ k, ∃ j, y ⟨k, j⟩ ≠ 0) :
     ∃ G : GenFibre inlV (mCoordIdeal (joinPt (fun x => algebraMap Ω₁ Ω (y x)) y')), ∀ (r : ℕ) (N : Fin r → K' → ℤ),
-      intNum G.Φ (fibreIdeal Sum.inl G) (fun j => fibreDeg Sum.inl (Sum.elim (0 : K → ℤ) (N j))) = inum Ω₁ y' N := by
+      intNum G.Φ (ReciprocityTheory.ChartRestriction.G.AI.I4.fibreIdeal Sum.inl G) (fun j => fibreDeg Sum.inl (Sum.elim (0 : K → ℤ) (N j))) = inum Ω₁ y' N := by
   let B := MvPolynomial K' Ω
   let Φ := FractionRing (MvPolynomial K Ω₁)
   let Φ' := FractionRing (MvPolynomial K B)
@@ -264,7 +264,7 @@ theorem exists_genFibre {y : (Σ b, ι b) → Ω₁} (y' : (Σ b, ι' b) → Ω)
     rw [← hbc]
     congr 1
     ext f
-    simp only [Ideal.mem_comap, fibreIdeal, RingHom.mem_ker, MvPolynomial.aeval_rename]
+    simp only [Ideal.mem_comap, ReciprocityTheory.ChartRestriction.G.AI.I4.fibreIdeal, RingHom.mem_ker, MvPolynomial.aeval_rename]
     rw [MvPolynomial.aeval_eq_eval₂Hom]
     congr! 3
     funext s

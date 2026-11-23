@@ -2,7 +2,7 @@ module
 
 public import Development.AutomorphicArithmetic.CommutativeAlgebra.EtaleCohomology.IsChart
 public import Development.AutomorphicArithmetic.CommutativeAlgebra.ExistsSpecializationOfEvalNeZero
-public import Development.AutomorphicArithmetic.CommutativeAlgebra.SpecializationTensorRingHomProperties
+public import Development.AutomorphicArithmetic.CommutativeAlgebra.Bundle006
 public import Development.AutomorphicArithmetic.CommutativeAlgebra.TensorDedekindLocalUniformizer
 public import GroundTheory.FunctionField.PlaceBridge
 import Mathlib.Algebra.Order.Floor.Extended

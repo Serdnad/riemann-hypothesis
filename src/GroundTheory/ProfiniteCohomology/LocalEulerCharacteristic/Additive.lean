@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.AdditiveDefs
+public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.Bundle001
 public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.AdditiveSnake
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

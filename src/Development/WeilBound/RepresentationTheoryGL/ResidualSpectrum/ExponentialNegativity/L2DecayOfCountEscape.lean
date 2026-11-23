@@ -2,7 +2,7 @@ module
 
 public import GroundTheory.AutomorphicForms.AutomorphicFormSpaces.ConstantTerm
 public import GroundTheory.AutomorphicForms.CuspidalDiscreteness.CuspFormsDiff
-public import GroundTheory.AutomorphicForms.ReductionMeasure
+public import GroundTheory.AutomorphicForms.Bundle012
 public import GroundTheory.AutomorphicForms.ReductionSiegel
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

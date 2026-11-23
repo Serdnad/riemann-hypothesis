@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsHolRepOfIsTau
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle193
 public import Mathlib.LinearAlgebra.Matrix.Permutation
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FockPolynomialActionOneMulAdjoint
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FsubMinorMinus

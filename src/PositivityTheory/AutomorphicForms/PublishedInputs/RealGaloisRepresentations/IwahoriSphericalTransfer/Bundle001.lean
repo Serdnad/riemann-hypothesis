@@ -1,0 +1,401 @@
+module
+
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.ExistsNotCongPow
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.FiniteDimensionalWdSpace
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.Bundle004
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.Bundle005
+public import Mathlib.NumberTheory.NumberField.Discriminant.Defs
+public import Mathlib.RingTheory.DedekindDomain.AdicValuation.Valuation
+public import ReciprocityTheory.GaloisValuations.Global
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsContinuousPadic
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle133
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle594
+public import Formalism.SharpRestriction.LevelLetterCocycles.ExistsInertiaCharpolyFactorOfTameType
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle324
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle138
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle149
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+public import Mathlib.Algebra.Polynomial.SpecificDegree
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+public import Mathlib.LinearAlgebra.Matrix.Charpoly.Univ
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Linter.HaveILetI
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Topology.Sheaves.Init
+import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.LocalPrimeGaloisActionPeriodT
+public import Mathlib.Topology.Algebra.MvPolynomial
+import Mathlib.Topology.Connected.Separation
+import Mathlib.Topology.MetricSpace.Ultra.TotallySeparated
+import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.NonemptyEquivOfRangeEq
+import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.HasExponentZeroIff
+import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.TrivialOnInertiaOfUnr
+import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.BcDefs
+import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.Newform
+import Development.AutomorphicArithmetic.AutomorphicVarieties.PublishedTheorems.Bundle001
+import Development.AutomorphicArithmetic.IntegralCasts.Bundle001
+import Formalism.LocalRingCardinality.SpanPowerMembership.Bundle001
+import Formalism.LocalToGlobal.UnitaryNorms.IsUnitaryNormOf
+import Formalism.SharpRestriction.LevelLetterCocycles.DataNLoc
+import Formalism.SharpRestriction.LevelLetterCocycles.LocCoh
+import PositivityTheory.AutomorphicForms.PublishedInputs.RealGaloisRepresentations.IwahoriSphericalTransfer.FinrankAdjoinSqrtNegOne
+import ReciprocityTheory.NeutralLocalFields.Bundle001
+
+@[expose] public section
+
+section
+
+noncomputable section
+
+open NumberField IsDedekindDomain Formalism.L2.Host Formalism.ConjugateSelfDual ReciprocityTheory.Gal Formalism.BasicNotions Formalism.BasicNotions.Loc Formalism.MainNotions.N
+open GlobalTheory.CuspRep GlobalTheory.WeilDeligne GlobalTheory.Pst GlobalTheory.LocLanglands GlobalTheory.HeckeGal GlobalTheory.LocGL GlobalTheory.GalOfCusp UpperTheory.V UpperTheory.V.Af UpperTheory.V.Published UpperTheory.V.Af.Bc GlobalTheory.RealGal
+open Polynomial
+
+attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
+
+namespace GlobalTheory.SatFrobLit
+
+variable {E Ω : Type} [Field E] [NumberField E] [Field Ω] [Algebra E Ω] [IsAlgClosure E Ω]
+  {A : ValuationSubring Ω} {w : HeightOneSpectrum (𝓞 E)} {h : IsPlaceOver A w}
+
+theorem val_inv_eq (n : ℕ) (a : ℂˣ) :
+    (((a⁻¹ * qPow w ((1 - (n : ℝ)) / 2) : ℂˣ) : ℂ)) ^ (-1 : ℤ) =
+      ((((normV w : ℕ) : ℝ) ^ (((n : ℝ) - 1) / 2) : ℝ) : ℂ) * (a : ℂ) := by
+  rw [Complex.ofReal_cpow (Nat.cast_nonneg _), zpow_neg_one, Units.val_mul, mul_inv, Units.val_inv_eq_inv_val, inv_inv,
+    coe_qPow, ← Complex.cpow_neg, mul_comm]
+  congr 2
+  push_cast
+  ring
+
+end GlobalTheory.SatFrobLit
+
+
+end
+end
+
+section
+
+open NumberField IsDedekindDomain Formalism.L2.Host Formalism.ConjugateSelfDual ReciprocityTheory.Gal Formalism.BasicNotions Formalism.BasicNotions.Loc Formalism.MainNotions.N
+open GlobalTheory.CuspRep GlobalTheory.WeilDeligne GlobalTheory.Pst GlobalTheory.LocLanglands GlobalTheory.HeckeGal GlobalTheory.LocGL GlobalTheory.GalOfCusp UpperTheory.V UpperTheory.V.Af UpperTheory.V.Published UpperTheory.V.Af.Bc GlobalTheory.RealGal
+attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
+
+namespace GlobalTheory
+
+theorem induced_embedding_extends : ∀ (F Ω : Type) [Field F] [NumberField F] [Field Ω] [Algebra F Ω] [IsAlgClosure F Ω] (K : Type) [Field K] [NumberField K] [Algebra F K] [Algebra K Ω] [IsScalarTower F K Ω] [IsAlgClosure K Ω] (l : ℕ) [Fact l.Prime] (A : ValuationSubring Ω) (O : Type) [CommRing O] [Algebra ℤ_[l] O] [TopologicalSpace O] (Bw : LocBridge l F Ω (Dec (F := F) A) O) (Bw' : LocBridge l K Ω (Dec (F := K) A) O), Bw'.Kw = Bw.Kw → Bw'.j = Bw.j → ∀ (τ : F →+* Qbar l) (LL' : FinExt l) (τ' : ↥Bw.Kw.1 →ₐ[ℚ_[l]] ↥LL'.1), IsInduced Bw τ τ' → ∃ (τK : K →+* Qbar l) (τ'' : ↥Bw'.Kw.1 →ₐ[ℚ_[l]] ↥LL'.1), τK.comp (algebraMap F K) = τ ∧ IsInduced Bw' τK τ'' := by
+  intro F Ω _ _ _ _ _ K _ _ _ _ _ _ l _ A O _ _ _ Bw Bw' hK hj τ LL' τ' hτ
+  obtain ⟨Kw', j', j_E', _, _, _, _, _, _, _, _, _, _, _⟩ := Bw'
+  dsimp only at hK hj ⊢
+  subst hK
+  subst hj
+  let ι : K →+* ↥Bw.Kw.1 :=
+    { toFun := fun x => ⟨Bw.j (algebraMap K Ω x), j_E' x⟩
+      map_one' := by ext; simp
+      map_mul' := fun x y => by ext; simp
+      map_zero' := by ext; simp
+      map_add' := fun x y => by ext; simp }
+  refine ⟨(LL'.1.val.toRingHom.comp (τ'.toRingHom.comp ι)), τ', ?_, ?_⟩
+  · ext x
+    have := hτ x
+    simp only [RingHom.coe_comp, Function.comp_apply] at this ⊢
+    rw [this]
+    have e : (ι (algebraMap F K x)) = ⟨Bw.j (algebraMap F Ω x), Bw.j_E x⟩ := by
+      apply Subtype.ext
+      simp [ι, ← IsScalarTower.algebraMap_apply]
+    simp [e]
+  · intro x
+    rfl
+
+end GlobalTheory
+end
+
+section
+
+open NumberField IsDedekindDomain Formalism.L2.Host Formalism.ConjugateSelfDual ReciprocityTheory.Gal Formalism.BasicNotions Formalism.BasicNotions.Loc Formalism.MainNotions.N
+open GlobalTheory.CuspRep GlobalTheory.WeilDeligne GlobalTheory.Pst GlobalTheory.LocLanglands GlobalTheory.HeckeGal GlobalTheory.LocGL GlobalTheory.GalOfCusp UpperTheory.V UpperTheory.V.Af UpperTheory.V.Published UpperTheory.V.Af.Bc GlobalTheory.RealGal
+attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
+
+namespace GlobalTheory.RealGal.AttResProof
+
+theorem algSat_pow (a q f : ℕ) (B : Multiset ℂˣ) :
+    algSat a (q ^ f) (B.map (· ^ f)) = (algSat a q B).map (· ^ f) := by
+  unfold algSat
+  simp only [Multiset.bind_def, Multiset.pure_def, Multiset.bind_singleton, Multiset.map_map]
+  refine Multiset.map_congr rfl fun α _ => ?_
+  simp only [Function.comp_apply, Units.val_pow_eq_pow_val, mul_pow]
+  congr 1
+  push_cast
+  rw [← Complex.ofReal_pow, Real.rpow_pow_comm (Nat.cast_nonneg q)]
+
+end GlobalTheory.RealGal.AttResProof
+end
+
+section
+
+open NumberField IsDedekindDomain Formalism.L2.Host Formalism.ConjugateSelfDual ReciprocityTheory.Gal Formalism.BasicNotions Formalism.BasicNotions.Loc Formalism.MainNotions.N
+open GlobalTheory.CuspRep GlobalTheory.WeilDeligne GlobalTheory.Pst GlobalTheory.LocLanglands GlobalTheory.HeckeGal GlobalTheory.LocGL GlobalTheory.GalOfCusp UpperTheory.V UpperTheory.V.Af UpperTheory.V.Published UpperTheory.V.Af.Bc GlobalTheory.RealGal
+attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
+
+theorem _root_.GlobalTheory.T.semisimple_iso_of_trace_eq : ∀ (Γ k : Type) [Group Γ] [Field k] [CharZero k] (n : ℕ) (r r' : Γ →* GL (Fin n) k), IsSSRep r → IsSSRep r' → (∀ s, ((r s : GL (Fin n) k) : Matrix (Fin n) (Fin n) k).trace = ((r' s : GL (Fin n) k) : Matrix (Fin n) (Fin n) k).trace) → RepIso r r' := by
+  first | exact @GlobalTheory.TraceConj.main | exact GlobalTheory.TraceConj.main | (intros; apply GlobalTheory.TraceConj.main <;> assumption)
+end
+
+section
+
+open NumberField IsDedekindDomain Formalism.L2.Host Formalism.ConjugateSelfDual ReciprocityTheory.Gal Formalism.BasicNotions Formalism.BasicNotions.Loc Formalism.MainNotions.N
+open GlobalTheory.CuspRep GlobalTheory.WeilDeligne GlobalTheory.Pst GlobalTheory.LocLanglands GlobalTheory.HeckeGal GlobalTheory.LocGL GlobalTheory.GalOfCusp UpperTheory.V UpperTheory.V.Af UpperTheory.V.Published UpperTheory.V.Af.Bc GlobalTheory.RealGal
+attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
+
+namespace GlobalTheory.IsoOfFrobFree
+
+private theorem contCoeff {K : Type} [CommRing K] [TopologicalSpace K] [IsTopologicalRing K] (n i : ℕ) :
+    Continuous fun M : Matrix (Fin n) (Fin n) K => M.charpoly.coeff i := by
+  have h : (fun M : Matrix (Fin n) (Fin n) K => M.charpoly.coeff i) =
+      fun M => MvPolynomial.eval (fun ij : Fin n × Fin n => M ij.1 ij.2)
+        ((Matrix.charpoly.univ K (Fin n)).coeff i) := by
+    funext M
+    exact (Matrix.charpoly.univ_coeff_eval₂Hom (Fin n) (RingHom.id K) (fun ij : Fin n × Fin n => M ij.1 ij.2) i).symm
+  rw [h]
+  exact (MvPolynomial.continuous_eval _).comp
+    (continuous_pi fun ij => (continuous_apply ij.2).comp (continuous_apply ij.1))
+
+theorem main : IsoOfFrob := by
+  intro F Ω _ _ _ _ _ l _ ι n r r' hr hr' hs hs' hw
+  have hD := GlobalTheory.Published.ChebotarevDegreeOne.dense (F := F) (Ω := Ω) GlobalTheory.Published.chebotarevDegreeOne'
+    (Filter.eventually_cofinite.1 hw)
+  have hc : ∀ g : G F Ω, (r g⁻¹ : Matrix (Fin n) (Fin n) (Qbar l)).charpoly =
+      (r' g⁻¹ : Matrix (Fin n) (Fin n) (Qbar l)).charpoly := by
+    intro g
+    ext i
+    have h1 : Continuous fun g : G F Ω => (r g⁻¹ : Matrix (Fin n) (Fin n) (Qbar l)).charpoly.coeff i :=
+      (contCoeff n i).comp (Units.continuous_val.comp (hr.comp continuous_inv))
+    have h2 : Continuous fun g : G F Ω => (r' g⁻¹ : Matrix (Fin n) (Fin n) (Qbar l)).charpoly.coeff i :=
+      (contCoeff n i).comp (Units.continuous_val.comp (hr'.comp continuous_inv))
+    refine congrFun (Continuous.ext_on hD h1 h2 ?_) g
+    rintro σ ⟨v, hv, -, A, hA, hσ⟩
+    obtain ⟨B, hB, hB'⟩ := not_not.1 hv
+    have h := ((hB A hA).2 σ hσ).trans ((hB' A hA).2 σ hσ).symm
+    have h' := Polynomial.map_injective ι.toRingHom ι.injective h
+    simp only [h']
+  obtain ⟨P, hP⟩ := Formalism.MainNotions.SumRepresentations.brauerNesbitt_matrix r r' hs hs' (fun g => by simpa using hc g⁻¹)
+  exact ⟨P⁻¹, fun s => by rw [hP s, inv_inv]⟩
+
+end GlobalTheory.IsoOfFrobFree
+end
+
+section
+
+open NumberField IsDedekindDomain Formalism.L2.Host Formalism.ConjugateSelfDual ReciprocityTheory.Gal Formalism.BasicNotions Formalism.BasicNotions.Loc Formalism.MainNotions.N
+open GlobalTheory.CuspRep GlobalTheory.WeilDeligne GlobalTheory.Pst GlobalTheory.LocLanglands GlobalTheory.HeckeGal GlobalTheory.LocGL GlobalTheory.GalOfCusp UpperTheory.V UpperTheory.V.Af UpperTheory.V.Published UpperTheory.V.Af.Bc GlobalTheory.RealGal
+attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
+
+namespace GlobalTheory.SqrtNegRam
+
+open Polynomial
+
+theorem valuation_natCast_eq {F : Type} [Field F] [NumberField F] {p : ℕ} (hp : p.Prime)
+    (hd : ¬ (p : ℤ) ∣ discr F) (v : HeightOneSpectrum (𝓞 F)) (hv : ((p : ℕ) : 𝓞 F) ∈ v.asIdeal) :
+    v.valuation F (p : F) = WithZero.exp (-1 : ℤ) := by
+  have h2 := GlobalTheory.LamTie.ExpCond.not_mem_sq_of_not_dvd_discr hp hd v hv
+  have e : (p : F) = algebraMap (𝓞 F) F (p : 𝓞 F) := by simp
+  rw [e, v.valuation_of_algebraMap]
+  have h0 : ((p : ℕ) : 𝓞 F) ≠ 0 := Nat.cast_ne_zero.2 hp.ne_zero
+  have hne := v.intValuation_ne_zero _ h0
+  have h1 := (v.intValuation_le_pow_iff_mem _ 1).2 (by simpa using hv)
+  have h2' := mt (v.intValuation_le_pow_iff_mem _ 2).1 h2
+  rw [← WithZero.exp_log hne] at h1 h2' ⊢
+  rw [WithZero.exp_le_exp] at h1 h2'
+  rw [WithZero.exp_inj]
+  push_cast at h1 h2'
+  omega
+
+theorem valuation_mul_ne_one {F Ω : Type} [Field F] [NumberField F] [Field Ω] [Algebra F Ω]
+    [IsAlgClosure F Ω] {p : ℕ} (hp : p.Prime) (hd : ¬ (p : ℤ) ∣ discr F) {δ : Ω}
+    (hδ : δ ^ 2 = -(p : Ω)) {v : HeightOneSpectrum (𝓞 F)} {A : ValuationSubring Ω}
+    (hv : ((p : ℕ) : 𝓞 F) ∈ v.asIdeal) (hA : IsPlaceOver A v) (y : F) (hy : y ≠ 0) :
+    A.valuation (algebraMap F Ω y * δ) ≠ 1 := by
+  intro h
+  obtain ⟨ι, hι⟩ := GlobalTheory.LocDict.exists_isLocEmb F Ω A v hA
+  have hmem : ∀ e : F, algebraMap F Ω e ∈ A ↔ v.valuation F e ≤ 1 := fun e => by
+    rw [hι, ι.commutes]; exact GlobalTheory.LocEmbExist.isIntegral_algebraMap_iff v e
+  have he : algebraMap F Ω (y ^ 2 * p) = -(algebraMap F Ω y * δ) ^ 2 := by
+    rw [mul_pow, hδ, map_mul, map_pow, map_natCast]; ring
+  have hw : A.valuation (algebraMap F Ω (y ^ 2 * p)) = 1 := by
+    rw [he, Valuation.map_neg, map_pow, h, one_pow]
+  have h1 : v.valuation F (y ^ 2 * p) ≤ 1 := (hmem _).1 ((A.valuation_le_one_iff _).1 hw.le)
+  have h2 : v.valuation F (y ^ 2 * p)⁻¹ ≤ 1 :=
+    (hmem _).1 ((A.valuation_le_one_iff _).1 (by rw [map_inv₀, map_inv₀, hw, inv_one]))
+  have hy0 : v.valuation F y ≠ 0 := (Valuation.ne_zero_iff _).2 hy
+  rw [map_inv₀] at h2
+  rw [map_mul, map_pow, valuation_natCast_eq hp hd v hv, ← WithZero.exp_log hy0,
+    ← WithZero.exp_nsmul, ← WithZero.exp_add] at h1 h2
+  rw [← WithZero.exp_neg, ← WithZero.exp_zero, WithZero.exp_le_exp] at h2
+  rw [← WithZero.exp_zero, WithZero.exp_le_exp] at h1
+  rw [nsmul_eq_mul] at h1 h2
+  push_cast at h1 h2
+  omega
+
+end GlobalTheory.SqrtNegRam
+
+namespace GlobalTheory.SqrtNegRam
+
+open Polynomial
+
+theorem sqrt_neg_moved_by_inertia : ∀ (F Ω : Type) [Field F] [NumberField F] [Field Ω] [Algebra F Ω] [IsAlgClosure F Ω] (p : ℕ), p.Prime → p ≠ 2 → ¬ (p : ℤ) ∣ discr F → ∀ (δ : Ω), δ ^ 2 = -(p : Ω) → ∀ (v : HeightOneSpectrum (𝓞 F)) (A : ValuationSubring Ω), ((p : ℕ) : 𝓞 F) ∈ v.asIdeal → IsPlaceOver A v → ∃ s ∈ Ine (F := F) A, s δ ≠ δ := by
+  intro F Ω _ _ _ _ _ p hp _ hd δ hδ v A hv hA
+  haveI : CharZero Ω := charZero_of_injective_algebraMap (algebraMap F Ω).injective
+  haveI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed F
+  haveI : Algebra.IsAlgebraic F Ω := IsAlgClosure.isAlgebraic
+  have KL := valuation_mul_ne_one hp hd hδ hv hA
+  have hp0 : (p : Ω) ≠ 0 := Nat.cast_ne_zero.2 hp.ne_zero
+  have hδ0 : δ ≠ 0 := by
+    rintro rfl
+    apply hp0
+    linear_combination hδ
+  set f : F[X] := X ^ 2 + C (p : F) with hfdef
+  have hf_root : ∀ x : Ω, aeval x f = 0 ↔ x ^ 2 = -(p : Ω) := by
+    intro x
+    simp only [hfdef, map_add (f := _), map_pow, aeval_X, aeval_C, map_natCast]
+    constructor <;> intro h <;> linear_combination h
+  have hmon : f.Monic := monic_X_pow_add_C _ two_ne_zero
+  have hirr : Irreducible f := by
+    refine Polynomial.irreducible_of_degree_le_three_of_not_isRoot ?_ ?_
+    · rw [hfdef, natDegree_X_pow_add_C]; decide
+    · intro c hc
+      have hc' : (algebraMap F Ω c) ^ 2 = -(p : Ω) := by
+        rw [← hf_root, Polynomial.aeval_algebraMap_apply_eq_algebraMap_eval, hc, map_zero]
+      have hc0 : c ≠ 0 := by
+        rintro rfl
+        apply hp0
+        rw [map_zero] at hc'
+        linear_combination hc'
+      have hc1 : (algebraMap F Ω c)⁻¹ * algebraMap F Ω c = 1 :=
+        inv_mul_cancel₀ ((_root_.map_ne_zero _).2 hc0)
+      have hfac : (algebraMap F Ω c - δ) * (algebraMap F Ω c + δ) = 0 := by
+        linear_combination hc' - hδ
+      rcases mul_eq_zero.1 hfac with h | h
+      · apply KL c⁻¹ (inv_ne_zero hc0)
+        rw [map_inv₀, ← sub_eq_zero.1 h, hc1, map_one]
+      · apply KL c⁻¹ (inv_ne_zero hc0)
+        have e : δ = -(algebraMap F Ω c) := by linear_combination h
+        rw [e, mul_neg, map_inv₀, hc1, Valuation.map_neg, map_one]
+  have hmin : f = minpoly F δ := minpoly.eq_of_irreducible_of_monic hirr ((hf_root δ).2 hδ) hmon
+  have hmin' : f = minpoly F (-δ) :=
+    minpoly.eq_of_irreducible_of_monic hirr ((hf_root _).2 (by rw [neg_sq]; exact hδ)) hmon
+  obtain ⟨σ₀, hσ₀⟩ := (Normal.minpoly_eq_iff_mem_orbit Ω).1 (hmin'.symm.trans hmin)
+  have hσ₀' : σ₀ δ = -δ := hσ₀
+  let M : IntermediateField F Ω := IntermediateField.adjoin F (f.rootSet Ω)
+  haveI : Polynomial.IsSplittingField F M f :=
+    IntermediateField.adjoin_rootSet_isSplittingField (IsAlgClosed.splits _)
+  haveI : Normal F M := Normal.of_isSplittingField f
+  haveI : FiniteDimensional F M := Polynomial.IsSplittingField.finiteDimensional M f
+  haveI : IsGalois F M := ⟨⟩
+  let τ : M ≃ₐ[F] M := σ₀.restrictNormal M
+  have hδM : δ ∈ M := IntermediateField.subset_adjoin _ _
+    (by rw [Polynomial.mem_rootSet]; exact ⟨hmon.ne_zero, (hf_root δ).2 hδ⟩)
+  have hform : ∀ z ∈ M, ∃ a b : F, z = algebraMap F Ω a + algebraMap F Ω b * δ := by
+    intro z hz
+    have hz' : z ∈ Algebra.adjoin F (f.rootSet Ω) := by
+      rw [← IntermediateField.adjoin_toSubalgebra_of_isAlgebraic
+        (fun x _ => Algebra.IsAlgebraic.isAlgebraic x)]
+      exact hz
+    clear hz
+    induction hz' using Algebra.adjoin_induction with
+    | mem x hx =>
+      rw [Polynomial.mem_rootSet, hf_root] at hx
+      have hfx : (x - δ) * (x + δ) = 0 := by linear_combination hx.2 - hδ
+      rcases mul_eq_zero.1 hfx with h | h
+      · exact ⟨0, 1, by rw [map_zero, map_one]; linear_combination h⟩
+      · exact ⟨0, -1, by rw [map_zero, map_neg, map_one]; linear_combination h⟩
+    | algebraMap r => exact ⟨r, 0, by rw [map_zero]; ring⟩
+    | add x y _ _ hx hy =>
+      obtain ⟨a, b, rfl⟩ := hx
+      obtain ⟨c, d, rfl⟩ := hy
+      exact ⟨a + c, b + d, by rw [map_add (f := _), map_add (f := _)]; ring⟩
+    | mul x y _ _ hx hy =>
+      obtain ⟨a, b, rfl⟩ := hx
+      obtain ⟨c, d, rfl⟩ := hy
+      refine ⟨a * c - b * d * p, a * d + b * c, ?_⟩
+      simp only [map_add (f := _), map_sub, map_mul, map_natCast]
+      linear_combination (algebraMap F Ω b * algebraMap F Ω d) * hδ
+  have hcond : ∀ x : M, A.valuation (algebraMap M Ω x) ≤ 1 →
+      A.valuation (algebraMap M Ω (τ x) - algebraMap M Ω x) < 1 := by
+    intro x hx
+    rw [AlgEquiv.restrictNormal_commutes]
+    obtain ⟨a, b, hab⟩ := hform (algebraMap M Ω x) x.2
+    rw [hab] at hx ⊢
+    have e : σ₀ (algebraMap F Ω a + algebraMap F Ω b * δ) - (algebraMap F Ω a + algebraMap F Ω b * δ)
+        = (-2 : Ω) * (algebraMap F Ω b * δ) := by
+      rw [map_add (f := _), map_mul, AlgEquiv.commutes, AlgEquiv.commutes, hσ₀']; ring
+    rw [e]
+    have hb1 : A.valuation (algebraMap F Ω b * δ) < 1 := by
+      by_cases hb : b = 0
+      · rw [hb, map_zero, zero_mul, Valuation.map_zero]; exact zero_lt_one
+      have hne1 := KL b hb
+      have hne : A.valuation (algebraMap F Ω a) ≠ A.valuation (algebraMap F Ω b * δ) := by
+        intro heq
+        have hbd : algebraMap F Ω b * δ ≠ 0 := mul_ne_zero ((_root_.map_ne_zero _).2 hb) hδ0
+        have ha : a ≠ 0 := by
+          rintro rfl
+          rw [map_zero, Valuation.map_zero] at heq
+          exact hbd ((Valuation.zero_iff _).1 heq.symm)
+        apply KL (b / a) (div_ne_zero hb ha)
+        have haw : A.valuation (algebraMap F Ω a) ≠ 0 :=
+          (Valuation.ne_zero_iff _).2 ((_root_.map_ne_zero _).2 ha)
+        rw [map_div₀, div_mul_eq_mul_div, map_div₀, ← heq, div_self haw]
+      rw [Valuation.map_add_of_distinct_val _ hne] at hx
+      exact lt_of_le_of_ne (le_trans (le_max_right _ _) hx) hne1
+    rw [map_mul]
+    have h2 : A.valuation (-2 : Ω) ≤ 1 := by
+      rw [Valuation.map_neg]
+      have := valuation_natCast_le_one A 2
+      simpa using this
+    calc A.valuation (-2 : Ω) * A.valuation (algebraMap F Ω b * δ)
+        ≤ 1 * A.valuation (algebraMap F Ω b * δ) := by gcongr
+      _ < 1 := by rw [one_mul]; exact hb1
+  obtain ⟨σ, hσ, hστ⟩ := GlobalTheory.InertiaLift.exists_mem_Ine_lift A M τ hcond
+  refine ⟨σ, hσ, ?_⟩
+  have h1 := hστ ⟨δ, hδM⟩
+  rw [AlgEquiv.restrictNormal_commutes] at h1
+  change σ δ = σ₀ δ at h1
+  rw [h1, hσ₀']
+  intro h
+  have h2 : (2 : Ω) * δ = 0 := by linear_combination -h
+  rcases mul_eq_zero.1 h2 with h3 | h3
+  · exact two_ne_zero h3
+  · exact hδ0 h3
+
+end GlobalTheory.SqrtNegRam
+end

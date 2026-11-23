@@ -1,8 +1,8 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.FoundBridge
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.Bundle004
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.RTwist
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.PublishedTheorems.GelfandKazhdanReal
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.PublishedTheorems.Bundle001
 public import GroundTheory.AutomorphicForms.FourierWhittaker
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

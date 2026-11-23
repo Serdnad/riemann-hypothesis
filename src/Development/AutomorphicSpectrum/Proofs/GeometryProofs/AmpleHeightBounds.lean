@@ -1,9 +1,9 @@
 module
 
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LocalRatioProductFormula
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ArchBetween
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ArchimedeanValueBoundStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HeightLowerBoundChartNormStatement
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle103
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle008
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle141
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle145
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -54,7 +54,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Presheaf
-public import ReciprocityTheory.SemistableReduction.LogNormCoeffSubLeBlockSphereLogMean
+public import ReciprocityTheory.SemistableReduction.Bundle013
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section

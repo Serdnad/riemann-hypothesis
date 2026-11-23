@@ -1,0 +1,370 @@
+module
+
+public import Formalism.LocalToGlobal.Columns.Bundle003
+public import Formalism.LocalToGlobal.Columns.Bundle007
+public import Formalism.LocalToGlobal.Columns.Bundle028
+public import Formalism.LocalToGlobal.Columns.ChainTw
+public import Formalism.LocalToGlobal.Columns.Bundle015
+import Formalism.LocalToGlobal.Columns.QthExistsBound
+public import Formalism.LocalToGlobal.Columns.Bundle034
+public import Formalism.LocalToGlobal.Columns.TwQLevU
+public import Formalism.LocalToGlobal.Columns.Bundle004
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Linter.Style
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Topology.Sheaves.Init
+public import Formalism.LocalToGlobal.Columns.Bundle035
+import Formalism.LocalToGlobal.HermitianForms.IsLocBasis
+public import Formalism.LocalToGlobal.Columns.ChainTwOk
+public import Formalism.LocalToGlobal.Columns.ChainTwZero
+
+@[expose] public section
+
+section
+
+open NumberField IsDedekindDomain Module Matrix
+open scoped TensorProduct
+
+noncomputable section
+
+namespace Formalism.L2.Col
+
+open Formalism.BasicNotions Formalism.HermitianLatticesTheory Formalism.L2.DIV Formalism.UG Formalism.L2.Forms
+
+attribute [local instance] Formalism.BasicNotions.Host.cmStar
+
+def RatSpanG {K : Type} [Field K] (s : K →+* ℂ) {ι : Type} [Fintype ι] {n : ℕ} (lam : ι → DomWeight n) :
+    AddSubgroup (MvPolynomial (ι × Fin n × Fin n) ℂ) :=
+  AddSubgroup.closure {p | ∃ (r : K) (f : ι → MvPolynomial (Fin n × Fin n) ℤ),
+    (∀ τ, f τ ∈ delSq ℤ n (lam τ)) ∧
+    p = s r • Formalism.L2.Forms.ten (fun τ => MvPolynomial.map (Int.castRingHom ℂ) (f τ))}
+
+section Gen
+
+variable {X : Fields} {Pr : Primes X} {R : Ranks} (W : Wts X Pr.Word R)
+
+theorem lamTrue_eq_shW (u : Pr.Word) (i : ℕ) :
+    W.lamTrue u i = fun τ => shW (W.lamN u i τ) ((i * (R.t + 1) / 2 : ℕ) : ℤ) := by
+  funext τ
+  have h : ((i * (R.t + 1) / 2 : ℕ) : ℤ) = (i : ℤ) * (((R.t + 1) / 2 : ℕ) : ℤ) := by
+    obtain ⟨b, hb⟩ := R.t_odd
+    have h2 : R.t + 1 = 2 * (b + 1) := by omega
+    rw [h2, Nat.mul_div_cancel_left _ (by norm_num : 0 < 2), Nat.mul_left_comm, Nat.mul_div_cancel_left _ (by norm_num : 0 < 2)]
+    push_cast
+    ring
+  unfold Wts.lamTrue shiftW shW
+  congr 1
+  funext x
+  rw [h]
+  ring
+
+end Gen
+
+section Rec
+
+variable {d : ColDat} (a : ColArgs d)
+
+theorem lamT_eq (u : d.what₂.Word) (i : ℕ) : CF.lamT (D := d.colRec a) u i = d.W.lamTrue u i :=
+  (lamTrue_eq_shW (Pr := d.Pr) d.W u i).symm
+
+end Rec
+
+end Formalism.L2.Col
+end
+end
+
+section
+
+open NumberField IsDedekindDomain Module Matrix
+open scoped TensorProduct
+
+noncomputable section
+
+namespace Formalism.L2.Col
+
+open Formalism.BasicNotions Formalism.HermitianLatticesTheory Formalism.L2.DIV Formalism.L2.Forms
+
+section XpL
+
+variable {X : Fields} {Pr : Primes X} {R : Ranks} (W : Wts X Pr.Word R)
+  (Λm : LevFam X.E X.K (R.N R.m) Pr.vGs)
+  {SG' : Finset (HeightOneSpectrum (𝓞 X.E))} (hSG : Pr.vGs ⊆ SG')
+  (ΛM : LevFam X.E X.K (R.N R.m - 1) SG')
+
+@[reducible] def topGSD (u : Pr.Word) : GSD X.K := formGSD (colVal W u R.m (Pr.vT u) Pr.vGs) Λm
+
+variable {W ΛM}
+
+
+variable {Λm}
+
+
+
+end XpL
+
+section XpC
+
+variable {X : Fields} {Pr : Primes X} {R : Ranks} (W : Wts X Pr.Word R) (Λ : LevCh X Pr R) (bm : Λ.β R.m)
+  {SG' : Finset (HeightOneSpectrum (𝓞 X.E))} (hSG : Pr.vGs ⊆ SG')
+  (ΛM : LevFam X.E X.K (R.N R.m - 1) SG')
+
+variable {W Λ bm ΛM}
+
+
+
+
+
+end XpC
+
+section One
+
+variable {X : Fields} {Pr : Primes X} {R : Ranks} (W : Wts X Pr.Word R) (Λ₀ : ∀ j, LevFam X.E X.K (R.N j) Pr.vGs)
+  {SG' : Finset (HeightOneSpectrum (𝓞 X.E))} (hSG : Pr.vGs ⊆ SG') (ΛM : LevFam X.E X.K (R.N R.m - 1) SG')
+
+end One
+
+end Formalism.L2.Col
+end
+end
+
+section
+
+open NumberField IsDedekindDomain
+
+noncomputable section
+
+namespace Formalism.L2.Col
+
+open Formalism.BasicNotions Formalism.HermitianLatticesTheory Formalism.L2.DIV
+
+section Tw
+
+variable {X : Fields} {Pr : Primes X} {R : Ranks} (Ch : Chars X Pr R.m)
+  (sel : HeightOneSpectrum (𝓞 X.F) → HeightOneSpectrum (𝓞 X.E)) {S : Set ℕ}
+  (mu : Tup X.F X.E X.K S) (cst : LocCst X (rowSG Pr sel mu))
+
+theorem qth_lamQB_one {P : HeightOneSpectrum (𝓞 X.E)} (hq : ((qOf P : ℕ) : 𝓞 X.E) ∈ P.asIdeal) (hq0 : ((qOf P : ℕ) : X.E) ≠ 0) {j : ℕ}
+    (ξ : (𝓞 X.E ⧸ P.asIdeal)ˣ →* X.Kˣ) (y : AutY X R j) (hy : QClose P (qOf P) y) :
+    LocE.lamQB ξ (R.k + j) (R.N j) (y : Sp X.E (R.N j + cOf R j) →ₗ[X.E] Sp X.E (R.N j + cOf R j)) = 1 := by
+  classical
+  unfold LocE.lamQB
+  set D : Matrix (Fin (R.N j - (R.k + j))) (Fin (R.N j - (R.k + j))) X.E := Matrix.of fun s t : Fin (R.N j - (R.k + j)) =>
+    Loc.atN ((y : Sp X.E (R.N j + cOf R j) →ₗ[X.E] Sp X.E (R.N j + cOf R j)) (Loc.eN X.E (R.N j + cOf R j) (R.k + j + t.1))) (R.k + j + s.1) with hD
+  have hent : ∀ s t : Fin (R.N j - (R.k + j)), IntAt P (D s t) ∧ redP P (D s t) = (1 : Matrix _ _ (𝓞 X.E ⧸ P.asIdeal)) s t := by
+    intro s t
+    have hs : R.k + j + s.1 < R.N j + cOf R j := by have := s.2; omega
+    have ht : R.k + j + t.1 < R.N j + cOf R j := by have := t.2; omega
+    have e1 : Loc.eN X.E (R.N j + cOf R j) (R.k + j + t.1) = Pi.single ⟨R.k + j + t.1, ht⟩ 1 := by
+      funext l
+      unfold Loc.eN
+      rw [Pi.single_apply]
+      congr 1
+      apply propext
+      constructor
+      · intro h; exact Fin.ext h
+      · intro h; rw [h]
+    have e2 : D s t = ((toGLm X.E (R.N j + cOf R j) y : GL (Fin (R.N j + cOf R j)) X.E) : Matrix (Fin (R.N j + cOf R j)) (Fin (R.N j + cOf R j)) X.E) ⟨R.k + j + s.1, hs⟩ ⟨R.k + j + t.1, ht⟩ := by
+      rw [qsp_toGLm_apply, hD, Matrix.of_apply, e1]
+      unfold Loc.atN
+      rw [dite_eq_left hs]
+      rfl
+    obtain ⟨h1, h2⟩ := qth_red_entry P (qOf P) hq0 hq hy ⟨R.k + j + s.1, hs⟩ ⟨R.k + j + t.1, ht⟩
+    rw [e2]
+    refine ⟨h1, ?_⟩
+    rw [h2, Matrix.one_apply, Matrix.one_apply]
+    by_cases hst : s = t
+    · rw [if_pos (Fin.ext (by simp [hst])), if_pos hst, redP_one]
+    · rw [if_neg (fun h => hst (Fin.ext (by have := congrArg Fin.val h; simp at this; omega))), if_neg hst, redP_zero]
+  have hdet : redP P D.det = 1 := by
+    rw [redP_det D fun s t => (hent s t).1]
+    have : D.map (redP P) = 1 := Matrix.ext fun s t => (hent s t).2
+    rw [this, Matrix.det_one]
+  unfold LocE.unitV
+  have hu : IsUnit (redP P D.det) := by rw [hdet]; exact isUnit_one
+  rw [dite_eq_left hu]
+  have : hu.unit = 1 := Units.ext (by rw [IsUnit.unit_spec, hdet]; rfl)
+  rw [this, map_one, Units.val_one, inv_one]
+
+theorem qth_exists_e (P : HeightOneSpectrum (𝓞 X.E)) (hq0 : ((qOf P : ℕ) : X.E) ≠ 0) :
+    ∃ e : ℕ, WithZero.exp (-(e : ℤ)) ≤ P.valuation X.E ((qOf P : ℕ) : X.E) := by
+  have hv0 : P.valuation X.E ((qOf P : ℕ) : X.E) ≠ 0 := (map_ne_zero _).2 hq0
+  refine ⟨(-(WithZero.log (P.valuation X.E ((qOf P : ℕ) : X.E)))).toNat, ?_⟩
+  conv_rhs => rw [← WithZero.exp_log hv0]
+  rw [WithZero.exp_le_exp]
+  have := Int.self_le_toNat (-(WithZero.log (P.valuation X.E ((qOf P : ℕ) : X.E))))
+  omega
+
+
+open Classical in
+
+theorem thetaOpen_twLevQ (hc : cst.Ok) (hQg : ∀ P ∈ QE sel (mu : Chr X.F X.E X.K), P ∉ Pr.vGs) (j : ℕ)
+    (hh : rowSG Pr sel mu → AutY X R j) : ThetaOpen (twLevQ Ch sel mu cst j hh) := by
+  intro P
+  let P' : rowSG Pr sel mu := ⟨P.1, Finset.mem_union_right _ P.2⟩
+  let h : AutY X R j := hh P'
+  have hPg := hQg P.1 P.2
+  have hq := ciQ_mem P.1
+  have hq0 : ((qOf P.1 : ℕ) : X.E) ≠ 0 := by
+    rw [Nat.cast_ne_zero]
+    intro h0
+    exact P.1.ne_bot ((Ideal.absNorm_eq_zero_iff).1 h0)
+  obtain ⟨a, ha⟩ := qth_bound P.1 ((toGLm X.E (R.N j + cOf R j) h : GL (Fin (R.N j + cOf R j)) X.E) : Matrix (Fin (R.N j + cOf R j)) (Fin (R.N j + cOf R j)) X.E)
+  obtain ⟨b, hb⟩ := qth_bound P.1 ((toGLm X.E (R.N j + cOf R j) h⁻¹ : GL (Fin (R.N j + cOf R j)) X.E) : Matrix (Fin (R.N j + cOf R j)) (Fin (R.N j + cOf R j)) X.E)
+  obtain ⟨e, he⟩ := qth_exists_e P.1 hq0
+  refine ⟨a + b + e + 1, by omega, fun g hg => ?_⟩
+  let r : AutY X R j := twZrExt (c := cOf R j) g.1
+  have hr := qth_ext_close (c := cOf R j) P.1 g.1 _ hg
+  have hrinv : r⁻¹ = twZrExt (c := cOf R j) (g⁻¹ : ↥(GLint X.E (R.N j) P.1)).1 := LinearEquiv.ext fun v => rfl
+  have hr' := qth_ext_close (c := cOf R j) P.1 (g⁻¹ : ↥(GLint X.E (R.N j) P.1)).1 _ (qth_princ_inv P.1 g hg)
+  have hy : QClose P.1 (qOf P.1) (h⁻¹ * r * h) := qth_conj_close P.1 (qOf P.1) h r a b _ e ha hb hr he (by omega)
+  have hy' : QClose P.1 (qOf P.1) (h⁻¹ * r * h)⁻¹ := by
+    have e3 : (h⁻¹ * r * h)⁻¹ = h⁻¹ * r⁻¹ * h := by simp only [mul_inv_rev, inv_inv, mul_assoc]
+    rw [e3, hrinv]
+    exact qth_conj_close P.1 (qOf P.1) h _ a b _ e ha hb hr' he (by omega)
+  have hJ : h⁻¹ * r * h ∈ Jat (Pr := Pr) (R := R) cst.sharp j P.1 := by
+    rw [twJat_Q cst.sharp j hPg]
+    exact qth_mem_JQ P.1 (qOf P.1) hq0 (R.k + j) _ hy hy'
+  have hC : r ∈ Loc.Cbe (Jat (Pr := Pr) (R := R) cst.sharp j P.1) h := by
+    refine ⟨zeroExtension_mem_R1 g.1, ?_⟩
+    show (MulAut.conj h⁻¹) r ∈ Jat (Pr := Pr) (R := R) cst.sharp j P.1
+    simpa [MulAut.conj_apply] using hJ
+  have hmem : g.1 ∈ prCat (Pr := Pr) cst.sharp j P.1 h := ⟨r, hC, twZrExt_inX g.1⟩
+  refine ⟨Subgroup.mem_subgroupOf.2 hmem, ?_⟩
+  show twLam Ch sel mu cst j P' h ⟨g, Subgroup.mem_subgroupOf.2 hmem⟩ = 1
+  unfold twLam
+  split_ifs with hok
+  · apply Units.ext
+    show twChiVal Ch sel mu cst j P' h g.1 = 1
+    rw [twChiVal_eq hok hC (twZrExt_inX g.1)]
+    have hstd : r ∈ stabL X.E (R.N j + cOf R j) (stdAt X.E (R.N j + cOf R j) P.1) :=
+      twZrExt_stab P.1 _ (fun v => ciMem_stdAt P.1 v) g.2
+    have hint : IntAt P.1 (Loc.n1Arg r) := by
+      unfold Loc.n1Arg
+      refine ciIntAt_sum _ _ fun i _ => ?_
+      have hv : r (Loc.eN X.E (R.N j + cOf R j) (R.N j + i + 1)) ∈ stdAt X.E (R.N j + cOf R j) P.1 :=
+        (hstd _).2 (twZr_eN_mem P.1 _ _)
+      rw [ciMem_stdAt] at hv
+      unfold Loc.atN
+      split_ifs
+      · exact hv _
+      · exact ciIntAt_zero
+    unfold chiInv
+    rw [hc.psi_int P' _ hint, inv_one, one_mul]
+    unfold lamRow
+    rw [if_neg hPg]
+    exact qth_lamQB_one hq hq0 _ _ hy
+  · rfl
+
+
+open Classical in
+theorem thetaOpen_twIdx (hc : cst.Ok) (hQg : ∀ P ∈ QE sel (mu : Chr X.F X.E X.K), P ∉ Pr.vGs) (m2 j : ℕ)
+    (b : (twIdx Ch sel mu cst m2).β j) : ThetaOpen ((twIdx Ch sel mu cst m2).levQ j b) := by
+  show ThetaOpen (if j = 0 then LevQFam.top X.E X.K (R.N j) _ else twLevQ Ch sel mu cst j ((twSt Ch sel mu cst m2 j).h b))
+  split_ifs
+  · exact thetaOpen_top _
+  · exact thetaOpen_twLevQ Ch sel mu cst hc hQg j _
+
+end Tw
+
+end Formalism.L2.Col
+end
+end
+
+section
+
+open NumberField IsDedekindDomain Module Matrix
+open scoped TensorProduct
+
+noncomputable section
+
+namespace Formalism.L2.Col
+
+open Formalism.BasicNotions Formalism.HermitianLatticesTheory Formalism.L2.DIV
+
+attribute [local instance] Formalism.BasicNotions.Host.cmStar
+
+structure SpStd (B : ColBase) : Prop where
+  X_on : ∀ i, i ≤ B.R.m → ∀ a b, (B.sp.X i).hT ((B.sp.X i).frame a) ((B.sp.X i).frame b) = if a = b then 1 else 0
+  selfDual_span_frame_X : ∀ i, i ≤ B.R.m → (B.sp.X i).L0 = Submodule.span (𝓞 B.host.E) (Set.range (B.sp.X i).frame)
+  P_on : ∀ a b, B.sp.X'.hT (B.sp.X'.frame a) (B.sp.X'.frame b) = if a = b then 1 else 0
+  selfDual_span_frame_auxiliary : B.sp.X'.L0 = Submodule.span (𝓞 B.host.E) (Set.range B.sp.X'.frame)
+  iX' : ∀ (a : Fin B.sp.X'.rank) (b : Fin (B.sp.X B.R.m).rank), (a : ℕ) = b →
+    B.sp.iX' (B.sp.X'.frame a) = (B.sp.X B.R.m).frame b
+  z : ∃ c : B.host.E, ∀ b : Fin (B.sp.X B.R.m).rank, (b : ℕ) + 1 = (B.sp.X B.R.m).rank → B.sp.z = c • (B.sp.X B.R.m).frame b
+
+structure HostHyp (d : ColDat) : Prop where
+  embE_φ₀ : d.what₂.embLL.comp d.embE = d.host.φ₀
+  piT_K : ∀ u, (d.piT u : d.host.E) ∈ d.host.K
+  piG_K : ∀ i, (d.piG i : d.host.E) ∈ d.host.K
+  cond_eq : d.cond = d.host.QS * d.host.q * d.host.d
+  val_eq : ∀ w (x : d.what₂.LL), x ≠ 0 → d.what₂.places.val w x = ((vAdd (d.plEq w) x : ℤ) : WithTop ℤ)
+
+variable {d : ColDat} (a : ColArgs d)
+
+theorem gramN_eq (hS : SpStd d.toColBase) (i : ℕ) (hi : i ≤ d.R.m) : CF.gramN (d.colRec a) i hi = 1 := by
+  refine Matrix.ext fun x y => ?_
+  show (d.sp.X i).hT ((d.sp.X i).frame _) ((d.sp.X i).frame _) = _
+  rw [hS.X_on i hi, Matrix.one_apply]
+  simp only [EmbeddingLike.apply_eq_iff_eq]
+
+theorem gramP_eq (hS : SpStd d.toColBase) : CF.gramP (d.colRec a) = 1 := by
+  refine Matrix.ext fun x y => ?_
+  show d.sp.X'.hT (d.sp.X'.frame _) (d.sp.X'.frame _) = _
+  rw [hS.P_on, Matrix.one_apply]
+  simp only [EmbeddingLike.apply_eq_iff_eq]
+
+private theorem map_clsLat_crd (u : d.what₂.Word) (i : ℕ) (hi : i ≤ d.R.m)
+    (c : StCl (Pr := d.Pr) d.W d.lev u i) :
+    (d.clsLat u i c).map ((d.crd i hi).toLinearMap.restrictScalars (𝓞 d.host.E)) = (d.repr u i c).1.L := by
+  unfold ColDat.clsLat
+  rw [dite_eq_left hi, ← Submodule.map_comp, ← LinearMap.restrictScalars_comp,
+    LinearEquiv.comp_symm, LinearMap.restrictScalars_id, Submodule.map_id]
+
+theorem clsCrd_eq (u : d.what₂.Word) (i : ℕ) (hi : i ≤ d.R.m) (c : StCl (Pr := d.Pr) d.W d.lev u i) :
+    CF.clsCrd (d.colRec a) u i hi c = (d.repr u i c).1.L :=
+  map_clsLat_crd u i hi c
+
+theorem embT_eq (hH : HostHyp d) : CF.embT (d.colRec a) = d.X.embC d.σ₀ := by
+  funext τ
+  show d.host.φ₀.comp _ = (d.what₂.embLL).comp (d.embE.comp _)
+  rw [← hH.embE_φ₀, RingHom.comp_assoc]
+
+theorem T_eq (u : d.what₂.Word) : ((d.colRec a).mem u).A.T = d.T u := rfl
+
+end Formalism.L2.Col
+end
+end

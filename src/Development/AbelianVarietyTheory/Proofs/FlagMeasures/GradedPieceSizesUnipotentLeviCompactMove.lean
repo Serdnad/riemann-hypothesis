@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.IsGaugeAll
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.LamXEquivariant
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.AutPointLatticeIntersectionSelfDualProperties
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.AutPointMajorantFramesGiveMajorants
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle009
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle007
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle111
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle126
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.OrthogonalCanonicalFiltrationStepsAutPoint
 import Formalism.HarderNarasimhan.ShiftInvariance
 import Mathlib.Algebra.Order.Floor.Extended

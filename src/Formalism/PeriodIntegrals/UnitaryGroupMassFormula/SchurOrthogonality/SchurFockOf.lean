@@ -1,10 +1,8 @@
 module
 
-public import Formalism.PeriodIntegrals.HwIrred
-public import Formalism.PeriodIntegrals.SchurFock
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.SchurOrthogonality.Assembly
+public import Formalism.PeriodIntegrals.Bundle021
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.SchurOrthogonality.Bundle001
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.SchurOrthogonality.ConstructionA
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.SchurOrthogonality.ConstructionB
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.SchurOrthogonality.ConstructionC
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

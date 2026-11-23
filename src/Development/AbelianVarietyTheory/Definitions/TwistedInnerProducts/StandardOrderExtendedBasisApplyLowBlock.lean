@@ -6,7 +6,7 @@ public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Mathlib.Data.Matrix.ColumnRowPartitioned
 public import Mathlib.GroupTheory.DoubleCoset
 public import Mathlib.RingTheory.PicardGroup
-import Development.AbelianVarietyTheory.Definitions.Foundations.SimpleSumRowCol
+import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle008
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.PadicIsNonarchimedeanLocalField
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

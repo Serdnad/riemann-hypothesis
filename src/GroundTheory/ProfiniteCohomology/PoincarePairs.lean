@@ -2,8 +2,8 @@ module
 
 public import GroundTheory.ProfiniteCohomology.PoincarePairs.Devissage
 public import GroundTheory.ProfiniteCohomology.PoincarePairs.MackeyCup
-import GroundTheory.ProfiniteCohomology.CupProducts.Projection
-import GroundTheory.ProfiniteCohomology.FilteredHomology
+import GroundTheory.ProfiniteCohomology.CupProducts.Bundle003
+import GroundTheory.ProfiniteCohomology.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

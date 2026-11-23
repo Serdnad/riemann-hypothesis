@@ -2,7 +2,7 @@ module
 
 public import GroundTheory.AutomorphicForms.GKModules.Garding
 public import GroundTheory.AutomorphicForms.GKModules.RightRegular
-public import GroundTheory.AutomorphicForms.ArchimedeanWhittaker.Density
+public import GroundTheory.AutomorphicForms.ArchimedeanWhittaker.Bundle001
 public import GroundTheory.AutomorphicForms.GKModules.KernelCalculus
 public import GroundTheory.AutomorphicForms.L2LocalComponents.CenterCommute
 import Mathlib.Algebra.Order.Floor.Extended

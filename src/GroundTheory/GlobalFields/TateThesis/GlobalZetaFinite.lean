@@ -2,10 +2,10 @@ module
 
 public import GroundTheory.GlobalFields.IdeleGroups.IdeleNorms
 public import GroundTheory.GlobalFields.TateThesis.AdeleIdealMeasure
-public import GroundTheory.GlobalFields.TateThesis.ConductorIdeal
+public import GroundTheory.GlobalFields.TateThesis.Bundle006
 public import GroundTheory.GlobalFields.TateThesis.IdeleMeasure
 public import GroundTheory.GlobalFields.TateThesis.HeckeLFunction
-public import GroundTheory.GlobalFields.TateThesis.IdeleMeasureCosets
+public import GroundTheory.GlobalFields.TateThesis.Bundle007
 public import GroundTheory.GlobalFields.TateThesis.SchwartzBruhatFinite
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

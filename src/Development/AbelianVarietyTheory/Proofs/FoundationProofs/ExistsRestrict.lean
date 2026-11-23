@@ -1,21 +1,21 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Foundations.IsLamOfLSmulIff
-public import Development.AbelianVarietyTheory.Definitions.Foundations.OpLDOneSubMemTriv
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle017
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle008
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.ResMapBijective
 public import Mathlib.RingTheory.AdicCompletion.Noetherian
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsCuspFunctionalOddWeightOddPrimeStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsLinearLimitOfCompatibleFamilyStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.GalBMemKummerInvariantSet
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle323
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle041
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle208
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsCuspFunctionalValueGalBEquivariant
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsThBSuccCoeffCongStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.KummerBettiModuleFreeFiniteStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.LineFunctionalEqPeriodMulStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.MemSpanEigenOfBaseChangeEigenStatement
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle318
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle330
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle104
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle045
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ThetaBasisLinearCombination
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ThetaKillsFplusDiscreteFormStatement
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ValuationSubringNonunitsPowModEqZero
-import GroundTheory.PAdicHodge.GaloisOnCp
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle328
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle097
+import GroundTheory.PAdicHodge.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -54,7 +54,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-import Development.AbelianVarietyTheory.Definitions.Foundations.Integral
+import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle003
 
 @[expose] public section
 

@@ -1,7 +1,7 @@
 module
 
-public import GroundTheory.AutomorphicForms.ReductionMeasure
-public import GroundTheory.AutomorphicForms.ReductionSplitting
+public import GroundTheory.AutomorphicForms.Bundle012
+public import GroundTheory.AutomorphicForms.Bundle017
 public import GroundTheory.AutomorphicForms.CuspidalDiscreteness.Unimodular
 import GroundTheory.AutomorphicForms.RealIwasawaIntegration
 import GroundTheory.AutomorphicForms.Reduction

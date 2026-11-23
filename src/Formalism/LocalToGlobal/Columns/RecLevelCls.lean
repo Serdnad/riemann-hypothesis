@@ -1,11 +1,11 @@
 module
 
-public import Formalism.LocalToGlobal.Columns.RecLevel
+public import Formalism.LocalToGlobal.Columns.Bundle010
 public import Formalism.LocalToGlobal.Columns.AdelicLemmas
 public import Formalism.LocalToGlobal.Columns.DecoFin
 public import Formalism.LocalToGlobal.Columns.CoefColLemmas
-import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.CsApprox
-import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.CsSpan
+import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle011
+import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle014
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -2,10 +2,10 @@ module
 
 public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.BaseChangeDefiniteUnitary
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsUniqueIsConjAt
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsOpenIsCompactUnitaryIntegralPointsStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.HasSatAtConstOne
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle309
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle509
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsIsLocCompAndIsLocLoc
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsSatakeParameterSphericalUnramifiedUnitary
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle213
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

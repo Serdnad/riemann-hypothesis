@@ -1,14 +1,10 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsRatPrimeDense
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle001
 public import Mathlib.NumberTheory.NumberField.Basic
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PFiniteSeparatingModel
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PNoetherProjection
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PPolyNonvanishDense
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PRatPrimeDense
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PRootsBounded
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PRootsLiftToZeros
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PRootsNear
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle004
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle003
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -2,7 +2,7 @@ module
 
 public import Formalism.LocalToGlobal.PairingIndexBounds.SplitPairEquations.SquareSplitPairs.HomLMulPres
 public import Formalism.LocalToGlobal.KernelLattices.LateralTheory
-public import Formalism.LocalToGlobal.PairingIndexBounds.SplitPairEquations.GMConjTranspose
+public import Formalism.LocalToGlobal.PairingIndexBounds.SplitPairEquations.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

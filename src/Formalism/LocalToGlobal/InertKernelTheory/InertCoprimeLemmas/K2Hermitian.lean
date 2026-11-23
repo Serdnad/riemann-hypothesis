@@ -41,8 +41,8 @@ import Mathlib.Topology.Sheaves.Init
 public import Formalism.LocalToGlobal.GroupLattices.PendingLemmas.InvarianceIffAdditiveMapsExist
 import Formalism.LocalToGlobal.InertKernelTheory.K2OfAgreements
 import Formalism.LocalToGlobal.InertKernelTheory.KernelDifferenceOfFrame
-import Formalism.LocalToGlobal.InertKernelTheory.SecondKernelEntrywiseLastLevel
-import Formalism.LocalToGlobal.InertKernelTheory.TieSerPin
+import Formalism.LocalToGlobal.InertKernelTheory.Bundle009
+import Formalism.LocalToGlobal.InertKernelTheory.Bundle010
 import Formalism.LocalToGlobal.InertKernelTheory.DelPolOfTies
 
 @[expose] public section

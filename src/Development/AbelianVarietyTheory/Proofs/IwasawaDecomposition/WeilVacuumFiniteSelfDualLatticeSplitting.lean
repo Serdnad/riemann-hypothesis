@@ -1,18 +1,18 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FibExtMarked
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsDetInt
-public import Development.AbelianVarietyTheory.Definitions.Divisors.IsUnitaryOnTheta
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle286
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle170
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle030
 import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.MemLatOIffExistsActO
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.MemRangeOfOneTmulMem
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TameCharacterFromProduct
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle063
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1375
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IdempotentMulEqZeroOfOrthogonal
 import Development.AbelianVarietyTheory.Proofs.SatakeParameters.LevelHyperspecialTrivialCharacterSplitsOffPlaces
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IdempotentTwistedGroupEndomorphism
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SplitPlaceWeilRepLatticeVacuumCharacter
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.TendstoFinitePlaceTruncationAdeleE
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.WeilOperatorLatticeStabiliserFixesVacuumNonsplitStatement
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsAlgebraMapOfSigRFixed
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle184
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle345
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle182
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle575
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle080
 import Formalism.LocalToGlobal.BesselHermitianTheta.LemmasWeil
 import Formalism.LocalToGlobal.Divisibility.DefGroupLemmas
 import Mathlib.Algebra.Order.Floor.Extended
@@ -53,7 +53,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.DatEqZero
+import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.Bundle002
 
 @[expose] public section
 

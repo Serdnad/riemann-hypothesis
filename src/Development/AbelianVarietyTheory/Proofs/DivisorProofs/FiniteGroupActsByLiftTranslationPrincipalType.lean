@@ -1,9 +1,9 @@
 module
 
-public import Formalism.LocalToGlobal.IndefiniteReal.OneMapT
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ActLevAndActBC
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.SecBCAndCuspBC
-public import Formalism.LocalToGlobal.ProjectiveLattices.ChiProofs
+public import Formalism.LocalToGlobal.IndefiniteReal.Bundle026
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle076
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle078
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle036
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -51,7 +51,7 @@ open scoped TensorProduct
 
 namespace GlobalTheory.PhaseRational
 
-open Formalism Formalism.IndefR Formalism.IndefR.FWT Formalism.BasicNotions Formalism.MainNotions Formalism.BasicNotions.TH Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.L2.Theta Formalism.L2.DIV Formalism.IndefR.Links
+open _root_.Formalism Formalism.IndefR Formalism.IndefR.FWT Formalism.BasicNotions Formalism.MainNotions Formalism.BasicNotions.TH Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.L2.Theta Formalism.L2.DIV Formalism.IndefR.Links
   Formalism.IndefR.Mult Formalism.L2.Pj ReciprocityTheory.ChartRestriction.G.Geo.Tor ReciprocityTheory.ChartRestriction.G.FD
 
 attribute [local instance] Formalism.BasicNotions.Host.cmStar

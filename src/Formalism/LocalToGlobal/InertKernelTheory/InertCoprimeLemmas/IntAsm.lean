@@ -1,7 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.InertKernelTheory.DefsInt
-public import Formalism.LocalToGlobal.InertKernelTheory.StatementInt
+public import Formalism.LocalToGlobal.InertKernelTheory.Bundle003
 public import Formalism.LocalToGlobal.PairingIndexBounds.SplitPairEquations.FinalEq
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

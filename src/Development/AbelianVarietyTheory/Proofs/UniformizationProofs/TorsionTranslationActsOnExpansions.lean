@@ -1,14 +1,14 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Uniformization.ExistsUniqueSamePt
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsLevelPoint
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.SecBaseChangeAnySt
+public import Development.AbelianVarietyTheory.Definitions.Uniformization.Bundle003
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle082
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.Bundle005
 public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.ThetaGrpActIterateEqOfPowEqOne
 public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.CombBijective
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsUniquePullB
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle072
 public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsUnitLevels
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExpFLinear
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.FourierJacobiExpansionOverFieldInjective
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle078
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle086
 import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.SvalEqZeroOfWeightSum
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -49,7 +49,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.LBLocalC
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.Bundle005
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.LBPull
 
 @[expose] public section
@@ -62,6 +62,11 @@ open GlobalTheory.UU
 
 noncomputable section
 namespace GlobalTheory.UU.Transl
+
+local instance (priority := high) grpObjPullbackForTorsionTranslation {S T : Scheme.{0}}
+    (f : T ⟶ S) (G : Over S) [GrpObj G] : GrpObj ((Over.pullback f).obj G) :=
+  letI : (Over.pullback f).Monoidal := (Over.instBraidedPullback (f := f)).toMonoidal
+  Functor.grpObjObj (F := Over.pullback f)
 
 section Complete
 variable {R : Type} [CommRing R] [IsDomain R] {I : Ideal R} {D : DegPre R}
@@ -167,9 +172,11 @@ def genHom (Z : Over (Spec (CommRingCat.of (FractionRing R)))) : (Z ⟶ A.A) →
 
 theorem genHom_injective (Z : Over (Spec (CommRingCat.of (FractionRing R)))) : Function.Injective (genHom U Z) :=
   fun a b h => by
-    rw [← cancel_mono U.gen.inv]
-    exact Over.OverMorphism.ext (pullback.hom_ext (congrArg (fun q => q.left) h)
-      ((Over.w (a ≫ U.gen.inv)).trans (Over.w (b ≫ U.gen.inv)).symm))
+    have h' : a ≫ U.gen.inv = b ≫ U.gen.inv :=
+      Over.OverMorphism.ext (pullback.hom_ext (congrArg (fun q => q.left) h)
+        ((Over.w (a ≫ U.gen.inv)).trans (Over.w (b ≫ U.gen.inv)).symm))
+    simpa only [Category.assoc, Iso.inv_hom_id, Category.comp_id] using
+      congrArg (fun f => f ≫ U.gen.hom) h'
 
 variable {U} in
 theorem pow_eq_one_of_samePt {xA : TFK (R := R) F ⟶ A.A} {y : TF (R := R) F ⟶ G} (h : U.SamePt xA y) {N : ℕ}

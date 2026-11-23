@@ -2,7 +2,7 @@ module
 
 public import Formalism.FrobeniusOrbits.HostThickExists
 public import Formalism.FrobeniusOrbits.FrobeniusOrbitsProofs.Decomp
-public import Formalism.FrobeniusOrbits.FrobeniusOrbitsProofs.FrobMulInertia
+public import Formalism.FrobeniusOrbits.FrobeniusOrbitsProofs.Bundle002
 import Formalism.FrobeniusOrbits.FrobeniusOrbitsProofs.Galois
 public import Formalism.FrobeniusOrbits.FrobeniusOrbitsProofs.SplitK
 import Mathlib.Algebra.Order.Floor.Extended

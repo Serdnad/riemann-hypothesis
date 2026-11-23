@@ -1,10 +1,10 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.TrueColumnChoicesHeckeCharReferenceEqOne
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HostCmEmbeddingProperties
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LocalIdeleSndSelf
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.OrdFNonnegOfIsInteger
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.UnderEqIffConjPl
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle163
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle081
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle091
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle092
 import Formalism.LocalRingCardinality.RankBoundMonotoneInDimension
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -76,15 +76,15 @@ theorem frac_of_mul_eq_one {A B : Submodule (𝓞 L) L} (h : A * B = 1) :
   exact ⟨Units.mk0 x hx0, hx⟩
 
 theorem ordF_le_iff (w : HeightOneSpectrum (𝓞 L)) (a b : Lˣ) :
-    ordF w a ≤ ordF w b ↔ w.valuation L (b : L) ≤ w.valuation L (a : L) := by
+    _root_.Formalism.L2.Host.ordF w a ≤ _root_.Formalism.L2.Host.ordF w b ↔ w.valuation L (b : L) ≤ w.valuation L (a : L) := by
   have ha : w.valuation L (a : L) ≠ 0 := by simp
   have hb : w.valuation L (b : L) ≠ 0 := by simp
-  unfold ordF
+  unfold _root_.Formalism.L2.Host.ordF
   rw [neg_le_neg_iff, WithZero.log_le_log hb ha]
 
 theorem exists_gen {A : Submodule (𝓞 L) L} (h : IsFractional (𝓞 L)⁰ A) (k0 : Lˣ) (hk0 : (k0 : L) ∈ A)
     (w : HeightOneSpectrum (𝓞 L)) :
-    ∃ a : Lˣ, (a : L) ∈ A ∧ ordF w a = ordSub w A ∧ ∀ x ∈ A, w.valuation L x ≤ w.valuation L (a : L) := by
+    ∃ a : Lˣ, (a : L) ∈ A ∧ _root_.Formalism.L2.Host.ordF w a = ordSub w A ∧ ∀ x ∈ A, w.valuation L x ≤ w.valuation L (a : L) := by
   obtain ⟨⟨a, ha, e⟩, hl⟩ := isLeast_ordSub h k0 hk0 w
   refine ⟨a, ha, e, fun x hx => ?_⟩
   by_cases h0 : x = 0
@@ -112,11 +112,11 @@ theorem ordSub_one (w : HeightOneSpectrum (𝓞 L)) : ordSub w (1 : Submodule (�
   have h := ordSub_span_singleton w (1 : Lˣ)
   rw [Units.val_one, ← Submodule.one_eq_span] at h
   rw [h]
-  simp [ordF]
+  simp [_root_.Formalism.L2.Host.ordF]
 
 theorem ordF_conj {c : L ≃+* L} {w w' : HeightOneSpectrum (𝓞 L)} (h : ConjPl c w w') (k k' : Lˣ)
-    (e : (k' : L) = c k) : ordF w' k' = ordF w k := by
-  unfold ordF
+    (e : (k' : L) = c k) : _root_.Formalism.L2.Host.ordF w' k' = _root_.Formalism.L2.Host.ordF w k := by
+  unfold _root_.Formalism.L2.Host.ordF
   rw [e, h]
 
 theorem ordSub_conj {c : L ≃+* L} {w w' : HeightOneSpectrum (𝓞 L)} (h : ConjPl c w w') {A B : Submodule (𝓞 L) L}
@@ -142,31 +142,31 @@ theorem ordSub_conj_eq_neg {c : L ≃+* L} {w w' : HeightOneSpectrum (𝓞 L)} (
 
 variable {F : Type} [Field F] [NumberField F] [Algebra F L]
 
-theorem prod_val_above (χ : HChar L) (hu : ∀ v, χ.UnrAt v) (ht : χ.TrivOn F)
-    (hr : ∀ (P : HeightOneSpectrum (𝓞 L)) (k : Fˣ), ordF P (upF F k) = ordF (P.under (𝓞 F)) k)
-    (v : HeightOneSpectrum (𝓞 F)) : ∏ P ∈ aboveF (L := L) F v, χ.val P = 1 := by
-  have h := ht.1 v (unif v)
+theorem prod_val_above (χ : _root_.Formalism.L2.Host.HChar L) (hu : ∀ v, χ.UnrAt v) (ht : χ.TrivOn F)
+    (hr : ∀ (P : HeightOneSpectrum (𝓞 L)) (k : Fˣ), _root_.Formalism.L2.Host.ordF P (_root_.Formalism.L2.Host.upF F k) = _root_.Formalism.L2.Host.ordF (P.under (𝓞 F)) k)
+    (v : HeightOneSpectrum (𝓞 F)) : ∏ P ∈ _root_.Formalism.L2.Host.aboveF (L := L) F v, χ.val P = 1 := by
+  have h := ht.1 v (_root_.Formalism.L2.Host.unif v)
   have he (s : Finset (HeightOneSpectrum (𝓞 L))) :
-      (∏ P ∈ s, (χ.locK P).comp (upF F)) (unif v) =
-        ∏ P ∈ s, ((χ.locK P).comp (upF F)) (unif v) := by
+      (∏ P ∈ s, (χ.locK P).comp (_root_.Formalism.L2.Host.upF F)) (_root_.Formalism.L2.Host.unif v) =
+        ∏ P ∈ s, ((χ.locK P).comp (_root_.Formalism.L2.Host.upF F)) (_root_.Formalism.L2.Host.unif v) := by
     classical
     induction s using Finset.induction_on with
     | empty => simp
     | insert a s ha ih => simp [ha, ih, MonoidHom.mul_apply]
-  rw [HChar.resFin, he] at h
+  rw [_root_.Formalism.L2.Host.HChar.resFin, he] at h
   rw [← h]
   refine Finset.prod_congr rfl fun P hP => ?_
-  have hP' : P.under (𝓞 F) = v := by simpa [aboveF] using hP
+  have hP' : P.under (𝓞 F) = v := by simpa [_root_.Formalism.L2.Host.aboveF] using hP
   rw [MonoidHom.comp_apply, GlobalTheory.HeckeProduct.locK_unr χ (hu P), hr, hP', ordF_unif_self, zpow_one]
 
-theorem finprod_val_eq_one (χ : HChar L) (hv : ∀ v, ∏ P ∈ aboveF (L := L) F v, χ.val P = 1)
+theorem finprod_val_eq_one (χ : _root_.Formalism.L2.Host.HChar L) (hv : ∀ v, ∏ P ∈ _root_.Formalism.L2.Host.aboveF (L := L) F v, χ.val P = 1)
     (n : HeightOneSpectrum (𝓞 L) → ℤ) (hf : {w | n w ≠ 0}.Finite)
     (hn : ∀ w w', w'.under (𝓞 F) = w.under (𝓞 F) → n w' = n w) : ∏ᶠ w, χ.val w ^ n w = 1 := by
   classical
   have hm : ∀ (v : HeightOneSpectrum (𝓞 F)) (P : HeightOneSpectrum (𝓞 L)),
-      P ∈ aboveF (L := L) F v ↔ P.under (𝓞 F) = v := fun v P => by simp [aboveF]
+      P ∈ _root_.Formalism.L2.Host.aboveF (L := L) F v ↔ P.under (𝓞 F) = v := fun v P => by simp [_root_.Formalism.L2.Host.aboveF]
   rw [finprod_eq_prod_of_mulSupport_subset _
-    (s := (hf.toFinset.image fun w => w.under (𝓞 F)).biUnion (aboveF (L := L) F)), Finset.prod_biUnion]
+    (s := (hf.toFinset.image fun w => w.under (𝓞 F)).biUnion (_root_.Formalism.L2.Host.aboveF (L := L) F)), Finset.prod_biUnion]
   · refine Finset.prod_eq_one fun v hv' => ?_
     obtain ⟨w, -, rfl⟩ := Finset.mem_image.1 hv'
     rw [Finset.prod_congr rfl (fun P hP => by rw [hn w P ((hm _ _).1 hP)]), Finset.prod_zpow, hv, one_zpow]
@@ -177,13 +177,13 @@ theorem finprod_val_eq_one (χ : HChar L) (hv : ∀ v, ∏ P ∈ aboveF (L := L)
     simp only [Finset.coe_biUnion, Set.mem_iUnion, Finset.mem_coe]
     exact ⟨_, Finset.mem_image.2 ⟨w, hf.mem_toFinset.2 this, rfl⟩, (hm _ _).2 rfl⟩
 
-theorem finprod_val_add (χ : HChar L) (n m : HeightOneSpectrum (𝓞 L) → ℤ) (hn : {w | n w ≠ 0}.Finite)
+theorem finprod_val_add (χ : _root_.Formalism.L2.Host.HChar L) (n m : HeightOneSpectrum (𝓞 L) → ℤ) (hn : {w | n w ≠ 0}.Finite)
     (hm : {w | m w ≠ 0}.Finite) :
     ∏ᶠ w, χ.val w ^ (n w + m w) = (∏ᶠ w, χ.val w ^ n w) * ∏ᶠ w, χ.val w ^ m w := by
   simp only [zpow_add]
   exact finprod_mul_distrib (hn.subset fun w hw h0 => hw (by simp [h0])) (hm.subset fun w hw h0 => hw (by simp [h0]))
 
-theorem finprod_val_congr (χ : HChar L) (hv : ∀ v, ∏ P ∈ aboveF (L := L) F v, χ.val P = 1)
+theorem finprod_val_congr (χ : _root_.Formalism.L2.Host.HChar L) (hv : ∀ v, ∏ P ∈ _root_.Formalism.L2.Host.aboveF (L := L) F v, χ.val P = 1)
     (n m : HeightOneSpectrum (𝓞 L) → ℤ) (hn : {w | n w ≠ 0}.Finite) (hm : {w | m w ≠ 0}.Finite)
     (h : ∀ w w', w'.under (𝓞 F) = w.under (𝓞 F) → n w' - m w' = n w - m w) :
     ∏ᶠ w, χ.val w ^ n w = ∏ᶠ w, χ.val w ^ m w := by
@@ -219,7 +219,7 @@ theorem exists_mul_conj_eq {L : Type} [Field L] (c : L →+* L) (hc : ∀ x, c (
     rw [Units.val_mk0, map_add (f := _), map_one]
     linear_combination hz
 
-theorem isChi_chiId : ∀ (D : D7) (χ : HChar D.host.E), IsChiPsi D.host χ → Formalism.MainNotions.TaylorLogMetric.IsChi D (chiId χ) := by
+theorem isChi_chiId : ∀ (D : D7) (χ : _root_.Formalism.L2.Host.HChar D.host.E), _root_.Formalism.L2.Host.IsChiPsi D.host χ → Formalism.MainNotions.TaylorLogMetric.IsChi D (chiId χ) := by
   intro D χ hχ
   obtain ⟨c, hc, hcm, hr, -⟩ := GlobalTheory.Mem.HostCM.host_cm D.R D.host
   have hv := prod_val_above χ hχ.unr hχ.triv hr
@@ -265,7 +265,7 @@ theorem isChi_chiId : ∀ (D : D7) (χ : HChar D.host.E), IsChiPsi D.host χ →
     have hu : Units.mk0 _ z0 * Units.mk0 _ k0 = k := Units.ext hk'
     have e1 := chiId_span_singleton χ (Units.mk0 _ z0)
     rw [Units.val_mk0] at e1
-    have e2 : ∏ᶠ w, χ.val w ^ (ordF w (Units.mk0 _ z0)).toNat = ∏ᶠ w, χ.val w ^ ordF w k := by
+    have e2 : ∏ᶠ w, χ.val w ^ (_root_.Formalism.L2.Host.ordF w (Units.mk0 _ z0)).toNat = ∏ᶠ w, χ.val w ^ _root_.Formalism.L2.Host.ordF w k := by
       simp only [← zpow_natCast]
       refine finprod_val_congr χ hv _ _ (finite_toNat (ordF_finite _)) (ordF_finite _) fun w w' h => ?_
       rcases hpl w w' h with rfl | h
@@ -283,9 +283,9 @@ theorem isChi_chiId : ∀ (D : D7) (χ : HChar D.host.E), IsChiPsi D.host χ →
     refine (Fintype.prod_equiv D.eTau _ _ fun τ => ?_).symm
     congr 1
     refine (phase_sq_eq ((map_ne_zero _).2 k.ne_zero) ?_).symm
-    have hcj : embPsi D.host (D.eTau τ) (D.host.conj (k : D.host.E)) =
-        starRingEnd ℂ (embPsi D.host (D.eTau τ) (k : D.host.E)) := Formalism.HC.HostAx.conjE_apply _ _ _
+    have hcj : _root_.Formalism.L2.Host.embPsi D.host (D.eTau τ) (D.host.conj (k : D.host.E)) =
+        starRingEnd ℂ (_root_.Formalism.L2.Host.embPsi D.host (D.eTau τ) (k : D.host.E)) := Formalism.HC.HostAx.conjE_apply _ _ _
     rw [← hcj, ← hc]
-    exact (map_mul (embPsi D.host (D.eTau τ)) _ _).symm.trans (congrArg _ hk')
+    exact (map_mul (_root_.Formalism.L2.Host.embPsi D.host (D.eTau τ)) _ _).symm.trans (congrArg _ hk')
 
 end GlobalTheory.Mem.ChiIdeal

@@ -39,8 +39,8 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import Formalism.LocalToGlobal.Columns.CoefCol
-public import Formalism.LocalToGlobal.Columns.ColForms
+public import Formalism.LocalToGlobal.Columns.Bundle006
+public import Formalism.LocalToGlobal.Columns.Bundle007
 public import Formalism.LocalToGlobal.Columns.ScaledRamifiedLattice
 
 @[expose] public section

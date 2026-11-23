@@ -1,7 +1,7 @@
 module
 
 public import Development.AutomorphicSpectrum.Proofs.AdelicProofs.LocGram
-public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.ExistsBasisCols
+public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

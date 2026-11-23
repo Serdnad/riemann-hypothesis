@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.ArchimedeanThetaValues.IsThetaL2NormSquared
+public import Development.AbelianVarietyTheory.Definitions.ArchimedeanThetaValues.Bundle003
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.IsSmulPtSmulPt
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.HolomorphicHomDetermined
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ConstantTangentReductionEqOrigin
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExistsIsDerivAtOfSurjective
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExistsRepresents
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle032
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle011
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle022
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

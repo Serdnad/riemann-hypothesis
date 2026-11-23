@@ -1,0 +1,147 @@
+module
+
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.FiniteCohomology
+public import Development.AutomorphicArithmetic.CyclotomicBounds.ClassNumberBounds.IdealValuations.Bundle001
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.TypeStar
+import Mathlib.Topology.Sheaves.Init
+
+@[expose] public section
+
+section
+
+open Formalism.WeaklyAdmissibleFiltrations Formalism.MainNotions.N Formalism.BasicNotions Formalism.BasicNotions.Loc ReciprocityTheory.Gal TensorProduct Module UpperTheory.V.Loc Topology
+
+theorem UpperTheory.V.Loc.z1fMap :
+    ∀ {l : ℕ} [Fact l.Prime] {G : Type} [Group G] [TopologicalSpace G] (φ : G →* GQ l) {A : Type} [CommRing A] [Algebra ℚ_[l] A] {A' : Type} [CommRing A'] [Algebra ℚ_[l] A'] {V : Type} [AddCommGroup V] [Module A V] [Module ℚ_[l] V] [IsScalarTower ℚ_[l] A V] [FiniteDimensional ℚ_[l] V] [TopologicalSpace V] [IsModuleTopology ℚ_[l] V] [IsTopologicalAddGroup V] [ContinuousConstSMul A V] {V' : Type} [AddCommGroup V'] [Module A' V'] [Module ℚ_[l] V'] [IsScalarTower ℚ_[l] A' V'] [FiniteDimensional ℚ_[l] V'] [TopologicalSpace V'] [IsModuleTopology ℚ_[l] V'] [IsTopologicalAddGroup V'] [ContinuousConstSMul A' V'] (ρ : Representation A G V) (ρ' : Representation A' G V'), (ContAction ρ → ReciprocityTheory.Gal.B1 ρ ≤ UpperTheory.V.Loc.finiteCocycles φ ρ) ∧ ∀ f : V →ₗ[ℚ_[l]] V', (∀ g x, f (ρ g x) = ρ' g (f x)) → ∀ c ∈ UpperTheory.V.Loc.finiteCocycles φ ρ, (fun g => f (c g)) ∈ UpperTheory.V.Loc.finiteCocycles φ ρ' := by
+  intro l _ G _ _ φ A _ _ A' _ _ V _ _ _ _ _ _ _ _ _ V' _ _ _ _ _ _ _ _ _ ρ ρ'
+  refine ⟨fun hρ => ?_, fun f hf c hc => ?_⟩
+  · rintro _ ⟨v, rfl⟩
+    refine ⟨⟨?_, fun g h => ?_⟩, v ⊗ₜ[ℚ_[l]] (1 : Bcr l), fun g => ?_⟩
+    · have h1 : Continuous fun g : G => ρ g v :=
+        Continuous.comp (g := fun p : G × V => ρ p.1 p.2) (f := fun g : G => (g, v)) hρ (by fun_prop)
+      exact h1.sub continuous_const
+    · simp [ReciprocityTheory.Gal.d0]
+    · simp [ReciprocityTheory.Gal.d0, actC, sub_tmul]
+  · obtain ⟨⟨hc, hcc⟩, x, hx⟩ := hc
+    have hfc : Continuous f := IsModuleTopology.continuous_of_linearMap f
+    refine ⟨⟨hfc.comp hc, fun g h => ?_⟩, LinearMap.rTensor (Bcr l) f x, fun g => ?_⟩
+    · simp only [hcc g h, map_add (f := _), hf]
+    · have key : ∀ y : V ⊗[ℚ_[l]] Bcr l, LinearMap.rTensor (Bcr l) f (actC φ ρ g y) =
+          actC φ ρ' g (LinearMap.rTensor (Bcr l) f y) := by
+        intro y
+        induction y using TensorProduct.induction_on with
+        | zero => simp
+        | tmul a b => simp [actC, hf]
+        | add a b ha hb => simp only [map_add (f := _), ha, hb]
+      rw [← key, ← map_sub, ← hx g, LinearMap.rTensor_tmul]
+end
+
+section
+
+open Formalism.WeaklyAdmissibleFiltrations Formalism.MainNotions.N Formalism.BasicNotions Formalism.BasicNotions.Loc ReciprocityTheory.Gal TensorProduct Module UpperTheory.V.Loc Topology
+
+private theorem fd_pow_root {K : Type*} [Field K] {m n : ℕ} {y : K} (h : y ^ m = 1) :
+    (y ^ n) ^ m = 1 := by
+  rw [← pow_mul, mul_comm, pow_mul, h, one_pow]
+
+private theorem fd_level {v : ℕ} [Fact v.Prime] {x : Om v} (hx : x ∈ MaximalUnramifiedExtension v) :
+    ∃ m : ℕ, ¬ v ∣ m ∧ ∀ g h : GQ v, (∀ y : Om v, y ^ m = 1 → g y = h y) → g x = h x := by
+  have hv : v.Prime := Fact.out
+  have key : ∀ {a b : Om v},
+      (∃ m : ℕ, ¬ v ∣ m ∧ ∀ g h : GQ v, (∀ y : Om v, y ^ m = 1 → g y = h y) → g a = h a) →
+      (∃ m : ℕ, ¬ v ∣ m ∧ ∀ g h : GQ v, (∀ y : Om v, y ^ m = 1 → g y = h y) → g b = h b) →
+      ∃ m : ℕ, ¬ v ∣ m ∧ ∀ g h : GQ v, (∀ y : Om v, y ^ m = 1 → g y = h y) →
+        g a = h a ∧ g b = h b := by
+    rintro a b ⟨m, hm, ha⟩ ⟨n, hn, hb⟩
+    refine ⟨m * n, fun h => (hv.dvd_mul.mp h).elim hm hn, fun g h hgh => ⟨ha g h fun y hy => ?_,
+      hb g h fun y hy => ?_⟩⟩
+    · exact hgh y (by rw [pow_mul, hy, one_pow])
+    · exact hgh y (by rw [mul_comm, pow_mul, hy, one_pow])
+  unfold MaximalUnramifiedExtension at hx
+  induction hx using IntermediateField.adjoin_induction with
+  | mem x hx =>
+    obtain ⟨m, -, hm, hx⟩ := hx
+    exact ⟨m, hm, fun g h hgh => hgh x hx⟩
+  | algebraMap x =>
+    exact ⟨1, hv.not_dvd_one, fun g h _ => by rw [AlgEquiv.commutes, AlgEquiv.commutes]⟩
+  | add x y _ _ hx hy =>
+    obtain ⟨m, hm, h⟩ := key hx hy
+    exact ⟨m, hm, fun g k hgk => by rw [map_add (f := _), map_add (f := _), (h g k hgk).1, (h g k hgk).2]⟩
+  | inv x _ hx =>
+    obtain ⟨m, hm, h⟩ := hx
+    exact ⟨m, hm, fun g k hgk => by rw [map_inv₀, map_inv₀, h g k hgk]⟩
+  | mul x y _ _ hx hy =>
+    obtain ⟨m, hm, h⟩ := key hx hy
+    exact ⟨m, hm, fun g k hgk => by rw [map_mul, map_mul, (h g k hgk).1, (h g k hgk).2]⟩
+
+private theorem fd_frob {v : ℕ} [Fact v.Prime] {σ : GQ v}
+    (hσ : UpperTheory.V.Loc.IsFrob (v := v) σ) {m : ℕ} (hm : ¬ v ∣ m)
+    (j : ℕ) (y : Om v) (hy : y ^ m = 1) : (σ ^ j) y = y ^ v ^ j := by
+  have hm0 : m ≠ 0 := by rintro rfl; exact hm (dvd_zero _)
+  have h1 : σ y = y ^ v := by
+    have hn : ‖y‖ ^ m = 1 := by rw [← norm_pow, hy, norm_one]
+    have hn' := (pow_eq_one_iff_of_nonneg (norm_nonneg _) hm0).mp hn
+    exact KStar.IdealValuations.norm_aut_and_roots.2 m _ _ hm (by rw [← map_pow, hy, map_one])
+      (fd_pow_root hy) (hσ y hn'.le)
+  induction j with
+  | zero => simp
+  | succ j ih => rw [pow_succ', AlgEquiv.mul_apply, ih, map_pow, h1, ← pow_mul, pow_succ']
+
+theorem UpperTheory.V.Loc.frobDense :
+    ∀ {v : ℕ} [Fact v.Prime] (σ : GQ v), UpperTheory.V.Loc.IsFrob (v := v) σ →
+      (Iq v ⊔ Subgroup.zpowers σ).topologicalClosure = ⊤ := by
+  intro v _ σ hσ
+  let H : ClosedSubgroup (GQ v) :=
+    ⟨(Iq v ⊔ Subgroup.zpowers σ).topologicalClosure, Subgroup.isClosed_topologicalClosure _⟩
+  have hH := InfiniteGalois.fixingSubgroup_fixedField H
+  have hle : Iq v ⊔ Subgroup.zpowers σ ≤ (H : Subgroup (GQ v)) := Subgroup.le_topologicalClosure _
+  refine eq_top_iff.mpr fun g _ => ?_
+  change g ∈ (H : Subgroup (GQ v))
+  rw [← hH, IntermediateField.mem_fixingSubgroup_iff]
+  intro x hx
+  rw [IntermediateField.mem_fixedField_iff] at hx
+  have hxK : x ∈ MaximalUnramifiedExtension v := by
+    rw [← InfiniteGalois.fixedField_fixingSubgroup (MaximalUnramifiedExtension v), IntermediateField.mem_fixedField_iff]
+    exact fun f hf => hx f (hle (Subgroup.mem_sup_left hf))
+  obtain ⟨m, hm, h⟩ := fd_level hxK
+  obtain ⟨j, hj⟩ := KStar.IdealValuations.exists_pow_of_aut g hm
+  rw [h g (σ ^ j) fun y hy => by rw [hj y hy, fd_frob hσ hm j y hy]]
+  exact hx _ (hle (Subgroup.mem_sup_right (Subgroup.npow_mem_zpowers σ j)))
+end

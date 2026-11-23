@@ -1,8 +1,8 @@
 module
 
 public import Formalism.SharpRestriction.GlobalSchurBounds.LossesSmallShares
-public import Formalism.LocalToGlobal.GlobalTheory.SuppSat
-public import Formalism.SizeWindowBrackets.PrimeClassLossHypothesesSatisfiable
+public import Formalism.LocalToGlobal.GlobalTheory.Bundle004
+public import Formalism.SizeWindowBrackets.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

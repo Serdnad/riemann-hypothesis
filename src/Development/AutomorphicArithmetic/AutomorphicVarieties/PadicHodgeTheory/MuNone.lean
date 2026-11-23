@@ -2,11 +2,11 @@ module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.FiniteCohomology
 public import Mathlib.Topology.Algebra.Group.TopologicalAbelianization
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FixingSubgroupEquivBicontinuous
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.OpenField
-import GroundTheory.LocalFields.Examples
-public import GroundTheory.LocalFields.FiniteExtension
-public import GroundTheory.LocalFields.LocalArtinCompletion
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle261
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.Bundle009
+import GroundTheory.LocalFields.Bundle002
+public import GroundTheory.LocalFields.Bundle001
+public import GroundTheory.LocalFields.Bundle013
 import GroundTheory.LocalFields.PadicLogSeries
 import GroundTheory.LocalFields.UnitsPowers
 import Mathlib.Algebra.Order.Floor.Extended

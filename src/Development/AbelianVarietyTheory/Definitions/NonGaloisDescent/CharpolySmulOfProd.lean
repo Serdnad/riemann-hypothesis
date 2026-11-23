@@ -1,11 +1,11 @@
 module
 
-public import Formalism.LocalToGlobal.UnitaryNorms.CharTied
-public import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.TameGeneratorProjectors
-public import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.JumpDictionary
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.UniversalAnticyclotomicCharacterLaws
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.BijectiveCmType
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsPadicAlgClRingEquivComplexCompEqOfCountabl
+public import Formalism.LocalToGlobal.UnitaryNorms.Bundle006
+public import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.Bundle004
+public import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.Bundle005
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle120
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle176
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle030
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.InertialOrderFifteenCharAuxiliaryPrimeSpec
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

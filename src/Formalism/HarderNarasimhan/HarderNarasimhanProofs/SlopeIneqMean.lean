@@ -1,14 +1,14 @@
 module
 
-public import Formalism.HarderNarasimhan.StatementPl
+public import Formalism.HarderNarasimhan.Bundle001
 public import Mathlib.CategoryTheory.Category.Basic
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.DiscreteSpanOfLinIndep
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.HNSlopes
 import Formalism.HarderNarasimhan.HarderNarasimhanProofs.MuChar
-public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.RescaleCovol
-public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.ShiftInvariance
+public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.Bundle002
+public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.Bundle003
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.SlopeIneq
-public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.TwistFinrankEq
+public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

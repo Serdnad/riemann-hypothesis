@@ -4,7 +4,7 @@ public import GroundTheory.ProfiniteCohomology.RestrictedRamification.HighProcyc
 public import GroundTheory.GlobalFields.CompletionAtPlace.Integers
 public import GroundTheory.LocalFields.MaximalUnramified
 public import GroundTheory.ProfiniteCohomology.RestrictedRamification.BrauerDivisor
-import GroundTheory.ProfiniteCohomology.CohomologyTwoIntAddEquivQZSymmApply
+import GroundTheory.ProfiniteCohomology.Bundle003
 public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.ABHNPrep
 import GroundTheory.ProfiniteCohomology.RestrictedRamification.Brauer
 public import GroundTheory.ProfiniteCohomology.RestrictedRamification.BrauerFrob

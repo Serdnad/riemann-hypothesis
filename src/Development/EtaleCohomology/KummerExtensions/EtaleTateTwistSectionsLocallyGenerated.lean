@@ -1,7 +1,7 @@
 module
 
-public import Development.EtaleCohomology.TateTwists.EtaleTateTwistSectionsLocallyGenerated
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TateTwistSectionsLocallyGeneratedStatement
+public import Development.EtaleCohomology.TateTwists.Bundle004
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle654
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

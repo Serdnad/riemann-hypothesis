@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.IsPolAVSectionInverseImage
-public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.GlobalFnsHolds
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle034
+public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle012
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.SymmetricLiftOddOrderExistsUnique
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ThetaKeyRuleScaleSectionPowEight
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CombSnd
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1168
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle534
 import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.FrameMatrixHasSum
 import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.HolomorphicHomDetermined
 import Mathlib.Algebra.Order.Floor.Extended
@@ -47,9 +47,9 @@ import Mathlib.Tactic.ReduceModChar
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.VtUniq
 import Development.AbelianVarietyTheory.Definitions.Divisors.TorusExt
 import Development.AbelianVarietyTheory.Definitions.ThetaMetrics.IsRegularFnIffOfIsAffineOpen
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CoeffTopMonEqZero
-import Development.AbelianVarietyTheory.Proofs.ToricGeometry.MemSpanOfCardLe
-import ReciprocityTheory.GeometryOfNumbers.LatticeCovolumes.EllipsoidStA
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle710
+import Development.AbelianVarietyTheory.Proofs.ToricGeometry.Bundle012
+import ReciprocityTheory.GeometryOfNumbers.LatticeCovolumes.Bundle001
 
 @[expose] public section
 

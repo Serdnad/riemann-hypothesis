@@ -1,11 +1,11 @@
 module
 
-public import Development.WeilBound.RepresentationTheoryGL.RegularisedSiegelWeil.HermitianCellMeasures.EmDefs
+public import Development.WeilBound.RepresentationTheoryGL.RegularisedSiegelWeil.HermitianCellMeasures.Bundle001
 public import Mathlib.MeasureTheory.Measure.Haar.MulEquivHaarChar
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AddHaarCharLeftRightMatrixMulAdeleTensor
-import Development.AbelianVarietyTheory.Proofs.HeightProofs.ContinuousOfHeisenbergLevelAndSmooth
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.TensorIdeleAbsDetUnitaryAdelicEqOne
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MeasurableSetBox
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2130
+import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle035
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle166
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle688
 import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SigmaFiniteParameterProductMeasure
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

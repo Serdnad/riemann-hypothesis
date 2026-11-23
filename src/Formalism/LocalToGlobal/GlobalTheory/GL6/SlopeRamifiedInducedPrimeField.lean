@@ -1,9 +1,9 @@
 module
 
 public import Formalism.LocalToGlobal.Columns.SliceIntegralDeltaNeBot
-public import Formalism.LocalToGlobal.GlobalTheory.GL6.RamifiedLatticePropsOfModel
+public import Formalism.LocalToGlobal.GlobalTheory.GL6.Bundle002
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.RamifiedLatticeOfRankSlopeLength
-import Formalism.LocalToGlobal.GlobalTheory.GL6.DiamondCommDistinctPlaces
+import Formalism.LocalToGlobal.GlobalTheory.GL6.Bundle003
 import Formalism.LocalToGlobal.GlobalTheory.HLatOpsP
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

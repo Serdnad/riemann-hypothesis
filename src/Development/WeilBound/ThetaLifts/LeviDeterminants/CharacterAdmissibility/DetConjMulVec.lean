@@ -2,7 +2,7 @@ module
 
 public import Development.WeilBound.ThetaLifts.LeviDeterminants.CharacterAdmissibility.SchrodingerApplyZeroOfFst
 public import Mathlib.Analysis.CStarAlgebra.CStarMatrix
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsUnitaryDoubledBlockDiagOneStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1330
 public import Development.WeilBound.ThetaLifts.LeviDeterminants.CharacterAdmissibility.BoxCancel
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,9 +1,8 @@
 module
 
-public import Formalism.PeriodIntegrals.LocDualGen
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalDualGenerator.FpDualUnram
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalDualGenerator.AddCharKernel
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalDualGenerator.EpSelfDual
+public import Formalism.PeriodIntegrals.Bundle013
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalDualGenerator.Bundle001
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalDualGenerator.Bundle002
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalDualGenerator.FpDual
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalDualGenerator.PsiTower
 import Mathlib.Algebra.Order.Floor.Extended

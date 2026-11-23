@@ -1,18 +1,18 @@
 module
 
-public import Formalism.LocalToGlobal.ProjectiveLattices.IsLevMove
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ThExprUniqOfChartIndep2
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermBPrim
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.SabComp
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle012
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle010
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle024
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle008
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.GlobalSectionsRankAlgClosed
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsAdjointnessSeriesOfFrames
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsNatCastSmulCoeffIsIntegral
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle014
 public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.NonemptyCubicalPull
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.CIndBCNab
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle015
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermDPf
-import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermDVal
+import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle005
 import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermFunPf
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.PrimUniqPf
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle011
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

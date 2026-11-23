@@ -1,10 +1,10 @@
 module
 
-public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.CarrierTIn
+public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.Bundle042
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.CarrierBase
 public import Formalism.HermitianCurvature.StatementJCT
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.LevelsOfBuiltSetting
-public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.CarrierSizes
+public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.Bundle008
 import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.Choice
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -103,7 +103,7 @@ theorem isBuilt_carrierInT (u u' : D.what₂.Word) (e : InfinitePlace D.host.E �
     (hF : Frames (carrierInT X C u u' e he hv CA de de' l grid grid1 fc c ν' m₀ Θ TP A₀))
     (hcc : CoefCC (carrierInT X C u u' e he hv CA de de' l grid grid1 fc c ν' m₀ Θ TP A₀))
     (hcap : CoefCap (carrierInT X C u u' e he hv CA de de' l grid grid1 fc c ν' m₀ Θ TP A₀)) :
-    Formalism.FourierDecayAlt.D.IsBuilt (sOf (carrierInT X C u u' e he hv CA de de' l grid grid1 fc c ν' m₀ Θ TP A₀))
+    Formalism.FourierDecayAlt.D.IsBuilt (_root_.Formalism.L2.SG.Pf.Carrier.sOf (carrierInT X C u u' e he hv CA de de' l grid grid1 fc c ν' m₀ Θ TP A₀))
       (carrierInT X C u u' e he hv CA de de' l grid grid1 fc c ν' m₀ Θ TP A₀).T
       (carrierInT X C u u' e he hv CA de de' l grid grid1 fc c ν' m₀ Θ TP A₀).fc
       (carrierInT X C u u' e he hv CA de de' l grid grid1 fc c ν' m₀ Θ TP A₀).χ
@@ -129,7 +129,7 @@ theorem data_carrierInT (u u' : D.what₂.Word) (e : InfinitePlace D.host.E ≃ 
     (Θ : ∀ j : Fin (nfE D), Formalism.FourierDecayAlt.Top.TopLift D.R.k D.R.rS (X.Vloc u (tauE X e j)) (X.Vloc u' (tauE X e j)))
     (TP : ∀ j : Fin (nfE D), Formalism.FourierDecayAlt.Top.TypeProj (parE e u u' de de' j) (towersOf X C u u' e j).base.π
       (towersOf X C u u' e j).base.z (m₀ j *ᵥ ν' j)) (A₀ : ℝ)
-    (hLA : Formalism.FourierDecayAlt.JCT.LevelsActual (sOf (carrierInT X C u u' e he hv CA de de' l grid grid1 fc c ν' m₀ Θ TP A₀))
+    (hLA : Formalism.FourierDecayAlt.JCT.LevelsActual (_root_.Formalism.L2.SG.Pf.Carrier.sOf (carrierInT X C u u' e he hv CA de de' l grid grid1 fc c ν' m₀ Θ TP A₀))
       (carrierInT X C u u' e he hv CA de de' l grid grid1 fc c ν' m₀ Θ TP A₀).T) (j : Fin (nfE D)) :
     ∃ (Xo : Formalism.FourierDecayAlt.Q.ActualOps D.R.k D.R.rS (towersOf X C u u' e j).base.z (towersOf X C u u' e j).base.z'
         (towersOf X C u u' e j).base.π (towersOf X C u u' e j).base.π')
@@ -198,13 +198,13 @@ theorem isBuiltPlace_carrierInT (Cc : ℝ) (u u' : D.what₂.Word) (e : Infinite
     (hcap : CoefCap (carrierInT X C u u' e he hv CA de de' l grid grid1 fc c ν' m₀ Θ TP A₀))
     (hw : Formalism.FourierDecayAlt.Sz.IsWord D.R.k de) (hw' : Formalism.FourierDecayAlt.Sz.IsWord D.R.k de') (hl1 : 1 ≤ l) (hl2 : l + 2 ≤ D.R.k)
     (hne : de l ≠ de' l)
-    (hG : Formalism.FourierDecayAlt.C.GridsOK (sOf (carrierInT X C u u' e he hv CA de de' l grid grid1 fc c ν' m₀ Θ TP A₀)))
-    (hL : Formalism.FourierDecayAlt.JCT.LongCut Cc (sOf (carrierInT X C u u' e he hv CA de de' l grid grid1 fc c ν' m₀ Θ TP A₀)))
+    (hG : Formalism.FourierDecayAlt.C.GridsOK (_root_.Formalism.L2.SG.Pf.Carrier.sOf (carrierInT X C u u' e he hv CA de de' l grid grid1 fc c ν' m₀ Θ TP A₀)))
+    (hL : Formalism.FourierDecayAlt.JCT.LongCut Cc (_root_.Formalism.L2.SG.Pf.Carrier.sOf (carrierInT X C u u' e he hv CA de de' l grid grid1 fc c ν' m₀ Θ TP A₀)))
     (hCA : Cc ≤ CA) (hsm : ∀ j, Formalism.FourierDecayAlt.B.CkOn ⊤ (Formalism.FourierDecayAlt.B.GV D.R.k D.R.rS) (fc j))
     (hA : Cc * ((D.R.rS : ℝ) + 1) ^ 4 *
       ((4 * Formalism.FourierDecayAlt.C.Kst * (D.R.rS + 1) : ℕ) * (2 * (D.R.rS : ℝ) + D.R.k + 1) ^ 2 +
         (2 * (D.R.rS : ℝ) + D.R.k + 1) ^ 3) ≤ A₀) :
-    Formalism.FourierDecayAlt.JCT.IsBuiltPlace Cc (sOf (carrierInT X C u u' e he hv CA de de' l grid grid1 fc c ν' m₀ Θ TP A₀))
+    Formalism.FourierDecayAlt.JCT.IsBuiltPlace Cc (_root_.Formalism.L2.SG.Pf.Carrier.sOf (carrierInT X C u u' e he hv CA de de' l grid grid1 fc c ν' m₀ Θ TP A₀))
       (carrierInT X C u u' e he hv CA de de' l grid grid1 fc c ν' m₀ Θ TP A₀).T
       (carrierInT X C u u' e he hv CA de de' l grid grid1 fc c ν' m₀ Θ TP A₀).fc
       (carrierInT X C u u' e he hv CA de de' l grid grid1 fc c ν' m₀ Θ TP A₀).χ
@@ -230,7 +230,7 @@ theorem exists_Cc_data : ∃ Cc : ℝ, ∀ {D : D7} (X : Formalism.L2.SG.HidaSet
     (Θ : ∀ j : Fin (nfE D), Formalism.FourierDecayAlt.Top.TopLift D.R.k D.R.rS (X.Vloc u (tauE X e j)) (X.Vloc u' (tauE X e j)))
     (TP : ∀ j : Fin (nfE D), Formalism.FourierDecayAlt.Top.TypeProj (parE e u u' de de' j) (towersOf X C u u' e j).base.π
       (towersOf X C u u' e j).base.z (m₀ j *ᵥ ν' j)) (A₀ : ℝ),
-    Formalism.FourierDecayAlt.JCT.IsBuiltPlace Cc (sOf (carrierInT X C u u' e he hv CA de de' l grid grid1 fc c ν' m₀ Θ TP A₀))
+    Formalism.FourierDecayAlt.JCT.IsBuiltPlace Cc (_root_.Formalism.L2.SG.Pf.Carrier.sOf (carrierInT X C u u' e he hv CA de de' l grid grid1 fc c ν' m₀ Θ TP A₀))
       (carrierInT X C u u' e he hv CA de de' l grid grid1 fc c ν' m₀ Θ TP A₀).T
       (carrierInT X C u u' e he hv CA de de' l grid grid1 fc c ν' m₀ Θ TP A₀).fc
       (carrierInT X C u u' e he hv CA de de' l grid grid1 fc c ν' m₀ Θ TP A₀).χ

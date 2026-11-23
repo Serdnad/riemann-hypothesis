@@ -1,7 +1,7 @@
 module
 
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.ContDiffOnInvConjDet
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.ContDiffOfSnd
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle168
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle156
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

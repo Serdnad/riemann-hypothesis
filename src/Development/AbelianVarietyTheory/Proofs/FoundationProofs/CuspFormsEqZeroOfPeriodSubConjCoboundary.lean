@@ -1,13 +1,12 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Foundations.IsDCReps
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle002
 public import Mathlib.NumberTheory.ModularForms.Basic
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.CuspFormEqZeroOfPeriodicOfBound
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.DecayAtCusp
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.EichlerIntegralFromISlashChangeOfVariables
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.EichlerPeriodCocycleMemCocyclesAndEq
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.EvalPolyDegreeSlashAction
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.PolyDegreeSlashActionRightActionProperties
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle112
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle137
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle025
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle085
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle024
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

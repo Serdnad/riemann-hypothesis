@@ -1,10 +1,10 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.UnramifiedCocycleIsCoboundaryOfBernoulliUnit
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.Bundle006
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.DecompSigmaOrd
-import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.DvrFacts
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.HcSpKer
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.HcVanOf
+import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.Bundle008
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.Bundle007
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.Bundle011
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -41,9 +41,13 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.HcDefs
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.Bundle002
 
 @[expose] public section
+
+local instance (priority := 2000) ratFieldIsTorsionFreeForHcXvan (Ω : Type)
+    [Field Ω] [CharZero Ω] : Module.IsTorsionFree ℚ Ω :=
+  DivisionSemiring.to_moduleIsTorsionFree
 
 open NumberField IsDedekindDomain Formalism.ConjugateSelfDual ReciprocityTheory.Gal IsLocalRing Module UpperTheory.V UpperTheory.V.Base UpperTheory.V.HV UpperTheory.V.GradeZeroInterpolatingElement UpperTheory.V.X
 

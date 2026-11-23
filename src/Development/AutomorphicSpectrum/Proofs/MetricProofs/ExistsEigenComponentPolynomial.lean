@@ -49,9 +49,9 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LogPeriodLimit
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.ExistsIsChart
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle080
 import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.CoordinateIdeals.FubiniLevi
-import GroundTheory.HeightsAndTheta.Heights.Regularisation.StPuncturedExpOrder
+import GroundTheory.HeightsAndTheta.Heights.Regularisation.Bundle001
 public import Mathlib.NumberTheory.NumberField.InfinitePlace.Embeddings
 
 @[expose] public section

@@ -1,10 +1,10 @@
 module
 
 import Development.AbelianVarietyTheory.Proofs.FlagMeasures.SplitPlaceFirstFactorLocalFrame
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.SelfDualAt
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle005
 public import Mathlib.Algebra.AffineMonoid.Basic
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IntegralExtensionFiniteAdelesBasicProperties
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsNormSubEqOne
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle102
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,13 +1,13 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.BrgStdR
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle024
 public import Development.AbelianVarietyTheory.Definitions.ExistenceOfLattices.Hat1
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.EventuallyCongOne
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.MemOfPerpPerp
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.FinCongMemLevEnv
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.MulVecMemHatSwap
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle335
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.MemClosureUnitary
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.AdelicUnitaryEqRealMulFiniteSplit
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle077
 import Formalism.LocalToGlobal.Columns.AdelicLemmas
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -51,7 +51,7 @@ noncomputable section
 
 namespace GlobalTheory.Mem.RowCoord
 
-open NumberField Module Formalism.DivisionValues Formalism.L2.DIV Formalism.L2.Col
+open NumberField Module Formalism.DivisionValues Formalism.L2.DIV _root_.Formalism.L2.Col
 
 section Alg
 

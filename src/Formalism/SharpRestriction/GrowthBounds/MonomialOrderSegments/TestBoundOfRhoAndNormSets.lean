@@ -4,7 +4,7 @@ public import Formalism.SharpRestriction.GrowthBounds.MonomialOrderSegments.Coll
 public import Formalism.SharpRestriction.GrowthBounds.MonomialOrderSegments.AddMemSupportOfMemSupportCoefOut
 public import Formalism.SharpRestriction.GrowthBounds.MonomialOrderSegments.CgeZeroIffIntegral
 public import Formalism.SharpRestriction.GrowthBounds.MonomialOrderSegments.FockMonomialRight
-public import Formalism.SharpRestriction.GrowthBounds.MonomialOrderSegments.Monomial
+public import Formalism.SharpRestriction.GrowthBounds.MonomialOrderSegments.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

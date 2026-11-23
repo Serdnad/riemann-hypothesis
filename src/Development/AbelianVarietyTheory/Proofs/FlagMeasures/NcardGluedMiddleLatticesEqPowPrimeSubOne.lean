@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.RowMinor
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle012
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.CyclicDiscriminantLatticesFormOneGenus
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsForallHomEq
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsUniquePlace
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle256
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.MemOfPerpPerp
 import Formalism.HermitianLattices.HermitianLatticesProofs.DualBasic
 import Formalism.HermitianLattices.HermitianLatticesProofs.DualLattice
@@ -370,7 +370,7 @@ theorem ncard_glued [FiniteDimensional K W] (hs : h.IsSymm) (hι : ∀ x y, h (�
     obtain ⟨a', ha'⟩ := star_algebraMap_ringOfIntegers_mem_range a
     change (a' : K) = star (a : K) at ha'
     refine hstarT a' a (by rw [ha', star_star]) ((hann _).1 ?_)
-    rw [← (dualLattice (𝓞 K) K W h0 hs0 hn0 star_algebraMap_ringOfIntegers_mem_range L hL).2.1, dualBasic_mem_dual]
+    rw [← (_root_.Formalism.HermitianLatticesTheory.dualLattice (𝓞 K) K W h0 hs0 hn0 star_algebraMap_ringOfIntegers_mem_range L hL).2.1, dualBasic_mem_dual]
     intro w hw
     obtain ⟨b, hb⟩ := hgen w hw
     refine swap_mem hs0 ?_

@@ -1,18 +1,18 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.ArchimedeanThetaValues.IsThetaL2NormSquared
+public import Development.AbelianVarietyTheory.Definitions.ArchimedeanThetaValues.Bundle003
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExistsPowerSectionOfChartFunctions
 public import Development.AbelianVarietyTheory.Definitions.Foundations.MemPuncturedRingIffPowerSeriesPart
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.DivCalc
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.SecBaseChangeAnySt
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.FramedPointBaseChangeLaws
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.Bundle005
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle014
 public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.ExistsPChartOfFramedPoint
-public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.ModelChartLiftCoordsGeneratorIndep
+public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.Bundle020
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.EqZeroOfForallExistsLsumETwoPi
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExistsPowEqOfBaseChange
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.IsoEqOfMapsAlongSection
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsFramedPointBaseChangeAlgebraMap
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.SecValuesComplexFibreAbelianScheme
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle068
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle059
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -245,7 +245,7 @@ theorem exists_cut (h₀ : RigIso Y.m0.toSABMap w₀) (h₁ : RigIso Y.m w₁)
             · simp [U]
             · exact (pa _ _).trans (by simp [U])
         · let U := pushPt h.1.w (𝟙 ((Over.pullback f).obj t.G))
-          refine LBIso.chartPull (chartPullPull t.PP.L _ _ rfl)
+          refine LBIso.chartPull (ReciprocityTheory.ChartRestriction.G.Geo.Tor.chartPullPull t.PP.L _ _ rfl)
             (chartPullLinComb t.PP.L _ _ _ _ U.left fun I => psum_push h _ _ U (fun i => ?_) I.down) t.prim
           fin_cases i
           · simp [U]
@@ -591,11 +591,11 @@ open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.S
 open scoped LaurentSeries
 open GlobalTheory.GenRatio
 
-theorem hasSum_generator_ratio : Out.Laws → Out.Laws2 → ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E) (Dw : Datum H) (l : Level H) (Xo : Moduli Dw l) (c : Coeff l) (σ : c.F →+* ℂ) [Algebra (FractionRing ℂ) ℂ] [IsScalarTower ℂ (FractionRing ℂ) ℂ] (O : Type) [CommRing O] (β : O →+* c.F) (Y : Model Xo c β) (a : ArcIn Dw l β ℂ (σ.comp β)) (χ : Sp (PowerSeries ℂ) ⟶ Y.X) (W : Wit Y a χ) (g : ℕ) (ty : Fin g → (E →+* ℂ)) (Fu : FamilyUnif Xo (σ.comp (IntermediateField.inclusion c.le).toRingHom) ty) (Ha : HolArc Y σ a χ W Fu) [Algebra c.F ℂ⸨X⸩] (y : FrPt Xo c ℂ⸨X⸩) (e : ∀ τ : E →+* ℂ, Fin (Dw.mult τ) → Out.GtPt a.D₀ (epsR ℂ)) (th : a.D₀.P.L.Sec) (Θ : ThetaDat Ha th) (p : TRing c.F) (j : Sp p.R ⟶ Xo.XF c) (y₀ : FrPt Xo c p.R) (φ : p.R →ₐ[c.F] ℂ⸨X⸩) (y₁ : FrPt Xo c ℂ⸨X⸩) (G : ∀ τ : E →+* ℂ, Matrix (Fin (Dw.mult τ)) (Fin (Dw.mult τ)) ℂ⸨X⸩) (s : ℂ⸨X⸩), (∀ x : c.F, algebraMap c.F ℂ⸨X⸩ x = HahnSeries.ofPowerSeries ℤ ℂ (PowerSeries.C (R := ℂ) (σ x))) → χ ≫ Y.s = spMap (PowerSeries.C (R := ℂ)) ≫ spMap (σ.comp β) → Mono (spMap β) → PushInvertible Y.t.G Y.t.PP.L → ThNZ th → IsArcFr W e th (HahnSeries.ofPowerSeries ℤ ℂ) y → OpenChart j y₀ → FrMap φ y₀ y₁ → FrChg G s y₁ y → ∃ T : ℝ, ∀ w : ℂ, T < w.im → ∀ (ψ : p.R →ₐ[c.F] CAt σ) (yw₁ yw : FrPt Xo c (CAt σ)) (Gw : ∀ τ : E →+* ℂ, Matrix (Fin (Dw.mult τ)) (Fin (Dw.mult τ)) (CAt σ)) (sw : CAt σ), (∀ f : p.R, HasSum (fun m : ℤ => (φ f).coeff m * eTwoPi w ^ m) (toC (ψ f))) → FrMap ψ y₀ yw₁ → yw.x = Fu.u Ha.i (Ha.Pw w) → AnGen Fu Ha.i (Ha.Pw w) yw (fun z => thetaChar (Θ.τ w) Θ.c₁ Θ.c₂ (Θ.h.mulVec z)) Θ.κ → FrChg Gw sw yw₁ yw → HasSum (fun m : ℤ => (s).coeff m * eTwoPi w ^ m) (toC sw) := by
+theorem hasSum_generator_ratio : Out.Laws → Out.Laws2 → ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E) (Dw : Datum H) (l : Level H) (Xo : Moduli Dw l) (c : Coeff l) (σ : c.F →+* ℂ) [Algebra (FractionRing ℂ) ℂ] [IsScalarTower ℂ (FractionRing ℂ) ℂ] (O : Type) [CommRing O] (β : O →+* c.F) (Y : Model Xo c β) (a : ArcIn Dw l β ℂ (σ.comp β)) (χ : Sp (PowerSeries ℂ) ⟶ Y.X) (W : Wit Y a χ) (g : ℕ) (ty : Fin g → (E →+* ℂ)) (Fu : FamilyUnif Xo (σ.comp (IntermediateField.inclusion c.le).toRingHom) ty) (Ha : HolArc Y σ a χ W Fu) [Algebra c.F ℂ⸨X⸩] (y : FrPt Xo c ℂ⸨X⸩) (e : ∀ τ : E →+* ℂ, Fin (Dw.mult τ) → Out.GtPt a.D₀ (epsR ℂ)) (th : a.D₀.P.L.Sec) (Θ : ThetaDat Ha th) (p : TRing c.F) (j : Sp p.R ⟶ Xo.XF c) (y₀ : FrPt Xo c p.R) (φ : p.R →ₐ[c.F] ℂ⸨X⸩) (y₁ : FrPt Xo c ℂ⸨X⸩) (G : ∀ τ : E →+* ℂ, Matrix (Fin (Dw.mult τ)) (Fin (Dw.mult τ)) ℂ⸨X⸩) (s : ℂ⸨X⸩), (∀ x : c.F, algebraMap c.F ℂ⸨X⸩ x = HahnSeries.ofPowerSeries ℤ ℂ (PowerSeries.C (R := ℂ) (σ x))) → χ ≫ Y.s = spMap (PowerSeries.C (R := ℂ)) ≫ spMap (σ.comp β) → Mono (spMap β) → PushInvertible Y.t.G Y.t.PP.L → ThNZ th → IsArcFr W e th (HahnSeries.ofPowerSeries ℤ ℂ) y → OpenChart j y₀ → FrMap φ y₀ y₁ → FrChg G s y₁ y → ∃ T : ℝ, ∀ w : ℂ, T < w.im → ∀ (ψ : p.R →ₐ[c.F] CAt σ) (yw₁ yw : FrPt Xo c (CAt σ)) (Gw : ∀ τ : E →+* ℂ, Matrix (Fin (Dw.mult τ)) (Fin (Dw.mult τ)) (CAt σ)) (sw : CAt σ), (∀ f : p.R, HasSum (fun m : ℤ => (φ f).coeff m * eTwoPi w ^ m) (Formalism.L2.PjFree.toC (ψ f))) → FrMap ψ y₀ yw₁ → yw.x = Fu.u Ha.i (Ha.Pw w) → AnGen Fu Ha.i (Ha.Pw w) yw (fun z => thetaChar (Θ.τ w) Θ.c₁ Θ.c₂ (Θ.h.mulVec z)) Θ.κ → FrChg Gw sw yw₁ yw → HasSum (fun m : ℤ => (s).coeff m * eTwoPi w ^ m) (Formalism.L2.PjFree.toC sw) := by
   intro hL hL2 E _ _ _ H Dw l Xo c σ _ _ O _ β Y a χ W g ty Fu Ha _ y e th Θ p j y₀ φ y₁ G s hal hχ hmono hPI hth harc hj
     hφ hchg
   by_cases hne : ∃ (w : ℂ) (ψ : p.R →ₐ[c.F] CAt σ),
-      ∀ f : p.R, HasSum (fun m : ℤ => (φ f).coeff m * eTwoPi w ^ m) (toC (ψ f))
+      ∀ f : p.R, HasSum (fun m : ℤ => (φ f).coeff m * eTwoPi w ^ m) (Formalism.L2.PjFree.toC (ψ f))
   swap
   · exact ⟨0, fun w _ ψ _ _ _ _ h => (hne ⟨w, ψ, h⟩).elim⟩
   obtain ⟨v, ψ₀, hv⟩ := hne
@@ -651,7 +651,7 @@ theorem hasSum_generator_ratio : Out.Laws → Out.Laws2 → ∀ (E : Type) [Fiel
   simp only [max_lt_iff] at hω
   obtain ⟨ρ, hρ, hval⟩ := hT' ω hω.2.1
   obtain ⟨hψh, hfin⟩ := hT ω hω.1 _ _ _ (hψ b) (hψ h) (Conv.sumsAt_iff.1 hρ)
-  obtain ⟨hVw, hbw⟩ := hb _ ψ (IsUnit.mk0 (toC (ψ h)) hψh)
+  obtain ⟨hVw, hbw⟩ := hb _ ψ (IsUnit.mk0 (Formalism.L2.PjFree.toC (ψ h)) hψh)
   have hxw : (spMap ψ.toRingHom ≫ j) ≫ pullback.fst _ _ = yw.x := by rw [Category.assoc, hj.2.1, hcw.1, hm.1]
   obtain ⟨a', ha', -⟩ := exists_cut_gen h₀ h₁ hgen.1 hxw hVw yw.gen
   obtain ⟨fr, hfr, hs⟩ := hgenw
@@ -659,7 +659,7 @@ theorem hasSum_generator_ratio : Out.Laws → Out.Laws2 → ∀ (E : Type) [Fiel
     rw [Category.assoc, hj.2.2, ← FramedBaseChange.spec_comp]
     congr 1
     exact RingHom.ext fun x => ψ.commutes x
-  have ea : toC a' = ρ := by
+  have ea : Formalism.L2.PjFree.toC a' = ρ := by
     refine cut_complex hL2.secTwist (z := spMap ψ.toRingHom ≫ j) (x := yw.x) hxw hVw yw.gen ha' ρ ?_
     intro pt f k₁ k k₀ a₁ a₂ a₃ a₄ a₅
     have ov : (f ≫ Y.m0.toSABMap.φ) ≫ Xo.univ.t.G.hom = Fu.u Ha.i (Ha.Pw ω) := by

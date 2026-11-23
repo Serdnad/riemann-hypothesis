@@ -2,9 +2,8 @@ module
 
 public import Mathlib
 public import GroundTheory.HeightsAndTheta.Heights.RemainderTerms.Statements
-public import GroundTheory.HeightsAndTheta.Heights.RemainderTerms.Inhabitants
-public import GroundTheory.HeightsAndTheta.Heights.RemainderTerms.PowerSums
-public import GroundTheory.HeightsAndTheta.Heights.RemainderTerms.FlagBasic
+public import GroundTheory.HeightsAndTheta.Heights.RemainderTerms.Bundle001
+public import GroundTheory.HeightsAndTheta.Heights.RemainderTerms.Bundle004
 
 @[expose] public section
 

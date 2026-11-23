@@ -1,9 +1,9 @@
 module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.ExDefs
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.EntryMem
-import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.CoSqz
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.DerHom
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Bundle007
+import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.Bundle008
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.Bundle004
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.ExistsLocalFirstOrderLifts
 import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.LMemMax
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.SmoothPtWeightedPresentationOfPointDerivations
@@ -61,20 +61,20 @@ section Abs
 
 variable {O Q H : Type} [CommRing O] [CommRing Q] [Algebra O Q] [Module Oᵐᵒᵖ Q] [IsCentralScalar O Q] [Group H]
 
-private def tw (Q : Type) [CommRing Q] [Algebra O Q] (A B : M4 O) (q : Q) : M4 (TrivSqZeroExt O Q) :=
+private def twisted_matrix (Q : Type) [CommRing Q] [Algebra O Q] (A B : M4 O) (q : Q) : M4 (TrivSqZeroExt O Q) :=
   Matrix.of fun i j => TrivSqZeroExt.inl (A i j) + TrivSqZeroExt.inr (B i j • q)
 
-private theorem tw_fst (A B : M4 O) (q : Q) (i j : Fin 4) : (tw Q A B q i j).fst = A i j := by simp [tw]
+private theorem tw_fst (A B : M4 O) (q : Q) (i j : Fin 4) : (twisted_matrix Q A B q i j).fst = A i j := by simp [twisted_matrix]
 
-private theorem tw_snd (A B : M4 O) (q : Q) (i j : Fin 4) : (tw Q A B q i j).snd = B i j • q := by simp [tw]
+private theorem tw_snd (A B : M4 O) (q : Q) (i j : Fin 4) : (twisted_matrix Q A B q i j).snd = B i j • q := by simp [twisted_matrix]
 
-private theorem tw_one (B : M4 O) : tw Q 1 B 0 = 1 := by
+private theorem tw_one (B : M4 O) : twisted_matrix Q 1 B 0 = 1 := by
   ext i j
   · rw [tw_fst]; by_cases h : i = j <;> simp [Matrix.one_apply, h]
   · rw [tw_snd]; by_cases h : i = j <;> simp [Matrix.one_apply, h]
 
 private theorem tw_mul (A B A' B' C : M4 O) (q q' : Q) (u : O) (h1 : B * A' = C) (h2 : A * B' = u • C) :
-    tw Q (A * A') C (q + u • q') = tw Q A B q * tw Q A' B' q' := by
+    twisted_matrix Q (A * A') C (q + u • q') = twisted_matrix Q A B q * twisted_matrix Q A' B' q' := by
   ext i j
   · simp [tw_fst, Matrix.mul_apply, TrivSqZeroExt.fst_sum]
   · have e1 := congrFun (congrFun h1 i) j
@@ -86,13 +86,13 @@ private theorem tw_mul (A B A' B' C : M4 O) (q q' : Q) (u : O) (h1 : B * A' = C)
     rw [e2, mul_comm u, add_comm, ← e1]
     simp only [mul_comm]
 
-private theorem tw_adj (A B : M4 O) (q : Q) : adj (tw Q A B q) = tw Q (adj A) (adj B) q := by
+private theorem tw_adj (A B : M4 O) (q : Q) : adj (twisted_matrix Q A B q) = twisted_matrix Q (adj A) (adj B) q := by
   ext i j
   · simp only [adj_apply, TrivSqZeroExt.fst_smul, tw_fst]
   · simp only [adj_apply, TrivSqZeroExt.snd_smul, tw_snd, smul_assoc]
 
 private theorem tw_gsp (A B : M4 O) (q : Q) (ν : O) (h1 : IsGSp ν A) (h2 : adj B * A = -(adj A * B)) :
-    IsGSp (algebraMap O _ ν) (tw Q A B q) := by
+    IsGSp (algebraMap O _ ν) (twisted_matrix Q A B q) := by
   unfold IsGSp at *
   have h := tw_mul (adj A) (adj B) A B (adj B * A) q q (-1) rfl (by rw [h2]; simp)
   rw [tw_adj, ← h, h1]
@@ -157,7 +157,7 @@ private theorem ac_dg {Γ : Type} [TopologicalSpace Γ] {I : Ideal O} {d : Γ �
 
 private theorem ac_tw {Γ : Type} [TopologicalSpace Γ] [IsLocalRing O] [IsCO O (TrivSqZeroExt O Q)] {A B : Γ → M4 O} {q : Γ → Q}
     (i j : Fin 4) (hA : AdicCont (maximalIdeal O) fun g => A g i j) (hB : AdicCont (maximalIdeal O) fun g => B g i j)
-    (hq : IsLocallyConstant q) : AdicCont (maximalIdeal (TrivSqZeroExt O Q)) fun g => tw Q (A g) (B g) (q g) i j := by
+    (hq : IsLocallyConstant q) : AdicCont (maximalIdeal (TrivSqZeroExt O Q)) fun g => twisted_matrix Q (A g) (B g) (q g) i j := by
   have := ac_add (ac_map (R := TrivSqZeroExt O Q) hA) (ac_mul (ac_map hB) (ac_lc _ (hq.comp TrivSqZeroExt.inr)))
   convert this using 2 with g
   ext <;> simp [tw_fst, tw_snd, TrivSqZeroExt.algebraMap_eq_inl]
@@ -170,7 +170,7 @@ private theorem res_fst [IsLocalRing O] [IsNoetherianRing O] [IsAdicComplete (ma
 private def twRep (ps : Fin 4 → H →* Oˣ) (u : H → O) (h2 : ∀ g, (ps 2 g : O) = u g * ps 0 g)
     (h3 : ∀ g, (ps 3 g : O) = u g * ps 1 g) (z : H → Q) (hz : ∀ g h, z (g * h) = z g + u g • z h) (h1 : z 1 = 0) :
     H →* M4 (TrivSqZeroExt O Q) where
-  toFun g := tw Q (diagRep ps g) (Xm O * diagRep ps g) (z g)
+  toFun g := twisted_matrix Q (diagRep ps g) (Xm O * diagRep ps g) (z g)
   map_one' := by rw [map_one, h1, tw_one]
   map_mul' g h := by
     rw [hz, map_mul]
@@ -201,7 +201,7 @@ private theorem fr_map {L : LocBase D} {R R' : Type} [CommRing R] [Algebra c.O R
 
 set_option synthInstance.maxHeartbeats 200000 in
 set_option maxHeartbeats 1000000 in
-private theorem main (hD : D.Good) (L : LocBase D) (F : Fr D L) (Q : Type) [CommRing Q] [Algebra c.O Q] [Module c.Oᵐᵒᵖ Q]
+private theorem exists_compatible_pointDerivations (hD : D.Good) (L : LocBase D) (F : Fr D L) (Q : Type) [CommRing Q] [Algebra c.O Q] [Module c.Oᵐᵒᵖ Q]
     [IsCentralScalar c.O Q] [Module.Finite c.O Q] (z : G ℚ Ω → Q) (lc : IsLocallyConstant z)
     (coc : ∀ g h, z (g * h) = z g + ((D.Psi⁻¹ g : c.Oˣ) : c.O) • z h) (unr : D.UnrT z 0)
     (m : D.T → c.O) (hm : ∀ v : D.T, ∀ g ∈ D.Gp v, z g = algebraMap c.O Q (((D.Psi⁻¹ g : c.Oˣ) : c.O) * m v - m v)) :
@@ -232,7 +232,7 @@ private theorem main (hD : D.Good) (L : LocBase D) (F : Fr D L) (Q : Type) [Comm
         simp only [e]
         exact ac_mul (ac_lc _ (IsLocallyConstant.const _)) (f11 j)) lc
       red := fun g i j => (res_fst _).trans (congrArg (residue c.O) (tw_fst _ _ _ i j)) }
-  have hr : ∀ g, r.hom g = tw Q (D.r0 g) (Xm c.O * D.r0 g) (z g) := fun _ => rfl
+  have hr : ∀ g, r.hom g = twisted_matrix Q (D.r0 g) (Xm c.O * D.r0 g) (z g) := fun _ => rfl
   obtain ⟨ρ, hρ, hρ'⟩ := UpperTheory.exists_local_first_order_lifts D hD (fun v => (-m v) • Xm c.O) fun v => (sp4 c.O).smul_mem _ Xm_sp
   obtain ⟨yB, hyB, -⟩ := L.univ _ ρ hρ
   have hc : ∀ (v : D.T) (g : G ℚ Ω), (-m v) • Xm c.O * D.r0 g - D.r0 g * (-m v) • Xm c.O =
@@ -266,7 +266,7 @@ private theorem main (hD : D.Good) (L : LocBase D) (F : Fr D L) (Q : Type) [Comm
       · rw [tw_fst, Matrix.map_apply, AlgHom.comp_apply, p1, (hy v g i j).1]
       · rw [tw_snd, Matrix.map_apply, AlgHom.comp_apply, p2, (hy v g i j).2, hm v g g.2, map_mul, Algebra.smul_def, mul_comm]
   obtain ⟨y, ⟨y1, y2, y3⟩, -⟩ := F.univ _ _ _ _ hF
-  have y2' : ∀ g i j, y (F.r.hom g i j) = tw Q (D.r0 g) (Xm c.O * D.r0 g) (z g) i j := fun g i j => by
+  have y2' : ∀ g i j, y (F.r.hom g i j) = twisted_matrix Q (D.r0 g) (Xm c.O * D.r0 g) (z g) i j := fun g i j => by
     rw [← hr, ← y2]; rfl
   have y3' : ∀ v i j, y (F.α v i j) = (1 : M4 (TrivSqZeroExt c.O Q)) i j := fun v i j => congrFun (congrFun (y3 v) i) j
   let q : TrivSqZeroExt c.O Q →ₐ[c.O] c.O := TrivSqZeroExt.fstHom c.O c.O Q
@@ -315,6 +315,6 @@ theorem UpperTheory.exists_quotientDerivation_of_shaCocycle :
       obtain ⟨m, rfl⟩ := Ideal.Quotient.mk_surjective m
       exact ⟨m, fun g hg => by rw [hm g hg, map_sub, map_mul]; rfl⟩
   choose m hm using hm
-  obtain ⟨Db, h1, DB, h2, h3, h4, h5, h6⟩ := main hD L F (c.O ⧸ Ideal.span {a}) z hz.lc
+  obtain ⟨Db, h1, DB, h2, h3, h4, h5, h6⟩ := exists_compatible_pointDerivations hD L F (c.O ⧸ Ideal.span {a}) z hz.lc
     (fun g h => by rw [hz.coc, Algebra.smul_def]; rfl) hz.unr m hm
   exact ⟨Db, h1, DB, h2, h3, h4, fun g i j => by rw [h5, Algebra.smul_def]; rfl, h6⟩

@@ -56,7 +56,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsHeisTrivial
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle008
 public import Mathlib.Algebra.Group.Subgroup.Finite
 public import Mathlib.GroupTheory.Coset.Card
 public import Mathlib.GroupTheory.Index

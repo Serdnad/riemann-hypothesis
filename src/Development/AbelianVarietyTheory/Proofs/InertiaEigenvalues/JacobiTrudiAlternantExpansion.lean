@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SchurEqJtDet
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.AddLeOfStrictAnti
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle383
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle041
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

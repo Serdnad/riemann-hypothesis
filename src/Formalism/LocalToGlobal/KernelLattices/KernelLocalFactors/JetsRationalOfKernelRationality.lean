@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.KernelLattices.JetFieldLeKR
+public import Formalism.LocalToGlobal.KernelLattices.Bundle003
 public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.PeriodLatticeFinitelyGenerated
 import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.ThDistC
 import Mathlib.Algebra.Order.Floor.Extended

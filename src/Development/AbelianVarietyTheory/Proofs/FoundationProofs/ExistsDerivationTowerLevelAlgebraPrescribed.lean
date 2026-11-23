@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Foundations.NotIsTrDataGaussianIntOne
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle005
 public import Mathlib.Algebra.TrivSqZeroExt.Basic
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.TowerEmbeddingInjectiveStatement
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle141
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

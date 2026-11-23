@@ -1,9 +1,9 @@
 module
 
 public import Formalism.SharpRestriction.LevelLetterCocycles.DataNLoc
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ChiOntoOfUnramified
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CyclotomicCharacterPadicBasicProperties
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsCosetRepresentativesOfFiniteSubgroupPadicI
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle379
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle164
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle093
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

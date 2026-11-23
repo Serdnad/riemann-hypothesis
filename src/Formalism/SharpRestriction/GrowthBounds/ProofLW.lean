@@ -1,15 +1,14 @@
 module
 
 public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.StmtNumEOf
-public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.NcCGNonneg
-public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.NcIotaInj
-public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.NcLgpLe
-public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.NcSummableMin
+public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle011
+public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle005
+public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle004
 import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.NcTsumOdd
 public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.NdBNonneg
-import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.NdLszLe
-import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.NumericalClosedOfNeed
-public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.PriceBoundLargePrimes
+import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle008
+import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle012
+public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle017
 public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.PriceLinearCombinationLe
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -48,7 +47,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.NcSize
+public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle010
 
 @[expose] public section
 

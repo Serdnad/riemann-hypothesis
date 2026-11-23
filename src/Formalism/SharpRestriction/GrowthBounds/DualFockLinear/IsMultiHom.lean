@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalToGlobal.GroupLattices.FockModels.FlatModels.Letter
-public import Formalism.PolynomialDimension.WeylDim
+public import Formalism.PolynomialDimension.Bundle001
 public import Formalism.SharpRestriction.GrowthBounds.UnramifiedQuadraticSetting
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

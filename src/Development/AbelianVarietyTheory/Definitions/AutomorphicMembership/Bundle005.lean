@@ -1,0 +1,335 @@
+module
+
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ValRSpMapFromSpecStalk
+public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.StrongMultiplicityOne
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle118
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FinGLMemOfPow
+import Formalism.LocalToGlobal.UnitaryNorms.CharUniq
+public import Formalism.LocalToGlobal.LatticeGeometry.GeoTiedP
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Etale.Weakly
+import Mathlib.RingTheory.Finiteness.ModuleFinitePresentation
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.TotallySplit
+import Mathlib.Tactic.Basify
+import Mathlib.Tactic.ENatToNat
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Topology.Sheaves.Init
+import ReciprocityTheory.NeutralLocalFields.LocalFieldComparison.HCFFromRecipA
+
+@[expose] public section
+
+section
+
+set_option autoImplicit false
+
+noncomputable section
+
+open MvPolynomial GlobalTheory.FlagBundle
+open scoped Matrix
+
+namespace GlobalTheory.GoodMetric
+
+variable {ι : Type} {m : ι → ℕ}
+
+abbrev EntIx (m : ι → ℕ) : Type := Σ τ, Fin (m τ) × Fin (m τ)
+
+def evEnt {M : ℕ} (P : Matrix (Fin M) (Fin M) (MvPolynomial (EntIx m) ℤ)) {R : Type} [CommRing R] (A : Mat m R) :
+    Matrix (Fin M) (Fin M) R :=
+  P.map (aeval fun v : EntIx m => A v.1 v.2.1 v.2.2)
+
+structure PolyRep (m : ι → ℕ) : Type where
+
+  M : ℕ
+
+  ent : Matrix (Fin M) (Fin M) (MvPolynomial (EntIx m) ℤ)
+  one : ∀ (R : Type) [CommRing R], evEnt ent (1 : Mat m R) = 1
+  mul : ∀ (R : Type) [CommRing R] (A B : Mat m R), evEnt ent (A * B) = evEnt ent A * evEnt ent B
+  transp : ∀ (R : Type) [CommRing R] (A : Mat m R), evEnt ent (fun τ => (A τ)ᵀ) = (evEnt ent A)ᵀ
+
+namespace PolyRep
+
+def ev (ρ : PolyRep m) {R : Type} [CommRing R] (A : Mat m R) : Matrix (Fin ρ.M) (Fin ρ.M) R := evEnt ρ.ent A
+
+def lie [Fintype ι] (ρ : PolyRep m) {R : Type} [CommRing R] (A : Mat m R) : Matrix (Fin ρ.M) (Fin ρ.M) R :=
+  Matrix.of fun i j => ∑ v : EntIx m,
+    aeval (fun w : EntIx m => (1 : Mat m R) w.1 w.2.1 w.2.2) (pderiv v (ρ.ent i j)) * A v.1 v.2.1 v.2.2
+
+def proj (m : ι → ℕ) (τ : ι) : PolyRep m where
+  M := m τ
+  ent := Matrix.of fun i j => X ⟨τ, (i, j)⟩
+  one R _ := by ext i j; simp [evEnt]
+  mul R _ A B := by ext i j; simp [evEnt, Matrix.mul_apply]
+  transp R _ A := by ext i j; simp [evEnt]
+
+end PolyRep
+
+end GlobalTheory.GoodMetric
+
+end
+end
+
+section
+
+noncomputable section
+
+open NumberField IsDedekindDomain Topology Matrix Neutral.B1 ReciprocityTheory.Neutral.Bridge.HCFR Formalism.L2.Host
+
+namespace GlobalTheory.CuspRep
+
+variable {E : Type} [Field E] [NumberField E] [_root_.NumberField.IsTotallyComplex E] {a : ℕ}
+
+theorem map_scalar {R S : Type} [CommRing R] [CommRing S] (p : R →+* S) (u : Rˣ) :
+    GeneralLinearGroup.map p (GeneralLinearGroup.scalar (Fin a) u) =
+      GeneralLinearGroup.scalar (Fin a) (Units.map p.toMonoidHom u) := by
+  ext i j
+  change p (Matrix.diagonal (fun _ => (u : R)) i j) = Matrix.diagonal (fun _ => p u) i j
+  simp [Matrix.diagonal_apply, apply_ite p]
+
+theorem cornerGL_scalar {R S : Type} [CommRing R] [CommRing S] (s : R →ₙ+* S) (u : Rˣ) :
+    cornerGL a s (GeneralLinearGroup.scalar (Fin a) u) =
+      GeneralLinearGroup.scalar (Fin a) (Units.map (corner s) u) := by
+  ext i j
+  change (1 : Matrix (Fin a) (Fin a) S) i j - s ((1 : Matrix (Fin a) (Fin a) R) i j) +
+    s (Matrix.diagonal (fun _ => (u : R)) i j) = Matrix.diagonal (fun _ => 1 - s 1 + s u) i j
+  by_cases h : i = j
+  · subst h; simp
+  · simp [h]
+
+theorem scalar_comm {R : Type} [CommRing R] (u : Rˣ) (g : GL (Fin a) R) :
+    GeneralLinearGroup.scalar (Fin a) u * g = g * GeneralLinearGroup.scalar (Fin a) u :=
+  Units.ext (Matrix.scalar_commute (u : R) (fun _ => Commute.all _ _) g.val).eq
+
+theorem infId_mul_finId (z : Ideles E) :
+    infId E (Units.map (pInf E).toMonoidHom z) * finId E (Units.map (pFin E).toMonoidHom z) = z := by
+  have h := congrArg GeneralLinearGroup.det (infGL_mul_finGL (GeneralLinearGroup.scalar (Fin 1) z))
+  rw [map_mul, det_infGL, det_finGL, map_scalar, map_scalar] at h
+  exact (congrArg₂ (fun x y => infId E x * finId E y) (CG.det_oneByOne _) (CG.det_oneByOne _)).symm.trans
+    (h.trans (CG.det_oneByOne z))
+
+namespace CuspSub
+
+variable {π π' : CuspSub E a} {ω ω' : HChar E}
+
+
+variable (π) in
+def HasCentral (ω : HChar E) : Prop :=
+  ∀ z : Ideles E, ∀ φ ∈ π.V, rt E a (GeneralLinearGroup.scalar (Fin a) z) φ = ((ω.1 z : ℂˣ) : ℂ) • φ
+
+theorem hasCentral_iff : π.HasCentral ω ↔ π.HasCentChar ω := by
+  refine ⟨fun h u φ => Subtype.ext ?_, fun h => ?_⟩
+  · exact (congrArg (fun g => rt E a g φ.1) (cornerGL_scalar (sFin E) u)).trans (h (finId E u) φ.1 φ.2)
+  have hf : ∀ u, ∀ φ ∈ π.V, rt E a (GeneralLinearGroup.scalar (Fin a) (finId E u)) φ =
+      ((ω.1 (finId E u) : ℂˣ) : ℂ) • φ := fun u φ hφ =>
+    (congrArg (fun g => rt E a g φ) (cornerGL_scalar (sFin E) u)).symm.trans (congrArg Subtype.val (h u ⟨φ, hφ⟩))
+  have hi : ∀ y, ∀ φ ∈ π.V, rt E a (GeneralLinearGroup.scalar (Fin a) (infId E y)) φ =
+      ((ω.1 (infId E y) : ℂˣ) : ℂ) • φ := fun y φ hφ => Subtype.ext <| funext fun g => by
+    refine congrFun (InfType.denseRange_units.equalizer
+      (g := fun y => φ.1 (g * GeneralLinearGroup.scalar (Fin a) (infId E y)))
+      (h := fun y => ((ω.1 (infId E y) : ℂˣ) : ℂ) * φ.1 g) ?_
+      ((Units.continuous_val.comp (continuous_chiInf ω)).mul continuous_const) (funext fun k => ?_)) y
+    · have e : (fun y => φ.1 (g * GeneralLinearGroup.scalar (Fin a) (infId E y))) =
+          fun y : (Cinf E)ˣ => chart φ.1 g (toL (GeneralLinearGroup.scalar (Fin a) y).val) := by
+        funext y
+        rw [chart_val]
+        exact congrArg (fun x => φ.1 (g * x)) (cornerGL_scalar (sInf E) y).symm
+      rw [e]
+      refine (φ.2 g).continuousOn.comp_continuous ?_ fun y => val_mem_invSet _
+      exact (continuous_pi fun _ => Units.continuous_val).matrix_diagonal
+    · have e : infId E (Units.map (InfType.diagInf E).toMonoidHom k) = diagUnits E k *
+          finId E (Units.map (pFin E).toMonoidHom (diagUnits E k))⁻¹ := by
+        rw [map_inv, eq_mul_inv_iff_mul_eq]
+        exact infId_mul_finId (diagUnits E k)
+      have e2 : GeneralLinearGroup.scalar (Fin a) (diagUnits E k) = ratGL E a (GeneralLinearGroup.scalar (Fin a) k) :=
+        (map_scalar _ k).symm
+      simp only [Function.comp_apply]
+      rw [e, map_mul, map_mul, ω.2.2, one_mul, ← mul_assoc, ← scalar_comm (diagUnits E k), e2, mul_assoc, (π.cusp φ hφ).1.left]
+      exact congrFun (congrArg Subtype.val (hf _ φ hφ)) g
+  intro z φ hφ
+  rw [← infId_mul_finId z, map_mul, map_mul, map_mul, Module.End.mul_apply, hf _ φ hφ, map_smul, hi _ φ hφ, smul_smul,
+    Units.val_mul, mul_comm]
+
+theorem HasCentral.unique (h : π.HasCentral ω) (h' : π.HasCentral ω') : ω = ω' := by
+  obtain ⟨φ, hφ, h0⟩ := (Submodule.ne_bot_iff _).1 π.ne_bot
+  exact Subtype.ext (MonoidHom.ext fun z => Units.ext (smul_left_injective ℂ h0 ((h z φ hφ).symm.trans (h' z φ hφ))))
+
+theorem HasCentral.twist (h : π.HasCentral ω) (χ : HChar E) : (π.twist χ).HasCentral (ω * χ ^ a) :=
+  hasCentral_iff.2 ((hasCentral_iff.1 h).twist χ)
+
+theorem HasCentral.apply (h : π.HasCentral ω) {φ : Sm E a} (hφ : φ ∈ π.V) (z : Ideles E) (g : GA E a) :
+    φ.1 (GeneralLinearGroup.scalar (Fin a) z * g) = ((ω.1 z : ℂˣ) : ℂ) * φ.1 g := by
+  rw [scalar_comm]
+  exact congrFun (congrArg Subtype.val (h z φ hφ)) g
+
+
+variable (π) in
+def IsUnitary : Prop := ∃ ω : HChar E, ω.IsUnitary ∧ π.HasCentral ω
+
+theorem HasCentral.isUnitary_iff (h : π.HasCentral ω) : π.IsUnitary ↔ ω.IsUnitary :=
+  ⟨fun ⟨_, h1, h2⟩ => h2.unique h ▸ h1, fun h1 => ⟨ω, h1, h⟩⟩
+
+theorem IsUnitary.norm_eq (h : π.IsUnitary) {φ : Sm E a} (hφ : φ ∈ π.V) (z : Ideles E) (g : GA E a) :
+    ‖φ.1 (GeneralLinearGroup.scalar (Fin a) z * g)‖ = ‖φ.1 g‖ := by
+  obtain ⟨ω, h1, h2⟩ := h
+  rw [h2.apply hφ, norm_mul, h1, one_mul]
+
+end CuspSub
+
+
+omit [_root_.NumberField.IsTotallyComplex E] in
+theorem isUnitary_one : (1 : HChar E).IsUnitary := fun _ => norm_one
+
+
+omit [_root_.NumberField.IsTotallyComplex E] in
+theorem isUnitary_pow {χ : HChar E} (h : χ.IsUnitary) (n : ℕ) : (χ ^ n).IsUnitary := by
+  induction n with
+  | zero => rw [pow_zero]; exact isUnitary_one
+  | succ n ih => rw [pow_succ]; exact ih.mul h
+
+
+namespace CG
+
+variable {π : CG E a} {ω ω' : HChar E}
+
+@[simp] theorem isUnitary_mk (π : CuspSub E a) : (mk π).IsUnitary ↔ π.IsUnitary :=
+  exists_congr fun _ => and_congr_right fun _ => CuspSub.hasCentral_iff.symm
+
+theorem HasCentChar.unique (h : π.HasCentChar ω) (h' : π.HasCentChar ω') : ω = ω' := by
+  induction π using Quotient.inductionOn with
+  | _ π => exact (CuspSub.hasCentral_iff.2 h).unique (CuspSub.hasCentral_iff.2 h')
+
+theorem HasCentChar.isUnitary_iff (h : π.HasCentChar ω) : π.IsUnitary ↔ ω.IsUnitary :=
+  ⟨fun ⟨_, h1, h2⟩ => h2.unique h ▸ h1, fun h1 => ⟨ω, h1, h⟩⟩
+
+@[simp] theorem isUnitary_ofChar_iff (χ : HChar E) : (ofChar χ).IsUnitary ↔ χ.IsUnitary :=
+  (hasCentChar_ofChar χ).isUnitary_iff
+
+theorem IsUnitary.twist (h : π.IsUnitary) {χ : HChar E} (hχ : χ.IsUnitary) : (π.twist χ).IsUnitary := by
+  obtain ⟨ω, h1, h2⟩ := h
+  exact ⟨_, h1.mul (isUnitary_pow hχ a), h2.twist χ⟩
+
+@[simp] theorem ofChar_toChar (σ : CG E 1) : ofChar (toChar σ) = σ :=
+  Function.rightInverse_invFun (RankOne.ofChar_bijective E).2 σ
+
+theorem isUnitary_toChar_iff (σ : CG E 1) : (toChar σ).IsUnitary ↔ σ.IsUnitary := by
+  rw [← isUnitary_ofChar_iff, ofChar_toChar]
+
+theorem IsUnitary.tw (h : π.IsUnitary) {σ : CG E 1} (hσ : σ.IsUnitary) : (π.tw σ).IsUnitary :=
+  h.twist ((isUnitary_toChar_iff σ).2 hσ)
+
+end CG
+
+
+variable (E a) in
+abbrev CGu : Type := {π : CG E a // π.IsUnitary}
+
+namespace CGu
+
+variable (π : CGu E a)
+
+def twist (χ : {χ : HChar E // χ.IsUnitary}) : CGu E a := ⟨π.1.twist χ.1, π.2.twist χ.2⟩
+
+def tw (σ : CGu E 1) : CGu E a := ⟨π.1.tw σ.1, π.2.tw σ.2⟩
+
+abbrev infChar (τ : E →+* ℂ) : Multiset ℂ := π.1.infChar τ
+
+abbrev IsRegAlg : Prop := π.1.IsRegAlg
+
+abbrev IsCsd {L : Type} [Field L] [NumberField L] [IsCMField L] (π : CGu L a) : Prop := π.1.IsCsd
+
+def centChar : {χ : HChar E // χ.IsUnitary} := ⟨π.2.choose, π.2.choose_spec.1⟩
+
+theorem hasCentChar_centChar : π.1.HasCentChar π.centChar.1 := π.2.choose_spec.2
+
+theorem centChar_twist (χ : {χ : HChar E // χ.IsUnitary}) : (π.twist χ).centChar.1 = π.centChar.1 * χ.1 ^ a :=
+  (π.twist χ).hasCentChar_centChar.unique (π.hasCentChar_centChar.twist χ.1)
+
+
+variable (E) in
+def equivChar : CGu E 1 ≃ {χ : HChar E // χ.IsUnitary} where
+  toFun σ := ⟨σ.1.toChar, (CG.isUnitary_toChar_iff _).2 σ.2⟩
+  invFun χ := ⟨CG.ofChar χ.1, CG.isUnitary_ofChar χ.2⟩
+  left_inv σ := Subtype.ext (CG.ofChar_toChar σ.1)
+  right_inv χ := Subtype.ext (CG.toChar_ofChar χ.1)
+
+theorem ofChar_equivChar (σ : CGu E 1) : CG.ofChar (equivChar E σ).1 = σ.1 := CG.ofChar_toChar σ.1
+
+theorem equivChar_tw (σ σ' : CGu E 1) : (equivChar E (σ.tw σ')).1 = (equivChar E σ).1 * (equivChar E σ').1 := by
+  apply CG.ofChar_injective
+  rw [ofChar_equivChar, ← CG.twist_ofChar, ofChar_equivChar]
+  rfl
+
+end CGu
+
+abbrev HostCGu {R : Formalism.BasicNotions.Ranks} (H : Formalism.BasicNotions.Host R) (a : ℕ) : Type :=
+  haveI := host_isCMField H; CGu H.E a
+
+end GlobalTheory.CuspRep
+end
+end
+
+section
+
+noncomputable section
+
+open Formalism.BasicNotions Formalism.MainNotions Formalism.L2.Geo NumberField
+
+namespace GlobalTheory.GeoGraft
+
+variable {D : D7}
+
+def graft (Xg X₀ : DivX D) (iM : ∀ j (c : Xg.Comp j), (X₀.MjH j).V →ₗ[D.what₂.LL] Xg.geo.Fn (Xg.Yv j c))
+    (hiM : ∀ j c x, iM j c x ∈ Xg.geo.H0 (Xg.Yv j c) (Xg.Lw j c (DV.kapW D j))) : DivX D :=
+  { Xg with
+    MjH := X₀.MjH, MjH_good := X₀.MjH_good, jM := X₀.jM, jM_basis := X₀.jM_basis, jM_lat := X₀.jM_lat
+    MjLat_sub := X₀.MjLat_sub, jM_metric := X₀.jM_metric
+    Qp := X₀.Qp, degreeZero_partial_set_empty := X₀.degreeZero_partial_set_empty, Qp_muAt := X₀.Qp_muAt, Qp_g := X₀.Qp_g
+    QPl := X₀.QPl, finQ := X₀.finQ, qv := X₀.qv, qv_gt := X₀.qv_gt, qv_char := X₀.qv_char
+    nu := X₀.nu, nu_ne := X₀.nu_ne, nu_abs := X₀.nu_abs, ZQ := X₀.ZQ, quotientLocalValueFirst := X₀.quotientLocalValueFirst, typeDim := X₀.typeDim
+    iMj := iM, iMj_mem := hiM
+    logLam := X₀.logLam, logLam_base := X₀.logLam_base
+    kapR := X₀.kapR, kapR_pos := X₀.kapR_pos, kapR_conj := X₀.kapR_conj }
+
+def Keeps (X X₀ : DivX D) : Prop := ∃ Xg iM hiM, X = graft Xg X₀ iM hiM
+
+def GeoOver (Q : DivX D → Prop) (X₀ : DivX D) : Prop :=
+  ∃ (X : DivX D) (inK : X.Lev → ℕ → Prop), Keeps X X₀ ∧ GeoTiedP X inK ∧ Q X
+
+end GlobalTheory.GeoGraft
+end
+end

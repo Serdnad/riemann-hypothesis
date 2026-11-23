@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.TrivIsCr
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IntegralElementsUnitFactorization
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle024
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle736
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -45,7 +45,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.LocalPrimeGaloisActionPeriodT
-import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.PolyApproxZeroPadic
+import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle002
 
 @[expose] public section
 
@@ -147,7 +147,7 @@ theorem inOE_of_approx {ι κ : Type} {A : Matrix ι κ (WCb l)}
 theorem E_not_dvd : ¬ (l : bk.S) ∣ bk.E := by
   rintro ⟨s, hs⟩
   have h := congrArg (PowerSeries.coeff bk.Ep.natDegree) hs
-  rw [BK.E, Polynomial.coeff_coe, bk.monic.coeff_natDegree] at h
+  rw [_root_.GlobalTheory.BSP.BK.E, Polynomial.coeff_coe, bk.monic.coeff_natDegree] at h
   have h2 : (1 : Wq l bk.a) = (PowerSeries.coeff bk.Ep.natDegree s) * (l : Wq l bk.a) := by
     rw [h, ← nsmul_eq_mul, map_nsmul, nsmul_eq_mul, mul_comm]
   have h3 := congrArg (fun w : Wq l bk.a => w.coeff 0) h2

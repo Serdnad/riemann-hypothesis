@@ -2,7 +2,7 @@ module
 
 public import GroundTheory.ProfiniteCohomology.GaloisModules.FixedField
 public import GroundTheory.LocalFields.SeparableClosure
-public import GroundTheory.LocalFields.Ramification
+public import GroundTheory.LocalFields.Bundle004
 public import GroundTheory.LocalFields.LubinTatePoints
 public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.Vanishing
 import Mathlib.Algebra.Order.Floor.Extended

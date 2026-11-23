@@ -50,9 +50,9 @@ import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.Tr
 import Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.IsTheta
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.DirichletPrimeToLPartMulLPowerPart
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.WeilGroupCharacters.ContinuousResP
-import Development.AutomorphicArithmetic.IntegralCasts.IsOpenStabOfMemNhds
-import Formalism.ConjugateSelfDual.Statement
-import Formalism.LocalRingCardinality.SpanPowerMembership.NZTypeD
+import Development.AutomorphicArithmetic.IntegralCasts.Bundle001
+import Formalism.ConjugateSelfDual.Bundle001
+import Formalism.LocalRingCardinality.SpanPowerMembership.Bundle001
 import ReciprocityTheory.GaloisValuations.GlobalA
 
 @[expose] public section

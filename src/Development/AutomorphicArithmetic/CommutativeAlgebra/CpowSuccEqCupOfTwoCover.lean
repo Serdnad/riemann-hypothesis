@@ -1,10 +1,10 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.PullHlComp
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ChosenInjectiveResolutionEtaleSheafBasicPropertiStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CupProductEqZeroOfVanishingOnCoverStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TateTwistCupProductAssocStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TateTwistCupProductGradedCommStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle341
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle730
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle969
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle970
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

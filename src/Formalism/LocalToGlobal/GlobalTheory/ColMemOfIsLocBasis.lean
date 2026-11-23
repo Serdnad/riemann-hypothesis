@@ -2,7 +2,7 @@ module
 
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.BwAValIntegralNonneg
 public import Formalism.SharpRestriction.GlobalSchurBounds.FlipTwoThree
-public import Formalism.LocalToGlobal.GlobalTheory.GL6.LatticeInclusionFamilyOf
+public import Formalism.LocalToGlobal.GlobalTheory.GL6.Bundle003
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.LatticeInclusionOfDecompGlob
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.PBwLocGen
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.PBwLocInd

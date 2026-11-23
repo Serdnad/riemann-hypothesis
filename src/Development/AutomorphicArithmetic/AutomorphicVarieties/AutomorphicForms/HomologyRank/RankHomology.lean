@@ -1,6 +1,6 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.BlochKatoSelmerVanishes
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.Bundle004
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
 public import Mathlib.GroupTheory.Commensurable
 public import Mathlib.RepresentationTheory.Coinduced

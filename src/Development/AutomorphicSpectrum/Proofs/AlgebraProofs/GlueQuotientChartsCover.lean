@@ -44,8 +44,8 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.HasAffineChartId
-import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.HasAffineChartIff
+import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle001
+import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle017
 import Development.AutomorphicSpectrum.PublishedTheorems.Algebra₂.RegularHypothesesAndConclusion
 public import Mathlib.AlgebraicGeometry.Gluing
 public import Mathlib.CategoryTheory.Monoidal.Cartesian.Over

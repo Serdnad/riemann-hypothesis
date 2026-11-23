@@ -46,7 +46,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Algebra.MvPolynomial
 import Mathlib.Topology.Sheaves.Init
 import GroundTheory.ArithmeticGeometry.SchemeCohomology.ConsCompSuccAboveZero
-import GroundTheory.HeightsAndTheta.Heights.ComplexPoints
+import GroundTheory.HeightsAndTheta.Heights.Bundle003
 public import Mathlib.Analysis.Complex.Circle
 import Mathlib.Topology.Sheaves.Presheaf
 

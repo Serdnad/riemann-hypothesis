@@ -1,14 +1,14 @@
 module
 
-public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.LocalTypeDictionary.BernsteinUnitaryProductIrreducible
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.NegIdxOfIsStd
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.BaseFits
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PlaneSplit
+public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.LocalTypeDictionary.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2003
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2001
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1968
 public import Development.AbelianVarietyTheory.Definitions.Divisors.CTSmallCone
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsRealEmbeddingsSharedBaseTowerStage
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.StageTriangleFactorStepFirst
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2040
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TowerStageSuccessorCoefficients
-public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.LocalTypeDictionary.QuadraticTowerLargeStepStageDictionary
+public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.LocalTypeDictionary.Bundle087
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.LocalTypeDictionary.WittTowerNormStepOfLargeRank
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -43,7 +43,7 @@ import Mathlib.Tactic.NormNum.NatSqrt
 import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DownRight
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2039
 
 @[expose] public section
 

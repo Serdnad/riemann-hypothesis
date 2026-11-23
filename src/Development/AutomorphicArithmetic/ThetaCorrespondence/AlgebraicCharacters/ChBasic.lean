@@ -1,12 +1,12 @@
 module
 
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.AlgebraicCharacters.EmbOrbit
-public import Development.AbelianVarietyTheory.Counterexamples.NonGaloisSurvey.CrystallineCharacterRatio
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.WdPstCycRepNeTrivWD
+public import Development.AbelianVarietyTheory.Counterexamples.NonGaloisSurvey.Bundle002
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle012
 import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.MkMemAdmissibleAtIffCocycle
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsRecLawsSuppUnitSurj
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.FontaineParameterTwistPotentiallySemistable
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.RootsCharpolySmulMatrix
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle139
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle336
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle045
 public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisGeometry₂.ConclusionFinite
 import Mathlib.Algebra.CharP.Pi
 import Mathlib.Algebra.Order.Floor.Extended
@@ -45,7 +45,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.TripleAtt
+import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle012
 
 @[expose] public section
 

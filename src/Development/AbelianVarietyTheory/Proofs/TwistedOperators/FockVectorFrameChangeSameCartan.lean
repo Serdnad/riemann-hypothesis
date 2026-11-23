@@ -1,9 +1,9 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.IsVacFOfIsVacVec
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.APlusComm
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FockPolynomialVectorChangeOrthonormalBasesSubst
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FockPolynomialVectorMaximalCompactBasisSubstitut
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle294
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle305
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle352
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.CompactSubgroupsActOnFockVectorsAllSignatures
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -45,7 +45,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.HermitianOrthogonalExtensionData
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.CartFrSgn
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle385
 
 @[expose] public section
 

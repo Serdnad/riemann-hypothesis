@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Foundations.AdmissibleNewformZetaData
-public import Development.AbelianVarietyTheory.Definitions.Foundations.ChiK
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle021
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle011
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.ResMapBijective
 public import Mathlib.RingTheory.AdicCompletion.Noetherian
-public import Development.AbelianVarietyTheory.Definitions.Foundations.LiftSLMapMulInvMem
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.VanishOrdOfKatoUse
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle013
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle348
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

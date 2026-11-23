@@ -2,8 +2,8 @@ module
 
 public import Development.WeilBound.CoreStatements.EulerCharacteristicCounts.GcohDefs
 public import GroundTheory.ProfiniteCohomology.PoincareDuality.NsmulEqZeroOfNonemptyAddEquiv
-public import Development.WeilBound.CoreStatements.EulerCharacteristicCounts.GcohTateA
-public import GroundTheory.ProfiniteCohomology.CyclicCupProf
+public import Development.WeilBound.CoreStatements.EulerCharacteristicCounts.Bundle001
+public import GroundTheory.ProfiniteCohomology.Bundle010
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

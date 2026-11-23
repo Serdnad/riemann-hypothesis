@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ActFromBlocks
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1907
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AdelicSchwartzFinitePureTensors
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IntegralAdelicPureTensorEqProductLocalStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2082
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -46,7 +46,7 @@ import Mathlib.Topology.Separation.CompletelyRegular
 import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.GeneralLinearIntegers.AlgebraMapIntMemOint
 import Development.AbelianVarietyTheory.Definitions.Divisors.MatchingOfParts
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsUSplittingTrRep
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle266
 
 @[expose] public section
 

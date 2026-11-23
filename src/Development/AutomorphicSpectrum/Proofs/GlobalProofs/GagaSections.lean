@@ -1,7 +1,7 @@
 module
 
 public import Development.AutomorphicSpectrum.PublishedTheorems.Geometry₂.GagaSections
-public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.HolomorphicLocalSectionsCompatibleStatement
+public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle039
 public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.SmoothSchemeDecomposeRelativeDimensionStatement
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

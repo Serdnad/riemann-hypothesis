@@ -1,7 +1,7 @@
 module
 
 public import Mathlib.LinearAlgebra.Matrix.Rank
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ExistsRowsLinearIndependent
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle051
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

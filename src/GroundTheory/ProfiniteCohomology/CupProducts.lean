@@ -1,8 +1,7 @@
 module
 
 public import GroundTheory.TateCohomology.CupCochains
-public import GroundTheory.ProfiniteCohomology.ContinuousCochains
-public import GroundTheory.ProfiniteCohomology.Bridge
+public import GroundTheory.ProfiniteCohomology.Bundle005
 import GroundTheory.ProfiniteCohomology.DiscreteModules.IsDiscreteRepIffForallExistsOpenNormalSubgroup
 import Mathlib.Algebra.Homology.ShortComplex.ModuleCat
 import Mathlib.Algebra.Order.Floor.Extended

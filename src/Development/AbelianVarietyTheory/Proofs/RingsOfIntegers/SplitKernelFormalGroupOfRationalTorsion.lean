@@ -2,19 +2,19 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.PlaceAdaptation.AdaptStd
 public import Development.AbelianVarietyTheory.Definitions.TwoChartAtlas.TwoChartSt
-public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.ExistsToJetEq
-public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.MvPowerSeriesMemMapCOfCoeffMem
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsUniqueFixedPointOfAdicContraction
+public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.Bundle018
+public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.Bundle002
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle047
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsDiscreteValuationRingIntegralClosure
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.IsLawOfOfMatch
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.StarRingExtOfStar
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.UniversalJetsReindexFin
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle073
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle069
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle072
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.UniversalStatement
-public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.FiniteHeightFormalGroupUniformisedModel
+public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.Bundle049
 public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.FormalGroupLawCompMulNZero
 public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.FormalGroupPointsOfIntegralChartSpec
 public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.FormalModuleMatrixApplyPointsActionLaws
-import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.MvPowerSeriesSubstConstTermsLocalAlgHomSpec
+import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.Bundle035
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -506,7 +506,7 @@ theorem splitKer_of_allRat : ∀ (E : Type) [Field E] [NumberField E] [IsCMField
     have hN : IsUnit ((k * M' : ℕ) : T.V) := isUnit_natCast_of_coprime
       (Nat.Coprime.mul_left hk ((Nat.Prime.coprime_iff_not_dvd hℓ).2 hM').symm) hu
     have hx : ∀ b i, MvPowerSeries.constantCoeff ((fun j => cpt (n := 0) (α j)) b i) ∈ maximalIdeal T.V :=
-      fun b i => by simpa [cpt] using hα.1 b i
+      fun b i => by simpa [_root_.GlobalTheory.PlaceInt.cpt] using hα.1 b i
     obtain ⟨⟨χ, c1, c2⟩, -⟩ := evC_spec T.V (Fin n × Fin (chD C.ch)) (Fin 0 × Fin (chD C.ch)) Unit
       (fun s => cpt (n := 0) (α s.1) s.2) (fun s => hx s.1 s.2)
     obtain ⟨ψ, hψ, hψ', hkill⟩ := kills_of_matV B mu mu' (k * M') (ℓ ^ j) hN

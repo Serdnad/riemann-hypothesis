@@ -1,14 +1,14 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.BreuilKisinDescentCoefficientsAinfModPow
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.TrivIsCr
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle750
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle024
 import Development.AbelianVarietyTheory.CrystallinePeriods.RingBasics
 import Development.AbelianVarietyTheory.CrystallinePeriods.RingIface
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.BreuilKisinLatticeFrameCocyclesLinkedStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.BreuilKisinPeriodIsUnitAndAinfSaturated
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.BreuilKisinPreframeBoundedPolesStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ThetaAinfPeriodPowNeZeroStatement
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ThetaBdRPlusSurjectiveKerUnitsEquivariant
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle602
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle560
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle745
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle607
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle081
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -54,7 +54,7 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.LocalPrimeGaloisActionPeriodT
-import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.PolyApproxZeroPadic
+import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle002
 import Formalism.SharpRestriction.LevelLetterCocycles.LocCoh
 
 @[expose] public section

@@ -1,8 +1,8 @@
 module
 
-public import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.BaseSt
+public import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.Bundle003
 public import Formalism.LocalToGlobal.UnitaryNorms.RealPl
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.InfEmbUnique
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle022
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

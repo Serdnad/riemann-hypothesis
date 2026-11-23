@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.IdeleLimits.Sequence
+public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.IdeleLimits.Bundle001
 public import GroundTheory.ProfiniteCohomology.GaloisModules.CoeGalRootsOfUnityHomApply
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
 public import Mathlib.Algebra.Homology.ShortComplex.ModuleCat

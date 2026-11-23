@@ -8,8 +8,8 @@ public import GroundTheory.GlobalFields.ComplexMultiplication.IdeleActionQuotien
 public import GroundTheory.GlobalFields.ComplexMultiplication.ReductionRespectsAdd
 public import GroundTheory.GlobalFields.ComplexMultiplication.AnalyticUniformizationClassification
 public import GroundTheory.GlobalFields.ComplexMultiplication.MainTheoremIdeles
-public import GroundTheory.GlobalFields.ComplexMultiplication.MainTheoremLattice
-import GroundTheory.GlobalFields.ComplexMultiplication.ReductionEval
+public import GroundTheory.GlobalFields.ComplexMultiplication.Bundle014
+import GroundTheory.GlobalFields.ComplexMultiplication.Bundle008
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

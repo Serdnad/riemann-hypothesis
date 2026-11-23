@@ -2,8 +2,8 @@ module
 
 public import PositivityTheory.AutomorphicForms.PublishedInputs.CuspidalContinuity.ArchimedeanCuspidal.VerticalStrips.UnramifiedEulerProductIntegral
 public import GroundTheory.AutomorphicForms.AutomorphicFormSpaces.Translation
-public import GroundTheory.AutomorphicForms.GL2Classical.Growth
-public import GroundTheory.AutomorphicForms.GL2Classical.KFinite
+public import GroundTheory.AutomorphicForms.GL2Classical.Bundle003
+public import GroundTheory.AutomorphicForms.GL2Classical.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

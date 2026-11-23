@@ -1,11 +1,11 @@
 module
 
-public import Development.AutomorphicArithmetic.OrbitLabellings.ColDefs
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.StdBases
+public import Development.AutomorphicArithmetic.OrbitLabellings.Bundle001
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle010
 public import Formalism.LocalToGlobal.TorsionIntegrality.CMGoodModels.Statement
-public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.TrDual
+public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.Bundle001
 public import Development.AutomorphicArithmetic.OrbitLabellings.ExistsFrobeniusEquivariantLocalBasisCoordinates
-public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.KummerThetaLogarithms.TraceDualExists
+public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.KummerThetaLogarithms.Bundle001
 import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.TransportFirstLevel
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

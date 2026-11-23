@@ -1,16 +1,15 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.KerIsTerm
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.JetOpIntegral
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.AbsNormEqOfSplitFactor
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.HeckeUnit
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.IntOfHomAt
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle118
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle129
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle218
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle131
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.LastTwoStepsGuarded
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.NotDvdCardOfInjective
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.UnfoldingIsGoodCyclotomicInvariantReferenceLatti
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ValuationFinOrderApply
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ValuationLeOneOfMemZmu
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ValuationLeOneOfPow
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle220
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.VolqExistsPow
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -56,7 +55,7 @@ noncomputable section
 
 namespace GlobalTheory.LvT.Built.IsTerm
 
-open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.HermitianLatticesTheory Formalism.L2.Col Formalism.L2.DIV GlobalTheory.Mem.Col2 GlobalTheory.LvT GlobalTheory.LvT.Built
+open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.HermitianLatticesTheory _root_.Formalism.L2.Col Formalism.L2.DIV GlobalTheory.Mem.Col2 GlobalTheory.LvT GlobalTheory.LvT.Built
 open GlobalTheory.ColPeriod GlobalTheory.IndefiniteRowSideFullHecke.FourierColumnIndicator
 
 section Generic

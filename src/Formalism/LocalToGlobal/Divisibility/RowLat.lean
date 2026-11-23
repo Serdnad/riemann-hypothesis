@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalToGlobal.Divisibility.GoodPartHermitianSpec
-public import Formalism.LocalToGlobal.Divisibility.Frames
+public import Formalism.LocalToGlobal.Divisibility.Bundle001
 public import Formalism.LocalToGlobal.Columns.HeckeSp
 public import Formalism.LocalToGlobal.Columns.AlgebraMapMemMaximalIdealPowIff
 public import Formalism.LocalToGlobal.IndefiniteForms.IndefSide

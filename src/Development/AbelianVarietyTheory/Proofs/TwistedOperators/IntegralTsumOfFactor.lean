@@ -1,12 +1,12 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.RealLowestKTypeCoeffSquareIntegrable
+public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.Bundle004
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsLinearSection
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FormOfClassSums
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.VolEqIndexMulMass
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.TotallyDefiniteMass
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1759
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1686
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle125
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.AeZeroOfSmall
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.FockNormMinorProductDeltaAtEmbeddingPosStatement
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle261
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

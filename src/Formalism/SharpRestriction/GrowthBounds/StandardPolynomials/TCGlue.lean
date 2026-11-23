@@ -2,11 +2,11 @@ module
 
 public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.TopWeightFalseZeroEqOne
 public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.WeightWLet
-public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.TgProdPlaces
+public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.Bundle005
 import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.SegmentStatementHolds
 import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.Lemma44IdentityOfRawTail
-import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.TopOddNeEnd
-public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.IoDVariableLastEqTopEnd
+import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.Bundle005
+public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -2,7 +2,7 @@ module
 
 public import Formalism.GradedWeylDivisibility.StatementA
 public import Formalism.GradedWeylDivisibility.FinalD
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LClosedeqLemmas
+public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle002
 public import Lemmata.GeneralBFactLeftSide.Imports
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

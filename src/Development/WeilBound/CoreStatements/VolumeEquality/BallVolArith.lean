@@ -1,10 +1,8 @@
 module
 
-public import Development.WeilBound.CoreStatements.VolumeEquality.BallVolDefs
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.HasseNormTheoremQuadraticExtensionStatement
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.LandherrAndLandherrSt
-public import Development.WeilBound.CoreStatements.EqualVolumeCompactOpens.LevelIndexEq
-public import Development.WeilBound.CoreStatements.EqualVolumeCompactOpens.LocalToAdelic
+public import Development.WeilBound.CoreStatements.VolumeEquality.Bundle004
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle074
+public import Development.WeilBound.CoreStatements.EqualVolumeCompactOpens.Bundle001
 public import Development.WeilBound.CoreStatements.EqualVolumeCompactOpens.RmulScalOne
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

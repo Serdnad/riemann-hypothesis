@@ -1,15 +1,14 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.CommutativeAlgebra.InvariantSubspaceMobiusInverseRecEqOfFinrankLt
-public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.EqZeroOfFinsumMulStarPowEqZero
-public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.EqZeroOfNotPrimaryStatement
+public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.Bundle011
+public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.Bundle023
 public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.InnerProductRootPowerSumEqOfFrobeniusModEqStatement
-public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.InvariantSubspaceMobiusInverseCharpolyLinearEqui
-import Development.AbelianVarietyTheory.Proofs.CharacterTheory.InvertibleEndInnerProductRootPowerSumEqTorusSumStatement
-public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.InvertibleEndInnerProductRootPowerSumMobiusStatement
-import Development.AbelianVarietyTheory.Proofs.CharacterTheory.IsPrimitiveEndClassFunctionInvariantSubspaceMobiStatement
-public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.PrimitiveEndClassFunctionZeroOfCharpolyMassZeroStatement
-import Development.AbelianVarietyTheory.Proofs.CharacterTheory.RootPowerSumCharacterAdditiveAndXSubOnePow
+public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.Bundle009
+import Development.AbelianVarietyTheory.Proofs.CharacterTheory.Bundle031
+public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.Bundle041
+import Development.AbelianVarietyTheory.Proofs.CharacterTheory.Bundle035
+import Development.AbelianVarietyTheory.Proofs.CharacterTheory.Bundle008
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -271,3 +270,17 @@ theorem expand_primitive (F : Type) [Field F] [Finite F] (V : Type) [AddCommGrou
   exact sub_eq_zero.mp hz
 
 end GlobalTheory.CuspGL
+
+end
+
+section
+
+@[expose] public section
+
+open Polynomial GlobalTheory.CuspGL GlobalTheory.BI
+
+theorem _root_.GlobalTheory.T.primitiveClassFunction_expansion_rootSums : ∀ (F : Type) [Field F] [Finite F] (V : Type) [AddCommGroup V] [Module F V] [FiniteDimensional F V] (θ : AlgebraicClosure F →* ℂ), (∀ x y : AlgebraicClosure F, x ≠ 0 → y ≠ 0 → θ x = θ y → x = y) → ∀ (φ : Module.End F V → ℂ), IsClassFn φ → IsPrimitive φ → 0 < Module.finrank F V → ∀ g : Module.End F V, IsUnit g → glCard F (Module.finrank F V) * (Module.finrank F V : ℂ) * φ g = ∑ k ∈ Finset.range (Nat.card F ^ Module.finrank F V - 1), ipGL φ (fun g : Module.End F V => rootSum θ k (LinearMap.charpoly g)) * psi (rootSum θ k) V g := by
+  first | exact @GlobalTheory.CuspGL.expand_primitive | exact GlobalTheory.CuspGL.expand_primitive | (intros; apply GlobalTheory.CuspGL.expand_primitive <;> assumption)
+
+end
+end

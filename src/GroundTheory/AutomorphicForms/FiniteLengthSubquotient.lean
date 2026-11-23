@@ -1,9 +1,9 @@
 module
 
-public import GroundTheory.AutomorphicForms.FiniteLengthLattice
+public import GroundTheory.AutomorphicForms.Bundle001
 public import GroundTheory.AutomorphicForms.SmoothRep
 public import GroundTheory.AutomorphicForms.JacquetAdmissible
-import GroundTheory.AutomorphicForms.SmoothRepSchur
+import GroundTheory.AutomorphicForms.Bundle009
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

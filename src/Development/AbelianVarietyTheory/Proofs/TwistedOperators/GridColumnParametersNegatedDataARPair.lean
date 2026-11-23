@@ -46,9 +46,9 @@ import Std.Tactic.BVDecide.Normalize.BitVec
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AbelianVarietyTheory.Definitions.Divisors.CmHostImaginaryGeneratorNeZero
 import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.IsVacFOfIsVacVec
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.CartFrSgn
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.NodeAgree
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.NotLocallyFiniteQuadraticMulAddDegreeNonraising
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle385
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle223
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle013
 
 @[expose] public section
 

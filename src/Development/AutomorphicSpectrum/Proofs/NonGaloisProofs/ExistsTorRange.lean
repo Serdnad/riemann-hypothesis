@@ -52,8 +52,8 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Development.AutomorphicSpectrum.Definitions.NonGaloisLines.TopLine
-import Formalism.ConjugateSelfDual.Statement
-import Formalism.SharpRestriction.CuspSpanNormBounds.Point
+import Formalism.ConjugateSelfDual.Bundle001
+import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle001
 import Formalism.SharpRestriction.LevelLetterCocycles.DataNLoc
 import Formalism.SharpRestriction.LevelLetterCocycles.LocCoh
 public import Mathlib.Algebra.Module.CharacterModule

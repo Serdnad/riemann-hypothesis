@@ -1,13 +1,13 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.IsStabForm
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.IsotropicCoefficientSplitting
-public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.FockHxDifferentiable
-public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.HermitianFormAtFrameLaws
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.Bundle007
+public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle031
+public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle036
 public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.LevelOneThetaEqSmulOfSelfDualLattice
 public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.LevelStructureProperties
 import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.TensorLatticeSelfDualSemicharacterIndex
-public import Development.AbelianVarietyTheory.Proofs.ToricGeometry.AdditionLevelTwoMul
+public import Development.AbelianVarietyTheory.Proofs.ToricGeometry.Bundle009
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -168,10 +168,10 @@ variable {E : Type} [Field E] [NumberField E] [IsCMField E] {r g : ℕ} {X : Dat
 
 theorem thetaSignExpEF_add_selfDual_lattice {L : Lt E r} (hL : SelfD X L) {w : E} (hw : IsIntegral ℤ w) (hw1 : w + cc w = 1)
     {u v : Fin r → E} (hu : u ∈ L) (hv : v ∈ L) :
-    eps1 X w (u + v) = eps1 X w u * eps1 X w v * cexp (-(Real.pi * I * ((EF X u v : ℚ) : ℂ))) := by
+    _root_.GlobalTheory.Dict.eps1 X w (u + v) = _root_.GlobalTheory.Dict.eps1 X w u * _root_.GlobalTheory.Dict.eps1 X w v * cexp (-(Real.pi * I * ((EF X u v : ℚ) : ℂ))) := by
   have h := (TensLat.epsW_semichar (Base.stdL_mem_Vset 1 1) hL hw hw1 (y := fun _ => u)
     ((TensLat.mem_tens_stdL L _).2 fun _ => hu)).2 (fun _ => v) ((TensLat.mem_tens_stdL L _).2 fun _ => hv)
-  simp only [epsW, Finset.univ_unique, Finset.sum_singleton] at h
+  simp only [_root_.GlobalTheory.SW.epsW, Finset.univ_unique, Finset.sum_singleton] at h
   exact h
 
 theorem EF_zero_left (u : Fin r → E) : EF X 0 u = 0 := by
@@ -317,7 +317,7 @@ theorem exists_span_one (hs : IsSympl X bas) (hd : x ∈ X.dom) {w : E} (hw : Is
       add_mem' := fun h h' => h.add h'
       smul_mem' := fun c _ h => h.const_smul c }
   have hdiff := fun f => (fock_laws E r X g bas idx 0 hs Even.zero x hd 1 f).2.2.2.1
-  refine mem_of_eigen_mem N (fun u : L => eps1 X w u • fockL X bas idx x (pv X idx x u)) (fun u v f => ?_) H hH
+  refine mem_of_eigen_mem N (fun u : L => _root_.GlobalTheory.Dict.eps1 X w u • fockL X bas idx x (pv X idx x u)) (fun u v f => ?_) H hH
     f (fun u hu => hf.2 u hu) U _ (fun u => U.smul_mem _ (hdiff f hf.1 _)) fun ψ hψ h hU hh => ?_
   · obtain ⟨k, hk⟩ := (hL.2 u).1 u.2 v v.2
     simp only [LinearMap.smul_apply, map_smul, fockL_fockL hs hd, smul_smul, Submodule.coe_add,
@@ -329,7 +329,7 @@ theorem exists_span_one (hs : IsSympl X bas) (hd : x ∈ X.dom) {w : E} (hw : Is
       refine ⟨hdiff h hU _, fun u hu => ?_⟩
       have h2 := congrArg (fockL X bas idx x (pv X idx x (-y))) (hh ⟨u, hu⟩)
       rw [hyy' ⟨ψ, hψ⟩, LinearMap.smul_apply, map_smul, map_smul, fockL_fockL hs hd, add_comm] at h2
-      change eps1 X w u • fockL X bas idx x (pv X idx x u) _ = _
+      change _root_.GlobalTheory.Dict.eps1 X w u • fockL X bas idx x (pv X idx x u) _ = _
       refine smul_right_injective _ (show e y u ≠ 0 from Complex.exp_ne_zero _) ?_
       simp only []
       rw [← h2, fockL_fockL hs hd, smul_comm (e y u), smul_smul (e y u), ← Complex.exp_add]
@@ -353,7 +353,7 @@ theorem exists_span_one (hs : IsSympl X bas) (hd : x ∈ X.dom) {w : E} (hw : Is
     rw [h3]
     exact Submodule.smul_mem _ _ (Submodule.subset_span ⟨y, ⟨_, rfl⟩, rfl⟩)
 
-theorem theta_eq_sum_translates : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (r : ℕ) (X : Data E r) (g q0 : ℕ) (hr : X.p0 + q0 = r) (bas : (Fin g ⊕ Fin g → ℤ) ≃ₗ[ℤ] X.Λ) (idx : Fin g ≃ X.Ψ × Fin r) (n : ℕ), IsSympl X bas → Even n → ∀ w : 𝓞 E, (w : E) + cc (w : E) = 1 → ∀ L : Lt E r, SelfD X L → ∀ x ∈ X.dom, X.IsOrtho x → ∀ t : ℝ, 0 < t → (∀ τ, X.c τ = t) → ∀ (𝔐 : Ideal (𝓞 E)) (M : ℕ), Odd M → 𝔐 * conjI 𝔐 = Ideal.span {(M : 𝓞 E)} → ∀ v : TF n g, IsVac X bas (w : E) (tens (stdL E n) L) v → ∀ (θ : (Fin g → ℂ) → ℂ) (κ : ℂ), IsTheta1 X bas idx (w : E) x L θ → MeanOne X bas idx x L θ → (∀ z : Fin n → Fin g → ℂ, ∏ b, θ (z b) = κ * thA X bas idx v x z) → ∀ F : (Fin n → Fin g → ℂ) → ℂ, Differentiable ℂ F → (∀ u : Matrix (Fin n) (Fin r) E, (∀ b, u b ∈ 𝔐 • L) → ∀ z, F z = epsW X (w : E) u * cexp (-(Real.pi * ∑ b, hx X bas idx x (z b + (1 / 2 : ℂ) • pv X idx x (u b)) (pv X idx x (u b)))) * F (fun b => z b + pv X idx x (u b))) → ∃ (s : Finset (Matrix (Fin n) (Fin r) E)) (cf : Matrix (Fin n) (Fin r) E → ℂ), (∀ y ∈ s, ∀ b, (M : E) • y b ∈ 𝔐 • L) ∧ ∀ z, F z = ∑ y ∈ s, cf y * (κ * thA X bas idx (heisG X bas y v) x z) := by
+theorem theta_eq_sum_translates : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (r : ℕ) (X : Data E r) (g q0 : ℕ) (hr : X.p0 + q0 = r) (bas : (Fin g ⊕ Fin g → ℤ) ≃ₗ[ℤ] X.Λ) (idx : Fin g ≃ X.Ψ × Fin r) (n : ℕ), IsSympl X bas → Even n → ∀ w : 𝓞 E, (w : E) + cc (w : E) = 1 → ∀ L : Lt E r, SelfD X L → ∀ x ∈ X.dom, X.IsOrtho x → ∀ t : ℝ, 0 < t → (∀ τ, X.c τ = t) → ∀ (𝔐 : Ideal (𝓞 E)) (M : ℕ), Odd M → 𝔐 * conjI 𝔐 = Ideal.span {(M : 𝓞 E)} → ∀ v : TF n g, IsVac X bas (w : E) (tens (stdL E n) L) v → ∀ (θ : (Fin g → ℂ) → ℂ) (κ : ℂ), IsTheta1 X bas idx (w : E) x L θ → MeanOne X bas idx x L θ → (∀ z : Fin n → Fin g → ℂ, ∏ b, θ (z b) = κ * thA X bas idx v x z) → ∀ F : (Fin n → Fin g → ℂ) → ℂ, Differentiable ℂ F → (∀ u : Matrix (Fin n) (Fin r) E, (∀ b, u b ∈ 𝔐 • L) → ∀ z, F z = _root_.GlobalTheory.SW.epsW X (w : E) u * cexp (-(Real.pi * ∑ b, hx X bas idx x (z b + (1 / 2 : ℂ) • pv X idx x (u b)) (pv X idx x (u b)))) * F (fun b => z b + pv X idx x (u b))) → ∃ (s : Finset (Matrix (Fin n) (Fin r) E)) (cf : Matrix (Fin n) (Fin r) E → ℂ), (∀ y ∈ s, ∀ b, (M : E) • y b ∈ 𝔐 • L) ∧ ∀ z, F z = ∑ y ∈ s, cf y * (κ * thA X bas idx (heisG X bas y v) x z) := by
   intro E _ _ _ r X g q0 _ bas idx n hs hn w hw L hL x hd _ t _ _ 𝔐 M hM h𝔐 v hv θ κ hθ hmean hκ F hF hlaw
   have h0 : θ ≠ 0 := by
     rintro rfl
@@ -368,7 +368,7 @@ theorem theta_eq_sum_translates : ∀ (E : Type) [Field E] [NumberField E] [IsCM
       · simpa using hu
       · simp [Pi.single_eq_of_ne hb]) (Function.update z b s)
     rw [h]
-    simp only [Pi.smul_apply, smul_eq_mul, fock, epsW, eps1]
+    simp only [Pi.smul_apply, smul_eq_mul, fock, _root_.GlobalTheory.SW.epsW, _root_.GlobalTheory.Dict.eps1]
     rw [Finset.sum_eq_single b, Finset.sum_eq_single b]
     · simp only [Pi.single_eq_same, Function.update_self, Nat.cast_one, _root_.one_mul, _root_.mul_assoc]
       congr 3

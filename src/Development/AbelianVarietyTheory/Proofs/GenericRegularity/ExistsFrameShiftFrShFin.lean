@@ -1,12 +1,11 @@
 module
 
-public import Formalism.LocalToGlobal.ProjectiveLattices.DivFinOfLawA3
-public import Formalism.LocalToGlobal.ProjectiveLattices.VAtVNeBot
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle021
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle012
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.LawsFieldsSeparately
-public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.EvaluationLawsGenericFramesAtlasHoldStatement
-public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.ExistsFrameShiftOfValuedPointsStatement
-public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.ExistsGlobalModelGoodLevelAllPrimesStatement
-public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.FrShFinOfDivFinOfFinset
+public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.Bundle039
+public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.Bundle051
+public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.Bundle014
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

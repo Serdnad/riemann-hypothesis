@@ -1,6 +1,6 @@
 module
 
-import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TensorRepresentations.TraceFormulaJ
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TensorRepresentations.Bundle001
 public import Mathlib.Analysis.CStarAlgebra.Module.Constructions
 public import Mathlib.MeasureTheory.Function.L2Space
 import Mathlib.Algebra.Order.Floor.Extended

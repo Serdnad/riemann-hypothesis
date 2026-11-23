@@ -2,7 +2,7 @@ module
 
 public import Formalism.WachLatticeTwists.CharacterSplitJumps.Statement
 public import Mathlib.RingTheory.LocalRing.ResidueField.Defs
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FiniteCardTorsionLevelFractionRingQuot
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle072
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

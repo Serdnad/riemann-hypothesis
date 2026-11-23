@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ForallExistsTransfer
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1079
 public import Formalism.LocalToGlobal.Columns.StdLatUnimodular
 public import Formalism.LocalToGlobal.IndefiniteReal.ScalarOnPartsFull
-public import Formalism.SatakeDualWeyl.StatementF
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.UnitaryDivisorDualLabel
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.SupportedSubgroupSplitCommutePrimeIdempotentsStatement
+public import Formalism.SatakeDualWeyl.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1111
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle156
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -48,7 +48,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.NormalFam
+import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle016
 import Formalism.LocalToGlobal.IndefiniteForms.IndefSide
 import Formalism.LocalToGlobal.IndefiniteReal.LinksDefs
 

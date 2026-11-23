@@ -2,11 +2,11 @@ module
 
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.RealBands.DecaysZero
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.HermitianFormUnitaryOneOne
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.SchurOrthogonalityIndefiniteUnitaryGroupStatement
+public import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle023
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.RealBands.Abstract
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.RealBands.ContinuousAverage
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.RealBands.ConvCoef
-public import Development.AutomorphicArithmetic.ThetaCorrespondence.RealBands.FlagNW
+public import Development.AutomorphicArithmetic.ThetaCorrespondence.RealBands.Bundle004
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.RealBands.InvMemFlagN
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

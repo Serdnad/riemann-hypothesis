@@ -1,11 +1,11 @@
 module
 
-import Development.WeilBound.ThetaLifts.FrameEstimates.IsCompactIntV
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.FinPartIdemMulMemIff
+import Development.WeilBound.ThetaLifts.FrameEstimates.Bundle002
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle304
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsLocallyConstantAddChar
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsNeZeroAdeleCharEqCompMulTotallyReal
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.LcscAdelicUnitaryGroup
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle345
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle197
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle018
 import Mathlib.Algebra.Module.Torsion.Prod
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

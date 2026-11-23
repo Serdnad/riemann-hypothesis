@@ -1,7 +1,6 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.ChowForms.StatementsNormOfDividedForm
-public import GroundTheory.HeightsAndTheta.Heights.ChowForms.StatementsNormForm
+public import GroundTheory.HeightsAndTheta.Heights.ChowForms.Bundle001
 public import Mathlib.Algebra.Module.StablyFree.Basic
 public import Mathlib.LinearAlgebra.FreeModule.PID
 public import Mathlib.RingTheory.Flat.FaithfullyFlat.Algebra

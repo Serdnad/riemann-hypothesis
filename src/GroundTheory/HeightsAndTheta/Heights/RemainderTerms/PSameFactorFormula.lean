@@ -1,8 +1,8 @@
 module
 
 public import GroundTheory.HeightsAndTheta.Heights.RemainderTerms.BlockValue
-public import GroundTheory.HeightsAndTheta.Heights.RemainderTerms.StatementsCoinv
-public import GroundTheory.HeightsAndTheta.Heights.RemainderTerms.StatementsTop
+public import GroundTheory.HeightsAndTheta.Heights.RemainderTerms.Bundle003
+public import GroundTheory.HeightsAndTheta.Heights.RemainderTerms.Bundle002
 public import Mathlib.Algebra.CharP.Algebra
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

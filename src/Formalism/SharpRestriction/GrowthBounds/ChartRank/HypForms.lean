@@ -2,7 +2,7 @@ module
 
 public import Formalism.SharpRestriction.GrowthBounds.ChartRank.HypInvLe
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.FrobeniusNoKernelOfFrobeniusSimilitude
-public import Formalism.LocalToGlobal.GlobalTheory.GL6.ValuationClassTranslateMem
+public import Formalism.LocalToGlobal.GlobalTheory.GL6.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

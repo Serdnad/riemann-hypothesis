@@ -1,9 +1,9 @@
 module
 
 public import Development.WeilBound.RepresentationTheoryGL.UnitaryDualProof.GenericIrreducibility.CentralProd2
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.CuspidalPairIrreducibleProduct
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle303
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.SmoothContragredientIrreducibleAndReflexive
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.InvTransposeInvTranspose
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle050
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.UnlinkedCommuteOfIrreducible
 public import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.BernsteinZelevinskyGL.TopAdm
 import Mathlib.Algebra.Order.Floor.Extended

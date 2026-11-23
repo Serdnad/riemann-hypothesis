@@ -1,10 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsLagrModelOfIsLin
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsFactorPureTensorComponentAtPlace
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HasCompactSupportFinprodSchwartzBruhatFiniteAdel
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsLocallyConstantFinprodSchwartzBruhatFiniteAdel
-import Formalism.LocalToGlobal.IndefiniteReal.PHeisFC
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1910
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1770
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1769
+import Formalism.LocalToGlobal.IndefiniteReal.Bundle014
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

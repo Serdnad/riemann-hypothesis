@@ -1,9 +1,9 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.GoodConstOfAniso
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsIsoFrameFirstCols
-public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.ConstantTermVanishing
-public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.LinearIndependentE
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle631
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle626
+public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.Bundle018
+public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.Bundle011
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

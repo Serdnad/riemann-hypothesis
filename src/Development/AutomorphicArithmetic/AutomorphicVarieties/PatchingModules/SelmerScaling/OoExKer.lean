@@ -1,15 +1,14 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.IsCplAtSelf
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.Bundle004
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.ResMapBijective
 public import Mathlib.RingTheory.DiscreteValuationRing.Basic
 public import Mathlib.RingTheory.PowerSeries.Basic
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.CaCplCo
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.CaCplDvr
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.CaCplEx
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.CaCplLift
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.CoEvLow
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.CoMvps
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.Bundle014
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.Bundle015
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.Bundle019
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.Bundle003
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.Bundle011
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

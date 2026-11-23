@@ -1,7 +1,7 @@
 module
 
-public import Development.EtaleCohomology.TateTwists.EtaleRootsOfUnityReductionMapGenerator
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TateTwistReductionResolutionMapGeneratorStatement
+public import Development.EtaleCohomology.TateTwists.Bundle002
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle864
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

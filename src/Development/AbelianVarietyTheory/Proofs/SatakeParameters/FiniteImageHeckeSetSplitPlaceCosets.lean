@@ -1,8 +1,8 @@
 module
 
 public import Formalism.LocalToGlobal.GaloisLevelStructure.DefsAut
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsIntegerUnitSplitPlaceConjugatePrime
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.FiniteCosetsHeckeSetAtSplitPlaceOutsideLevel
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle016
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle035
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.GlintPrincRelIndexNeZero
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

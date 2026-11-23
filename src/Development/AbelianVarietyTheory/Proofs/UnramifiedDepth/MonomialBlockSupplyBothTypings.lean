@@ -3,8 +3,8 @@ module
 public import Formalism.LocalToGlobal.CharacterGerms.CoeffIterateZero
 public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.ProdFactorialDiag
 public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.CharacterBlocksAttainBound
-public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.LegendreAndCapelli
-import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.LegendreBoundsFactorialMultiIndexCapelli
+public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.Bundle012
+import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

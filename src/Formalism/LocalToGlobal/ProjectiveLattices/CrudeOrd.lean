@@ -1,7 +1,7 @@
 module
 
 import Development.AbelianVarietyTheory.Proofs.JetHarmonics.PowerSeriesExpIntegralCanonGaugeAdditiveSecond
-public import Formalism.LocalToGlobal.ProjectiveLattices.CrudeBase
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle006
 public import Formalism.LocalToGlobal.ProjectiveLattices.PlaceBelow
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

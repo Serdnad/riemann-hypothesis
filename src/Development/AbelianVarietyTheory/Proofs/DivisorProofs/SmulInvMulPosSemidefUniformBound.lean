@@ -3,7 +3,7 @@ module
 public import Mathlib.Analysis.Normed.Ring.Lemmas
 public import Mathlib.LinearAlgebra.Matrix.PosDef
 public import Mathlib.LinearAlgebra.Matrix.Rank
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.WeightedLeastSquaresBoundStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle583
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

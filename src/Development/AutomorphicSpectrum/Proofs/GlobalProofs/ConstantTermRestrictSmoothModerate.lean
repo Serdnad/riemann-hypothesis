@@ -1,9 +1,9 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.IsAdaptedEmpty
-public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.BesselFormsTrivialNeBot
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsContinuousAdelicUnitaryEmbedding
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.EmbRelAtRealPlaceOfUnitaryEmbedding
+public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle076
+public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.Bundle005
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle162
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle520
 import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.InfFam
 import Formalism.RealPlaceAnalysis.RealPlaceTaylor.KoszulLowersPower
 import Mathlib.Algebra.Order.Floor.Extended

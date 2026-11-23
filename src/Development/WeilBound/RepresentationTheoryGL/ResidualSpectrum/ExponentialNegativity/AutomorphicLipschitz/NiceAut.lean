@@ -1,10 +1,9 @@
 module
 
 public import Development.WeilBound.RepresentationTheoryGL.ResidualSpectrum.ExponentialNegativity.ExpNegGlue
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContinuousOfIsOpenStab
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ArchLieDerivativeExists
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsOpenLevel
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsLeftInvariantOfIsAutForm
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle133
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle291
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle240
 import GroundTheory.AutomorphicForms.AutomorphicFormSpaces.GKStable
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,9 +1,9 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsCliff
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle472
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.RealDescent.RealLeviDescent.IsCoreMod
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LoweringWordsSpanStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SpinGlRelationsAdjointStatement
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle527
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle513
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,17 +1,15 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.TranslateMomentsAll
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.AddSubgroupRepsExistenceCardSum
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.AlgebraicNumbersPadicPlacesFacts
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ApplyMemLocP
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExistsRepsSupOfFiniteQuot
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.FiniteQuotDivLatMulLatHomAt
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle082
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle101
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle099
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle134
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.MomentsCosetSum
-import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.PerLatticeFacts
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle104
 import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.PeriodLatticeHalfLatticeInclusionsSplitPrime
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.RelIndexNeZeroOfSmul
-import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.RelIndexPerDvd
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsNormSubEqOne
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle095
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle003
 import Formalism.LocalToGlobal.Columns.BaseLemmas
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -61,7 +59,7 @@ noncomputable section
 
 namespace GlobalTheory.MomT
 
-open Formalism.BasicNotions Formalism.HermitianLatticesTheory Formalism.MainNotions Formalism.L2.DIV Formalism.L2.Col Formalism.L2.Ker Formalism.L2.Th1.H GlobalTheory.IndefiniteRowSideFullHecke.JetSumTable
+open Formalism.BasicNotions Formalism.HermitianLatticesTheory Formalism.MainNotions Formalism.L2.DIV _root_.Formalism.L2.Col Formalism.L2.Ker Formalism.L2.Th1.H GlobalTheory.IndefiniteRowSideFullHecke.JetSumTable
 
 section abelian₂
 

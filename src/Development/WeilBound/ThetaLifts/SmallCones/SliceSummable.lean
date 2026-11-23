@@ -4,8 +4,8 @@ public import Development.WeilBound.ThetaLifts.SmallCones.ThetaUniq
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsNatMulIntegralOfIsCompact
 public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.ThetaSumAdmissibility
 public import Development.WeilBound.ThetaLifts.SmallCones.ExpAlg
-public import Development.WeilBound.ThetaLifts.SmallCones.ExpSum
-import Development.WeilBound.ThetaLifts.SmallCones.FourierUniq
+public import Development.WeilBound.ThetaLifts.SmallCones.Bundle002
+import Development.WeilBound.ThetaLifts.SmallCones.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

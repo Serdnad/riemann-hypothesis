@@ -1,7 +1,7 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.HeightFunctions.FiniteDimensionalOfSz
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.HeckeIdealEqOfRay
+public import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle013
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.RayClassNumberBounds
 public import Development.AbelianVarietyTheory.PublishedTheorems.PublishedFoundations.NonemptyAlgHomOfIsRayOfDvd
 import Mathlib.Algebra.AffineMonoid.Basic

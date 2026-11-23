@@ -54,7 +54,7 @@ def KernelBound {D : D7} (V W : HSp D) (A d : ℕ) : Prop :=
       ∃ C : ℝ≥0, ∀ (χS χT : (AE D)ˣ →* Circle) (ω : GA D V × GA D W →* Module.End ℂ (WO V W → ℂ)),
         IsWeilDatumO ψ V W χS χT ω →
         ∀ (μ : Measure (WO V W)) (𝓕 : Set (WO V W)), IsCovolOne (ratL W V) μ 𝓕 →
-          ∀ f ∈ thetaLevel ψ V W U, ∀ (g : GA D V) (h : GA D W),
+          ∀ f ∈ GlobalTheory.Size.thetaLevel ψ V W U, ∀ (g : GA D V) (h : GA D W),
             ‖thetaKO ω g h f‖ₑ ≤ C * sobO ψ θ μ 𝓕 d f * ENNReal.ofReal ((height V g * height W h) ^ A)
 
 def ThetaGrowth (D : D7) : Prop :=
@@ -73,7 +73,7 @@ theorem KernelBound.real {D : D7} {V W : HSp D} {A d : ℕ} (H : KernelBound V W
     ∃ C : ℝ, 0 ≤ C ∧ ∀ (χS χT : (AE D)ˣ →* Circle) (ω : GA D V × GA D W →* Module.End ℂ (WO V W → ℂ)),
       IsWeilDatumO ψ V W χS χT ω →
       ∀ (μ : Measure (WO V W)) (𝓕 : Set (WO V W)), IsCovolOne (ratL W V) μ 𝓕 →
-        ∀ f ∈ thetaLevel ψ V W U, sobO ψ θ μ 𝓕 d f ≠ ∞ ∧ ∀ (g : GA D V) (h : GA D W),
+        ∀ f ∈ GlobalTheory.Size.thetaLevel ψ V W U, sobO ψ θ μ 𝓕 d f ≠ ∞ ∧ ∀ (g : GA D V) (h : GA D W),
           ‖ω (g, h) f 0‖ ≤ C * (sobO ψ θ μ 𝓕 d f).toReal * (height V g * height W h) ^ A := by
   obtain ⟨C, hC⟩ := H ψ θ hθ U hU
   refine ⟨C, C.2, fun χS χT ω hω μ 𝓕 hμ f hf => ?_⟩

@@ -1,11 +1,11 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.ExtUHInjective
-public import Formalism.LocalToGlobal.Columns.ToHLat
+public import Formalism.LocalToGlobal.Columns.Bundle013
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LatticeMovePreservingLocalParts
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.InvSmulMemOfRedL
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HermitianLatticeChartFamilyLawBasis
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsSmulOfDecoEq
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle170
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle099
 public import Formalism.LocalToGlobal.Columns.ToHLatLemmas
 import Formalism.LocalToGlobal.Divisibility.ClassSumLemmas
 import Formalism.LocalToGlobal.Divisibility.FramesLemmas
@@ -58,7 +58,7 @@ noncomputable section
 
 namespace GlobalTheory.Mem.Col2.StepZero
 
-open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.L2.Col Formalism.L2.DIV Formalism.L2.Forms Formalism.L2.GlobalTheoryTheory.HLatOps
+open NumberField IsDedekindDomain Formalism.BasicNotions _root_.Formalism.L2.Col Formalism.L2.DIV Formalism.L2.Forms Formalism.L2.GlobalTheoryTheory.HLatOps
 open scoped ComplexOrder
 
 section Metric

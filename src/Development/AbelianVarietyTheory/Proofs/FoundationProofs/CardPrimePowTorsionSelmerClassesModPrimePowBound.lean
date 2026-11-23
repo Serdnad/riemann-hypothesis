@@ -1,12 +1,12 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.SelNZero
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle341
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.ResMapBijective
 public import Mathlib.RingTheory.AdicCompletion.Noetherian
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.CupProductCoboundaryMod
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.CupProductDualTwistIsTwoCocycleUnramified
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.LocalConditionsIndependentOfPlaceOver
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.MemIntegersOfNormLeOne
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle344
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle356
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle343
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle359
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.SoLevFacts
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

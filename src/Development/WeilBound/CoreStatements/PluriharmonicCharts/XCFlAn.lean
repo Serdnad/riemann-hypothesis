@@ -1,13 +1,13 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.PartialFlagBlocks
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle089
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.EvalNeZeroOfNotMem
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagGapPullbackThirdStatement
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle161
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagModelAnalyticDataExists
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.LogResolutionFubiniStudyPositive
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.SingularWeightMonotoneRegularization
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.SncAdaptedAtlasProjection
-public import Development.WeilBound.CoreStatements.PluriharmonicCharts.MinorIJOneSelf
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle117
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle020
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle040
+public import Development.WeilBound.CoreStatements.PluriharmonicCharts.Bundle012
 public import Development.WeilBound.CoreStatements.PluriharmonicCharts.NotMemTop
 import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.PHFlProdLinear
 import Mathlib.Algebra.Order.Floor.Extended

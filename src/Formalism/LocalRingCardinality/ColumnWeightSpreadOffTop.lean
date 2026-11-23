@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalRingCardinality.DataParams
-public import Formalism.LocalRingCardinality.DataGatTies
+public import Formalism.LocalRingCardinality.Bundle003
 public import Formalism.SharpRestriction.GrowthBounds.ObjPol
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

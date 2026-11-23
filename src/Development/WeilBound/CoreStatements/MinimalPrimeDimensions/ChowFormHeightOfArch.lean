@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.EqOfIsometricTrivShift
-public import Development.WeilBound.CoreStatements.HomogeneousNonvanishing.VuSelfKnownTheorem
+public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.Bundle014
+public import Development.WeilBound.CoreStatements.HomogeneousNonvanishing.Bundle017
 public import Development.WeilBound.CoreStatements.MinimalPrimeDimensions.GenIdeal
 public import Development.WeilBound.CoreStatements.MinimalPrimeDimensions.ChowDegreeSection
 public import Development.WeilBound.CoreStatements.MinimalPrimeDimensions.DescEval
@@ -11,7 +11,7 @@ import Development.WeilBound.CoreStatements.MinimalPrimeDimensions.ResGAppLE
 import Development.WeilBound.CoreStatements.MinimalPrimeDimensions.SpecializesIff
 public import Development.WeilBound.CoreStatements.MinimalPrimeDimensions.SumNormSqUnitary
 public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Assembly
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.OfLeaves
+public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle027
 import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Assembly
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

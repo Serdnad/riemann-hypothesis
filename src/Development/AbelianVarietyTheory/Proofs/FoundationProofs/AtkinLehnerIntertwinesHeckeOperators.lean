@@ -1,13 +1,13 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Foundations.PetIPSmulRight
-public import Development.AbelianVarietyTheory.Definitions.Foundations.RepL
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.CoeffHeckeTOperatorQExpansionSlashSum
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.HeckeCharacterSlashSumIndepReps
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.HeckeULeftRepresentativesLevelChange
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsLeftGamma0CosetDecompositionHeckeRepTOperator
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.QExpansionHeckeUEqSumSlash
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.SlashIntMatrixPosDetProperties
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle005
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle002
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle197
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle179
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle150
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle152
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle180
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle158
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

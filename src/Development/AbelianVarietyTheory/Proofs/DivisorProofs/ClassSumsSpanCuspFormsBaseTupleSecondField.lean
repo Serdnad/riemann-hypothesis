@@ -1,33 +1,32 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.NormalFam
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle016
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.OneMapOfOfExtends
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsHomogeneousOfRowDeg
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LevelMapExtension
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle492
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle280
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.NotIsOfFinOrderUnitQuot
-public import Development.AbelianVarietyTheory.Definitions.Divisors.ConstantUniqueOfEqProduct
-import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.EmbeddingsDifferOnInteger
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle044
+import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle081
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ClassSumsSpan
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DictionaryComponentFrameMarkingUniformisation
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsAdelicLiftEqGeometricClassSumAllTuplesStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsCuspFormClassSumNormalisedData
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsFrameConstantsOfCharacterisationCoreStatement
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FockCoefficientMapExtremalEqPhaseSmulLettersStatement
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GenReadsOfUnfBC
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2508
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2551
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2328
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1668
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LatticeEmbeddingIdealLevel
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LettersEqFockVarsCore
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ModelsAtRecordCore
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1675
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1674
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.OscillatorModelValuesThird
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ThetaKernelFinitePointMemSpanRationalFormLiftsStatement
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ThetaKernelOneClassEqClassicalShortSeriesStatement
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.UnfoldingFrameDeltaChange
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2467
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2358
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2029
 import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.ChartIndependenceUnconditional
-import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.ExistsIsNabUncond
-import Development.AbelianVarietyTheory.Proofs.GenericRegularity.NumericalConsequencesOfPins
+import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.Bundle042
+import Development.AbelianVarietyTheory.Proofs.GenericRegularity.Bundle029
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsOmegaField
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.InverseSelfDualFrameStandardSpaceIntegral
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle308
 import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.DualHalfLevelMarkingExistsAndMatch
-import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.FgOfSmulLe
+import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle042
 import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.ShortThetaValueComplexPointEqClassicalTheta
 import Formalism.LocalToGlobal.Columns.AdelicLemmas
 import Formalism.LocalToGlobal.ProjectiveLattices.DepthTie
@@ -70,7 +69,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsLevelPlaceDatumOverNumberField
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1796
 
 @[expose] public section
 
@@ -314,7 +313,7 @@ theorem kernel_eq_shortVal (hC : GlobalTheory.Hk3.Core R F) (hT : TieIn T R κ v
   obtain ⟨yd, hyd⟩ := exists_isDetAt he (Vc D i) h
   have hhom : (MvPolynomial.rename Dc.eL (MvPolynomial.map (inC O.c') (O.io xs))).IsHomogeneous
       (degW (T.Q.Dw ((i : ℕ) + 1)) (wtA (κ i))) :=
-    ((isHomogeneous_of_rowDeg _ _ _ _ hH.2.2).map _).rename_isHomogeneous
+    ((_root_.GlobalTheory.PtId.isHomogeneous_of_rowDeg _ _ _ _ hH.2.2).map _).rename_isHomogeneous
   have hQ : R.Q A.μ0 = ∅ := Finset.eq_empty_of_forall_notMem fun PP hP =>
     (hC.lev.Q_ram A.μ0 PP).2 (Or.inl hP) (by rw [hC.lev.xi_base]; exact fun _ _ => rfl)
   have hhalf : ∀ PP, PP ∈ R.Pg ∨ PP ∈ R.Q A.μ0 → T.Q.l.Mb ≤ PP.asIdeal ∧

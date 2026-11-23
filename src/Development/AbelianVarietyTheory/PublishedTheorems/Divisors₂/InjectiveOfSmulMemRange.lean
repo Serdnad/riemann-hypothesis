@@ -1,7 +1,7 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ToSpanSingletonConstGenInjective
-public import Development.AbelianVarietyTheory.Definitions.Divisors.XiMulNu
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle002
 public import Mathlib.RingTheory.RootsOfUnity.PrimitiveRoots
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ConvEqOneOfForallPairing
 import Mathlib.Algebra.Order.Floor.Extended
@@ -45,7 +45,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
-public import ReciprocityTheory.DualLattices.AinfFacts
+public import ReciprocityTheory.DualLattices.Bundle010
 
 @[expose] public section
 

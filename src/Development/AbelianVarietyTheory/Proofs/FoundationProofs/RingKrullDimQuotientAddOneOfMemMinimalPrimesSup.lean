@@ -61,7 +61,7 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.CommutativeAlgebra.PolynomialHeights.HeightAddRingKrullDimQuotientMvPolynomialField
-import ReciprocityTheory.CommutativeAlgebra.SaturatedChains.Integral
+import ReciprocityTheory.CommutativeAlgebra.SaturatedChains.Bundle001
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section

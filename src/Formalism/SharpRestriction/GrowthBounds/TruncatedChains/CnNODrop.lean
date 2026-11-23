@@ -1,7 +1,7 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.TruncatedChains.CnNOOfNormal
-public import Formalism.SharpRestriction.GrowthBounds.TruncatedChains.CnStepsTail
+public import Formalism.SharpRestriction.GrowthBounds.TruncatedChains.Bundle003
+public import Formalism.SharpRestriction.GrowthBounds.TruncatedChains.Bundle001
 public import Formalism.SharpRestriction.GrowthBounds.TruncatedChains.IdxOfAppendSecond
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

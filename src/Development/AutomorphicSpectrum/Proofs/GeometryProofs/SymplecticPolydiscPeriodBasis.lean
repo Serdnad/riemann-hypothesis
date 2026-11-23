@@ -1,13 +1,13 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.ClopenCondOnto
+public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.Bundle001
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.FromBlocksMapIntCastMemSymplecticGroup
 public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.PInjective
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.ExistsSymplecticBasisLagrangianBetween
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.SymplecticUnipotentShape
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.SiegelOfRiemann
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle010
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle002
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle004
 public import GroundTheory.HeightsAndTheta.Heights.Regularisation.Assembly
-public import GroundTheory.HeightsAndTheta.Heights.Regularisation.PLogCoverDescent
+public import GroundTheory.HeightsAndTheta.Heights.Regularisation.Bundle004
 public import GroundTheory.HeightsAndTheta.Heights.Regularisation.PPuncturedExpOrder
 public import GroundTheory.HeightsAndTheta.Heights.Regularisation.PRiemannExtensionSlices
 import GroundTheory.HeightsAndTheta.Heights.Regularisation.PosSemidefOfIntQuadNonneg

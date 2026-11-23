@@ -1,7 +1,7 @@
 module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.StickelbergerTheorem.StickelbergerAt
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.StickelbergerElements.CoefMapSingle
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.StickelbergerElements.Bundle001
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.StickelbergerTheorem.ImportsAlt
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.StickelbergerElements.Normkill
 import Mathlib.Algebra.Order.Floor.Extended

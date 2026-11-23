@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Foundations.PetIPSmulRight
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.FirstDiffStatement
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle005
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle167
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

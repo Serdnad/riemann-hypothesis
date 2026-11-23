@@ -1,6 +1,6 @@
 module
 
-public import Development.DiscreteGroups.PiInvariants.CompactSupportTwists.PiClosU
+public import Development.DiscreteGroups.PiInvariants.CompactSupportTwists.Bundle004
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.RealDescent.PowerBoundFastDecay
 import Aesop.Main
 import Development.DiscreteGroups.PiInvariants.CompactSupportTwists.LogAbsEqLogIdeleNorm
@@ -90,7 +90,11 @@ theorem mp_eH (D : Dom E n 0) : MeasurePreserving (eH (E := E) (n := n)) (muG D)
 
 theorem isHaar_D (D : Dom E n 0) : D.μ.IsHaarMeasure := by
   obtain ⟨h1, h2, h3, h4⟩ := D.haar
-  exact { toIsFiniteMeasureOnCompacts := inferInstance, toIsMulLeftInvariant := h1, toIsOpenPosMeasure := h3 }
+  letI : IsLocallyFiniteMeasure D.μ := h4
+  exact
+    { toIsFiniteMeasureOnCompacts := isFiniteMeasureOnCompacts_of_isLocallyFiniteMeasure
+      toIsMulLeftInvariant := h1
+      toIsOpenPosMeasure := h3 }
 
 instance muG_haar (D : Dom E n 0) : (muG D).IsHaarMeasure := by
   haveI := isHaar_D D
@@ -126,6 +130,11 @@ theorem lintegral_nu (D : Dom E n 0) (Φ : GA E n → ℝ≥0∞) (hΦ : ∀ γ 
   let eM : GA E n ≃ᵐ H E n 0 := (eH (E := E) (n := n)).toHomeomorph.toMeasurableEquiv
   have hm : (muG D).map eM = D.μ := (mp_eH D).map_eq
   rw [Dom.ν, ← hm, eM.restrict_map, lintegral_map_equiv]
+  letI : (muG D).IsMulLeftInvariant := (muG_haar D).toIsMulLeftInvariant
+  letI : SMulInvariantMeasure (GA E n) (GA E n) (muG D) :=
+    Measure.IsMulLeftInvariant.smulInvariantMeasure
+  letI : SMulInvariantMeasure (ratGL E n).range (GA E n) (muG D) :=
+    Subgroup.smulInvariantMeasure (ratGL E n).range
   refine (isFundamentalDomain_pre D).setLIntegral_eq (isFundamentalDomain_stdDom _ _) (fun g => Φ g) fun γ g => ?_
   rw [Subgroup.smul_def, smul_eq_mul]
   exact hΦ γ γ.2 g

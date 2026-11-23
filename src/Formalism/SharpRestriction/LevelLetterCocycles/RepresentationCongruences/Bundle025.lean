@@ -1,0 +1,351 @@
+module
+
+public import Formalism.SharpRestriction.LevelLetterCocycles.RepresentationCongruences.Bundle022
+public import Formalism.SharpRestriction.LevelLetterCocycles.Bundle013
+public import Formalism.SharpRestriction.LevelLetterCocycles.RepresentationCongruences.Bundle018
+public import Formalism.SharpRestriction.LevelLetterCocycles.RepresentationCongruences.Bundle014
+public import Formalism.SharpRestriction.LevelLetterCocycles.RepresentationCongruences.Bundle021
+public import Formalism.SharpRestriction.LevelLetterCocycles.RepresentationCongruences.ExistsHorizontalLiftOfLenThreeOfUp
+import Formalism.SharpRestriction.LevelLetterCocycles.RepresentationCongruences.Bundle003
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Basify
+import Mathlib.Tactic.ENatToNat
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Monotonicity.Lemmas
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.Polynomial.Basic
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Topology.Sheaves.Init
+import Mathlib.Topology.Sheaves.Presheaf
+import Std.Tactic.BVDecide.Normalize.Prop
+
+@[expose] public section
+
+section
+
+noncomputable section
+
+namespace Formalism.MainNotions.N.FrobeniusPowerSeries
+
+open Formalism.WeaklyAdmissibleFiltrations Formalism.BasicNotions Formalism.BasicNotions.Loc Formalism.MainNotions.ArcLiftingSetup Formalism.MainNotions.N.Ln17
+
+variable {G : Type} [Group G] [TopologicalSpace G] {Qp K₀ K : Type} [Field Qp] [Field K₀] [Field K]
+    [Algebra Qp K₀] [Algebra Qp K] [Algebra K₀ K] [IsScalarTower Qp K₀ K]
+    {B BdR : Type} [CommRing B] [CommRing BdR] [Algebra Qp B] [Algebra K₀ B] [IsScalarTower Qp K₀ B]
+    [Algebra Qp BdR] [Algebra K₀ BdR] [Algebra K BdR] [IsScalarTower Qp K BdR]
+    [IsScalarTower K₀ K BdR] [IsScalarTower Qp K₀ BdR]
+    {LL O : Type} [Field LL] [Algebra Qp LL] [TopologicalSpace LL] [CommRing O] [Algebra O LL]
+    {v : AddValuation LL (WithTop ℚ)} {n : ℕ}
+    {PD : PeriodData G Qp K₀ K B BdR}
+
+variable [FiniteDimensional Qp LL]
+
+theorem arc_letter_type_eq_ite [NeZero n] {b w S η : ℕ} {up : ZMod n → Bool} {size : ZMod n → ℕ} (i : ZMod n) :
+    (arcOf b w S η up size).ty i = if up i then Formalism.MainNotions.LocalTheoryWindows.LT.up (size i) else Formalism.MainNotions.LocalTheoryWindows.LT.down (size i) :=
+  rfl
+
+theorem arc_length_two_reduction [NeZero n] [Fintype (K →ₐ[Qp] LL)] (W : LocWach PD LL O v n)
+    {T₁ T₂ : LocLat G Qp LL O} (F : LatHom T₁.L T₂.L) {b w S η m : ℕ} {up : ZMod n → Bool}
+    {size Mi hi : ZMod n → ℕ} (hB : HypB PD W T₁ T₂ F b w S η m up size Mi hi)
+    (hW₁ : Win W (arcOf b w S η up size) T₁) (hW₂ : Win W (arcOf b w S η up size) T₂)
+    (hArc : ArcCore W)
+    (hO : ∀ x : O, 0 ≤ v (algebraMap O LL x)) (hOv : ∀ x : LL, 0 ≤ v x → ∃ y : O, algebraMap O LL y = x)
+    (hinj : Function.Injective (algebraMap O LL))
+    (hP2 : Formalism.MainNotions.DeltaInvariantLattices.P2W W) (hP9 : Formalism.MainNotions.DeltaInvariantLattices.P9W W) (hpi0 : ∃ u ∈ W.AΔ, W.γA W.gam W.π₀ = W.π₀ * u)
+    (hSec : ArcSecMapCore W) (hGL : ArcGamLiftCore W) (hFL : ArcFilLowCore W)
+    (c : ZMod n) (hc : c ∈ (arcOf b w S η up size).cuts) {d : ℕ} (bb : Fin d → W.DD T₂)
+    (sol : Fin d → ℕ → Fin d → LL)
+    (hbb : IsHor W T₂ (c - (((arcOf b w S η up size).len c : ℕ) : ZMod n)) bb sol) (k₀ : Fin d)
+    (f : W.EE) (hf : InFF W (arcOf b w S η up size) c f)
+    (hlen : (arcOf b w S η up size).len c = 2) (hdiff : up (c - 1) ≠ up c)
+    (hOK : (arcOf b w S η up size).OK)
+    (hσ : (((arcOf b w S η up size).σ PD.p : ℕ) : ℝ) ≤ 3 * Formalism.MainNotions.N.Ln17.Sg PD.p b w S η size)
+    (hup : up c = false)
+    {d₁ : ℕ} (b₁ : Fin d₁ → W.DD T₁) (sol₁ : Fin d₁ → ℕ → Fin d₁ → LL)
+    (hb₁ : IsHor W T₁ (c - (((arcOf b w S η up size).len c : ℕ) : ZMod n)) b₁ sol₁) (c₁ : Fin d₁ → O)
+    (hlt : dvO W T₁ ((arcOf b w S η up size).len c) b₁ c₁ ∈ FilS W T₁ c 1 (size (c - 1)))
+    (hpr : Formalism.MainNotions.TruncatedSeriesCountingBounds.crisMap B F.f (dvO W T₁ ((arcOf b w S η up size).len c) b₁ c₁) =
+      ((PD.p : LL) ^ (2 * (arcOf b w S η up size).σ PD.p)) •
+        dv W T₂ ((arcOf b w S η up size).len c) bb (Pi.single k₀ 1)) :
+    ∃ e₁ : ℕ, (e₁ : ℝ) ≤ 9 * Formalism.MainNotions.N.Ln17.Sg PD.p b w S η size + 1 ∧
+      LiftsAt W (arcOf b w S η up size) F c bb sol k₀ f e₁ := by
+  set A := arcOf b w S η up size with hA
+  have hup1 : up (c - 1) = true := by
+    cases h : up (c - 1) <;> simp_all
+  have hty0 : A.ty c = Formalism.MainNotions.LocalTheoryWindows.LT.down (size c) := by
+    rw [hA, arc_letter_type_eq_ite, hup]; rfl
+  have hty1 : A.ty (c - 1) = Formalism.MainNotions.LocalTheoryWindows.LT.up (size (c - 1)) := by
+    rw [hA, arc_letter_type_eq_ite, hup1]; rfl
+  have hl5 : 5 ≤ PD.p := by have := hB.1; omega
+  have hcase : Formalism.MainNotions.LiftingTheory.CaseA W := hB.2.1.1
+  have hthick : ∀ s < A.len c, (A.ty (c - (s : ZMod n))).thick := by
+    intro s _
+    rw [hA, arc_letter_type_eq_ite]
+    split_ifs <;> rfl
+  have hden : nnDen W A c = ps W 1 ^ size (c - 1) := by
+    simp only [nnDen, prodTy, hlen, Finset.prod_range_succ, Finset.prod_range_zero, Nat.cast_zero,
+      sub_zero, Nat.cast_one, hty0, hty1, pow_zero, one_mul]
+  obtain ⟨hf1, hf2⟩ := hf
+  have hL := liftsAt_thin_letter_type W A F c bb sol k₀ hOK hc hthick hcase hl5 hP2 hP9 hpi0 hSec hGL hFL hO hOv hinj hArc
+    hW₁ hW₂ hbb ({1} : Finset ℕ) (by
+      intro s hs
+      rw [Finset.mem_singleton] at hs
+      subst hs
+      refine ⟨by omega, size (c - 1), ?_⟩
+      rw [Nat.cast_one, hty1]) b₁ sol₁ hb₁ c₁ (2 * A.σ PD.p) (by
+      intro s hs bs hbs
+      rw [Finset.mem_singleton] at hs
+      subst hs
+      rw [Nat.cast_one, hty1] at hbs
+      cases hbs
+      exact hlt) hpr f (by
+      simpa [Nat.cast_one, hty1, ← hden] using hf1) (by
+      intro s hs bs hbs
+      obtain ⟨κ, x, hx⟩ := hf2 s hs bs hbs
+      refine ⟨κ, x, ?_⟩
+      simpa [Nat.cast_one, hty1, ← hden] using hx) (by
+      intro s hs hs1 bs hbs
+      have hs0 : s = 0 := by
+        rw [Finset.mem_singleton] at hs1
+        omega
+      subst hs0
+      rw [Nat.cast_zero, sub_zero, hty0] at hbs
+      cases hbs)
+  refine ⟨2 * A.σ PD.p + A.σ PD.p, ?_, hL⟩
+  push_cast
+  linarith
+
+end Formalism.MainNotions.N.FrobeniusPowerSeries
+end
+end
+
+section
+
+noncomputable section
+
+namespace Formalism.MainNotions.N.FrobeniusPowerSeries
+
+open Formalism.WeaklyAdmissibleFiltrations Formalism.BasicNotions Formalism.BasicNotions.Loc Formalism.MainNotions.ArcLiftingSetup Formalism.MainNotions.N.Ln17
+
+variable {G : Type} [Group G] [TopologicalSpace G] {Qp K₀ K : Type} [Field Qp] [Field K₀] [Field K]
+    [Algebra Qp K₀] [Algebra Qp K] [Algebra K₀ K] [IsScalarTower Qp K₀ K]
+    {B BdR : Type} [CommRing B] [CommRing BdR] [Algebra Qp B] [Algebra K₀ B] [IsScalarTower Qp K₀ B]
+    [Algebra Qp BdR] [Algebra K₀ BdR] [Algebra K BdR] [IsScalarTower Qp K BdR]
+    [IsScalarTower K₀ K BdR] [IsScalarTower Qp K₀ BdR]
+    {LL O : Type} [Field LL] [Algebra Qp LL] [TopologicalSpace LL] [CommRing O] [Algebra O LL]
+    {v : AddValuation LL (WithTop ℚ)} {n : ℕ}
+    {PD : PeriodData G Qp K₀ K B BdR}
+
+variable [FiniteDimensional Qp LL]
+
+theorem exists_liftsAt_le_of_len_three_of_up [NeZero n] [Fintype (K →ₐ[Qp] LL)] [IsDomain O] [IsDiscreteValuationRing O] [IsAdicComplete (IsLocalRing.maximalIdeal O) O] (W : LocWach PD LL O v n) (hcase : Formalism.MainNotions.LiftingTheory.CaseA W)
+    {T₁ T₂ : LocLat G Qp LL O} (F : LatHom T₁.L T₂.L) {b w S η m : ℕ} {up : ZMod n → Bool}
+    {size Mi hi : ZMod n → ℕ} (hB : HypB PD W T₁ T₂ F b w S η m up size Mi hi)
+    (CR : ℝ) (hWR : Formalism.MainNotions.LiftingTheory.coreWR W CR)
+    (hW₁ : Win W (arcOf b w S η up size) T₁) (hW₂ : Win W (arcOf b w S η up size) T₂) (hH : Formalism.MainNotions.LiftingTheory.coreH W) (hTr : Formalism.MainNotions.LiftingTheory.coreTr W)
+    (hRelay : RelayCore W) (hArc : ArcCore W) (hArcL : ArcLCore W) (hNN : UnivNNCore W)
+    (hSat : SATcore W) (hSatP : Formalism.MainNotions.ArcLiftingSetup.SATPcore W) (hKill : KillerLevCore W) (hR2 : R2)
+    (hO : ∀ x : O, 0 ≤ v (algebraMap O LL x)) (hOv : ∀ x : LL, 0 ≤ v x → ∃ y : O, algebraMap O LL y = x)
+    (hinj : Function.Injective (algebraMap O LL))
+    (hP2 : Formalism.MainNotions.DeltaInvariantLattices.P2W W) (hP9 : Formalism.MainNotions.DeltaInvariantLattices.P9W W) (hpi0 : ∃ u ∈ W.AΔ, W.γA W.gam W.π₀ = W.π₀ * u)
+    (hSec : ArcSecMapCore W) (hGL : ArcGamLiftCore W) (hHF : HorFrameCore W) (hFL : ArcFilLowCore W)
+    (rr : ℕ) (hrr : (rr : ℝ) ≤ 3 * Formalism.MainNotions.N.Ln17.Sg PD.p b w S η size)
+    (hkill : ∀ c ∈ (arcOf b w S η up size).cuts, Formalism.MainNotions.LiftingTheory.KillsΔ W F c (Formalism.MainNotions.LiftingTheory.lp W rr))
+    (c : ZMod n) (hc : c ∈ (arcOf b w S η up size).cuts) {d : ℕ} (bb : Fin d → W.DD T₂)
+    (sol : Fin d → ℕ → Fin d → LL)
+    (hbb : IsHor W T₂ (c - (((arcOf b w S η up size).len c : ℕ) : ZMod n)) bb sol) (k₀ : Fin d)
+    (hk₀ : InLpp W (arcOf b w S η up size) T₂ c bb k₀) (f : W.EE) (hf : InFF W (arcOf b w S η up size) c f) (hP5 : Formalism.MainNotions.DeltaInvariantLattices.P5W W) (Cb : ℝ) (hCb : 2 ≤ Cb) (halt : Alt b η up size)
+    (hsm : 40 * Formalism.MainNotions.N.Ln17.Sg PD.p b w S η size ≤ (b : ℝ) / 4)
+    (hlen : (arcOf b w S η up size).len c = 3) (hU : up (c - 2) = true)
+    (hOK : (arcOf b w S η up size).OK) (hσ : (((arcOf b w S η up size).σ PD.p : ℕ) : ℝ) ≤ 3 * Formalism.MainNotions.N.Ln17.Sg PD.p b w S η size)
+    (hth : Formalism.MainNotions.LiftingTheory.AI W F (c - 2) + η + 2 * (arcOf b w S η up size).σ PD.p + 2 ≤ size (c - 2)) :
+    ∃ e₁ : ℕ, (e₁ : ℝ) ≤ 18 * Formalism.MainNotions.N.Ln17.Sg PD.p b w S η size + 1 ∧
+      LiftsAt W (arcOf b w S η up size) F c bb sol k₀ f e₁  := by
+  classical
+  have hp11 : 11 ≤ PD.p := hB.1
+  have hSet := hB.2.1
+  have hl5 : 5 ≤ PD.p := by omega
+  have hsur : Formalism.MainNotions.LiftingTheory.Sur W F := hSet.2.1
+  have hηs : ∀ i, η < size i := hSet.2.2.1
+  have hup1 : up (c - 1) = false := by
+    have h := (halt (c - 2)).1
+    have e : c - 2 + 1 = c - 1 := by ring
+    rw [e, hU] at h
+    simpa using h
+  have hup0 : up c = true := by
+    have h := (halt (c - 1)).1
+    have e : c - 1 + 1 = c := by ring
+    rw [e, hup1] at h
+    simpa using h
+  have hty0 : (arcOf b w S η up size).ty (c - ((0 : ℕ) : ZMod n)) = .up (size c) := by
+    simp [arcOf, hup0]
+  have hty1 : (arcOf b w S η up size).ty (c - ((1 : ℕ) : ZMod n)) = .down (size (c - 1)) := by
+    simp [arcOf, hup1]
+  have hty2 : (arcOf b w S η up size).ty (c - ((2 : ℕ) : ZMod n)) = .up (size (c - 2)) := by
+    simp [arcOf, hU]
+  have hthick : ∀ t < (arcOf b w S η up size).len c, ((arcOf b w S η up size).ty (c - (t : ZMod n))).thick := by
+    intro t _
+    simp only [arcOf]
+    split <;> rfl
+  have hps : ∀ t, ps W t ∈ W.AΔ := fun t => GS.ps_mem W t
+  have hnn : nnDen W (arcOf b w S η up size) c = ps W 0 ^ size c * ps W 2 ^ size (c - 2) := by
+    unfold nnDen prodTy
+    rw [hlen]
+    simp only [Finset.prod_range_succ, Finset.prod_range_zero, one_mul]
+    rw [hty0, hty1, hty2]
+    simp
+
+  obtain ⟨κ, x, hx⟩ := hf.2 1 (by rw [hlen]; norm_num) (size (c - 1)) hty1
+  obtain ⟨s, hs, hdvd⟩ := arc_length_four_denominator W hcase F hB CR hWR hW₁ hW₂ hH hTr hRelay hArc hArcL hNN hSat hSatP hKill hR2
+    hO hOv hinj hP2 hP9 hpi0 hSec hGL hHF hFL rr hrr hkill c hc bb sol hbb k₀ hk₀ f hf hP5 Cb hCb halt hsm hlen hU
+    hOK hσ κ x hx
+  obtain ⟨x₀, hx₀⟩ := hdvd
+
+  have hBn : 1 ≤ size (c - 1) + S := by have := hηs (c - 1); omega
+  obtain ⟨fa, si, hfa1, hfa2, hsi⟩ := exists_fraction_in_frame W hcase hP9 hO hinj T₁ hW₁.1 c (size (c - 2)) (size (c - 1) + S) η s hBn x₀
+
+  obtain ⟨d₁, b₁, sol₁, c₁, hb₁, hlt, hpr⟩ := exists_horizontal_lift_of_len_three_of_up W hcase F hB CR hWR hW₁ hW₂ hArc hR2 hO hOv hinj hP9 hSec hHF hFL
+    c hc bb sol hbb k₀ hk₀ halt hlen hU hOK hth
+  set σ := (arcOf b w S η up size).σ PD.p with hσdef
+  set e₄ := s - si with he₄
+
+  have hfaC : LiftsAt W (arcOf b w S η up size) F c bb sol k₀ fa (2 * σ + 1 + σ) := by
+    refine liftsAt_thin_letter_type W (arcOf b w S η up size) F c bb sol k₀ hOK hc hthick hcase hl5 hP2 hP9 hpi0 hSec hGL hFL hO hOv
+      hinj hArc hW₁ hW₂ hbb {2} ?_ b₁ sol₁ hb₁ c₁ (2 * σ + 1) ?_ hpr fa ?_ ?_ ?_
+    · intro t ht
+      rw [Finset.mem_singleton] at ht
+      subst ht
+      exact ⟨by rw [hlen]; norm_num, _, hty2⟩
+    · intro t ht bs hbs
+      rw [Finset.mem_singleton] at ht
+      subst ht
+      rw [hty2] at hbs
+      cases hbs
+      exact hlt
+    · simp only [Finset.prod_singleton, hty2]
+      exact hfa1
+    · intro t ht bs hbs
+      rw [hlen] at ht
+      interval_cases t
+      · rw [hty0] at hbs; cases hbs
+      · rw [hty1] at hbs
+        cases hbs
+        simp only [Finset.prod_singleton, hty2]
+        refine ⟨s, ((PD.p : ℕ) : O) ^ e₄ * x₀, ?_⟩
+        have e : lE W s * fa - algebraMap (LetA O n) W.EE (letE c) * algebraMap O W.EE (((PD.p : ℕ) : O) ^ e₄ * x₀) =
+            lE W s * fa - lE W e₄ * (algebraMap (LetA O n) W.EE (letE c) * algebraMap O W.EE x₀) := by
+          rw [map_mul, map_pow, map_natCast]; unfold lE; ring
+        rw [e]
+        exact ArcLengthFourSecond.inFr_num_left hfa2 (W.AΔ.pow_mem (hps 0) _)
+      · rw [hty2] at hbs; cases hbs
+    · intro t ht hnt bs hbs
+      rw [hlen] at ht
+      interval_cases t
+      · rw [hty0] at hbs
+        cases hbs
+        simp only [Finset.prod_singleton, hty2]
+        refine ⟨s, ((PD.p : ℕ) : O) ^ e₄ * x₀, ?_⟩
+        have e : lE W s * fa - algebraMap (LetA O n) W.EE (letE c) * algebraMap O W.EE (((PD.p : ℕ) : O) ^ e₄ * x₀) =
+            lE W s * fa - lE W e₄ * (algebraMap (LetA O n) W.EE (letE c) * algebraMap O W.EE x₀) := by
+          rw [map_mul, map_pow, map_natCast]; unfold lE; ring
+        rw [e]
+        exact ArcLengthFourSecond.inFr_num_right hfa2 (W.AΔ.pow_mem (hps 1) _)
+      · rw [hty1] at hbs; cases hbs
+      · exact absurd (Finset.mem_singleton_self 2) hnt
+
+  have hfa_nn : InFr W c 1 (nnDen W (arcOf b w S η up size) c) fa := by
+    rw [hnn]; exact ArcLengthFourSecond.inFr_den_mul _ hfa1 (W.AΔ.pow_mem (hps 0) _)
+  have hgN : LiftsAt W (arcOf b w S η up size) F c bb sol k₀ (lE W e₄ * f - fa) (rr + σ) := by
+    refine liftsAt_thick_letter_type W (arcOf b w S η up size) F c bb sol k₀ hOK hc hthick hcase hl5 hP2 hP9 hpi0 hSec hGL hFL hO hOv
+      hinj hArc hArcL hNN hW₁ hW₂ hsur rr hkill hbb hk₀ _ (ArcLengthFourSecond.inFr_sub (ArcLengthFourSecond.inFr_lE e₄ hf.1) hfa_nn) ?_
+    intro t ht bs hbs
+    rw [hlen] at ht
+    interval_cases t
+    · rw [hty0] at hbs; cases hbs
+    · rw [hty1] at hbs
+      cases hbs
+      have hnum : ps W 1 ^ (size (c - 1) + (arcOf b w S η up size).S) ∈ PiPs W :=
+        Submonoid.pow_mem _ (Submonoid.subset_closure (Set.mem_insert_of_mem _ (Set.mem_range_self 1))) _
+      refine ArcLengthFourSecond.inFr_sat W hcase hP9 hinj hnum (ArcLengthFourSecond.inFr_sub (ArcLengthFourSecond.inFr_lE e₄ hf.1) hfa_nn) ⟨κ + s, ?_⟩
+      have h2 : InFr W c (ps W 1 ^ (size (c - 1) + S)) (nnDen W (arcOf b w S η up size) c)
+          (lE W s * fa - lE W e₄ * (algebraMap (LetA O n) W.EE (letE c) * algebraMap O W.EE x₀)) := by
+        rw [hnn]; exact ArcLengthFourSecond.inFr_den_mul _ (ArcLengthFourSecond.inFr_num_left hfa2 (W.AΔ.pow_mem (hps 0) _)) (W.AΔ.pow_mem (hps 0) _)
+      have hxE : lE W s * algebraMap O W.EE x = lE W κ * algebraMap O W.EE x₀ := by
+        have := congrArg (algebraMap O W.EE) hx₀
+        rw [map_mul, map_mul, map_pow, map_pow, map_natCast] at this
+        unfold lE; exact this
+      have e : lE W (κ + s) * (lE W e₄ * f - fa) =
+          lE W (s + e₄) * (lE W κ * f - algebraMap (LetA O n) W.EE (letE c) * algebraMap O W.EE x) -
+          lE W κ * (lE W s * fa - lE W e₄ * (algebraMap (LetA O n) W.EE (letE c) * algebraMap O W.EE x₀)) := by
+        unfold lE at hxE ⊢
+        linear_combination (((PD.p : ℕ) : W.EE) ^ e₄ * algebraMap (LetA O n) W.EE (letE c)) * hxE
+      rw [e]
+      exact ArcLengthFourSecond.inFr_sub (ArcLengthFourSecond.inFr_lE _ hx) (ArcLengthFourSecond.inFr_lE _ h2)
+    · rw [hty2] at hbs; cases hbs
+
+  have hE1 : rr + σ ≤ rr + 3 * σ + 1 := by omega
+  have hE2 : 2 * σ + 1 + σ ≤ rr + 3 * σ + 1 := by omega
+  have hsum := LiftsAt.add_proof W (arcOf b w S η up size) F c bb sol k₀
+    (LiftsAt.liftsAt_mono W (arcOf b w S η up size) F c bb sol k₀ hE1 hgN)
+    (LiftsAt.liftsAt_mono W (arcOf b w S η up size) F c bb sol k₀ hE2 hfaC)
+  rw [sub_add_cancel] at hsum
+  refine ⟨rr + 3 * σ + 1 + e₄, ?_, ?_⟩
+  ·
+    have hT : ∃ i, Formalism.MainNotions.TruncatedSeriesCountingBounds.Thick b η size i := by
+      refine ⟨c, ?_⟩
+      have h1 : (1 : ℕ) ∉ {d : ℕ | 1 ≤ d ∧ ¬ Formalism.MainNotions.TruncatedSeriesCountingBounds.Thick b η size (c - (d : ZMod n) + 1)} := by
+        apply Nat.notMem_of_lt_sInf
+        have := hlen
+        simp only [arcOf] at this
+        rw [this]; norm_num
+      simp only [Set.mem_setOf_eq, le_refl, true_and, not_not, Nat.cast_one, sub_add_cancel] at h1
+      exact h1
+    rw [sigma_eq_of_thick_letter PD.p b w S η size hT] at hrr hσ hs hsm ⊢
+    have hb1 : 1 ≤ b := by
+      obtain ⟨-, -, -, -, -, -, h1⟩ := CaseA.sg_ge PD.p (b + η + S) w S η hp11 (by
+        have := hηs c; have := hT; obtain ⟨i, hi⟩ := hT; have := hηs i; have := hi.2; omega)
+      have : (1 : ℝ) ≤ b := by linarith
+      exact_mod_cast this
+    have hsi' : (size (c - 2) : ℝ) - ((size (c - 1) : ℝ) + S) / PD.p - η / (PD.p : ℝ) ^ 2 - 1 ≤ si := by
+      push_cast at hsi; exact hsi
+    exact arc_length_four_cost_bound PD.p hp11 b w (size (c - 2)) S η hb1 ((size (c - 1) : ℝ) + S) s si rr σ hs hsi' hrr hσ
+  · have e : lE W (rr + 3 * σ + 1 + e₄) * f = lE W (rr + 3 * σ + 1) * (lE W e₄ * f) := by
+      unfold lE; ring
+    obtain ⟨w₁, z, h1, h2, h3, h4, h5⟩ := hsum
+    exact ⟨w₁, z, h1, h2, h3, h4, by rw [e]; exact h5⟩
+
+end Formalism.MainNotions.N.FrobeniusPowerSeries
+end
+end

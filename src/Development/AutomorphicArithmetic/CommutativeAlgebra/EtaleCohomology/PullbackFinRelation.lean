@@ -1,11 +1,11 @@
 module
 
 public import Development.AutomorphicArithmetic.CommutativeAlgebra.EtaleCohomology.AbsInvOf
-import GroundTheory.PAdicHodge.ACrisBdRInj
+import GroundTheory.PAdicHodge.Bundle009
 public import GroundTheory.PAdicHodge.BCrisEigenWitt
 public import GroundTheory.PAdicHodge.BCrisNewtonFrac
 public import GroundTheory.PAdicHodge.FontaineLemmaInvariants
-import GroundTheory.PAdicHodge.LocalBridge
+import GroundTheory.PAdicHodge.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -46,7 +46,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
-public import GroundTheory.PAdicHodge.BCrisGalois
+public import GroundTheory.PAdicHodge.Bundle015
 public import GroundTheory.PAdicHodge.BCrisRegular
 
 @[expose] public section

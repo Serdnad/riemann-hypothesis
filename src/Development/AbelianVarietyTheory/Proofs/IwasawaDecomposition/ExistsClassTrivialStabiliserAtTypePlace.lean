@@ -2,9 +2,9 @@ module
 
 public import Formalism.LocalToGlobal.GaloisLevelStructure.DefsLevel
 public import Formalism.SharpRestriction.CuspSpanNormBounds.BesselShellMomentBounds
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FiniteRationalConjMemBoundedCompact
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle495
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SplitPlaceHeckeOperatorScalarOnSpherical
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.UnitaryFiniteAdelesSplitPlaceDecompositionStatement
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle411
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GSplit
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -52,7 +52,7 @@ noncomputable section
 
 namespace GlobalTheory.NeatUni
 
-open Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.N Formalism.L2 Formalism.ConjugateSelfDual ReciprocityTheory.Gal ReciprocityTheory.Aut NumberField IsDedekindDomain
+open Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.N _root_.Formalism.L2 Formalism.ConjugateSelfDual ReciprocityTheory.Gal ReciprocityTheory.Aut NumberField IsDedekindDomain
 open Formalism.AUTREP (GAf)
 open scoped TensorProduct
 

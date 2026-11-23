@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.PolarisedDualSystem
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HeckeEltInvDivAtSplitLab
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.InvolutionSphericalHeckeAntiStatement
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.SupportedSubgroupSplitCommutePrimeIdempotentsStatement
+public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.Bundle013
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1729
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle189
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle156
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -46,7 +46,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-public import Formalism.LocalToGlobal.IndefiniteReal.BridgeTie
+public import Formalism.LocalToGlobal.IndefiniteReal.Bundle010
 
 @[expose] public section
 
@@ -119,7 +119,7 @@ theorem splitLab_pairwise (n k : â„•) : (splitLab n k).Pairwise (fun a b => b â‰
 
 section Poly
 
-open Formalism.L2.Col
+open _root_.Formalism.L2.Col
 
 variable {L : Type} [Field L]
 

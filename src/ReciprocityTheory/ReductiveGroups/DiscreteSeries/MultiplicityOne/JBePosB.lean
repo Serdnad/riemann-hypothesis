@@ -40,7 +40,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import ReciprocityTheory.ReductiveGroups.DiscreteSeries.MultiplicityOne.JPairsA
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.MultiplicityOne.Bundle003
 
 @[expose] public section
 

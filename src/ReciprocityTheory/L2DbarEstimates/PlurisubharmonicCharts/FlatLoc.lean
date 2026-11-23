@@ -55,10 +55,10 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-import ReciprocityTheory.L2DbarEstimates.LeviForms.EventuallyDifferentiableAtOfContDiffAt
+import ReciprocityTheory.L2DbarEstimates.LeviForms.Bundle003
 public import ReciprocityTheory.L2DbarEstimates.PlurisubharmonicCharts.FlatLocA
-import ReciprocityTheory.L2DbarEstimates.WeakHolomorphy.ExistsClmOfI
-import ReciprocityTheory.L2DbarEstimates.WeakHolomorphy.HoloContDiffAtComplex
+import ReciprocityTheory.L2DbarEstimates.WeakHolomorphy.Bundle005
+import ReciprocityTheory.L2DbarEstimates.WeakHolomorphy.Bundle006
 
 @[expose] public section
 

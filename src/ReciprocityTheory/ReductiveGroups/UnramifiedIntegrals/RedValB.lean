@@ -47,9 +47,8 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.RedKur
-public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.TorsUnit2
-public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.TorsUnit3
+public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.Bundle014
+public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.Bundle018
 
 @[expose] public section
 

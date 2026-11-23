@@ -2,7 +2,7 @@ module
 
 public import Development.AutomorphicArithmetic.ThickFrames.MarkedLow
 public import Formalism.SharpRestriction.GrowthBounds.UnramifiedQuadraticSetting
-public import Development.AutomorphicArithmetic.ThickFrames.MarkedLowBounds
+public import Development.AutomorphicArithmetic.ThickFrames.Bundle003
 public import Mathlib.Algebra.Order.Field.GeomSum
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

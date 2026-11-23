@@ -1,10 +1,10 @@
 module
 
-public import Formalism.PeriodIntegrals.AdUnimod
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.AdIndexEq
+public import Formalism.PeriodIntegrals.Bundle023
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle022
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdelicUnimodularity.ConstructionA
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdelicUnimodularity.ConstructionB
-import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdelicUnimodularity.ConstructionD
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdelicUnimodularity.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

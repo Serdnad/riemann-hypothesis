@@ -3,8 +3,8 @@ module
 public import Mathlib.Analysis.CStarAlgebra.Classes
 public import ReciprocityTheory.NeutralLocalFields.LocalFieldComparison.HCFFromRecipB
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.DenseRangeUnits
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsOpenConnectedComponentOfOneInf
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.UnitOpenAndCongrOpen
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle203
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle091
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

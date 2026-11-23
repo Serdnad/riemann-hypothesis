@@ -1,11 +1,11 @@
 module
 
 public import Formalism.SharpRestriction.LevelLetterCocycles.LocalSituation
-public import Development.AbelianVarietyTheory.Definitions.Foundations.HTBasis
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TensorRight
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle010
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle051
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsDiscreteValuationRingIntegralClosurePadicInt
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CyclotomicCharacterPadicBasicProperties
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FrobSubMulSurjective
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle164
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle307
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NormRootSubOneLt
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

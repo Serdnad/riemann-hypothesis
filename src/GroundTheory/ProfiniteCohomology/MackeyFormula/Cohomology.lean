@@ -2,11 +2,11 @@ module
 
 public import GroundTheory.ProfiniteCohomology.CompactSupportCohomology.HomApplyHomApplyEqOfCompEq
 public import GroundTheory.ProfiniteCohomology.ContinuousCochains.Functoriality
-public import GroundTheory.ProfiniteCohomology.MackeyDefs
-public import GroundTheory.ProfiniteCohomology.ShapiroDefs
+public import GroundTheory.ProfiniteCohomology.Bundle007
+public import GroundTheory.ProfiniteCohomology.Bundle008
 public import GroundTheory.ProfiniteCohomology.ClassFormations.IsIsoCohomologyMapAlongResSubgroupOfHom
 public import GroundTheory.ProfiniteCohomology.CohomologyFunctoriality.Naturality
-public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.InnerConj
+public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.Bundle002
 public import GroundTheory.ProfiniteCohomology.MackeyFormula
 public import GroundTheory.ProfiniteCohomology.Shapiro
 import Mathlib.Algebra.Order.Floor.Extended

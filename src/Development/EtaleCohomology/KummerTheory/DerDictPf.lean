@@ -1,7 +1,7 @@
 module
 
-public import Development.EtaleCohomology.KummerTheory.BockCut
-public import Development.EtaleCohomology.TateTwists.EtaleInjectiveResolutionBasicProperties
+public import Development.EtaleCohomology.KummerTheory.Bundle004
+public import Development.EtaleCohomology.TateTwists.Bundle007
 public import Mathlib.Algebra.Homology.DerivedCategory.KInjective
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

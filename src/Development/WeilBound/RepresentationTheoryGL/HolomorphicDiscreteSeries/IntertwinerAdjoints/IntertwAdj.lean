@@ -8,7 +8,7 @@ public import Development.WeilBound.CoreStatements.BranchingTraces.BranchingComa
 import Development.WeilBound.CoreStatements.BranchingTraces.BranchingComatrices.RootOfNe
 public import Development.WeilBound.CoreStatements.BranchingTraces.ExistsIntertwiner
 import Development.WeilBound.CoreStatements.BranchingTraces.FormTSingle
-public import Development.WeilBound.CoreStatements.BranchingTraces.HilbertSchmidtTraces.ColSq
+public import Development.WeilBound.CoreStatements.BranchingTraces.HilbertSchmidtTraces.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

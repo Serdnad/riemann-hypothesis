@@ -1,9 +1,8 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.StabilizerCovolume.EigenLatDifferent
+public import GroundTheory.HeightsAndTheta.Heights.StabilizerCovolume.Bundle003
 public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.LatNormGrLatNeZeroOfSpan
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.DifferentGeneratorDualIntegral
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.ProjSumSumEmbeddingsEqTrace
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle018
 import Lemmata.GeneralBFactThirdAlt.Imports
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -54,7 +53,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.CapelliComplements.GeneralBFactThird
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.CapelliComplements.Bundle002
 import GroundTheory.HeightsAndTheta.Heights.StabilizerCovolume.ThreeLeLevel
 
 @[expose] public section

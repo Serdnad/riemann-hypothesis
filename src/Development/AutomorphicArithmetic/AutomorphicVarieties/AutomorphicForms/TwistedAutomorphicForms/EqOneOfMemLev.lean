@@ -1,8 +1,8 @@
 module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.GalUnitary
-public import Development.AutomorphicArithmetic.CyclotomicBounds.ClassNumberBounds.HeckeCharacterChoice.ExtAlg
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ModFFiniteIdeleUpToExtension
+public import Development.AutomorphicArithmetic.CyclotomicBounds.ClassNumberBounds.HeckeCharacterChoice.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle713
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LatticeIndices.CharZeroAdicCompletion
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -209,14 +209,14 @@ def AwayTriv : Prop :=
 
 def InfTriv : Prop :=
   ∀ (F Ω B : Type) [Field F] [NumberField F] [Field Ω] [Algebra F Ω] [IsAlgClosure F Ω] [CommGroup B] [TopologicalSpace B]
-    [IsTopologicalGroup B] [T2Space B] (art : Ideles F →* Gab F Ω), IsGlobalArtin art → ∀ ν : G F Ω →* B, Continuous ν →
-    (∀ c, IsConjEl c → ν c = 1) → ∀ (z : Ideles F) (σ : G F Ω), z.val.2 = 1 → art z = toAb F Ω σ → ν σ = 1
+    [IsTopologicalGroup B] [T2Space B] (art : Ideles F →* Gab F Ω), IsGlobalArtin art → ∀ ν : _root_.Formalism.ConjugateSelfDual.G F Ω →* B, Continuous ν →
+    (∀ c, IsConjEl c → ν c = 1) → ∀ (z : Ideles F) (σ : _root_.Formalism.ConjugateSelfDual.G F Ω), z.val.2 = 1 → art z = toAb F Ω σ → ν σ = 1
 
 def Descend : Prop :=
   ∀ (F Ω B : Type) [Field F] [NumberField F] [Field Ω] [Algebra F Ω] [CommGroup B] [TopologicalSpace B]
     [IsTopologicalGroup B] [T2Space B] (art : Ideles F →* Gab F Ω), IsGlobalArtin art → ∀ ψ : Ideles F →* B, Continuous ψ →
     (∀ k, ψ (diagUnits F k) = 1) → (∀ z : Ideles F, z.val.2 = 1 → ψ z = 1) →
-    ∃ κ : G F Ω →* B, Continuous κ ∧ ∀ (x : Ideles F) (σ : G F Ω), art x = toAb F Ω σ → κ σ = ψ x
+    ∃ κ : _root_.Formalism.ConjugateSelfDual.G F Ω →* B, Continuous κ ∧ ∀ (x : Ideles F) (σ : _root_.Formalism.ConjugateSelfDual.G F Ω), art x = toAb F Ω σ → κ σ = ψ x
 
 def ResOpen : Prop :=
   ∀ (F L Ω : Type) [Field F] [NumberField F] [Field L] [NumberField L] [Field Ω] [Algebra F L] [Algebra F Ω] [Algebra L Ω]
@@ -232,9 +232,9 @@ def VerGroup : Prop :=
 def ConjPlace : Prop :=
   ∀ (F L Ω : Type) [Field F] [NumberField F] [Field L] [NumberField L] [Field Ω] [Algebra F L] [Algebra F Ω] [Algebra L Ω]
     [IsScalarTower F L Ω] [IsAlgClosure F Ω] [IsAlgClosure L Ω], Module.finrank F L = 2 →
-    ∀ g : G F Ω, g ∉ (resG F L Ω).range → ∀ (w w' : HeightOneSpectrum (𝓞 L)) (A : ValuationSubring Ω), IsPlaceOver A w →
-      w' ≠ w → w'.under (𝓞 F) = w.under (𝓞 F) → ∃ A' : ValuationSubring Ω, IsPlaceOver A' w' ∧
-        ∀ s s' : G L Ω, resG F L Ω s' = g * resG F L Ω s * g⁻¹ →
+    ∀ g : _root_.Formalism.ConjugateSelfDual.G F Ω, g ∉ (resG F L Ω).range → ∀ (w w' : HeightOneSpectrum (𝓞 L)) (A : ValuationSubring Ω), _root_.Formalism.ConjugateSelfDual.IsPlaceOver A w →
+      w' ≠ w → w'.under (𝓞 F) = w.under (𝓞 F) → ∃ A' : ValuationSubring Ω, _root_.Formalism.ConjugateSelfDual.IsPlaceOver A' w' ∧
+        ∀ s s' : _root_.Formalism.ConjugateSelfDual.G L Ω, resG F L Ω s' = g * resG F L Ω s * g⁻¹ →
           (s ∈ Ine (F := L) A → s' ∈ Ine (F := L) A') ∧ ∀ q : ℕ, IsFrob A q s → IsFrob A' q s'
 
 def UnrAE : Prop :=
@@ -250,27 +250,27 @@ def LocProd : Prop :=
 def FrobSplit : Prop :=
   ∀ (F L Ω : Type) [Field F] [NumberField F] [Field L] [NumberField L] [Field Ω] [Algebra F L] [Algebra F Ω] [Algebra L Ω]
     [IsScalarTower F L Ω] [IsAlgClosure F Ω] [IsAlgClosure L Ω], Module.finrank F L = 2 →
-    ∀ (v : HeightOneSpectrum (𝓞 F)) (A : ValuationSubring Ω), Unr L v → IsPlaceOver A v →
-      ∀ s : G L Ω, IsFrob A (normV v) (resG F L Ω s) → ∃ w w' : HeightOneSpectrum (𝓞 L), w' ≠ w ∧
-        (∀ u : HeightOneSpectrum (𝓞 L), u.under (𝓞 F) = v ↔ u = w ∨ u = w') ∧ IsPlaceOver A w ∧
+    ∀ (v : HeightOneSpectrum (𝓞 F)) (A : ValuationSubring Ω), Unr L v → _root_.Formalism.ConjugateSelfDual.IsPlaceOver A v →
+      ∀ s : _root_.Formalism.ConjugateSelfDual.G L Ω, IsFrob A (normV v) (resG F L Ω s) → ∃ w w' : HeightOneSpectrum (𝓞 L), w' ≠ w ∧
+        (∀ u : HeightOneSpectrum (𝓞 L), u.under (𝓞 F) = v ↔ u = w ∨ u = w') ∧ _root_.Formalism.ConjugateSelfDual.IsPlaceOver A w ∧
         normV w = normV v ∧ normV w' = normV v
 
 def FrobInert : Prop :=
   ∀ (F L Ω : Type) [Field F] [NumberField F] [Field L] [NumberField L] [Field Ω] [Algebra F L] [Algebra F Ω] [Algebra L Ω]
     [IsScalarTower F L Ω] [IsAlgClosure F Ω] [IsAlgClosure L Ω], Module.finrank F L = 2 →
-    ∀ (v : HeightOneSpectrum (𝓞 F)) (A : ValuationSubring Ω), Unr L v → IsPlaceOver A v →
-      ∀ σ : G F Ω, IsFrob A (normV v) σ → σ ∉ (resG F L Ω).range → ∃ w : HeightOneSpectrum (𝓞 L),
-        (∀ u : HeightOneSpectrum (𝓞 L), u.under (𝓞 F) = v ↔ u = w) ∧ IsPlaceOver A w ∧
-        ∀ t : G L Ω, resG F L Ω t = σ * σ → IsFrob A (normV w) t
+    ∀ (v : HeightOneSpectrum (𝓞 F)) (A : ValuationSubring Ω), Unr L v → _root_.Formalism.ConjugateSelfDual.IsPlaceOver A v →
+      ∀ σ : _root_.Formalism.ConjugateSelfDual.G F Ω, IsFrob A (normV v) σ → σ ∉ (resG F L Ω).range → ∃ w : HeightOneSpectrum (𝓞 L),
+        (∀ u : HeightOneSpectrum (𝓞 L), u.under (𝓞 F) = v ↔ u = w) ∧ _root_.Formalism.ConjugateSelfDual.IsPlaceOver A w ∧
+        ∀ t : _root_.Formalism.ConjugateSelfDual.G L Ω, resG F L Ω t = σ * σ → IsFrob A (normV w) t
 
 def VerArt : Prop :=
   ∀ (F L Ω B : Type) [Field F] [NumberField F] [Field L] [NumberField L] [Field Ω] [Algebra F L] [Algebra F Ω] [Algebra L Ω]
     [IsScalarTower F L Ω] [IsAlgClosure F Ω] [IsAlgClosure L Ω] [CommGroup B] [TopologicalSpace B] [IsTopologicalGroup B]
     [T2Space B], Module.finrank F L = 2 → ∀ (art : Ideles F →* Gab F Ω) (artL : Ideles L →* Gab L Ω), IsGlobalArtin art →
-    IsGlobalArtin artL → ∀ (κ : G L Ω →* B) (ν : G F Ω →* B), Continuous κ → Continuous ν →
+    IsGlobalArtin artL → ∀ (κ : _root_.Formalism.ConjugateSelfDual.G L Ω →* B) (ν : _root_.Formalism.ConjugateSelfDual.G F Ω →* B), Continuous κ → Continuous ν →
     (∀ᶠ v : HeightOneSpectrum (𝓞 F) in Filter.cofinite, ∀ (w : HeightOneSpectrum (𝓞 L)) (A : ValuationSubring Ω),
-      w.under (𝓞 F) = v → IsPlaceOver A w → ∀ s ∈ Ine (F := L) A, κ s = 1) →
-    (∀ (a : Ideles F) (σ : G F Ω) (τ : G L Ω), art a = toAb F Ω σ → artL (ideleMap F L a) = toAb L Ω τ → κ τ = ν σ) →
+      w.under (𝓞 F) = v → _root_.Formalism.ConjugateSelfDual.IsPlaceOver A w → ∀ s ∈ Ine (F := L) A, κ s = 1) →
+    (∀ (a : Ideles F) (σ : _root_.Formalism.ConjugateSelfDual.G F Ω) (τ : _root_.Formalism.ConjugateSelfDual.G L Ω), art a = toAb F Ω σ → artL (ideleMap F L a) = toAb L Ω τ → κ τ = ν σ) →
     VerEq κ ν
 
 end UpperTheory.V.Af.Tw

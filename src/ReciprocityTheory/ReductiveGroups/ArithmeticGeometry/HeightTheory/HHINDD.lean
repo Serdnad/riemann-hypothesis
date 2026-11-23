@@ -44,9 +44,8 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.GoodPrimesProperties
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.HNormPtsB
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.HPlaces
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.Bundle019
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.Bundle018
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.KTFiniteDimensional
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.ValuationResidueLemmas
 

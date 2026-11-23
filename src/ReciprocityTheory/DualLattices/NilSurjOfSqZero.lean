@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.DualLattices.ModuliPointsState
+public import ReciprocityTheory.DualLattices.Bundle006
 public import Mathlib.Algebra.Algebra.Prod
 public import Mathlib.Algebra.Algebra.Subalgebra.Basic
 import Mathlib.Algebra.Order.Floor.Extended

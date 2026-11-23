@@ -1,7 +1,7 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.CxPosDens
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.CxSimple
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle037
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle038
 public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.PPtsPosPartLocal
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ChartDensityIntegrable
 import Mathlib.Algebra.Order.Floor.Extended
@@ -51,7 +51,7 @@ import Mathlib.Topology.Sheaves.Init
 import ReciprocityTheory.AnalyticForms.PlurisubharmonicFunctions.LintegralImageEqLintegralNormSqDetMul
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterBridgeB
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterSheet
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterSheetB
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle008
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section

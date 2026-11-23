@@ -1,9 +1,9 @@
 module
 
-public import Development.WeilBound.CoreStatements.FlagImmersions.FibSandwich
+public import Development.WeilBound.CoreStatements.FlagImmersions.Bundle013
 public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.AlternatingMapSumSmulEqDetSmul
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NormPrimitiveRootPrimePowSubOnePadicComplexStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.WedgeLatticeGeneratorStatement
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle193
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle042
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

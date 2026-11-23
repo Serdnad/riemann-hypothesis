@@ -1,14 +1,14 @@
 module
 
 public import Development.WeilBound.ThetaLifts.LeviDeterminants.MapEqOfSmul
-public import Development.WeilBound.ThetaLifts.LeviDeterminants.MixedModels.RealSt
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EqOfComponentTensorAdelicFunctionEq
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsFactorPureTensorComponentAtPlace
-public import Development.WeilBound.ThetaLifts.LeviDeterminants.ChiIndep
-public import Development.WeilBound.ThetaLifts.LeviDeterminants.ExistsNeOfSurjOn
+public import Development.WeilBound.ThetaLifts.LeviDeterminants.MixedModels.Bundle001
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1968
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1770
+public import Development.WeilBound.ThetaLifts.LeviDeterminants.Bundle008
+public import Development.WeilBound.ThetaLifts.LeviDeterminants.Bundle006
 import Development.WeilBound.ThetaLifts.LeviDeterminants.MCSpan
 public import Development.WeilBound.ThetaLifts.LeviDeterminants.MixedModels.DarbouxModelRationalLatticeOf
-public import Development.WeilBound.ThetaLifts.LeviDeterminants.ModelChangeOf
+public import Development.WeilBound.ThetaLifts.LeviDeterminants.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -47,7 +47,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.Divisors.MatchingOfParts
-public import Development.WeilBound.ThetaLifts.LeviDeterminants.EqZeroOfTheta
+public import Development.WeilBound.ThetaLifts.LeviDeterminants.Bundle004
 
 @[expose] public section
 

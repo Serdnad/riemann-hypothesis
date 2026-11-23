@@ -3,7 +3,7 @@ module
 public import Mathlib.Analysis.SpecialFunctions.Pow.Real
 public import Mathlib.NumberTheory.ArithmeticFunction.Moebius
 public import Mathlib.NumberTheory.DirichletCharacter.Basic
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.EnormSqLeLintegralDisc
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle012
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.HybridLargeSieve
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,10 +1,9 @@
 module
 
-public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.TypeConditions.AdmissibleResidualTameEigenvalues
-public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.TypeConditions.TrivialLocalCondition
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ContinuousCharpolyCoeffOfMatrix
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.InertiaCharpolyEq
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IotaOQContinuousInjective
+public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.TypeConditions.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle284
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle275
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle277
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -42,9 +41,9 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Connected.Separation
 import Mathlib.Topology.MetricSpace.Ultra.TotallySeparated
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.CcSymmAlgebraMapHost
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle175
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.DepthZeroLabelsOfLabelLaws
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsPlaceOverMoveValCc
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle297
 
 @[expose] public section
 

@@ -1,14 +1,14 @@
 module
 
-public import Formalism.GaussJetBounds.StatementG
-public import Formalism.GaussJetBounds.GenLogInverse
-public import Formalism.GaussJetBounds.GaussJetProofs.AsmRDotAddRight
+public import Formalism.GaussJetBounds.Bundle004
+public import Formalism.GaussJetBounds.Bundle003
+public import Formalism.GaussJetBounds.GaussJetProofs.Bundle002
 public import Formalism.GaussJetBounds.GaussJetProofs.LogarithmWeightComparison
 public import Formalism.GaussJetBounds.GaussJetProofs.NormNatCastEqPowPadicValNat
 public import Formalism.GaussJetBounds.GaussJetProofs.PureCrossTermWeight
 import Formalism.GaussJetBounds.GaussJetProofs.SubstitutionWeightBound
 public import Formalism.GaussJetBounds.OneLetterRadius
-import Formalism.IncomingBounds.FlowDegreeBounds.ProdRangeEqFactorialMulProdIco
+import Formalism.IncomingBounds.FlowDegreeBounds.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalRingCardinality.SpanPowerMembership.FmZeroHLatEmpty
-public import Formalism.LocalToGlobal.UnitaryNorms.AdjoinCycZeta
+public import Formalism.LocalToGlobal.UnitaryNorms.Bundle003
 public import Formalism.LocalToGlobal.Divisibility.ConjugationAtDistinguishedPlace
 public import Formalism.LocalToGlobal.UnitaryNorms.IsUnitaryNormOf
 import Mathlib.Algebra.AffineMonoid.Basic

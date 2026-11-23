@@ -1,9 +1,9 @@
 module
 
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutGermParts
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle075
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.PairingTriangular
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.AverageOne
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.MeanBoundsLimits
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle010
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -2,7 +2,7 @@ module
 
 public import GroundTheory.ProfiniteCohomology.PoitouTate.PtCompactDualMapEqZeroOfPtCompactToGlobalEqZero
 import GroundTheory.ProfiniteCohomology.CohomologyFunctoriality.Naturality
-public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.Descent
+public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.Bundle004
 public import GroundTheory.ProfiniteCohomology.PoitouTate.PoitouTateInfinite.DescentMaps
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

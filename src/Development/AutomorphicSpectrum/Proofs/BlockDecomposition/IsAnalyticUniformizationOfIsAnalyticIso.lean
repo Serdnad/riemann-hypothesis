@@ -53,7 +53,7 @@ noncomputable section
 
 namespace GlobalTheory.CompanionTheory.EllipticCM
 
-open WeierstrassCurve GroundTheory.Global.Elliptic GroundTheory.Arith.Abelian
+open _root_.WeierstrassCurve GroundTheory.Global.Elliptic GroundTheory.Arith.Abelian
 
 theorem variableChangePoint_latticePoint {X : WeierstrassCurve ℂ} {L : PeriodPair}
     {C : VariableChange ℂ} (h : C • X = GlobalTheory.latticeCurve L) (h' : C⁻¹ • weierstrassCurve L = X)

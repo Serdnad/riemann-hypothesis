@@ -2,9 +2,9 @@ module
 
 public import Formalism.PadicSubsetSums.CentralIdempotents.EigenbasisOfDistinctRoots
 public import Formalism.PadicSubsetSums.StableGradedCounts.CoeffZeroNeZeroOfIrreducible
-import Formalism.PadicSubsetSums.StableGradedCounts.IRRIrredCountUpper
-public import Formalism.PadicSubsetSums.StableGradedCounts.IRRPrimeToPartEqIff
-import Formalism.PadicSubsetSums.StableGradedCounts.IRRSamePartCount
+import Formalism.PadicSubsetSums.StableGradedCounts.Bundle005
+public import Formalism.PadicSubsetSums.StableGradedCounts.Bundle007
+import Formalism.PadicSubsetSums.StableGradedCounts.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,6 +1,6 @@
 module
 
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.CIndFrFix
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle014
 public import Formalism.FormalGroupWitt.FormalGroupWittProofs.SolveV
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

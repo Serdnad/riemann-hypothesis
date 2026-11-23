@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SymbolCongr
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle096
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.DegreeSingleAdd
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ProdPLinIsHomogeneous
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle102
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ProdXEqMonomial
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SymmetrisationEquivariant
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.UgMemSpanListProd
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle104
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

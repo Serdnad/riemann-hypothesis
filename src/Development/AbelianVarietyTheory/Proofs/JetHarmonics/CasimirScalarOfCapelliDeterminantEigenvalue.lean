@@ -50,7 +50,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Presheaf
 import Formalism.HermitianCurvature.BesselNonvanishingReduction
-import Formalism.HermitianCurvature.StatementI
+import Formalism.HermitianCurvature.Bundle001
 public import Mathlib.LinearAlgebra.Dual.Lemmas
 
 @[expose] public section

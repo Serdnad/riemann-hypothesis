@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.KerIso
+public import Formalism.PeriodIntegrals.Bundle009
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.DeterminantKernelFiniteness.ExistsNatMulMemFracFam
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.DeterminantKernelFiniteness.ValuationLeOneOfDenom
 import Mathlib.Algebra.Order.Floor.Extended

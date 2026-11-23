@@ -1,7 +1,7 @@
 module
 
 public import Formalism.AdmissibleDesigns.FiniteClassesContinuousLattice
-public import Formalism.SharpRestriction.LevelLetterCocycles.GoodCongruenceDataOf
+public import Formalism.SharpRestriction.LevelLetterCocycles.Bundle010
 public import Formalism.WachLatticeTwists.RamifiedBlockRings.DistinctEigenvalueCornerPerturbation
 public import Formalism.WachLatticeTwists.RealDisplaySplitting.RealDisplayProofs.SurjectionOfRankOneIdempotent
 import Mathlib.Algebra.Order.Floor.Extended

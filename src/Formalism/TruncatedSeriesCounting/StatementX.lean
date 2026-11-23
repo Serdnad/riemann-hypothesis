@@ -1,6 +1,6 @@
 module
 
-public import Formalism.TruncatedSeriesCounting.RamifiedValuationInequality
+public import Formalism.TruncatedSeriesCounting.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

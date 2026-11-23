@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.IsClosedEmbeddingOfLocallyCompact
+public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.Bundle007
 public import GroundTheory.AutomorphicForms.RealGroupsLie
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ClosedMatrixSubgroupTheorem
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.GlueSmoothOfCompactSupportStatement
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle291
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle198
 import GroundTheory.AutomorphicForms.DixmierMalliavinSeries
 import GroundTheory.AutomorphicForms.GKModules.SmoothVectors
 import Mathlib.Algebra.Order.Floor.Extended
@@ -44,7 +44,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import GroundTheory.AutomorphicForms.DixmierMalliavin
+public import GroundTheory.AutomorphicForms.Bundle012
 import CompanionTheory.AutomorphicTheory.PadicUnitaryWeights.DixmierMalliavin.DixmierMalliavinFactorisationHolds
 
 @[expose] public section

@@ -1,7 +1,7 @@
 module
 
-public import Formalism.LocalToGlobal.NormalizedHeckeFactors.HeckeStdTwOfStd
-public import Formalism.SharpRestriction.GlobalTheoremInputs
+public import Formalism.LocalToGlobal.NormalizedHeckeFactors.Bundle004
+public import Formalism.SharpRestriction.Bundle002
 public import CompanionTheory.AutomorphicTheory.HeckeStandardModules.InvMemRl
 public import Formalism.LocalToGlobal.NormalizedHeckeFactors.HostConj
 import Mathlib.Algebra.Order.Floor.Extended

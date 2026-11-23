@@ -1,6 +1,6 @@
 module
 
-public import Formalism.ThetaLogCoordinates.JacobiPathWeights.StatementP
+public import Formalism.ThetaLogCoordinates.JacobiPathWeights.Bundle004
 public import Formalism.ThetaLogCoordinates.JacobiPathWeights.JacobiMinorProofs.AntitoneOfMemGtBox
 public import Formalism.ThetaLogCoordinates.JacobiPathWeights.JacobiMinorProofs.Branch
 public import Formalism.ThetaLogCoordinates.JacobiPathWeights.JacobiMinorProofs.NormIndexCountBound

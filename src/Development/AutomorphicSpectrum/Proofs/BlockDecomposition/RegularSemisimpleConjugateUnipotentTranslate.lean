@@ -1,11 +1,11 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Foundations.ContinuousOfMemCcSmooth
-public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.LinearIndependentE
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AntiDiagonalEpsilonGramMulVec
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.WittIndexAddOfIsWittLower
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.CommuteOfWittFrameWeights
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SplitInclMemExtSubIff
+public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.Bundle011
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1130
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle364
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle397
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle379
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.RegularSemisimpleFlagStabilizer
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -48,9 +48,9 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.EllipticPartTestData
-import Development.AbelianVarietyTheory.Definitions.Divisors.HasTypeVec
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle054
 import Development.AbelianVarietyTheory.Definitions.Foundations.InnerEqZeroOfNotUEquiv
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsIsoFrameFirstCols
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle626
 
 @[expose] public section
 

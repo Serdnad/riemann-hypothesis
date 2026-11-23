@@ -1,7 +1,7 @@
 module
 
-public import Formalism.LocalToGlobal.PairingIndexBounds.SplitPairEquations.Reduction
-public import Formalism.LocalToGlobal.TorsionIntegrality.QuadraticSemicharacters.QuadraticSemicharacterIdentityReformulated2
+public import Formalism.LocalToGlobal.PairingIndexBounds.SplitPairEquations.Bundle001
+public import Formalism.LocalToGlobal.TorsionIntegrality.QuadraticSemicharacters.Bundle004
 public import Formalism.SharpRestriction.GlobalSchurBounds.StandardIntegralLatticeExists
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,13 +1,13 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SchwartzHeisLine
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle605
 public import CompanionTheory.SpectralGeometry.CountingDefinitions.AdelicEulerProducts.CountData
-public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.FiniteAdeleTopology
+public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.Bundle043
 public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.WeilRepresentationQuadraticDatum
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.StandardAddCharSymplecticLocalLatticeEqOne
-public import Development.AutomorphicSpectrum.Proofs.AdelicProofs.SchurTranslationsCharacters
+public import Development.AutomorphicSpectrum.Proofs.AdelicProofs.Bundle002
 public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.BoundMulTranslate
-public import Development.WeilBound.ThetaLifts.SchwartzMoments.SchwartzDqTendsto
+public import Development.WeilBound.ThetaLifts.SchwartzMoments.Bundle001
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdelicLocalCompactness.AdeleLC
 import Mathlib.Algebra.Order.Archimedean.Real.Hom
 import Mathlib.Algebra.Order.Floor.Extended
@@ -54,7 +54,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.LocallyConstant.Algebra
 import Mathlib.Topology.Sheaves.Init
-import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.PureEqPureA
+import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle049
 
 @[expose] public section
 

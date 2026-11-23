@@ -1,9 +1,8 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.MonomialOrderSegments.SegDefs
-public import Formalism.SharpRestriction.GrowthBounds.MonomialOrderSegments.DigitPartMonomial
+public import Formalism.SharpRestriction.GrowthBounds.MonomialOrderSegments.Bundle003
 public import Formalism.SharpRestriction.GrowthBounds.MonomialOrderSegments.AddMemSupportOfMemSupportCoefOut
-public import Formalism.SharpRestriction.GrowthBounds.MonomialOrderSegments.Monomial
+public import Formalism.SharpRestriction.GrowthBounds.MonomialOrderSegments.Bundle002
 public import Formalism.SharpRestriction.GrowthBounds.MonomialOrderSegments.TestBoundOfRhoAndNormSets
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

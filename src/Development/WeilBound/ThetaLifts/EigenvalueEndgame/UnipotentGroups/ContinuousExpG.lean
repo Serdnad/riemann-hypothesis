@@ -3,10 +3,10 @@ module
 public import Development.WeilBound.ThetaLifts.EigenvalueEndgame.UnipotentGroups.UnipUGood
 public import Development.WeilBound.ThetaLifts.EigenvalueEndgame.UnipotentGroups.KerCocompact
 import Development.AbelianVarietyTheory.Definitions.Foundations.MeasurePreservingRmulQuotMeas
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.UnitaryAdelicGroupTopology
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.UnitaryRationalPointsCountableDiscreteFundDomain
-import Development.AbelianVarietyTheory.Proofs.HeightProofs.ExistsCompactAdeleRingModNumberField
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.LcscAdelicUnitaryGroup
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1387
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle112
+import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle019
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle018
 public import Development.WeilBound.ThetaLifts.CartanFactorisation.Unimod
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,11 +1,11 @@
 module
 
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GenericPointNormalCoords
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle213
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsLatFamilyCongr
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ExistsGenOfIsVBOne
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle004
 public import Mathlib.Algebra.AffineMonoid.Basic
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.HtWSpanSingleton
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeTateEigenLatticeEq
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle008
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle057
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieOmegaLatticeVectorBundle
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

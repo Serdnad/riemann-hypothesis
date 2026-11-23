@@ -1,8 +1,8 @@
 module
 
-public import GroundTheory.GlobalFields.Adele.Approximation
+public import GroundTheory.GlobalFields.Adele.Bundle002
 public import Mathlib.Analysis.CStarAlgebra.Classes
-public import GroundTheory.GlobalFields.Adele.Discrete
+public import GroundTheory.GlobalFields.Adele.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

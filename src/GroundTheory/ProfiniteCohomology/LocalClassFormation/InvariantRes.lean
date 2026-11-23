@@ -2,7 +2,7 @@ module
 
 public import GroundTheory.ProfiniteCohomology.LocalClassFormation.InvariantSplit
 public import GroundTheory.ProfiniteCohomology.CohomologyFunctoriality
-public import GroundTheory.ProfiniteCohomology.LocalClassFormation.UnramifiedRes
+public import GroundTheory.ProfiniteCohomology.LocalClassFormation.Bundle002
 import GroundTheory.LocalFields.MaximalUnramified
 import GroundTheory.LocalFields.UnitsPowers
 import Mathlib.Algebra.Order.Floor.Extended

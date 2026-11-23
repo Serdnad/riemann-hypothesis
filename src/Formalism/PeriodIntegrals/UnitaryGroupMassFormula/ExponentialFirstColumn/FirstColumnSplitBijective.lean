@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.QmDefs
+public import Formalism.PeriodIntegrals.Bundle018
 public import Mathlib.GroupTheory.Perm.Fin
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

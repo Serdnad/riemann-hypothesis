@@ -1,11 +1,11 @@
 module
 
 public import Development.WeilBound.RepresentationTheoryGL.CasimirAlgebra.KugaCoordinates.IsStarRep
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CompactDerivativeSeparatingDual
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsCompactCurveDerivative
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TensorCompactActionDerivative
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1082
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1058
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1081
 public import Development.WeilBound.RepresentationTheoryGL.CasimirAlgebra.KugaCoordinates.KugaGluing.KgCasDiff
-public import Development.WeilBound.RepresentationTheoryGL.CasimirAlgebra.KugaCoordinates.KugaGluing.KgCxDmatConj
+public import Development.WeilBound.RepresentationTheoryGL.CasimirAlgebra.KugaCoordinates.KugaGluing.Bundle001
 import Development.WeilBound.RepresentationTheoryGL.CasimirAlgebra.KugaCoordinates.KugaGluing.KgFormRTensor
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

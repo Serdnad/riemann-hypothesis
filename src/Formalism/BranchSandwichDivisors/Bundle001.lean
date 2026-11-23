@@ -1,0 +1,247 @@
+module
+
+public import Formalism.GradedWeylDivisibility.StatementA
+public import Formalism.BranchSandwichDivisors.StatementR
+public import Formalism.HarderNarasimhan.Bundle001
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.TypeStar
+import Mathlib.Topology.Sheaves.Init
+
+@[expose] public section
+
+section
+
+open MvPolynomial Formalism.GradedWeylDivisibility
+open Formalism.REAL (fockF)
+
+noncomputable section
+
+namespace Formalism.BranchingDeterminantCap
+
+def extM (R : Type*) [CommRing R] {n : ℕ} (g : Matrix (Fin n) (Fin n) R) :
+    Matrix (Fin (n + 1)) (Fin (n + 1)) R :=
+  Matrix.of fun a b => if h : a.val < n ∧ b.val < n then g ⟨a.val, h.1⟩ ⟨b.val, h.2⟩
+    else if a = b then 1 else 0
+
+def rowsA {n : ℕ} (i : Fin n) : Fin (i.val + 1) → Fin (n + 1) := fun p => ⟨p.val, by omega⟩
+
+def rowsB {n : ℕ} (i : Fin n) : Fin (i.val + 1) → Fin (n + 1) :=
+  fun p => if p.val < i.val then ⟨p.val, by omega⟩ else Fin.last n
+
+def xiB (R : Type*) [CommRing R] {n : ℕ} (lam sg : Fin n → ℕ) :
+    MvPolynomial (Fin (n + 1) × Fin n) R :=
+  ∏ i : Fin n, (initMinor R (rowsA i) (by omega : i.val + 1 ≤ n) ^ (sg i - nuNext lam i) *
+    initMinor R (rowsB i) (by omega : i.val + 1 ≤ n) ^ (lam i - sg i))
+
+def lamZ {n : ℕ} (lam : Fin n → ℕ) : Fin (n + 1) → ℤ :=
+  fun a => if h : a.val < n then (lam ⟨a.val, h⟩ : ℤ) else 0
+
+def weylProd {n : ℕ} (nu : Fin (n + 1) → ℤ) : ℝ :=
+  ∏ p ∈ (Finset.univ : Finset (Fin (n + 1) × Fin (n + 1))).filter (fun p => p.1 < p.2),
+    (((nu p.1 - nu p.2 : ℤ) : ℝ) + ((p.2 : ℕ) : ℝ) - ((p.1 : ℕ) : ℝ)) /
+      (((p.2 : ℕ) : ℝ) - ((p.1 : ℕ) : ℝ))
+
+def BranchMap : Prop :=
+  ∀ (R : Type) [CommRing R] [IsDomain R] [CharZero R] (n : ℕ) (lam sg : Fin n → ℕ),
+    Interlace (lamZ lam) (fun i => (sg i : ℤ)) →
+    ∃ io : ↥(dualWeyl R n n sg) →ₗ[R] MvPolynomial (Fin (n + 1) × Fin n) R,
+      (∀ f, io f ∈ dualWeyl R (n + 1) n lam) ∧
+      (∀ (g : Matrix (Fin n) (Fin n) R) (f f' : ↥(dualWeyl R n n sg)),
+        (f' : MvPolynomial (Fin n × Fin n) R) = rowAct R g (f : MvPolynomial (Fin n × Fin n) R) →
+          io f' = rowAct R (extM R g) (io f)) ∧
+      (∀ h : ↥(dualWeyl R n n sg), (h : MvPolynomial (Fin n × Fin n) R) = hw R le_rfl sg →
+        io h = ((cCap (lamZ lam) (fun i => (sg i : ℤ)) : ℤ) : R) • xiB R lam sg) ∧
+      (∀ f, ∀ m ∈ (io f).support, rowDeg m (Fin.last n) = ∑ i, (lam i - sg i))
+
+def XiNorm : Prop :=
+  ∀ (n : ℕ) (lam sg : Fin n → ℕ), Interlace (lamZ lam) (fun i => (sg i : ℤ)) →
+    (fockF (xiB ℂ lam sg) (xiB ℂ lam sg)).re ≤
+      weylProd (lamZ lam) * (fockF (hw ℂ (Nat.le_succ n) lam) (hw ℂ (Nat.le_succ n) lam)).re
+
+end Formalism.BranchingDeterminantCap
+end
+end
+
+section
+
+open Module NumberField IsDedekindDomain
+open scoped Matrix ComplexOrder
+
+noncomputable section
+
+namespace Formalism.BranchingDeterminantCap
+
+section Defs
+
+variable {K : Type*} [Field K] [NumberField K] [StarRing K]
+  {V ι : Type*} [AddCommGroup V] [Module K V] [Module (𝓞 K) V] [IsScalarTower (𝓞 K) K V]
+  [Fintype ι] [DecidableEq ι]
+
+def degD (b : Basis ι K V) (X : InfinitePlace K → Matrix ι ι ℂ) (L : Submodule (𝓞 K) V) : ℝ :=
+  (Formalism.HN.rkK L : ℝ) * Formalism.HN.muDef b X L
+
+def OrthAt (b : Basis ι K V) (X : InfinitePlace K → Matrix ι ι ℂ) (A B : Submodule (𝓞 K) V) : Prop :=
+  ∀ v, ∀ x ∈ A, ∀ y ∈ B, Formalism.HermitianLatticesTheory.majAt b X v x y = 0
+
+def scaleFrame (c : ℝ) (X : InfinitePlace K → Matrix ι ι ℂ) : InfinitePlace K → Matrix ι ι ℂ :=
+  fun v => (c : ℂ) • X v
+
+end Defs
+
+def MapMu : Prop :=
+  ∀ (K V ι W κ : Type) [Field K] [NumberField K] [StarRing K] [_root_.NumberField.IsTotallyComplex K]
+    [AddCommGroup V] [Module K V] [Module (𝓞 K) V] [IsScalarTower (𝓞 K) K V] [Fintype ι]
+    [DecidableEq ι] [AddCommGroup W] [Module K W] [Module (𝓞 K) W] [IsScalarTower (𝓞 K) K W]
+    [Fintype κ] [DecidableEq κ] (b : Basis ι K V) (X : InfinitePlace K → Matrix ι ι ℂ)
+    (b' : Basis κ K W) (X' : InfinitePlace K → Matrix κ κ ℂ),
+    (∀ v, IsUnit (X v).det) → (∀ v, IsUnit (X' v).det) →
+    ∀ (φ : V →ₗ[K] W) (A : Submodule (𝓞 K) V) (B : Submodule (𝓞 K) W), A.FG → B.FG → A ≠ ⊥ →
+      Set.InjOn φ (A : Set V) → A.map (φ.restrictScalars (𝓞 K)) ≤ B →
+      Formalism.HN.rkK B = Formalism.HN.rkK A →
+      Formalism.HN.muDef b X A ≤ Formalism.HN.muDef b' X' B + Formalism.HN.htMap b X b' X' φ
+
+def ScaleSandwich : Prop :=
+  ∀ (K V ι : Type) [Field K] [NumberField K] [StarRing K] [_root_.NumberField.IsTotallyComplex K] [AddCommGroup V]
+    [Module K V] [Module (𝓞 K) V] [IsScalarTower (𝓞 K) K V] [Fintype ι] [DecidableEq ι]
+    (b : Basis ι K V) (X : InfinitePlace K → Matrix ι ι ℂ), (∀ v, IsUnit (X v).det) →
+    ∀ (A B : Submodule (𝓞 K) V) (n : ℕ), A.FG → A ≠ ⊥ → 0 < n → B ≤ A →
+      (∀ x ∈ A, (n : 𝓞 K) • x ∈ B) →
+      Formalism.HN.rkK B = Formalism.HN.rkK A ∧
+      Formalism.HN.muDef b X B ≤ Formalism.HN.muDef b X A ∧
+      Formalism.HN.muDef b X A ≤ Formalism.HN.muDef b X B + 2 * Real.log n ∧
+      Formalism.HN.muMaxDef b X B ≤ Formalism.HN.muMaxDef b X A ∧
+      Formalism.HN.muMaxDef b X A ≤ Formalism.HN.muMaxDef b X B + 2 * Real.log n
+
+def OrthSum : Prop :=
+  ∀ (K V ι : Type) [Field K] [NumberField K] [StarRing K] [_root_.NumberField.IsTotallyComplex K] [AddCommGroup V]
+    [Module K V] [Module (𝓞 K) V] [IsScalarTower (𝓞 K) K V] [Fintype ι] [DecidableEq ι]
+    (b : Basis ι K V) (X : InfinitePlace K → Matrix ι ι ℂ), (∀ v, IsUnit (X v).det) →
+    ∀ (S : Type) [Fintype S] (A : S → Submodule (𝓞 K) V), (∀ s, (A s).FG) →
+      (∀ s t, s ≠ t → OrthAt b X (A s) (A t)) →
+      Formalism.HN.rkK (⨆ s, A s) = ∑ s, Formalism.HN.rkK (A s) ∧
+      degD b X (⨆ s, A s) = ∑ s, degD b X (A s) ∧
+      ∀ c : ℝ, (∀ s, A s ≠ ⊥ → Formalism.HN.muMaxDef b X (A s) ≤ c) → (⨆ s, A s) ≠ ⊥ →
+        Formalism.HN.muMaxDef b X (⨆ s, A s) ≤ c
+
+def PowMu : Prop :=
+  ∀ (K V ι : Type) [Field K] [NumberField K] [StarRing K] [_root_.NumberField.IsTotallyComplex K] [AddCommGroup V]
+    [Module K V] [Module (𝓞 K) V] [IsScalarTower (𝓞 K) K V] [Fintype ι] [DecidableEq ι]
+    (b : Basis ι K V) (X : InfinitePlace K → Matrix ι ι ℂ), (∀ v, IsUnit (X v).det) →
+    ∀ (A : Submodule (𝓞 K) V) (n : ℕ), A.FG → A ≠ ⊥ → 0 < n →
+      let bn : Basis (Σ _ : Fin n, ι) K (Fin n → V) := Pi.basis fun _ : Fin n => b
+      let Xn : InfinitePlace K → Matrix (Σ _ : Fin n, ι) (Σ _ : Fin n, ι) ℂ :=
+        fun v => Matrix.blockDiagonal' fun _ : Fin n => X v
+      let An : Submodule (𝓞 K) (Fin n → V) := Submodule.pi Set.univ fun _ : Fin n => A
+      Formalism.HN.rkK An = n * Formalism.HN.rkK A ∧ Formalism.HN.muDef bn Xn An = Formalism.HN.muDef b X A ∧
+        Formalism.HN.muMaxDef bn Xn An = Formalism.HN.muMaxDef b X A
+
+def OrthSandwich : Prop :=
+  ∀ (K V ι : Type) [Field K] [NumberField K] [StarRing K] [_root_.NumberField.IsTotallyComplex K] [AddCommGroup V]
+    [Module K V] [Module (𝓞 K) V] [IsScalarTower (𝓞 K) K V] [Fintype ι] [DecidableEq ι]
+    (b : Basis ι K V) (X : InfinitePlace K → Matrix ι ι ℂ), (∀ v, IsUnit (X v).det) →
+    ∀ (S : Type) [Fintype S] (A : S → Submodule (𝓞 K) V) (A0 : Submodule (𝓞 K) V) (G : ℕ),
+      A0.FG → 0 < G → (∀ s t, s ≠ t → OrthAt b X (A s) (A t)) → (∀ s, A s ≤ A0) →
+      (∀ x ∈ A0, (G : 𝓞 K) • x ∈ ⨆ s, A s) →
+      Formalism.HN.rkK A0 = ∑ s, Formalism.HN.rkK (A s) ∧
+      ∑ s, degD b X (A s) ≤ degD b X A0 ∧
+      degD b X A0 ≤ ∑ s, degD b X (A s) + 2 * Real.log G * (Formalism.HN.rkK A0 : ℝ)
+
+def TransferPart : Prop :=
+  ∀ (K V ι : Type) [Field K] [NumberField K] [StarRing K] [_root_.NumberField.IsTotallyComplex K] [AddCommGroup V]
+    [Module K V] [Module (𝓞 K) V] [IsScalarTower (𝓞 K) K V] [Fintype ι] [DecidableEq ι]
+    (b : Basis ι K V) (X : InfinitePlace K → Matrix ι ι ℂ), (∀ v, IsUnit (X v).det) →
+    ∀ (A B : Submodule (𝓞 K) V) (n G : ℕ) (x xs : Fin n → V →ₗ[K] V), A.FG → B.FG → A ≠ ⊥ →
+      0 < n → 0 < G →
+      (∀ i, ∀ a ∈ A, ((G : 𝓞 K) ^ 3) • x i a ∈ B) → (∀ i, ∀ c ∈ B, ((G : 𝓞 K) ^ 3) • xs i c ∈ A) →
+      (∀ i v, Formalism.HN.opNormAt b X b X v (x i) ≤ 1) → (∀ i v, Formalism.HN.opNormAt b X b X v (xs i) ≤ 1) →
+      (∀ a : Fin n → V, (∀ i, a i ∈ A) → ∑ i, x i (a i) = 0 → a = 0) →
+      (∀ c ∈ B, (∀ i, xs i c = 0) → c = 0) →
+      Formalism.HN.rkK B = n * Formalism.HN.rkK A →
+      |degD b X B - (n : ℝ) * degD b X A| ≤
+        (6 * Real.log G + Real.log n) * ((n : ℝ) * (Formalism.HN.rkK A : ℝ))
+
+def TransferMuMax : Prop :=
+  ∀ (K V ι : Type) [Field K] [NumberField K] [StarRing K] [_root_.NumberField.IsTotallyComplex K] [AddCommGroup V]
+    [Module K V] [Module (𝓞 K) V] [IsScalarTower (𝓞 K) K V] [Fintype ι] [DecidableEq ι]
+    (b : Basis ι K V) (X : InfinitePlace K → Matrix ι ι ℂ), (∀ v, IsUnit (X v).det) →
+    ∀ (S : Type) [Fintype S] (A B : S → Submodule (𝓞 K) V) (A0 C : Submodule (𝓞 K) V) (G : ℕ)
+      (n : S → ℕ) (xs : ∀ s, Fin (n s) → V →ₗ[K] V),
+      A0.FG → C.FG → A0 ≠ ⊥ → 0 < G → (∀ s, n s ^ 2 ≤ G) →
+      (∀ s t, s ≠ t → OrthAt b X (B s) (B t)) → (∀ s, B s ≤ A0) →
+      (∀ x ∈ A0, (G : 𝓞 K) • x ∈ ⨆ s, B s) → (∀ s, A s ≤ C) →
+      (∀ s i, ∀ c ∈ B s, ((G : 𝓞 K) ^ 3) • xs s i c ∈ A s) →
+      (∀ s i v, Formalism.HN.opNormAt b X b X v (xs s i) ≤ 1) →
+      (∀ s, ∀ c ∈ B s, (∀ i, xs s i c = 0) → c = 0) →
+      Formalism.HN.muMaxDef b X A0 ≤ Formalism.HN.muMaxDef b X C + 17 / 2 * Real.log G
+
+def LevelCompare : Prop :=
+  ∀ (K V ι : Type) [Field K] [NumberField K] [StarRing K] [_root_.NumberField.IsTotallyComplex K] [AddCommGroup V]
+    [Module K V] [Module (𝓞 K) V] [IsScalarTower (𝓞 K) K V] [Fintype ι] [DecidableEq ι]
+    (b : Basis ι K V) (X : InfinitePlace K → Matrix ι ι ℂ), (∀ v, IsUnit (X v).det) →
+    ∀ (R R' : Submodule (𝓞 K) V) (h : ℕ), R.FG → R' ≠ ⊥ → 0 < h → R' ≤ R →
+      (∀ x ∈ R, (h : 𝓞 K) • x ∈ R') →
+      |Formalism.HN.muDef b (scaleFrame (Real.sqrt h) X) R' - Formalism.HN.muDef b X R| ≤ Real.log h ∧
+      |Formalism.HN.muMaxDef b (scaleFrame (Real.sqrt h) X) R' - Formalism.HN.muMaxDef b X R| ≤ Real.log h
+
+def PassageLat : Prop :=
+  ∀ (K V ι : Type) [Field K] [NumberField K] [StarRing K] [_root_.NumberField.IsTotallyComplex K] [AddCommGroup V]
+    [Module K V] [Module (𝓞 K) V] [IsScalarTower (𝓞 K) K V] [Fintype ι] [DecidableEq ι]
+    (b : Basis ι K V) (X : InfinitePlace K → Matrix ι ι ℂ), (∀ v, IsUnit (X v).det) →
+    ∀ (S : Type) [Fintype S] (Rs : S → Submodule (𝓞 K) V) (nS : S → ℕ)
+      (latticeAtBaseLevel RPs R0 R1 : Submodule (𝓞 K) V) (G h0 h1 : ℕ) (nbar de HH0 : ℝ),
+      latticeAtBaseLevel.FG → RPs.FG → R0 ≠ ⊥ → R1 ≠ ⊥ → 0 < h0 → h0 ≤ G → 0 < h1 → h1 ≤ G →
+      R0 ≤ latticeAtBaseLevel → (∀ x ∈ latticeAtBaseLevel, (h0 : 𝓞 K) • x ∈ R0) → R1 ≤ RPs → (∀ x ∈ RPs, (h1 : 𝓞 K) • x ∈ R1) →
+      (∀ s, Rs s ≤ latticeAtBaseLevel) →
+      (Formalism.HN.rkK latticeAtBaseLevel : ℝ) = ∑ s, (Formalism.HN.rkK (Rs s) : ℝ) →
+      (Formalism.HN.rkK RPs : ℝ) = ∑ s, (nS s : ℝ) * (Formalism.HN.rkK (Rs s) : ℝ) →
+      (∑ s, (nS s : ℝ) * degD b X (Rs s)) - 17 / 2 * Real.log G * (Formalism.HN.rkK RPs : ℝ) ≤
+        degD b X RPs →
+      degD b X latticeAtBaseLevel ≤ (∑ s, degD b X (Rs s)) + 2 * Real.log G * (Formalism.HN.rkK latticeAtBaseLevel : ℝ) →
+      0 < nbar → 0 ≤ de → de ≤ 1 / 3 →
+      (∀ s, (1 - de) * nbar ≤ (nS s : ℝ) ∧ (nS s : ℝ) ≤ (1 + de) * nbar) →
+      Formalism.HN.muMaxDef b (scaleFrame (Real.sqrt h0) X) R0 ≤ HH0 →
+        -Formalism.HN.muDef b (scaleFrame (Real.sqrt h1) X) R1 ≤
+          -Formalism.HN.muDef b (scaleFrame (Real.sqrt h0) X) R0 +
+            3 * de * (-Formalism.HN.muDef b (scaleFrame (Real.sqrt h0) X) R0 + HH0 + 4 * Real.log G) +
+            25 / 2 * Real.log G
+
+end Formalism.BranchingDeterminantCap
+end
+end

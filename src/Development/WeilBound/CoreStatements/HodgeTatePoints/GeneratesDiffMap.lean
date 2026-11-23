@@ -1,7 +1,7 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.IsCompactUnitaryPointsAtPlaceFstMemCompact
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.DifferentGeneratorDualIntegral
+public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.Bundle004
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle018
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

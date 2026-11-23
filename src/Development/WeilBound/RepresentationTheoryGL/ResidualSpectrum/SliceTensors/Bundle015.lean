@@ -1,0 +1,238 @@
+module
+
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle641
+public import Development.WeilBound.RepresentationTheoryGL.ResidualSpectrum.SliceTensors.Bundle004
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle692
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle133
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle192
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle018
+public import Development.WeilBound.CoreStatements.AutomorphicKernels.ResidualSpectrumHilbertSum.ResidualSpectrumTensors.CuspDiscrete
+public import Development.WeilBound.RepresentationTheoryGL.ResidualSpectrum.ExponentialNegativity.ExpNegGlue
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle785
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ConstantTermUnipotentIntegralVariant
+public import Development.WeilBound.RepresentationTheoryGL.ResidualSpectrum.SliceTensors.PExpFin
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Topology.Sheaves.Init
+
+@[expose] public section
+
+section
+
+noncomputable section
+
+open NumberField IsDedekindDomain Formalism.L2.Host MeasureTheory
+open GlobalTheory.CuspRep GlobalTheory.UnitaryBC GlobalTheory.SmGL GlobalTheory.DiscSpec
+
+namespace PositivityTheory.Rg.Rs
+
+namespace SatakeHermitian
+
+variable {E : Type} [Field E] [NumberField E] [_root_.NumberField.IsTotallyComplex E]
+
+attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
+
+theorem isUnitarisable_locRepD {N : ℕ} {V : Submodule ℂ (Sm E N)} (hV : IsDiscrete V)
+    (w : HeightOneSpectrum (𝓞 E)) : GlobalTheory.LGrp.IsUnitarisable (GlobalTheory.DiscLocEx.locRepD hV.stable w) := by
+  letI : MeasurableSpace (GA E N) := borel _
+  haveI : BorelSpace (GA E N) := ⟨rfl⟩
+  haveI := GlobalTheory.AdelicUnitaryTop.locallyCompact_adele E
+  haveI := GlobalTheory.AdelicUnitaryTop.secondCountable_adele E
+  haveI := GlobalTheory.AdelicUnitaryTop.t2Space_adeleRing_numberField E
+  haveI : LocallyCompactSpace (Matrix (Fin N) (Fin N) (Ad E)) :=
+    inferInstanceAs (LocallyCompactSpace (Fin N → Fin N → Ad E))
+  haveI : LocallyCompactSpace (Matrix (Fin N) (Fin N) (Ad E))ᵐᵒᵖ :=
+    MulOpposite.opHomeomorph.symm.isClosedEmbedding.locallyCompactSpace
+  haveI : LocallyCompactSpace (GA E N) := Units.isClosedEmbedding_embedProduct.locallyCompactSpace
+  haveI : SecondCountableTopology (Matrix (Fin N) (Fin N) (Ad E)) :=
+    inferInstanceAs (SecondCountableTopology (Fin N → Fin N → Ad E))
+  haveI : SecondCountableTopology (Matrix (Fin N) (Fin N) (Ad E))ᵐᵒᵖ :=
+    MulOpposite.opHomeomorph.symm.isEmbedding.secondCountableTopology
+  haveI : SecondCountableTopology (GA E N) := Units.isEmbedding_embedProduct.secondCountableTopology
+  haveI := GlobalTheory.DiscreteUnit.countable_latticeGL (E := E) (N := N)
+  haveI : Infinite (w.adicCompletion E) := .of_injective _ (algebraMap E _).injective
+  refine GlobalTheory.DiscreteUnit.isUnitarisable_of_embedding (Γ := latticeGL E N) (GlobalTheory.DiscLocEx.locRepD hV.stable w)
+    (fun g => finGL E N (locGL E N w g)) (fun g => ?_)
+    ((Sm E N).subtype.comp V.subtype) (Subtype.val_injective.comp Subtype.val_injective)
+    (fun v => GlobalTheory.CuspRep.ContAut.continuous_of_isOpen_stab E N v.1 (hV.aut _ v.2).level)
+    (fun v => GlobalTheory.DiscreteUnit.left_latticeGL (hV.aut _ v.2) (hV.sqInt _ v.2)) (fun v => (hV.sqInt _ v.2).2)
+    fun g v x => rfl
+  exact GlobalTheory.DiscreteUnit.modular_eq_one ((finGL E N).comp (locGL E N w))
+    (fun g => (congrArg (finGL E N) (GlobalTheory.DiscreteUnit.cornerGL_transInv (sLoc E w) g)).trans
+      (GlobalTheory.DiscreteUnit.cornerGL_transInv (sFin E) _)) g
+
+theorem herm_of_star {B : Multiset ℂˣ} (h : B.map star = B.map (·⁻¹)) : B.map (fun b => (star b)⁻¹) = B := by
+  have e := congrArg (Multiset.map (fun b : ℂˣ => b⁻¹)) h
+  rw [Multiset.map_map, Multiset.map_map] at e
+  simpa [Function.comp_def] using e
+
+theorem herm_of_isSatVec {N : ℕ} {V : Submodule ℂ (Sm E N)} (hV : IsDiscrete V) {w : HeightOneSpectrum (𝓞 E)}
+    {B : Multiset ℂˣ} {φ : Sm E N} (hφ : φ ∈ V)
+    (h : GlobalTheory.LFun.IsSatVecGL w ((finRep E N).comp (locGL E N w)) φ B) : B.map (fun b => (star b)⁻¹) = B := by
+  have h' : GlobalTheory.LFun.IsSatVecGL w (GlobalTheory.DiscLocEx.locRepD hV.stable w) ⟨φ, hφ⟩ B :=
+    GlobalTheory.LFun.IsSatVecGL.of_map (ρ' := (finRep E N).comp (locGL E N w)) V.subtype (fun _ _ => rfl)
+      Subtype.val_injective h
+  exact herm_of_star (GlobalTheory.T.satakeParameterGL_star_eq_inv_of_unitarisable E w N V _ _ B (isUnitarisable_locRepD hV w) h')
+
+end SatakeHermitian
+
+open SatakeHermitian in
+theorem satHerm_holds : SatHerm := by
+  intro E _ _ _ N w B
+  refine ⟨fun V hV hS => ?_, fun π hN hu hn hB => ?_⟩
+  · obtain ⟨φ, hφ, h⟩ := hS.1
+    exact herm_of_isSatVec hV hφ h
+  · have hD : IsDiscrete π.V := PositivityTheory.RSHS.L1.cuspDiscrete E N hN π hu hn
+    obtain ⟨x, hx⟩ := GlobalTheory.LFun.HasSatGL.exists_vec hB
+    have h1 := hx.map (ρ' := (finRep E N).comp (locGL E N w)) π.V.subtype (fun _ _ => rfl)
+      (fun e => hx.1 (Subtype.ext e))
+    exact herm_of_isSatVec hD x.2 h1
+
+end PositivityTheory.Rg.Rs
+
+end
+end
+
+section
+
+noncomputable section
+
+open NumberField IsDedekindDomain MeasureTheory Polynomial Formalism.L2.Host
+open GlobalTheory.CuspRep GlobalTheory.UnitaryBC GlobalTheory.SmGL GlobalTheory.DiscSpec GlobalTheory.CompanionTheory.CTFin
+
+namespace PositivityTheory.Rg.Rs
+
+namespace PDich
+
+variable {E : Type} [Field E] [NumberField E] [_root_.NumberField.IsTotallyComplex E] {a N : ℕ}
+
+
+open PExpFin in
+theorem continuous_aT (F : Sm E N) (r : ℕ) (g : GA E N) : Continuous fun t : ℝ => F.1 (aT E N r t * g) := by
+  set y := Matrix.GeneralLinearGroup.map (pInf E) g
+  set k := Matrix.GeneralLinearGroup.map (pFin E) g
+  have hg : g = infGL E N y * finGL E N k := (infGL_mul_finGL g).symm
+  have e : ∀ t, aT E N r t * g = g * infGL E N (y⁻¹ * aInf E N r t * y) := by
+    intro t
+    calc aT E N r t * g = infGL E N (y * (y⁻¹ * aInf E N r t * y)) * finGL E N k := by
+          rw [hg, aT, ← mul_assoc, ← map_mul]
+          congr 2
+          group
+      _ = g * infGL E N (y⁻¹ * aInf E N r t * y) := by
+          rw [hg, map_mul, mul_assoc, mul_assoc, infGL_comm, mul_assoc]
+  have e2 : (fun t : ℝ => F.1 (aT E N r t * g)) =
+      chart F.1 g ∘ fun t : ℝ => toL (y⁻¹ * aInf E N r t * y).val := by
+    funext t
+    rw [Function.comp_apply, chart_val, e]
+  rw [e2]
+  refine (F.2 g).continuousOn.comp_continuous ?_ fun t => val_mem_invSet _
+  change Continuous fun t : ℝ => (y⁻¹).val * Matrix.diagonal (fun (i : Fin N) (_ : InfinitePlace E) =>
+    Complex.exp (if (i : ℕ) < r then (t : ℂ) else 0)) * y.val
+  have hi : ∀ (i : Fin N) (t : ℝ), (if (i : ℕ) < r then (t : ℂ) else 0) = (if (i : ℕ) < r then 1 else 0) * t := by
+    intro i t
+    split_ifs <;> simp
+  simp_rw [hi]
+  fun_prop
+
+theorem ascEmb_one {π π' : CuspSub E a} (h : π.Iso π') : AscEmb π.V π' 1 := by
+  obtain ⟨T, hT⟩ := h
+  obtain ⟨q, hq⟩ := Submodule.exists_isCompl π.V
+  let P := Submodule.projectionOnto π.V q hq
+  have hP : ∀ φ (hφ : φ ∈ π.V), P φ = ⟨φ, hφ⟩ := fun φ hφ =>
+    Submodule.projectionOnto_apply_left hq ⟨φ, hφ⟩
+  have hs : ∑ _ : Fin 1, a = a := by simp
+  refine ⟨hs, fun _ => 1, fun i => ?_, π'.V.subtype ∘ₗ T.toLinearMap ∘ₗ P, fun φ hφ => ?_, fun φ hφ h0 => ?_,
+    fun o φ hφ => ?_⟩
+  · have e : -spehExp 1 i + a * spehExp 1 i = 0 := by simp [spehExp]
+    rw [e]
+    exact ⟨fun _ _ _ => rfl, fun _ => by simp [HChar.val, HChar.locK, HChar.loc], fun _ => by simp [HChar.inf]⟩
+  · rw [show (fun _ : Fin 1 => π'.twist 1) = fun _ => π' from funext fun _ => π'.twist_one, indForms_one]
+    exact (T (P φ)).2
+  · simp only [LinearMap.coe_comp, Function.comp_apply, Submodule.subtype_apply, LinearEquiv.coe_coe, hP φ hφ] at h0
+    have h1 : T ⟨φ, hφ⟩ = 0 := Subtype.ext h0
+    have h2 : (⟨φ, hφ⟩ : π.V) = 0 := T.injective (h1.trans T.map_zero.symm)
+    exact congrArg Subtype.val h2
+  · simp only [LinearMap.coe_comp, Function.comp_apply, Submodule.subtype_apply, LinearEquiv.coe_coe,
+      hP φ hφ, hP _ (π.stable o φ hφ)]
+    have e : (⟨act o φ, π.stable o φ hφ⟩ : π.V) = π.op o ⟨φ, hφ⟩ := rfl
+    rw [e, hT]
+    rfl
+
+end PDich
+
+open PExpFin PDich in
+theorem dich_of (hD : Dict) (hT : FinTr) (hK : KillPoly) : Dich := by
+  intro E _ _ _ N hN V hV
+  obtain ⟨-, -, -, hDct⟩ := hD E N
+  by_cases hex : ∃ r, 0 < r ∧ r < N ∧ ∃ φ ∈ V, An.ctn r φ.1 ≠ 0
+  · right
+    obtain ⟨r, hr, hrN, φ, hφ, hne⟩ := hex
+    obtain ⟨hct, -⟩ := hDct φ (hV.aut φ hφ) r hr hrN
+    have hcont : ∀ g, Continuous fun t => An.ctn r φ.1 (aT E N r t * g) := by
+      let _ : MeasurableSpace (BlockIx N r → Ad E) := _root_.borel _
+      have _ : BorelSpace (BlockIx N r → Ad E) := ⟨rfl⟩
+      obtain ⟨μ, 𝓕, hμ, h𝓕, e⟩ := hct
+      obtain ⟨F, hF, -⟩ := GlobalTheory.CompanionTheory.CTSmooth.ct_smooth E N r φ (hV.aut φ hφ).left (hV.aut φ hφ).level μ 𝓕 hμ h𝓕
+      have e2 : An.ctn r φ.1 = F.1 := e.trans (funext fun g => (hF g).symm)
+      intro g
+      rw [e2]
+      exact PDich.continuous_aT F r g
+    obtain ⟨p, hp, hk, hroot⟩ := hK (GA E N) (aT E N r) (An.ctn r φ.1) (fun u v => aT_add r u v) hcont
+      (hT E N φ (hV.aut φ hφ) r hr hrN _ hct)
+    have hdeg : 0 < p.degree := hp.degree_pos.2 fun h1 => hne (funext fun g => by
+      have := hk g
+      rw [h1] at this
+      simpa [aT_zero] using this)
+    obtain ⟨z, hz⟩ := Complex.exists_root hdeg
+    obtain ⟨c, -, F, hF, hF0, hFe⟩ := hroot z hz
+    exact ⟨r, hr, hrN, c, φ, hφ, An.ctn r φ.1, hct, F, hF, hF0, hFe⟩
+  · left
+    push Not at hex
+    have hcusp : ∀ φ ∈ V, IsCuspForm φ := fun φ hφ => ⟨hV.aut φ hφ, by
+      intro r hr hrN inst1 inst2 μ 𝓕 hμ hF g
+      obtain rfl : inst1 = _root_.borel _ := inst2.measurable_eq
+      obtain ⟨c, -, e⟩ := (hDct φ (hV.aut φ hφ) r hr hrN).2 _ ⟨μ, 𝓕, hμ, hF, rfl⟩
+      have := congrFun e g
+      rw [hex r hr hrN φ hφ] at this
+      simpa [PositivityTheory.Affgl.CT.ct] using this⟩
+    let π : CuspSub E N := ⟨V, hcusp, hV.stable, hV.ne_bot, hV.irred⟩
+    have hn : IsNormalised π := fun φ hφ => (hV.sqInt φ hφ).1
+    exact ⟨π, GlobalTheory.SpehPair.isUnitary_of_isNormalised hn, hn, fun π' hiso => ascEmb_one hiso⟩
+
+end PositivityTheory.Rg.Rs
+
+end
+end

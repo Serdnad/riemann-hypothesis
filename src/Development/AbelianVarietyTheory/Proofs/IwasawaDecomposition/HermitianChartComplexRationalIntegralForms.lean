@@ -3,13 +3,13 @@ module
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.LatAtLattice
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.ExtUHInjective
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.MemClosureIff
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.PlacesOverConjPrimes
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle083
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsBasisAtOfIsLocBasis
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsPointOfRationalUnitaryAdelicMul
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LevOkTwists
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.TrueColumnSpacesStandardInFrameCoords
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle344
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle329
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle339
 import Formalism.GradedWeylDivisibility.DualWeylDominanceOf
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LClosedeqLemmas
+import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle002
 import Formalism.HermitianLattices.HermitianLatticesProofs.DualBasic
 import Formalism.LocalRingCardinality.Lemmas
 import Formalism.LocalToGlobal.Columns.CoefficientsModP.PairingNondegenerateHolds
@@ -120,7 +120,7 @@ end Frames
 
 section Pol
 
-open Formalism.L2.Col Formalism.L2.DIV
+open _root_.Formalism.L2.Col Formalism.L2.DIV
 open scoped Pointwise
 
 variable {K : Type} [Field K] (s : K →+* ℂ) {ι : Type} [Fintype ι] {n : ℕ}
@@ -334,7 +334,7 @@ end Adelic
 
 section Step
 
-open Formalism.L2.Col Formalism.L2.DIV
+open _root_.Formalism.L2.Col Formalism.L2.DIV
 
 variable {E K ι : Type} [Field E] [NumberField E] [StarRing E] [Field K] [NumberField K] [StarRing K] [Fintype ι] {n : ℕ}
   (S : GStep E K n) (emb : ι → E →+* K) (σ : K →+* ℂ) (lam : ι → DomWeight n)
@@ -421,7 +421,7 @@ end Step
 
 section Lev
 
-open Formalism.L2.Col
+open _root_.Formalism.L2.Col
 
 variable {X : Formalism.L2.Col.Fields} {n : ℕ} {ST SG Q : Finset (HeightOneSpectrum (𝓞 X.E))}
 
@@ -438,7 +438,7 @@ end GlobalTheory.Mem.Col2.ValTie
 
 namespace GlobalTheory.Mem.Col2.TC
 
-open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.MainNotions Formalism.L2.Col Formalism.L2.DIV Formalism.L2.Ker Formalism.UG Formalism.L2.Forms GlobalTheory.Mem GlobalTheory.Mem.Chr GlobalTheory.Mem.Col2 GlobalTheory.Mem.Col2.TC Matrix
+open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.MainNotions _root_.Formalism.L2.Col Formalism.L2.DIV Formalism.L2.Ker Formalism.UG Formalism.L2.Forms GlobalTheory.Mem GlobalTheory.Mem.Chr GlobalTheory.Mem.Col2 GlobalTheory.Mem.Col2.TC Matrix
 attribute [local instance] GlobalTheory.Mem.Col2.starE Formalism.BasicNotions.Host.cmStar
 
 open GlobalTheory.Mem.Col2.BwLat GlobalTheory.LvT.Built.ValLat Formalism.HermitianLatticesTheory GlobalTheory.Mem.Col2.ValTie

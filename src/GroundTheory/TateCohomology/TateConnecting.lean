@@ -3,7 +3,7 @@ module
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
 public import Mathlib.RepresentationTheory.Coinduced
 public import Mathlib.RepresentationTheory.Homological.TateCohomology.Basic
-public import GroundTheory.TateCohomology.CupConnecting
+public import GroundTheory.TateCohomology.Bundle005
 public import Mathlib.Algebra.Homology.HomologicalComplexAbelian
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

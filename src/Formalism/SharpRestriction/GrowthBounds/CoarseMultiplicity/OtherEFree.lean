@@ -1,8 +1,8 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.ChainEmbInj
-import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.MapFloorMono
-import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.DivDerZero
+public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.Bundle010
+import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.Bundle005
+import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

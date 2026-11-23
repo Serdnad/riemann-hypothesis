@@ -1,6 +1,6 @@
 module
 
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.PhiCMinA
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle002
 public import Formalism.SharpRestriction.Divisibility.ModuliIntegralCharts
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

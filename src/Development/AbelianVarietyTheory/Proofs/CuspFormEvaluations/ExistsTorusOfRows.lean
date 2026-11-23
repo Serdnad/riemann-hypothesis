@@ -45,9 +45,9 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AbelianVarietyTheory.Definitions.ThetaValues.IsBlockProd
+import Development.AbelianVarietyTheory.Definitions.ThetaValues.Bundle001
 import Development.AbelianVarietyTheory.Definitions.ThetaValues.ThConst
-import Formalism.SharpRestriction.Divisibility.GeneratorPowers.CIndRaw
+import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle007
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.HolomorphicFamilies.HolJetA
 
 @[expose] public section

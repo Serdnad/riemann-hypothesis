@@ -1,12 +1,12 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LocRatio
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.CoordValuationBoundLocalStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GrGenOfIsFlagVBOn
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GradedSandwichDegreeBoundStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle086
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle110
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle163
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle181
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsExcisionNbhdAway
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieModelLocalizationAtPrimeStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.RegularFunctionalSpecializesStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle212
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle191
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,17 +1,16 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.EdgeFactorNeZero
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.StepType
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle407
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle405
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DiagonalBlockDetBlockTriangular
 public import Development.AbelianVarietyTheory.Definitions.Foundations.NotIsSplitOfIsInertAt
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.DetIdlVal
-public import Development.AbelianVarietyTheory.Definitions.Divisors.EqOfHasValueAtInfinite
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GridRowLevelZeroInfUnitaryEqDatumLevel
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle321
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle010
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2557
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.RamificationIdxEqOneOfIsSquare
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.DetUnitaryConjAtPlaceEqDetLatticeBasisComponent
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.GridStandardVacuumScalarEqProdLocalPlaces
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.LatHatStabOfHatL
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RowPt0InvMemStdLatIff
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle343
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle674
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle650
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -53,7 +52,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.ExistsMatchOver
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RowMapVUpdateZero
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle627
 import Development.AbelianVarietyTheory.Statements.HeckeThetaIntegrals.FormulaAt
 
 @[expose] public section

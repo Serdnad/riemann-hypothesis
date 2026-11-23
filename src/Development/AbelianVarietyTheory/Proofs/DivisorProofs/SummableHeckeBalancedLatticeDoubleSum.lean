@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.KFacDifferentiable
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle150
 public import Mathlib.NumberTheory.NumberField.CanonicalEmbedding.Basic
 public import Mathlib.Algebra.Module.ZLattice.Summable
 import Mathlib.Algebra.Order.Floor.Extended

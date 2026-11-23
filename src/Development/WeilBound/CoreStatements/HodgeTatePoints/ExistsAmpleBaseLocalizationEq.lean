@@ -1,10 +1,10 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.ImportsLastRest
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle051
 public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.ExistsSumEqOneOfMulEqOne
-import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.MemClosureOfMemChartRing
+import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle047
 public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.PAmpleAffineGen
-public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.PGraphClosedLocal
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle025
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

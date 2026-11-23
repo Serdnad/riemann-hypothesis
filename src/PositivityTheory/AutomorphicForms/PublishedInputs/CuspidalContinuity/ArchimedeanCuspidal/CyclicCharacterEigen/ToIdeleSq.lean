@@ -2,7 +2,7 @@ module
 
 public import Formalism.LocalToGlobal.UnitaryNorms.IsUnitaryNormOf
 public import PositivityTheory.AutomorphicForms.PublishedInputs.CuspidalContinuity.ArchimedeanCuspidal.AdFormOf
-import GroundTheory.GlobalFields.KummerTheory.LocalIndexAtPlace
+import GroundTheory.GlobalFields.KummerTheory.Bundle001
 public import GroundTheory.GlobalFields.TateThesis.NonvanishingPrimes
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

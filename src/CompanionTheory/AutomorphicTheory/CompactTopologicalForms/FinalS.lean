@@ -1,6 +1,6 @@
 module
 
-public import Formalism.HermitianCurvature.HerGenC
+public import Formalism.HermitianCurvature.Bundle006
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutDec
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutMainCpt
 import Mathlib.Algebra.Order.Floor.Extended

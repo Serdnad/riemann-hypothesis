@@ -47,7 +47,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.FiniteFreeHom
+import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle002
 import Development.AutomorphicSpectrum.PublishedTheorems.Algebra₂.RegularHypothesesAndConclusion
 public import Mathlib.RingTheory.LocalRing.ResidueField.Ideal
 import Mathlib.Topology.Sheaves.Presheaf

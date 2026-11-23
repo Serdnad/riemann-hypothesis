@@ -2,18 +2,18 @@ module
 
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsCMFrame
 public import Mathlib.Algebra.AffineMonoid.Basic
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Rt0ConjNegNeZero
-public import Development.AutomorphicSpectrum.Proofs.AdelicProofs.PadicEmbeddingDiscreteValuationRingStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.DifferentTwistedGeneratorExistsStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.EigenLocalBasisLogNormStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.ExistsLocalBasisCmOrderStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.PureFamilyDecompositionStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.CmLieModelActionStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.CmPackProductFrameStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.CmPackPureFrameStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieModelEigenvectorsActionStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieModelExtendsOverDvrStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.PeriodsSpanPureDecompositionStatement
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle076
+public import Development.AutomorphicSpectrum.Proofs.AdelicProofs.Bundle004
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle033
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle065
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle073
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle072
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle220
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle267
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle225
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle093
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle204
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle157
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -204,6 +204,7 @@ theorem intFrames_fin : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (
   obtain ⟨Vs, hdvr, hVj, hOK, hunit⟩ := GlobalTheory.T.padic_embedding_discrete_valuation_ring X.K ℓ j
   let V : Subring X.K := Vs.toSubring
   haveI : IsDiscreteValuationRing V := hdvr
+  haveI : IsLocalRing V := hdvr.toIsLocalRing
   haveI : IsFractionRing V X.K := (inferInstance : IsFractionRing Vs X.K)
   have hj : ∀ a : X.K, ‖j a‖ ≤ 1 ↔ a ∈ V := hVj
   have hOK' : ∀ s : 𝓞 X.K, (s : X.K) ∈ V := hOK

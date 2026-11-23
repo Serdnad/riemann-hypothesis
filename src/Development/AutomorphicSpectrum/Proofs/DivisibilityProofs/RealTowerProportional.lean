@@ -2,10 +2,10 @@ module
 
 public import Development.AutomorphicSpectrum.Definitions.DivisibilityTowers.RefLinked
 public import Development.AutomorphicSpectrum.Statements.MetricStatements.AgreementIffGuarded
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.FlagDegreeLinearFunctionalsStatement
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.FlagDegreeWeightFormula
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.PolarizationPolynomialCoeffBoundStatement
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.RealTowerGeometricAgreementStatement
+public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle006
+public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle003
+public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.PolarizationPolynomialCoeffBound
+public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle035
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

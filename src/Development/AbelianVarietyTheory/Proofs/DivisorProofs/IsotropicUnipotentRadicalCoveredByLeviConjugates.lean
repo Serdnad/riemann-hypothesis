@@ -1,13 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.IsLv
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CoverRectangularAdelicMatricesShrunkCompactStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CoverSkewHermitianAdelicMatricesShrunkCompactStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsIsCompactOfUnipotentCoordinatesMemStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsUnipotentFrameCoordsOfMemIsotropicUnipotenStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsUnipotentRadicalPointWithCoordsStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MemRationalPointsOfUnipotentCoordsRationalStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.UnipotentRadicalCoordinatesGroupLawStatement
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle054
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2140
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2141
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2173
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2201
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -48,7 +45,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import Development.AbelianVarietyTheory.Definitions.Divisors.LocallyCompactSpaceAxis
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle057
 
 @[expose] public section
 

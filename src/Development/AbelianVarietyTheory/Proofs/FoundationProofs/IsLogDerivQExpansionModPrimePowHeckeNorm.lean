@@ -2,7 +2,7 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.Foundations.ExistsRootOfIsAlgClosed
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ThetaBasisLinearCombination
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.SubstUpperTriangularHahnMulAndOne
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle328
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -70,7 +70,7 @@ theorem eOm_mul_nat (x : ℚ) (k : ℕ) : eOm ε (x * k) = eOm ε x ^ k := by
 
 theorem eOm_of_den {x : ℚ} (h : x.den = 1) : eOm ε x = 1 := by
   apply ε.injective
-  rw [eOm_spec, map_one, ← Rat.coe_int_num_of_den_eq_one h]
+  rw [_root_.GlobalTheory.CyclotomicQExpansion.eOm_spec, map_one, ← Rat.coe_int_num_of_den_eq_one h]
   have := Complex.exp_int_mul_two_pi_mul_I x.num
   rw [← this]; congr 1; push_cast; ring
 

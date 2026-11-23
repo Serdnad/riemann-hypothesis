@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Statements.PlaceShiftStatements.DefiniteBound
+public import Development.AbelianVarietyTheory.Statements.PlaceShiftStatements.Bundle001
 public import Mathlib.RingTheory.SimpleRing.Principal
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.MemRangeOfOneTmulMem
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.AdelicCompletionFractionalIdealProperties
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsIdempotentIsUnitOneAddOrSubAdele
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Hilbert90AdeleRingTensorQuadratic
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle063
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle004
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle007
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle011
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

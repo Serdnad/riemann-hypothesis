@@ -54,7 +54,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Presheaf
-import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.NormalFormDualOrthogonalLast
+import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle007
 public import Mathlib.RingTheory.LocalRing.Module
 
 @[expose] public section

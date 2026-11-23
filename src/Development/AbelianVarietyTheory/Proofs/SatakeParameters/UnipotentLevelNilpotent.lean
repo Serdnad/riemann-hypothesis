@@ -1,8 +1,8 @@
 module
 
 public import Formalism.LocalToGlobal.KernelLattices.FirstKernelLawReading
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.NatCastMemOfPrimeDvdAbsNorm
-public import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.RepDataRec
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle123
+public import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.Bundle008
 import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.PeriodLatticeFinitelyGenerated
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

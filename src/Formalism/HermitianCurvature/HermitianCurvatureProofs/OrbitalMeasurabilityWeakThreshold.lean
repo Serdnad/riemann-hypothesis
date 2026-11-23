@@ -1,6 +1,6 @@
 module
 
-public import Formalism.HermitianCurvature.StatementJF
+public import Formalism.HermitianCurvature.Bundle004
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.BesselDomainMeasurable
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.BetaSesquilinearity
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.LUFactorOrbitBounds
@@ -8,10 +8,10 @@ import Formalism.HermitianCurvature.HermitianCurvatureProofs.NormDiagonalEntryDi
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.OppositeWeylSubgroupClosed
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.OrbitalIntegralAeConvergenceContinuity
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.RegularisedPairingViaPhase
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.SandwichRhoAction
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.SmoothWordsAll
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.SmoothnessOnGoodSet
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.WordIntegralScaling
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle038
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle087
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle080
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle068
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

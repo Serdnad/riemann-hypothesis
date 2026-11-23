@@ -2,8 +2,8 @@ module
 
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArithmeticIntersection.MixedFieldContraction.ContractMixedFieldStatement
 public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PCoordConeArithVar
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.PEvalKerKrullDim
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.PFibreMultiHomog
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle021
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle035
 public import GroundTheory.HeightsAndTheta.Heights.WeightedHomogeneous.PIntDomainDim
 import Mathlib.Algebra.Lie.OfAssociative
 import Mathlib.Algebra.Order.Floor.Extended
@@ -134,10 +134,10 @@ theorem FibreDim.proof : FibreDimStatement := by
     fun k => ?_⟩, ?_⟩
   · obtain ⟨i, hi⟩ := hP'.2.1.2.2 k.1
     refine ⟨i, fun h => hi ?_⟩
-    rw [fibreIdeal, RingHom.mem_ker, aeval_X] at h
+    rw [_root_.ReciprocityTheory.ChartRestriction.G.AI.I4.fibreIdeal, RingHom.mem_ker, aeval_X] at h
     rw [← G.genericFibre_ker_target, RingHom.mem_ker, aeval_X]
     exact h
-  rw [fibreIdeal, Inter.EvalKerKrullDim.proof (FibreBlock κ) (fibreIdx ι' κ) G.Φ G.Φ']
+  rw [_root_.ReciprocityTheory.ChartRestriction.G.AI.I4.fibreIdeal, Inter.EvalKerKrullDim.proof (FibreBlock κ) (fibreIdx ι' κ) G.Φ G.Φ']
   set E := IntermediateField.adjoin G.Φ
     (Set.range fun q : (Σ k : FibreBlock κ, ι' k.1) => G.x' ⟨q.1.1, q.2⟩) with hEdef
 

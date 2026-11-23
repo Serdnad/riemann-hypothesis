@@ -1,7 +1,7 @@
 module
 
 public import ReciprocityTheory.Hypotheses.GalCohDefs
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LevRepZApply
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle009
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

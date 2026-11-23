@@ -1,13 +1,13 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FromNAdd
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle115
 public import Development.WeilBound.CoreStatements.TorusUniformisation.ChowMahlerFamilies.FunctionFamilyIdempotent
 public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.StepOrderRes
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsLatFlagPair
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LemmaBTHoldsStatement
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle011
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle246
 public import Development.WeilBound.CoreStatements.TorusUniformisation.ChowMahlerFamilies.FunctionFamilyChartFacts
 public import Development.WeilBound.CoreStatements.TorusUniformisation.ChowMahlerFamilies.IsDerAtOneCompOfIsDiffOf
-public import Development.WeilBound.CoreStatements.TorusUniformisation.ChowMahlerFamilies.TestCharacterExists
+public import Development.WeilBound.CoreStatements.TorusUniformisation.ChowMahlerFamilies.Bundle021
 import Mathlib.Algebra.AffineMonoid.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

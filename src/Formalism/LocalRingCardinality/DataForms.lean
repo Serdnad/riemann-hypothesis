@@ -2,7 +2,7 @@ module
 
 public import Formalism.LocalRingCardinality.DataHost
 public import Formalism.LocalRingCardinality.DataCoeff
-public import Formalism.LocalRingCardinality.DataArith
+public import Formalism.LocalRingCardinality.Bundle001
 public import Formalism.LocalRingCardinality.DataKernels
 public import Formalism.LocalRingCardinality.DataRows
 import Mathlib.Algebra.Order.Floor.Extended

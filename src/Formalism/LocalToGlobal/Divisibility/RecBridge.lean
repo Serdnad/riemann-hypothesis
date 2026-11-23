@@ -2,15 +2,15 @@ module
 
 public import Formalism.LocalToGlobal.Divisibility.ConstantGeTwentyEight
 public import Formalism.LocalToGlobal.Divisibility.NumbersLink
-public import Formalism.SharpRestriction.GlobalTheoremInputs
+public import Formalism.SharpRestriction.Bundle002
 public import Formalism.LocalToGlobal.GroupLattices.ServJointF
 public import Formalism.LocalToGlobal.Divisibility.DivisionHeightBoundStatement
 public import Formalism.LocalToGlobal.Divisibility.NumbersLemmas
 import Formalism.LocalRingCardinality.RankBoundMonotoneInDimension
-public import Formalism.LocalToGlobal.Divisibility.LinkDIVL2R3Col
+public import Formalism.LocalToGlobal.Divisibility.Bundle005
 public import Formalism.LocalToGlobal.GroupLattices.JointServices.ShiftIdealSgFl
-import Formalism.LocalToGlobal.GroupLattices.JointServices.ValIntNonneg
-public import Formalism.SharpRestriction.AdmissibleParameterJoins
+import Formalism.LocalToGlobal.GroupLattices.JointServices.Bundle001
+public import Formalism.SharpRestriction.Bundle001
 public import Formalism.SharpRestriction.Divisibility.ClosedSizeLink.DivisionAdmissibleFamilyOfData
 public import Formalism.SharpRestriction.Divisibility.HookProducts.RBTieMu
 import Formalism.SharpRestriction.Divisibility.HookProducts.RBTieOp
@@ -55,7 +55,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Presheaf
 import Std.Tactic.BVDecide.Normalize.Prop
-public import Formalism.SharpRestriction.Divisibility.HookProducts.RBTieFrame
+public import Formalism.SharpRestriction.Divisibility.HookProducts.Bundle001
 
 @[expose] public section
 

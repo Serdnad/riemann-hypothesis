@@ -1,10 +1,10 @@
 module
 
-public import Formalism.LocalToGlobal.ProjectiveLattices.CuspFormsFiniteDimensionalOf
-public import Formalism.LocalToGlobal.ProjectiveLattices.FamilyUniformisationBasePointOrthogonalBis
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RdIndepOfLawsM
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LinearRelationSectionsSpanEqStatement
-public import Formalism.LocalToGlobal.ProjectiveLattices.CuspMulOf
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle031
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle037
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1960
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle570
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle032
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -47,7 +47,7 @@ import Mathlib.Tactic.ReduceModChar
 import Development.AbelianVarietyTheory.Definitions.ExistenceOfLattices.CoeSelfDualLatticeInFrameCoordinatesEq
 import Development.AbelianVarietyTheory.Definitions.ExistenceOfLattices.PermutesRefl
 import Development.AbelianVarietyTheory.Definitions.HeightFunctions.XiValIffXiAt
-import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IntFormsSubset
+import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle021
 
 @[expose] public section
 

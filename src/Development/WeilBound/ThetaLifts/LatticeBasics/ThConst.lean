@@ -1,14 +1,13 @@
 module
 
-public import Development.WeilBound.ThetaLifts.LatticeBasics.ThConstMatch
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle020
 public import Development.WeilBound.ThetaLifts.FrameEstimates.SquareIntegrableWeilRange
-public import Development.WeilBound.ThetaLifts.CartanFactorisation.CartanConj
+public import Development.WeilBound.ThetaLifts.CartanFactorisation.Bundle002
 public import Development.AbelianVarietyTheory.Definitions.Divisors.MatchingOfParts
 import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.IndicatorMem
 import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.PfActs
-import Development.WeilBound.ThetaLifts.LatticeBasics.NonZero
-public import Development.WeilBound.ThetaLifts.LatticeBasics.ThConstAn
-import Development.WeilBound.ThetaLifts.LatticeBasics.ThConstLoc
+import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle008
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle009
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -251,7 +250,7 @@ end TC
 
 open TC in
 theorem thConst_of (hL : LocDist) (hG : GoodNe) (hC : ConstOfGood) (hF : Factor) (hM : MatchEx) (hT : ThetaBasic) (hD : KDecay)
-    (h1 : GrpTop) (h2 : EpsOf) (h3 : FinVolU) (h4 : Unimod) (hS : SplitModel) (hO : SoSt) : ThConst := by
+    (h1 : GrpTop) (h2 : EpsOf) (h3 : FinVolU) (h4 : Unimod) (hS : TC.SplitModel) (hO : SoSt) : ThConst := by
   intro F E _ _ _ _ _ σ B a a' G X om om' R Rf hm s t hr μ D hμ hD' y hy
   obtain ⟨C, C', c1, c2⟩ := exists_maps hD hF hm s t
   obtain ⟨m1, m2, -⟩ := hM F E σ B a a' G X om om' R Rf hm

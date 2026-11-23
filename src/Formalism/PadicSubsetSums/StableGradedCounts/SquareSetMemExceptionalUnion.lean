@@ -4,7 +4,7 @@ public import Formalism.PadicSubsetSums.StableGradedCounts.LocalEstimateIVOfType
 public import Mathlib.RingTheory.SimpleRing.Principal
 public import Formalism.PadicSubsetSums.StableGradedCounts.CoeffZeroNeZeroOfIrreducible
 public import Formalism.PadicSubsetSums.StableGradedCounts.CrossFactorCount
-import Formalism.PadicSubsetSums.StableGradedCounts.IRRIrredCountUpper
+import Formalism.PadicSubsetSums.StableGradedCounts.Bundle005
 public import Mathlib.Algebra.Order.Field.GeomSum
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

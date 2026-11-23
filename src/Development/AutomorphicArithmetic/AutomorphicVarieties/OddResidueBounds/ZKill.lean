@@ -1,11 +1,11 @@
 module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.OddResidueBounds.ZeroMemUnrHom
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.StickelbergerElements.CoefMapSingle
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.OddResidueBounds.ContinuousToTorsionBounded
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.OddResidueBounds.NearLevel
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.StickelbergerElements.Bundle001
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.OddResidueBounds.Bundle001
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.OddResidueBounds.Bundle007
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.OddResidueBounds.ResKill
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.OddResidueBounds.TotKill
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.OddResidueBounds.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

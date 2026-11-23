@@ -4,11 +4,11 @@ public import Development.WeilBound.ThetaLifts.LeviDeterminants.CharacterAdmissi
 public import Development.WeilBound.ThetaLifts.LeviDeterminants.CharacterAdmissibility.SchrodingerApplyZeroOfFst
 public import Development.WeilBound.ThetaLifts.LeviDeterminants.MixedModels.AdaptC
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AddCharHalfTraceTensorLatticeHeisenbergCocycle
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EigenIntertwinerTransitive
-public import Development.WeilBound.ThetaLifts.LeviDeterminants.EqZeroOfTheta
-public import Development.WeilBound.ThetaLifts.LeviDeterminants.EvFrame
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2020
+public import Development.WeilBound.ThetaLifts.LeviDeterminants.Bundle004
+public import Development.WeilBound.ThetaLifts.LeviDeterminants.Bundle007
 public import Development.WeilBound.ThetaLifts.LeviDeterminants.MCSpan
-public import Development.WeilBound.ThetaLifts.LeviDeterminants.MixedModels.PlaneC
+public import Development.WeilBound.ThetaLifts.LeviDeterminants.MixedModels.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

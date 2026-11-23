@@ -2,7 +2,7 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.SetUnipotentTranslate
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExistsRefill
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.MemLocSub
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle053
 public import Development.AutomorphicArithmetic.OrbitLabellings.EvenAddOrderOfHPOfPowLe
 public import Formalism.LocalRingCardinality.Lemmas
 import Mathlib.Algebra.Order.Floor.Extended

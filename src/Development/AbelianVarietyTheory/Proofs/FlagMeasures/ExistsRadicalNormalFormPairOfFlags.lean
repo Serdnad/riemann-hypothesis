@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.BlockAnti
-public import Formalism.SharpRestriction.CuspSpanNormBounds.RootMeasBig
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle009
+public import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle004
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsotropicStabilizerRadicalStructure
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

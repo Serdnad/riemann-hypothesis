@@ -1,7 +1,7 @@
 module
 
-public import Formalism.SharpRestriction.CuspSpanNormBounds.FlagEEqHyperbolic
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.CoveringOHolds
+public import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle007
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle083
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.CovolumeIntegralUnipotentStabilizerOfTerm
 import Formalism.FlagUnipotentLattices.CardSubgroupsOfIndexLe
 import Formalism.FlagUnipotentLattices.MinkowskiFactorialBounds.DetMulEqSumProdMulDetSubmatrix

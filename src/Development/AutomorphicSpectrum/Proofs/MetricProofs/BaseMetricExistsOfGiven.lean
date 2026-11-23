@@ -1,23 +1,21 @@
 module
 
 public import Development.AutomorphicSpectrum.Statements.MetricStatements.ExistsFlagModelBaseMetric
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.OmHeightslockG
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle097
 public import Development.AutomorphicSpectrum.Definitions.DivisibilityTowers.GoodOrigin
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.CmHostRankBoundsStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.AdaptedAtlasSncSectionStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.BoundaryPointsClosedStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ComplexPointsIffCentresStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.BlockGBlockDiagPosDefStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.CutoffFunctionOnCompatibleAtlasStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ExistsFiniteFrameCoverStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ExistsLocalHoloIsPeriodGramBlockGBaseGramStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagModelFrameHeightComparisonStatement
+public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle035
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle276
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle273
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle092
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle134
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle140
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle192
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle189
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagModelGlobalHeightIdentityStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagModelHeightLowerEstimateStatement
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagModelResolutionIntegrabilityStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.IsArithVarOfSncModelStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.IsClosedSectionBoundaryStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.LowerBoundHeightOnBoundaryStatement
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle132
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle032
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle154
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -66,6 +64,7 @@ open AlgebraicGeometry CategoryTheory NumberField Matrix ReciprocityTheory.Chart
 open ReciprocityTheory.ChartRestriction.G.Semi
 open scoped ComplexOrder
 
+attribute [-instance] GlobalTheory.CompHt.fintypePsi in
 theorem card_cmType_pos : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Host E), 0 < Fintype.card (CMType H) := by
   intro E _ _ _ H
   have h := (GlobalTheory.T.cm_host_rank_bounds E H).2.2
@@ -150,6 +149,7 @@ theorem dualGramAt_omFrame (tie : FlagTie M 𝔐) (F : FrameData ι (CMType H) (
     rw [omBlock_blockG, Matrix.transpose_nonsing_inv, Matrix.transpose_transpose]
     exact Matrix.nonsing_inv_mul _ hu
 
+attribute [-instance] GlobalTheory.CompHt.fintypePsi in
 theorem baseMetricExists_of_given : Given → PB.BaseMetricExists := by
   intro hG E _ _ _ H D l Xo₀ c Y S K _ ι _ Φ _ y M 𝔐 tie d hp hq hcov hsnc
   classical
@@ -203,7 +203,12 @@ theorem baseMetricExists_of_given : Given → PB.BaseMetricExists := by
     refine ⟨⋂ τ, V τ, P, Set.mem_iInter.2 hxV, isOpen_iInter_of_finite hV, fun τ a b => ?_, fun τ x' hx' => hPG τ x' (Set.mem_iInter.1 hx' τ)⟩
     intro k
     exact (hP τ a b k).mono (Set.inter_subset_inter_right _ (Set.preimage_mono (Set.iInter_subset _ τ)))
-  obtain ⟨lI, xI, hxI, VI, PiI, hxV, hPer, himm⟩ := GlobalTheory.T.flagModel_height_lower_estimate hG E H D Xo l c Y S K ι Φ y M 𝔐 tie hp hq d hcov Rb s hInt hZ q O F hO hOc hF hgood'
+  have hdim : @Fintype.card (CMType H) (GlobalTheory.CompHt.fintypePsi (H := H)) * D.p * D.q = n :=
+    congrArg (fun size : ℕ => size * D.p * D.q)
+      (@Fintype.card_congr _ _ (GlobalTheory.CompHt.fintypePsi (H := H)) inferInstance (Equiv.refl (CMType H)))
+  have heightLower := GlobalTheory.T.flagModel_height_lower_estimate hG E H D Xo l c Y S K ι Φ y M 𝔐 tie hp hq d hcov
+  rw [hdim] at heightLower
+  obtain ⟨lI, xI, hxI, VI, PiI, hxV, hPer, himm⟩ := heightLower Rb s hInt hZ q O F hO hOc hF hgood'
   refine ⟨{ Rb := Rb, L := L, s := s, nb := nb, m := m, W := W, potL := potL, sec := sec, snc := snc, norm_le := norm_le,
             Bat := Bat, adapted := adapted, q := q, O := O, O_open := hO, O_cover := hOc, F := F, isFrame := hF, good := hgood'
             G := fun i τ x => blockG (baseGram tie (F i) τ Rb x)
@@ -224,3 +229,18 @@ theorem baseMetricExists_of_given : Given → PB.BaseMetricExists := by
     exact ⟨mem_bdry_conj_iff (NonPluckerBlocks M.blk) (baseIdx ι M.blk) M.Ω M.x n bd Rb s hbdry htor hconj x x' ho, hrconj x x' ho⟩
 
 end GlobalTheory.CompanionTheory.Ar.PB.BMx
+
+end
+end
+
+section
+
+@[expose] public section
+
+open AlgebraicGeometry CategoryTheory NumberField ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Geo ReciprocityTheory.ChartRestriction.G.Geo.Tor GlobalTheory.CompanionTheory.Ar GlobalTheory.CompanionTheory.Ar.Top
+
+theorem _root_.GlobalTheory.T.base_metric_exists_of_given : Given → PB.BaseMetricExists := by
+  first | exact @GlobalTheory.CompanionTheory.Ar.PB.BMx.baseMetricExists_of_given | exact GlobalTheory.CompanionTheory.Ar.PB.BMx.baseMetricExists_of_given | (intros; apply GlobalTheory.CompanionTheory.Ar.PB.BMx.baseMetricExists_of_given <;> assumption)
+
+end
+end

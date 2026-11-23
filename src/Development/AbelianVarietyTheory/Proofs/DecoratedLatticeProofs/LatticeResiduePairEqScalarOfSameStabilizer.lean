@@ -1,10 +1,9 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.ExistsGlOfEquiv
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.LocalLatticeExistsScalarBoundAttainedStatement
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.NoTransvectionInvariantPairOnScaledKernelStatement
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.TransvectionInvariantPairFunctionalResidueStatement
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.TransvectionStableLocalLatticeShapeStatement
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle462
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle456
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle464
 import Formalism.LocalRingCardinality.DataHost
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -52,10 +51,10 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.IsSumFrame
-public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.LineLatAt
-import Development.AbelianVarietyTheory.Definitions.LatticeFrames.ThetaIdentityOfMapsAll
-import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.NormOneAtOne
-import Formalism.LocalToGlobal.IndefiniteReal.AutomorphicEvaluation
+public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.Bundle024
+import Development.AbelianVarietyTheory.Definitions.LatticeFrames.Bundle012
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle410
+import Formalism.LocalToGlobal.IndefiniteReal.Bundle017
 import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RowDict
 import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RowsJoinPinned
 

@@ -1,7 +1,7 @@
 module
 
-public import Formalism.LocalToGlobal.UnitaryNorms.CharTied
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.PlacesBelowSplitCoprimeConductorOfAdmissible
+public import Formalism.LocalToGlobal.UnitaryNorms.Bundle006
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle193
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

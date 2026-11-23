@@ -1,16 +1,16 @@
 module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.AutomorphyLifting.UnitaryGaloisFamilies.IrrCaseT
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsSubquotientUnramPrinSeriesOfHasSupport
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LocalLanglandsExtensionPreservesCuspidal
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Mono0OfLpDimEqOne
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.CharpolySmulScaleRoots
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.PlainTorExistsChars
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle425
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle466
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle053
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle204
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle293
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ParIndJacPlacing
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.PrincipalSeriesSubquotientOfCharacters
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle074
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.ExistsSteinberg
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.LocalDoubleCosets.OfSupportHolds
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CuspidalPairIrreducibleUnlinked
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle296
 public import Development.WeilBound.RepresentationTheoryGL.GenericUnitaryGL.GenericUnitaryDualGLOfTwo
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -70,7 +70,9 @@ private theorem equiv_prinSeries {k : Type} [Field k] [ValuativeRel k] [Topologi
   obtain ⟨hi, hq⟩ := (UpperTheory.Gal.LocD.ofSupport_holds k n V ρ ξ hξ).1 hs
   let y : Fin n → IrrGL (k := k) := fun i => IrrGL.ofChar (ξ i) (hξ i)
   have hy : ∀ i, (y i).IsCusp := fun i => IrrGL.isCusp_ofChar _ _
-  have hd : ∑ i, (y i).1 = n := by simp [y, IrrGL.ofChar]
+  have hd : ∑ i, (y i).1 = n := by
+    change ∑ _i : Fin n, (1 : ℕ) = n
+    simp only [Finset.sum_const, Finset.card_univ, Fintype.card_fin, nsmul_eq_mul, mul_one, Nat.cast_id]
   have hmem : ∀ i, y i ∈ GlobalTheory.RoadU.chars ξ hξ := fun i => Multiset.mem_map_of_mem _ (Finset.mem_univ i)
   have hP : (prodIrr y hd).IsIrreducible :=
     GlobalTheory.RgGu.Holds.lUnlinkedIrr_holds k n n (fun i => Segment.single (y i) (hy i)) y hd
@@ -129,7 +131,9 @@ theorem UpperTheory.V.Z.Win.Gu.plainGd :
         Multiset (Segment k)) ρ := by
     let y : Fin n → IrrGL (k := k) := fun i => IrrGL.ofChar (ξ i) (hξ i)
     have hy : ∀ i, (y i).IsCusp := fun i => IrrGL.isCusp_ofChar _ _
-    have hd : ∑ i, (y i).1 = n := by simp [y, IrrGL.ofChar]
+    have hd : ∑ i, (y i).1 = n := by
+      change ∑ _i : Fin n, (1 : ℕ) = n
+      simp only [Finset.sum_const, Finset.card_univ, Fintype.card_fin, nsmul_eq_mul, mul_one, Nat.cast_id]
     have hmem : ∀ i, y i ∈ GlobalTheory.RoadU.chars ξ hξ := fun i => Multiset.mem_map_of_mem _ (Finset.mem_univ i)
     have hnl : ∀ i j, ¬ (Segment.single (y i) (hy i)).Linked (Segment.single (y j) (hy j)) := fun i j =>
       GlobalTheory.CompanionTheory.BZPair.not_linked_single (hy i) (hy j) (hu _ (hmem j) _ (hmem i)) (hu _ (hmem i) _ (hmem j))
@@ -206,7 +210,8 @@ theorem UpperTheory.V.Z.Win.Gu.plainGd :
       rw [WD.lpOfChar, WD.charPol_mk, WDRep.ofChars_ρ, charpoly_diagEnd]
       simp only [comm_one]
       simp
-    simp [h1, List.prod_ofFn]
+    simp only [h1, List.prod_ofFn, Function.comp_apply, Units.val_one, Polynomial.scaleRoots_one,
+      Finset.prod_const, Finset.card_univ, Fintype.card_fin]
   refine ⟨?_, ?_⟩
   · rw [hA]
     exact tor_sum _ _ _ (by rw [← hA, L.dim]; rfl)

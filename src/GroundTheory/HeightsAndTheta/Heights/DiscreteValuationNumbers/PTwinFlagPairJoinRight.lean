@@ -1,7 +1,7 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.ImportsBisTail
-public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.ImportsMoreAlt
+public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Bundle044
+public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Bundle043
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

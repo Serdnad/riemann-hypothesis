@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalRingCardinality.SpanPowerMembership.NDLocI
+public import Formalism.LocalRingCardinality.SpanPowerMembership.Bundle007
 public import Formalism.LocalRingCardinality.DataRows
 public import Formalism.LocalToGlobal.GroupLattices.PerfectRings.IsLocalRingOfComplete
 import Mathlib.Algebra.Order.Floor.Extended
@@ -41,7 +41,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Formalism.AlgebraicWeights.IsAlgWeight
-import Formalism.ConjugateSelfDual.Statement
+import Formalism.ConjugateSelfDual.Bundle001
 public import Formalism.LocalRingCardinality.DataHost
 import ReciprocityTheory.Automorphisms.PlaceA
 import ReciprocityTheory.GaloisValuations.GlobalA

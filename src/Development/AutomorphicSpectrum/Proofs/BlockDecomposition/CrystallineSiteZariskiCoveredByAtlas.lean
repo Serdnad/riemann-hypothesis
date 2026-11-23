@@ -2,7 +2,7 @@ module
 
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.ZariskiEtaleLifting.SubThickRees
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsDpOfCompOnGens
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExtendedDividedPowers
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle088
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,12 +1,11 @@
 module
 
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.SplitUnitaryGroupIso
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle004
 public import Formalism.LocalToGlobal.GroupLattices.TrivialTransfer.ProGTransfer
 public import Formalism.LocalToGlobal.GlobalTheory.GL5.Statement
-public import Formalism.LocalToGlobal.GroupLattices.LevelGatherings.GramDetIsUnit
+public import Formalism.LocalToGlobal.GroupLattices.LevelGatherings.Bundle003
 public import Formalism.LocalToGlobal.GroupLattices.TrivialTransfer.OneAddPowOfSq
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.GlintPrincRelIndexNeZero
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Transport
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

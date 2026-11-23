@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.OnePlaceKF
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle011
 public import Development.AbelianVarietyTheory.Definitions.Jets.SideFam
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HaarLieNilpotentEqLebesgue
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CompactGroupHaarExists
@@ -96,7 +96,9 @@ theorem ae_mem_N (κ : ℝ≥0∞) : ∀ᵐ y ∂(haarLie (Nset k r) κ), Matrix
     fun_prop
   have h : AEMeasurable (fun x : lieE (Nset k r) =>
       (fun i j => NormedSpace.exp (unrealify (x : EuclideanSpace ℝ _)) i j : Mt k r)) volume := by
-    exact (GlobalTheory.Amp.NLie.cont_exp.comp hu).measurable.aemeasurable
+    apply Measurable.aemeasurable
+    refine measurable_pi_iff.2 fun i => measurable_pi_iff.2 fun j => ?_
+    exact ((continuous_apply j).comp ((continuous_apply i).comp (GlobalTheory.Amp.NLie.cont_exp.comp hu))).measurable
   have hcl : IsClosed {y : Mt k r | Matrix.of y ∈ Nset k r} := (Formalism.FourierDecayAlt.P.unipotent_radical_closed k r).closed
   rw [ae_map_iff h hcl.measurableSet]
   exact Filter.Eventually.of_forall fun x => GlobalTheory.Amp.NLie.exp_mem (GlobalTheory.Amp.NLie.mem_lieE x.2)

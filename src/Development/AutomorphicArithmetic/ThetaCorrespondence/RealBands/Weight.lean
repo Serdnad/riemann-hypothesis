@@ -2,7 +2,7 @@ module
 
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.RealBands.DecaysZero
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.HermitianFormUnitaryOneOne
-public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.ComplexificationHolds
+public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.Bundle001
 public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.FrobeniusBoundOfMulNearOne
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -48,7 +48,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Algebra.Group.Units
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.DefClassNum
+import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle008
 import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.ExistsStandardIndModule
 import Development.AutomorphicArithmetic.ThetaCorrespondence.RealBands.IsBand
 

@@ -4,7 +4,7 @@ public import Development.AbelianVarietyTheory.Definitions.Foundations.SmoothPar
 public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
 public import Mathlib.NumberTheory.NumberField.InfinitePlace.TotallyRealComplex
-public import ReciprocityTheory.NeutralLocalFields.Reciprocity
+public import ReciprocityTheory.NeutralLocalFields.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

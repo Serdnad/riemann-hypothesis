@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.DifferentiableSqTh
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle251
 public import Mathlib.Analysis.SpecialFunctions.Elliptic.Weierstrass
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.InducedTypeThetaGenusOnePermutes
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IntegralJAndAlgebraicData
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.LatticeInvariantsPeriodPairDictionary
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle277
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle227
 public import Development.AbelianVarietyTheory.Proofs.HeightProofs.WeierstrassPTorsionIntegralAndDistinctMod
 import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.WeierstrassPAddOfNeOfDerivNeZero
 import Mathlib.Algebra.Order.Floor.Extended

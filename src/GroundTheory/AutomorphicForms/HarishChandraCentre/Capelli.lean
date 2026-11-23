@@ -1,8 +1,8 @@
 module
 
-public import GroundTheory.AutomorphicForms.HarishChandraCentre.MemCenterOfCommuteE
+public import GroundTheory.AutomorphicForms.HarishChandraCentre.Bundle001
 public import Mathlib.LinearAlgebra.Matrix.Trace
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.EMulSubMulCapelliMatrixPow
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle010
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.ContinuousCochains
+public import GroundTheory.ProfiniteCohomology.Bundle005
 public import Mathlib.GroupTheory.Torsion
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

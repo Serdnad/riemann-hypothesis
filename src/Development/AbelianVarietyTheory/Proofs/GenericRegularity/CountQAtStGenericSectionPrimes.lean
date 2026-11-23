@@ -1,8 +1,8 @@
 module
 
 public import Formalism.LocalToGlobal.ProjectiveLattices.CurveLocInst
-public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.FinrankHostDivTwo
-import Formalism.LocalToGlobal.ProjectiveLattices.CurveCountB
+public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.Bundle022
+import Formalism.LocalToGlobal.ProjectiveLattices.Bundle047
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

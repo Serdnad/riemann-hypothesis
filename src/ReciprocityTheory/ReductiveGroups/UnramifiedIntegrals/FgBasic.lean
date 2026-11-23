@@ -2,7 +2,7 @@ module
 
 public import Formalism.TorsionNormIteration.InvIntegralOfClass
 public import Mathlib.RingTheory.PowerSeries.Derivative
-public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.KurDefs
+public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

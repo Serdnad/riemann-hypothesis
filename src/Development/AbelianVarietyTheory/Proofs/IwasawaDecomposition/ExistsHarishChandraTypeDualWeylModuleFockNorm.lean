@@ -3,10 +3,10 @@ module
 public import Development.AbelianVarietyTheory.Definitions.Foundations.ExistsUnitaryMulTriangular
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HasModelOfAntitone
 import Development.AbelianVarietyTheory.Counterexamples.HeightSurvey.ExistsGoodFamily
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsIrreducibleSmallRepUnitary
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle296
 import Formalism.GradedWeylDivisibility.FinalC
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LDlatLemmas
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LDrowLemmas
+import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle011
+import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

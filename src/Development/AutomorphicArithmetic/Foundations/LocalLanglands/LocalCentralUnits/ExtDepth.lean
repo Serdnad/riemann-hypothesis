@@ -1,10 +1,10 @@
 module
 
 public import Development.AutomorphicArithmetic.Foundations.LocalLanglands.RecTTransport
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ConductorRecCompatible
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsTameWeilDeligneIffWildCharpolyStatement
-public import Development.AutomorphicArithmetic.Foundations.LocalLanglands.LocalCentralUnits.ExtDim
-import Development.AutomorphicArithmetic.Foundations.LocalLanglands.LocalCentralUnits.GoodSeg
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle509
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle475
+public import Development.AutomorphicArithmetic.Foundations.LocalLanglands.LocalCentralUnits.Bundle010
+import Development.AutomorphicArithmetic.Foundations.LocalLanglands.LocalCentralUnits.Bundle007
 import Development.AutomorphicArithmetic.Foundations.LocalLanglands.Multi
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LatticeIndices.CharZeroAdicCompletion
 import Mathlib.Algebra.Order.Floor.Extended
@@ -43,7 +43,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.ExistsReadingLaws
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle008
 
 @[expose] public section
 

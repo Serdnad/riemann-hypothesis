@@ -45,7 +45,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DblCol
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle704
 
 @[expose] public section
 

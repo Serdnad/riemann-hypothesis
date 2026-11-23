@@ -4,7 +4,7 @@ public import Mathlib.FieldTheory.IsAlgClosed.Basic
 public import Mathlib.NumberTheory.Padics.PadicIntegers
 public import Mathlib.RingTheory.Henselian
 public import Mathlib.RingTheory.IntegralClosure.IntegrallyClosed
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.CompleteIntegersProperties
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle037
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -46,7 +46,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.Divisors.ToSpanSingletonConstGenInjective
 import Development.AutomorphicSpectrum.PublishedTheorems.Algebra₂.FarguesHodgeTate
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.CubicalStructures.CubeSymmetricSwapFirst
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.CubicalStructures.Bundle001
 
 @[expose] public section
 

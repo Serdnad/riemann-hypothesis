@@ -1,11 +1,10 @@
 module
 
 public import Formalism.SharpRestriction.LevelLetterCocycles.DownSlotProposition
-public import Formalism.SharpRestriction.LevelLetterCocycles.DvrLatticeRank.FramePfLoc
-public import Formalism.SharpRestriction.LevelLetterCocycles.DvrLatticeRank.FramePfPt
-public import Formalism.SharpRestriction.LevelLetterCocycles.DvrLatticeRank.ModelFPfA
+public import Formalism.SharpRestriction.LevelLetterCocycles.DvrLatticeRank.Bundle007
+public import Formalism.SharpRestriction.LevelLetterCocycles.DvrLatticeRank.Bundle015
 public import Formalism.SharpRestriction.LevelLetterCocycles.FrobeniusPowUniformizerFactorisation
-public import Formalism.SharpRestriction.LevelLetterCocycles.MapCompZero
+public import Formalism.SharpRestriction.LevelLetterCocycles.Bundle018
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

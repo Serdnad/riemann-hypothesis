@@ -2,10 +2,10 @@ module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.TraceFormula.GlobalTraceComparison.AutomorphicRepresentations.SlotBasic
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.TraceFormula.GlobalTraceComparison.TraceAsymptotics.SplitLineAlt
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EventuallyPcRatFMem
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsCompactDefiniteUnitaryRestrictedProduct
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LocEqOneOfMemGam
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LocGLMemKglob
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1441
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2174
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1755
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1783
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

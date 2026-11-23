@@ -2,21 +2,21 @@ module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.InductionEstimates.IwahoriHeckeInjectivity.HeckeInj
 import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.ResMapBijective
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.InductionEstimates.IwahoriHeckeInjectivity.IdempotentTraces.GalLoc
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.InductionEstimates.IwahoriHeckeInjectivity.IdempotentTraces.Bundle001
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.InductionEstimates.IwahoriHeckeInjectivity.IdempotentTraces.NormOfSplit
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.InductionEstimates.IwahoriHeckeInjectivity.IdempotentTraces.SwapAt
 public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.CuspidalMultiplicityOneTotallyComplex
 import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.ExCusp
 import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.ExSummand
-public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.NormIff
+public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.Bundle001
 public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.ParEx
 import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.SInfIff
-import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.SSatIff
-public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.TwSummand
-import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.QmapPres
+import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.Bundle007
+public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.Bundle005
+import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.Bundle002
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.CarryLift
 import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.Places
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.EmbTwo
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle033
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -172,12 +172,12 @@ theorem UpperTheory.V.Z.InvariantSubmoduleMonicPolynomial.E.indNorm :
   have other : ∀ w : Pl M, GM.Split M (w.under (𝓞 K)) → ∃ w' : Pl M, w' ≠ w ∧ w'.under (𝓞 K) = w.under (𝓞 K) := fun w h => by
     obtain ⟨e, -⟩ := hspl _ h
     haveI hl : w.asIdeal.LiesOver (w.under (𝓞 K)).asIdeal := ⟨rfl⟩
-    have hx : e (e.symm ⟨w, hl⟩ + 1) ≠ ⟨w, hl⟩ := fun hh => by
-      have := e.injective (hh.trans (e.apply_symm_apply _).symm)
-      revert this
-      generalize e.symm _ = i
-      revert i
-      decide
+    have succ_ne (i : Fin 2) (hi : i + 1 = i) : False := by
+      have h10 : (1 : Fin 2) = 0 := add_left_cancel (hi.trans (add_zero i).symm)
+      have h21 := Fin.one_eq_zero_iff.mp h10
+      omega
+    have hx : e (e.symm ⟨w, hl⟩ + 1) ≠ ⟨w, hl⟩ := fun hh =>
+      succ_ne _ (e.injective (hh.trans (e.apply_symm_apply _).symm))
     exact ⟨(e (e.symm ⟨w, hl⟩ + 1)).1, fun hh => hx (Subtype.ext hh), HeightOneSpectrum.ext (e _).2.over.symm⟩
   have hSat₁ : ∀ w : Pl M, w.under (𝓞 K) ∉ S → ∃ B, SSat (BW.mu1 M 2) τ₁ w B := fun w hw => by
     by_cases h : GM.Split M (w.under (𝓞 K))

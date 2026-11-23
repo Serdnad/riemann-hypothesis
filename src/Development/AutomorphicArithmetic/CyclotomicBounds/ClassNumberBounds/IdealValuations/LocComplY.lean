@@ -1,8 +1,8 @@
 module
 
-public import Development.AutomorphicArithmetic.CyclotomicBounds.ClassNumberBounds.IdealValuations.LocDefY
+public import Development.AutomorphicArithmetic.CyclotomicBounds.ClassNumberBounds.IdealValuations.Bundle001
 public import Mathlib.RingTheory.DedekindDomain.AdicValuation.Completion
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.MemOfAdjoinTop
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle060
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

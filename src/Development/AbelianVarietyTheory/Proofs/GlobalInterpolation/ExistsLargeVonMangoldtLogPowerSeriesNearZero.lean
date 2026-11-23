@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.ZerosDisc
+public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.Bundle003
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExistsBoundRight
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.IteratedDerivLogDerivDirichletLViaNearbyZerosStatement
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.TuranSecondMainTheoremPowerSumsUnitCoefficientsStatement
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle026
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle028
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

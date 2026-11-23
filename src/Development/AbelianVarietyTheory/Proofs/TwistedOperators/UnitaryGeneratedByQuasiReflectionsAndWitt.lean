@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.AdelicHermitianForms.IsHermHyperbolic
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.TransvectionIdentitiesUnitary
+public import Development.AbelianVarietyTheory.Definitions.AdelicHermitianForms.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle008
 public import Development.AbelianVarietyTheory.Proofs.HermitianTraceForms.ExistsOrthogonalBasisDotProductApplyEq
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

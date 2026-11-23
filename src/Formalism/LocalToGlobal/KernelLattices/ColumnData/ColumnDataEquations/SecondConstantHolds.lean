@@ -1,7 +1,7 @@
 module
 
-public import Formalism.LocalToGlobal.KernelLattices.ColumnData.ColumnDataEquations.JArith
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.StarSqrtNeg
+public import Formalism.LocalToGlobal.KernelLattices.ColumnData.ColumnDataEquations.Bundle006
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle090
 public import Formalism.LocalToGlobal.KernelLattices.ColumnData.ColumnDataEquations.JFinal
 public import Formalism.LocalToGlobal.PairingIndexBounds.SplitPairEquations.IntegralSquareRoots.HenselQuad
 import Mathlib.Algebra.Order.Floor.Extended

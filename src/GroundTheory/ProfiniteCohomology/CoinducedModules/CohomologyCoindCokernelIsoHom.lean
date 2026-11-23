@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.ProfiniteCohomology.ContinuousCochains.LongExactSequence
-public import GroundTheory.ProfiniteCohomology.CoinducedModules
+public import GroundTheory.ProfiniteCohomology.Bundle005
 public import GroundTheory.ProfiniteCohomology.CoinducedModules.Acyclic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

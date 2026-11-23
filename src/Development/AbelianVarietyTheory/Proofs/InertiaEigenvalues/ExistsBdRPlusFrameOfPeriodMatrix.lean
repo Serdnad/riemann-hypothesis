@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.AdmSt
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.AntitoneFiltrationExistsAdaptedLinearIndepSet
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.DeRhamPeriodRingFieldTPowFiltrationUnitsStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsThetaDeRhamFilZeroSurjectiveStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LinearIndependentCyclotomicEigenvectorsWeightsStatement
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle011
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle032
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle437
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle420
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle521
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

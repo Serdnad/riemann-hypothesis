@@ -1,10 +1,10 @@
 module
 
-public import Formalism.SharpRestriction.GlobalTheoremInputs
+public import Formalism.SharpRestriction.Bundle002
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.DegSupermodZ
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.DiscreteSpanOfLinIndep
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.DualPl
-import Formalism.HarderNarasimhan.HarderNarasimhanProofs.ShiftInvariance
+import Formalism.HarderNarasimhan.HarderNarasimhanProofs.Bundle003
 import Formalism.LatticeSlopes.ExistsSaturatedSlopeEqMuMax
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

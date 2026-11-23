@@ -2,7 +2,7 @@ module
 
 public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.NeBotOfNorm
 public import Mathlib.LinearAlgebra.Projectivization.Basic
-public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.CardKerMatrixFiniteField
+public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle004
 import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.CycOfPrime
 public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.TwistAdmissible
 import Mathlib.Algebra.Order.Floor.Extended

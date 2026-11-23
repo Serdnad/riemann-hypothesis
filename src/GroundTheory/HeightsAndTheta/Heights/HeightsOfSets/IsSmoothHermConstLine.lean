@@ -1,7 +1,7 @@
 module
 
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.MemOfAevalEqZero
-public import GroundTheory.HeightsAndTheta.Heights.HeightsOfSets.Imports
+public import GroundTheory.HeightsAndTheta.Heights.HeightsOfSets.Bundle002
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ArithmeticHilbertSamuelLowerBound
 public import GroundTheory.HeightsAndTheta.Heights.HeightsOfSets.MemMCoordIdealIffOfIsWeightedHomogeneous
 import Mathlib.Algebra.Order.Floor.Extended

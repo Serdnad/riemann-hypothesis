@@ -1,21 +1,19 @@
 module
 
 public import Development.WeilBound.ThetaLifts.Reductions.JoinDef
-public import Development.WeilBound.ThetaLifts.SphericalLattices.HoweInert
+public import Development.WeilBound.ThetaLifts.SphericalLattices.Bundle006
 public import Development.AbelianVarietyTheory.Definitions.Divisors.MatchingOfParts
-public import Development.WeilBound.ThetaLifts.CartanFactorisation.ExistsBeta
-public import Development.WeilBound.ThetaLifts.CartanFactorisation.UnitDef
-public import Development.WeilBound.ThetaLifts.CartanFactorisation.UpdSelf
+public import Development.WeilBound.ThetaLifts.CartanFactorisation.Bundle003
+public import Development.WeilBound.ThetaLifts.CartanFactorisation.Bundle002
 public import Development.WeilBound.CoreStatements.LocalThetaKernels.Locrep
 public import Development.WeilBound.ThetaLifts.CartanFactorisation.ExistsMaximalCompactInfinite
 public import Development.WeilBound.ThetaLifts.CartanFactorisation.KillInf
 public import Development.WeilBound.ThetaLifts.CartanFactorisation.Kills0Of
-import Development.WeilBound.ThetaLifts.CartanFactorisation.RinfZero
-import Development.WeilBound.ThetaLifts.CartanFactorisation.TensOfEval
+import Development.WeilBound.ThetaLifts.CartanFactorisation.Bundle005
 import Development.WeilBound.ThetaLifts.CartanFactorisation.Unimod
 import Development.WeilBound.ThetaLifts.ConeHypotheses.PureEqPureA
-public import Development.WeilBound.ThetaLifts.SphericalLattices.ThetaSubSup
-import Formalism.LocalToGlobal.IndefiniteReal.PHeisFC
+public import Development.WeilBound.ThetaLifts.SphericalLattices.Bundle011
+import Formalism.LocalToGlobal.IndefiniteReal.Bundle014
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

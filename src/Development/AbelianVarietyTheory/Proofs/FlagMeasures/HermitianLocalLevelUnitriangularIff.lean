@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.SelfDualAt
-public import Formalism.LocalToGlobal.HermitianForms.PsiZeroNontrivialCharacter
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.SplitPlaceLatticeComponents
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle005
+public import Formalism.LocalToGlobal.HermitianForms.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle259
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,0 +1,416 @@
+module
+
+public import GroundTheory.GlobalFields.NormResidueSymbol.RangeFiniteLocalNormLeKerLocalSymbol
+public import GroundTheory.LocalFields.Bundle002
+public import GroundTheory.LocalFields.MaximalAbelianExtension
+public import Mathlib.NumberTheory.Padics.HeightOneSpectrum
+public import Mathlib.NumberTheory.Padics.RingHoms
+public import GroundTheory.LocalFields.ExplicitQp
+public import GroundTheory.LocalFields.LocalArtinTransport
+public import GroundTheory.GlobalFields.NormResidueSymbol.RangeIdeleNormLeKerIdeleSymbol
+public import GroundTheory.GlobalFields.IdeleGroups.IdeleNorms.InfiniteAdeleRingMapInfiniteAdeleRingMap
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.Padics.Complex
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.TypeStar
+public import GroundTheory.LocalFields.LocalArtinMap
+
+@[expose] public section
+
+section
+
+namespace GroundTheory.Global
+
+open IsDedekindDomain NumberField
+
+noncomputable section
+
+namespace RationalSymbol
+
+abbrev prime (v : HeightOneSpectrum (𝓞 ℚ)) : ℕ := Rat.HeightOneSpectrum.primesEquiv v
+
+instance (v : HeightOneSpectrum (𝓞 ℚ)) : Fact (prime v).Prime :=
+  ⟨(Rat.HeightOneSpectrum.primesEquiv v).2⟩
+
+variable (v : HeightOneSpectrum (𝓞 ℚ))
+
+abbrev padicRingEquiv : v.adicCompletion ℚ ≃+* ℚ_[prime v] :=
+  RingEquivClass.toRingEquiv (Rat.HeightOneSpectrum.adicCompletion.padicEquiv v)
+
+theorem continuous_padicRingEquiv : Continuous (padicRingEquiv v) :=
+  map_continuous (Rat.HeightOneSpectrum.adicCompletion.padicEquiv v)
+
+theorem continuous_padicRingEquiv_symm : Continuous (padicRingEquiv v).symm :=
+  HomeomorphClass.inv_continuous (Rat.HeightOneSpectrum.adicCompletion.padicEquiv v)
+
+def closureEquiv :
+    AlgebraicClosure (v.adicCompletion ℚ) ≃+* AlgebraicClosure ℚ_[prime v] :=
+  IsAlgClosure.equivOfEquiv _ _ (padicRingEquiv v)
+
+theorem closureEquiv_algebraMap (x : v.adicCompletion ℚ) :
+    closureEquiv v (algebraMap _ (AlgebraicClosure (v.adicCompletion ℚ)) x) =
+      algebraMap ℚ_[prime v] (AlgebraicClosure ℚ_[prime v]) (padicRingEquiv v x) :=
+  IsAlgClosure.equivOfEquiv_algebraMap _ _ _ x
+
+theorem mem_maximalAbelianExtension_of_pow_eq_one {y : AlgebraicClosure (v.adicCompletion ℚ)}
+    {n : ℕ} (hn : 0 < n) (hy : y ^ n = 1) :
+    y ∈ LocalField.maximalAbelianExtension (v.adicCompletion ℚ)
+      (AlgebraicClosure (v.adicCompletion ℚ)) := by
+  rw [← LocalField.mem_maximalAbelianExtension_transport_iff (padicRingEquiv v) (closureEquiv v)
+    (closureEquiv_algebraMap v), LocalField.Padic.maximalAbelianExtension_eq_adjoin_rootsOfUnity]
+  exact IntermediateField.subset_adjoin _ _ ⟨n, hn, by rw [← map_pow, hy, map_one]⟩
+
+theorem closureEquiv_apply_of_localReciprocityLimit (x : (v.adicCompletion ℚ)ˣ)
+    {τ : AlgebraicClosure (v.adicCompletion ℚ) ≃ₐ[v.adicCompletion ℚ]
+      AlgebraicClosure (v.adicCompletion ℚ)}
+    (hτ : (τ : TopologicalAbelianization (AlgebraicClosure (v.adicCompletion ℚ) ≃ₐ[v.adicCompletion ℚ]
+      AlgebraicClosure (v.adicCompletion ℚ))) =
+        LocalField.localReciprocityLimit (v.adicCompletion ℚ) (AlgebraicClosure (v.adicCompletion ℚ)) x)
+    {τ' : AlgebraicClosure ℚ_[prime v] ≃ₐ[ℚ_[prime v]] AlgebraicClosure ℚ_[prime v]}
+    (hτ' : (τ' : TopologicalAbelianization (AlgebraicClosure ℚ_[prime v] ≃ₐ[ℚ_[prime v]]
+      AlgebraicClosure ℚ_[prime v])) =
+        LocalField.localReciprocityLimit ℚ_[prime v] (AlgebraicClosure ℚ_[prime v])
+          (Units.map (padicRingEquiv v).toRingHom.toMonoidHom x))
+    {y : AlgebraicClosure (v.adicCompletion ℚ)}
+    (hy : y ∈ LocalField.maximalAbelianExtension (v.adicCompletion ℚ)
+      (AlgebraicClosure (v.adicCompletion ℚ))) :
+    closureEquiv v (τ y) = τ' (closureEquiv v y) := by
+  have h := LocalField.transport_localArtinMap_apply_of_continuous (padicRingEquiv v)
+    (continuous_padicRingEquiv v) (continuous_padicRingEquiv_symm v) (closureEquiv v)
+    (closureEquiv_algebraMap v) x hy
+  rw [LocalField.localArtinMap_apply, LocalField.localArtinMap_apply, ← hτ, ← hτ',
+    LocalField.topologicalAbelianizationEquiv_mk_apply,
+    LocalField.topologicalAbelianizationEquiv_mk_apply] at h
+  exact h
+
+theorem pos_of_coprime {m : ℕ} (hm : m.Coprime (prime v)) : 0 < m :=
+  Nat.pos_of_ne_zero fun h ↦ by
+    subst h
+    exact (Fact.out : (prime v).Prime).one_lt.ne' ((Nat.coprime_zero_left _).1 hm)
+
+theorem apply_of_pow_eq_one_of_prime_pow (x : (v.adicCompletion ℚ)ˣ) (u : ℤ_[prime v]ˣ) (r : ℤ)
+    (hx : padicRingEquiv v x = ((u : ℤ_[prime v]) : ℚ_[prime v]) * (prime v : ℚ_[prime v]) ^ r)
+    {τ : AlgebraicClosure (v.adicCompletion ℚ) ≃ₐ[v.adicCompletion ℚ]
+      AlgebraicClosure (v.adicCompletion ℚ)}
+    (hτ : (τ : TopologicalAbelianization (AlgebraicClosure (v.adicCompletion ℚ) ≃ₐ[v.adicCompletion ℚ]
+      AlgebraicClosure (v.adicCompletion ℚ))) =
+        LocalField.localReciprocityLimit (v.adicCompletion ℚ) (AlgebraicClosure (v.adicCompletion ℚ)) x)
+    {n : ℕ} {y : AlgebraicClosure (v.adicCompletion ℚ)} (hy : y ^ (prime v ^ n) = 1) :
+    τ y = y ^ (PadicInt.toZModPow n ((u⁻¹ : ℤ_[prime v]ˣ) : ℤ_[prime v])).val := by
+  obtain ⟨τ', hτ'⟩ := QuotientGroup.mk_surjective (LocalField.localReciprocityLimit ℚ_[prime v]
+    (AlgebraicClosure ℚ_[prime v]) (Units.map (padicRingEquiv v).toRingHom.toMonoidHom x))
+  have hmem := mem_maximalAbelianExtension_of_pow_eq_one v
+    (pow_pos (Fact.out : (prime v).Prime).pos n) hy
+  apply (closureEquiv v).injective
+  rw [closureEquiv_apply_of_localReciprocityLimit v x hτ hτ' hmem, map_pow]
+  exact LocalField.Padic.apply_of_pow_eq_one_of_prime_pow (prime v) _ u r
+    (by rw [Units.coe_map]; exact hx) hτ' (by rw [← map_pow, hy, map_one])
+
+theorem apply_of_pow_eq_one_of_coprime (x : (v.adicCompletion ℚ)ˣ) (u : ℤ_[prime v]ˣ) (r : ℕ)
+    (hx : padicRingEquiv v x = ((u : ℤ_[prime v]) : ℚ_[prime v]) * (prime v : ℚ_[prime v]) ^ r)
+    {τ : AlgebraicClosure (v.adicCompletion ℚ) ≃ₐ[v.adicCompletion ℚ]
+      AlgebraicClosure (v.adicCompletion ℚ)}
+    (hτ : (τ : TopologicalAbelianization (AlgebraicClosure (v.adicCompletion ℚ) ≃ₐ[v.adicCompletion ℚ]
+      AlgebraicClosure (v.adicCompletion ℚ))) =
+        LocalField.localReciprocityLimit (v.adicCompletion ℚ) (AlgebraicClosure (v.adicCompletion ℚ)) x)
+    {m : ℕ} (hm : m.Coprime (prime v)) {y : AlgebraicClosure (v.adicCompletion ℚ)} (hy : y ^ m = 1) :
+    τ y = y ^ (prime v ^ r) := by
+  obtain ⟨τ', hτ'⟩ := QuotientGroup.mk_surjective (LocalField.localReciprocityLimit ℚ_[prime v]
+    (AlgebraicClosure ℚ_[prime v]) (Units.map (padicRingEquiv v).toRingHom.toMonoidHom x))
+  have hmem := mem_maximalAbelianExtension_of_pow_eq_one v (pos_of_coprime v hm) hy
+  apply (closureEquiv v).injective
+  rw [closureEquiv_apply_of_localReciprocityLimit v x hτ hτ' hmem, map_pow]
+  exact LocalField.Padic.apply_of_pow_eq_one_of_coprime_of_nat (prime v) _ u r
+    (by rw [Units.coe_map]; exact hx) hτ' hm (by rw [← map_pow, hy, map_one])
+
+section Symbol
+
+open SemiLocal
+
+variable (L : Type*) [Field L] [NumberField L] [IsGalois ℚ L] [IsMulCommutative (L ≃ₐ[ℚ] L)]
+
+theorem residueEmbedding_localSymbol_apply (w : PlacesOver L v) (x : (v.adicCompletion ℚ)ˣ)
+    {τ : AlgebraicClosure (v.adicCompletion ℚ) ≃ₐ[v.adicCompletion ℚ]
+      AlgebraicClosure (v.adicCompletion ℚ)}
+    (hτ : (τ : TopologicalAbelianization (AlgebraicClosure (v.adicCompletion ℚ) ≃ₐ[v.adicCompletion ℚ]
+      AlgebraicClosure (v.adicCompletion ℚ))) =
+        LocalField.localReciprocityLimit (v.adicCompletion ℚ) (AlgebraicClosure (v.adicCompletion ℚ)) x)
+    (l : L) :
+    residueEmbedding (v.adicCompletion ℚ) (w.1.adicCompletion L)
+        (algebraMap L (w.1.adicCompletion L) (localSymbol L v x l)) =
+      τ (residueEmbedding (v.adicCompletion ℚ) (w.1.adicCompletion L)
+        (algebraMap L (w.1.adicCompletion L) l)) := by
+  rw [algebraMap_localSymbol_apply L v w x l]
+  exact normResidueSymbol_spec _ hτ _
+
+theorem localSymbol_apply_of_pow_eq_one_of_prime_pow (x : (v.adicCompletion ℚ)ˣ) (u : ℤ_[prime v]ˣ)
+    (r : ℤ)
+    (hx : padicRingEquiv v x = ((u : ℤ_[prime v]) : ℚ_[prime v]) * (prime v : ℚ_[prime v]) ^ r)
+    {n : ℕ} {ζ : L} (hζ : ζ ^ (prime v ^ n) = 1) :
+    localSymbol L v x ζ = ζ ^ (PadicInt.toZModPow n ((u⁻¹ : ℤ_[prime v]ˣ) : ℤ_[prime v])).val := by
+  obtain ⟨w⟩ := nonempty_placesOver L v
+  obtain ⟨τ, hτ⟩ := exists_mk_eq_localReciprocityLimit (k := v.adicCompletion ℚ) x
+  set i := residueEmbedding (v.adicCompletion ℚ) (w.1.adicCompletion L)
+  have hj : Function.Injective fun l : L ↦ i (algebraMap L (w.1.adicCompletion L) l) :=
+    i.toRingHom.injective.comp (algebraMap L (w.1.adicCompletion L)).injective
+  apply hj
+  simp only
+  rw [residueEmbedding_localSymbol_apply v L w x hτ, map_pow, map_pow]
+  exact apply_of_pow_eq_one_of_prime_pow v x u r hx hτ
+    (by rw [← map_pow, ← map_pow, hζ, map_one, map_one])
+
+theorem localSymbol_apply_of_pow_eq_one_of_coprime (x : (v.adicCompletion ℚ)ˣ) (u : ℤ_[prime v]ˣ)
+    (r : ℕ)
+    (hx : padicRingEquiv v x = ((u : ℤ_[prime v]) : ℚ_[prime v]) * (prime v : ℚ_[prime v]) ^ r)
+    {m : ℕ} (hm : m.Coprime (prime v)) {ζ : L} (hζ : ζ ^ m = 1) :
+    localSymbol L v x ζ = ζ ^ (prime v ^ r) := by
+  obtain ⟨w⟩ := nonempty_placesOver L v
+  obtain ⟨τ, hτ⟩ := exists_mk_eq_localReciprocityLimit (k := v.adicCompletion ℚ) x
+  set i := residueEmbedding (v.adicCompletion ℚ) (w.1.adicCompletion L)
+  have hj : Function.Injective fun l : L ↦ i (algebraMap L (w.1.adicCompletion L) l) :=
+    i.toRingHom.injective.comp (algebraMap L (w.1.adicCompletion L)).injective
+  apply hj
+  simp only
+  rw [residueEmbedding_localSymbol_apply v L w x hτ, map_pow, map_pow]
+  exact apply_of_pow_eq_one_of_coprime v x u r hx hτ hm
+    (by rw [← map_pow, ← map_pow, hζ, map_one, map_one])
+
+end Symbol
+
+end RationalSymbol
+
+end
+
+end GroundTheory.Global
+end
+
+section
+
+namespace GroundTheory.Global
+
+open IsDedekindDomain NumberField IdeleGroup IntermediateField
+
+noncomputable section
+
+namespace CyclotomicSymbol
+
+section Roots
+
+variable {K : Type*} [Field K] [NumberField K] {L : Type*} [Field L] [NumberField L] [Algebra K L]
+  [IsGalois K L] [IsMulCommutative (L ≃ₐ[K] L)]
+
+end Roots
+
+section Sub
+
+variable {K : Type*} [Field K] [NumberField K] (L M : Type*) [Field L] [NumberField L] [Field M]
+  [NumberField M] [Algebra K L] [Algebra L M] [Algebra K M] [IsScalarTower K L M]
+  [IsGalois K L] [IsGalois K M] [IsMulCommutative (L ≃ₐ[K] L)] [IsMulCommutative (M ≃ₐ[K] M)]
+
+end Sub
+
+section ClassSymbol
+
+variable {K : Type*} [Field K] [NumberField K] (L : Type*) [Field L] [NumberField L] [Algebra K L]
+  [IsGalois K L] [IsMulCommutative (L ≃ₐ[K] L)]
+
+def ideleClassSymbol (h : (diagonal K).range ≤ (ideleSymbol K L).ker) :
+    IdeleClassGroup K →* (L ≃ₐ[K] L) :=
+  QuotientGroup.lift _ (ideleSymbol K L) h
+
+variable {L}
+
+@[simp]
+theorem ideleClassSymbol_mk (h : (diagonal K).range ≤ (ideleSymbol K L).ker) (x : IdeleGroup K) :
+    ideleClassSymbol L h (IdeleClassGroup.mk K x) = ideleSymbol K L x :=
+  rfl
+
+theorem continuous_ideleClassSymbol (h : (diagonal K).range ≤ (ideleSymbol K L).ker) :
+    Continuous (ideleClassSymbol L h) :=
+  (QuotientGroup.isQuotientMap_mk _).continuous_iff.2 (continuous_ideleSymbol L)
+
+end ClassSymbol
+
+universe u
+
+end CyclotomicSymbol
+
+end
+
+end GroundTheory.Global
+end
+
+section
+
+namespace GroundTheory.Global
+
+open IsDedekindDomain NumberField NumberField.InfinitePlace NumberField.ComplexEmbedding
+  SemiLocal AdeleBaseChange IdeleGroup
+
+noncomputable section
+
+variable {K : Type*} [Field K] [NumberField K] (L M : Type*) [Field L] [NumberField L] [Field M]
+  [NumberField M] [Algebra K L] [Algebra L M] [Algebra K M] [IsScalarTower K L M]
+
+section Finite
+
+variable (v : HeightOneSpectrum (𝓞 K))
+
+
+omit [NumberField K] [NumberField L] [NumberField M] in
+theorem liesOver_below_of_placesOver (u : PlacesOver M v) :
+    (below L u.1).asIdeal.LiesOver v.asIdeal :=
+  (below_eq_iff _ v).1 (by rw [below_below, (below_eq_iff u.1 v).2 inferInstance])
+
+def belowPlace (u : PlacesOver M v) : PlacesOver L v :=
+  ⟨below L u.1, liesOver_below_of_placesOver L M v u⟩
+
+
+
+omit [NumberField K] [NumberField L] [NumberField M] in
+instance liesOver_belowPlace (u : PlacesOver M v) :
+    u.1.asIdeal.LiesOver (belowPlace L M v u).1.asIdeal :=
+  liesOver_below (K := L) u.1
+
+def completionAlgHom (u : PlacesOver M v) :
+    (belowPlace L M v u).1.adicCompletion L →ₐ[v.adicCompletion K] u.1.adicCompletion M :=
+  { completionMap (belowPlace L M v u).1 u.1 with
+    commutes' := fun a ↦ completionMap_completionMap v (belowPlace L M v u).1 u.1 a }
+
+theorem completionAlgHom_algebraMap (u : PlacesOver M v) (l : L) :
+    completionAlgHom L M v u (algebraMap L ((belowPlace L M v u).1.adicCompletion L) l) =
+      algebraMap M (u.1.adicCompletion M) (algebraMap L M l) := by
+  change completionMap _ u.1 _ = _
+  rw [completionMap_algebraMap, IsScalarTower.algebraMap_apply L M (u.1.adicCompletion M)]
+
+variable [IsGalois K L] [IsGalois K M] [IsMulCommutative (L ≃ₐ[K] L)]
+  [IsMulCommutative (M ≃ₐ[K] M)]
+
+theorem restrictNormal_localSymbol (x : (v.adicCompletion K)ˣ) :
+    (localSymbol M v x).restrictNormal L = localSymbol L v x := by
+  obtain ⟨u⟩ := nonempty_placesOver M v
+  obtain ⟨τ, hτ⟩ := exists_mk_eq_localReciprocityLimit (k := v.adicCompletion K) x
+  have key : ∀ l : L,
+      localSymbol M v x (algebraMap L M l) = algebraMap L M (localSymbol L v x l) := by
+    intro l
+    apply (algebraMap M (u.1.adicCompletion M)).injective
+    apply (residueEmbedding (v.adicCompletion K) (u.1.adicCompletion M)).toRingHom.injective
+    change residueEmbedding _ _ (algebraMap M _ (localSymbol M v x (algebraMap L M l))) =
+      residueEmbedding _ _ (algebraMap M _ (algebraMap L M (localSymbol L v x l)))
+    rw [algebraMap_localSymbol_apply M v u, residueEmbedding_normResidueSymbol hτ,
+      ← completionAlgHom_algebraMap, ← completionAlgHom_algebraMap,
+      algebraMap_localSymbol_apply L v (belowPlace L M v u)]
+    exact (normResidueSymbol_spec
+      ((residueEmbedding (v.adicCompletion K) (u.1.adicCompletion M)).comp
+        (completionAlgHom L M v u)) hτ _).symm
+  ext l
+  apply (algebraMap L M).injective
+  rw [AlgEquiv.restrictNormal_commutes, key]
+
+end Finite
+
+section Infinite
+
+
+omit [NumberField K] [NumberField L] in
+theorem isConj_conjAt_of_isReal [IsGalois K L] {w : InfinitePlace L}
+    (hv : (w.comap (algebraMap K L)).IsReal) : IsConj w.embedding (conjAt K w) := by
+  by_cases hw : w.IsReal
+  · rw [conjAt_of_isReal hw]
+    exact isConj_one_iff.2 (isReal_iff.1 hw)
+  · exact isConj_conjAt (isRamified_iff.2 ⟨not_isReal_iff_isComplex.1 hw, hv⟩)
+
+
+omit [NumberField K] [NumberField L] [NumberField M] in
+theorem restrictNormal_conjAt [IsGalois K L] [IsGalois K M] (w : InfinitePlace M)
+    (hv : (w.comap (algebraMap K M)).IsReal) :
+    (conjAt K w).restrictNormal L = conjAt K (w.comap (algebraMap L M)) := by
+  have h := isConj_conjAt_of_isReal M hv
+  have hr : IsConj (w.embedding.comp (algebraMap L M)) ((conjAt K w).restrictNormal L) := by
+    rw [isConj_iff_forall]
+    intro l
+    rw [RingHom.comp_apply, RingHom.comp_apply, AlgEquiv.restrictNormal_commutes]
+    exact h.eq _
+  have hmk : mk (w.embedding.comp (algebraMap L M)) = mk (w.comap (algebraMap L M)).embedding := by
+    rw [mk_embedding, ← comap_mk, mk_embedding]
+  exact (conjOfEmbedding_eq ((isConj_iff_of_mk_eq hmk _).1 hr)).symm
+
+variable [IsGalois K L] [IsGalois K M] [IsMulCommutative (L ≃ₐ[K] L)]
+  [IsMulCommutative (M ≃ₐ[K] M)]
+
+theorem restrictNormal_infiniteLocalSymbol (v : InfinitePlace K) (x : v.Completionˣ) :
+    (infiniteLocalSymbol M v x).restrictNormal L = infiniteLocalSymbol L v x := by
+  have h1 : (1 : M ≃ₐ[K] M).restrictNormal L = 1 :=
+    map_one (AlgEquiv.restrictNormalHom (F := K) (K₁ := M) L)
+  by_cases hv : v.IsReal
+  · obtain ⟨w⟩ := IdeleNorm.nonempty_infinitePlacesOver M v
+    have hwv : (w : InfinitePlace M).comap (algebraMap K M) = v :=
+      (GroundTheory.Global.InfinitePlace.liesOver_iff_comap_eq v _).1 w.2
+    have hw' : ((w : InfinitePlace M).comap (algebraMap L M)).LiesOver v :=
+      (GroundTheory.Global.InfinitePlace.liesOver_iff_comap_eq v _).2 (by
+        rw [← comap_comp, ← IsScalarTower.algebraMap_eq, hwv])
+    rw [infiniteLocalSymbol_apply M v hv w, infiniteLocalSymbol_apply L v hv ⟨_, hw'⟩]
+    split_ifs
+    · exact restrictNormal_conjAt L M (w : InfinitePlace M) (by rw [hwv]; exact hv)
+    · exact h1
+  · rw [infiniteLocalSymbol_of_not_isReal M v hv, infiniteLocalSymbol_of_not_isReal L v hv]
+    exact h1
+
+end Infinite
+
+variable [IsGalois K L] [IsGalois K M] [IsMulCommutative (L ≃ₐ[K] L)]
+  [IsMulCommutative (M ≃ₐ[K] M)]
+
+theorem restrictNormal_ideleSymbol (x : IdeleGroup K) :
+    (ideleSymbol K M x).restrictNormal L = ideleSymbol K L x := by
+  have h := eq_ideleSymbol L (ψ := (AlgEquiv.restrictNormalHom (F := K) (K₁ := M) L).comp
+      (ideleSymbol K M)) ((continuous_of_discreteTopology :
+      Continuous (AlgEquiv.restrictNormalHom (F := K) (K₁ := M) L)).comp (continuous_ideleSymbol M))
+    (fun v a ↦ by
+      rw [MonoidHom.comp_apply, ideleSymbol_finiteEmbedding]
+      exact restrictNormal_localSymbol L M v a)
+    (fun w a ↦ by
+      rw [MonoidHom.comp_apply, ideleSymbol_infiniteEmbedding]
+      exact restrictNormal_infiniteLocalSymbol L M w a)
+  exact congrArg (fun f : IdeleGroup K →* (L ≃ₐ[K] L) ↦ f x) h
+
+end
+
+end GroundTheory.Global
+end

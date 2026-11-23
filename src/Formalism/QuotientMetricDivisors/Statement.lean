@@ -1,6 +1,6 @@
 module
 
-public import Formalism.HarderNarasimhan.StatementPl
+public import Formalism.HarderNarasimhan.Bundle001
 public import Formalism.HermitianLattices.StatementLat
 public import Mathlib.RingTheory.DedekindDomain.Factorization
 public import Mathlib.RingTheory.Ideal.Norm.AbsNorm

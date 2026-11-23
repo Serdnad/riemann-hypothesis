@@ -1,6 +1,6 @@
 module
 
-public import Formalism.ThetaSupremumBounds.StatementA
+public import Formalism.ThetaSupremumBounds.Bundle001
 public import Mathlib.Analysis.Calculus.FDeriv.Defs
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -3,7 +3,7 @@ module
 public import Formalism.DistinguishedUnitIdeals.BridgeLevelOf
 public import Formalism.DistinguishedUnitIdeals.DistinguishedOrderProofs.Graded
 public import Formalism.DistinguishedUnitIdeals.DistinguishedOrderProofs.Partners
-public import Formalism.DistinguishedUnitIdeals.DistinguishedOrderProofs.UnivPart
+public import Formalism.DistinguishedUnitIdeals.DistinguishedOrderProofs.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

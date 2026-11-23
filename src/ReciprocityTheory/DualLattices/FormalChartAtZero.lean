@@ -1,7 +1,7 @@
 module
 
-public import ReciprocityTheory.DualLattices.CotangentSurjective
-public import ReciprocityTheory.DualLattices.HtLinStatement
+public import ReciprocityTheory.DualLattices.Bundle007
+public import ReciprocityTheory.DualLattices.Bundle018
 public import Mathlib.FieldTheory.Perfect
 public import Mathlib.RingTheory.MvPowerSeries.Basic
 import Mathlib.Algebra.Order.Floor.Extended

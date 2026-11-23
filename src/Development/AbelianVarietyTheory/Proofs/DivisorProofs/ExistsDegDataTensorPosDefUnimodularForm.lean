@@ -1,15 +1,15 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.IsProjOverWeierstrass
-public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsTensElliptic
-public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.CubeConclusionIff
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsPrincipallyPolarisedPowerUnimodularFormStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsTensorBundleRigidification
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TensorDegenerationDataPsiEvenStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TensorDegenerationDataPsiPosTendstoZeroStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TensorDegenerationDataTauBimultiplicativeStatement
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle071
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle073
+public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle010
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3157
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2932
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3097
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3272
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3158
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsLaws
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.UniformizationLawsAndExpansionStatements
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle189
 import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.SelfTorusExtensionCoordValuesEqOne
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -47,8 +47,8 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ExistsGenVal
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.LBLocal
-import Development.AbelianVarietyTheory.Definitions.Divisors.GalRigidOfSurjective
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.Bundle001
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle074
 
 @[expose] public section
 

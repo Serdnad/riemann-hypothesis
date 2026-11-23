@@ -2,7 +2,7 @@ module
 
 public import Development.AutomorphicArithmetic.ResidueCharacters.InvariantsKilledOverCyclotomicAlt
 public import Formalism.SharpRestriction.LevelLetterCocycles.LocalSituation
-public import Development.AutomorphicArithmetic.ResidueCharacters.FiniteRoots
+public import Development.AutomorphicArithmetic.ResidueCharacters.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

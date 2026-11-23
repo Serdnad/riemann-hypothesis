@@ -1,6 +1,6 @@
 module
 
-public import Development.AutomorphicArithmetic.Foundations.EtaleClopenDescent.IsSeparatedOfProj
+public import Development.AutomorphicArithmetic.Foundations.EtaleClopenDescent.Bundle012
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Edge1
 public import Development.AutomorphicArithmetic.CommutativeAlgebra.EtaleCorrespondenceFunctionFieldStatementOne
 import Development.AutomorphicArithmetic.Foundations.EtaleClopenDescent.IsIntegralRBIff

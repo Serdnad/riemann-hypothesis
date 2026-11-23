@@ -1,11 +1,10 @@
 module
 
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.PotentialsBoundedRegSettingEqReference
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LocRatio
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsValues
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle086
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.CoordDegreeBoundCharZero
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.CoordValuationBoundLocal
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GrGenOfIsFlagVBOn
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle095
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle163
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsExcisionNbhdAway
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

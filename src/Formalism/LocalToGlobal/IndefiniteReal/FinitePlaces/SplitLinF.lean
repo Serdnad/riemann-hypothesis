@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.PlaceS
+public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.Bundle005
 public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.LatSelf
 public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.PlaceFinal
 public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.SplitLin

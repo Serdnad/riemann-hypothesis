@@ -1,7 +1,6 @@
 module
 
-public import Formalism.QuotientMetricDivisors.PassageScaleFree
-public import Formalism.QuotientMetricDivisors.Complement2Normaliser
+public import Formalism.QuotientMetricDivisors.Bundle004
 public import Formalism.PairingDivisors.StatementX
 public import Mathlib.Analysis.SpecialFunctions.Log.PosLog
 import Mathlib.Algebra.Order.Floor.Extended

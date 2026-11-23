@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LagrangeIdealLifts.Statement
-public import Formalism.WindowSums.AnnihilatorPolynomials.ZpowVal
+public import Formalism.WindowSums.AnnihilatorPolynomials.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

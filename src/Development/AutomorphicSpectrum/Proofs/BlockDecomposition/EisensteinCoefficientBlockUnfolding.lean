@@ -1,8 +1,8 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ColJoinColLColR
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CharacterIntegralOrthogonality
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.PeriodizationIntegralUnfolding
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle432
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle453
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle452
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

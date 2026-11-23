@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.ModDefs
+public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.Bundle001
 public import Mathlib.RingTheory.RootsOfUnity.PrimitiveRoots
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

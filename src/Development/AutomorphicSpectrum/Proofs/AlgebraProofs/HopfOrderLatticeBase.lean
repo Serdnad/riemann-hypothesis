@@ -1,7 +1,7 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.LieLatticeData
-public import Development.AutomorphicSpectrum.Statements.AlgebraStatements.PolarisedFlagStatement
+public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.Bundle002
+public import Development.AutomorphicSpectrum.Statements.AlgebraStatements.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -50,7 +50,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.DualLattices.ImportsBis
+public import ReciprocityTheory.DualLattices.Bundle021
 public import Mathlib.FieldTheory.Finite.Basic
 
 @[expose] public section

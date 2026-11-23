@@ -1,10 +1,10 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.PowMulMemLatIff
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.BoundedAndEventuallySubMemLat
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsIntegralCyclotomicChar
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.MemDeRhamFiltrationOfForallAinfLattice
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.MemFilPIffEvPt
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle352
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle377
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle409
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle403
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

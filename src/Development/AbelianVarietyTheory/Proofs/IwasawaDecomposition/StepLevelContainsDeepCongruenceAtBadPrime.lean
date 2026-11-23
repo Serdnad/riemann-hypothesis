@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LiftsInvOne
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle463
 public import Formalism.LocalToGlobal.Columns.RecLevelTop
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.TrueColumnSpacesStandardInFrameCoords
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.IntegralAtOfComponentZeroUnderPrime
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle339
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle095
 public import Formalism.LocalToGlobal.Columns.RecLevelLocP
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.CsScale
 import Mathlib.Algebra.Order.Floor.Extended

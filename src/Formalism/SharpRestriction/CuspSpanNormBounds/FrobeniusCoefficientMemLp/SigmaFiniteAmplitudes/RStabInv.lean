@@ -1,9 +1,9 @@
 module
 
-public import Formalism.SharpRestriction.CuspSpanNormBounds.FrobeniusCoefficientMemLp.AmpOrbOfAmpDD
+public import Formalism.SharpRestriction.CuspSpanNormBounds.FrobeniusCoefficientMemLp.Bundle002
 public import Formalism.HermitianCurvature.BigCellVanishingOfCommute
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CompactGroupHaarExists
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.SettingExistence
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle084
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.UnipotentCoordinatesMeasurePreserving
 public import Formalism.SharpRestriction.CuspSpanNormBounds.BridgeLemma3
 import Mathlib.Algebra.Order.Floor.Extended

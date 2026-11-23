@@ -1,10 +1,10 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.TwistDefs
-public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.ConjAction
+public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.Bundle002
+public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.Bundle003
 import GroundTheory.ProfiniteCohomology.ClassFormations.IsIsoCohomologyMapAlongResSubgroupOfHom
 import GroundTheory.ProfiniteCohomology.CohomologyFunctoriality.Naturality
-public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.Descent
+public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

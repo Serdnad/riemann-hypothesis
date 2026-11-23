@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsTjCorrDiagModel
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsFiniteEtaleTjCorrespondencePInvertibleStatement
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsHarrisTaylorObjectPullbackBis
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HarrisTaylorObjectMapsComposeCancel
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.IsQProjOverBaseChangeAndFiniteRestrict
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle019
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3436
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1127
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle853
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle120
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

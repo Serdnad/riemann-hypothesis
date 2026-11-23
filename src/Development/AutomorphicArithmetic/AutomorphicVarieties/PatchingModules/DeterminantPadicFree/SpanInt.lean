@@ -1,7 +1,7 @@
 module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PatchingModules.PairedDualFirstOrderDualMatrixSpace
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.SpanImageDenominators
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle068
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

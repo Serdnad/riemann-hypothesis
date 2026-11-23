@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FibExtMarked
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ConvexAndDifferentiableOnTsumCexp
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle286
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle027
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.PolyDerivRenameOfConvex
 public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.ThetaKernelOrthonormalFrameInDomainPeriodLinear
-import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExistsInvariantNatLengthLattice
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.SmulMemOfIsIntegral
+import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle006
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle075
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -46,8 +46,8 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.Definitions.Divisors.IsUnitaryOnTheta
-import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.DatEqZero
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle030
+import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.Bundle002
 
 @[expose] public section
 
@@ -217,7 +217,7 @@ theorem exists_bas {Λ Λ' : Submodule (𝓞 E) (Fin r → E)} (h : Λ' = Λ) (b
 
 theorem polyDeriv_thA_rename (φ : TF n g) {ι κ : Type} (ρ : ι → κ) (hρ : Function.Injective ρ)
     (Q : MvPolynomial ι ℂ) (u : κ → Fin n → Fin g → ℂ) :
-    polyDeriv (MvPolynomial.rename ρ Q) u (thA X bas idx φ x) 0 = polyDeriv Q (u ∘ ρ) (thA X bas idx φ x) 0 := by
+    _root_.ReciprocityTheory.ChartRestriction.G.I2.polyDeriv (MvPolynomial.rename ρ Q) u (thA X bas idx φ x) 0 = _root_.ReciprocityTheory.ChartRestriction.G.I2.polyDeriv Q (u ∘ ρ) (thA X bas idx φ x) 0 := by
   let L : Matrix (Fin n) (Fin g) ℚ → (Fin n → Fin g → ℂ) →ₗ[ℂ] ℂ := fun y =>
     { toFun := fun z => Real.pi * I * ∑ k, 2 * (qv (y k) ⬝ᵥ hMat X bas idx x *ᵥ z k)
       map_add' := fun z w => by simp [mulVec_add, mul_add, Finset.sum_add_distrib]

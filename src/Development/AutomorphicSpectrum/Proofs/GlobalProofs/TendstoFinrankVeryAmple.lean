@@ -1,26 +1,26 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsShiftSectionBound
-public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.SegreJoin
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.A12
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.A28
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle060
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle046
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle038
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle041
 public import Development.WeilBound.CoreStatements.HodgeTatePoints.A36
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.SiubOf
-import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.Assembly
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle036
+import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.Bundle014
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.AssemblyBase
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PDiagonalSectionDifference
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PHyperplaneQuotientBound
 import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PSectionLatticeFinite
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PShiftQuotientBound
-import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PShiftSectionBound
-import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.BlockVecSegreJoin
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle087
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle079
+import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle045
 import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.ChartRingOverOneBlockBase
 import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.ExistsNeZeroOfWeight
-import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.ImportsTer
-import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.IsMultiProjPrimeMIdealOverGraph
-import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.IsMultiProjPrimeSegreLift
-import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.RelDimMIdealOverEqTrdeg
-import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.ZpowMemSubalgebraOfInvMem
+import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle058
+import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle050
+import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle060
+import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle055
+import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle054
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

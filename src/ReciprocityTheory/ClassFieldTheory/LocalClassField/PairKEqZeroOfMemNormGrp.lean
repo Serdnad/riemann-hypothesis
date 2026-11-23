@@ -48,8 +48,8 @@ import Mathlib.Topology.Sheaves.Init
 import ReciprocityTheory.ClassFieldTheory.LocalClassField.ExistsDvdQKPowSubOne
 public import ReciprocityTheory.ClassFieldTheory.LocalClassField.GabLim
 import ReciprocityTheory.ClassFieldTheory.LocalClassField.GalBasic
-public import ReciprocityTheory.ClassFieldTheory.LocalClassField.NormOpen
-public import ReciprocityTheory.ClassFieldTheory.LocalClassField.RecAbA
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.Bundle016
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.Bundle006
 public import ReciprocityTheory.ClassFieldTheory.LocalClassField.RecAbC
 import ReciprocityTheory.ClassFieldTheory.LocalClassField.RecCyclic
 import ReciprocityTheory.ClassFieldTheory.LocalClassField.RecFunct

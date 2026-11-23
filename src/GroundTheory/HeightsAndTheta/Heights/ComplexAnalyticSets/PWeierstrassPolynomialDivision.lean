@@ -1,8 +1,8 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StWeierstrassPolynomialDivision
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StParametricCircleIntegralAnalytic
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.MonicDifferenceQuotient
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle038
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle007
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -3,10 +3,10 @@ module
 public import Formalism.LocalToGlobal.CharacterGerms.ValuationEqPairOfUnitGerm
 public import Formalism.LocalToGlobal.CharacterGerms.LemmaMLin
 public import Formalism.LocalToGlobal.ProjectiveLattices.PlaceBelow
-public import Formalism.IncomingBounds.FlowDegreeBounds.ThmPJet
-import Formalism.LocalToGlobal.CharacterGerms.LemmaMJet
-public import Formalism.LocalToGlobal.CharacterGerms.LogCoordOfDpull
-import Formalism.LocalToGlobal.CharacterGerms.SubstSubst
+public import Formalism.IncomingBounds.FlowDegreeBounds.Bundle002
+import Formalism.LocalToGlobal.CharacterGerms.Bundle010
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle015
+import Formalism.LocalToGlobal.CharacterGerms.Bundle011
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

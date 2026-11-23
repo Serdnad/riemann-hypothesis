@@ -1,10 +1,10 @@
 module
 
 public import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.EisensteinGrowthForms.GrowForms
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ContinuousDerivFamily
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.EisensteinSeriesContinuation
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.EisensteinVerticalBound
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FlatSectionGrowthBoundStatement
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle471
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle566
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle567
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle446
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.AdelicEisensteinSeries.GodementSumW
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

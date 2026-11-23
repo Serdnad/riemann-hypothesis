@@ -1,7 +1,7 @@
 module
 
 public import Development.DiscreteGroups.GlobalIrreducibility.LConvSepW
-import Development.DiscreteGroups.GlobalIrreducibility.LConvSepF
+import Development.DiscreteGroups.GlobalIrreducibility.Bundle015
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

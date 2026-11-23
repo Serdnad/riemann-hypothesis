@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.UnivChar
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle034
 public import Development.AbelianVarietyTheory.BlockTheory.NonGaloisCusps.TwistSeries
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LinearIndependentRowsMap
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.RationalDatumSmallFieldFormHeckeScalarUnitStatement
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle893
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle914
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.XiIntComb
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -40,7 +40,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NonemptyAlgHomOfIsIntegral
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle915
 
 @[expose] public section
 

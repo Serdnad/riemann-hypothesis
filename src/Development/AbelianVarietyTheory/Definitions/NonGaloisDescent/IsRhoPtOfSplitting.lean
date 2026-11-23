@@ -1,12 +1,12 @@
 module
 
 public import Formalism.SharpRestriction.LevelLetterCocycles.BlochKatoPhases
-public import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.LatticeConditions
-public import Development.AbelianVarietyTheory.BlockTheory.NonGaloisCusps.BlockComplementLattice
-public import Formalism.LocalRingCardinality.DataNChoice
-public import Development.AbelianVarietyTheory.Counterexamples.HeckeCharacterExamples.SecondTwistCrystallineSmallOfJumpsOfCrys
+public import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.Bundle004
+public import Development.AbelianVarietyTheory.BlockTheory.NonGaloisCusps.Bundle007
+public import Formalism.LocalRingCardinality.Bundle003
+public import Development.AbelianVarietyTheory.Counterexamples.HeckeCharacterExamples.Bundle001
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsIsJumpMultiset
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NonemptyThetaOnBdRPlusPeriodData
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle401
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.T2SpaceCoefficientRing
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -47,8 +47,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import Development.AbelianVarietyTheory.BlockTheory.NonGaloisCusps.BlockJumpCount
-public import Development.AbelianVarietyTheory.BlockTheory.NonGaloisCusps.RepresentationOverSumChar
+public import Development.AbelianVarietyTheory.BlockTheory.NonGaloisCusps.Bundle005
 
 @[expose] public section
 

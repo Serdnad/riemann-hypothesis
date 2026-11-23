@@ -1,7 +1,7 @@
 module
 
-public import Development.WeilBound.ThetaLifts.SphericalLattices.HoweInert
-public import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.FinSplit
+public import Development.WeilBound.ThetaLifts.SphericalLattices.Bundle006
+public import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.Bundle002
 public import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.ExistsEigenLift
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

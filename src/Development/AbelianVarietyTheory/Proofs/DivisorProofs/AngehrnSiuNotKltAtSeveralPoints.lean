@@ -1,15 +1,15 @@
 module
 
-public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.GeometricallyConnectedOfIsIsoRestrict
-public import Development.AbelianVarietyTheory.Definitions.Divisors.NotDominatesTopPlace
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CountKernelNonzero
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsCommonDominatingVarietyPointNoTrBasis
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsPlaceWeightedOverPlace
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsTrBasis
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsDomainTensorComplex
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsFractionRingOfInjective
+public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.Bundle002
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle041
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1509
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1569
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2465
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2433
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1380
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1416
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsFractionRingOfIsLocModel
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.NormaliseAtSmoothPoint
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1570
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

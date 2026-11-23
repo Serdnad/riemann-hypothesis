@@ -1,10 +1,10 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.OpenFns
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle297
 public import GroundTheory.AutomorphicForms.GLnLocal
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsIrreducibleSecondFactorOfIrreducibleProduct
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.IsGenericIffIsGenericFor
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.OpenCellUnipotentUniquenessClosedStatement
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle329
 public import GroundTheory.AutomorphicForms.GeometricLemmaCellSurjective
 public import GroundTheory.AutomorphicForms.IwahoriFactorization
 import Mathlib.Algebra.Order.Floor.Extended
@@ -181,7 +181,7 @@ theorem exists_level (ψ : AddChar k Circle) (hψ : Continuous ψ) {h N : ℕ} (
     (hd : ∑ a, d a = N) {W : Type} [AddCommGroup W] [Module ℂ W]
     (ρ : Representation ℂ (Levi k fun a => Fin (d a)) W) (hρ : IsSmooth ρ) (v : W) :
     ∃ m, 1 ≤ m ∧ (∀ c : parab k (stdBlocks d hd), (c : GL (Fin N) k) ∈ congruenceSubgroup k N m →
-        ((twist ρ (deltaHalf k fun a => Fin (d a))).comp (leviProj k (stdBlocks d hd))) c v = v) ∧
+        ((_root_.GlobalTheory.SmGL.twist ρ (deltaHalf k fun a => Fin (d a))).comp (leviProj k (stdBlocks d hd))) c v = v) ∧
       ∀ (l : GL (Fin N) k) (hl : l ∈ unipB k (Fin N)), l ∈ congruenceSubgroup k N m →
         whitChar ψ N ⟨l, hl⟩ = 1 := by
   have hs := isSmooth_twist hρ (isSmoothChar_deltaHalf k (m := fun a => Fin (d a))) v
@@ -223,9 +223,9 @@ theorem exists_openFns_bump : ∀ (k : Type) [Field k] [ValuativeRel k] [Topolog
   have hconj' : ∀ x ∈ K, w⁻¹ * x * w ∈ K := fun x hx => by
     simpa using conj_mem_congruenceSubgroup k N ((integralGL k N).inv_mem hwI) hx
   obtain ⟨f₀, hsup, hval⟩ := exists_smInd_bump (parab k (stdBlocks d hd)) K hKo
-    ((twist ρ (deltaHalf k fun a => Fin (d a))).comp (leviProj k (stdBlocks d hd))) v hσ
+    ((_root_.GlobalTheory.SmGL.twist ρ (deltaHalf k fun a => Fin (d a))).comp (leviProj k (stdBlocks d hd))) v hσ
   let f : IndSp (stdBlocks d hd) ρ := smInd (parab k (stdBlocks d hd))
-    ((twist ρ (deltaHalf k fun a => Fin (d a))).comp (leviProj k (stdBlocks d hd))) w⁻¹ f₀
+    ((_root_.GlobalTheory.SmGL.twist ρ (deltaHalf k fun a => Fin (d a))).comp (leviProj k (stdBlocks d hd))) w⁻¹ f₀
   have hf : ∀ g, f.1.1 g = f₀.1.1 (g * w⁻¹) := fun _ => rfl
   let L₀ : Subgroup (GL (Fin N) k) := unipU k d hd ⊓ K.comap (MulAut.conj w).toMonoidHom
   have memL : ∀ u, u ∈ L₀ ↔ u ∈ unipU k d hd ∧ w * u * w⁻¹ ∈ K := fun u => Iff.rfl

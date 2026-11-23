@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.LocalFields.FiniteExtension
+public import GroundTheory.LocalFields.Bundle001
 public import GroundTheory.LocalFields.IntermediateField
 public import Mathlib.FieldTheory.IsSepClosed
 import GroundTheory.LocalFields.Uniqueness

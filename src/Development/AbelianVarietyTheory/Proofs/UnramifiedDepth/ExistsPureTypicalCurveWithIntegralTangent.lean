@@ -1,13 +1,13 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.TeichmullerDepth.HasTeich
-public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.AdjointEndPairMemGaugedCurveLogarithmsStatement
-public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.CurveLogarithmsInvNatCastSmulMemStatement
-import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.GaugedFormalGroupCurveLogarithmsAddSubgroupRescaStatement
-public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.PowExponentPartMemGaugedCurveLogarithmsStatement
+public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.Bundle048
+public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.Bundle060
+import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.Bundle056
+public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.Bundle063
 import Formalism.LocalToGlobal.CharacterGerms.ConstMemTypeSetOfNonneg
-import Formalism.LocalToGlobal.CharacterGerms.NegMem
-import Formalism.LocalToGlobal.CharacterGerms.ValNonnegLeadingCoeffOfMemTySet
+import Formalism.LocalToGlobal.CharacterGerms.Bundle016
+import Formalism.LocalToGlobal.CharacterGerms.Bundle015
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -55,7 +55,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Formalism.LocalToGlobal.ProjectiveLattices.SubConstMemOrig
+import Formalism.LocalToGlobal.ProjectiveLattices.Bundle001
 
 @[expose] public section
 

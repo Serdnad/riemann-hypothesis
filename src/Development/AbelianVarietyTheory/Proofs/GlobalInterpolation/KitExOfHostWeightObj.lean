@@ -1,7 +1,7 @@
 module
 
 public import Formalism.SharpRestriction.InertJacobiLevels.AsmIface
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ScalePolynomialQuantitiesComparison
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle046
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -37,7 +37,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Development.AutomorphicArithmetic.PrimeDiscriminants.Scales
+import Development.AutomorphicArithmetic.PrimeDiscriminants.Bundle003
 import Formalism.LocalToGlobal.GlobalTheory.IsResidueClassZero
 
 @[expose] public section

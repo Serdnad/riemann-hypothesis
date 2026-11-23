@@ -1,7 +1,7 @@
 module
 
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.IdentityCellTrace.TermIdIffInSOf
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.CMTraceOnto
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -39,7 +39,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import Formalism.PeriodIntegrals.CMTraceOnto
+public import Formalism.PeriodIntegrals.Bundle010
 
 @[expose] public section
 

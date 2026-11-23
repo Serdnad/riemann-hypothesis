@@ -3,16 +3,16 @@ module
 public import Formalism.SharpRestriction.GlobalSchurBounds.LinkGLOBAL7Tied4
 public import Formalism.SharpRestriction.GlobalSchurBounds.LemmaBSecondBranchOfLength
 public import Formalism.LocalToGlobal.GroupLattices.Joint0
-public import Formalism.LocalToGlobal.BesselHermitianTheta.MinfDensity
-public import Formalism.LocalToGlobal.GlobalTheory.GL6.DiagonalSlopes.CharacterFiniteLevelZeroOfForms
-public import Formalism.LocalToGlobal.GlobalTheory.GL6.SecondBranchInclLengthOfLengths
+public import Formalism.LocalToGlobal.BesselHermitianTheta.Bundle001
+public import Formalism.LocalToGlobal.GlobalTheory.GL6.DiagonalSlopes.Bundle001
+public import Formalism.LocalToGlobal.GlobalTheory.GL6.Bundle003
 public import Formalism.LocalToGlobal.GlobalTheory.GL5.LocalEndomorphismContinuous
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.DiagonalSlopes.PowSmulLatticeLeWeightLatticeTop
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.DiagonalSlopes.SlopeLineRamifiedFormula
 public import Formalism.SharpRestriction.GlobalSchurBounds.GlobalRankLatticeProofs.CMFieldLemmas
-public import Formalism.SharpRestriction.GlobalSchurBounds.GlobalRankLatticeProofs.UnitTraceSumBounds.DivisionRationalLattice
+public import Formalism.SharpRestriction.GlobalSchurBounds.GlobalRankLatticeProofs.UnitTraceSumBounds.Bundle009
 import Formalism.SharpRestriction.GlobalSchurBounds.JointsL
-public import Formalism.SharpRestriction.GlobalSchurBounds.MassRatioUnfoldedOfTheoremTwo
+public import Formalism.SharpRestriction.GlobalSchurBounds.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

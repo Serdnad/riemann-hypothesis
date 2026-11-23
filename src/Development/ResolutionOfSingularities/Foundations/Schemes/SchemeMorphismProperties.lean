@@ -1,6 +1,6 @@
 module
 
-import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.BocksteinBaseChange.SmoothGaloisGeometry.IsOpenConnectedComponentOfNoetherianSpace
+import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.BocksteinBaseChange.SmoothGaloisGeometry.Bundle002
 public import Mathlib.AlgebraicGeometry.IdealSheaf.Functorial
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
 import Mathlib.Algebra.Order.Floor.Extended

@@ -38,7 +38,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.ZeroSectionBase
+public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.Bundle016
 
 @[expose] public section
 

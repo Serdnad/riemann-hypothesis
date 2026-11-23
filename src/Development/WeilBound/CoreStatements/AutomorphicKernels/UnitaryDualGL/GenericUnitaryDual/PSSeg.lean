@@ -1,17 +1,17 @@
 module
 
 public import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.ZelevinskyJacquet.LSegJacquet
-public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.IrreducibleAdmissibleGL
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.EquivContra
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ContragredientSegmentProductEquiv
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.DualClassCuspidal
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.DualClassCuspidalStatement
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.DualClassTwistNeg
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.DualClassTwistNegStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.GelfandKazhdanContragredient
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LanglandsSocleOfOrderFree
+public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.Bundle002
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle164
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle666
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle343
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle360
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle344
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle362
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle347
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle683
 import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ProductTransposeInverseDualReverse
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SegmentDualPrecedesIff
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle363
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -49,7 +49,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.DualClassInvolutive
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle345
 
 @[expose] public section
 

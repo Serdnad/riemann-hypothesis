@@ -1,11 +1,11 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.IsFinFlatSub
+public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.Bundle003
 public import Mathlib.Algebra.Field.ZMod
 public import Mathlib.RingTheory.Valuation.Integers
-public import ReciprocityTheory.DualLattices.TensorSpan
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.HopfOrderContainsAddCharactersStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.TensorProductHopfOrdersStatement
+public import ReciprocityTheory.DualLattices.Bundle002
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle031
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle055
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -54,10 +54,10 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-import ReciprocityTheory.DualLattices.CharTableIsUnit
-import ReciprocityTheory.DualLattices.FourierMapSmulLambdaWeight
+import ReciprocityTheory.DualLattices.Bundle008
+import ReciprocityTheory.DualLattices.Bundle015
 import ReciprocityTheory.DualLattices.IsUnitDetOfSpanEq
-import ReciprocityTheory.DualLattices.PrimeHopfOrderOfAddEquiv
+import ReciprocityTheory.DualLattices.Bundle018
 import ReciprocityTheory.DualLattices.VIntCastLtOneOfDvd
 
 @[expose] public section

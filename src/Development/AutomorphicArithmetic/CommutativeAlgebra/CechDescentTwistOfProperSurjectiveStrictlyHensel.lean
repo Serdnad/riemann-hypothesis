@@ -1,10 +1,10 @@
 module
 
-public import Development.EtaleCohomology.EtaleSheaves.H0TwistOverClosedField
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CechLevelRepresentableStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ChainsCechNerveQuasiIsoOfSurjectiveStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleCechNerveBaseChangeIsPullbackStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleCohomologyEquivalenceBasicPropertiesStatement
+public import Development.EtaleCohomology.EtaleSheaves.Bundle009
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle342
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle401
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle395
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle677
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

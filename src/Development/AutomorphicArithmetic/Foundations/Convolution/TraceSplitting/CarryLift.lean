@@ -5,13 +5,13 @@ public import Development.AutomorphicArithmetic.AutomorphicVarieties.Automorphic
 public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.ConjIff
 import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.ExCusp
 import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.IsoEq
-public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.SInfEx
+public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.Bundle008
 import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.SInfIff
-public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.SSatIff
+public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.Bundle007
 public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.AdBasic
 import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.AdUnique
-public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.GalAdEq
-public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.GalTwistExAlt
+public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.Bundle004
+public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.Bundle005
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.Places
 public import Development.WeilBound.CoreStatements.PublishedTheorems.JacquetShalikaRigidity.JacquetShalikaRigidity
 import Mathlib.Algebra.Order.Floor.Extended
@@ -48,7 +48,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-public import PositivityTheory.AutomorphicForms.PublishedInputs.CyclicBaseChange.PSGalAdEx
+public import PositivityTheory.AutomorphicForms.PublishedInputs.CyclicBaseChange.Bundle002
 public import PositivityTheory.AutomorphicForms.PublishedInputs.CyclicBaseChange.P_SSatEx
 
 @[expose] public section

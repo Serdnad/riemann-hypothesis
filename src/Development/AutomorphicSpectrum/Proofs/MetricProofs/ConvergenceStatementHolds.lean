@@ -1,11 +1,11 @@
 module
 
-public import ReciprocityTheory.AnalyticForms.LeviForms.IsRegFamilyInhabitStatement
+public import ReciprocityTheory.AnalyticForms.LeviForms.Bundle001
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.CompactPartIntegralsTendsto
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.IsCompactRWSublevel
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.LocDensAddOfFunContinuousOn
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.MaMeasureEqOfConst
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.MixedEnergyRegularizationBoundStatement
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle026
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle046
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle027
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle065
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.TailBoundStatementHolds
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -52,10 +52,10 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import ReciprocityTheory.AnalyticForms.LeviForms.ConvExpandStatement
+import ReciprocityTheory.AnalyticForms.LeviForms.Bundle004
 import ReciprocityTheory.AnalyticForms.LeviForms.TailCut
-import ReciprocityTheory.AnalyticForms.LeviForms.TailCutA
-import ReciprocityTheory.AnalyticForms.PotentialTheory.ContDiffAtOfIsPotential
+import ReciprocityTheory.AnalyticForms.LeviForms.Bundle002
+import ReciprocityTheory.AnalyticForms.PotentialTheory.Bundle003
 import ReciprocityTheory.AnalyticForms.PotentialTheory.MaMeasure
 import ReciprocityTheory.AnalyticForms.PotentialTheory.Stokes
 

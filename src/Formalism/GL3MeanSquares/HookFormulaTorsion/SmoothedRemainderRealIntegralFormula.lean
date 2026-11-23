@@ -1,6 +1,6 @@
 module
 
-public import Formalism.GL3MeanSquares.SmoothedRemainderRealIntegralFormula
+public import Formalism.GL3MeanSquares.Bundle002
 import Aesop.Main
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

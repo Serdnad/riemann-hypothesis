@@ -1,6 +1,6 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.AdelicLattices.IsSelfDualLat
+public import Development.AutomorphicSpectrum.Definitions.AdelicLattices.Bundle001
 public import Mathlib.Topology.Algebra.Module.ModuleTopology
 public import Mathlib.Topology.Instances.Matrix
 import Mathlib.Algebra.Order.Floor.Extended

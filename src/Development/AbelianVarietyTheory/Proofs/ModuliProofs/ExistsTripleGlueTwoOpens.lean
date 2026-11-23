@@ -2,14 +2,14 @@ module
 
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ClsLinCombSingle
 public import Mathlib.AlgebraicGeometry.Geometrically.Integral
-public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.IsIntegralOfSmoothFieldOfConnectedSpace
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.CubicalStructureAndSymmetricOfCubeGen
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.EqOneOfAppLESectionEqOne
+public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle002
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle094
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle020
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsGenOfRigid
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsGlueTwo
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsSabMapOfLbIso
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.MemOfMemImage
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.SmoothGeometricallyIntegralAbLocusTensorObj
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle071
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle083
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle046
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle018
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -49,9 +49,9 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.AbProj
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle007
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.OneArc
-import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.AuxiliaryInertOddPrime
+import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.Bundle002
 
 @[expose] public section
 

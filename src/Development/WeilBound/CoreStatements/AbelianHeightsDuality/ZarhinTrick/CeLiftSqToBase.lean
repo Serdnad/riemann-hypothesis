@@ -1,12 +1,9 @@
 module
 
-public import Development.WeilBound.CoreStatements.AbelianHeightsDuality.ZarhinTrick.FibAmpleD
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsSabExtension
-public import Development.WeilBound.CoreStatements.AbelianHeightsDuality.ZarhinTrick.FibLamA
-public import Development.WeilBound.CoreStatements.AbelianHeightsDuality.ZarhinTrick.FibLamB
-public import Development.WeilBound.CoreStatements.AbelianHeightsDuality.ZarhinTrick.FibLamC
-public import Development.WeilBound.CoreStatements.AbelianHeightsDuality.ZarhinTrick.FibLamD
-public import Development.WeilBound.CoreStatements.AbelianHeightsDuality.ZarhinTrick.FourfoldProductExt
+public import Development.WeilBound.CoreStatements.AbelianHeightsDuality.ZarhinTrick.Bundle005
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle118
+public import Development.WeilBound.CoreStatements.AbelianHeightsDuality.ZarhinTrick.Bundle004
+public import Development.WeilBound.CoreStatements.AbelianHeightsDuality.ZarhinTrick.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

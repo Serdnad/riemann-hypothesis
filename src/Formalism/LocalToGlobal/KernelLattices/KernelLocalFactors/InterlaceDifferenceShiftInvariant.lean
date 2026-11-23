@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.KernelLattices.InterlaceAll
+public import Formalism.LocalToGlobal.KernelLattices.Bundle001
 public import Formalism.BranchSandwichDivisors.BranchIsometryProofs.BranchMap
 public import Formalism.BranchSandwichDivisors.BranchIsometryProofs.BranchScale
 public import Formalism.BranchSandwichDivisors.BranchIsometryProofs.Numeric
@@ -8,15 +8,15 @@ public import Formalism.BranchSandwichDivisors.BranchIsometryProofs.XiNorm
 public import Formalism.BranchSandwichDivisors.DivFromPassageAndNorm
 import Formalism.GradedWeylDivisibility.DualWeylDominanceOf
 import Formalism.GradedWeylDivisibility.FinalC
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LBidetLemmas
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LRowdivLemmas
+import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle004
+import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle005
 public import Formalism.LocalRingCardinality.FactDelDualNabla
 import Formalism.LocalToGlobal.Columns.CoefficientsModP.BaseCh
 import Formalism.LocalToGlobal.Columns.CoefficientsModP.FkMapInitMinor
 import Formalism.LocalToGlobal.Columns.CoefficientsModP.StdDual
 import Formalism.LocalToGlobal.Columns.PolyFnLemmas
 public import Formalism.PeriodIntegrals.AdmissibleModel.WeylDim
-import Formalism.RealPlaceAnalysis.RealPlaceTaylor.ProdFactorialSupportSubSingle
+import Formalism.RealPlaceAnalysis.RealPlaceTaylor.Bundle003
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Wlocal
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -100,7 +100,7 @@ theorem gramB_det_ne [CharZero K] : (gramB (K := K) sg).det ≠ 0 := by
   classical
   intro h0
   obtain ⟨c, hc, hc0⟩ := Matrix.exists_mulVec_eq_zero_iff.mpr h0
-  set x : VV K sg := ∑ i, c i • bVV K sg i with hxdef
+  set x : _root_.Formalism.L2.DIV.VV K sg := ∑ i, c i • bVV K sg i with hxdef
   have hxc : (x : Pol K ι n) = ∑ i, c i • bVVfun K sg i := by
     simp [hxdef, Submodule.coe_sum, Submodule.coe_smul, bVV_coe]
   clear_value x
@@ -112,7 +112,7 @@ theorem gramB_det_ne [CharZero K] : (gramB (K := K) sg).det ≠ 0 := by
     simp only [map_smul, fockBL_apply, smul_eq_mul]
     calc _ = (gramB (K := K) sg).mulVec c j := by simp [Matrix.mulVec, dotProduct, gramB, mul_comm]
       _ = 0 := by rw [e]; rfl
-  have hx : ∀ y : VV K sg, pairBK sg y x = 0 := by
+  have hx : ∀ y : _root_.Formalism.L2.DIV.VV K sg, pairBK sg y x = 0 := by
     intro y
 
     rw [← (bVV K sg).sum_repr y, map_sum, LinearMap.sum_apply]
@@ -151,7 +151,7 @@ theorem fockB_projVV_basis [CharZero K] (p : Pol K ι n) (k : VVIdx sg) :
   simp only [e, hinv, Matrix.one_apply, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq, Finset.mem_univ, if_true]
   exact fockB_comm _ _
 
-theorem fockB_projVV [CharZero K] (p : Pol K ι n) (v : Pol K ι n) (hv : v ∈ VV K sg) :
+theorem fockB_projVV [CharZero K] (p : Pol K ι n) (v : Pol K ι n) (hv : v ∈ _root_.Formalism.L2.DIV.VV K sg) :
     fockB (projVV sg p : Pol K ι n) v = fockB p v := by
   classical
   have hv' : v = ∑ k, ((bVV K sg).repr ⟨v, hv⟩ k) • bVVfun K sg k := by
@@ -164,9 +164,9 @@ theorem fockB_projVV [CharZero K] (p : Pol K ι n) (v : Pol K ι n) (hv : v ∈ 
   simp only [← fockBL_apply, map_sum, map_smul]
   simp only [fockBL_apply, fockB_projVV_basis]
 
-theorem projVV_of_mem [CharZero K] (v : Pol K ι n) (hv : v ∈ VV K sg) : (projVV sg v : Pol K ι n) = v := by
-  set d : VV K sg := projVV sg v - ⟨v, hv⟩ with hd
-  have hd0 : ∀ y : VV K sg, pairBK sg y d = 0 := by
+theorem projVV_of_mem [CharZero K] (v : Pol K ι n) (hv : v ∈ _root_.Formalism.L2.DIV.VV K sg) : (projVV sg v : Pol K ι n) = v := by
+  set d : _root_.Formalism.L2.DIV.VV K sg := projVV sg v - ⟨v, hv⟩ with hd
+  have hd0 : ∀ y : _root_.Formalism.L2.DIV.VV K sg, pairBK sg y d = 0 := by
     intro y
     rw [pairBK_apply, pairB_apply, hd, Submodule.coe_sub, ← fockBL_apply, map_sub, fockBL_apply, fockBL_apply,
       fockB_comm (y : Pol K ι n), fockB_comm (y : Pol K ι n), fockB_projVV sg v y y.2]
@@ -361,10 +361,10 @@ theorem ioConst_mul_bFac : ioConst hN K lam sg * (bFac (bExp hN lam sg) : K) =
 theorem brTranspose : BrTranspose hN lam sg K := by
   intro f g
   rw [pairBK_apply, pairBK_apply, pairB_apply, pairB_apply]
-  have h1 : ((brStd hN lam sg f : VV K sg) : Pol K ι n) =
+  have h1 : ((brStd hN lam sg f : _root_.Formalism.L2.DIV.VV K sg) : Pol K ι n) =
       brConst hN K lam sg • (projVV sg (coefLast hN (bExp hN lam sg) (f : Pol K ι N)) : Pol K ι n) := by
     simp [brStd, brStdP]
-  have h2 : ((ioStd hN lam sg g : VV K lam) : Pol K ι N) =
+  have h2 : ((ioStd hN lam sg g : _root_.Formalism.L2.DIV.VV K lam) : Pol K ι N) =
       ioConst hN K lam sg • (projVV lam (raise hN (bExp hN lam sg) (g : Pol K ι n)) : Pol K ι N) := by
     simp [ioStd]
   rw [h1, h2, fockB_smul_left', fockB_smul_right', fockB_projVV sg _ _ g.2, fockB_comm (f : Pol K ι N),
@@ -438,15 +438,15 @@ section Proj
 
 variable {K : Type} [Field K] [CharZero K] {ι : Type} [Fintype ι] {n : ℕ} (lam : ι → DomWeight n)
 
-theorem lb_sep (x : Pol K ι n) (hx : x ∈ VV K lam) (h : ∀ y ∈ VV K lam, fockB x y = 0) : x = 0 := by
+theorem lb_sep (x : Pol K ι n) (hx : x ∈ _root_.Formalism.L2.DIV.VV K lam) (h : ∀ y ∈ _root_.Formalism.L2.DIV.VV K lam, fockB x y = 0) : x = 0 := by
   have hnd := Formalism.L2.DIV.pairingBNondegenerate_holds K ι n lam
-  have h1 : (⟨x, hx⟩ : VV K lam) = 0 := by
+  have h1 : (⟨x, hx⟩ : _root_.Formalism.L2.DIV.VV K lam) = 0 := by
     apply hnd.1
     intro y
     rw [pairBK_apply, pairB_apply, h y.1 y.2, mul_zero]
   exact congrArg Subtype.val h1
 
-theorem lb_orth_of_basis (x : Pol K ι n) (h : ∀ k, fockB x (bVVfun K lam k) = 0) : ∀ v ∈ VV K lam, fockB x v = 0 := by
+theorem lb_orth_of_basis (x : Pol K ι n) (h : ∀ k, fockB x (bVVfun K lam k) = 0) : ∀ v ∈ _root_.Formalism.L2.DIV.VV K lam, fockB x v = 0 := by
   intro v hv
   rw [← (bVVfun_spec K lam).2] at hv
   induction hv using Submodule.span_induction with
@@ -462,7 +462,7 @@ theorem lb_gram_det_ne : (gramB (K := K) lam).det ≠ 0 := by
   intro h0
   obtain ⟨c, hc, hc0⟩ := Matrix.exists_mulVec_eq_zero_iff.mpr h0
   set x : Pol K ι n := ∑ i, c i • bVVfun K lam i with hxdef
-  have hx : x ∈ VV K lam := by
+  have hx : x ∈ _root_.Formalism.L2.DIV.VV K lam := by
     refine Submodule.sum_mem _ fun i _ => Submodule.smul_mem _ _ ?_
     rw [← bVV_coe]; exact (bVV K lam i).2
   have horth : ∀ k, fockB x (bVVfun K lam k) = 0 := by
@@ -481,7 +481,7 @@ theorem lb_gram_det_ne : (gramB (K := K) lam).det ≠ 0 := by
 
 
 open Classical in
-theorem lb_proj_spec (p : Pol K ι n) : ∀ v ∈ VV K lam, fockB ((projVV lam p : VV K lam) : Pol K ι n) v = fockB p v := by
+theorem lb_proj_spec (p : Pol K ι n) : ∀ v ∈ _root_.Formalism.L2.DIV.VV K lam, fockB ((projVV lam p : _root_.Formalism.L2.DIV.VV K lam) : Pol K ι n) v = fockB p v := by
   have hG : IsUnit (gramB (K := K) lam).det := isUnit_iff_ne_zero.mpr (lb_gram_det_ne lam)
   have hsym : (gramB (K := K) lam)ᵀ = gramB (K := K) lam := by
     ext i j; simp [gramB, lb_fockB_symm]
@@ -496,7 +496,7 @@ theorem lb_proj_spec (p : Pol K ι n) : ∀ v ∈ VV K lam, fockB ((projVV lam p
       rw [Matrix.transpose_apply, hsym] at this
       exact this
     rw [h1]; rfl
-  have hp : ((projVV lam p : VV K lam) : Pol K ι n) =
+  have hp : ((projVV lam p : _root_.Formalism.L2.DIV.VV K lam) : Pol K ι n) =
       ∑ i, ∑ j, ((gramB (K := K) lam)⁻¹ i j * fockB (bVVfun K lam j) p) • bVVfun K lam i := by
     rw [projVV]
     simp only [LinearMap.sum_apply, LinearMap.smul_apply, LinearMap.smulRight_apply,
@@ -504,7 +504,7 @@ theorem lb_proj_spec (p : Pol K ι n) : ∀ v ∈ VV K lam, fockB ((projVV lam p
   apply lb_orth_of_basis lam
   |> fun H => by
     intro v hv
-    have := H (((projVV lam p : VV K lam) : Pol K ι n) - p) ?_ v hv
+    have := H (((projVV lam p : _root_.Formalism.L2.DIV.VV K lam) : Pol K ι n) - p) ?_ v hv
     · rwa [lb_fockB_sub_left, sub_eq_zero] at this
     · intro k
       rw [lb_fockB_sub_left, hp, sub_eq_zero]
@@ -520,9 +520,9 @@ theorem lb_proj_spec (p : Pol K ι n) : ∀ v ∈ VV K lam, fockB ((projVV lam p
       simp only [← Finset.mul_sum, hinv, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true]
       exact lb_fockB_symm _ _
 
-theorem lb_proj_unique (p y : Pol K ι n) (hy : y ∈ VV K lam) (h : ∀ v ∈ VV K lam, fockB y v = fockB p v) :
-    ((projVV lam p : VV K lam) : Pol K ι n) = y := by
-  have hx : ((projVV lam p : VV K lam) : Pol K ι n) - y ∈ VV K lam := Submodule.sub_mem _ (projVV lam p).2 hy
+theorem lb_proj_unique (p y : Pol K ι n) (hy : y ∈ _root_.Formalism.L2.DIV.VV K lam) (h : ∀ v ∈ _root_.Formalism.L2.DIV.VV K lam, fockB y v = fockB p v) :
+    ((projVV lam p : _root_.Formalism.L2.DIV.VV K lam) : Pol K ι n) = y := by
+  have hx : ((projVV lam p : _root_.Formalism.L2.DIV.VV K lam) : Pol K ι n) - y ∈ _root_.Formalism.L2.DIV.VV K lam := Submodule.sub_mem _ (projVV lam p).2 hy
   have := lb_sep lam _ hx fun v hv => by rw [lb_fockB_sub_left, lb_proj_spec lam p v hv, h v hv, sub_self]
   exact sub_eq_zero.mp this
 
@@ -585,7 +585,7 @@ theorem lb_map_coefLast {N n : ℕ} (hN : N = n + 1) (b : ι → Fin n → ℕ) 
   | add p q hp hq => rw [map_add (f := _), map_add (f := _), map_add (f := _), hp, hq, map_add (f := _)]
 
 theorem lb_map_projVV [CharZero K] [CharZero K'] {n : ℕ} (lam : ι → DomWeight n) (p : Pol K ι n) :
-    map j ((projVV lam p : VV K lam) : Pol K ι n) = ((projVV lam (map j p) : VV K' lam) : Pol K' ι n) := by
+    map j ((projVV lam p : _root_.Formalism.L2.DIV.VV K lam) : Pol K ι n) = ((projVV lam (map j p) : _root_.Formalism.L2.DIV.VV K' lam) : Pol K' ι n) := by
   symm
   apply lb_proj_unique (K := K') lam (map j p) _ (((baseChangeSpace_holds K K' j ι n lam).1 _).1 (projVV lam p).2)
   intro v hv
@@ -1160,7 +1160,7 @@ section Open
 variable (K : Type) [Field K] {ι : Type} [Fintype ι] {N n : ℕ} (hN : N = n + 1)
   (lam : ι → DomWeight N) (sg : ι → DomWeight n)
 
-def XiTenMem : Prop := xiTen hN K lam sg ∈ VV K lam
+def XiTenMem : Prop := xiTen hN K lam sg ∈ _root_.Formalism.L2.DIV.VV K lam
 
 end Open
 
@@ -1179,15 +1179,15 @@ section Mem
 variable {K : Type} [Field K] {ι : Type} [Fintype ι] {N n : ℕ} (hN : N = n + 1)
 
 theorem lm_ten_mem {k : ℕ} (lam : ι → DomWeight k) (f : ι → MvPolynomial (Fin k × Fin k) K)
-    (hf : ∀ τ, f τ ∈ nablaSq K k (lam τ)) : ten f ∈ VV K lam := by
-  unfold VV Formalism.GradedWeylDivisibility.tensorLat ten
+    (hf : ∀ τ, f τ ∈ nablaSq K k (lam τ)) : ten f ∈ _root_.Formalism.L2.DIV.VV K lam := by
+  unfold _root_.Formalism.L2.DIV.VV Formalism.GradedWeylDivisibility.tensorLat ten
   exact Submodule.subset_span ⟨f, hf, rfl⟩
 
 theorem lm_extremal_mem {k : ℕ} (l : DomWeight k) : extremal K k l ∈ nablaSq K k l := by
   unfold extremal nablaSq
   exact Formalism.GradedWeylDivisibility.hwMem K k k le_rfl l.natW (natW_antitone l)
 
-theorem hTen_mem (sg : ι → DomWeight n) : hTen K sg ∈ VV K sg :=
+theorem hTen_mem (sg : ι → DomWeight n) : hTen K sg ∈ _root_.Formalism.L2.DIV.VV K sg :=
   lm_ten_mem sg _ fun τ => lm_extremal_mem (sg τ)
 
 def lmExt : (Fin n → ℕ) →+ (Fin N → ℕ) where
@@ -1364,7 +1364,7 @@ theorem brConst_ne [CharZero K] (lam : ι → DomWeight N) (sg : ι → DomWeigh
 
 theorem brStd_xiTen [CharZero K] (lam : ι → DomWeight N) (sg : ι → DomWeight n) (hI : InterlaceAll hN lam sg)
     (hS : SameShiftAll lam sg) :
-    ((brStd hN lam sg ⟨xiTen hN K lam sg, xiTen_mem hN lam sg hI hS⟩ : VV K sg) : Pol K ι n) =
+    ((brStd hN lam sg ⟨xiTen hN K lam sg, xiTen_mem hN lam sg hI hS⟩ : _root_.Formalism.L2.DIV.VV K sg) : Pol K ι n) =
       brConst hN K lam sg • hTen K sg := by
   have h1 : brStd hN lam sg ⟨xiTen hN K lam sg, xiTen_mem hN lam sg hI hS⟩ = brStdP hN lam sg (xiTen hN K lam sg) := rfl
   rw [h1, branchingProjection_xiTensor hN lam sg hI hS, Submodule.coe_smul,
@@ -1413,12 +1413,12 @@ variable {K : Type} [Field K] [CharZero K] {ι : Type} [Fintype ι] {N n : ℕ} 
   (lam : ι → DomWeight N) (sg : ι → DomWeight n)
 
 theorem ioHw_on_xi (hI : InterlaceAll hN lam sg) (hS : SameShiftAll lam sg)
-    (hξ : xiTen hN K lam sg ∈ VV K lam) (hh : hTen K sg ∈ VV K sg) :
+    (hξ : xiTen hN K lam sg ∈ _root_.Formalism.L2.DIV.VV K lam) (hh : hTen K sg ∈ _root_.Formalism.L2.DIV.VV K sg) :
     pairBK lam ⟨xiTen hN K lam sg, hξ⟩ (ioStd hN lam sg ⟨hTen K sg, hh⟩) =
       ((∏ τ, (cBr hN (lam τ) (sg τ) : ℤ) : ℤ) : K) * pairBK lam ⟨xiTen hN K lam sg, hξ⟩ ⟨xiTen hN K lam sg, hξ⟩ := by
   rw [← brTranspose hN lam sg]
   rw [pairBK_apply, pairBK_apply, pairB_apply, pairB_apply]
-  have h1 : ((brStd hN lam sg ⟨xiTen hN K lam sg, hξ⟩ : VV K sg) : Pol K ι n) =
+  have h1 : ((brStd hN lam sg ⟨xiTen hN K lam sg, hξ⟩ : _root_.Formalism.L2.DIV.VV K sg) : Pol K ι n) =
       brConst hN K lam sg • (projVV sg (coefLast hN (bExp hN lam sg) (xiTen hN K lam sg)) : Pol K ι n) := by
     simp [brStd, brStdP]
   have hc := coefXi_of (K := K) hN lam sg hI hS
@@ -1571,9 +1571,9 @@ theorem fock_coef_ten (b : ι → Fin n → ℕ) (f : ι → MvPolynomial (Fin N
     fockB (coefLast hN b (ten f)) (ten g) * (bFac b : K) = ∏ τ, fockB (f τ) (raiseOne hN (b τ) (g τ)) := by
   rw [fockB_coefLast, raise_ten, sd_fockB_ten]
 
-theorem unit_mem (s : DomWeight n) (y : Pol K Unit n) (hy : y ∈ VV K (fun _ : Unit => s)) :
+theorem unit_mem (s : DomWeight n) (y : Pol K Unit n) (hy : y ∈ _root_.Formalism.L2.DIV.VV K (fun _ : Unit => s)) :
     (toUnit K n).symm y ∈ nablaSq K n s := by
-  unfold VV Formalism.GradedWeylDivisibility.tensorLat at hy
+  unfold _root_.Formalism.L2.DIV.VV Formalism.GradedWeylDivisibility.tensorLat at hy
   induction hy using Submodule.span_induction with
   | mem x hx =>
     obtain ⟨F, hF, rfl⟩ := hx
@@ -1600,7 +1600,7 @@ theorem projVV_coef_ten (b : ι → Fin n → ℕ) (f : ι → MvPolynomial (Fin
     (projVV sg (coefLast hN b (ten f)) : Pol K ι n) = ten fun τ => prCoefOne hN (sg τ) (b τ) (f τ) := by
   apply lb_proj_unique sg _ _ (lm_ten_mem sg _ fun τ => unit_mem (sg τ) _ (Subtype.coe_prop _))
   intro v hv
-  unfold VV Formalism.GradedWeylDivisibility.tensorLat at hv
+  unfold _root_.Formalism.L2.DIV.VV Formalism.GradedWeylDivisibility.tensorLat at hv
   induction hv using Submodule.span_induction with
   | mem x hx =>
     obtain ⟨F, hF, rfl⟩ := hx
@@ -1665,13 +1665,13 @@ theorem mon_eq_sum {α : Type} (mon : ι × α →₀ ℕ) :
 
 theorem blk_brOne (p : Pol ℂ ι N) :
     blk (fun τ => brOne ℂ hN (lam τ) (sg τ)) p = (brStdP hN lam sg p : Pol ℂ ι n) := by
-  have key : blk (fun τ => brOne ℂ hN (lam τ) (sg τ)) = (VV ℂ sg).subtype ∘ₗ brStdP hN lam sg := by
+  have key : blk (fun τ => brOne ℂ hN (lam τ) (sg τ)) = (_root_.Formalism.L2.DIV.VV ℂ sg).subtype ∘ₗ brStdP hN lam sg := by
     apply (MvPolynomial.basisMonomials (ι × Fin N × Fin N) ℂ).ext
     intro mon
     rw [MvPolynomial.coe_basisMonomials]
     have hm : (monomial mon (1 : ℂ)) = Formalism.MainNotions.product_first_zeroth_parts.ten (fun τ => monomial (mon.comapDomain (Prod.mk τ) (Prod.mk_right_injective τ).injOn) (1 : ℂ)) := by
       rw [ten_monomial, ← mon_eq_sum]
-    change blk _ (monomial mon (1 : ℂ)) = ((VV ℂ sg).subtype ∘ₗ brStdP hN lam sg) (monomial mon (1 : ℂ))
+    change blk _ (monomial mon (1 : ℂ)) = ((_root_.Formalism.L2.DIV.VV ℂ sg).subtype ∘ₗ brStdP hN lam sg) (monomial mon (1 : ℂ))
     rw [hm, blk_ten]
     exact (branchingProjection_tensor hN sg lam _).symm
   exact LinearMap.congr_fun key p
@@ -1690,7 +1690,7 @@ theorem brOne_xi (hI : Interlace hN l s) (hS : SameShift l s) :
     brOne K hN l s (xiBr K hN l s) = (((cBr hN l s : ℤ) : K) * kapBr K hN l s) • extremal K n s := by
   have h := brStd_xiTen (K := K) (ι := Unit) hN (fun _ => l) (fun _ => s) (fun _ => hI) (fun _ => hS)
   have h1 : ((brStd hN (fun _ : Unit => l) (fun _ => s)
-      ⟨xiTen hN K (fun _ : Unit => l) (fun _ => s), xiTen_mem hN _ _ (fun _ => hI) (fun _ => hS)⟩ : VV K (fun _ : Unit => s)) : Pol K Unit n) =
+      ⟨xiTen hN K (fun _ : Unit => l) (fun _ => s), xiTen_mem hN _ _ (fun _ => hI) (fun _ => hS)⟩ : _root_.Formalism.L2.DIV.VV K (fun _ : Unit => s)) : Pol K Unit n) =
       (brStdP hN (fun _ : Unit => l) (fun _ => s) (ten fun _ : Unit => xiBr K hN l s) : Pol K Unit n) := rfl
   rw [h1, branchingProjection_tensor] at h
   apply (toUnit K n).injective
@@ -1855,7 +1855,7 @@ theorem projVV_actP {k : ℕ} (l : ι → DomWeight k) (g : ι → GL (Fin k) K)
 
 theorem ioEquiv : IoEquiv hN lam sg K := by
   intro hS g x hx
-  have h2 : ∀ y : VV K sg, ((ioStd hN lam sg y : VV K lam) : Pol K ι N) =
+  have h2 : ∀ y : _root_.Formalism.L2.DIV.VV K sg, ((ioStd hN lam sg y : _root_.Formalism.L2.DIV.VV K lam) : Pol K ι N) =
       ioConst hN K lam sg • (projVV lam (raise hN (bExp hN lam sg) (y : Pol K ι n)) : Pol K ι N) := by
     intro y; simp [ioStd]
   rw [h2, h2, map_smul]
@@ -2410,9 +2410,9 @@ theorem hwC_raise : raise hN (bExp hN lam sg) (hTen K sg) = ten fun τ => pOne K
 
 theorem hwC_fock (κ : ι → K)
     (hκ : ∀ τ, ∀ f ∈ nablaSq K N (lam τ), fockB f (pOne K hN (lam τ) (sg τ)) = κ τ * fockB f (xiBr K hN (lam τ) (sg τ))) :
-    ∀ v ∈ VV K lam, fockB ((∏ τ, κ τ) • xiTen hN K lam sg) v = fockB (ten fun τ => pOne K hN (lam τ) (sg τ)) v := by
+    ∀ v ∈ _root_.Formalism.L2.DIV.VV K lam, fockB ((∏ τ, κ τ) • xiTen hN K lam sg) v = fockB (ten fun τ => pOne K hN (lam τ) (sg τ)) v := by
   intro v hv
-  unfold VV Formalism.GradedWeylDivisibility.tensorLat at hv
+  unfold _root_.Formalism.L2.DIV.VV Formalism.GradedWeylDivisibility.tensorLat at hv
   induction hv using Submodule.span_induction with
   | mem x hx =>
     obtain ⟨F, hF, rfl⟩ := hx
@@ -2430,16 +2430,16 @@ theorem hwC_ioHw_of_single
   unfold IoHw
   intro hI hS h
   choose κ hκ using H1 hI hS
-  have hξ : xiTen hN K lam sg ∈ VV K lam := xiTen_mem hN lam sg hI hS
-  have hp : ((projVV lam (raise hN (bExp hN lam sg) (hTen K sg)) : VV K lam) : Pol K ι N) =
+  have hξ : xiTen hN K lam sg ∈ _root_.Formalism.L2.DIV.VV K lam := xiTen_mem hN lam sg hI hS
+  have hp : ((projVV lam (raise hN (bExp hN lam sg) (hTen K sg)) : _root_.Formalism.L2.DIV.VV K lam) : Pol K ι N) =
       (∏ τ, κ τ) • xiTen hN K lam sg := by
     apply lb_proj_unique lam _ _ (Submodule.smul_mem _ _ hξ)
     intro v hv
     rw [hwC_raise]
     exact hwC_fock hN lam sg κ hκ v hv
-  have hio : ((ioStd hN lam sg ⟨hTen K sg, h⟩ : VV K lam) : Pol K ι N) =
+  have hio : ((ioStd hN lam sg ⟨hTen K sg, h⟩ : _root_.Formalism.L2.DIV.VV K lam) : Pol K ι N) =
       (ioConst hN K lam sg * ∏ τ, κ τ) • xiTen hN K lam sg := by
-    have e : ((ioStd hN lam sg ⟨hTen K sg, h⟩ : VV K lam) : Pol K ι N) =
+    have e : ((ioStd hN lam sg ⟨hTen K sg, h⟩ : _root_.Formalism.L2.DIV.VV K lam) : Pol K ι N) =
         ioConst hN K lam sg • (projVV lam (raise hN (bExp hN lam sg) (hTen K sg)) : Pol K ι N) := by
       simp [ioStd]
     rw [e, hp, smul_smul]
@@ -2619,9 +2619,9 @@ theorem hwD_fockB_unit (f g : MvPolynomial (Fin N × Fin N) K) :
   rw [sd_fockB_ten]
   simp
 
-theorem hwD_VV_unit (lam : DomWeight N) (Y : Pol K Unit N) (hY : Y ∈ VV K (fun _ : Unit => lam)) :
+theorem hwD_VV_unit (lam : DomWeight N) (Y : Pol K Unit N) (hY : Y ∈ _root_.Formalism.L2.DIV.VV K (fun _ : Unit => lam)) :
     ∃ v ∈ nablaSq K N lam, Y = ten (fun _ : Unit => v) := by
-  unfold VV Formalism.GradedWeylDivisibility.tensorLat at hY
+  unfold _root_.Formalism.L2.DIV.VV Formalism.GradedWeylDivisibility.tensorLat at hY
   induction hY using Submodule.span_induction with
   | mem Y hY =>
     obtain ⟨F, hF, rfl⟩ := hY
@@ -2638,8 +2638,8 @@ theorem hwD_VV_unit (lam : DomWeight N) (Y : Pol K Unit N) (hY : Y ∈ VV K (fun
 theorem hwD_sep (lam : DomWeight N) (x : MvPolynomial (Fin N × Fin N) K) (hx : x ∈ nablaSq K N lam)
     (h : ∀ y ∈ nablaSq K N lam, fockB x y = 0) : x = 0 := by
   by_contra hne
-  have h1 : ten (fun _ : Unit => x) ∈ VV K (fun _ : Unit => lam) := lm_ten_mem _ _ (fun _ => hx)
-  have h2 : ∀ Y ∈ VV K (fun _ : Unit => lam), fockB (ten (fun _ : Unit => x)) Y = 0 := by
+  have h1 : ten (fun _ : Unit => x) ∈ _root_.Formalism.L2.DIV.VV K (fun _ : Unit => lam) := lm_ten_mem _ _ (fun _ => hx)
+  have h2 : ∀ Y ∈ _root_.Formalism.L2.DIV.VV K (fun _ : Unit => lam), fockB (ten (fun _ : Unit => x)) Y = 0 := by
     intro Y hY
     obtain ⟨v, hv, rfl⟩ := hwD_VV_unit lam Y hY
     rw [hwD_fockB_unit, h v hv]
@@ -2952,16 +2952,16 @@ open Formalism.BasicNotions Formalism.L2.DIV Formalism.L2.Col Formalism.L2.Col.B
 def in_ioOne (K : Type) [Field K] {N n : ℕ} (hN : N = n + 1) (l : DomWeight N) (s : DomWeight n) :
     MvPolynomial (Fin n × Fin n) K →ₗ[K] MvPolynomial (Fin N × Fin N) K :=
   ioConst hN K (fun _ : Unit => l) (fun _ : Unit => s) •
-    ((toUnit K N).symm.toLinearMap ∘ₗ (VV K (fun _ : Unit => l)).subtype ∘ₗ projVV (fun _ : Unit => l) ∘ₗ
+    ((toUnit K N).symm.toLinearMap ∘ₗ (_root_.Formalism.L2.DIV.VV K (fun _ : Unit => l)).subtype ∘ₗ projVV (fun _ : Unit => l) ∘ₗ
       raise hN (bExp hN (fun _ : Unit => l) (fun _ : Unit => s)) ∘ₗ (toUnit K n).toLinearMap)
 
 theorem in_toUnit_mem {K : Type} [Field K] {k : ℕ} (s : DomWeight k) (v : MvPolynomial (Fin k × Fin k) K)
-    (hv : v ∈ nablaSq K k s) : toUnit K k v ∈ VV K (fun _ : Unit => s) := by
+    (hv : v ∈ nablaSq K k s) : toUnit K k v ∈ _root_.Formalism.L2.DIV.VV K (fun _ : Unit => s) := by
   rw [toUnit_eq_ten]
   exact lm_ten_mem (fun _ : Unit => s) _ fun _ => hv
 
 theorem in_toUnit_ioOne {K : Type} [Field K] {N n : ℕ} (hN : N = n + 1) (l : DomWeight N) (s : DomWeight n)
-    (v : MvPolynomial (Fin n × Fin n) K) (hv : toUnit K n v ∈ VV K (fun _ : Unit => s)) :
+    (v : MvPolynomial (Fin n × Fin n) K) (hv : toUnit K n v ∈ _root_.Formalism.L2.DIV.VV K (fun _ : Unit => s)) :
     toUnit K N (in_ioOne K hN l s v) = (ioStd hN (fun _ : Unit => l) (fun _ : Unit => s) ⟨toUnit K n v, hv⟩ : Pol K Unit N) := by
   simp [in_ioOne, ioStd]
 
@@ -3360,7 +3360,7 @@ lemma inC_ioOne_hw (hI : Interlace hN l s) (hS : SameShift l s) :
   apply (toUnit ℚ N).injective
   have hm := in_toUnit_mem s (extremal ℚ n s) (lm_extremal_mem s)
   rw [in_toUnit_ioOne hN l s _ hm, map_smul]
-  have key : ∀ (x : Pol ℚ Unit n) (hx : x ∈ VV ℚ (fun _ : Unit => s)), x = hTen ℚ (fun _ : Unit => s) →
+  have key : ∀ (x : Pol ℚ Unit n) (hx : x ∈ _root_.Formalism.L2.DIV.VV ℚ (fun _ : Unit => s)), x = hTen ℚ (fun _ : Unit => s) →
       (ioStd hN (fun _ : Unit => l) (fun _ : Unit => s) ⟨x, hx⟩ : Pol ℚ Unit N) =
         ((∏ τ : Unit, (cBr hN l s : ℤ) : ℤ) : ℚ) • xiTen hN ℚ (fun _ : Unit => l) (fun _ : Unit => s) := by
     rintro x hx rfl
@@ -3374,13 +3374,13 @@ lemma inC_ioOne_sqAct (hS : SameShift l s) (h : GL (Fin n) ℚ) (p : MvPolynomia
       sqAct ℚ N l (Formalism.MainNotions.PrimeDegreeVariant.embGL ℚ n N hN.symm h) (in_ioOne ℚ hN l s p) := by
   apply (toUnit ℚ N).injective
   have hp' := in_toUnit_mem s p hp
-  have hq' : toUnit ℚ n (sqAct ℚ n s h p) ∈ VV ℚ (fun _ : Unit => s) := by
+  have hq' : toUnit ℚ n (sqAct ℚ n s h p) ∈ _root_.Formalism.L2.DIV.VV ℚ (fun _ : Unit => s) := by
     rw [toUnit_sqAct]; exact polyAction_mem_VV _ _ hp'
   rw [in_toUnit_ioOne hN l s _ hq', toUnit_sqAct N l, in_toUnit_ioOne hN l s _ hp']
   have e := ioEquiv (K := ℚ) hN (fun _ : Unit => l) (fun _ : Unit => s) (fun _ => hS) (fun _ => h)
     ⟨toUnit ℚ n p, hp'⟩ (polyAction_mem_VV _ _ hp')
   rw [← e]
-  have e2 : (⟨toUnit ℚ n (sqAct ℚ n s h p), hq'⟩ : VV ℚ (fun _ : Unit => s)) =
+  have e2 : (⟨toUnit ℚ n (sqAct ℚ n s h p), hq'⟩ : _root_.Formalism.L2.DIV.VV ℚ (fun _ : Unit => s)) =
       ⟨actP (fun _ : Unit => s) (fun _ => h) (toUnit ℚ n p), polyAction_mem_VV _ _ hp'⟩ := Subtype.ext (toUnit_sqAct n s h p)
   rw [e2]
 
@@ -3470,7 +3470,7 @@ theorem inD_adj (F : MvPolynomial (Fin N × Fin N) ℚ) (hF : F ∈ nablaSq ℚ 
     ⟨toUnit ℚ n v, in_toUnit_mem s v hv⟩
   rw [pairBK_apply, pairBK_apply, pairB_apply, pairB_apply, ← in_toUnit_ioOne] at h
   have e : ((brStd hN (fun _ : Unit => l) (fun _ : Unit => s) ⟨toUnit ℚ N F, in_toUnit_mem l F hF⟩ :
-      VV ℚ (fun _ : Unit => s)) : Pol ℚ Unit n) = toUnit ℚ n (brOne ℚ hN l s F) := by
+      _root_.Formalism.L2.DIV.VV ℚ (fun _ : Unit => s)) : Pol ℚ Unit n) = toUnit ℚ n (brOne ℚ hN l s F) := by
     rw [toUnit_brOne]; rfl
   rw [e] at h
   simp only [inD_fockB_toUnit, extNormB, Finset.univ_unique, Finset.prod_singleton] at h
@@ -3600,7 +3600,7 @@ theorem nm_R_conj (c : Fin n → ℕ) (p : MvPolynomial (Fin n × Fin n) ℂ) :
   simp only [map_mul, map_prod, map_pow, map_X, map_rename]
 
 def nmJ (l : DomWeight N) (c : Fin n → ℕ) : MvPolynomial (Fin n × Fin n) ℂ →ₗ[ℂ] MvPolynomial (Fin N × Fin N) ℂ :=
-  (toUnit ℂ N).symm.toLinearMap ∘ₗ (VV ℂ (fun _ : Unit => l)).subtype ∘ₗ projVV (fun _ : Unit => l) ∘ₗ
+  (toUnit ℂ N).symm.toLinearMap ∘ₗ (_root_.Formalism.L2.DIV.VV ℂ (fun _ : Unit => l)).subtype ∘ₗ projVV (fun _ : Unit => l) ∘ₗ
     (toUnit ℂ N).toLinearMap ∘ₗ nmR hN c
 
 theorem nmJ_mem (l : DomWeight N) (c : Fin n → ℕ) (p : MvPolynomial (Fin n × Fin n) ℂ) : nmJ hN l c p ∈ nablaSq ℂ N l :=
@@ -3813,7 +3813,7 @@ theorem nmJ_h (hI : Interlace hN l s) (hS : SameShift l s) :
       ((cBr hN l s : ℤ) : ℂ) • xiBr ℂ hN l s := by
   have h := highest_weight_isotypic_unique (K := ℂ) (ι := Unit) hN (fun _ => l) (fun _ => s) (fun _ => hI) (fun _ => hS) (hTen_mem _)
   have h2 : ((ioStd hN (fun _ : Unit => l) (fun _ => s) ⟨hTen ℂ (fun _ : Unit => s), hTen_mem _⟩ :
-      VV ℂ (fun _ : Unit => l)) : Pol ℂ Unit N) = ioConst hN ℂ (fun _ : Unit => l) (fun _ => s) •
+      _root_.Formalism.L2.DIV.VV ℂ (fun _ : Unit => l)) : Pol ℂ Unit N) = ioConst hN ℂ (fun _ : Unit => l) (fun _ => s) •
         (projVV (fun _ : Unit => l) (raise hN (bExp hN (fun _ : Unit => l) (fun _ => s)) (hTen ℂ (fun _ : Unit => s))) :
           Pol ℂ Unit N) := by
     simp [ioStd]
@@ -4223,7 +4223,7 @@ theorem nm_kap_le_weyl (hI : Br.Interlace hN l s) (hS : SameShift l s) :
   exact h
 
 theorem nm_lamZ (a : Fin (n + 1)) : lamZ (lamN hN l) a = (l.natW (Fin.cast hN.symm a) : ℤ) := by
-  unfold lamZ
+  unfold _root_.Formalism.BranchingDeterminantCap.lamZ
   by_cases h : a.val < n
   · rw [dif_pos h]; rfl
   · rw [dite_eq_right h]

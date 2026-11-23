@@ -2,7 +2,7 @@ module
 
 public import Mathlib.Analysis.SpecialFunctions.Pow.Real
 public import Mathlib.RingTheory.WittVector.Teichmuller
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.UltraSumLe
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

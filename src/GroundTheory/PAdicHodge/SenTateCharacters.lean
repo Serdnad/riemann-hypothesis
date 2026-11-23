@@ -1,9 +1,9 @@
 module
 
-public import GroundTheory.PAdicHodge.SenTateCharClosure
-public import GroundTheory.PAdicHodge.SenTateCharQp
+public import GroundTheory.PAdicHodge.Bundle005
+public import GroundTheory.PAdicHodge.Bundle002
 public import GroundTheory.PAdicHodge.SenTateCharTrace
-import GroundTheory.PAdicHodge.SenTateCharUnitPow
+import GroundTheory.PAdicHodge.Bundle012
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

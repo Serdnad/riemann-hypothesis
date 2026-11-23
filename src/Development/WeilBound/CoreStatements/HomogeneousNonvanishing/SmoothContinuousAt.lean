@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.AnalyticForms.LeviForms.IsRegFamilyInhabitStatement
+public import ReciprocityTheory.AnalyticForms.LeviForms.Bundle001
 public import Development.WeilBound.CoreStatements.HomogeneousNonvanishing.ContinuousAtOfClosedRel
 public import Development.WeilBound.CoreStatements.HomogeneousNonvanishing.GMonomial
 import Mathlib.Algebra.Order.Floor.Extended

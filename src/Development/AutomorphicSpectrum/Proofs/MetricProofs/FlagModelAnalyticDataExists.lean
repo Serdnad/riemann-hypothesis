@@ -1,22 +1,21 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.PartialFlagBlocks
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle089
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.EvalNeZeroOfNotMem
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagBundlePartialBlockMapStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlatWeightExtends
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.IsSmoothHermPullHerm
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.LeviPullEq
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.LogResolutionFubiniStudyPositive
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle178
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle065
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle102
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle095
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle117
 import Development.AutomorphicSpectrum.Proofs.MetricProofs.LogResolutionFunctorialHolomorphic
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.MCoordIdealCompLeImageZ
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.NotMemMcPtsTop
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.PartialFlagBundleMetricLineStatement
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.SamePotBlock
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.SingWeightRegFamilyTransport
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.SingularWeightMonotoneRegularization
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle106
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle101
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle166
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle096
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle020
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.SmoothFunctionAsDegreeZeroMetric
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.SncAdaptedAtlasProjection
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.WeightDescendsOfSameOrbit
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle040
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle100
 import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.PHFlProdLinear
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -276,7 +275,7 @@ theorem IsStepMember.mono {M : FlagModel y Ψ N j} {n e : ℕ} {BM : BaseMetric 
 
 theorem flagAn_of_res (hR : RegGlobalStatement) (hP : PullbackStatement) [Fintype Ψ] [DecidableEq Ψ]
     (M : FlagModel y Ψ N j) {n : ℕ} (d : ℕ) (BM : BaseMetric M n) (R : AnLogRes (mCoordIdeal y) ⊤ (d + 1))
-    (pr : R.X → BM.Rb.X) (hp : HoloMap R.A BM.Rb.A pr) (harith : IsArithVar (mCoordIdeal y) (d + 2))
+    (pr : R.X → BM.Rb.X) (hp : HoloMap R.A BM.Rb.A pr) (harith : ReciprocityTheory.ChartRestriction.G.Geo.IsArithVar (mCoordIdeal y) (d + 2))
     (hdim : d + 1 = n + Fintype.card Ψ * (j.choose 2 + (N - j).choose 2))
     (hb : ∀ x, SameOrbit (basePart M.blk (R.lift x x)) (BM.Rb.lift (pr x) (pr x)))
     (hch : ∀ x, ∃ (ψ : OpenPartialHomeomorph R.X (Fin (d + 1) → ℂ)) (kb : Fin BM.Rb.A.n) (σ : Fin n ↪ Fin (d + 1)),
@@ -403,7 +402,7 @@ theorem flagAn_of_res (hR : RegGlobalStatement) (hP : PullbackStatement) [Fintyp
   · exact fun p x x' h1 h2 => (hm' p).2.2.2.2.2.2.2.1 x x' h1 h2
   · exact fun p h1 t => (hm' p).2.2.2.2.2.2.2.2 h1 t
 
-theorem flagAn_exists : Inputs → ∀ (K : Type) [Fintype K] (ι : K → Type) [∀ k, Fintype (ι k)] (Φ : Type) [Field Φ] (y : (Σ k, ι k) → Φ) (Ψ : Type) [Fintype Ψ] [DecidableEq Ψ] (N j : ℕ) (M : FlagModel y Ψ N j) (n d : ℕ) (BM : BaseMetric M n), IsArithVar (mCoordIdeal y) (d + 2) → d + 1 = n + Fintype.card Ψ * (j.choose 2 + (N - j).choose 2) → Nonempty (FlagAn BM d) := by
+theorem flagAn_exists : Inputs → ∀ (K : Type) [Fintype K] (ι : K → Type) [∀ k, Fintype (ι k)] (Φ : Type) [Field Φ] (y : (Σ k, ι k) → Φ) (Ψ : Type) [Fintype Ψ] [DecidableEq Ψ] (N j : ℕ) (M : FlagModel y Ψ N j) (n d : ℕ) (BM : BaseMetric M n), ReciprocityTheory.ChartRestriction.G.Geo.IsArithVar (mCoordIdeal y) (d + 2) → d + 1 = n + Fintype.card Ψ * (j.choose 2 + (N - j).choose 2) → Nonempty (FlagAn BM d) := by
   intro hI K _ ι _ Φ _ y Ψ _ _ N j M n d BM harith hd
   obtain ⟨e, R, he, pr, hp, hpts, hch⟩ := GlobalTheory.T.flag_bundle_partial_block_map K ι Φ y Ψ N j M n (d + 1) BM.Rb hd (fun _ => True) K ι id id
     isBlockMap_id (fun k => ⟨fun _ => by

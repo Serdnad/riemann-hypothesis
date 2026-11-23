@@ -2,12 +2,11 @@ module
 
 public import Development.WeilBound.CoreStatements.ProjectiveValuations.InitSpanEqOfTri
 import Development.AbelianVarietyTheory.Definitions.Divisors.BarCompSubsetClosure
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CarriesFramedPointOfUnitTriangularChartStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DenseFlagBundlePreimageModuliStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FlagBundlePointsEqOfSameStepsLocalRingStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FlagCellFramesLastStepEigenmodulesStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FlagCellsFramesTriangularStatement
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.LocallyQuasiFiniteOfFiniteGeometricPoints
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2621
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2623
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2663
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2662
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle006
 import Development.WeilBound.CoreStatements.ProjectiveValuations.IsIsoOfIntegral
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -44,7 +43,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.AbProj
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle007
 
 @[expose] public section
 

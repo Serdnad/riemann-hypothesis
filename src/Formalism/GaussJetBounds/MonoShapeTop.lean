@@ -1,6 +1,6 @@
 module
 
-public import Formalism.GaussJetBounds.StatementG
+public import Formalism.GaussJetBounds.Bundle004
 public import Formalism.GaussJetBounds.GaussJetProofs.TheoremAOneMonomialLogLoss
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

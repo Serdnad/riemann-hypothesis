@@ -1,12 +1,12 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsFlatAnIffIsConstMul
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FamilyUnifExpUnique
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.LieMultIffExistsFrame
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle011
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle055
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle015
 public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.KahlerFormsOverSubalgebraClosureProperties
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.PeriodEigenFrameStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.UniformisedEigenFrameOne
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.PeriodHermitianTypeCompatibilityStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle156
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle166
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle059
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

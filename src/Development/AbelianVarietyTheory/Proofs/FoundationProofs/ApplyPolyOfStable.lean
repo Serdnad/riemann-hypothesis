@@ -1,18 +1,17 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Foundations.IsLamFROfIsLamF
-public import Development.AbelianVarietyTheory.Definitions.Foundations.LiftApplyOfMemAdmissibleSubalgebra
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle020
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle009
 public import Development.AbelianVarietyTheory.Definitions.Foundations.ThNSpec
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.ResMapBijective
 public import Mathlib.RingTheory.AdicCompletion.Noetherian
-public import Development.AbelianVarietyTheory.Definitions.Foundations.EigenOfTwoStep
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsInertiaFixedNearAlmostFixedCoefficientsStatement
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle365
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsRestrict
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.GalBMemKummerInvariantSet
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.HeckeOperatorCommGaloisActionModularTower
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle208
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle371
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsCuspFunctionalValueGalBEquivariant
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ModularTowerBAdmissibleHeckeCommute
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ThetaLatticeDiamondActionStatement
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle333
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -50,7 +49,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Development.AbelianVarietyTheory.Definitions.Foundations.ExistsEqSubOfMemCob
-import Development.AbelianVarietyTheory.Definitions.Foundations.Integral
+import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle003
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.HeckeLetterPreservesBasisSet
 
 @[expose] public section

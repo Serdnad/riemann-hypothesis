@@ -45,15 +45,15 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.BlockTheory.PoincareCuspForms.TwoLevelLogarithm
-import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsArchOne
+import Development.AbelianVarietyTheory.BlockTheory.PoincareCuspForms.Bundle003
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle059
 import Development.AbelianVarietyTheory.Definitions.Divisors.NormNegCmConstantEqAtAllEmbeddings
 import Development.AbelianVarietyTheory.Definitions.Divisors.TupleReadBaseTupleEqFamily
-import Development.AbelianVarietyTheory.Definitions.ThetaValues.Generic
+import Development.AbelianVarietyTheory.Definitions.ThetaValues.Bundle002
 import Formalism.LocalToGlobal.Columns.CoefficientsModP.WeTransposeWordTransposeWord
-import Formalism.LocalToGlobal.IndefiniteReal.IndefiniteWeightData
+import Formalism.LocalToGlobal.IndefiniteReal.Bundle001
 import Formalism.LocalToGlobal.IndefiniteReal.LinksDefs
-import Formalism.SharpRestriction.CuspSpanNormBounds.Point
+import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle001
 
 @[expose] public section
 

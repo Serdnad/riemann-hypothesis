@@ -1,9 +1,9 @@
 module
 
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.JoinModelPointsProject
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsNeZeroForallComplexPointExtend
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle209
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ValuationCoordsComplexPoint
-import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PCoordArithOfFnField
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle077
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

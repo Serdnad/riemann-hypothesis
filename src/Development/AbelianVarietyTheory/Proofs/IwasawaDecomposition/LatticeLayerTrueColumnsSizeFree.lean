@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.TiedColumnData
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle028
 import Formalism.LocalRingCardinality.SpanPowerMembership.GatTies
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

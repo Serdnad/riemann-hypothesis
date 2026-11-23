@@ -1,19 +1,19 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.DatVtEq
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle271
 public import Formalism.LocalToGlobal.IndefiniteReal.FrameExistence.FramesExistOfDiagonalTypePlaces
 public import Formalism.SharpRestriction.CuspSpanNormBounds.BesselShellMomentBounds
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.AdelicFormFunctionValuesMemCoefficientLatticeStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.DefiniteLevelFormsIffStdGroupTypeSpaceStatement
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle515
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle498
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExtLvlFormMemCutSp
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HeckeDoubleCosetOperatorsStandardFacts
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IdempotentMulEqZeroOfOrthogonal
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LeExpNegOneOfLtOne
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.MemRationalGLOfUnitaryGroupGramUnitGram
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.StdFrameLevelSubgroupBoundedOpenHyperspecialStatement
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.TranslatedStdLatticeLatticeComparisonRational
-public import Formalism.LocalToGlobal.Columns.CoefModAt
-import Formalism.LocalToGlobal.Columns.CoefficientsModP
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle281
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle282
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle484
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle495
+public import Formalism.LocalToGlobal.Columns.Bundle032
+import Formalism.LocalToGlobal.Columns.Bundle031
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -65,7 +65,7 @@ namespace GlobalTheory.MtInHecke
 
 section
 
-open Formalism.L2.Col Formalism.HermitianLatticesTheory Module
+open _root_.Formalism.L2.Col Formalism.HermitianLatticesTheory Module
 
 section Comm
 

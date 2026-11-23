@@ -3,9 +3,9 @@ module
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.SymmetricPowerTransfer.LocalHermitianForms.NormOneIsCoboundaryUnramifiedQuadratic
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.SymmetricPowerTransfer.LocalHermitianForms.LocalOrbitCounts.DatLam
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.SymmetricPowerTransfer.LocalHermitianForms.LocalOrbitCounts.Descent
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.SymmetricPowerTransfer.LocalHermitianForms.LocalOrbitCounts.HsNE
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.SymmetricPowerTransfer.LocalHermitianForms.LocalOrbitCounts.NormEx
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.SymmetricPowerTransfer.LocalHermitianForms.LocalOrbitCounts.WCard
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.SymmetricPowerTransfer.LocalHermitianForms.LocalOrbitCounts.Bundle002
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.SymmetricPowerTransfer.LocalHermitianForms.LocalOrbitCounts.Bundle007
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.SymmetricPowerTransfer.LocalHermitianForms.LocalOrbitCounts.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -704,7 +704,9 @@ theorem UpperTheory.V.Z.Sym.Loc.caseG :
     ?_ (((hzI.star ⟨a, ha⟩).smul (int_star hlam)).smulO _) ?_
   · refine IB.smul hlam (IB.unit u₂ ?_)
     convert hzI using 1
-    rw [← hzn, ← one_mul (ofE Δ (star _)), ← smul_mul_assoc, ← ofE_mul_star, ← ofE_star]
+    rw [← hzn, ← one_mul (ofE Δ (star _)), ← smul_mul_assoc, ← ofE_mul_star,
+      ← _root_.UpperTheory.V.Z.Sym.Loc.CG.ofE_star]
     linear_combination ofE Δ (z : Etau K τ) * hzz
-  · rw [dLam, ← ofE_star, smul_mul_assoc, smul_mul_smul_comm, mul_comm (star (ofE Δ _)), hzz, mul_comm,
+  · rw [dLam, ← _root_.UpperTheory.V.Z.Sym.Loc.CG.ofE_star, smul_mul_assoc, smul_mul_smul_comm,
+      mul_comm (star (ofE Δ _)), hzz, mul_comm,
       ← algebraMap_norm_eq_mul_star, hn, ← h₂, algebraMap_smul (Lsq K Δ), smul_smul, ← map_mul, Units.inv_mul, map_one, one_smul]

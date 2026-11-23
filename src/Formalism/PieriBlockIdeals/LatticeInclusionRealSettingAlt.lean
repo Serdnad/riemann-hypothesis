@@ -2,7 +2,7 @@ module
 
 public import Formalism.PieriBlockIdeals.BlockIdealBound5Derived
 public import Formalism.PieriBlockIdeals.MertensReciprocalElementary
-public import Formalism.PieriBlockIdeals.MultiplicityZeroThickEmbedding
+public import Formalism.PieriBlockIdeals.Bundle003
 public import Formalism.PieriBlockIdeals.ExponentBoundCounterexample
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

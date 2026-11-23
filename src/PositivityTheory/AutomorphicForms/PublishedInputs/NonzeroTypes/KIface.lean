@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsIrreducibleIff
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle001
 public import Development.AbelianVarietyTheory.Definitions.Foundations.IsSatVecUOfIsSphericalU
-public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.LocalLanglandsGL
+public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -58,32 +58,32 @@ namespace UpperTheory.NonzeroTypeTheory
 variable {E Ω : Type} [Field E] [NumberField E] [Field Ω] [Algebra E Ω] [IsAlgClosure E Ω] {A : ValuationSubring Ω}
   {w : HeightOneSpectrum (𝓞 E)}
 
-theorem hsm (h : IsPlaceOver A w) {n : ℕ} (χ : Fin n → Dec (F := E) A →* ℂˣ)
-    (ho : ∀ i, IsOpen ((χ i).ker : Set (Dec (F := E) A))) :
+theorem hsm (h : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A w) {n : ℕ} (χ : Fin n → _root_.ReciprocityTheory.Gal.Dec (F := E) A →* ℂˣ)
+    (ho : ∀ i, IsOpen ((χ i).ker : Set (_root_.ReciprocityTheory.Gal.Dec (F := E) A))) :
     ∀ i, GlobalTheory.WeilDeligne.IsSmooth ((χ i).comp (Subgroup.inclusion (Weil_le_Dec h))) := fun i =>
   (ho i).preimage (continuous_inclusion (Ine_le_Dec A))
 
-abbrev xOf (h : IsPlaceOver A w) {n : ℕ} (χ : Fin n → Dec (F := E) A →* ℂˣ)
-    (ho : ∀ i, IsOpen ((χ i).ker : Set (Dec (F := E) A))) : WD h :=
+abbrev xOf (h : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A w) {n : ℕ} (χ : Fin n → _root_.ReciprocityTheory.Gal.Dec (F := E) A →* ℂˣ)
+    (ho : ∀ i, IsOpen ((χ i).ker : Set (_root_.ReciprocityTheory.Gal.Dec (F := E) A))) : WD h :=
   WD.mk (WDRep.ofChars h _ (hsm h χ ho))
 
-def Cond (h : IsPlaceOver A w) (rc : IrrGL (k := w.adicCompletion E) → WD h) {n : ℕ} (χ : Fin n → Dec (F := E) A →* ℂˣ)
-    (ho : ∀ i, IsOpen ((χ i).ker : Set (Dec (F := E) A))) (π : SmIrr (GL (Fin n) (w.adicCompletion E))) : Prop :=
+def Cond (h : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A w) (rc : IrrGL (k := w.adicCompletion E) → WD h) {n : ℕ} (χ : Fin n → _root_.ReciprocityTheory.Gal.Dec (F := E) A →* ℂˣ)
+    (ho : ∀ i, IsOpen ((χ i).ker : Set (_root_.ReciprocityTheory.Gal.Dec (F := E) A))) (π : SmIrr (GL (Fin n) (w.adicCompletion E))) : Prop :=
   (rc (IrrGL.of π.ρ π.smooth π.irred)).mono0 ∧ ∀ s : ↥(Ine (F := E) A),
     (rc (IrrGL.of π.ρ π.smooth π.irred)).charPol (ineIncl h s) = (xOf h χ ho).charPol (ineIncl h s)
 
 def NZ : Prop :=
   ∀ (E Ω : Type) [Field E] [NumberField E] [Field Ω] [Algebra E Ω] [IsAlgClosure E Ω] (A : ValuationSubring Ω)
-    (w : HeightOneSpectrum (𝓞 E)) (h : IsPlaceOver A w) (rc : IrrGL (k := w.adicCompletion E) → WD h), IsRec h rc →
-    ∀ (n : ℕ) (χ : Fin n → Dec (F := E) A →* ℂˣ) (ho : ∀ i, IsOpen ((χ i).ker : Set (Dec (F := E) A))),
+    (w : HeightOneSpectrum (𝓞 E)) (h : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A w) (rc : IrrGL (k := w.adicCompletion E) → WD h), IsRec h rc →
+    ∀ (n : ℕ) (χ : Fin n → _root_.ReciprocityTheory.Gal.Dec (F := E) A →* ℂˣ) (ho : ∀ i, IsOpen ((χ i).ker : Set (_root_.ReciprocityTheory.Gal.Dec (F := E) A))),
       ∃ (d : ℕ) (ξ : Representation ℂ ↥(GlobalTheory.LFun.KGL w (n := n)) (Fin d → ℂ)), ξ.IsIrreducible ∧ GlobalTheory.PRep.IsSmooth ξ ∧
         ∀ π : SmIrr (GL (Fin n) (w.adicCompletion E)),
           (∃ f : (Fin d → ℂ) →ₗ[ℂ] π.V, f ≠ 0 ∧ ∀ k v, f (ξ k v) = π.ρ k (f v)) ↔ Cond h rc χ ho π
 
 def TypeData : Prop :=
   ∀ (E Ω : Type) [Field E] [NumberField E] [Field Ω] [Algebra E Ω] [IsAlgClosure E Ω] (A : ValuationSubring Ω)
-    (w : HeightOneSpectrum (𝓞 E)) (h : IsPlaceOver A w) (rc : IrrGL (k := w.adicCompletion E) → WD h), IsRec h rc →
-    ∀ (n : ℕ) (χ : Fin n → Dec (F := E) A →* ℂˣ) (ho : ∀ i, IsOpen ((χ i).ker : Set (Dec (F := E) A))),
+    (w : HeightOneSpectrum (𝓞 E)) (h : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A w) (rc : IrrGL (k := w.adicCompletion E) → WD h), IsRec h rc →
+    ∀ (n : ℕ) (χ : Fin n → _root_.ReciprocityTheory.Gal.Dec (F := E) A →* ℂˣ) (ho : ∀ i, IsOpen ((χ i).ker : Set (_root_.ReciprocityTheory.Gal.Dec (F := E) A))),
       ∃ (J : Subgroup ↥(GlobalTheory.LFun.KGL w (n := n))) (lam : ↥J →* ℂˣ) (m : ℕ) (V0 : Representation ℂ ↥(GlobalTheory.LFun.KGL w (n := n)) (Fin m → ℂ))
         (v0 : Fin m → ℂ), IsOpen (J : Set ↥(GlobalTheory.LFun.KGL w (n := n))) ∧ IsOpen (lam.ker : Set ↥J) ∧ GlobalTheory.PRep.IsSmooth V0 ∧
         v0 ≠ 0 ∧ (∀ j : ↥J, V0 (j : ↥(GlobalTheory.LFun.KGL w (n := n))) v0 = ((lam j : ℂˣ) : ℂ) • v0) ∧

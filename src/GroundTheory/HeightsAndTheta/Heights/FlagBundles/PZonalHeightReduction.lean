@@ -1,7 +1,6 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.FlagBundles.StatementsSphereLongitude
-public import GroundTheory.HeightsAndTheta.Heights.FlagBundles.StatementsZonalReduction
+public import GroundTheory.HeightsAndTheta.Heights.FlagBundles.Bundle001
 import Aesop.Main
 import Mathlib.Algebra.Order.Archimedean.Real.Hom
 import Mathlib.Algebra.Order.Floor.Extended

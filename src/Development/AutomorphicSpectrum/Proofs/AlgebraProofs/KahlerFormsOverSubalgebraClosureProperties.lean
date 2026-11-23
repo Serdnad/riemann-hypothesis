@@ -1,10 +1,9 @@
 module
 
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.TwoWeightEqOneAddRoot
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.DetMulMapDetEqOneOfSesq
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.DetOneAddCompCommField
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.PowEqOneOfIsIntegralOfMulComplexConjEqOne
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.RootMulComplexConjEqOne
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle003
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle004
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle011
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -50,7 +49,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-import Development.AutomorphicSpectrum.Definitions.AdelicLattices.FactPrimes
+import Development.AutomorphicSpectrum.Definitions.AdelicLattices.Bundle001
 
 @[expose] public section
 

@@ -1,8 +1,8 @@
 module
 
-public import Formalism.PeriodIntegrals.LocDensCorank
+public import Formalism.PeriodIntegrals.Bundle017
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalDensityCorank.SplitCount
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CountingFormula.EulerFactorTwo
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CountingFormula.Bundle002
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalDensityCorank.CongruenceDensity
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

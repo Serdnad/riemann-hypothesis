@@ -1,7 +1,7 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.StatementsIntCoordArInt
-public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PDualTopBasisChange
+public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.Bundle025
+public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.Bundle042
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

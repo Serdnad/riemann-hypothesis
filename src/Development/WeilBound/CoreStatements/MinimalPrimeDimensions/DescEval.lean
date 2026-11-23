@@ -1,7 +1,7 @@
 module
 
 public import Development.WeilBound.CoreStatements.MinimalPrimeDimensions.GenIdeal
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.IsClosedImmersionOfCoordinateDivisibility
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle062
 public import Development.WeilBound.CoreStatements.HomogeneousNonvanishing.ValFUnitNeZero
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,12 +1,12 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Degenerations.ToATotal
+public import Development.AbelianVarietyTheory.Definitions.Degenerations.Bundle007
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.FlatQuotientIsoOfSameKernel
-public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.SplitTorusHomProperTrivialLocal
+public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle008
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.RangeAlgebraMapEqIInfDiscreteValuationSubring
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.IsCPMapCompCancel
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle063
 public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.IsCPMapDescends
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ProperRelAmpleKTrivOfFieldExtension
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle059
 public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.SurjectiveCubeBaseChange
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -63,6 +63,11 @@ noncomputable section
 
 namespace GlobalTheory.ClosedPol
 
+local instance (priority := high) grpObjPullbackForClosedPol {S T : Scheme.{0}}
+    (f : T ⟶ S) (G : Over S) [GrpObj G] : GrpObj ((Over.pullback f).obj G) :=
+  letI : (Over.pullback f).Monoidal := (Over.instBraidedPullback (f := f)).toMonoidal
+  Functor.grpObjObj (F := Over.pullback f)
+
 theorem exists_cdvr (R : Type) [CommRing R] [IsDomain R] [IsNoetherianRing R] [CharZero R] (p : Ideal R) [p.IsPrime] :
     ∃ (V : Type) (_ : CommRing V) (_ : IsDomain V) (_ : IsLocalRing V) (φ : R →+* V), CDVR V ∧ Function.Injective φ ∧
       (IsLocalRing.maximalIdeal V).comap φ = p := by
@@ -118,6 +123,7 @@ theorem pol_of_ker_eq {A k κ : Type} [CommRing A] [Field k] [Field κ] (a : A �
   have := hB.proper
   have := hB.smooth
   let B₀ := (Over.pullback (spMap c)).obj B
+  letI : GrpObj B₀ := grpObjPullbackForClosedPol (spMap c) B
   have h₀ : IsGrpPullback B₀ B (spMap c) (pullback.fst _ _) := isGrpPullback_pullback B _
   have step : ∀ {K : Type} [Field K] (d : A →+* K) (i : F →+* K), spMap i ≫ spMap c = spMap d →
       ∀ (C : Over (Spec (CommRingCat.of K))) [GrpObj C] (g : C.left ⟶ B.left), IsGrpPullback C B (spMap d) g →

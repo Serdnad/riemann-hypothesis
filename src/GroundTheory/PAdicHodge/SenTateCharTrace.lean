@@ -1,11 +1,10 @@
 module
 
 public import GroundTheory.PAdicHodge.SenTateCharLevels
-public import GroundTheory.PAdicHodge.SenTateCharClosure
+public import GroundTheory.PAdicHodge.Bundle005
 public import GroundTheory.LocalFields.PadicLogSeries
-public import GroundTheory.PAdicHodge.FieldOfNormsResidue
+public import GroundTheory.PAdicHodge.Bundle012
 public import GroundTheory.PAdicHodge.SenTateCharStep
-public import GroundTheory.PAdicHodge.SenTateCharUnitPow
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

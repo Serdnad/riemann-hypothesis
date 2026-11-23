@@ -1,15 +1,15 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Degenerations.HomExtSt
+public import Development.AbelianVarietyTheory.Definitions.Degenerations.Bundle002
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.HasArcDataIff
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.PullCub
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.GtBaseChangeSt
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.Bundle003
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.OLinBaseChangeSt
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.SecBaseChangeAnySt
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.Bundle005
 public import Development.AbelianVarietyTheory.Definitions.ThetaMetrics.MemNonzeroLocusIffPowFn
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsQkPullEquiv
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle094
 public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.GenRelNeZero
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsRingActionOfIsPullDeg
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle040
 import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.NonemptyCubicalPull
 public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.QkToAkDescendsAlongBaseChange
 import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.TauBimultOfIsPullDeg
@@ -66,6 +66,11 @@ open GlobalTheory.LN
 
 noncomputable section
 namespace GlobalTheory.ArcDataDescent
+
+local instance (priority := high) grpObjPullback {S T : Scheme.{0}} (f : T ⟶ S)
+    (G : Over S) [GrpObj G] : GrpObj ((Over.pullback f).obj G) :=
+  letI : (Over.pullback f).Monoidal := (Over.instBraidedPullback (f := f)).toMonoidal
+  Functor.grpObjObj (F := Over.pullback f)
 
 variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E}
 

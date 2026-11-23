@@ -1,8 +1,8 @@
 module
 
-public import Development.ResolutionOfSingularities.EmbeddedResolution.ResolutionDescent.SmoothPullbackLocalAmbientEmbedding
-public import Development.ResolutionOfSingularities.EmbeddedResolution.ResolutionDescent.GraphChart
-public import Development.ResolutionOfSingularities.EmbeddedResolution.EtaleCoordinates.SmoothCoordinateCodimensionPullback
+public import Development.ResolutionOfSingularities.EmbeddedResolution.ResolutionDescent.Bundle003
+public import Development.ResolutionOfSingularities.EmbeddedResolution.ResolutionDescent.Bundle005
+public import Development.ResolutionOfSingularities.EmbeddedResolution.EtaleCoordinates.Bundle003
 public import Development.ResolutionOfSingularities.EmbeddedResolution.ResolutionDescent.AffineSpaceZeroSection
 import Development.ResolutionOfSingularities.Foundations.Schemes.IdealSheafData
 import Mathlib.Algebra.Order.Floor.Extended
@@ -46,7 +46,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-public import Development.ResolutionOfSingularities.EmbeddedResolution.ResolutionDescent.AffineSpaceChartPresentation
+public import Development.ResolutionOfSingularities.EmbeddedResolution.ResolutionDescent.Bundle010
 
 @[expose] public section
 

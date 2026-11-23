@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.SimplePoleTwistedLift
-public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.HeckeLPartialContinuationHolds
+public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.Bundle008
+public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -169,33 +169,33 @@ theorem simplePole_of_hecke (hH : GlobalTheory.Published.HeckeLPartialContinuati
   obtain ⟨hS, hrt, hw⟩ := hyp
   have hm1 : ∀ w ∉ above E S, ‖((m⁻¹ w : ℂˣ) : ℂ)‖ = 1 := fun w hw' => by
     simp [(hw w hw').2.2.1]
-  have hbc : Bounded (above E S) (twist c m⁻¹) r (((r : ℝ) - 1) / 2) :=
+  have hbc : Bounded (above E S) (GlobalTheory.LFun.twist c m⁻¹) r (((r : ℝ) - 1) / 2) :=
     Bounded.twist (fun w hw' => ⟨(hw w hw').1.le, (hw w hw').2.1⟩) hm1
   have hrt' : (r : ℝ) + 5 ≤ t := by exact_mod_cast hrt
   have hbs : Bounded (above E S) (segFam 1 t) t (((t : ℝ) - 1) / 2) := bounded_segFam t
-  have hbc' : Bounded (above E S) (twist c m⁻¹) r (((t : ℝ) - 1) / 2) := Bounded.mono hbc (by linarith)
+  have hbc' : Bounded (above E S) (GlobalTheory.LFun.twist c m⁻¹) r (((t : ℝ) - 1) / 2) := Bounded.mono hbc (by linarith)
   have hbsum := hbc'.add hbs
-  have htw : ∀ w ∉ above E S, twist P x⁻¹ w = (twist c m⁻¹ + segFam 1 t : Fam E) w := fun w hw' => by
+  have htw : ∀ w ∉ above E S, GlobalTheory.LFun.twist P x⁻¹ w = (GlobalTheory.LFun.twist c m⁻¹ + segFam 1 t : Fam E) w := fun w hw' => by
     rw [← congrFun (twist_liftFam c m x t) w]
-    simp only [twist, (hw w hw').2.2.2.2]
+    simp only [GlobalTheory.LFun.twist, (hw w hw').2.2.2.2]
   have hA : ∀ s : ℂ, ((t : ℝ) + 1) / 2 < s.re →
-      Converges (above E S) (twist P x⁻¹) s ∧
+      Converges (above E S) (GlobalTheory.LFun.twist P x⁻¹) s ∧
       (∀ i < t, Converges (above E S) (fun _ => {1}) (s + ((t : ℂ) - 1) / 2 - i)) ∧
       LSTw S P x s = rhs S c m t (zetaOff (above E S)) s := by
     intro s hs
     have hs' : ((t : ℝ) - 1) / 2 + 1 < s.re := by linarith
-    have hcs : Converges (above E S) (twist c m⁻¹ + segFam 1 t) s := hbsum.converges hs'
+    have hcs : Converges (above E S) (GlobalTheory.LFun.twist c m⁻¹ + segFam 1 t) s := hbsum.converges hs'
     refine ⟨hcs.congr fun w hw' => (htw w hw').symm, fun i hi => converges_zeta _ (one_lt_re_shift hi hs), ?_⟩
-    have hc1 : Converges (above E S) (twist c m⁻¹) s := hbc'.converges hs'
+    have hc1 : Converges (above E S) (GlobalTheory.LFun.twist c m⁻¹) s := hbc'.converges hs'
     have hc2 : Converges (above E S) (segFam 1 t) s := hbs.converges hs'
-    show eulerProd (above E S) (twist P x⁻¹) s = eulerProd (above E S) (twist c m⁻¹) s *
+    show eulerProd (above E S) (GlobalTheory.LFun.twist P x⁻¹) s = eulerProd (above E S) (GlobalTheory.LFun.twist c m⁻¹) s *
       ∏ i ∈ Finset.range t, zetaOff (above E S) (s + ((t : ℂ) - 1) / 2 - i)
     rw [eulerProd_congr htw, eulerProd_add hc1 hc2, eulerProd_segFam hs]
   have hr : ((r : ℝ) - 1) / 2 + 1 = ((r : ℝ) + 1) / 2 := by ring
-  have hB : (∀ s : ℂ, ((r : ℝ) + 1) / 2 < s.re → Converges (above E S) (twist c m⁻¹) s ∧ LSTw S c m s ≠ 0) ∧
+  have hB : (∀ s : ℂ, ((r : ℝ) + 1) / 2 < s.re → Converges (above E S) (GlobalTheory.LFun.twist c m⁻¹) s ∧ LSTw S c m s ≠ 0) ∧
       DifferentiableOn ℂ (LSTw S c m) {s | ((r : ℝ) + 1) / 2 < s.re} := by
     refine ⟨fun s hs => ?_, ?_⟩
-    · have h1 : Converges (above E S) (twist c m⁻¹) s := hbc.converges (by rw [hr]; exact hs)
+    · have h1 : Converges (above E S) (GlobalTheory.LFun.twist c m⁻¹) s := hbc.converges (by rw [hr]; exact hs)
       exact ⟨h1, h1.ne_zero⟩
     · have h1 := hbc.differentiableOn
       rw [hr] at h1

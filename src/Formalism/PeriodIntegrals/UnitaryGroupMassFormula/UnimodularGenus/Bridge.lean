@@ -1,11 +1,10 @@
 module
 
 public import Formalism.HermitianLattices.StatementLat
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.UnimodularGenus.Development
-public import Formalism.HermitianLattices.HermitianLatticesProofs.LocDual
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.UnimodularGenus.Bundle001
+public import Formalism.HermitianLattices.HermitianLatticesProofs.Bundle002
 public import Formalism.PeriodIntegrals.HermitianGenusExtension.SemilocalHermitianLattices.ExistsIsomLoc
 import Formalism.PeriodIntegrals.HermitianGenusExtension.SemilocalHermitianLattices.FiniteDimensionalOfOrtho
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.UnimodularGenus.StdLatEqSpan
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.UnimodularGenus.UnimodLocalOfLocDual
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

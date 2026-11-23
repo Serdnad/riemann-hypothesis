@@ -1,9 +1,9 @@
 module
 
-public import Formalism.SharpRestriction.LevelLetterCocycles.QuotientImageDivisibility.PchainDNAlt
+public import Formalism.SharpRestriction.LevelLetterCocycles.QuotientImageDivisibility.Bundle007
 import Formalism.SharpRestriction.LevelLetterCocycles.ArcCoordinatesOfMembership
-public import Formalism.SharpRestriction.LevelLetterCocycles.QuotientImageDivisibility.ExistsInIInPNPowSmulSubMap
-import Formalism.SharpRestriction.LevelLetterCocycles.QuotientImageDivisibility.FrobeniusUniformizerPowDvd
+public import Formalism.SharpRestriction.LevelLetterCocycles.QuotientImageDivisibility.Bundle008
+import Formalism.SharpRestriction.LevelLetterCocycles.QuotientImageDivisibility.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -4,7 +4,7 @@ public import GroundTheory.LocalFields.Uniqueness
 public import GroundTheory.LocalFields.Integers
 public import Mathlib.RingTheory.RootsOfUnity.PrimitiveRoots
 public import GroundTheory.LocalFields.UnitsPowers
-public import GroundTheory.LocalFields.UnramifiedRootsOfUnity
+public import GroundTheory.LocalFields.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -4,7 +4,7 @@ public import Development.AbelianVarietyTheory.Definitions.Foundations.IsProbabi
 import Formalism.HarderNarasimhan.HarderNarasimhanProofs.HtGram
 import Formalism.HarderNarasimhan.ShiftInvariance
 public import Formalism.MeanHeightDescent.AverageDegreeBounds.GoodBadCut
-public import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.DeterminantCauchySchwarz
+public import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

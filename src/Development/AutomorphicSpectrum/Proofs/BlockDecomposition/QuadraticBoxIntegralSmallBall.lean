@@ -1,6 +1,6 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CoreR
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle010
 public import Mathlib.MeasureTheory.Constructions.Pi
 public import Mathlib.MeasureTheory.Measure.Haar.OfBasis
 import Mathlib.Algebra.Order.Floor.Extended

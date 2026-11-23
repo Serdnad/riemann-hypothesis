@@ -1,8 +1,8 @@
 module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.Distinct
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.CongruenceSubgroupEventually
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.DiagonalConjugateMem
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle054
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle050
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,7 +1,7 @@
 module
 
-public import Formalism.LocalToGlobal.UnitaryNorms.CharTied
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.RankOneUnitary
+public import Formalism.LocalToGlobal.UnitaryNorms.Bundle006
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle007
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.TeichmullerInertiaLabelCondition
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.WeilDeligneParamMonodromyEqZeroIff
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.FiniteDimensionalWdSpace

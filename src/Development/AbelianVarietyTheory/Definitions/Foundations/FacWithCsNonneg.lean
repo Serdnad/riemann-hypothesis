@@ -5,7 +5,7 @@ public import Development.AbelianVarietyTheory.Definitions.Foundations.NonnegOfM
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.HalfLatticeTypes
 public import Development.AbelianVarietyTheory.Definitions.Foundations.ExistsFlatSecRankZero
 public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.MemRangeOfIsAlgebraicRatFun
-import Formalism.LocalToGlobal.ProjectiveLattices.CompFin
+import Formalism.LocalToGlobal.ProjectiveLattices.Bundle014
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -133,7 +133,7 @@ def facWith : SlopeBoundLiftData c.F (pageOf Q) where
   g := g
   PPh := 3 / 2 * Real.log (Fintype.card Hb) + (numAt Q j).U0
   abelian₂ := lamKap Q j + Real.log (Fintype.card Hb)
-  δ := del D
+  δ := _root_.GlobalTheory.IndefiniteRowSideFullHecke.DescentConstants.del D
   o' := GlobalTheory.IndefiniteRowSideFullHecke.HalfLatticeTypes.ringCost c.F
   n2 := measureMove D L
 

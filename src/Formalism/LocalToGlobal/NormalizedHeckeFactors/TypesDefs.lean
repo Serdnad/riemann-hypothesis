@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.UnitaryNorms.RealCyclotomicTwoPower
+public import Formalism.LocalToGlobal.UnitaryNorms.Bundle001
 public import Formalism.CyclotomicNorms.StatementT
 public import Mathlib.Order.CompletePartialOrder
 import Mathlib.Algebra.Order.Floor.Extended

@@ -1,6 +1,6 @@
 module
 
-public import Formalism.SharpRestriction.ElevenLe
+public import Formalism.SharpRestriction.Bundle001
 public import Formalism.SharpRestriction.GrowthBounds.IsResidueClassZero
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

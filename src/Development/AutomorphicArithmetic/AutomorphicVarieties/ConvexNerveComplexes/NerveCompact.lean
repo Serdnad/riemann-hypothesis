@@ -2,9 +2,8 @@ module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ConvexNerveComplexes.NerveFaceClosed
 public import Mathlib.Analysis.Convex.Basic
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ConvexNerveComplexes.AcycCone
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ConvexNerveComplexes.AcycUnion
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ConvexNerveComplexes.NerveCut
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ConvexNerveComplexes.Bundle001
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ConvexNerveComplexes.Bundle002
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ConvexNerveComplexes.NerveSep
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

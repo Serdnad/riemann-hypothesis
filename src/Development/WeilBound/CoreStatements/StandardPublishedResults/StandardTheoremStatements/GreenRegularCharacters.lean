@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.GreenRegularCharacters
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.GreenCuspidalCharsByRegularCharsProofStatement
+public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.Bundle004
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle608
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

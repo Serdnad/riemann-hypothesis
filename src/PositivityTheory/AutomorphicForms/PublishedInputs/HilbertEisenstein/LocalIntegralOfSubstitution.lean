@@ -1,6 +1,6 @@
 module
 
-public import PositivityTheory.AutomorphicForms.PublishedInputs.HilbertEisenstein.HcToIdele
+public import PositivityTheory.AutomorphicForms.PublishedInputs.HilbertEisenstein.Bundle010
 public import GroundTheory.GlobalFields.TateThesis.RootNumberLocalPlace
 import GroundTheory.LocalFields.LocalFourierMult
 import Mathlib.Algebra.Order.Floor.Extended
@@ -40,7 +40,7 @@ public import PositivityTheory.AutomorphicForms.PublishedInputs.HilbertEisenstei
 import PositivityTheory.AutomorphicForms.PublishedInputs.HilbertEisenstein.UnitaryTransvectionZeroSecondMemClosure
 import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.RestrictionMemInvariantH1
 import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.ConstSmall
-import Development.AutomorphicArithmetic.AutomorphicVarieties.PublishedTheorems.GelfandKazhdanReal
+import Development.AutomorphicArithmetic.AutomorphicVarieties.PublishedTheorems.Bundle001
 
 @[expose] public section
 
@@ -100,7 +100,7 @@ theorem locF_subst (ω : HChar F) (c : HeightOneSpectrum (𝓞 F) → ℕ) (yf :
   have h3 : ((ω.loc v (tv v ξ * x⁻¹) : ℂˣ) : ℂ)⁻¹ =
       ((ω.loc v (tv v ξ) : ℂˣ) : ℂ)⁻¹ * ((ω.loc v x : ℂˣ) : ℂ) := by
     rw [map_mul, map_inv, Units.val_mul, Units.val_inv_eq_inv_val, mul_inv, inv_inv]
-  unfold locF gI
+  unfold _root_.UpperTheory.HilbertEisensteinWeightOne.FourierExpansionEisenstein.L4.locF gI
   rw [h3, h1]
   have hc2' := valued_le_iff x ((c v : ℤ) + dd v)
   by_cases hA : Valued.v (((tv v ξ * x⁻¹ : (v.adicCompletion F)ˣ) : v.adicCompletion F) * pLoc F v (yf : Af F)) ≤

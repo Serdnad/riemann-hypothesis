@@ -1,0 +1,408 @@
+module
+
+public import GroundTheory.PAdicHodge.AInfXi
+public import GroundTheory.PAdicHodge.ThetaPlus
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Algebra.Order.Star.Real
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.Polynomial.Basic
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Tactic.TypeStar
+import Mathlib.Topology.Sheaves.Init
+
+@[expose] public section
+
+section
+
+set_option maxSynthPendingDepth 1
+
+namespace GroundTheory.PAdicHodge
+
+namespace AInf
+
+open _root_.WittVector
+
+variable {K : Type*} [NontriviallyNormedField K] [IsUltrametricDist K]
+variable {p : ℕ} [hp : Fact p.Prime] [IsPerfectoidField K p]
+
+local notation "𝒪" => normInteger K
+local notation "𝒪♭" => PreTilt 𝒪 p
+local notation "φ" => WittVector.frobeniusEquiv p 𝒪♭
+local notation "θ" => fontaineTheta 𝒪 p
+
+theorem fontaineTheta_frobenius_pow_succ_xi {ε : 𝒪♭} (hε : PreTilt.untilt ε = 1) (n : ℕ) :
+    θ ((φ ^ (n + 1)) (xi ε)) = p := by
+
+  rw [pow_succ, RingAut.mul_apply, frobeniusEquiv_xi, map_sum, map_sum]
+  simp only [map_pow, WittVector.frobeniusEquiv_pow_teichmuller, fontaineTheta_teichmuller, hε,
+    one_pow, Finset.sum_const, Finset.card_range, nsmul_eq_mul, mul_one]
+
+theorem fontaineTheta_frobenius_pow_mu {ε : 𝒪♭} (hε : PreTilt.untilt ε = 1) (n : ℕ) :
+    θ ((φ ^ n) (mu ε)) = 0 := by
+  rw [mu, map_sub, map_one, WittVector.frobeniusEquiv_pow_teichmuller, map_sub, map_one,
+    fontaineTheta_teichmuller, map_pow, hε, one_pow, sub_self]
+
+theorem fontaineTheta_frobenius_pow_mul_mu {ε : 𝒪♭} (hε : PreTilt.untilt ε = 1) (b : AInf K p)
+    (n : ℕ) : θ ((φ ^ n) (mu ε * b)) = 0 := by
+  rw [map_mul, map_mul, fontaineTheta_frobenius_pow_mu hε, zero_mul]
+
+theorem natCast_ne_zero {ε : 𝒪♭} (hε : PreTilt.untilt ε = 1)
+    (hζ : PreTilt.untilt ((_root_.frobeniusEquiv 𝒪♭ p).symm ε) ≠ 1) : (p : 𝒪) ≠ 0 := by
+  intro h
+  apply norm_natCast_ne_zero hε hζ
+  have h2 : ((p : 𝒪) : K) = (p : K) := by simp
+  rw [← h2, h, ZeroMemClass.coe_zero, norm_zero]
+
+
+variable (K p) in
+noncomputable def kerThetaFrob : Ideal (AInf K p) :=
+  ⨅ n : ℕ, RingHom.ker ((fontaineTheta (normInteger K) p).comp ((φ ^ n : AInf K p ≃+* AInf K p) : AInf K p →+* AInf K p))
+
+theorem mem_kerThetaFrob {a : AInf K p} : a ∈ kerThetaFrob K p ↔ ∀ n : ℕ, θ ((φ ^ n) a) = 0 := by
+  simp only [kerThetaFrob, Ideal.mem_iInf, RingHom.mem_ker, RingHom.coe_comp, RingHom.coe_coe,
+    Function.comp_apply]
+
+theorem exists_mul_frobeniusEquiv_symm_pow_mu_eq {ε : 𝒪♭} (hε : PreTilt.untilt ε = 1)
+    (hζ : PreTilt.untilt ((_root_.frobeniusEquiv 𝒪♭ p).symm ε) ≠ 1) (N : ℕ) :
+    ∀ a : AInf K p, (∀ n : ℕ, θ ((φ ^ n) a) = 0) →
+      ∃ c : AInf K p, a * ((φ).symm ^ N) (mu ε) = mu ε * c := by
+  induction N with
+  | zero => exact fun a _ => ⟨a, by rw [pow_zero, RingAut.one_apply, mul_comm]⟩
+  | succ N ih =>
+    intro a ha
+    have h0 : a ∈ RingHom.ker θ := by
+      rw [RingHom.mem_ker]
+      simpa using ha 0
+    rw [ker_fontaineTheta_eq_span_xi hε hζ, Ideal.mem_span_singleton'] at h0
+    obtain ⟨a₁, rfl⟩ := h0
+    have hp0 := natCast_ne_zero hε hζ
+    have h1 : ∀ n : ℕ, θ ((φ ^ n) (φ a₁)) = 0 := by
+      intro n
+      have h := ha (n + 1)
+      rw [map_mul, map_mul, fontaineTheta_frobenius_pow_succ_xi hε n, mul_eq_zero] at h
+      rw [← RingAut.mul_apply, ← pow_succ]
+      exact h.resolve_right hp0
+    obtain ⟨c, hc⟩ := ih _ h1
+    refine ⟨(φ).symm c, ?_⟩
+    have h2 := congrArg (φ).symm hc
+    rw [map_mul, map_mul, RingEquiv.symm_apply_apply] at h2
+    calc a₁ * xi ε * ((φ).symm ^ (N + 1)) (mu ε)
+        = xi ε * (a₁ * (φ).symm (((φ).symm ^ N) (mu ε))) := by
+          rw [pow_succ', RingAut.mul_apply]; ring
+      _ = xi ε * ((φ).symm (mu ε) * (φ).symm c) := by rw [h2]
+      _ = mu ε * (φ).symm c := by
+          conv_rhs => rw [mu_eq_xi_mul ε]
+          ring
+
+theorem constantCoeff_mu (ε : 𝒪♭) : WittVector.constantCoeff (mu ε : AInf K p) = ε - 1 := by
+  rw [mu, map_sub, map_one]
+  exact congrArg (· - 1) (teichmuller_coeff_zero p ε)
+
+theorem constantCoeff_frobeniusEquiv_symm_pow_mu (ε : 𝒪♭) (N : ℕ) :
+    WittVector.constantCoeff (((φ).symm ^ N) (mu ε) : AInf K p) =
+      ((_root_.frobeniusEquiv 𝒪♭ p).symm ^ N) ε - 1 := by
+  rw [frobeniusEquiv_symm_pow_mu, map_sub, map_one]
+  exact congrArg (· - 1) (teichmuller_coeff_zero p _)
+
+theorem norm_frobeniusEquiv_symm_pow_sub_one_pow (ε : 𝒪♭) (N : ℕ) :
+    ‖((_root_.frobeniusEquiv 𝒪♭ p).symm ^ N) ε - 1‖ ^ p ^ N = ‖ε - 1‖ := by
+  rw [← norm_pow, sub_pow_char_pow, one_pow, frobeniusEquiv_symm_pow_apply_pow]
+
+theorem sub_one_dvd_coeff_zero {ε : 𝒪♭} (hε : PreTilt.untilt ε = 1)
+    (hζ : PreTilt.untilt ((_root_.frobeniusEquiv 𝒪♭ p).symm ε) ≠ 1) {a : AInf K p}
+    (ha : ∀ n : ℕ, θ ((φ ^ n) a) = 0) : ε - 1 ∣ WittVector.constantCoeff a := by
+  rw [preTilt_dvd_iff_norm_le]
+  set r := ‖ε - 1‖ with hr
+  set x := ‖WittVector.constantCoeff a‖ with hx
+  have hr0 : 0 < r := norm_pos_iff.2 (sub_ne_zero.2 (ne_one_of_untilt_ne_one hζ))
+  have key : ∀ N : ℕ, x ^ p ^ N * r ≤ r ^ p ^ N := by
+    intro N
+    obtain ⟨c, hc⟩ := exists_mul_frobeniusEquiv_symm_pow_mu_eq hε hζ N a ha
+    have h := congrArg (fun y : AInf K p => ‖WittVector.constantCoeff y‖ ^ p ^ N) hc
+    simp only [map_mul, norm_mul, mul_pow, constantCoeff_mu,
+      constantCoeff_frobeniusEquiv_symm_pow_mu, norm_frobeniusEquiv_symm_pow_sub_one_pow] at h
+    rw [h]
+    calc r ^ p ^ N * ‖WittVector.constantCoeff c‖ ^ p ^ N ≤ r ^ p ^ N * 1 := by
+          gcongr
+          exact pow_le_one₀ (norm_nonneg _) (preTilt_norm_le_one _)
+      _ = r ^ p ^ N := mul_one _
+  by_contra hlt
+  push_neg at hlt
+  set q := x / r with hq
+  have hq1 : 1 < q := by rw [hq, one_lt_div hr0]; exact hlt
+  have hbound : ∀ N : ℕ, q ^ p ^ N * r ≤ 1 := by
+    intro N
+    have h := key N
+    have hxq : x = q * r := by rw [hq, div_mul_cancel₀ _ hr0.ne']
+    rw [hxq, mul_pow] at h
+    have hrN : 0 < r ^ p ^ N := pow_pos hr0 _
+    nlinarith
+  obtain ⟨N, hN⟩ := exists_nat_gt (1 / (r * (q - 1)))
+  have hpN : (N : ℝ) < (p ^ N : ℕ) := by exact_mod_cast Nat.lt_pow_self hp.out.one_lt
+  have hB := one_add_mul_le_pow (a := q - 1) (by linarith) (p ^ N)
+  rw [add_sub_cancel] at hB
+  have h3 := hbound N
+  have hq0 : 0 < q - 1 := by linarith
+  have h4 : (1 : ℝ) / (r * (q - 1)) < ((p ^ N : ℕ) : ℝ) := hN.trans hpN
+  rw [div_lt_iff₀ (mul_pos hr0 hq0)] at h4
+  push_cast at h4 hB
+  nlinarith
+
+theorem mem_span_mu_of_forall {ε : 𝒪♭} (hε : PreTilt.untilt ε = 1)
+    (hζ : PreTilt.untilt ((_root_.frobeniusEquiv 𝒪♭ p).symm ε) ≠ 1) {a : AInf K p}
+    (ha : ∀ n : ℕ, θ ((φ ^ n) a) = 0) : a ∈ Ideal.span {mu ε} := by
+  have hp0 := natCast_ne_zero hε hζ
+  have hJ : kerThetaFrob K p ≤ Ideal.span {mu ε} := by
+    refine le_span_singleton_of_forall_mem_eq (π := (p : AInf K p)) fun x hx => ?_
+    rw [mem_kerThetaFrob] at hx
+    obtain ⟨β, hβ⟩ := sub_one_dvd_coeff_zero hε hζ hx
+    obtain ⟨v, hv⟩ := exists_eq_teichmuller_add_mul_p (x - mu ε * teichmuller p β)
+    have h0 : (x - mu ε * teichmuller p β).coeff 0 = 0 := by
+      change _root_.WittVector.constantCoeff (x - mu ε * teichmuller p β) = 0
+      rw [map_sub, map_mul, constantCoeff_mu, hβ]
+      change _ - _ * (teichmuller p β).coeff 0 = 0
+      rw [teichmuller_coeff_zero, sub_self]
+    rw [h0, teichmuller_zero, zero_add] at hv
+    have hxv : x = teichmuller p β * mu ε + v * p := by linear_combination hv
+    refine ⟨teichmuller p β, v, ?_, hxv⟩
+    rw [mem_kerThetaFrob]
+    intro n
+    have h := hx n
+    rw [hxv, map_add (f := _), map_add (f := _), map_mul, map_mul, map_mul, map_mul,
+      fontaineTheta_frobenius_pow_mu hε, mul_zero, zero_add, map_natCast, map_natCast,
+      mul_eq_zero] at h
+    exact h.resolve_right hp0
+  exact hJ (mem_kerThetaFrob.2 ha)
+
+end AInf
+
+end GroundTheory.PAdicHodge
+end
+
+section
+
+set_option maxSynthPendingDepth 1
+
+noncomputable section
+
+namespace GroundTheory.PAdicHodge
+
+open Ideal WittVector IsLocalRing
+
+section Binomial
+
+variable {A : Type*} [CommRing A]
+
+theorem one_add_pow_prime_pow_sub_one_mem {p : ℕ} (hp : p.Prime) (y : A) (N r k : ℕ)
+    (hk : k ≤ p ^ r) :
+    (1 + y) ^ (p ^ N) - 1 ∈ span {(p : A) ^ (N - r)} ⊔ span {y ^ k} := by
+  rw [add_comm, add_pow, Finset.sum_range_succ']
+  simp only [one_pow, mul_one, pow_zero, Nat.choose_zero_right, Nat.cast_one, add_sub_cancel_right]
+  refine Ideal.sum_mem _ fun j hj => ?_
+  by_cases hjk : k ≤ j + 1
+  · exact Ideal.mem_sup_right (mul_mem_right _ _ (mem_span_singleton.2 (pow_dvd_pow y hjk)))
+  · apply Ideal.mem_sup_left
+    have hj' : j + 1 ≤ p ^ N := Finset.mem_range.1 hj
+    have h1 : (j + 1).factorization p < r := by
+      have h2 : p ^ (j + 1).factorization p ≤ j + 1 :=
+        Nat.le_of_dvd (Nat.succ_pos j) (Nat.ordProj_dvd (j + 1) p)
+      exact (Nat.pow_lt_pow_iff_right hp.one_lt).1 (lt_of_le_of_lt h2 (by omega))
+    have h3 : p ^ (N - r) ∣ Nat.choose (p ^ N) (j + 1) := by
+      have h4 := Nat.factorization_choose_prime_pow hp hj' (Nat.succ_ne_zero j)
+      refine (Nat.pow_dvd_pow p (by omega : N - r ≤ N - (j + 1).factorization p)).trans ?_
+      rw [← h4]
+      exact Nat.ordProj_dvd _ p
+    refine mul_mem_left _ _ (mem_span_singleton.2 ?_)
+    exact_mod_cast Nat.cast_dvd_cast (α := A) h3
+
+end Binomial
+
+namespace IsPerfectoidField
+
+variable {K : Type*} [NontriviallyNormedField K] [IsUltrametricDist K]
+variable {p : ℕ} [Fact p.Prime] [IsPerfectoidField K p] [CharZero K]
+
+local notation "𝒪" => normInteger K
+local notation "𝕎𝒪♭" => WittVector p (PreTilt 𝒪 p)
+local notation "θ" => _root_.WittVector.fontaineTheta 𝒪 p
+local notation "𝔸" => Localization.Away (p : 𝕎𝒪♭)
+local notation "𝔹" => BDeRhamPlus 𝒪 p
+
+omit [CharZero K] in
+theorem eq_zero_of_forall_mem_span_p_pow {b : 𝒪} (h : ∀ M : ℕ, b ∈ span {(p : 𝒪) ^ M}) : b = 0 := by
+  have := isAdicComplete (K := K) p
+  refine IsHausdorff.haus (I := span {(p : 𝒪)}) inferInstance _ fun n => ?_
+  rw [SModEq.zero, smul_eq_mul, mul_top, span_singleton_pow]
+  exact h n
+
+
+omit [IsPerfectoidField K p] in
+theorem natCast_p_ne_zero : (p : 𝒪) ≠ 0 := by
+  intro h
+  have h2 : ((p : 𝒪) : K) = 0 := by rw [h]; rfl
+  rw [Subring.coe_natCast] at h2
+  exact (Nat.cast_ne_zero.2 (Fact.out : p.Prime).ne_zero) h2
+
+variable {ξ : WittVector p (PreTilt (normInteger K) p)}
+
+theorem mem_span_xi_pow_of_p_pow_mul_mem (hξ : RingHom.ker θ = span {ξ}) {x : 𝕎𝒪♭} {s k : ℕ}
+    (h : (p : 𝕎𝒪♭) ^ s * x ∈ span {ξ ^ k}) : x ∈ span {ξ ^ k} := by
+  have hnz := mem_nonZeroDivisors_of_ker_eq_span hξ
+  induction k generalizing x with
+  | zero => simp
+  | succ k ih =>
+    have hx1 : (p : 𝕎𝒪♭) ^ s * x ∈ RingHom.ker θ := by
+      rw [hξ]
+      exact (Ideal.span_singleton_le_span_singleton.2 (dvd_pow_self ξ (Nat.succ_ne_zero k))) h
+    have hx2 : x ∈ RingHom.ker θ := by
+      rw [RingHom.mem_ker, map_mul, map_pow, map_natCast] at hx1
+      rw [RingHom.mem_ker]
+      exact (mul_eq_zero.1 hx1).resolve_left (pow_ne_zero _ natCast_p_ne_zero)
+    rw [hξ, mem_span_singleton] at hx2
+    obtain ⟨x', rfl⟩ := hx2
+    obtain ⟨c, hc⟩ := mem_span_singleton.1 h
+    have h3 : (p : 𝕎𝒪♭) ^ s * x' = ξ ^ k * c := by
+      have h4 : ξ * ((p : 𝕎𝒪♭) ^ s * x' - ξ ^ k * c) = 0 := by
+        rw [pow_succ] at hc
+        linear_combination hc
+      exact sub_eq_zero.1 ((mem_nonZeroDivisors_iff.1 hnz).1 _ h4)
+    have h5 := ih (mem_span_singleton.2 ⟨c, h3⟩)
+    obtain ⟨d, hd⟩ := mem_span_singleton.1 h5
+    exact mem_span_singleton.2 ⟨d, by rw [hd, pow_succ]; ring⟩
+
+theorem mem_span_xi_pow_of_forall_mem_sup (hξ : RingHom.ker θ = span {ξ}) {x : 𝕎𝒪♭} {k : ℕ}
+    (h : ∀ M : ℕ, x ∈ span {(p : 𝕎𝒪♭) ^ M} ⊔ span {ξ ^ k}) : x ∈ span {ξ ^ k} := by
+  have hnz := mem_nonZeroDivisors_of_ker_eq_span hξ
+  induction k generalizing x with
+  | zero => simp
+  | succ k ih =>
+    have hθ : θ x = 0 := by
+      refine eq_zero_of_forall_mem_span_p_pow (p := p) fun M => ?_
+      obtain ⟨a, ha, b, hb, hab⟩ := Submodule.mem_sup.1 (h M)
+      obtain ⟨a', rfl⟩ := mem_span_singleton.1 ha
+      obtain ⟨b', rfl⟩ := mem_span_singleton.1 hb
+      have hξ0 : θ ξ = 0 := by
+        rw [← RingHom.mem_ker, hξ]; exact mem_span_singleton_self ξ
+      rw [← hab, map_add (f := _), map_mul, map_mul, map_pow, map_pow, map_natCast, hξ0,
+        zero_pow (Nat.succ_ne_zero k), zero_mul, add_zero]
+      exact mem_span_singleton.2 ⟨_, rfl⟩
+    have hx2 : x ∈ span {ξ} := by rw [← hξ]; exact hθ
+    obtain ⟨x', rfl⟩ := mem_span_singleton.1 hx2
+    have h' : ∀ M : ℕ, x' ∈ span {(p : 𝕎𝒪♭) ^ M} ⊔ span {ξ ^ k} := by
+      intro M
+      obtain ⟨a, ha, b, hb, hab⟩ := Submodule.mem_sup.1 (h M)
+      obtain ⟨a', rfl⟩ := mem_span_singleton.1 ha
+      obtain ⟨b', rfl⟩ := mem_span_singleton.1 hb
+      have ha1 : (p : 𝕎𝒪♭) ^ M * a' ∈ span {ξ ^ 1} := by
+        rw [pow_one, mem_span_singleton]
+        exact ⟨x' - ξ ^ k * b', by rw [← sub_eq_iff_eq_add.2 hab.symm, pow_succ]; ring⟩
+      obtain ⟨a'', ha''⟩ := mem_span_singleton.1 (mem_span_xi_pow_of_p_pow_mul_mem hξ ha1)
+      have h4 : ξ * (x' - (p : 𝕎𝒪♭) ^ M * a'' - ξ ^ k * b') = 0 := by
+        rw [pow_one] at ha''
+        rw [ha'', pow_succ] at hab
+        linear_combination -hab
+      have h5 := sub_eq_zero.1 ((mem_nonZeroDivisors_iff.1 hnz).1 _ h4)
+      refine Submodule.mem_sup.2 ⟨_, mem_span_singleton.2 ⟨a'', rfl⟩, _,
+        mem_span_singleton.2 ⟨b', rfl⟩, ?_⟩
+      rw [← h5]; ring
+    obtain ⟨d, hd⟩ := mem_span_singleton.1 (ih h')
+    exact mem_span_singleton.2 ⟨d, by rw [hd, pow_succ]; ring⟩
+
+theorem exists_p_pow_mul_mem_of_dvd {z : 𝕎𝒪♭} {k : ℕ}
+    (h : algebraMap 𝕎𝒪♭ 𝔸 (ξ ^ k) ∣ algebraMap 𝕎𝒪♭ 𝔸 z) :
+    ∃ s : ℕ, (p : 𝕎𝒪♭) ^ s * z ∈ span {ξ ^ k} := by
+  obtain ⟨c, hc⟩ := h
+  obtain ⟨⟨c', m⟩, hcm⟩ := IsLocalization.mk'_surjective (Submonoid.powers (p : 𝕎𝒪♭)) c
+  obtain ⟨s, hs⟩ := Submonoid.mem_powers_iff _ _ |>.1 m.2
+  have h2 : algebraMap 𝕎𝒪♭ 𝔸 (z * (m : 𝕎𝒪♭)) = algebraMap 𝕎𝒪♭ 𝔸 (ξ ^ k * c') := by
+    rw [map_mul, hc, ← hcm, mul_assoc, IsLocalization.mk'_spec, map_mul]
+  obtain ⟨r, hr⟩ := IsLocalization.exists_of_eq (M := Submonoid.powers (p : 𝕎𝒪♭)) h2
+  obtain ⟨r', hr'⟩ := Submonoid.mem_powers_iff _ _ |>.1 r.2
+  refine ⟨r' + s, mem_span_singleton.2 ⟨(p : 𝕎𝒪♭) ^ r' * c', ?_⟩⟩
+  rw [← hs, ← hr'] at hr
+  rw [pow_add]
+  linear_combination hr
+
+theorem mem_maximalIdeal_pow_of_forall_sub_mem {y : 𝔹} {k : ℕ} :
+    haveI := isLocalRing_bDeRhamPlus (ker_fontaineTheta_eq_span_kerThetaGenerator K p)
+      (surjective_frobenius p) (isField_away p)
+    (h : ∀ M : ℕ, ∃ a : 𝕎𝒪♭, y - (p : 𝔹) ^ M * wittToBDeRhamPlus 𝒪 p a ∈ maximalIdeal 𝔹 ^ k) →
+      y ∈ maximalIdeal 𝔹 ^ k := by
+  intro h
+  set ξ₀ := kerThetaGenerator K p
+  have hξ := ker_fontaineTheta_eq_span_kerThetaGenerator K p
+  have := isLocalRing_bDeRhamPlus hξ (surjective_frobenius p) (isField_away p)
+  have hmax : maximalIdeal 𝔹 = span {wittToBDeRhamPlus 𝒪 p ξ₀} :=
+    (IsLocalRing.eq_maximalIdeal
+      (isMaximal_ker_thetaBDeRhamPlus (surjective_frobenius p) (isField_away p))).symm.trans
+      (ker_thetaBDeRhamPlus hξ)
+  have hm : maximalIdeal 𝔹 ^ k = span {wittToBDeRhamPlus 𝒪 p (ξ₀ ^ k)} := by
+    rw [hmax, span_singleton_pow, map_pow]
+  obtain ⟨a₀, ha₀⟩ := h 0
+  rw [pow_zero, one_mul] at ha₀
+  suffices hs : a₀ ∈ span {ξ₀ ^ k} by
+    have h1 : wittToBDeRhamPlus 𝒪 p a₀ ∈ maximalIdeal 𝔹 ^ k := by
+      rw [hm]
+      obtain ⟨d, rfl⟩ := mem_span_singleton.1 hs
+      rw [map_mul]
+      exact mul_mem_right _ _ (mem_span_singleton_self _)
+    have := add_mem ha₀ h1
+    rwa [sub_add_cancel] at this
+  refine mem_span_xi_pow_of_forall_mem_sup hξ fun M => ?_
+  obtain ⟨a, ha⟩ := h M
+  have h2 : wittToBDeRhamPlus 𝒪 p (a₀ - (p : 𝕎𝒪♭) ^ M * a) ∈ maximalIdeal 𝔹 ^ k := by
+    have := sub_mem ha ha₀
+    rw [map_sub, map_mul, map_pow, map_natCast]
+    convert this using 1
+    ring
+  rw [hm] at h2
+  have h3 : toBDeRhamPlus 𝒪 p (algebraMap 𝕎𝒪♭ 𝔸 (a₀ - (p : 𝕎𝒪♭) ^ M * a)) ∈
+      span {wittToBDeRhamPlus 𝒪 p ξ₀ ^ k} := by
+    rw [← map_pow]; exact h2
+  rw [toBDeRhamPlus_mem_span_pow_iff hξ, ← map_pow] at h3
+  obtain ⟨s, hs⟩ := exists_p_pow_mul_mem_of_dvd h3
+  have h4 := mem_span_xi_pow_of_p_pow_mul_mem hξ hs
+  refine Submodule.mem_sup.2 ⟨(p : 𝕎𝒪♭) ^ M * a, mem_span_singleton.2 ⟨a, rfl⟩, _, h4, ?_⟩
+  ring
+
+end IsPerfectoidField
+
+end GroundTheory.PAdicHodge
+end
+end

@@ -1,0 +1,358 @@
+module
+
+public import Formalism.GL3MeanSquares.GenusMeanAsymptotics.UnimodularClassRepresentatives.Bundle009
+public import Formalism.GL3MeanSquares.GenusMeanAsymptotics.UnimodularClassRepresentatives.Bundle011
+import Formalism.GL3MeanSquares.GenusMeanAsymptotics.UnimodularClassRepresentatives.Bundle010
+public import Formalism.GL3MeanSquares.GenusMeanAsymptotics.UnimodularClassRepresentatives.IsUnimodularAtAdjoinIff
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.SimpleRing.Principal
+import Mathlib.RingTheory.WittVector.IsPoly
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Linter.Style
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.TypeStar
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Topology.Sheaves.Init
+import Mathlib.Topology.UniformSpace.Uniformizable
+
+@[expose] public section
+
+section
+
+open NumberField Module
+
+noncomputable section
+
+namespace Formalism.HermitianLattices.Ext.L3
+
+namespace Regroup
+
+theorem tprod_eq_of_fibre {α β : Type*} {f : α → ℝ} (π : α → β) {g : β → ℝ} (hf : Multipliable f)
+    (hg : ∀ b, HasProd (fun c : {x // π x = b} => f c.1) (g b)) : ∏' a, f a = ∏' b, g b := by
+  have h1 : HasProd (fun p : (Σ b : β, {x // π x = b}) => f (Equiv.sigmaFiberEquiv π p))
+      (∏' a, f a) := (Equiv.sigmaFiberEquiv π).hasProd_iff.2 hf.hasProd
+  exact (HasProd.sigma h1 hg).tprod_eq.symm
+
+variable {K F : Type} [Field K] [NumberField K] [StarRing K] [Field F] [NumberField F] [Algebra F K]
+
+theorem comap_isMaximal {P : Ideal (𝓞 K)} (hP : P.IsMaximal) :
+    (P.comap (algebraMap (𝓞 F) (𝓞 K))).IsMaximal :=
+  haveI : P.IsMaximal := hP
+  Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := 𝓞 F) P
+
+theorem hasProd_fibre (hK : Formalism.HermitianLatticesTheory.IsCMUnram K)
+    (hF : ∀ a : K, star a = a ↔ a ∈ Set.range (algebraMap F K)) (M : ℕ) (hM : 1 ≤ M)
+    (𝔭 : {𝔭 : Ideal (𝓞 F) // 𝔭.IsMaximal}) :
+    HasProd (fun c : {x : {P : Ideal (𝓞 K) // P.IsMaximal} //
+        (⟨x.1.comap (algebraMap (𝓞 F) (𝓞 K)), comap_isMaximal x.2⟩ :
+          {𝔭 : Ideal (𝓞 F) // 𝔭.IsMaximal}) = 𝔭} => Formalism.HermitianLatticesTheory.eulerFac K M c.1.1)
+      (1 - etaF K F 𝔭.1 ^ M * (Ideal.absNorm 𝔭.1 : ℝ) ^ (-(M : ℤ)))⁻¹ := by
+  classical
+  obtain ⟨P, hP, hP𝔭⟩ := exists_maximal_over hK hF 𝔭.2
+  have hmem : ∀ c : {x : {P : Ideal (𝓞 K) // P.IsMaximal} //
+        (⟨x.1.comap (algebraMap (𝓞 F) (𝓞 K)), comap_isMaximal x.2⟩ :
+          {𝔭 : Ideal (𝓞 F) // 𝔭.IsMaximal}) = 𝔭},
+      c.1.1 = P ∨ c.1.1 = Formalism.HermitianLatticesTheory.conjIdeal (K := K) P := by
+    intro c
+    have h1 : c.1.1.comap (algebraMap (𝓞 F) (𝓞 K)) = 𝔭.1 := congrArg Subtype.val c.2
+    exact (comap_eq_comap_iff hK hF hP c.1.2).1 (hP𝔭.trans h1.symm)
+  have heta := etaF_comap hK hF hP
+  rw [hP𝔭] at heta
+  let c0 : {x : {P : Ideal (𝓞 K) // P.IsMaximal} //
+        (⟨x.1.comap (algebraMap (𝓞 F) (𝓞 K)), comap_isMaximal x.2⟩ :
+          {𝔭 : Ideal (𝓞 F) // 𝔭.IsMaximal}) = 𝔭} := ⟨⟨P, hP⟩, Subtype.ext hP𝔭⟩
+  by_cases hc : Formalism.HermitianLatticesTheory.conjIdeal (K := K) P = P
+  · have hN := absNorm_comap_inert hK hF hP hc
+    rw [hP𝔭] at hN
+    have hval : Formalism.HermitianLatticesTheory.eulerFac K M P =
+        (1 - etaF K F 𝔭.1 ^ M * (Ideal.absNorm 𝔭.1 : ℝ) ^ (-(M : ℤ)))⁻¹ := by
+      rw [← inv_inv (Formalism.HermitianLatticesTheory.eulerFac K M P), eulerFac_inv_inert hK hP hc, heta, if_pos hc, ← hN]
+      push_cast
+      rw [Real.sqrt_sq (Nat.cast_nonneg _)]
+    have h := hasProd_prod_of_ne_finset_one (L := SummationFilter.unconditional _) (f := fun c : {x : {P : Ideal (𝓞 K) // P.IsMaximal} //
+        (⟨x.1.comap (algebraMap (𝓞 F) (𝓞 K)), comap_isMaximal x.2⟩ :
+          {𝔭 : Ideal (𝓞 F) // 𝔭.IsMaximal}) = 𝔭} => Formalism.HermitianLatticesTheory.eulerFac K M c.1.1) (s := {c0})
+      (by
+        intro b hb
+        exfalso
+        apply hb
+        rw [Finset.mem_singleton]
+        apply Subtype.ext
+        apply Subtype.ext
+        rcases hmem b with h | h
+        · exact h
+        · exact h.trans hc)
+    rw [Finset.prod_singleton] at h
+    rw [← hval]
+    exact h
+  · have hN := absNorm_comap_split hK hF hP hc
+    rw [hP𝔭] at hN
+    have hPb := conjIdeal_isMaximal hK hP
+    have hPb𝔭 : (Formalism.HermitianLatticesTheory.conjIdeal (K := K) P).comap (algebraMap (𝓞 F) (𝓞 K)) = 𝔭.1 := by
+      rw [← hP𝔭]
+      exact ((comap_eq_comap_iff hK hF hP hPb).2 (Or.inr rfl)).symm
+    let c1 : {x : {P : Ideal (𝓞 K) // P.IsMaximal} //
+        (⟨x.1.comap (algebraMap (𝓞 F) (𝓞 K)), comap_isMaximal x.2⟩ :
+          {𝔭 : Ideal (𝓞 F) // 𝔭.IsMaximal}) = 𝔭} :=
+      ⟨⟨Formalism.HermitianLatticesTheory.conjIdeal (K := K) P, hPb⟩, Subtype.ext hPb𝔭⟩
+    have hne : c0 ≠ c1 := by
+      intro h
+      exact hc (congrArg (fun c => c.1.1) h).symm
+    have hval : Formalism.HermitianLatticesTheory.eulerFac K M P * Formalism.HermitianLatticesTheory.eulerFac K M (Formalism.HermitianLatticesTheory.conjIdeal (K := K) P) =
+        (1 - etaF K F 𝔭.1 ^ M * (Ideal.absNorm 𝔭.1 : ℝ) ^ (-(M : ℤ)))⁻¹ := by
+      rw [← inv_inv (Formalism.HermitianLatticesTheory.eulerFac K M P * _), eulerFac_mul_conj_inv_split hK hP hc M hM, heta,
+        if_neg hc, hN, one_pow, one_mul]
+    have h := hasProd_prod_of_ne_finset_one (L := SummationFilter.unconditional _) (f := fun c : {x : {P : Ideal (𝓞 K) // P.IsMaximal} //
+        (⟨x.1.comap (algebraMap (𝓞 F) (𝓞 K)), comap_isMaximal x.2⟩ :
+          {𝔭 : Ideal (𝓞 F) // 𝔭.IsMaximal}) = 𝔭} => Formalism.HermitianLatticesTheory.eulerFac K M c.1.1) (s := {c0, c1})
+      (by
+        intro b hb
+        exfalso
+        apply hb
+        rw [Finset.mem_insert, Finset.mem_singleton]
+        rcases hmem b with h | h
+        · exact Or.inl (Subtype.ext (Subtype.ext h))
+        · exact Or.inr (Subtype.ext (Subtype.ext h)))
+    rw [Finset.prod_pair hne] at h
+    rw [← hval]
+    exact h
+
+end Regroup
+
+variable {K F : Type} [Field K] [NumberField K] [StarRing K] [Field F] [NumberField F] [Algebra F K]
+
+theorem lValEta_eq_lValEtaF (hK : Formalism.HermitianLatticesTheory.IsCMUnram K) (hF : ∀ a : K, star a = a ↔ a ∈ Set.range (algebraMap F K)) (M : ℕ) (hM : 2 ≤ M) :
+    Formalism.HermitianLatticesTheory.lValEta K M = lValEtaF K F M := by
+  unfold Formalism.HermitianLatticesTheory.lValEta lValEtaF
+  exact Regroup.tprod_eq_of_fibre
+    (fun x : {P : Ideal (𝓞 K) // P.IsMaximal} =>
+      (⟨x.1.comap (algebraMap (𝓞 F) (𝓞 K)), Regroup.comap_isMaximal x.2⟩ :
+        {𝔭 : Ideal (𝓞 F) // 𝔭.IsMaximal}))
+    (multipliable_eulerFac hK M hM) (Regroup.hasProd_fibre hK hF M (by omega))
+
+end Formalism.HermitianLattices.Ext.L3
+end
+end
+
+section
+
+open NumberField Module
+
+noncomputable section
+
+namespace Formalism.HermitianLattices.Ext.L3
+
+namespace SplitBAux
+
+variable {K V V' : Type} [Field K] [NumberField K] [StarRing K]
+  [AddCommGroup V] [Module K V] [Module (𝓞 K) V] [IsScalarTower (𝓞 K) K V]
+  [AddCommGroup V'] [Module K V'] [Module (𝓞 K) V'] [IsScalarTower (𝓞 K) K V']
+
+variable {h : V →ₗ⋆[K] V →ₗ[K] K} {h' : V' →ₗ⋆[K] V' →ₗ[K] K}
+
+theorem exists_of_orth (S : VecSplit h h') {v : V} (hv : h S.x₀ v = 0) : ∃ a, S.ι a = v := by
+  obtain ⟨c, a, rfl⟩ := S.cover v
+  rw [S.h_x₀_comb] at hv
+  have hc : c = 0 := (mul_eq_zero.mp hv).resolve_right S.hx₀
+  exact ⟨a, by rw [hc, zero_smul, zero_add]⟩
+
+theorem h_decomp (hs : h.IsSymm) (S : VecSplit h h') (c d : K) (a b : V') :
+    h (c • S.x₀ + S.ι a) (d • S.x₀ + S.ι b) = star c * d * h S.x₀ S.x₀ + h' a b := by
+  simp [S.orth, S.orth' hs, S.isom, mul_assoc, starRingEnd_apply]
+
+def liftι {W : Type} [AddCommGroup W] [Module K W] (S : VecSplit h h') (f : W →ₗ[K] V)
+    (hf : ∀ w, ∃ b, S.ι b = f w) : W →ₗ[K] V' where
+  toFun a := (hf a).choose
+  map_add' a b := S.inj (by
+    rw [map_add S.ι, (hf a).choose_spec, (hf b).choose_spec, (hf (a + b)).choose_spec, map_add f])
+  map_smul' c a := S.inj (by
+    simp only [RingHom.id_apply]
+    rw [map_smul S.ι, (hf a).choose_spec, (hf (c • a)).choose_spec, map_smul f])
+
+theorem liftι_spec {W : Type} [AddCommGroup W] [Module K W] (S : VecSplit h h') (f : W →ₗ[K] V)
+    (hf : ∀ w, ∃ b, S.ι b = f w) (w : W) : S.ι (liftι S f hf w) = f w := (hf w).choose_spec
+
+def projX (S : VecSplit h h') : V →ₗ[K] V :=
+  ((h S.x₀ S.x₀)⁻¹ • h S.x₀).smulRight S.x₀
+
+theorem projX_apply (S : VecSplit h h') (c : K) (a : V') :
+    projX S (c • S.x₀ + S.ι a) = c • S.x₀ := by
+  unfold projX
+  rw [LinearMap.smulRight_apply, LinearMap.smul_apply, S.h_x₀_comb, smul_eq_mul]
+  congr 1
+  rw [inv_mul_eq_iff_eq_mul₀ S.hx₀]
+  exact mul_comm _ _
+
+def coordA (S : VecSplit h h') : V →ₗ[K] V' :=
+  liftι S (LinearMap.id - projX S) (by
+    intro v; obtain ⟨c, b, rfl⟩ := S.cover v
+    exact ⟨b, by simp [projX_apply]⟩)
+
+theorem coordA_apply (S : VecSplit h h') (c : K) (a : V') : coordA S (c • S.x₀ + S.ι a) = a := by
+  apply S.inj
+  unfold coordA
+  rw [liftι_spec, LinearMap.sub_apply, LinearMap.id_apply, projX_apply, add_sub_cancel_left]
+
+theorem linearMap_ext (S : VecSplit h h') {f g : V →ₗ[K] V} (h0 : f S.x₀ = g S.x₀)
+    (h1 : ∀ a, f (S.ι a) = g (S.ι a)) : f = g := by
+  ext v
+  obtain ⟨c, a, rfl⟩ := S.cover v
+  rw [map_add (f := _), map_add (f := _), map_smul, map_smul, h0, h1]
+
+theorem isom_apply {g : V ≃ₗ[K] V} (hg : g ∈ Formalism.HermitianLatticesTheory.isom h) (x y : V) : h (g x) (g y) = h x y := hg x y
+
+theorem symm_mem_isom {g : V ≃ₗ[K] V} (hg : g ∈ Formalism.HermitianLatticesTheory.isom h) : g.symm ∈ Formalism.HermitianLatticesTheory.isom h := by
+  exact inv_mem hg
+
+theorem mem_gmap_iff {W : Type} [AddCommGroup W] [Module K W] [Module (𝓞 K) W]
+    [IsScalarTower (𝓞 K) K W] (e : W ≃ₗ[K] W) (M : Submodule (𝓞 K) W) (v : W) :
+    v ∈ Formalism.HermitianLatticesTheory.gmap e M ↔ e.symm v ∈ M := by
+  unfold Formalism.HermitianLatticesTheory.gmap
+  rw [Submodule.mem_map]
+  constructor
+  · rintro ⟨y, hy, rfl⟩
+    simpa using hy
+  · intro hv
+    exact ⟨e.symm v, hv, by simp⟩
+
+theorem mem_adjoin_iff (S : VecSplit h h') (L' : Submodule (𝓞 K) V') (c : K) (a : V') :
+    c • S.x₀ + S.ι a ∈ S.adjoin L' ↔ (∃ r : 𝓞 K, algebraMap (𝓞 K) K r = c) ∧ a ∈ L' := by
+  rw [S.comb_mem_adjoin_iff, Submodule.mem_one]
+
+theorem maps_of_fix (S : VecSplit h h') {g : V ≃ₗ[K] V} (hg : g ∈ Formalism.HermitianLatticesTheory.isom h)
+    (hx : g S.x₀ = S.x₀) (a : V') : ∃ b, S.ι b = (g.toLinearMap ∘ₗ S.ι) a := by
+  apply exists_of_orth S
+  show h S.x₀ (g (S.ι a)) = 0
+  rw [← hx, isom_apply hg, S.orth]
+
+theorem symm_fix {g : V ≃ₗ[K] V} {x : V} (hx : g x = x) : g.symm x = x := by
+  exact g.symm_apply_eq.mpr hx.symm
+
+def res (S : VecSplit h h') (g : V ≃ₗ[K] V) (hg : g ∈ Formalism.HermitianLatticesTheory.isom h) (hx : g S.x₀ = S.x₀) :
+    V' ≃ₗ[K] V' :=
+  LinearEquiv.ofLinearMap (liftι S _ (maps_of_fix S hg hx))
+    (liftι S _ (maps_of_fix S (symm_mem_isom hg) (symm_fix hx)))
+    (by ext a; apply S.inj; simp [liftι_spec])
+    (by ext a; apply S.inj; simp [liftι_spec])
+
+theorem res_spec (S : VecSplit h h') (g : V ≃ₗ[K] V) (hg : g ∈ Formalism.HermitianLatticesTheory.isom h)
+    (hx : g S.x₀ = S.x₀) (a : V') : S.ι (res S g hg hx a) = g (S.ι a) := by
+  exact liftι_spec S _ _ a
+
+theorem res_symm_spec (S : VecSplit h h') (g : V ≃ₗ[K] V) (hg : g ∈ Formalism.HermitianLatticesTheory.isom h)
+    (hx : g S.x₀ = S.x₀) (a : V') : S.ι ((res S g hg hx).symm a) = g.symm (S.ι a) := by
+  exact liftι_spec S _ _ a
+
+theorem res_mem_isom (S : VecSplit h h') (g : V ≃ₗ[K] V) (hg : g ∈ Formalism.HermitianLatticesTheory.isom h)
+    (hx : g S.x₀ = S.x₀) : res S g hg hx ∈ Formalism.HermitianLatticesTheory.isom h' := by
+  show ∀ x y, h' (res S g hg hx x) (res S g hg hx y) = h' x y
+  intro x y
+  rw [← S.isom, res_spec, res_spec, isom_apply hg, S.isom]
+
+theorem gmap_res (S : VecSplit h h') (g : V ≃ₗ[K] V) (hg : g ∈ Formalism.HermitianLatticesTheory.isom h)
+    (hx : g S.x₀ = S.x₀) {L₁ L₂ : Submodule (𝓞 K) V} (hL : Formalism.HermitianLatticesTheory.gmap g L₁ = L₂) :
+    Formalism.HermitianLatticesTheory.gmap (res S g hg hx) (S.cut L₁) = S.cut L₂ := by
+  ext a
+  rw [mem_gmap_iff, S.mem_cut_iff, S.mem_cut_iff, res_symm_spec, ← hL, mem_gmap_iff]
+
+def extFun (S : VecSplit h h') (f : V' →ₗ[K] V') : V →ₗ[K] V :=
+  projX S + S.ι ∘ₗ f ∘ₗ coordA S
+
+theorem extFun_apply (S : VecSplit h h') (f : V' →ₗ[K] V') (c : K) (a : V') :
+    extFun S f (c • S.x₀ + S.ι a) = c • S.x₀ + S.ι (f a) := by
+  unfold extFun
+  rw [LinearMap.add_apply, projX_apply, LinearMap.comp_apply, LinearMap.comp_apply, coordA_apply]
+
+theorem eq_decomp_x₀ (S : VecSplit h h') : S.x₀ = (1 : K) • S.x₀ + S.ι 0 := by
+  simp
+
+theorem eq_decomp_ι (S : VecSplit h h') (a : V') : S.ι a = (0 : K) • S.x₀ + S.ι a := by
+  simp
+
+def extOf (S : VecSplit h h') (g' : V' ≃ₗ[K] V') : V ≃ₗ[K] V :=
+  LinearEquiv.ofLinearMap (extFun S g'.toLinearMap) (extFun S g'.symm.toLinearMap)
+    (linearMap_ext S (by
+      simp only [LinearMap.coe_comp, Function.comp_apply, LinearMap.id_coe, id_eq]
+      rw [eq_decomp_x₀ S, extFun_apply, extFun_apply]; simp)
+      (fun a => by
+        simp only [LinearMap.coe_comp, Function.comp_apply, LinearMap.id_coe, id_eq]
+        rw [eq_decomp_ι S, extFun_apply, extFun_apply]; simp))
+    (linearMap_ext S (by
+      simp only [LinearMap.coe_comp, Function.comp_apply, LinearMap.id_coe, id_eq]
+      rw [eq_decomp_x₀ S, extFun_apply, extFun_apply]; simp)
+      (fun a => by
+        simp only [LinearMap.coe_comp, Function.comp_apply, LinearMap.id_coe, id_eq]
+        rw [eq_decomp_ι S, extFun_apply, extFun_apply]; simp))
+
+theorem extOf_apply (S : VecSplit h h') (g' : V' ≃ₗ[K] V') (c : K) (a : V') :
+    extOf S g' (c • S.x₀ + S.ι a) = c • S.x₀ + S.ι (g' a) := extFun_apply S g'.toLinearMap c a
+
+theorem extOf_symm_apply (S : VecSplit h h') (g' : V' ≃ₗ[K] V') (c : K) (a : V') :
+    (extOf S g').symm (c • S.x₀ + S.ι a) = c • S.x₀ + S.ι (g'.symm a) := extFun_apply S g'.symm.toLinearMap c a
+
+theorem extOf_x₀ (S : VecSplit h h') (g' : V' ≃ₗ[K] V') : extOf S g' S.x₀ = S.x₀ := by
+  rw [eq_decomp_x₀ S, extOf_apply]
+  simp
+
+theorem extOf_ι (S : VecSplit h h') (g' : V' ≃ₗ[K] V') (a : V') :
+    extOf S g' (S.ι a) = S.ι (g' a) := by
+  rw [eq_decomp_ι S a, extOf_apply]
+  simp
+
+theorem extOf_mem_isom (hs : h.IsSymm) (S : VecSplit h h') {g' : V' ≃ₗ[K] V'}
+    (hg : g' ∈ Formalism.HermitianLatticesTheory.isom h') : extOf S g' ∈ Formalism.HermitianLatticesTheory.isom h := by
+  have hg' : ∀ x y, h' (g' x) (g' y) = h' x y := hg
+  show ∀ x y, h (extOf S g' x) (extOf S g' y) = h x y
+  intro x y
+  obtain ⟨c, a, rfl⟩ := S.cover x
+  obtain ⟨d, b, rfl⟩ := S.cover y
+  rw [extOf_apply, extOf_apply, h_decomp hs, h_decomp hs, hg']
+
+theorem gmap_extOf (S : VecSplit h h') (g' : V' ≃ₗ[K] V') {C₁ C₂ : Submodule (𝓞 K) V'}
+    (hC : Formalism.HermitianLatticesTheory.gmap g' C₁ = C₂) :
+    Formalism.HermitianLatticesTheory.gmap (extOf S g') (S.adjoin C₁) = S.adjoin C₂ := by
+  ext v
+  obtain ⟨c, a, rfl⟩ := S.cover v
+  rw [mem_gmap_iff, extOf_symm_apply, SplitBAux.mem_adjoin_iff, SplitBAux.mem_adjoin_iff, ← hC,
+    mem_gmap_iff]
+
+end SplitBAux
+
+end Formalism.HermitianLattices.Ext.L3
+end
+end

@@ -1,11 +1,11 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.StatementsSecDegreeLe
+public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle013
 public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.Assembly
 import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.AssemblyPartial
-import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.PChowNormFormGeneric
+import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.Bundle010
 import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.PChowSecDegree
-import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.PNormFormEval
+import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

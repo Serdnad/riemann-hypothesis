@@ -1,18 +1,18 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ImportsTailMore
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2655
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.DenseInterior
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CechKodairaSpencerPullbackSemiAbelianMap
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ChartAppLEEq
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DerCompat
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2740
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2753
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DualMapCompDualMap
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsDerivationAway
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2678
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsPolAVInterior
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GrpMulTransport
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.KodairaSpencerConditionRestrictBasicOpenOfAffine
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.KodairaSpencerUniqueAtPolarizedFieldPoint
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TanBasisPull
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.PointsOfClosureInProjectiveSpace
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2685
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2375
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2859
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2674
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle304
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -52,7 +52,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsChartOfIsLocalRing
-import Development.AbelianVarietyTheory.Definitions.Divisors.HasRigidChart
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle063
 public import Development.AbelianVarietyTheory.Definitions.Divisors.Pullback1MemHodgeFiltration
 
 @[expose] public section

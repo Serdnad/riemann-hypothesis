@@ -1,9 +1,9 @@
 module
 
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.PBwDecomp
-public import Formalism.LocalToGlobal.GlobalTheory.GL6.LatticeInclusionFamilyOf
+public import Formalism.LocalToGlobal.GlobalTheory.GL6.Bundle003
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.PBwLcInt
-public import Formalism.LocalToGlobal.GlobalTheory.GL6.PBwLocGlob
+public import Formalism.LocalToGlobal.GlobalTheory.GL6.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

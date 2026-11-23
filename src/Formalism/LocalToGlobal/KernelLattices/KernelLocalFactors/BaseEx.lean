@@ -4,9 +4,9 @@ public import Formalism.LocalToGlobal.KernelLattices.BaseEx
 public import Formalism.FrobeniusOrbits.FrobeniusOrbitsProofs.SplitK
 public import Formalism.LocalRingCardinality.RankBoundMonotoneInDimension
 import Formalism.LocalRingCardinality.SpanPowerMembership.ExampleLayerExistsGenerators
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.KerDetFin
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.KerDetOrd
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.KerSplit
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle006
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle003
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

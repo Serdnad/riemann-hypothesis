@@ -1,7 +1,7 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StMaDensLogPow
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PMaDensChain
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle052
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle102
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

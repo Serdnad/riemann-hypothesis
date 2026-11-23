@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsGrpPullback
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle002
 public import Mathlib.Algebra.DualNumber
 public import Mathlib.CategoryTheory.Monoidal.Cartesian.Grp
 import Mathlib.Algebra.Order.Floor.Extended

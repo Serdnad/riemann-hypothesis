@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.DualLattices.EigenQuotientSmithStatement
+public import ReciprocityTheory.DualLattices.Bundle020
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -48,14 +48,13 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.DualLattices.BlockOneMulMulBlockOne
-public import ReciprocityTheory.DualLattices.ExistsMatOfEquiv
+public import ReciprocityTheory.DualLattices.Bundle016
 public import ReciprocityTheory.DualLattices.MatEquivApply
 import ReciprocityTheory.DualLattices.ProdDvdOfIso
-public import ReciprocityTheory.DualLattices.StdJForm4
-import ReciprocityTheory.DualLattices.ThmAUses
+public import ReciprocityTheory.DualLattices.Bundle029
+import ReciprocityTheory.DualLattices.Bundle005
 import ReciprocityTheory.DualLattices.UnramifiedCokernelLowerBoundOf
-public import ReciprocityTheory.DualLattices.SmallLevelClassSet
+public import ReciprocityTheory.DualLattices.Bundle001
 
 @[expose] public section
 

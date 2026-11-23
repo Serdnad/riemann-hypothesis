@@ -1,13 +1,13 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.AutomorphicFormHyp
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.Bundle010
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.OrdinaryJacquetModules.CoreOrdAlt
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CoeDualRep
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ConjOpInvolutive
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.SatakeParametersComplexConjugate
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle033
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle226
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.Bundle086
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.TwistedDualFrobeniusCompatibility
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ClozelCohomology.ContinuousEntryPairings.ExConj
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.TIsoOfFrob
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.Bundle017
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -69,6 +69,7 @@ private theorem trace_of_flag {r : H →* GL (Fin n) k} {ψ : Fin n → H →* k
     rw [Units.val_mul, Units.val_mul, Matrix.trace_mul_cycle, ← Units.val_mul, inv_mul_cancel, Units.val_one, Matrix.one_mul]
   rw [← e]
   exact Finset.sum_congr rfl fun i _ => (hg s).2 i
+attribute [-instance] UpperTheory.V.Pr.IsCD.toIsDomain UpperTheory.V.Pr.IsCD.toIsDiscreteValuationRing UpperTheory.V.Pr.IsCD.complete in
 private theorem mem_range_of_sum [CharZero k] (a b : Fin n → H →* kˣ) (h : ∀ s, ∑ i, (a i s : k) = ∑ i, (b i s : k)) (i : Fin n) :
     ∃ j, a i = b j := by
   classical
@@ -128,8 +129,10 @@ private theorem flag_smul {r r' : H →* GL (Fin n) k} {β : H →* kˣ}
     rw [e, Matrix.smul_apply, show ((g * r s * g⁻¹ : GL (Fin n) k) : Matrix (Fin n) (Fin n) k) i i = _ from h1]
     simp [mul_comm]
 private def revM (n : ℕ) (k : Type) [Field k] : Matrix (Fin n) (Fin n) k := (1 : Matrix (Fin n) (Fin n) k).submatrix Fin.rev id
+attribute [-instance] UpperTheory.V.Pr.IsCD.toIsDomain UpperTheory.V.Pr.IsCD.toIsDiscreteValuationRing UpperTheory.V.Pr.IsCD.complete in
 private theorem revM_mul (X : Matrix (Fin n) (Fin n) k) (i j : Fin n) : (revM n k * X) i j = X (Fin.rev i) j := by
   simp [revM, Matrix.mul_apply, Matrix.one_apply]
+attribute [-instance] UpperTheory.V.Pr.IsCD.toIsDomain UpperTheory.V.Pr.IsCD.toIsDiscreteValuationRing UpperTheory.V.Pr.IsCD.complete in
 private theorem mul_revM (X : Matrix (Fin n) (Fin n) k) (i j : Fin n) : (X * revM n k) i j = X i (Fin.rev j) := by
   simp [revM, Matrix.mul_apply, Matrix.one_apply, Fin.rev_eq_iff]
 private theorem revM_sq : revM n k * revM n k = 1 := by
@@ -311,6 +314,7 @@ private theorem gal_cases (t : E ≃ₐ[maximalRealSubfield E] E) : t = 1 ∨ t 
   by_cases h1 : t = 1
   · exact Or.inl h1
   · exact Or.inr ((hy t h1).trans (hy _ (IsCMField.complexConj_ne_one E)).symm)
+attribute [-instance] UpperTheory.V.Pr.IsCD.toIsDomain UpperTheory.V.Pr.IsCD.toIsDiscreteValuationRing UpperTheory.V.Pr.IsCD.complete in
 private theorem exists_rel (ρ : G E Ω →* GL (Fin n) (Qbar l))
     (hp : ∀ c : G (maximalRealSubfield E) Ω, IsConjEl c → ∃ P, IsPairing c ρ (cycBar E Ω l ^ (1 - (n : ℤ))) P)
     {A A' : ValuationSubring Ω} (g : G (maximalRealSubfield E) Ω) (hg : g • A = A') :
@@ -334,6 +338,7 @@ private theorem exists_rel (ρ : G E Ω →* GL (Fin n) (Qbar l))
       rw [e]) g rfl hc hP
 end UpperTheory.V.Z.Ord.CU
 open UpperTheory.V.Af.Bc in
+attribute [-instance] UpperTheory.V.Pr.IsCD.toIsDomain UpperTheory.V.Pr.IsCD.toIsDiscreteValuationRing UpperTheory.V.Pr.IsCD.complete in
 theorem UpperTheory.V.Z.Ord.conj_unlinked_of_printed_results :
     _root_.UpperTheory.V.Af.Hypotheses' → ConjUnl := by
   intro HP E Ω _ _ _ _ _ _ l _ ι n ρ π hc hd ha w w' hw A hA ψ hψ

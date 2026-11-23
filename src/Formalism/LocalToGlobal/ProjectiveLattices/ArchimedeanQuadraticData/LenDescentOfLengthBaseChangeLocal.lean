@@ -1,9 +1,9 @@
 module
 
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.Rationality.QCoreSt
-public import Formalism.FilteredPoleLength.ReducedBasisBounds.LengthBaseChangeLocal
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.Rationality.Bundle003
+public import Formalism.FilteredPoleLength.ReducedBasisBounds.Bundle001
 public import Mathlib.RingTheory.SimpleRing.Principal
-public import Formalism.FilteredPoleLength.LocalDescentLevels.LengthBaseChange
+public import Formalism.FilteredPoleLength.LocalDescentLevels.Bundle003
 public import Formalism.LocalToGlobal.ProjectiveLattices.ArchimedeanQuadraticData.TieLDA
 public import Formalism.LocalToGlobal.ProjectiveLattices.ArchimedeanQuadraticData.TieLDB
 import Mathlib.Algebra.Order.Floor.Extended

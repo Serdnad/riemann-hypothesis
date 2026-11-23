@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.LowersMulZero
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle165
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.TranslatedLatticeAtInfinityFullCovolumeDual
 public import Mathlib.Data.Matrix.ColumnRowPartitioned
-public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.ExistsNeZeroForallNormLeOfCovolumeLe
+public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.Bundle001
 public import Formalism.HarderNarasimhan.ShiftInvariance
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -216,8 +216,8 @@ theorem covStd_index [_root_.NumberField.IsTotallyComplex E] {ι : Type} [Fintyp
       Formalism.HermitianLatticesTheory.vInv E ^ (Formalism.HermitianLatticesTheory.fDeg E * j) * ∏ v, ‖((Matrix.of g)ᵀ.map (φ v)).det‖ ^ 2 := by
   obtain ⟨hall, hstd⟩ := GlobalTheory.LatFacts.lattice_facts E ‹_› j
   have h1 : (Matrix.of fun a b : Fin j => if a = b then (1 : ℂ) else 0) = 1 := rfl
-  have hd1 : detNorm E j (fun _ a b => if a = b then 1 else 0) = 1 := by
-    simp only [detNorm, h1]; simp
+  have hd1 : GlobalTheory.FlagMeas.detNorm E j (fun _ a b => if a = b then 1 else 0) = 1 := by
+    simp only [GlobalTheory.FlagMeas.detNorm, h1]; simp
   have hlat : ∀ g : Fin j → Fin j → E, Submodule.span E (Set.range g) = ⊤ →
       Submodule.IsFullLattice E (Submodule.span (𝓞 E) (Set.range g)) := fun g hsp => by
     letI : Submodule.IsLattice E (Submodule.span (𝓞 E) (Set.range g)) :=
@@ -250,8 +250,8 @@ theorem covStd_index [_root_.NumberField.IsTotallyComplex E] {ι : Type} [Fintyp
     exact (map_ne_zero ψ).2 hMu
   let γ : MatInf E j := fun w => Matrix.of.symm (M.map w.embedding)⁻¹
   have hγ : ∀ w, Matrix.of (γ w) = (M.map w.embedding)⁻¹ := fun w => Matrix.of.apply_symm_apply _
-  have hdγ : detNorm E j γ = (∏ v, ‖(M.map (φ v)).det‖ ^ 2)⁻¹ := by
-    rw [detNorm, ← Finset.prod_inv_distrib]
+  have hdγ : GlobalTheory.FlagMeas.detNorm E j γ = (∏ v, ‖(M.map (φ v)).det‖ ^ 2)⁻¹ := by
+    rw [GlobalTheory.FlagMeas.detNorm, ← Finset.prod_inv_distrib]
     refine (Fintype.prod_bijective _ h.1 _ _ fun v => ?_).symm
     rw [hγ, Matrix.det_nonsing_inv, Ring.inverse_eq_inv', norm_inv, inv_pow]
     rcases h.2 v with ⟨h5, -⟩ | ⟨h5, -⟩

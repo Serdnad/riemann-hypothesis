@@ -1,18 +1,18 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.ExistsReadingLaws
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle008
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.NonemptyEquivMultiProdOne
 public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.HasFiniteLengthOfIsIrreducible
 import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.NotInSupportOfSubsingleton
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LeviBlockRepEquivFirst
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1999
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SupercuspidalSupportUniqueGL
 import Development.AbelianVarietyTheory.Proofs.SatakeParameters.GeometricLemmaCellOneBlockSwapEquiv
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsCovBySubmodule
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsInSupportOfMultiProd
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle055
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle131
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.JhMultSubAddQuot
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ParIndJacPlacing
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.PiExteriorTensorSmoothIrreducibleIsIrreducibleStatement
-public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.HasSupportOfIsSubquotientProdIrr
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle500
+public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle067
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -127,7 +127,7 @@ theorem cell_diag {α : Type} [Fintype α] [LinearOrder α] {m : α → Type} [�
     rfl
   let Ψ : W ≃ₗ[ℂ] Jacquet ρ (relUnip k f) := (Submodule.quotEquivOfEqBot _ hbot).symm
   have hΨ : ∀ u, Ψ u = Submodule.Quotient.mk u := fun u => rfl
-  let τ := (twist ((relJac f ρ).comp (swapBlocks k (fun i j => Fin (b.1 i j))))
+  let τ := (_root_.GlobalTheory.SmGL.twist ((relJac f ρ).comp (swapBlocks k (fun i j => Fin (b.1 i j))))
         (relDeltaHalf k (fun j i => Fin (b.1 i j)))).comp (relProj k g)
   have law : ∀ (p : relParab k g) u, τ p (Ψ u) = Ψ (ρ p u) := by
     intro p u
@@ -178,7 +178,7 @@ theorem exists_of_cell (h' : CellSemisimplification k) {α β : Type} [Fintype �
     {τ : Representation ℂ (Levi k m') Y} (hτ : τ.IsIrreducible) (hτs : IsSmooth τ)
     (h0 : jhMult τ (cellFunctor f g (piTensor ρ)) ≠ 0) :
     ∃ s : ∀ i j, IrrRep (GL (Fin (b i j)) k),
-      (∀ i, IsSubquotient (piTensor fun j => (s i j).ρ) (jac (f i) (ρ i))) ∧
+      (∀ i, IsSubquotient (piTensor fun j => (s i j).ρ) (_root_.GlobalTheory.SmGL.jac (f i) (ρ i))) ∧
         IsSubquotient τ (piTensor fun j => multiProd (g j) fun i => (s i j).ρ) := by
   obtain ⟨T, -, hT⟩ := h' α β m m' _ f g X ρ hρ hl
   rw [hT ⟨Y, τ, hτs, hτ⟩] at h0
@@ -235,7 +235,7 @@ theorem jhMult_jac_multiProd (hG : GeometricLemma) (hBZ : BernsteinZelevinskyFin
     (hy : ∀ i, IsSubquotient (y i).ρ (τ.comp (MonoidHom.mulSingle (fun i => GL (Fin (d i)) k) i) :
       Representation ℂ (GL (Fin (d i)) k) Y))
     (hys : ∀ i, HasSupport (y i).ρ (A i)) :
-    jhMult τ (jac e' (multiProd e fun i => (p i).π)) = jhMult τ (piTensor fun i => (p i).π) := by
+    jhMult τ (_root_.GlobalTheory.SmGL.jac e' (multiProd e fun i => (p i).π)) = jhMult τ (piTensor fun i => (p i).π) := by
   classical
   let M := fun i : Fin 2 => Fin (d i)
   haveI : Fintype (SizeMatrix M M) := Fintype.ofFinite _
@@ -252,7 +252,7 @@ theorem jhMult_jac_multiProd (hG : GeometricLemma) (hBZ : BernsteinZelevinskyFin
   have hf : f b₀ = f₀ := by simp [f]
   have hg : g b₀ = g₀ := by simp [g]
   have h1 := (hG k).1.jhMult_eq (m := M) (m' := M) e e' hρ f g hτ
-  refine (show jhMult τ (jac e' (multiProd e fun i => (p i).π)) = _ from h1).trans ?_
+  refine (show jhMult τ (_root_.GlobalTheory.SmGL.jac e' (multiProd e fun i => (p i).π)) = _ from h1).trans ?_
   rw [Finset.sum_eq_single b₀]
   · have key : ∀ (f' : ∀ i, (Σ j, Fin (b₀.1 i j)) ≃ M i) (g' : ∀ j, (Σ i, Fin (b₀.1 i j)) ≃ M j), f' = f₀ → g' = g₀ →
         jhMult τ (cellFunctor f' g' (piTensor fun i => (p i).π)) = jhMult τ (piTensor fun i => (p i).π) := by

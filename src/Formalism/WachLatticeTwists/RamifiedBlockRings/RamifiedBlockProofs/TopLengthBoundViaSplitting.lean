@@ -2,10 +2,10 @@ module
 
 public import Formalism.WachLatticeTwists.CoprimeLiftBounds.StatBridgeChiOne
 public import Formalism.CharacterColumnKernels.CharacterColumnKernelEqualityForm
-public import Formalism.CharacterColumnKernels.IdempotentNormalForms.GlobalConcreteOf
+public import Formalism.CharacterColumnKernels.IdempotentNormalForms.Bundle004
 public import Formalism.CharacterColumnKernels.IdempotentNormalForms.LengthKerSmulLe
-public import Formalism.WachLatticeTwists.CoprimeLiftBounds.CoprimeLiftProofs.Bridge
-public import Formalism.WachLatticeTwists.RamifiedBlockRings.RamifiedBlockProofs.LengthBoundViaSplitting
+public import Formalism.WachLatticeTwists.CoprimeLiftBounds.CoprimeLiftProofs.Bundle003
+public import Formalism.WachLatticeTwists.RamifiedBlockRings.RamifiedBlockProofs.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

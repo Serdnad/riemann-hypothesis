@@ -1,7 +1,7 @@
 module
 
 public import Development.AutomorphicArithmetic.Foundations.UnitarySphericalFixing.SatakeParameters.GoodLem
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.ExistsSplitPlace
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle030
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.DepthZeroLabelsOfLabelLaws
 import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GSplit
 import Mathlib.Algebra.Order.Floor.Extended
@@ -40,8 +40,8 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.ThetaMod
-import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.CoeffRingsHaveRootsOfUnity
+import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle022
+import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle016
 
 @[expose] public section
 

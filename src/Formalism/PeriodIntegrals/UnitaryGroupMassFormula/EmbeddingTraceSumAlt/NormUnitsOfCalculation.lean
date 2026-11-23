@@ -1,7 +1,7 @@
 module
 
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StandardCharacterTrace.SumEmbeddingEqTrace
-public import Formalism.PeriodIntegrals.ScPsiExists
+public import Formalism.PeriodIntegrals.Bundle023
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,10 +1,10 @@
 module
 
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CountingFormula.DensGF
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CountingFormula.DensGFL
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CountingFormula.DensGFR
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CountingFormula.FrIcFree
-import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CountingFormula.LocalDensityIntegral
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CountingFormula.Bundle002
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CountingFormula.Bundle006
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CountingFormula.Bundle004
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CountingFormula.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -48,7 +48,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Formalism.SharpRestriction.CuspSpanNormBounds.Point
+import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle001
 public import Mathlib.FieldTheory.Finite.Basic
 
 @[expose] public section

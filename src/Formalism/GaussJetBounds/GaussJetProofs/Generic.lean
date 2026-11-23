@@ -1,6 +1,6 @@
 module
 
-public import Formalism.GaussJetBounds.StatementM
+public import Formalism.GaussJetBounds.Bundle005
 public import Formalism.GaussJetBounds.GaussJetProofs.FrameA
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

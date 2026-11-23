@@ -4,10 +4,10 @@ public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Norm
 public import Mathlib.RingTheory.PowerSeries.Expand
 import Development.AbelianVarietyTheory.CrystallinePeriods.RingBasics
 import Development.AbelianVarietyTheory.CrystallinePeriods.RingIface
-public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.ExistsPolynomialSubMem
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ConstantCoeffTeichSub
+public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle295
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.UnramifiedIntegersTensorEqLetterwiseProductAinf
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.RootOfUnityPrimeToTeichmullerLift
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle097
 import Mathlib.Algebra.GroupWithZero.Submonoid.CancelMulZero
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

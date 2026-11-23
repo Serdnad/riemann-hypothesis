@@ -1,19 +1,19 @@
 module
 
-public import Development.AutomorphicSpectrum.Statements.GeometryStatements.KeyBadSt
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsThetaMeanSquareNorm
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExactKeyFormulaProofStatement
-public import Development.AutomorphicSpectrum.Proofs.AdelicProofs.GramMatrixPosDefConjugate
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FundamentalDomainRiemannFormStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeMetricFrameInnerStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.KeyDegreePpDataStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.KeyInputFromPpDataStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.KeyOverLieBasisDegreeStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.NonvanishingSectionFieldExtStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.NormalizedDegreeGramDetStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.PolarizedDataFieldExtensionStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ThetaFunctionArchimedeanFrameStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ThetaMultiplierQuadraticCharacterStatement
+public import Development.AutomorphicSpectrum.Statements.GeometryStatements.Bundle003
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle013
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle210
+public import Development.AutomorphicSpectrum.Proofs.AdelicProofs.Bundle010
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle026
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle269
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle189
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle295
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle310
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle277
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle124
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle270
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle267
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle257
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -58,7 +58,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-public import Development.AutomorphicSpectrum.Proofs.AdelicProofs.GramMat
+public import Development.AutomorphicSpectrum.Proofs.AdelicProofs.Bundle002
 
 @[expose] public section
 

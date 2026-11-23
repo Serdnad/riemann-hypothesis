@@ -54,7 +54,7 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.SiegelKlingenDeligneRibet
 import Development.AutomorphicSpectrum.Proofs.GlobalProofs.AbelContinuation
-import Formalism.SharpRestriction.GlobalSchurBounds.ShortIntervalPrimes
+import Formalism.SharpRestriction.GlobalSchurBounds.Bundle001
 public import Mathlib.Analysis.Analytic.Basic
 public import Mathlib.Analysis.Analytic.Uniqueness
 public import Mathlib.Analysis.Calculus.Deriv.Inv

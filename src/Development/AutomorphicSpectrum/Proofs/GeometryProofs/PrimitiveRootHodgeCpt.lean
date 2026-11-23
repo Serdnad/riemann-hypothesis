@@ -1,14 +1,13 @@
 module
 
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.GlobalSectionsRankAlgClosed
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IntegralClosureHeightEqOneOfLiesOver
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.GenWeil
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsFullLevelAt
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsPushEquiv
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle011
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle006
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle048
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.WeilIsGrpPullbackOfCommute
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsGenericWeilPairing
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ProjectiveModuleModNBasisStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.TateIsoPullbackEquiv
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle223
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle164
 import Mathlib.Algebra.AffineMonoid.Basic
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended

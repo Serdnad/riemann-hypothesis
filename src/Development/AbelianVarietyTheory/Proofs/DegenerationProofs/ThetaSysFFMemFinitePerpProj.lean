@@ -1,8 +1,8 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsAdaptedBasisTestLattice
-public import Development.AbelianVarietyTheory.Definitions.Degenerations.ArithBase
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.OrthogonalFreeOfPerfectAltZmod
+import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle066
+public import Development.AbelianVarietyTheory.Definitions.Degenerations.Bundle003
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

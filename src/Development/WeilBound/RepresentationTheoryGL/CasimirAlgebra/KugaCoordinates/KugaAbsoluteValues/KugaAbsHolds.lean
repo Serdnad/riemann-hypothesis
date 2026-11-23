@@ -2,11 +2,11 @@ module
 
 public import Development.WeilBound.RepresentationTheoryGL.CasimirAlgebra.KugaCoordinates.KugaAbsoluteValues.KSumApply
 public import Development.WeilBound.RepresentationTheoryGL.CasimirAlgebra.KugaCoordinates.KugaSt
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.AlternatingMapEqZeroOfSpan
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CompInsertNthEq
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.InvarianceContraction
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.KDKDelApply
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.RemoveNthSuccVecCons
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle056
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle046
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle054
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle044
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle045
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

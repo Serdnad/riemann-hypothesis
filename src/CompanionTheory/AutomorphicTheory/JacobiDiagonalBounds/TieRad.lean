@@ -2,7 +2,7 @@ module
 
 public import CompanionTheory.AutomorphicTheory.JacobiDiagonalBounds.TieAlg
 public import Formalism.HermitianCurvature.StatementMA
-public import Formalism.HermitianCurvature.StatementTop
+public import Formalism.HermitianCurvature.Bundle006
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.AdmissibleRecOfAdmissibleWord
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutJDHat
 import Mathlib.Algebra.Order.Floor.Extended
@@ -43,7 +43,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutGaugeCut
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle037
 
 @[expose] public section
 

@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.IsProjOverWeierstrass
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.PsiScalarsRelationsUpToBaseUnits
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EvenCubicalTensorPosDefFormPositiveStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FiniteEvenCubicalValuesNotMemMaximalIdealPowStatement
-import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsUnitValEqMul
-import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.PsiInIffScalarMem
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle071
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle073
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2990
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2991
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle070
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle080
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -44,7 +44,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.ExistsRosatiGen
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.LBLocalC
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.Bundle005
 
 @[expose] public section
 

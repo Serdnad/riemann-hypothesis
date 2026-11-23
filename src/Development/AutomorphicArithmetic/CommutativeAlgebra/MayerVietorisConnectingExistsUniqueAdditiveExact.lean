@@ -1,10 +1,10 @@
 module
 
 public import Development.AutomorphicArithmetic.CupPullbacks.ConstCompSingle
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ChosenInjectiveResolutionEtaleSheafPropertiesStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleCochainShortExactOfInjectiveTermsStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleSpaceChainsMayerVietorisShortExactStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsMayerVietorisConnectingExactStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle463
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle344
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle343
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle558
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

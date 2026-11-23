@@ -1,10 +1,8 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.TheoremIIOfEdgeBoundConstants
+public import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.Bundle002
 public import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.ColSpanMap
-public import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.GoodRankOfPrim
-public import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.ScaleNegMono
-public import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.NumericProductInequality
+public import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.Bundle003
 public import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.InitialLevelMonoWeights
 public import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.SymbolRealisableIffGeneralRank
 public import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.SourcePrimitiveIntegrality

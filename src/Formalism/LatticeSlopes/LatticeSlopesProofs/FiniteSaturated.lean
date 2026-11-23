@@ -3,7 +3,7 @@ module
 public import Formalism.LatticeSlopes.CovolAntiSameRank
 public import Formalism.LatticeSlopes.LatticeSlopesProofs.CovolPos
 public import Formalism.LatticeSlopes.LatticeSlopesProofs.DegQuot
-public import Formalism.LatticeSlopes.LatticeSlopesProofs.SaturationProperties
+public import Formalism.LatticeSlopes.LatticeSlopesProofs.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

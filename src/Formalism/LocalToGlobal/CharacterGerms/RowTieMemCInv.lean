@@ -1,7 +1,7 @@
 module
 
-public import Formalism.LocalToGlobal.CharacterGerms.RowTieMemC
-public import Formalism.LocalToGlobal.CharacterGerms.NormOneRowInvariant
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle030
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle025
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

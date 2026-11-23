@@ -1,15 +1,16 @@
 module
 
-public import Formalism.LocalToGlobal.ProjectiveLattices.CompTie
-public import Formalism.LocalToGlobal.ProjectiveLattices.CurveAsm
-public import Formalism.LocalToGlobal.ProjectiveLattices.CurveOpen
-public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.EvaluationLawsGenericFramesAtlasHoldStatement
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle031
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle048
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle045
+public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.Bundle039
 import Development.AbelianVarietyTheory.Proofs.GenericRegularity.FrameBorelGroupoidProperties
-public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.GenericSectionPointsInequivalentValuationsStatement
-public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.NaturalRuleValueBaseChangeOfIsReduced
-public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.NumericalConsequencesOfPins
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.MemRangeOfValVLeOne
-public import Formalism.LocalToGlobal.ProjectiveLattices.ESecPfA
+public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.Bundle036
+public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.GenericSectionPointsInequivalentValuations
+public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.Bundle013
+public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.Bundle029
+public import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle096
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle042
 import Formalism.LocalToGlobal.ProjectiveLattices.FrameCharts
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -52,7 +53,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 public import Development.AbelianVarietyTheory.Definitions.RegularCharts.ModelAt
-public import Development.AbelianVarietyTheory.Definitions.RegularCharts.Reframe
+public import Development.AbelianVarietyTheory.Definitions.RegularCharts.Bundle001
 
 @[expose] public section
 

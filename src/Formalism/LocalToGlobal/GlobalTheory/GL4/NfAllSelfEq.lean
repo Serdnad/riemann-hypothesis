@@ -1,7 +1,7 @@
 module
 
-public import Formalism.LocalToGlobal.Columns.CoefficientMapHeightBound
-public import Formalism.LocalToGlobal.GlobalTheory.GL4.CoeffMemOfIntSpanAt
+public import Formalism.LocalToGlobal.Columns.Bundle008
+public import Formalism.LocalToGlobal.GlobalTheory.GL4.Bundle004
 public import Formalism.LocalToGlobal.GlobalTheory.GL4.ThirdPropositionOfClass
 public import Formalism.LocalToGlobal.Columns.FockNormSubstitutionBound
 import Formalism.LocalToGlobal.Columns.PolyFnLemmas

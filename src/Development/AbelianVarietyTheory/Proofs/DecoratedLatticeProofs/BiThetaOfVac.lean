@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.IsBiSmooth
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.IsOpenNsmulCompletedHomLatticeFiniteAdelic
+public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.Bundle018
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle071
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.RealIdemMulOfReal
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.SmulEqZeroOfInf
 import Mathlib.Algebra.Order.Floor.Extended

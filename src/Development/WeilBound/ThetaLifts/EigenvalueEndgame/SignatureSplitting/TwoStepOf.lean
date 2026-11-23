@@ -1,7 +1,7 @@
 module
 
 public import Development.WeilBound.ThetaLifts.EigenvalueEndgame.SignatureSplitting.SigSplit
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.TensorIdeleNormalizedAbsIdeleHalfAtInfinity
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle294
 public import Development.WeilBound.ThetaLifts.ConeHypotheses.PureEqPureA
 public import Development.WeilBound.ThetaLifts.EigenvalueEndgame.SignatureSplitting.SpanPairIff
 import Development.WeilBound.ThetaLifts.EigenvalueEndgame.SignatureSplitting.StabClosed

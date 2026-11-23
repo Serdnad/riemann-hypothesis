@@ -1,10 +1,10 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.Counts
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.Bundle003
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.CompAlg
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.CompOrd
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.OrbFacts
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.PartOrd
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.Bundle004
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

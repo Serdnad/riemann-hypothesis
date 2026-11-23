@@ -4,12 +4,12 @@ public import Mathlib.Algebra.Algebra.Operations
 public import Mathlib.Algebra.Algebra.Subalgebra.Basic
 public import Mathlib.Data.Matrix.Basic
 public import Mathlib.RingTheory.Ideal.Defs
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.LagMap
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.LagTriangular
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.OrdExt
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.TriProdZero
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.Bundle007
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.Bundle014
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.Bundle001
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.Bundle002
 import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.ResMapBijective
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.TriDiag
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle045
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -60,7 +60,6 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.EqLagIff
 import Development.AutomorphicArithmetic.AutomorphicVarieties.PatchingModules.PairedDualFirstOrderDualMatrixSpace
 import Development.AutomorphicArithmetic.AutomorphicVarieties.WeilGroupCharacters.RepAlg
 public import Mathlib.LinearAlgebra.Dual.Lemmas

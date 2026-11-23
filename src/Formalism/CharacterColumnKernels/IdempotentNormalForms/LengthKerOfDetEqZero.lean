@@ -1,6 +1,6 @@
 module
 
-public import Formalism.CharacterColumnKernels.Statement
+public import Formalism.CharacterColumnKernels.Bundle001
 public import Mathlib.LinearAlgebra.Determinant
 public import Lemmata.AddValuationProducts.AddValProd
 public import Lemmata.SecondBlockLemmaA.Imports

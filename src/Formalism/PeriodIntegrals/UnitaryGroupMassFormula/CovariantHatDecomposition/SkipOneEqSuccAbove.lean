@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.ContractionsCovariantIff
+public import Formalism.PeriodIntegrals.Bundle026
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CovariantHatDecomposition.InjDecomp
 public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.GeneratorCommutatorQuantumDet
 public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.QuantumDetHighestWeightHolds

@@ -49,7 +49,7 @@ import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Separation.CompletelyRegular
 import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.GeometryOfNumbers.LatticeCovolumes.ArakelovDegreeEqDegreeOfFamily
-public import ReciprocityTheory.GeometryOfNumbers.LatticeCovolumes.CountStA
+public import ReciprocityTheory.GeometryOfNumbers.LatticeCovolumes.Bundle002
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section

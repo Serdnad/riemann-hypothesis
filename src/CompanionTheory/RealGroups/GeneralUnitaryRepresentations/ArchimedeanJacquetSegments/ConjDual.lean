@@ -1,9 +1,9 @@
 module
 
 public import CompanionTheory.RealGroups.GeneralUnitaryRepresentations.ArchimedeanJacquetSegments.Complementary
-public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.IrreducibleAdmissibleGL
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.DualClassTwistNeg
-public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.BernsteinZelevinskyFiniteness
+public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.Bundle002
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle344
+public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle048
 import GroundTheory.LocalFields.PadicLogSeries
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

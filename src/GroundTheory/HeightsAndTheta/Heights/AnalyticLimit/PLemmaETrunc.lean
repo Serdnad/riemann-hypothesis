@@ -1,8 +1,8 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.AnalyticLimit.StLemmaETrunc
-public import GroundTheory.HeightsAndTheta.Heights.AnalyticLimit.PLemmaETruncSmooth
-public import GroundTheory.HeightsAndTheta.Heights.AnalyticLimit.PListProductMass
+public import GroundTheory.HeightsAndTheta.Heights.AnalyticLimit.Bundle003
+public import GroundTheory.HeightsAndTheta.Heights.AnalyticLimit.Bundle014
+public import GroundTheory.HeightsAndTheta.Heights.AnalyticLimit.Bundle012
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -47,7 +47,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import ReciprocityTheory.AnalyticForms.PlurisubharmonicFunctions.PshRegMax
-import ReciprocityTheory.AnalyticForms.PotentialTheory.ContDiffAtOfIsPotential
+import ReciprocityTheory.AnalyticForms.PotentialTheory.Bundle003
 import ReciprocityTheory.AnalyticForms.PotentialTheory.StokesA
 
 @[expose] public section

@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.RowsExhaust
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.CoeffMonicPolySum
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.FiniteCosetsHeckeSetAtSplitPlaceOutsideLevelStatement
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle011
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle066
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle039
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.SplitExEveryDatum
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
@@ -43,7 +43,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Formalism.LocalToGlobal.Divisibility.ClassSum
+import Formalism.LocalToGlobal.Divisibility.Bundle001
 import Formalism.LocalToGlobal.IndefiniteForms.IndefSide
 
 @[expose] public section

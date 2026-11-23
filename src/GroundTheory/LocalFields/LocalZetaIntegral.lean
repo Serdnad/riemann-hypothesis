@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.LocalFields.LocalZetaChar
+public import GroundTheory.LocalFields.Bundle010
 public import Mathlib.Analysis.Calculus.FDeriv.Defs
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LogFactorialIndices.StatementIdx
+public import Formalism.LogFactorialIndices.Bundle001
 public import Mathlib.Basic.Real.Basic
 public import Mathlib.RingTheory.IsTensorProduct
 import Mathlib.Algebra.Order.Floor.Extended

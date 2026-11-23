@@ -2,9 +2,9 @@ module
 
 public import Formalism.LocalToGlobal.IndefiniteReal.LinksDefs
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IntValuationEqOfMem
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExpNegOneLtOne
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HeckeCharacterUnramifiedAeAndExistsLevel
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.LocKIntMem
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle120
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle118
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle214
 import Formalism.LocalToGlobal.ProjectiveLattices.HalfOneAddSqrtNegIsIntegral
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

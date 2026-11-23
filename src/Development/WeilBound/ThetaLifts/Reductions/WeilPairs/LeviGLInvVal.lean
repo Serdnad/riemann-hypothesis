@@ -1,7 +1,7 @@
 module
 
 public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.Mfac
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ReindexDblIncM
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1460
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsHalfAbstract
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ThetaFunctionHeisenbergInvariant
 public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.CAFInvol

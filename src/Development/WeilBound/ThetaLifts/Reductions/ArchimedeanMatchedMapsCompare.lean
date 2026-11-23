@@ -1,10 +1,9 @@
 module
 
 public import Development.WeilBound.ThetaLifts.Reductions.JoinDef
-public import Development.WeilBound.ThetaLifts.CartanFactorisation.CartanConj
-public import Development.WeilBound.ThetaLifts.CartanFactorisation.PolCountDef
-public import Development.WeilBound.ThetaLifts.CartanFactorisation.CountableCompactOpen
-public import Development.WeilBound.ThetaLifts.CartanFactorisation.RealTrans
+public import Development.WeilBound.ThetaLifts.CartanFactorisation.Bundle002
+public import Development.WeilBound.ThetaLifts.CartanFactorisation.Bundle007
+public import Development.WeilBound.ThetaLifts.CartanFactorisation.Bundle008
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -43,7 +42,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import Development.WeilBound.ThetaLifts.CartanFactorisation.CommuteConj
+public import Development.WeilBound.ThetaLifts.CartanFactorisation.Bundle006
 
 @[expose] public section
 

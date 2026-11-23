@@ -1,12 +1,12 @@
 module
 
-public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.SegmentRepresentation
+public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.Bundle002
 public import CompanionTheory.AutomorphicTheory.SegmentRepresentations.IrreducibleSegments.IsIrreduciblePiTensorSegTerm
 import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.NonemptyEquivMultiProdOne
-import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.IsSemisimpleRepresentationTprodChevalley
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ParabolicProductHasFiniteLengthGL
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsIrrRepInjectiveStatement
-import Development.AutomorphicSpectrum.Proofs.GlobalProofs.JacquetModuleFiniteLength
+import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle049
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle505
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle678
+import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle019
 import Development.AutomorphicSpectrum.Proofs.GlobalProofs.ParabolicInductionFiniteLength
 import GroundTheory.LocalFields.PadicLogSeries
 import Mathlib.Algebra.Order.Floor.Extended
@@ -46,7 +46,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.SegmentRepresentationIff
+import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.Bundle003
 
 @[expose] public section
 

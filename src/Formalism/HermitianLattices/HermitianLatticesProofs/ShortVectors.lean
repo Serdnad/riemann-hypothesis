@@ -1,6 +1,6 @@
 module
 
-public import Formalism.HermitianLattices.DefsCS
+public import Formalism.HermitianLattices.Bundle002
 public import Formalism.SuccessiveMinima.MinkowskiIIUpper
 import Formalism.SuccessiveMinima.SuccessiveMinimaProofs.SuccMin
 import Mathlib.Algebra.Order.Floor.Extended

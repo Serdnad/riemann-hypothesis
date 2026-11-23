@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.HwIrred
+public import Formalism.PeriodIntegrals.Bundle021
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.HighestWeightIrreducible.ClosedEqNablaC
 public import Formalism.GradedWeylDivisibility.DualWeylDominanceOf
 public import Formalism.GradedWeylDivisibility.FinalB

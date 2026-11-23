@@ -1,9 +1,9 @@
 module
 
-public import Formalism.CharacterColumnKernels.StatGlobalModule
+public import Formalism.CharacterColumnKernels.Bundle004
 public import Formalism.CharacterColumnKernels.IdempotentNormalForms.CupKillAdm
-public import Formalism.CharacterColumnKernels.IdempotentNormalForms.GenFin
-public import Formalism.CharacterColumnKernels.IdempotentNormalForms.GlobalConcreteOf
+public import Formalism.CharacterColumnKernels.IdempotentNormalForms.Bundle003
+public import Formalism.CharacterColumnKernels.IdempotentNormalForms.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

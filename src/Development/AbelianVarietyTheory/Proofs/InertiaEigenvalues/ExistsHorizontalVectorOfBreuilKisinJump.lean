@@ -2,8 +2,8 @@ module
 
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.EzpowMulEzpowNeg
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.InstTameDescentExponentDataPadicThree
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsUltrametricDistFinExt
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.BreuilKisinXiExtMemRigidTensorIff
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle010
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle146
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -324,7 +324,7 @@ theorem not_next [NeZero a] (P : PhiMod O K l e a ι) (i : ℤ) {y : Vec K a ι}
   have hX (τ i j) : P.mx τ i j ∈ RpiE O K l e := invE_A_le_RpiE l e (P.mx_mem τ i j)
   obtain ⟨α, hα⟩ := exists_denom (fun q : ZMod a × ι × ι => hat O l e (P.mx q.1 q.2.1 q.2.2))
   choose μ hμ using hα
-  choose ρ s hρ using fun τ j => exists_eq_algebraMap_add_pow_mul (EIn l e (invL l (A O K))) (α + p)
+  choose ρ s hρ using fun τ j => _root_.GlobalTheory.BK.exists_eq_algebraMap_add_pow_mul (EIn l e (invL l (A O K))) (α + p)
     (∑ k, r k τ * toHat O K l e ⟨m k τ j, hm k τ j⟩)
   set z : Vec K a ι := fun τ => P.mx τ *ᵥ fun j => (ρ τ j : K⟦X⟧)
   have hz : z ∈ P.ext (invL l (A O K)) :=

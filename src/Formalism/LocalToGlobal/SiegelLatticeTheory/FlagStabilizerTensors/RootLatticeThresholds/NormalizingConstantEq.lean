@@ -274,7 +274,7 @@ theorem normTie (u u' : D.what₂.Word) : NormTie hF u u' := by
   intro hd hd' hE hA hId hK2
   obtain ⟨K, hsum, hK⟩ := hE
   have hKm := kmat_eq hF hd hd' K hK
-  have hs : ∀ S : Set (TT Y u u'), Summable (S.indicator (Y.tO u u').op) := fun S =>
+  have hs : ∀ S : Set (_root_.Formalism.L2.SG.PackageTie2.TT Y u u'), Summable (S.indicator (Y.tO u u').op) := fun S =>
     Summable.of_norm_bounded hA.1 fun t => by
       by_cases h : t ∈ S
       · rw [Set.indicator_of_mem h]

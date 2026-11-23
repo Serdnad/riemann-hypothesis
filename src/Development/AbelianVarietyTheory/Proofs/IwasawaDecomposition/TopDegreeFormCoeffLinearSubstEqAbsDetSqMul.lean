@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.InterPolyProdSum
+public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.Bundle008
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -44,8 +44,8 @@ import Mathlib.Tactic.Polynomial.Basic
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.FnAlgClosedOfFixedPoints
 import Development.AbelianVarietyTheory.Definitions.Divisors.IsProperToroidalModelStructureMap
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsIsLieBase
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.MultOfNotMem
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle682
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle206
 import Formalism.LocalToGlobal.ProjectiveLattices.ErealAddIInf
 public import Mathlib.Data.Matrix.PEquiv
 

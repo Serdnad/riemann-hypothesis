@@ -4,7 +4,7 @@ public import Mathlib.NumberTheory.NumberField.CMField
 public import Mathlib.NumberTheory.Padics.PadicIntegers
 public import Mathlib.RingTheory.SimpleRing.Principal
 public import Mathlib.RingTheory.Unramified.Basic
-public import Development.WeilBound.CoreStatements.HomogeneousNonvanishing.TwGXi
+public import Development.WeilBound.CoreStatements.HomogeneousNonvanishing.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

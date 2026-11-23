@@ -1,8 +1,8 @@
 module
 
 public import GroundTheory.GlobalFields.IdeleGroups.InfiniteProjInfiniteEmbeddingOfNe
-public import GroundTheory.GlobalFields.IdeleGroups.Restricted
-public import GroundTheory.GlobalFields.TateThesis.LocalConductor
+public import GroundTheory.GlobalFields.IdeleGroups.Bundle001
+public import GroundTheory.GlobalFields.TateThesis.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

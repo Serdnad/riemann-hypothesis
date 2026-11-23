@@ -1,14 +1,14 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.ConjTupRefl
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle023
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.AdmissibleEmptyOfGood
-public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.InfinityTypes
-import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.MemRangeOfOneTmulMem
+public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.Bundle008
+import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle063
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsNsmulIntMemLatO
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IdempotentMulEqZeroOfOrthogonal
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ThetaWeightArithmeticAtPlaceProof
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsEqMulOfResSNeOne
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.TameHeckeCharSplitSupportedEqProdResidue
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle554
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle265
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -72,7 +72,7 @@ theorem liftC_cast (τ : D.what₂.Tau) :
   obtain ⟨z, hz⟩ := (GlobalTheory.PairWeightArith.arithAt D i τ).d_int
   rw [liftC, hz, Int.floor_intCast, ← hz, dShift]
 
-def liftWeight : Weight D (Vc D i).rank where
+def liftWeight : _root_.GlobalTheory.ExportSeries.Weight D (Vc D i).rank where
   p := pS D i
   q := qS D i
   ap := aP D i

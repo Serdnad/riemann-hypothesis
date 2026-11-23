@@ -2,8 +2,8 @@ module
 
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
 public import Mathlib.Algebra.AffineMonoid.Basic
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DetNeZeroOfHasSig
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DifferentCoprimeAtGoodPlaces
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1387
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1925
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsDualFamilyOfIsLattice
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsUniqueIsConjAt
 import Formalism.LocalRingCardinality.SpanPowerMembership.LocAtA
@@ -45,7 +45,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.InclRMulPtAt
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2130
 
 @[expose] public section
 

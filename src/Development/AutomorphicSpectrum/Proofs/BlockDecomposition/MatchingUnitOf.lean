@@ -2,14 +2,14 @@ module
 
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.SatakeExponents.UniformizerValuations.LeviMatchingWords.MatchLM
 import Development.AbelianVarietyTheory.Definitions.Divisors.T2SpaceGeneralLinearGroup
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LeviProjectionMaximalCompact
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1716
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.HasSatakeGLOfIsSatVecGL
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ComapUNAndMapSM
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ConstantTermHeckeFormula
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FiniteSphNe
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HasCompactSupportTj
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle538
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle602
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle549
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle642
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HeckeCosetSumCompact
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LevelFamInf
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle537
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SphericalOneOfLocalAlgebra
 import GroundTheory.AutomorphicForms.GLnLocal
 import GroundTheory.LocalFields.LocalFourierHaar
@@ -191,7 +191,7 @@ theorem ct_lone {a b : ℕ} (h : a + b = n) {w : Pl E} (hU : UL n w = ⊤) (m : 
 
 theorem ctMu_lone {a b : ℕ} (h : a + b = n) {w : Pl E} (hU : UL n w = ⊤) (μ : (w.adicCompletion E)ˣ →* ℂˣ)
     (hμ : ∀ u : (w.adicCompletion E)ˣ, ordL (u : w.adicCompletion E) = 0 → μ u = 1) :
-    ctMu h w μ (lone (KL n w)) = idem (K2 a b w) := by
+    ctMu h w μ (lone (KL n w)) = _root_.PositivityTheory.Rg.BcB.F.idem (K2 a b w) := by
   funext m
   unfold ctMu
   rw [ct_lone h hU]
@@ -204,11 +204,11 @@ theorem ctMu_lone {a b : ℕ} (h : a + b = n) {w : Pl E} (hU : UL n w = ⊤) (μ
       rw [mul_assoc, map_mul, hu, map_pow, h1]
       simp
     rw [e, if_pos hm]
-    unfold idem
+    unfold _root_.PositivityTheory.Rg.BcB.F.idem
     rw [Set.indicator_of_mem (show m ∈ (K2 a b w : Set _) from hm), Subgroup.relIndex_self]
     simp
   · rw [if_neg hm, mul_zero]
-    unfold idem
+    unfold _root_.PositivityTheory.Rg.BcB.F.idem
     rw [Set.indicator_of_notMem (show m ∉ (K2 a b w : Set _) from hm)]
 
 theorem lpow_lone_one {w : Pl E} : lpow (KL n w) (lone (KL n w)) 1 = (KL n w : Set (UL n w)).indicator 1 := by
@@ -249,10 +249,10 @@ theorem matchLMUnitOf : PositivityTheory.Rg.BcB.F.MLM.MatchLMUnitOf := by
   have hlev : d.lev a w = K2 a (n - a) w := by
     unfold LocData.lev
     rw [if_neg hT, if_neg (by simp [hS₀, hBad])]
-  have htr : (d.eL a).tr d.P d.one w = idem (K2 a (n - a) w) := by
+  have htr : (d.eL a).tr d.P d.one w = _root_.PositivityTheory.Rg.BcB.F.idem (K2 a (n - a) w) := by
     unfold LM.tr
     rw [if_neg hP]
-    show idem (d.lev a w) = _
+    show _root_.PositivityTheory.Rg.BcB.F.idem (d.lev a w) = _
     rw [hlev]
   rw [htr]
   by_cases hw : IsSplitAt w

@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.IsMirClass
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsColReduced
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle007
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle813
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -44,7 +44,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.Definitions.Divisors.SplitDoublingNBlock
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle022
 
 @[expose] public section
 

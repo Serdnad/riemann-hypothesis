@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.HasDivPlace
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.BijectiveRealTensorToProdMatrixAlgebrasInfPlaces
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SimilitudePairGramInvCongruent
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.PzIffPos
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle058
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle267
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1511
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle016
 import Mathlib.Algebra.Order.Archimedean.Real.Hom
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -44,8 +44,8 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsDimEqOne
-import Development.AbelianVarietyTheory.Definitions.Divisors.IsHolPeriods
-import Development.AbelianVarietyTheory.Definitions.Divisors.PointsNonemptyUnitaryRankOne
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle017
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle045
 import Development.AutomorphicArithmetic.RealSpanData.RealData
 
 @[expose] public section

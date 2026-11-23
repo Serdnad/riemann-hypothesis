@@ -44,7 +44,7 @@ import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
 import Development.AbelianVarietyTheory.Definitions.Divisors.HilbertNinetyQuotientHomEqIff
 import Development.AbelianVarietyTheory.Definitions.Foundations.NormEulerPolySubOneLe
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IntAFSmulMemLatOF
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsHeisTrivial
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle008
 import Formalism.LocalToGlobal.IndefiniteReal.DatumF
 import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.GenusMassVolumes
 

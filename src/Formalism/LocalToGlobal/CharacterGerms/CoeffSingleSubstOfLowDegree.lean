@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.CharacterGerms.IntSubst
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle002
 public import Formalism.LocalToGlobal.CharacterGerms.RowTieDefs
 public import Mathlib.RingTheory.PowerSeries.Substitution
 public import Formalism.FormalGroupWitt.FormalGroupWittProofs.SolveV

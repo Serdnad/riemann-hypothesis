@@ -49,7 +49,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Mathlib.Topology.UniformSpace.Uniformizable
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.SacSuccAbove
-import ReciprocityTheory.SemistableReduction.AlgAll
+import ReciprocityTheory.SemistableReduction.Bundle019
 
 @[expose] public section
 

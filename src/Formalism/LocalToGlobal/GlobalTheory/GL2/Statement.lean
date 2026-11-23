@@ -40,9 +40,9 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Formalism.SharpRestriction.CuspSpanNormBounds.Point
+import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle001
 import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.GenusMassVolumes
-import Formalism.SharpRestriction.GlobalSchurBounds.ShortIntervalPrimes
+import Formalism.SharpRestriction.GlobalSchurBounds.Bundle001
 import Formalism.SharpRestriction.LevelLetterCocycles.DataNLoc
 
 @[expose] public section

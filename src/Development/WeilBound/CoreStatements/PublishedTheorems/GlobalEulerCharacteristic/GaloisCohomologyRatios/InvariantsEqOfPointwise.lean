@@ -1,7 +1,7 @@
 module
 
 public import Development.WeilBound.CoreStatements.PublishedTheorems.GlobalEulerCharacteristic.GaloisCohomologyRatios.ModuleFiniteHomRep
-public import Development.WeilBound.CoreStatements.PublishedTheorems.GlobalEulerCharacteristic.GaloisCohomologyRatios.NormalOfGsOpenSubgroupNormal
+public import Development.WeilBound.CoreStatements.PublishedTheorems.GlobalEulerCharacteristic.GaloisCohomologyRatios.Bundle001
 public import GroundTheory.ProfiniteCohomology.GlobalEulerCharacteristic.Kummer
 import GroundTheory.ProfiniteCohomology.RestrictedRamification.Brauer
 import Mathlib.Algebra.Order.Floor.Extended

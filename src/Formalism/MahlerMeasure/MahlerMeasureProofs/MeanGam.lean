@@ -1,10 +1,10 @@
 module
 
-public import Formalism.MahlerMeasure.StatementD
-public import Formalism.MahlerMeasure.StatementT
+public import Formalism.MahlerMeasure.Bundle002
+public import Formalism.MahlerMeasure.Bundle005
 public import Mathlib.NumberTheory.Padics.Complex
 public import Mathlib.RingTheory.SimpleRing.Principal
-public import Formalism.MahlerMeasure.LegendreDigits
+public import Formalism.MahlerMeasure.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

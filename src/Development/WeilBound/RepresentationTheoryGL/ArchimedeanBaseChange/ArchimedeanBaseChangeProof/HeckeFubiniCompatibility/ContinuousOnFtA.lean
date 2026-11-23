@@ -6,7 +6,7 @@ public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange
 import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.HeckeFubiniCompatibility.MultHasCompactSupport
 import GroundTheory.AutomorphicForms.RealGroups
 import GroundTheory.AutomorphicForms.RealIwasawaIntegration
-import GroundTheory.AutomorphicForms.ReductionMeasure
+import GroundTheory.AutomorphicForms.Bundle012
 import GroundTheory.GlobalFields.Adele.Topology
 import GroundTheory.GlobalFields.TateThesis.IdeleMeasure
 import Mathlib.Algebra.Order.Floor.Extended

@@ -3,10 +3,10 @@ module
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.InductionEstimates.IwahoriHeckeInjectivity.HeckeInj
 import Development.AbelianVarietyTheory.PublishedTheorems.PublishedFoundations.ComplexMultiplicationJPremises
 import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.InfinitesimalCharacterPullback.HasInfCharPullSub
-public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.ConjCarries
+public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.Bundle006
 public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.ExCusp
 public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.SInfIff
-public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.SSatIff
+public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.Bundle007
 import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.AdUnique
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.Places
 import Mathlib.Algebra.Order.Floor.Extended
@@ -41,8 +41,8 @@ import Mathlib.Tactic.NormNum.NatSqrt
 import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-public import PositivityTheory.AutomorphicForms.PublishedInputs.CyclicBaseChange.PSGalAdEx
-import Development.AutomorphicArithmetic.AutomorphicVarieties.PublishedTheorems.GelfandKazhdanReal
+public import PositivityTheory.AutomorphicForms.PublishedInputs.CyclicBaseChange.Bundle002
+import Development.AutomorphicArithmetic.AutomorphicVarieties.PublishedTheorems.Bundle001
 
 @[expose] public section
 

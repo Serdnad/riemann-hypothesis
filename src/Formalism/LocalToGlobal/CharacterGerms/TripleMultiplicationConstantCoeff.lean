@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalToGlobal.CharacterGerms.ConstantZeroDoubleMultiplicationPair
-public import Formalism.LocalToGlobal.CharacterGerms.ConstantZeroRestrictPoints
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle010
 import Formalism.FormalGroupLog.FormalGroupLogProofs.ChainRule
 public import Formalism.LocalToGlobal.CharacterGerms.GermEvalOneStandardPointSelf
 import Mathlib.Algebra.Order.Floor.Extended

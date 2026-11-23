@@ -1,10 +1,10 @@
 module
 
-public import Development.AutomorphicArithmetic.CommutativeAlgebra.EtaleCohomology.GoodRoot
+public import Development.AutomorphicArithmetic.CommutativeAlgebra.EtaleCohomology.Bundle001
 public import Mathlib.RingTheory.Henselian
 public import Development.AutomorphicArithmetic.CommutativeAlgebra.ExistsPowerDecompositionOfRootOfUnity
-public import Development.AutomorphicArithmetic.CommutativeAlgebra.ExistsTwoChartQuotientOfFiniteCoord
-public import Development.AutomorphicArithmetic.CommutativeAlgebra.ExistsZeroOfLinearFormJacobianHenselian
+public import Development.AutomorphicArithmetic.CommutativeAlgebra.Bundle003
+public import Development.AutomorphicArithmetic.CommutativeAlgebra.Bundle009
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

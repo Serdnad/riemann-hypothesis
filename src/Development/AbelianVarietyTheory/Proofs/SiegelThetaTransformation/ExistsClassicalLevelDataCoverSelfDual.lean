@@ -4,7 +4,7 @@ public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.IsBa
 public import Development.AbelianVarietyTheory.Counterexamples.LevelGroupExamples.ZeroNotAdmissibleOfRankPos
 public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.LevelStructureProperties
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.GeneralLinearGroupCharEqOneOfDetEqOne
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.HalvesFreeAndAdjoint
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle095
 import Mathlib.Algebra.AffineMonoid.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -54,7 +54,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.HolomorphicFamilies.CmHostUnitAddConjEqOne
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.HolomorphicFamilies.Bundle005
 
 @[expose] public section
 
@@ -479,8 +479,12 @@ theorem exists_levTie : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (
       w := H.w0
       w_int := H.w0.2
       w_tr := by
-        have := congrArg (fun a : 𝓞 E => (a : E)) (PullbackSections.CVA.cmHostUnit_add_conj_eq_one H)
-        simpa [H.bar_eq, cc] using this }
+        have hw := congrArg (algebraMap (𝓞 E) E)
+          (PullbackSections.CVA.cmHostUnit_add_conj_eq_one H)
+        rw [map_add, map_one] at hw
+        change (H.w0 : E) + (H.bar H.w0 : E) = 1 at hw
+        rw [H.bar_eq] at hw
+        exact hw }
   have hG : ∀ k : GL (Fin (Dw.p + Dw.q)) (𝓞 E ⧸ Mfr d.l₂), k ∈ G ↔ ∀ i j, ∃ a ∈ Mfr l,
       (k : Matrix (Fin (Dw.p + Dw.q)) (Fin (Dw.p + Dw.q)) (𝓞 E ⧸ Mfr d.l₂)) i j - (1 : Matrix (Fin (Dw.p + Dw.q)) (Fin (Dw.p + Dw.q)) (𝓞 E ⧸ Mfr d.l₂)) i j =
         Ideal.Quotient.mk (Mfr d.l₂) a := fun k => by

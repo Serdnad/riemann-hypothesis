@@ -1,11 +1,11 @@
 module
 
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ValCalc
-public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.SurjectiveAppOfIsAbelianScheme
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PullUInjectiveOfFlatSurjective
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TopIsoInvRestrictAppTop
+public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle011
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1086
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1079
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.ExistsTorusAndQuotientHom
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.AbelianSchemeCubicalBundleExistsAndMaps
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle074
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

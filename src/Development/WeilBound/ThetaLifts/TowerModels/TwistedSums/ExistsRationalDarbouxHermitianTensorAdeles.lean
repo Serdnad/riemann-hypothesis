@@ -111,6 +111,8 @@ theorem sum_four_swap {M : Type} [AddCommMonoid M] (f : α → β → α → β 
 
 variable {F E : Type} [Field F] [Field E] [Algebra F E] [FiniteDimensional F E]
 
+local instance : FiniteDimensional F (Matrix α β E) := Module.Finite.matrix
+
 theorem isAlt_sympBil [CharZero F] (σ : E →ₐ[F] E) (hσ : ∀ x, σ (σ x) = x) {JA : Matrix α α E} {JB : Matrix β β E}
     (hA : ∀ i j, σ (JA j i) = JA i j) (hB : ∀ i j, σ (JB j i) = -JB i j) : (sympBil σ (-1) JA JB).IsAlt := by
   intro x

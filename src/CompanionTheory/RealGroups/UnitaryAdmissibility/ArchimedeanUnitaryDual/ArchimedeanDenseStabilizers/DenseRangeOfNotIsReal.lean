@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.AdelicHermitianForms.IsHermForm
-public import Formalism.PeriodIntegrals.UJClassFin
+public import Development.AbelianVarietyTheory.Definitions.AdelicHermitianForms.Bundle002
+public import Formalism.PeriodIntegrals.Bundle009
 public import Mathlib.Analysis.CStarAlgebra.Classes
 public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.NefEffectiveCones.ExistsNsmulMulVecMemHat
 import Mathlib.Algebra.Order.Floor.Extended

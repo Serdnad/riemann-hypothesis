@@ -1,11 +1,10 @@
 module
 
-public import Formalism.LocalToGlobal.GroupLattices.TiedFamilies.TiePtRec
-public import Formalism.LocalToGlobal.GroupLattices.TiedFamilies.TiePtOne
-public import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.CastGLSymmApply
-public import Formalism.LocalRingCardinality.DataKerI
-import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.RecAct
-public import Formalism.LocalToGlobal.GroupLattices.TiedFamilies.IntSplitOf
+public import Formalism.LocalToGlobal.GroupLattices.TiedFamilies.Bundle004
+public import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.Bundle004
+public import Formalism.LocalRingCardinality.Bundle008
+import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.Bundle008
+public import Formalism.LocalToGlobal.GroupLattices.TiedFamilies.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

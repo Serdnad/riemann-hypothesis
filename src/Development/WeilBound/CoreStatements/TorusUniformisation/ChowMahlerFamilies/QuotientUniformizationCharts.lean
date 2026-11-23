@@ -1,15 +1,15 @@
 module
 
 public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.CoordinateIdeals
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ConjugateHermitianLineIsometries
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsHodgeLine
-public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.HasMultiplier
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle006
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle010
+public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.Bundle001
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.BlowupProjections.BlowupProjStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.AdjoinCoordsArithVarStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle177
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsFormNotInCoordIdeal
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsTorusStableSncChartsStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeCptInteriorGenericStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsArithVarOfBlockAlgebraicStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle193
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle132
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle152
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.JoinModelPointsProject
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.MemOfAevalEqZero
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ValuationCoordsComplexPoint
@@ -55,9 +55,9 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.AbProj
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle007
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.OneArc
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.AbBound
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle086
 
 @[expose] public section
 

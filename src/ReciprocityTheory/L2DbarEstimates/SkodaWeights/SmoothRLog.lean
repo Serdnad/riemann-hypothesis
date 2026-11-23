@@ -47,7 +47,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.L2DbarEstimates.ChartDerivatives.ChartSymmEventuallyEq
-public import ReciprocityTheory.L2DbarEstimates.ChartDerivatives.CommFderivApply
+public import ReciprocityTheory.L2DbarEstimates.ChartDerivatives.Bundle001
 public import ReciprocityTheory.L2DbarEstimates.ChartDerivatives.IntegralFderivApplyEqZero
 import ReciprocityTheory.L2DbarEstimates.ChartDerivatives.TsupportDbSubset
 public import Mathlib.Analysis.SpecialFunctions.Log.Deriv

@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.ProjectiveLattices.PowMapMemOfPowMulMem
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle003
 public import Formalism.SharpRestriction.GenusPolyhedralBounds.RelativeIndexClassSets.RestrictionEqZeroIffMemVanishingFiltration
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -176,9 +176,9 @@ section Sec
 variable {X la N} {wL : WeightFamilies.Wt D j} (w : Fin N → B.Cusp j wL)
 
 theorem dR_sec (l : Fin N) (i : Fin (WeightFamilies.dimY D j + 1)) :
-    dR X la N (0, l) (sec X la w i) = if i = 0 then emb X la N (X.inc wL (w l)) else 0 := by
+    dR X la N (0, l) (Formalism.MainNotions.Gaps.EtaleWeightGaps.sec X la w i) = if i = 0 then emb X la N (X.inc wL (w l)) else 0 := by
   classical
-  unfold sec
+  unfold Formalism.MainNotions.Gaps.EtaleWeightGaps.sec
   rw [(dR_isDer X la N (0, l)).der_sum]
   simp only [dR_smul, dR_emb, smul_zero, add_zero, dK_Tv, Prod.mk.injEq]
   by_cases hi : i = 0 <;> simp [hi]
@@ -191,7 +191,7 @@ variable {N} {wL : WeightFamilies.Wt D j} (w : Fin N → B.Cusp j wL) (l : Fin N
 
 theorem exists_derLw : ∃ δ : Lw X la w → Lw X la w, IsDer δ ∧
     ∀ r, δ (algebraMap (Rp X la N) (Lw X la w) r) = algebraMap (Rp X la N) (Lw X la w) (dR X la N (0, l) r) :=
-  IsDer.ofLoc (Submonoid.powers (sec X la w 0)) (fun r => algebraMap (Rp X la N) (Lw X la w) (dR X la N (0, l) r))
+  IsDer.ofLoc (Submonoid.powers (Formalism.MainNotions.Gaps.EtaleWeightGaps.sec X la w 0)) (fun r => algebraMap (Rp X la N) (Lw X la w) (dR X la N (0, l) r))
     (fun x y => by simp only [(dR_isDer X la N (0, l)).add, map_add (f := _)])
     (fun x y => by simp only [(dR_isDer X la N (0, l)).mul, map_add (f := _), map_mul])
 
@@ -206,7 +206,7 @@ theorem dL_alg (r : Rp X la N) :
 theorem dL_w0inv : dL X la w l (w0inv X la w) =
     -(w0inv X la w ^ 2 * algebraMap (Rp X la N) (Lw X la w) (emb X la N (X.inc wL (w l)))) := by
   have h := section_mul_inverse_eq_one X la w
-  have e1 := (dL_isDer X la w l).mul (algebraMap (Rp X la N) (Lw X la w) (sec X la w 0)) (w0inv X la w)
+  have e1 := (dL_isDer X la w l).mul (algebraMap (Rp X la N) (Lw X la w) (Formalism.MainNotions.Gaps.EtaleWeightGaps.sec X la w 0)) (w0inv X la w)
   rw [h, (dL_isDer X la w l).der_one, dL_alg, dR_sec, if_pos rfl] at e1
   linear_combination (-(w0inv X la w)) * e1 - dL X la w l (w0inv X la w) * h
 
@@ -265,7 +265,7 @@ theorem dF_Jid {x : Frac0 X la w} (hx : x ∈ Jid X la w) : dF X la w l x ∈ Ji
     have e : dF X la w l (sfr X la w i.succ) = -(sfr X la w i.succ * ⟨frac X la w 1 (emb X la N (X.inc wL (w l))),
         mem_Frac0_emb X la w l⟩) := by
       apply Subtype.ext
-      show dL X la w l (frac X la w 1 (sec X la w i.succ)) = -(frac X la w 1 (sec X la w i.succ) *
+      show dL X la w l (frac X la w 1 (Formalism.MainNotions.Gaps.EtaleWeightGaps.sec X la w i.succ)) = -(frac X la w 1 (Formalism.MainNotions.Gaps.EtaleWeightGaps.sec X la w i.succ) *
         frac X la w 1 (emb X la N (X.inc wL (w l))))
       rw [dL_frac, dR_sec, if_neg (Fin.succ_ne_zero i), map_zero, zero_sub, frac_mul, Nat.cast_one, one_mul,
         mul_comm (emb X la N _)]
@@ -294,7 +294,7 @@ theorem sum_T0_mul_ratio_eq_one : ∑ k, algebraMap (Kp X la N) (Frac0 X la w) (
     simp_rw [e]
 
     rw [← map_sum]
-    show frac X la w 1 (sec X la w 0) = 1
+    show frac X la w 1 (Formalism.MainNotions.Gaps.EtaleWeightGaps.sec X la w 0) = 1
     rw [frac_apply, pow_one, section_mul_inverse_eq_one]
   apply Subtype.ext
   show (Frac0 X la w).val (∑ k, _) = (Frac0 X la w).val 1

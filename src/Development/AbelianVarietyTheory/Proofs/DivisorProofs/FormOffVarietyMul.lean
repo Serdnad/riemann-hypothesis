@@ -1,13 +1,12 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CompEqOneOfTransl
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HeckeSubAFiniteFree
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.BiextensionTrivialOfTranslateDifferenceTrivial
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsSqrtHeckePointWeilPairingOrthogonal
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HeckeBundleTrivialGeometricFibre
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.NearIsIsoOfIsProperOfFinitePresentation
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RigidifiedLineBundleTrivialOfTorsionGeometricFibStatement
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TheoremOfCubeAbelianSchemeOverArbitraryBase
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle546
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle597
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2296
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2337
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2257
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3188
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1909
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -47,9 +46,9 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsDimEqOne
 import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsRootSelectionUnitaryRankOne
-import Development.AbelianVarietyTheory.Definitions.Divisors.HasDivPlace
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle058
 import Development.AbelianVarietyTheory.Definitions.Divisors.IsCyclotomicExtensionQI
-import Development.AbelianVarietyTheory.Definitions.Divisors.RedSurjective
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle023
 
 @[expose] public section
 

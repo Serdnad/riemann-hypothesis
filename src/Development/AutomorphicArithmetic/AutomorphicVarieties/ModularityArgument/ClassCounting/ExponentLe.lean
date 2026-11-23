@@ -1,9 +1,9 @@
 module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ClassCounting.LemmaKOfSteps
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.HermiteNormalForms.SmulStrictMono
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.HermiteNormalForms.Bundle001
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.HermiteNormalForms.Assembly
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.HermiteNormalForms.Orbnum
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.HermiteNormalForms.Bundle003
 import Development.AutomorphicArithmetic.AutomorphicVarieties.TorsionBoundsChains.LogLeExp
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

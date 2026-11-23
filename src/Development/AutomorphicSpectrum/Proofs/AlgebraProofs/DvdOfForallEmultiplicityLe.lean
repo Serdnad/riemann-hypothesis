@@ -1,43 +1,28 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.StatementsChowFormSectionPerfect
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.StatementsChowFormSectionAlgClosed
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.StatementsSectionCycleReduced
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.StatementsMinimalPrimeComap
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.StatementsFundCycleBaseChange
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.StatementsSectionOrderAlgClosed
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.StatementsSectionComponents
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.StatementsSectionLengthSum
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.StatementsBaseChange
-public import GroundTheory.HeightsAndTheta.Heights.ChowForms.Imports
+public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle006
+public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle001
+public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle011
+public import GroundTheory.HeightsAndTheta.Heights.ChowForms.Bundle004
 public import Mathlib.RingTheory.RegularLocalRing.Defs
 public import Mathlib.RingTheory.SimpleRing.Principal
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.LocalMultRadical
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.LowerBoundConditional
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PChartZeroTrdeg
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PChowFormAssoc
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PChowFormBaseChange
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PChowFormCycleAdd
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PChowFormCycleSmul
+public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle005
+public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle019
+public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle015
+public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle022
+public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle021
+public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle023
 public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PChowFormExtend
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PChowFormReducedRadical
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PFormsThroughPoint
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PIncIdealNeBotDim
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PIncIdealSeparate
+public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle016
 public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PIncidenceZeroLocus
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PRadicalBaseChange
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PThroughPointIncIdeal
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PThroughTwoPointsTrdeg
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PTrdegAdjoinLe
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PTrdegBaseAlgebraic
+public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle018
+public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle004
 public import GroundTheory.HeightsAndTheta.Heights.ChowForms.PAffineChartTrdeg
 import GroundTheory.HeightsAndTheta.Heights.ChowForms.PChowFormExists
-public import GroundTheory.HeightsAndTheta.Heights.ChowForms.PConeDimComponent
-public import GroundTheory.HeightsAndTheta.Heights.ChowForms.PConeDimOfChowForm
-import GroundTheory.HeightsAndTheta.Heights.ChowForms.PFGNullstellensatz
+public import GroundTheory.HeightsAndTheta.Heights.ChowForms.Bundle008
+public import GroundTheory.HeightsAndTheta.Heights.ChowForms.Bundle007
+import GroundTheory.HeightsAndTheta.Heights.ChowForms.Bundle003
 public import GroundTheory.HeightsAndTheta.Heights.ChowForms.PGenericLinearTrdeg
-public import GroundTheory.HeightsAndTheta.Heights.ChowForms.PIncIdealDim
-public import GroundTheory.HeightsAndTheta.Heights.ChowForms.PIncIdealPrime
 public import GroundTheory.HeightsAndTheta.Heights.ChowForms.PIncidenceGeneric
 import Mathlib.Algebra.AffineMonoid.UniqueSums
 import Mathlib.Algebra.Order.Floor.Extended
@@ -314,7 +299,7 @@ theorem chowFormSectionPerfect_of (hA : ChowFormSectionAlgClosed.Statement)
     Finset.prod_ne_zero_iff.mpr fun W hW => pow_ne_zero _ (hg W hW).1
   have hmapeq : map σ (specFirst f u) =
       C c' * map σ (∏ W ∈ (divCycle I u).support, g W ^ divCycle I u W) := by
-    rw [map_specFirst, hc'eq, map_prod]
+    rw [SectionPerfect.map_specFirst, hc'eq, map_prod]
     simp only [map_pow]
   obtain ⟨c₀, hc₀, heq⟩ := eq_C_mul_of_map_eq σ hprod0 hc' hmapeq
   exact ⟨c₀, hc₀, g, hg, heq⟩

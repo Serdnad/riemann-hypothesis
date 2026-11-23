@@ -1,10 +1,10 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.CyclicCupProf
+public import GroundTheory.ProfiniteCohomology.Bundle010
 public import GroundTheory.ProfiniteCohomology.GaloisCohomology.IsZeroGroupCohomologyQuotientToInvariantsGalAdd
 public import Mathlib.FieldTheory.IsSepClosed
-import GroundTheory.ProfiniteCohomology.CupProducts.GroupCohomology
-import GroundTheory.ProfiniteCohomology.FilteredHomology
+import GroundTheory.ProfiniteCohomology.CupProducts.Bundle002
+import GroundTheory.ProfiniteCohomology.Bundle001
 public import GroundTheory.ProfiniteCohomology.GaloisCohomology.BrauerInflation
 import GroundTheory.ProfiniteCohomology.OpenNormal
 import Mathlib.Algebra.Order.Floor.Extended

@@ -508,3 +508,18 @@ theorem cartanQ : CartanQ := by
     rw [← Matrix.mul_assoc (dg (tor k r u⁻¹)), dg_mul k r u hu, Matrix.one_mul, hK'u', Matrix.mul_one]
 
 end GlobalTheory.CompanionTheory.BesselCartan
+
+end
+end
+
+section
+
+@[expose] public section
+
+open CompanionTheory.Bmu
+
+theorem _root_.GlobalTheory.T.CartanDecomposition : CartanQ := by
+  first | exact @GlobalTheory.CompanionTheory.BesselCartan.cartanQ | exact GlobalTheory.CompanionTheory.BesselCartan.cartanQ | (intros; apply GlobalTheory.CompanionTheory.BesselCartan.cartanQ <;> assumption)
+
+end
+end

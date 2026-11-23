@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.OneMemKAt
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.XmApply
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1195
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1197
 public import Mathlib.Algebra.AffineMonoid.Basic
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DifferentCoprimeAtGoodPlaces
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LatAtVAtStable
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1925
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1874
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TensorLatticeInertPlaceSelfDual
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended

@@ -3,13 +3,13 @@ module
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.NormCharSplit
 public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.ExCusp
 public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.ExTwist
-public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.LocIff
-public import Development.AutomorphicArithmetic.Foundations.Convolution.PowerSumTraces.OccursBasics
-public import Development.AutomorphicArithmetic.Foundations.Convolution.PowerSumTraces.OccursIff
+public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.Bundle006
+public import Development.WeilBound.CuspidalAdmissibility.OccursIff
+public import Development.AutomorphicArithmetic.Foundations.Convolution.PowerSumTraces.Bundle005
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.CarryLift
-public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.FamParts
+public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.Bundle005
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.PowTwist
-import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerOrbitVolume.DetAdmA
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerOrbitVolume.Bundle009
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

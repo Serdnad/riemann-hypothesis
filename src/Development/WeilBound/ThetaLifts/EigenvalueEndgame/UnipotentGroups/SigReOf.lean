@@ -1,8 +1,8 @@
 module
 
 public import Development.WeilBound.ThetaLifts.SmallCones.ThetaUniq
-public import Development.WeilBound.ThetaLifts.CartanFactorisation.CartanConj
-public import Development.WeilBound.ThetaLifts.FrameEstimates.TowerRallisLemma
+public import Development.WeilBound.ThetaLifts.CartanFactorisation.Bundle002
+public import Development.WeilBound.ThetaLifts.FrameEstimates.Bundle002
 public import Development.WeilBound.ThetaLifts.ConeHypotheses.PureEqPureA
 public import Development.WeilBound.ThetaLifts.EigenvalueEndgame.TowerCodimensionTwo
 import Mathlib.Algebra.Order.Floor.Extended

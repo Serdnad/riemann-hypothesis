@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.InfUniv
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle004
 public import Mathlib.LinearAlgebra.FiniteDimensional.Defs
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FinrankMapEqOfKerEq
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle597
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -51,7 +51,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import Development.AbelianVarietyTheory.Definitions.Divisors.KottwitzDimSignatureOneOne
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle014
 
 @[expose] public section
 

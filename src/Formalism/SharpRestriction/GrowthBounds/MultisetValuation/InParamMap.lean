@@ -1,8 +1,8 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.KernelExpansionOfRestrictions
-public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.CyclicPowerClassOfExpEquiv
-public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.IntRPsubst
+public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle011
+public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.Bundle001
+public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

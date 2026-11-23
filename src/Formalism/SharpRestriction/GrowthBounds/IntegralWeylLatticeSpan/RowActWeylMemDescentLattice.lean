@@ -1,8 +1,8 @@
 module
 
 public import Formalism.SharpRestriction.GrowthBounds.IntegralWeylLatticeSpan.WeylLatticeDescent
-public import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.EvenBlockRowActionEval
-public import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.CmpLApply
+public import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.Bundle008
+public import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.Bundle003
 import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.DeterminantTwistRowActionMem
 public import Formalism.SharpRestriction.GrowthBounds.IntegralWeylLatticeSpan.WeylEqSpanInt
 import Mathlib.Algebra.Order.Floor.Extended

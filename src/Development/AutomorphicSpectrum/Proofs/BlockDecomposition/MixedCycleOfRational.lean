@@ -1,19 +1,18 @@
 module
 
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsSmoothHermCombLine
-public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.HeightOrbitChart
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FinsumLengthMulLogCardEqNegLogAdicAbvNorm
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.MinimalPrimesMap
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ComplexPointLiftsToMulticone
+public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.Bundle005
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle019
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle067
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle456
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HolomorphicLiftGivesHolomorphicSection
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MemPointIdealIffEvalCoordsZero
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MultiprojectivePrimeEqPointIdeal
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.PointIdealMultiprojectivePrime
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.RestrictedFormNonzeroOnGenericPoint
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle432
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle435
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle465
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SpecializesIffPointIdealLe
 public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.POrbitChartMult
-import GroundTheory.HeightsAndTheta.Heights.HeightComparison.POrbitChartMultLemmas
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.PDiagOrd
+import GroundTheory.HeightsAndTheta.Heights.HeightComparison.Bundle012
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle008
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -53,7 +52,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 public import ReciprocityTheory.AnalyticForms.RegularLocalRings.ProjHypC
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterDivSupp
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle015
 
 @[expose] public section
 

@@ -3,8 +3,8 @@ module
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ClsLinCombSingle
 public import Development.AbelianVarietyTheory.Definitions.ThetaMetrics.TwistingSheafOneChartEqPreimageStandardChart
 public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.IsProjOverMorphismRestrictOfRelAmple
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EffOfSec
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsSecOfLeChart
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle953
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle048
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

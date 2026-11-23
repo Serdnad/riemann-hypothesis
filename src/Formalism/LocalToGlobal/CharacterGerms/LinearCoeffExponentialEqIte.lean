@@ -1,11 +1,10 @@
 module
 
 public import Formalism.LocalToGlobal.CharacterGerms.LinearCoeffSubstChainRule
-public import Formalism.LocalToGlobal.CharacterGerms.RowTieValBr
-public import Formalism.LocalToGlobal.CharacterGerms.RowTieValCr
-import Formalism.LocalToGlobal.CharacterGerms.ConstantCoeffSinglePointZero
-public import Formalism.LocalToGlobal.CharacterGerms.CoordinateChangeComp1IntertwinesAction
-import Formalism.LocalToGlobal.CharacterGerms.SubstSubst
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle031
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle020
+import Formalism.LocalToGlobal.CharacterGerms.Bundle027
+import Formalism.LocalToGlobal.CharacterGerms.Bundle011
 import Formalism.LocalToGlobal.CharacterGerms.TripleSubstSecondCoordinate
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

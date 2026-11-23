@@ -1,14 +1,14 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.EqOneOfHeckeEigNeBot
-public import Development.AbelianVarietyTheory.Definitions.Divisors.HasDivPlace
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ConjMemOfMemHeckeLevel
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.IsMonHomIdPow
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle058
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle001
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle028
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsLevelEqKN
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsSiegelObjectLoweredLevel
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FibrePowerMapOfTotalSpacesIsPullback
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ForgetIsHeckeOne
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.OmegaPullId
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2638
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle599
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2263
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle047
 import Formalism.SatakeDualWeyl.KpqSubgroupCompact
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

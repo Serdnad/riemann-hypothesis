@@ -1,17 +1,17 @@
 module
 
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.ArakelovInstances.PnormInvStatement
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.ArakelovInstances.Bundle001
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.WeightFunctionOnFrames
 public import Development.AbelianVarietyTheory.Definitions.UpperBounds.SumNormSqWPos
 public import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.FinMuUnconditional
-public import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.IsOpenSaturation
-public import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.LintegralBallLtTopOfLocalInverse
-public import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.LintegralFundSetInterLe
-public import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.MeasurablePhi
-import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.MeasureStatements
-import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.NormBcharMulNfacRmul
+public import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.Bundle023
+public import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.Bundle020
+public import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.Bundle024
+public import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.Bundle025
+import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.Bundle028
+import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.Bundle017
 public import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.NormLeOfDet
-public import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.OfRealRpowNegLe
+public import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.Bundle018
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -56,15 +56,15 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.ExhaustFStatementPfD
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.Bundle015
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.InterpStatementPfH
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.InterpStatementPfK
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.InterpStatementPfO
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.Bundle010
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.OntoStatementPfE
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.OntoStatementPfS
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.OrthoStatementPf
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.Bundle009
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.Bundle007
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.PairUnfoldPfA
-import Development.AbelianVarietyTheory.Definitions.ThetaValues.Generic
+import Development.AbelianVarietyTheory.Definitions.ThetaValues.Bundle002
 
 @[expose] public section
 
@@ -425,3 +425,18 @@ theorem inFF_order_one : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] 
   exact key
 
 end GlobalTheory.FreeWeightInFF
+
+end
+
+section
+
+@[expose] public section
+
+open NumberField ReciprocityTheory.ChartRestriction.G.FD ReciprocityTheory.ChartRestriction.G.AR ReciprocityTheory.ChartRestriction.G.AR.Inst ReciprocityTheory.ChartRestriction.G.AR.Up ReciprocityTheory.L2DbarEstimates MeasureTheory Topology GlobalTheory.Shares
+open scoped ContDiff ENNReal Matrix
+
+theorem _root_.GlobalTheory.T.square_integrable_singular_metric_order_one : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (r : ℕ) (X : Data E r) (Xa : ArchInM X) (Fl : FlatM X Xa) (G : Wt X.Ψ r) (x0 : Frame X.Ψ r), IsOrth X x0 → ∀ FF, IsFundSet X x0 FF → ∀ f : Frame X.Ψ r → ℂ, X.IsSec (G + (nd X + 1) • Xa.L) f → (∃ C : ℝ, ∀ x ∈ X.dom, X.pnorm (G + (nd X + 1) • Xa.L) f x ^ 2 ≤ C * (∑ k, X.pnorm Xa.L (Xa.w k) x ^ 2) ^ (nd X + 1)) → (∀ j, f (Fl.xs j) = 0) → InFF X x0 (fun x => open Classical in if x ∈ X.dom then ENNReal.ofReal (Real.exp (-phla X G x)) * ENNReal.ofReal (∑ k, ‖Xa.w k x‖ ^ 2) ^ (-(1 / 2 : ℝ)) * ENNReal.ofReal (∑ k, ‖Fl.s k x‖ ^ 2) ^ (-(((nd X + 1 : ℕ) : ℝ) - 1 / 2)) else 0) FF f := by
+  first | exact @GlobalTheory.FreeWeightInFF.inFF_order_one | exact GlobalTheory.FreeWeightInFF.inFF_order_one | (intros; apply GlobalTheory.FreeWeightInFF.inFF_order_one <;> assumption)
+
+end
+end

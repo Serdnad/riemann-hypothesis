@@ -1,7 +1,7 @@
 module
 
-public import Formalism.SharpRestriction.CuspSpanNormBounds.BruhatCellsKronecker.CellDef
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsUpUniMul
+public import Formalism.SharpRestriction.CuspSpanNormBounds.BruhatCellsKronecker.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle251
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

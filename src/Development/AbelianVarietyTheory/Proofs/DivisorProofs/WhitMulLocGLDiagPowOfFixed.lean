@@ -1,14 +1,13 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.IsRapidInf
-public import Development.AbelianVarietyTheory.Definitions.Divisors.IsAddHaarMeasureVolumeLie
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle024
 public import Development.AbelianVarietyTheory.Definitions.Foundations.IsSatVecUOfIsSphericalU
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AutomorphicFormGLContinuous
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ShintaniFormulaStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle849
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1299
 import Formalism.SatakeDualWeyl.KpqSubgroupCompact
 public import GroundTheory.AutomorphicForms.MultiplicityOne.Equivariance
-public import GroundTheory.AutomorphicForms.MultiplicityOne.Functional
-import GroundTheory.AutomorphicForms.ReductionMeasure
+public import GroundTheory.AutomorphicForms.MultiplicityOne.Bundle002
+import GroundTheory.AutomorphicForms.Bundle012
 import GroundTheory.GlobalFields.Adele.Topology
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -51,7 +50,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
-import GroundTheory.AutomorphicForms.MultiplicityOne.Injective
+import GroundTheory.AutomorphicForms.MultiplicityOne.Bundle001
 
 @[expose] public section
 

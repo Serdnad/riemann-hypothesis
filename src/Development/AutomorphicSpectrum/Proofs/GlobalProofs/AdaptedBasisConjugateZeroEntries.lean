@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsBlockEmb
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1911
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.IsConstAlongSingleton
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContinuousOneP
-public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.MemUnipOfArchFrame
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle350
+public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle064
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -47,9 +47,9 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.OfIsSmoothModerate
-import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.HarishChandraFinite
-import Development.AutomorphicSpectrum.Proofs.GlobalProofs.FiniteDimensionalOfSlices
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1916
+import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.Bundle011
+import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle069
 import Development.AutomorphicSpectrum.Proofs.GlobalProofs.MemFormsOnOfMemSpan
 
 @[expose] public section

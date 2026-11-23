@@ -1,16 +1,15 @@
 module
 
-public import Formalism.LocalToGlobal.InertKernelTheory.DefsRepLt
-public import Formalism.LocalToGlobal.InertKernelTheory.DefsRepDict
-public import Formalism.LocalToGlobal.InertKernelTheory.DefsRepRec
-public import Formalism.LocalToGlobal.InertKernelTheory.FrameLatMap
+public import Formalism.LocalToGlobal.InertKernelTheory.Bundle013
+public import Formalism.LocalToGlobal.InertKernelTheory.Bundle012
+public import Formalism.LocalToGlobal.InertKernelTheory.Bundle008
 public import Formalism.LocalToGlobal.InertKernelTheory.SclY
-public import Formalism.LocalToGlobal.InertKernelTheory.StatementInt
-public import Formalism.LocalToGlobal.InertKernelTheory.StatementJets
-public import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.RepAsm
+public import Formalism.LocalToGlobal.InertKernelTheory.Bundle003
+public import Formalism.LocalToGlobal.InertKernelTheory.Bundle004
+public import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.Bundle006
 public import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.RepComb
 public import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.RepFrame
-public import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.RepScal
+public import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.Bundle001
 public import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.RepTrace
 import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.PeriodLatticeFinitelyGenerated
 import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.SelfDualLatticeNorms.SelfDualComap

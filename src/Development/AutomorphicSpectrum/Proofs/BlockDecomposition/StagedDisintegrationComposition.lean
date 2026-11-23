@@ -1,8 +1,8 @@
 module
 
 public import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.GenusMassVolumes
-public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.DisintegrationDensityExists
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.DisintegrationParameterContinuousStatement
+public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.Bundle013
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle504
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.GlobalVolumeRankOneProduct
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -42,9 +42,9 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Compactness.Paracompact
 import Mathlib.Topology.Sheaves.Init
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FreeCell
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HypOneZeroZero
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsCovolOne
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle107
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle002
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle089
 
 @[expose] public section
 

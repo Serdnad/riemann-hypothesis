@@ -1,11 +1,10 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.IsInertiaInfiniteCyclotomic
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.AdmProd
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.AdmSub
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.AntidiagonalConjugation
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ConjugationByInvolution
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.SignActionTheta
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.Bundle018
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.Bundle016
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle042
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle044
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle045
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

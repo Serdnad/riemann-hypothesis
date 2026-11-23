@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalToGlobal.TorsionIntegrality.TorsionTranslationPowers.IsTransSys
-public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.TorDefs
+public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.Bundle018
 public import Formalism.LocalToGlobal.TorsionIntegrality.TorsionTranslationPowers.NonsingularJetNorms.NonsingularNorm
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -43,12 +43,12 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.ExistsTeichmullerRepModPrime
-import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.NormNatCastClOfNotDvd
-public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.TorBasic
-public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.TorHensel
-import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.TorRes
-public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.TorSub
+public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.Bundle012
+import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.Bundle008
+public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.Bundle021
+public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.Bundle019
+import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.Bundle017
+public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.Bundle020
 
 @[expose] public section
 

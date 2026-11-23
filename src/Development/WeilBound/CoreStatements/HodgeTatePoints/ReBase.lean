@@ -47,12 +47,12 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.DualLattices.HasLenCokerDet
+public import ReciprocityTheory.DualLattices.Bundle022
 public import ReciprocityTheory.DualLattices.IsUnitDetOfSpanEq
 public import ReciprocityTheory.DualLattices.MemDualLat
-import ReciprocityTheory.DualLattices.MemOfSumSingleEqZero
+import ReciprocityTheory.DualLattices.Bundle013
 public import ReciprocityTheory.DualLattices.PowMemCarrier
-import ReciprocityTheory.DualLattices.PrimeHopfOrderOfAddEquiv
+import ReciprocityTheory.DualLattices.Bundle018
 
 @[expose] public section
 

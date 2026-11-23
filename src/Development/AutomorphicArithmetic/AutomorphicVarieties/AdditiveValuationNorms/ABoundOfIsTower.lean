@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.ExistsPrimitiveRootPow
+public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.Bundle003
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.LayeredIsomorphisms.SecondBound
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.NumberFieldTowers.XTwApplyApply
 public import Formalism.GaloisCohomology.LocalTateDualityK
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AdditiveValuationNorms.Descends
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AdditiveValuationNorms.GenLevel
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AdditiveValuationNorms.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

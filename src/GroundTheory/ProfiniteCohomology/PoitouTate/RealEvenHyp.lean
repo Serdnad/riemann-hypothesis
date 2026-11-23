@@ -1,14 +1,13 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.PoitouTate.RealEvenTau
-public import GroundTheory.ProfiniteCohomology.PoitouTate.RealTraceMap
+public import GroundTheory.ProfiniteCohomology.PoitouTate.Bundle002
 public import GroundTheory.ProfiniteCohomology.RealPlaces.VanishingIndex
-import GroundTheory.ProfiniteCohomology.EulerChar
-public import GroundTheory.ProfiniteCohomology.PoitouTate.RealEvenCoind
+import GroundTheory.ProfiniteCohomology.Bundle010
+public import GroundTheory.ProfiniteCohomology.PoitouTate.Bundle001
 import GroundTheory.ProfiniteCohomology.PoitouTate.RealEvenFree
 public import GroundTheory.ProfiniteCohomology.RealPlaces.Devissage
 public import GroundTheory.ProfiniteCohomology.RealPlaces.Vanishing
-import GroundTheory.ProfiniteCohomology.RestrictedRamification.BaseInputs
+import GroundTheory.ProfiniteCohomology.RestrictedRamification.Bundle011
 import GroundTheory.ProfiniteCohomology.RestrictedRamification.Finite
 import GroundTheory.ProfiniteCohomology.RestrictedRamification.FiniteOpen
 import Mathlib.Algebra.Order.Floor.Extended

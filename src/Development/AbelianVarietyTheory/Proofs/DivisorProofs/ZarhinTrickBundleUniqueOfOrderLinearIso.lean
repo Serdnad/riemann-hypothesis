@@ -1,24 +1,23 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FormMulTransposeMulFormInvMem
-public import Development.AbelianVarietyTheory.Definitions.Divisors.ToRingActOpOfRingAct
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TwoLeFinrankLa
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle211
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle012
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2672
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.IsAdditiveOfUniversal
-import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.ExistsEqPowOfTorsionCompEqOne
-import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.FlatAndSurjectiveOfIsFiniteAbelianEnd
-import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.ForallGeometricallyIntegralOfSmoothOfGeometrical
-import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.MulAFiniteFlatSurjectiveEtale
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DualAbelianSchemeExistsBiduality
+import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle009
+import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle006
+import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle005
+import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle011
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3376
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsAdditiveLiftIff
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsDualOfIsPerfectOfAdditive
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsDualOfIso
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsFiniteAndFlatTorsion
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsMonHomOfClassifying
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2252
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1018
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1481
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LiftLeftFst
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.NearIsIsoOfIsProperOfFinitePresentation
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TheoremOfCubeAbelianSchemeOverArbitraryBase
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.IsAbelianSchemeOfIsGrpPullback
-import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ConnectedSpaceSpecOfIsLocalRing
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2257
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1909
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle091
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle041
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -139,6 +138,7 @@ theorem cancel_pow : ∀ (S : Scheme.{0}) (A B : Over S) [GrpObj A] [GrpObj B], 
   have hm := GlobalTheory.AbLaw.MulN.isMonHom_mulA A d
   have hsurj : Surjective (ReciprocityTheory.ChartRestriction.G.Out.mulA A d).left :=
     GlobalTheory.AbLaw.MulN.surjective_of_geomFibres _ fun K _ _ t ↦ by
+      letI : (Over.pullback t).Monoidal := (Over.instBraidedPullback (f := t)).toMonoidal
       letI : GrpObj ((Over.pullback t).obj A) := Functor.grpObjObj
       exact (GlobalTheory.flat_and_surjective_of_isFinite_abelianEnd gi K _ (ReciprocityTheory.ChartRestriction.G.Out.TLinPf.isAb_pullback t A hA) _
         inferInstance
@@ -155,6 +155,7 @@ theorem isDual_of_isPerfect : ∀ (S : Scheme.{0}) (A : Over S) [GrpObj A], IsAb
   obtain ⟨D, _, Q, hD', -, q, q'⟩ := GlobalTheory.dualAbelianScheme S A hA
   obtain ⟨x, hx, e⟩ := GlobalTheory.BirigidLift.exists_hom q q'.additive hP.isLB a₁ a₂
   have ix : IsIso x := isIso_of_isIso_pullback hA hD' x fun Ω _ _ s ↦ by
+    letI : (Over.pullback s).Monoidal := (Over.instBraidedPullback (f := s)).toMonoidal
     letI : GrpObj ((Over.pullback s).obj A) := Functor.grpObjObj
     letI : GrpObj ((Over.pullback s).obj D) := Functor.grpObjObj
     have f := isGrpPullback_pullback A s

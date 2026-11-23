@@ -1,12 +1,12 @@
 module
 
-public import Formalism.RealPlaceAnalysis.InstMeasurableSpaceUJ
+public import Formalism.RealPlaceAnalysis.Bundle004
 public import Mathlib.MeasureTheory.Group.ModularCharacter
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.InvolutionInvariants
-public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.ComplexificationHolds
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle022
+public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.Bundle001
 public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.IndefiniteUnitaryPreservesForm
 import Formalism.RealPlaceAnalysis.RealPlaceTaylor.KoszulLowersPower
-public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.MemUnitaryGroupIffMulConjTranspose
+public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

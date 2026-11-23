@@ -1,0 +1,191 @@
+module
+
+public import Development.AutomorphicArithmetic.Foundations.Convolution.TensFun
+public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.KernelTransforms.Bundle001
+public import GroundTheory.AutomorphicForms.CuspidalDiscreteness.SummandsArchConv
+import GroundTheory.GlobalFields.Adele.Topology
+public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.KernelTransforms.Bundle002
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Topology.Sheaves.Init
+
+@[expose] public section
+
+section
+
+open MeasureTheory NumberField IsDedekindDomain MvPolynomial
+open GroundTheory.Automorphic GroundTheory.Automorphic.Reduction GroundTheory.Automorphic.RightCosetSpace
+open GroundTheory.Automorphic.AutomorphicForm GroundTheory.Automorphic.CuspidalSpectrum UpperTheory.ConvolutionTheory UpperTheory.ConvolutionTheory.C
+open scoped TensorProduct InnerProductSpace ComplexConjugate Pointwise
+
+theorem UpperTheory.ConvolutionTheory.Tf.rrTens :
+    ∀ (K : Type) [Field K] [NumberField K] (n : ℕ), 0 < n → ∀ (μ : Measure (normOneGL (K := K) (n := n))) [μ.IsHaarMeasure] (ν : Measure (archGroup K n)) [ν.IsHaarMeasure] (m : Measure (AdelicGLn.FiniteAdelicGL K n)) [m.IsHaarMeasure], Compat μ ν m →
+      ∀ (β : TI K n) (e : TF K n), RR μ (tens β e) = Oinf μ ν β ∘L Ofin μ m e := by
+  intro K _ _ n hn μ _ ν _ m _ hC β e
+  refine ContinuousLinearMap.ext fun v => ext_inner_left ℂ fun w => ?_
+  have h1 := inner_integrated_ccToL1_eq (rightRegularRep (rationalGLOne (K := K) (n := n)) μ) μ (tens β e) w v
+  have h2 := (UpperTheory.ConvolutionTheory.Tf.commInt (normOneGL (K := K) (n := n)) (archGroup K n) (AdelicGLn.FiniteAdelicGL K n) (LL μ)
+    (rightRegularRep (rationalGLOne (K := K) (n := n)) μ) (archP K n) continuous_archP (MultiplicityOne.finProj K n)
+    MultiplicityOne.continuous_finProj ν m β e).1 w v
+  have h3 := hC β e (fun g => ⟪w, rightRegularRep (rationalGLOne (K := K) (n := n)) μ g v⟫_ℂ)
+    (continuous_const.inner ((rightRegularRep (rationalGLOne (K := K) (n := n)) μ).continuous_orbit v))
+  exact h1.trans (h3.trans h2.symm)
+end
+
+section
+
+open MeasureTheory NumberField IsDedekindDomain MvPolynomial
+open GroundTheory.Automorphic GroundTheory.Automorphic.Reduction GroundTheory.Automorphic.RightCosetSpace
+open GroundTheory.Automorphic.AutomorphicForm GroundTheory.Automorphic.CuspidalSpectrum UpperTheory.ConvolutionTheory UpperTheory.ConvolutionTheory.C
+open scoped TensorProduct InnerProductSpace ComplexConjugate Pointwise
+
+section SlopeTestRemainingChoices
+
+variable {K : Type} [Field K] [NumberField K] {n : ℕ}
+
+private theorem rUC_tmul (c : ℂ) (a : UEnv K n) (f : (isExpLieAlgebra K n).smoothFuns (F := ℂ)) :
+    rUC (c ⊗ₜ[ℝ] a) f = c • (isExpLieAlgebra K n).rightUAction a f := by
+  exact congrArg (fun T : Module.End ℂ ((isExpLieAlgebra K n).smoothFuns (F := ℂ)) => T f)
+    (Algebra.TensorProduct.lift_tmul (Algebra.ofId ℂ _) (isExpLieAlgebra K n).rightUAction
+      (fun c _ => Algebra.commute_algebraMap_left c _) c a)
+
+private theorem tsupport_rUC (u : UC K n) (f : (isExpLieAlgebra K n).smoothFuns (F := ℂ)) :
+    tsupport (rUC u f : archGroup K n → ℂ) ⊆ tsupport (f : archGroup K n → ℂ) := by
+  induction u using TensorProduct.induction_on with
+  | zero =>
+    rw [map_zero, LinearMap.zero_apply, Submodule.coe_zero]
+    simp
+  | tmul c a =>
+    rw [rUC_tmul, Submodule.coe_smul]
+    refine subset_trans ?_ ((UpperTheory.ConvolutionTheory.Tf.invSmooth K n f f.2).2.2.2 f.2 a)
+    exact tsupport_smul_subset_right (fun _ => c) _
+  | add u v hu hv =>
+    rw [map_add (f := _), LinearMap.add_apply, Submodule.coe_add]
+    exact (tsupport_add _ _).trans (Set.union_subset hu hv)
+
+private theorem tsupport_inv_subset {f f' : archGroup K n → ℂ} (h : tsupport f ⊆ tsupport f') :
+    tsupport (fun g => f g⁻¹) ⊆ tsupport (fun g => f' g⁻¹) := by
+  have e : ∀ φ : archGroup K n → ℂ, tsupport (fun g => φ g⁻¹) = (Homeomorph.inv (archGroup K n)) ⁻¹' tsupport φ := by
+    intro φ
+    rw [tsupport, tsupport, Homeomorph.preimage_closure]
+    rfl
+  rw [e, e]
+  exact Set.preimage_mono h
+
+private theorem smooth_inv {β : TI K n} (hβ : SmoothT β) :
+    (fun g => β g⁻¹) ∈ (isExpLieAlgebra K n).smoothFuns (F := ℂ) :=
+  (UpperTheory.ConvolutionTheory.Tf.invSmooth K n (fun g => β g) ((isExpLieAlgebra K n).mem_smoothFuns.2 hβ)).1
+
+private theorem tsupport_rightUniversal {β : TI K n} (h : (fun g => β g⁻¹) ∈ (isExpLieAlgebra K n).smoothFuns (F := ℂ))
+    (u : UC K n) :
+    tsupport (fun g => (rUC u ⟨fun g => β g⁻¹, h⟩ : archGroup K n → ℂ) g⁻¹) ⊆ tsupport β := by
+  have := tsupport_inv_subset (tsupport_rUC u ⟨fun g => β g⁻¹, h⟩)
+  simpa only [inv_inv] using this
+
+private theorem lact_apply {β : TI K n} (h : (fun g => β g⁻¹) ∈ (isExpLieAlgebra K n).smoothFuns (F := ℂ))
+    (u : UC K n) (g : archGroup K n) :
+    lact u β g = (rUC u ⟨fun g => β g⁻¹, h⟩ : archGroup K n → ℂ) g⁻¹ := by
+  have hc : Continuous (fun g : archGroup K n => (rUC u ⟨fun g => β g⁻¹, h⟩ : archGroup K n → ℂ) g⁻¹) :=
+    (UpperTheory.ConvolutionTheory.Tf.invSmooth K n _ (rUC u ⟨fun g => β g⁻¹, h⟩).2).2.1.comp continuous_inv
+  have hs : HasCompactSupport (fun g : archGroup K n => (rUC u ⟨fun g => β g⁻¹, h⟩ : archGroup K n → ℂ) g⁻¹) :=
+    β.hasCompactSupport.of_isClosed_subset (isClosed_tsupport _) (tsupport_rightUniversal h u)
+  have H : ∃ (h : (fun g => β g⁻¹) ∈ (isExpLieAlgebra K n).smoothFuns (F := ℂ)) (γ : TI K n),
+      ∀ g, γ g = (rUC u ⟨fun g => β g⁻¹, h⟩ : archGroup K n → ℂ) g⁻¹ :=
+    ⟨h, ⟨⟨_, hc⟩, hs⟩, fun _ => rfl⟩
+  rw [lact, dite_eq_left H]
+  exact H.choose_spec.choose_spec g
+
+private theorem lact_smooth {β : TI K n} (h : (fun g => β g⁻¹) ∈ (isExpLieAlgebra K n).smoothFuns (F := ℂ))
+    (u : UC K n) : SmoothT (lact u β) := by
+  have e : (fun g => lact u β g) = fun g => (rUC u ⟨fun g => β g⁻¹, h⟩ : archGroup K n → ℂ) g⁻¹ :=
+    funext (lact_apply h u)
+  rw [SmoothT, e]
+  exact (isExpLieAlgebra K n).mem_smoothFuns.1
+    (UpperTheory.ConvolutionTheory.Tf.invSmooth K n _ (rUC u ⟨fun g => β g⁻¹, h⟩).2).1
+
+end SlopeTestRemainingChoices
+
+theorem UpperTheory.ConvolutionTheory.Tf.lactSpec :
+    ∀ (K : Type) [Field K] [NumberField K] (n : ℕ) (β : TI K n), SmoothT β → ∃ h : (fun g => β g⁻¹) ∈ (isExpLieAlgebra K n).smoothFuns (F := ℂ),
+      (∀ (u : UC K n) (g : archGroup K n), lact u β g = (rUC u ⟨fun g => β g⁻¹, h⟩ : archGroup K n → ℂ) g⁻¹) ∧
+      (∀ u, SmoothT (lact u β) ∧ tsupport (lact u β) ⊆ tsupport β) ∧ lact 1 β = β ∧
+      (∀ u v, lact (u * v) β = lact u (lact v β) ∧ lact (u + v) β = lact u β + lact v β) ∧
+      (∀ (c : ℂ) u, lact (c • u) β = c • lact u β ∧ lact u (c • β) = c • lact u β) ∧
+      (∀ β', SmoothT β' → SmoothT (β + β') ∧ ∀ u, lact u (β + β') = lact u β + lact u β') ∧
+      ∀ (a : UEnv K n) (g : archGroup K n), lact ((1 : ℂ) ⊗ₜ[ℝ] a) β g =
+        ((isExpLieAlgebra K n).rightUAction a ⟨fun g => β g⁻¹, h⟩ : archGroup K n → ℂ) g⁻¹ := by
+  intro K _ _ n β hβ
+  have h := smooth_inv hβ
+  refine ⟨h, lact_apply h, fun u => ⟨lact_smooth h u, ?_⟩, ?_, fun u v => ⟨?_, ?_⟩, fun c u => ⟨?_, ?_⟩,
+    fun β' hβ' => ⟨?_, fun u => ?_⟩, fun a g => ?_⟩
+  · have e : (lact u β : archGroup K n → ℂ) = fun g => (rUC u ⟨fun g => β g⁻¹, h⟩ : archGroup K n → ℂ) g⁻¹ :=
+      funext (lact_apply h u)
+    rw [e]
+    exact tsupport_rightUniversal h u
+  · ext g
+    rw [lact_apply h, map_one, Module.End.one_apply]
+    simp only [inv_inv]
+  · ext g
+    have h' := smooth_inv (lact_smooth h v)
+    have e : (⟨fun g => lact v β g⁻¹, h'⟩ : (isExpLieAlgebra K n).smoothFuns (F := ℂ)) =
+        rUC v ⟨fun g => β g⁻¹, h⟩ :=
+      Subtype.ext (funext fun x => by rw [← inv_inv x, ← lact_apply h v, inv_inv])
+    rw [lact_apply h, lact_apply h', e, map_mul, Module.End.mul_apply]
+  · ext g
+    rw [CompactlySupportedContinuousMap.add_apply, lact_apply h, lact_apply h, lact_apply h, map_add (f := _),
+      LinearMap.add_apply, Submodule.coe_add, Pi.add_apply]
+  · ext g
+    rw [CompactlySupportedContinuousMap.smul_apply, lact_apply h, lact_apply h, map_smul,
+      LinearMap.smul_apply, Submodule.coe_smul, Pi.smul_apply]
+  · ext g
+    have h' : (fun g => (c • β) g⁻¹) ∈ (isExpLieAlgebra K n).smoothFuns (F := ℂ) :=
+      Submodule.smul_mem _ c h
+    have e : (⟨fun g => (c • β) g⁻¹, h'⟩ : (isExpLieAlgebra K n).smoothFuns (F := ℂ)) =
+        c • ⟨fun g => β g⁻¹, h⟩ := rfl
+    rw [CompactlySupportedContinuousMap.smul_apply, lact_apply h', lact_apply h, e, map_smul,
+      Submodule.coe_smul, Pi.smul_apply]
+  · exact (isExpLieAlgebra K n).mem_smoothFuns.1 (Submodule.add_mem _
+      ((isExpLieAlgebra K n).mem_smoothFuns.2 hβ) ((isExpLieAlgebra K n).mem_smoothFuns.2 hβ'))
+  · ext g
+    have h₂ := smooth_inv hβ'
+    have h' : (fun g => (β + β') g⁻¹) ∈ (isExpLieAlgebra K n).smoothFuns (F := ℂ) :=
+      Submodule.add_mem _ h h₂
+    have e : (⟨fun g => (β + β') g⁻¹, h'⟩ : (isExpLieAlgebra K n).smoothFuns (F := ℂ)) =
+        ⟨fun g => β g⁻¹, h⟩ + ⟨fun g => β' g⁻¹, h₂⟩ := rfl
+    rw [CompactlySupportedContinuousMap.add_apply, lact_apply h', lact_apply h, lact_apply h₂, e, map_add (f := _),
+      Submodule.coe_add, Pi.add_apply]
+  · rw [lact_apply h, rUC_tmul, one_smul]
+end

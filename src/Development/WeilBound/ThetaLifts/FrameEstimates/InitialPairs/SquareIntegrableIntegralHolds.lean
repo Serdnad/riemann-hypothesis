@@ -41,7 +41,7 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.ThetaSummability.TailSumEstimates.ConeExp
 import Std.Tactic.BVDecide.Normalize.Prop
-public import ReciprocityTheory.ThetaSummability.TailSumEstimates.ConeDefs
+public import ReciprocityTheory.ThetaSummability.TailSumEstimates.Bundle001
 
 @[expose] public section
 

@@ -1,12 +1,12 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.TeichmullerDepth.IsEigBasisIff
-public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.ExistsHodgeTateDatumFormalGroupCharactersStatement
-public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.ExistsPolarisedAbelianSchemeBaseChangeRingActionStatement
-public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.FormalGroupLawJacobianExtensionChangeCoeffStatement
-import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.HodgeTateDatumHypothesesPeriodTower
-public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.HopfPointMem
-public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.NilpotentChartBaseChangeFormalGroupStatement
+public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.ExistsHodgeTateDatumFormalGroupCharacters
+public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.Bundle081
+public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.Bundle042
+import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.Bundle035
+public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.Bundle034
+public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.Bundle049
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -44,7 +44,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import ReciprocityTheory.DualLattices.ExistsPrimitiveRoot
+import ReciprocityTheory.DualLattices.Bundle003
 
 @[expose] public section
 

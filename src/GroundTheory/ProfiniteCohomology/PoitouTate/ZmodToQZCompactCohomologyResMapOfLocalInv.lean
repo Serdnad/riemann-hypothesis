@@ -2,7 +2,7 @@ module
 
 public import GroundTheory.ProfiniteCohomology.PoitouTate.General
 public import GroundTheory.ProfiniteCohomology.RestrictedRamification.BaseDefs
-public import GroundTheory.ProfiniteCohomology.RestrictedRamification.Dimension
+public import GroundTheory.ProfiniteCohomology.RestrictedRamification.Bundle009
 public import GroundTheory.ProfiniteCohomology.PoincarePairs.Natural
 public import GroundTheory.ProfiniteCohomology.RestrictedRamification.Brauer
 import GroundTheory.ProfiniteCohomology.PoincarePairs

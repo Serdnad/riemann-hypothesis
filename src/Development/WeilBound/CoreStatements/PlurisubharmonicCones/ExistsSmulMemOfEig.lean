@@ -1,9 +1,9 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.IsAdapted
+public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.Bundle001
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.AbelianPartHeightLinear
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.NormalizedDegreeOrthogonalSumStatement
-public import GroundTheory.HeightsAndTheta.Heights.CountingLowerBound.PInteriorDichotomy
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle050
+public import GroundTheory.HeightsAndTheta.Heights.CountingLowerBound.Bundle001
 public import GroundTheory.HeightsAndTheta.Heights.HeightsOfSets.DegreeTopEqArithDegree
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

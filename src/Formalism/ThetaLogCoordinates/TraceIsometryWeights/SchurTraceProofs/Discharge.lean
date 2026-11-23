@@ -1,7 +1,7 @@
 module
 
-public import Formalism.ThetaLogCoordinates.TraceIsometryWeights.StatementF
-public import Formalism.MahlerMeasure.QuotientUpperBoundsOfPowerBounds
+public import Formalism.ThetaLogCoordinates.TraceIsometryWeights.Bundle001
+public import Formalism.MahlerMeasure.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

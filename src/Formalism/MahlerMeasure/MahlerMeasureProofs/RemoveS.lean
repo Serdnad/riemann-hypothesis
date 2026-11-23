@@ -1,6 +1,6 @@
 module
 
-public import Formalism.MahlerMeasure.TieVars
+public import Formalism.MahlerMeasure.Bundle002
 public import Formalism.MahlerMeasure.MahlerMeasureProofs.LevelAct
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

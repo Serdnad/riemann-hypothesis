@@ -8,7 +8,7 @@ public import Mathlib.RingTheory.PowerSeries.NoZeroDivisors
 public import Development.AbelianVarietyTheory.Definitions.ShimuraVarieties.IsOpenOfMemIrreducibleComponentsOfFinite
 public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.MemRangeOfForallHeightEqOneOfIsReflexive
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.RangeAlgebraMapEqIInfDiscreteValuationSubring
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsUniqueSecPull
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle033
 public import Mathlib.Algebra.GroupWithZero.Action.Regular
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -56,7 +56,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.AbProj
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle007
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.DivCalc
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.OneArc
 public import Mathlib.RingTheory.Flat.TorsionFree
@@ -194,7 +194,8 @@ theorem TraitCmp.det_mem [IsDomain R] [IsNoetherianRing R] [IsIntegrallyClosed R
     ∃ a, algebraMap R (FractionRing R) a = M.det := by
   refine (mem_range_algebraMap_iff_forall_height_eq_one (A := R) (K := FractionRing R) M.det).2 fun p _ hp => ?_
   set V := primeLocalSubalgebra (FractionRing R) p
-  have : IsDiscreteValuationRing V := isDiscreteValuationRing_of_height_eq_one p hp V
+  have hV : IsDiscreteValuationRing V := isDiscreteValuationRing_of_height_eq_one p hp V
+  letI : IsLocalRing V := hV.toIsLocalRing
   let W := AdicCompletion (IsLocalRing.maximalIdeal V) V
   have hVW : Function.Injective (algebraMap V W) := algebraMap_adicCompletion_injective_of_dvr V
   have hRV : Function.Injective (algebraMap R V) := fun a c e =>

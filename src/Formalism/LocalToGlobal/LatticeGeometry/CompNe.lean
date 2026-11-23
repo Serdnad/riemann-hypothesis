@@ -1,8 +1,7 @@
 module
 
-public import Formalism.LocalToGlobal.LatticeGeometry.NormDetInf
+public import Formalism.LocalToGlobal.LatticeGeometry.Bundle001
 public import Formalism.LocalToGlobal.LatticeGeometry.ArVolEqOfNef
-public import Formalism.LocalToGlobal.LatticeGeometry.AmpleOnAbelianBase
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

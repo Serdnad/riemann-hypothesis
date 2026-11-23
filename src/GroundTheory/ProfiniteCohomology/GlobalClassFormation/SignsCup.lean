@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.CupLocal
+public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.Bundle004
 public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.ExtensionEmbeddingOfIsRealAlgebraMap
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

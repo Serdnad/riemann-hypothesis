@@ -4,9 +4,9 @@ public import Formalism.MeanHeightDescent.MuMaxMinkowski
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.DegSupermodZ
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.DiscreteSpanOfLinIndep
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.DualPl
-import Formalism.HarderNarasimhan.HarderNarasimhanProofs.ShiftInvariance
+import Formalism.HarderNarasimhan.HarderNarasimhanProofs.Bundle003
 import Formalism.LatticeSlopes.ExistsSaturatedSlopeEqMuMax
-public import Formalism.MeanHeightDescent.AverageDegreeBounds.DescentSlope
+public import Formalism.MeanHeightDescent.AverageDegreeBounds.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

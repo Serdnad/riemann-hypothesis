@@ -1,11 +1,10 @@
 module
 
 public import GroundTheory.GlobalFields.HerbrandQuotients.SUnitsPerm
-public import GroundTheory.ProfiniteCohomology.GlobalEulerCharacteristic.PermLatticeDefs
-public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.AdditiveDefs
+public import GroundTheory.ProfiniteCohomology.GlobalEulerCharacteristic.Bundle001
+public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.Bundle001
 public import Mathlib.RepresentationTheory.Character
 import GroundTheory.GlobalFields.HerbrandQuotients.Lattice
-public import GroundTheory.ProfiniteCohomology.GlobalEulerCharacteristic.PermLatticeCharacter
 public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.Additive
 import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.AdditiveSnake
 import Mathlib.Algebra.Order.Floor.Extended

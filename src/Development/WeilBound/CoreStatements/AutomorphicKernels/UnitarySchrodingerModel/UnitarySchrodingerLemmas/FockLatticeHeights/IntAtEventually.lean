@@ -1,8 +1,8 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ResidueRingStructure
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle583
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MultiplicityLevelFormula
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.UnramifiedFiniteIntegralStatement
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle579
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

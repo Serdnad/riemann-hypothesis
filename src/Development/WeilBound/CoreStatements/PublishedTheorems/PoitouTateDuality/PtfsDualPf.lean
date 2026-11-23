@@ -4,7 +4,7 @@ public import GroundTheory.ProfiniteCohomology.PoincareDuality.NsmulEqZeroOfNone
 public import GroundTheory.ProfiniteCohomology.RestrictedRamification.BaseDefs
 public import Mathlib.RingTheory.PicardGroup
 public import ReciprocityTheory.Hypotheses.GalCoh
-public import GroundTheory.ProfiniteCohomology.CartierDual
+public import GroundTheory.ProfiniteCohomology.Bundle011
 import GroundTheory.ProfiniteCohomology.RestrictedRamification.SUnits
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,6 +1,6 @@
 module
 
-public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.EntryMulSubOne
+public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.Bundle002
 public import Mathlib.Topology.Instances.Matrix
 public import Mathlib.Topology.MetricSpace.ProperSpace
 import Mathlib.Algebra.Order.Floor.Extended

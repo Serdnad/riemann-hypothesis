@@ -1,6 +1,6 @@
 module
 
-public import Formalism.SharpRestriction.CuspSpanNormBounds.PsiEDef
+public import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle001
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.ComplementReferenceCompactSubgroup
 public import Mathlib.Algebra.Module.Lattice.Basic
 import Mathlib.Algebra.Order.Floor.Extended

@@ -3,10 +3,10 @@ module
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.ExistsUnitarySupportedAtPlaceOfMulEqIdem
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.PlacesToAdeles
 import Development.AbelianVarietyTheory.Counterexamples.HeightSurvey.StarPurelyImaginaryEqNeg
-import Development.AbelianVarietyTheory.Definitions.Foundations.SimpleSumRowCol
+import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle008
 import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.WittHyperbolicAnisotropicCommuteLevi
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.WeilCharacterSplitPlaceExistsContinuousNontrivia
-public import Formalism.LocalToGlobal.IndefiniteReal.DatumLemmas
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle327
+public import Formalism.LocalToGlobal.IndefiniteReal.Bundle020
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

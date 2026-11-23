@@ -1,8 +1,8 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.CTSmallCone
-public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.RightOnto
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsFactorPureTensorComponentAtPlace
+public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1770
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.PadicIsNonarchimedeanLocalField
 public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.PfActs
 import Mathlib.Algebra.Order.Floor.Extended
@@ -43,7 +43,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.Divisors.MatchingOfParts
-import Development.WeilBound.ThetaLifts.LatticeBasics.Hypotheses2
+import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle004
 
 @[expose] public section
 

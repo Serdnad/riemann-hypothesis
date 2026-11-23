@@ -3,9 +3,9 @@ module
 public import Formalism.LocalRingCardinality.AdicCompletionLocal.LocTied
 public import Formalism.SharpRestriction.LevelLetterCocycles.LocCoh
 public import Mathlib.RingTheory.Coalgebra.CoassocSimps
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ContCoreTied
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CrystallineCoboundaryLift
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TensorFundamentalExactSequenceCrystalline
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle446
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle485
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle613
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

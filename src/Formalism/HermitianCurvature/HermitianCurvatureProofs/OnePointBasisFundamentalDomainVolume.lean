@@ -1,6 +1,6 @@
 module
 
-public import Formalism.HermitianCurvature.StatementTBB
+public import Formalism.HermitianCurvature.Bundle008
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.AeNeZeroComplex
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.ComponentFamilySettingOfSettingBis
 import Mathlib.Algebra.Order.Floor.Extended

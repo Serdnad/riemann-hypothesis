@@ -1,12 +1,12 @@
 module
 
-public import Formalism.SatakeDualWeyl.StatementF
+public import Formalism.SatakeDualWeyl.Bundle001
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SphericalHeckeValuesSameParameters
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsContinuousPadic
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.UnitaryIwasawaCellBoundSmallTorusDoubleCoset
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.UnitarySatakeTransformIsLaurentPolynomial
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.UnitarySatakeEqOfSameUnramifiedBaseChange
-import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.FSatakeA
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle317
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle071
+import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle010
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.FSatakeC
 import Formalism.SatakeDualWeyl.KpqSubgroupCompact
 import Mathlib.Algebra.Order.Floor.Extended
@@ -51,11 +51,11 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.NStageTrivialCharacterCoeffEqAlt
-import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.FinIso
+import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle003
+import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle021
 import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsSplitAtOfIsSplitPl
 import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.BaseChangeDefiniteUnitary
-import Development.AutomorphicArithmetic.IntegralCasts.IsOpenStabOfMemNhds
+import Development.AutomorphicArithmetic.IntegralCasts.Bundle001
 import Formalism.AlgebraicWeights.IsAlgWeight
 import ReciprocityTheory.Automorphisms.PlaceA
 

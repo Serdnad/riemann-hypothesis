@@ -2,11 +2,11 @@ module
 
 import Mathlib.RingTheory.AdicCompletion.Noetherian
 import Mathlib.RingTheory.DiscreteValuationRing.Basic
-public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.ExistsIsUnitEvalOfMapResidueNeZero
+public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.Bundle002
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsDiscreteValuationRingIntegralClosurePadicInt
-public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.SummableNormBoundedSeries
+public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.Bundle002
 public import Mathlib.Analysis.Normed.Field.Instances
-public import ReciprocityTheory.SemistableReduction.ComapInclusionIsLocalHom
+public import ReciprocityTheory.SemistableReduction.Bundle002
 public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.ResidueNormValuationSubringEqZeroIff
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

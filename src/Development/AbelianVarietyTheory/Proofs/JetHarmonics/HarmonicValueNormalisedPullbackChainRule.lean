@@ -1,19 +1,19 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Jets.ExistsSecTieFOfTies
+public import Development.AbelianVarietyTheory.Definitions.Jets.Bundle004
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ThreePointSeriesExponentialOfDefect
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.JetPointZeroEqOne
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle024
 import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.ExistsGoodConst
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.ExistsTorusAndQuotientHom
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.IntegralChartDirectionsAreEigenvectors
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.NabValPullbackMonomial
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle083
 import Development.AbelianVarietyTheory.Proofs.JetHarmonics.PowerSeriesExpIntegralCanonGaugeAdditiveSecond
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ESecToUnit
-import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermDJet
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle014
+import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle013
 import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermFunPf
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.JetSubstPSEqJetMap
 import Formalism.SharpRestriction.Divisibility.GeneratorPowers.JetSubstPSTrunc
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.PrimUniqPf
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle011
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,11 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.TriIff
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CarriesFlagsIffAdaptedFrameAtImageStatement
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle627
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle669
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.EigenFrameBasePointLiftsUniqueFlagSpace
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LieEigenspaceFrameCoordinatesCompStatement
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LieEigenspaceFrameCoordinatesUniqueInvertibleStatement
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LieEigenspaceFrameStableOfIsLocalRingStatement
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle656
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle655
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -43,8 +42,8 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsIsLieBase
-import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.InterPolyProdSum
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle682
+import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.Bundle008
 
 @[expose] public section
 

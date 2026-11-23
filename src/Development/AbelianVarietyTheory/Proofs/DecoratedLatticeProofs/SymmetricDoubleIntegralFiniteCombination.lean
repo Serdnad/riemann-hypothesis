@@ -1,12 +1,12 @@
 module
 
 public import Mathlib
-public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.CosInj
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.SchwartzBruhatSelfAverageHeisenberg
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsWeilSourceActionAndSmooth
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.QuotientIntegralLinear
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ProperTriple
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SchwartzFourierTransformPiSurjectiveSchwartzBruh
+public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.Bundle024
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle088
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle016
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle042
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle068
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle053
 
 @[expose] public section
 

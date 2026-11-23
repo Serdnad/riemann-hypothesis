@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.ChowForms.StatementsDehomogOrd
+public import GroundTheory.HeightsAndTheta.Heights.ChowForms.Bundle002
 public import GroundTheory.HeightsAndTheta.Heights.ChowForms.Statements
 public import Mathlib.Order.CompletePartialOrder
 public import GroundTheory.HeightsAndTheta.Heights.ChowForms.PChartLocDomain

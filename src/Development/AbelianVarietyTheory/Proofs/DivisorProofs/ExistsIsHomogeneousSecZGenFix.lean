@@ -2,15 +2,15 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.ExistenceOfLattices.UnivFrame
 public import Development.AbelianVarietyTheory.Definitions.Foundations.IsProbabilityMeasureMuPart
-public import Formalism.LocalToGlobal.CMDeterminantIdeals.StatementG
+public import Formalism.LocalToGlobal.CMDeterminantIdeals.Bundle002
 import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.LawsFieldsSeparately
 public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.ExistsEqProdBlockDetPolyPowMul
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TestValueEqConstMulReadingSecZ
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.WeightedSectionExponentShift
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsUniqueFrameChangeByMatrices
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FrameChangeByMatricesReflAndComp
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FramedPointBaseChangeUniqueReflIff
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.LowerTriIsUnitDet
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle044
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle045
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle025
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle052
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -51,7 +51,7 @@ import Development.AbelianVarietyTheory.Definitions.Divisors.CommGroupMulMulEqMu
 import Development.AbelianVarietyTheory.Definitions.Divisors.CuspIso
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsUniqueIsTanFrameOfIsEmpty
 import Development.AbelianVarietyTheory.Definitions.Divisors.IsoOverOfIsOpenImmersion
-import Development.AbelianVarietyTheory.Definitions.Divisors.LinearIndependentBasisCoords
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle012
 public import Development.AbelianVarietyTheory.Definitions.Divisors.UnitaryWeightExponentVectorSignatureWeightMuZero
 
 @[expose] public section
@@ -91,10 +91,10 @@ theorem exists_isHomogeneous_secZ_genFix : ∀ (E : Type) [Field E] [NumberField
   set M : ℕ := ∑ b, k b with hM
   have hkM : ∀ b, k b ≤ M := fun b =>
     Finset.single_le_sum (f := k) (fun _ _ => Nat.zero_le _) (Finset.mem_univ b)
-  set P' : MvPolynomial (FrVar Dw.mult) K := (∏ b, blockDetPoly K Dw.mult b) ^ M * P with hP'
+  set P' : MvPolynomial (FrVar Dw.mult) K := (∏ b, _root_.GlobalTheory.LamT.FieldPoly.blockDetPoly K Dw.mult b) ^ M * P with hP'
   have hevD : ∀ Y : ∀ b : E →+* ℂ, Matrix (Fin (Dw.mult b)) (Fin (Dw.mult b)) K,
-      evalFr (∏ b, blockDetPoly K Dw.mult b) Y = ∏ b, (Y b).det := fun Y => by
-    simp only [← evalFr_blockDetPoly Dw.mult _ Y]
+      evalFr (∏ b, _root_.GlobalTheory.LamT.FieldPoly.blockDetPoly K Dw.mult b) Y = ∏ b, (Y b).det := fun Y => by
+    simp only [← _root_.GlobalTheory.LamT.FieldPoly.evalFr_blockDetPoly Dw.mult _ Y]
     simp only [evalFr, map_prod]
 
   have hA : ∀ (z' : FrPt Xo c K) (Y : ∀ b : E →+* ℂ, Matrix (Fin (Dw.mult b)) (Fin (Dw.mult b)) K),
@@ -104,7 +104,7 @@ theorem exists_isHomogeneous_secZ_genFix : ∀ (E : Type) [Field E] [NumberField
     have h1 := hP K (AlgHom.id c.F K) y₀ z' Y (fun b => (hY b).isUnit) hrefl h
     have h2 : MvPolynomial.map (AlgHom.id c.F K).toRingHom P = P := MvPolynomial.map_id P
     rw [h2] at h1
-    have h3 : evalFr P' Y = evalFr (∏ b, blockDetPoly K Dw.mult b) Y ^ M * evalFr P Y := by
+    have h3 : evalFr P' Y = evalFr (∏ b, _root_.GlobalTheory.LamT.FieldPoly.blockDetPoly K Dw.mult b) Y ^ M * evalFr P Y := by
       simp only [hP', evalFr, map_mul, map_pow]
     rw [h3, hevD, ← h1, pow_add, mul_assoc]
 
@@ -220,7 +220,7 @@ theorem exists_isHomogeneous_secZ_genFix : ∀ (E : Type) [Field E] [NumberField
             ((∏ b', (X b').det) ^ (M + N) * evR Xo c F z₁)) := by
           rw [← hL]; ring
 
-  obtain ⟨G, hG⟩ := exists_eq_prod_blockDetPoly_pow_mul K (E →+* ℂ) Dw.mult a _ (fun b => M + N - k b) rfl P'
+  obtain ⟨G, hG⟩ := _root_.GlobalTheory.LamT.FieldPoly.exists_eq_prod_blockDetPoly_pow_mul K (E →+* ℂ) Dw.mult a _ (fun b => M + N - k b) rfl P'
     (fun X b t hX ht htri => hP'tr X b t hX ht htri)
   have hGY : ∀ (z' : FrPt Xo c K) (Y : ∀ b : E →+* ℂ, Matrix (Fin (Dw.mult b)) (Fin (Dw.mult b)) K),
       (∀ b, (Y b).det ≠ 0) → FrChg (fun b => (Y b).transpose) 1 y₀ z' →
@@ -229,7 +229,7 @@ theorem exists_isHomogeneous_secZ_genFix : ∀ (E : Type) [Field E] [NumberField
     have h1 := hA z' Y hY h
     have h2 : evalFr P' Y = (∏ b, (Y b).det ^ (M + N - k b)) * evalFr G Y := by
       rw [hG]
-      simp only [← evalFr_blockDetPoly Dw.mult _ Y]
+      simp only [← _root_.GlobalTheory.LamT.FieldPoly.evalFr_blockDetPoly Dw.mult _ Y]
       simp only [evalFr, map_mul, map_prod, map_pow]
     have hne : (∏ b, (Y b).det ^ (M + N - k b)) ≠ 0 :=
       Finset.prod_ne_zero_iff.2 fun b _ => pow_ne_zero _ (hY b)
@@ -243,7 +243,7 @@ theorem exists_isHomogeneous_secZ_genFix : ∀ (E : Type) [Field E] [NumberField
     omega
 
   have hGhom : G.IsHomogeneous (∑ b, ∑ i, a b i) := by
-    refine isHomogeneous_of_scaling G (∏ b, blockDetPoly K Dw.mult b) (fun h0 => ?_) _ (fun x hx => ?_)
+    refine isHomogeneous_of_scaling G (∏ b, _root_.GlobalTheory.LamT.FieldPoly.blockDetPoly K Dw.mult b) (fun h0 => ?_) _ (fun x hx => ?_)
     · have h1 := hevD fun _ => 1
       rw [h0] at h1
       simp [evalFr] at h1

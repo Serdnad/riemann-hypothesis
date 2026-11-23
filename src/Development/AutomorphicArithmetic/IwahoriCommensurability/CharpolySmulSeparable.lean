@@ -1,7 +1,7 @@
 module
 
 public import Mathlib.FieldTheory.Separable
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.CharpolySmul
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle047
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

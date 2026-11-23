@@ -1,11 +1,11 @@
 module
 
-public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.CharDual
+public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.Bundle010
 public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.StdCharExists
 public import Formalism.LocalRingCardinality.SpanPowerMembership.ExampleLayerExistsGenerators
-import Formalism.LocalToGlobal.IndefiniteReal.DatumLemmas
+import Formalism.LocalToGlobal.IndefiniteReal.Bundle020
 public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.CharStd
-public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.FactPrincipalDatum
+public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.Bundle002
 public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.IdemSplit
 public import Formalism.SharpRestriction.CuspSpanNormBounds.NonemptyParameterModels.TermTiesEmptyOfLargeIndex
 import Formalism.SharpRestriction.GlobalSchurBounds.GlobalRankLatticeProofs.EqOfLeOfAbsNormEq

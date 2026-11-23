@@ -1,6 +1,6 @@
 module
 
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LRowdivLemmas
+public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle005
 public import Formalism.LocalToGlobal.GroupLattices.FockModels.SwRowDivZero
 public import Formalism.SharpRestriction.GrowthBounds.ObjPol
 public import Formalism.GradedWeylDivisibility.DualWeylDominanceOf

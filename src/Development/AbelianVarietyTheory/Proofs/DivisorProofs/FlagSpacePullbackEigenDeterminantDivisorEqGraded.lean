@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GapGeSubKapBase
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2325
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.DualGramInterpGram
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsEigenFrameChartVectorsCompactFlagSpaceAffi
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2617
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsAffineStableLieEigenspaceFrame
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FlagDeterminantIso
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle666
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.GradedLineBundleExists
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

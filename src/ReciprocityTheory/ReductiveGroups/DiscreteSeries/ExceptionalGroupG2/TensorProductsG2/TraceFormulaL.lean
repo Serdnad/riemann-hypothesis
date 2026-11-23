@@ -42,9 +42,8 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-import ReciprocityTheory.ReductiveGroups.DiscreteSeries.AnalyticVectors.ClosureK
-import ReciprocityTheory.ReductiveGroups.DiscreteSeries.AnalyticVectors.ConjTransposeEqOfInG
-import ReciprocityTheory.ReductiveGroups.DiscreteSeries.AnalyticVectors.ExistsExpEqOfMemKset
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.AnalyticVectors.Bundle003
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.AnalyticVectors.Bundle001
 import ReciprocityTheory.ReductiveGroups.DiscreteSeries.AnalyticVectors.Taylor
 import ReciprocityTheory.ReductiveGroups.DiscreteSeries.BochnerInequality.LayerBasic
 import ReciprocityTheory.ReductiveGroups.DiscreteSeries.DiscreteSeriesExistence.RightDerivativeToL2

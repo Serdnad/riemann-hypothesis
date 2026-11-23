@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.GenericPointSectionHypotheses
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle010
 public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.RestrictionBundle
 import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.RestrictionPowers
 import Mathlib.Algebra.Order.Floor.Extended

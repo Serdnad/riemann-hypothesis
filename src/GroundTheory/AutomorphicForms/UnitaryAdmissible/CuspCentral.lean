@@ -3,7 +3,7 @@ module
 public import GroundTheory.AutomorphicForms.AutomorphicFormSpaces.GKStable
 public import GroundTheory.AutomorphicForms.CuspidalDiscreteness.CuspFormsDecay
 public import GroundTheory.AutomorphicForms.CuspidalDiscreteness.SummandsMeasure
-import GroundTheory.AutomorphicForms.DixmierMalliavinBasic
+import GroundTheory.AutomorphicForms.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -3,11 +3,11 @@ module
 public import GroundTheory.ProfiniteCohomology.RestrictedRamification.ClassFieldGSDefs
 public import GroundTheory.GlobalFields.ClassFieldConsequences.Conductor
 public import GroundTheory.GlobalFields.ExistenceTheorem.ExistsIsAbelianGaloisRangeIdeleClassNormEqOfFini
-public import GroundTheory.ProfiniteCohomology.RestrictedRamification.MaxUnramifiedOutside
+public import GroundTheory.ProfiniteCohomology.RestrictedRamification.Bundle001
 import GroundTheory.GlobalFields.ClassFieldConsequences.OpenSubgroup
 public import GroundTheory.GlobalFields.ClassFieldConsequences.RayClass
 import GroundTheory.GlobalFields.IdeleGroups.LocalConditionIndex
-import GroundTheory.GlobalFields.KummerTheory.LocalIndexAtPlace
+import GroundTheory.GlobalFields.KummerTheory.Bundle001
 import Mathlib.Algebra.Lie.OfAssociative
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

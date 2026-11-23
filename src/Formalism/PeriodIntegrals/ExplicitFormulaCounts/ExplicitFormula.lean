@@ -1,10 +1,9 @@
 module
 
-public import Formalism.PeriodIntegrals.ExplicitFormula
-public import Formalism.PeriodIntegrals.ZerosWindow
+public import Formalism.PeriodIntegrals.Bundle002
 public import Formalism.PeriodIntegrals.ExplicitFormulaCounts.AnalyticInputs
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.ExplicitFormula
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.ZerosWindow
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle015
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle008
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

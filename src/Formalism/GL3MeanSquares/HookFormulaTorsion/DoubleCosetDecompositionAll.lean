@@ -1,6 +1,6 @@
 module
 
-public import Formalism.GL3MeanSquares.AffineFibreCountComparison
+public import Formalism.GL3MeanSquares.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -45,7 +45,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Formalism.LogVandermondeBounds.FinrankFiberSumZero
+import Formalism.LogVandermondeBounds.Bundle001
 public import Mathlib.LinearAlgebra.Quotient.Pi
 
 @[expose] public section

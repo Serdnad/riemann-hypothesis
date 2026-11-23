@@ -1,6 +1,6 @@
 module
 
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.PBBStmt
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle044
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.AdmissibleWordMemBoundedLetterLists
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.JointInstanceTheoremA
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.TheoremPIntegralOfPlaces

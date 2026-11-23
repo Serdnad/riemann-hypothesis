@@ -1,10 +1,10 @@
 module
 
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutJDHatOpA
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle064
 public import Formalism.HermitianCurvature.RealInputsClosedAdmissibleSettings
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.AdmissibleOfUnitWords
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.DilationUnipotentWeylMeasure
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.HasDerivAtEpart
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle081
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.OpApplyContinuousOn
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.SlicesFiniteRegularityBuilt
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.UnipotentCorrectionU1.PolyBB
@@ -52,7 +52,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.Definitions.Jets.SameFns
+import Development.AbelianVarietyTheory.Definitions.Jets.Bundle004
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.LevelFormSesquilinearFiniteClass
 
 @[expose] public section

@@ -1,11 +1,11 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.OrderedCechToCatCochainsOneApplyValueAtSubset
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle493
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.RealDescent.RealLeviDescent.IsCoreMod
 public import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.EuOfDifferentiableAt
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.EventuallyLineUnit
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.InducedFunctionAtOne
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle365
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle345
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle514
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

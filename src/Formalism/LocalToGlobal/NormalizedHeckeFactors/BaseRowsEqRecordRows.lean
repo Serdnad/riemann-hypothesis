@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.HilbertRowConditions.ColumnsFunctionAtSubspaces
+public import Formalism.LocalToGlobal.HilbertRowConditions.Bundle002
 public import Formalism.LocalToGlobal.Divisibility.TrivialExtensionSideWellFormed
 import Formalism.LocalToGlobal.IndefiniteForms.IndefUse
 import Mathlib.Algebra.Order.Floor.Extended

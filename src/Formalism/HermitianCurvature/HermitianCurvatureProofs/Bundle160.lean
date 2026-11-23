@@ -1,0 +1,477 @@
+module
+
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.HeadCorrespondenceOfParts
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.AdmissibleRecOfAdmissibleWord
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.InsertUnitMatrixZeroApply
+public import Formalism.HermitianCurvature.StatementTL
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.UnipotentLevelZeroEqOne
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle144
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle136
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.DiagonalTransferAction
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle132
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle004
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.InterlaceSignTwo
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.LevelsOfBuiltSetting
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.ParametersUPrimeForULower
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.LinearAlgebra.Lagrange
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Basify
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Linter.Style
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Topology.Sheaves.Init
+import Std.Tactic.BVDecide.Normalize.Prop
+
+@[expose] public section
+
+section
+
+open Matrix MeasureTheory Finset
+open scoped ComplexConjugate ComplexOrder
+
+noncomputable section
+
+namespace Formalism.FourierDecayAlt.P.DiagonalScalarMatrices
+
+open Formalism.REAL Formalism.QuantumDeterminants Formalism.FourierDecayAlt Formalism.FourierDecayAlt.P.Dx2.DF
+
+theorem interp_any {ι : Type} [Fintype ι] (node : ι → ℂ) (hinj : Function.Injective node) (f : ι → ℂ) :
+    ∃ q : Polynomial ℂ, ∀ i, q.eval (node i) = f i := by
+  classical
+  refine ⟨Lagrange.interpolate Finset.univ node f, fun i => ?_⟩
+  exact Lagrange.eval_interpolate_at_node f hinj.injOn (Finset.mem_univ i)
+
+section frame
+
+variable {k r : ℕ} {Wp Wq : Type} [NormedAddCommGroup Wp] [InnerProductSpace ℂ Wp] [NormedAddCommGroup Wq]
+  [InnerProductSpace ℂ Wq]
+
+theorem frame_dframe (S : B.RealPlaceData k r Wp Wq) (hr : r = 0) {ν' : Fin (2 * r + k + 1) → ℂ} {m₀ γ : B.Mat k r}
+    (hD : D.IsDFrame S ν' m₀ γ) {m : ℕ} {Bs : Fin m → Fin (2 * r + k + 1) → ℂ} (hB : Q.IsFrameOf k r [S.z', ν'] Bs) :
+    Q.IsFrameOf k r [γ⁻¹ *ᵥ S.z, S.z'] Bs := by
+  subst hr
+  obtain ⟨hB1, hB2, hB3⟩ := hB
+  refine ⟨hB1, hB2, fun a v hv => ?_⟩
+  simp only [List.mem_cons, List.mem_singleton] at hv
+  rcases hv with rfl | rfl | hv
+  · obtain ⟨-, ⟨α, -, hα⟩, -⟩ := hD
+    have hcof : Formalism.FourierDecayAlt.D.cofL S γ = S.z := by
+      unfold Formalism.FourierDecayAlt.D.cofL
+      simp [Matrix.adjugate_fin_one, fvec, Matrix.one_apply]
+    rw [hcof] at hα
+    have hvb : (fun i : Fin (2 * 0 + k + 1) => if 0 ≤ i.val ∧ i.val ≤ 0 + k then (γ⁻¹ *ᵥ S.z) i else 0) =
+        γ⁻¹ *ᵥ S.z := by
+      funext i
+      have := i.isLt
+      rw [if_pos (by omega)]
+    have hpr : γ⁻¹ *ᵥ S.z = Formalism.FourierDecayAlt.D.prW k 0 S.z' (γ⁻¹ *ᵥ S.z) +
+        (herm (Hpk k 0) (γ⁻¹ *ᵥ S.z) S.z' / herm (Hpk k 0) S.z' S.z') • S.z' := by
+      unfold Formalism.FourierDecayAlt.D.prW
+      dsimp only
+      rw [hvb, sub_add_cancel]
+    have h1 : herm (Hpk k 0) (Bs a) ν' = 0 := hB3 a ν' (by simp)
+    have h2 : herm (Hpk k 0) (Bs a) S.z' = 0 := hB3 a S.z' (by simp)
+    rw [hpr, hα]
+    unfold herm at h1 h2 ⊢
+    rw [star_add, star_smul, star_smul, add_dotProduct, smul_dotProduct, smul_dotProduct, h1, h2, smul_zero,
+      smul_zero, add_zero]
+  · exact hB3 a S.z' (by simp)
+  · simp at hv
+
+end frame
+
+def HeadWeightAtOfEx : Prop :=
+  ∀ (Wp Wq : Type) [NormedAddCommGroup Wp] [InnerProductSpace ℂ Wp] [NormedAddCommGroup Wq]
+    [InnerProductSpace ℂ Wq] [FiniteDimensional ℂ Wp] [FiniteDimensional ℂ Wq] (P : M.Par) (p : KB.Pl P Wp Wq)
+    (w : List C.Letter)
+    (X : Q.ActualOps (JC.parLev P P.r).k (JC.parLev P P.r).r (p.T.bs P.r).z (p.T.bs P.r).z' (p.T.bs P.r).π (p.T.bs P.r).π')
+    (μ : Measure (Mt P.k (P.r - P.r)))
+    (L : R.LevelData (Q.Pr (Q.RadSp (JC.parLev P P.r).k (JC.parLev P P.r).r (p.T.bs P.r).z (p.T.bs P.r).z'
+      (p.T.bs P.r).π (p.T.bs P.r).π')) (JC.parLev P P.r).r)
+    (st : Fr.Start (Q.Pr (Q.RadSp (JC.parLev P P.r).k (JC.parLev P P.r).r (p.T.bs P.r).z (p.T.bs P.r).z'
+      (p.T.bs P.r).π (p.T.bs P.r).π'))) (ν'r : Fin (2 * (P.r - P.r) + P.k + 1) → ℂ)
+    (m₀r : B.Mat P.k (P.r - P.r)),
+    P5.IsData (JC.parLev P P.r) (p.T.bs P.r).z (p.T.bs P.r).z' (p.T.bs P.r).π (p.T.bs P.r).π' X μ L st p.l0 →
+    KB.CutWord P p.l0 w → PBI.LevFrame p ν'r m₀r →
+    ∀ x ∈ Q.DomR (JC.parLev P P.r).k (JC.parLev P P.r).r (p.T.bs P.r).z (p.T.bs P.r).z',
+    ∀ γ₀ ∈ B.GV P.k (P.r - P.r),
+      Q.zetaL P.k (P.r - P.r) (p.T.bs P.r).z (p.T.bs P.r).z' (Fin.last _) γ₀ =
+        Q.zetaL P.k (P.r - P.r) (p.T.bs P.r).z (p.T.bs P.r).z' (Fin.last _) x.2 →
+      D.IsDFrame (p.T.bs P.r) ν'r m₀r γ₀ →
+    (∀ Ψ : Q.RadSp (JC.parLev P P.r).k (JC.parLev P P.r).r (p.T.bs P.r).z (p.T.bs P.r).z' (p.T.bs P.r).π
+          (p.T.bs P.r).π',
+        ∑ ρ : M.Ty P, (p.TP.E ρ).comp ((Ψ : Q.Fn (JC.parLev P P.r).k (JC.parLev P P.r).r (Wq →L[ℂ] Wp)) x.1 γ₀) =
+          (Ψ : Q.Fn (JC.parLev P P.r).k (JC.parLev P P.r).r (Wq →L[ℂ] Wp)) x.1 γ₀) →
+    (∀ h : C.LPt, D.IsLocPt h P.r →
+        ∀ (y : Wd.Ix (Fin w.length) → Q.RadSp (JC.parLev P P.r).k (JC.parLev P P.r).r (p.T.bs P.r).z
+          (p.T.bs P.r).z' (p.T.bs P.r).π (p.T.bs P.r).π') e,
+        (P5.act ((Fr.ofWord L st (D.positionted w)).d L) y e :
+            Q.Fn (JC.parLev P P.r).k (JC.parLev P P.r).r (Wq →L[ℂ] Wp)) x.1 γ₀ =
+          ∑ ρ : M.Ty P, ((Top.dH P p.l0 (Tz P.k P.r p.T.base.z * Tz P.k P.r p.T.base.z') w
+              (h ++ [(1, Q.zetaL P.k (P.r - P.r) (p.T.bs P.r).z (p.T.bs P.r).z' (Fin.last _) x.2)]) e ρ ^ 2 : ℝ) : ℂ) •
+            (p.TP.E ρ).comp ((y e : Q.Fn (JC.parLev P P.r).k (JC.parLev P P.r).r (Wq →L[ℂ] Wp)) x.1 γ₀))
+
+end Formalism.FourierDecayAlt.P.DiagonalScalarMatrices
+
+namespace Formalism.FourierDecayAlt.P
+
+open Finset Formalism.REAL Formalism.QuantumDeterminants Formalism.FourierDecayAlt
+open scoped ComplexOrder
+
+theorem head_weight_at_of_exists : DiagonalScalarMatrices.HeadWeightAtOfEx := by
+  intro Wp Wq _ _ _ _ _ _ P p w X μ L st ν'r m₀r hD hcut hLF x hx γ₀ hγG hζ hγF hex h hh y e
+  obtain ⟨hl1, hlk, hk2⟩ := p.hl
+  have hr : P.r - P.r = 0 := by omega
+  have hD' := hD
+  obtain ⟨hPl, -, -, -, hq, hinv, -, -⟩ := hD'
+  have hOK := hPl.1
+
+  have hw := Formalism.FourierDecayAlt.P.JCTx5.wordOK_of (JC.parLev P P.r) _ _ _ _ st p.l0 hOK hl1 hlk hq hinv w hcut.1 hcut.2
+
+  have hGx : 0 < Complex.normSq (Q.zetaL P.k (P.r - P.r) (p.T.bs P.r).z (p.T.bs P.r).z' (Fin.last _) x.2) -
+      Tz P.k (P.r - P.r) (p.T.bs P.r).z * Tz P.k (P.r - P.r) (p.T.bs P.r).z' := hx.2.2
+  have hx' : (x.1, γ₀) ∈ Q.DomR (JC.parLev P P.r).k (JC.parLev P P.r).r (p.T.bs P.r).z (p.T.bs P.r).z' := by
+    refine ⟨hx.1, ⟨hγG, fun a ha => by
+      exfalso; have h1 := a.isLt; have h2 : (JC.parLev P P.r).r = P.r - P.r := rfl; omega⟩, ?_⟩
+    show 0 < Complex.normSq (Q.zetaL P.k (P.r - P.r) (p.T.bs P.r).z (p.T.bs P.r).z' (Fin.last _) γ₀) -
+      Tz P.k (P.r - P.r) (p.T.bs P.r).z * Tz P.k (P.r - P.r) (p.T.bs P.r).z'
+    rw [hζ]; exact hGx
+
+  have hbase := hLF.2.2
+  obtain ⟨hν, hνz, hνν, -, -⟩ := id hbase
+  obtain ⟨Bs', hB'⟩ := Formalism.FourierDecayAlt.P.Topx1.vecw_frame_exists P.k (P.r - P.r) (by omega) (p.T.bs P.r).z' ν'r
+    (p.T.bs P.r).z'_mem (p.T.bs P.r).T'_pos hν hνz hνν
+  have hBγ := DiagonalScalarMatrices.frame_dframe (p.T.bs P.r) hr hγF hB'
+
+  obtain ⟨Y₀, hY₀⟩ := Formalism.FourierDecayAlt.P5.Kfp.sep_real hOK
+  set f : M.Ty P → ℂ := fun ρ => Fr.cs (M.x0 P p.l0 ρ) (M.qC P) (D.positionted w) e with hfdef
+  obtain ⟨q, hq'⟩ := DiagonalScalarMatrices.interp_any (fun ρ : M.Ty P => M.xC P ρ (Y₀ : ℂ)) hY₀ f
+  set V := ((y e : Q.RadSp (JC.parLev P P.r).k (JC.parLev P P.r).r (p.T.bs P.r).z (p.T.bs P.r).z'
+    (p.T.bs P.r).π (p.T.bs P.r).π') : Q.Fn (JC.parLev P P.r).k (JC.parLev P P.r).r (Wq →L[ℂ] Wp)) x.1 γ₀ with hVdef
+  have hV := PBI.grpInt_at_dframe p hLF (y e) x hx hγG hζ hγF
+  refine ContinuousLinearMap.ext fun v => ?_
+  have h1 := DiagonalScalarMatrices.dw_pt (JC.parLev P P.r) _ _ _ _ X μ L st p.l0 hD (D.positionted w) hw Y₀ e q hq' y x.1 γ₀ hx' Bs' hBγ v
+  have h2 := DiagonalScalarMatrices.poly_types p ν'r m₀r hLF hB' V hV (hex (y e)) (Y₀ : ℂ) q v
+  rw [show ((JC.parLev P P.r).k : ℂ) = (P.k : ℂ) from rfl, ← hVdef] at h1
+  erw [h2] at h1
+  rw [h1]
+  simp only [ContinuousLinearMap.coe_sum', Finset.sum_apply, ContinuousLinearMap.smul_apply,
+    ContinuousLinearMap.comp_apply, Finset.smul_sum, smul_smul]
+  refine Finset.sum_congr rfl fun ρ _ => ?_
+  congr 1
+  rw [hq' ρ]
+  set ζx := Q.zetaL P.k (P.r - P.r) (p.T.bs P.r).z (p.T.bs P.r).z' (Fin.last _) x.2 with hζx
+  have hTb : Tz P.k P.r p.T.base.z = P.T := p.hP.2.2.2.1
+  have hTb' : Tz P.k P.r p.T.base.z' = P.T' := p.hP.2.2.2.2.1
+  have hTr : Tz P.k (P.r - P.r) (p.T.bs P.r).z = P.T := hPl.2.2.2.1
+  have hTr' : Tz P.k (P.r - P.r) (p.T.bs P.r).z' = P.T' := hPl.2.2.2.2.1
+  have hzγ : Q.zetaL (JC.parLev P P.r).k (JC.parLev P P.r).r (p.T.bs P.r).z (p.T.bs P.r).z'
+      (Fin.last (JC.parLev P P.r).r) γ₀ = ζx := hζ
+  have hGG : Q.GGl (JC.parLev P P.r).k (JC.parLev P P.r).r (p.T.bs P.r).z (p.T.bs P.r).z' γ₀ =
+      Complex.normSq ζx - P.T * P.T' := by
+    show Complex.normSq (Q.zetaL P.k (P.r - P.r) (p.T.bs P.r).z (p.T.bs P.r).z' (Fin.last _) γ₀) -
+      Tz P.k (P.r - P.r) (p.T.bs P.r).z * Tz P.k (P.r - P.r) (p.T.bs P.r).z' = _
+    rw [hζ, hTr, hTr']
+  have hG0 : 0 < Complex.normSq ζx - P.T * P.T' := by rw [← hTr, ← hTr']; exact hGx
+  have hlen : (D.positionted w).length = w.length := List.length_ofFn
+  have hcW : Top.cW P p.l0 w e ρ = f ρ := by
+    simp only [Top.cW, hfdef]
+    congr 1
+  have hc := Formalism.FourierDecayAlt.P.c_pos_truncated Formalism.FourierDecayAlt.P.interlacing_sign Formalism.FourierDecayAlt.P.q_positive_interlacing
+    Formalism.FourierDecayAlt.P.q_positive_shift Formalism.FourierDecayAlt.P.cPos_true (Fin w.length) P.k P.u P.u' (M.rho P ρ) p.l0 P.T P.T'
+    (D.positionted w) hl1 hlk (Formalism.FourierDecayAlt.P.types_interlace P p.hP.1 ρ) p.hP.1.T_pos p.hP.1.T'_pos hw.2.1 hw.2.2 e
+  have hpos : 0 < f ρ := by rw [Complex.lt_def]; exact ⟨hc.1, hc.2.symm⟩
+  have hre : 0 < (f ρ).re := (Complex.lt_def.1 hpos).1
+  have him : (f ρ).im = 0 := (Complex.lt_def.1 hpos).2.symm
+  have hfre : f ρ = ((f ρ).re : ℂ) := Complex.ext (by simp) (by simp [him])
+  have hW := PBI.wPt_app (P.T * P.T') ζx h P.r hh
+  have hWnn : 0 ≤ Top.wPt (P.T * P.T') P.r (h ++ [(1, ζx)]) := by
+    rw [hW]; exact div_nonneg (Complex.normSq_nonneg _) hG0.le
+  unfold Top.dH
+  rw [hTb, hTb', hW, hcW, Real.sq_sqrt (mul_nonneg (pow_nonneg (by rw [← hW]; exact hWnn) _) hre.le), hGG, hzγ, hlen]
+  rw [hfre]
+  push_cast
+  rw [div_eq_mul_inv, Complex.ofReal_re]
+
+end Formalism.FourierDecayAlt.P
+end
+end
+
+section
+
+open Matrix
+
+noncomputable section
+
+namespace Formalism.FourierDecayAlt.P.PBN
+
+open Finset Formalism.FourierDecayAlt Formalism.FourierDecayAlt.Wd Formalism.FourierDecayAlt.Fr Formalism.FourierDecayAlt.R Formalism.FourierDecayAlt.P.PBF
+
+section slots
+
+variable {A : Type} [Ring A] [StarRing A] [Algebra ℂ A] {n r : ℕ}
+
+theorem liftM_star (M : SlopeTestRemainingChoices (Fin n) A) : liftM (star M) = star (liftM M) := by
+  ext z z'
+  simp only [Matrix.star_apply, liftM_apply]
+  by_cases h : z 0 = z' 0
+  · rw [if_pos h, if_pos h.symm]
+  · rw [if_neg h, if_neg (Ne.symm h), star_zero]
+
+theorem liftM_neg (M : SlopeTestRemainingChoices (Fin n) A) : liftM (-M) = -liftM M := by
+  rw [← liftRingHom_apply_eq_liftM, map_neg, liftRingHom_apply_eq_liftM]
+
+theorem liftM_sub (M N : SlopeTestRemainingChoices (Fin n) A) : liftM (M - N) = liftM M - liftM N := by
+  rw [← liftRingHom_apply_eq_liftM, map_sub, liftRingHom_apply_eq_liftM, liftRingHom_apply_eq_liftM]
+
+theorem liftM_pow (M : SlopeTestRemainingChoices (Fin n) A) (m : ℕ) : liftM (M ^ m) = liftM M ^ m := by
+  rw [← liftRingHom_apply_eq_liftM, map_pow, liftRingHom_apply_eq_liftM]
+
+theorem matrix_two_map_lift (a b c d : SlopeTestRemainingChoices (Fin n) A) :
+    (!![a, b; c, d] : M2 (SlopeTestRemainingChoices (Fin n) A)).map liftM = !![liftM a, liftM b; liftM c, liftM d] := by
+  ext i j; fin_cases i <;> fin_cases j <;> rfl
+
+structure Lifted (f : FrameData (Fin n) A) (f' : FrameData (Fin (n + 1)) A) : Prop where
+  F : f'.F = liftM f.F
+  ee : ∀ Y, f'.ee Y = liftM (f.ee Y)
+  x : ∀ Y, f'.x Y = liftM (f.x Y)
+  xi : ∀ Y, f'.xi Y = liftM (f.xi Y)
+  c : f'.c = liftM f.c
+  ci : f'.ci = liftM f.ci
+  q : f'.q = f.q
+  N : f'.N = f.N
+
+variable (L : LevelData A r)
+
+theorem io_lift (x : A) : (io x : SlopeTestRemainingChoices (Fin (n + 1)) A) = liftM (io x) := io_succ x
+
+theorem lifted_l {f : FrameData (Fin n) A} {f' : FrameData (Fin (n + 1)) A} (hf : Lifted f f') (Y : ℂ) :
+    f'.l L Y = liftM (f.l L Y) := by
+  simp only [FrameData.l, kapL, liftM_add, liftM_mul, hf.ee Y, io_lift]
+
+theorem lifted_m {f : FrameData (Fin n) A} {f' : FrameData (Fin (n + 1)) A} (hf : Lifted f f') (Y : ℂ) :
+    f'.m L Y = liftM (f.m L Y) := by
+  simp only [FrameData.m, FrameData.d, FrameData.di, wt, wti, liftM_mul, liftM_pow, hf.N, hf.c, hf.ci,
+    lifted_l L hf, liftM_star, io_lift]
+
+theorem lifted_DD {f : FrameData (Fin n) A} {f' : FrameData (Fin (n + 1)) A} (hf : Lifted f f') (Y Ya : ℂ) :
+    f'.DD Y Ya = liftM (f.DD Y Ya) := by
+  simp only [FrameData.DD, liftM_smul, liftM_sub, hf.ee]
+
+theorem tz_lift : (tz L : SlopeTestRemainingChoices (Fin (n + 1)) A) = liftM (tz L) := io_succ _
+
+theorem lifted_plus {f : FrameData (Fin n) A} {f' : FrameData (Fin (n + 1)) A} (hf : Lifted f f') (a : Fin n)
+    (Ya : ℂ) : Lifted (f.plus L a Ya) (f'.plus L a.succ Ya) := by
+  refine ⟨?_, fun Y => ?_, fun Y => ?_, fun Y => ?_, ?_, ?_, ?_, ?_⟩
+  · simp only [FrameData.plus]
+    rw [hf.F, liftM_mul, ← ins_succ, map_mul_liftM, matrix_two_map_lift, matrix_two_map_lift, lifted_l L hf]
+    simp only [liftM_mul, liftM_zero, liftM_one, io_lift]
+  · simp only [FrameData.plus]
+    rw [← ins_succ, matrix_two_map_lift]
+    simp only [liftM_add, liftM_sub, liftM_mul, liftM_neg, liftM_smul, liftM_zero, liftM_one, hf.ee, hf.x, hf.xi,
+      lifted_DD hf, tz_lift]
+  · simp only [FrameData.plus]
+    rw [hf.x, liftM_mul, ← ins_succ, matrix_two_map_lift]
+    simp only [liftM_smul, liftM_zero, liftM_one]
+  · simp only [FrameData.plus]
+    rw [hf.xi, liftM_mul, ← ins_succ, matrix_two_map_lift]
+    simp only [liftM_smul, liftM_zero, liftM_one]
+  · simp only [FrameData.plus]
+    rw [hf.c, liftM_mul, ← ins_succ, matrix_two_map_lift]
+    simp only [liftM_smul, liftM_zero, hf.q, hf.x, hf.xi]
+  · simp only [FrameData.plus]
+    rw [hf.ci, liftM_mul, ← ins_succ, matrix_two_map_lift]
+    simp only [liftM_smul, liftM_zero, hf.q, hf.x, hf.xi]
+  · simp only [FrameData.plus, hf.q]
+  · simp only [FrameData.plus, hf.N]
+
+theorem lifted_minus {f : FrameData (Fin n) A} {f' : FrameData (Fin (n + 1)) A} (hf : Lifted f f') (b : Fin n)
+    (Yb : ℂ) : Lifted (f.minus L b Yb) (f'.minus L b.succ Yb) := by
+  refine ⟨?_, fun Y => ?_, fun Y => ?_, fun Y => ?_, ?_, ?_, ?_, ?_⟩
+  · simp only [FrameData.minus]
+    rw [hf.F, liftM_mul, ← ins_succ, map_mul_liftM, matrix_two_map_lift, matrix_two_map_lift, lifted_m L hf]
+    simp only [liftM_mul, liftM_zero, liftM_one, io_lift]
+  · simp only [FrameData.minus]
+    rw [← ins_succ, matrix_two_map_lift]
+    simp only [liftM_add, liftM_sub, liftM_mul, liftM_neg, liftM_smul, liftM_zero, liftM_one, hf.ee, hf.x, hf.xi,
+      hf.q, lifted_DD hf, tz_lift]
+  · simp only [FrameData.minus]
+    rw [hf.x, liftM_mul, ← ins_succ, matrix_two_map_lift]
+    simp only [liftM_smul, liftM_zero, liftM_one]
+  · simp only [FrameData.minus]
+    rw [hf.xi, liftM_mul, ← ins_succ, matrix_two_map_lift]
+    simp only [liftM_smul, liftM_zero, liftM_one]
+  · simp only [FrameData.minus]
+    rw [hf.c, liftM_mul, ← ins_succ, matrix_two_map_lift]
+    simp only [liftM_smul, liftM_zero, hf.q, hf.x, hf.xi]
+  · simp only [FrameData.minus]
+    rw [hf.ci, liftM_mul, ← ins_succ, matrix_two_map_lift]
+    simp only [liftM_smul, liftM_zero, hf.q, hf.x, hf.xi]
+  · simp only [FrameData.minus, hf.q]
+  · simp only [FrameData.minus, hf.N]
+
+theorem lifted_ofWord (st : Start A) :
+    ∀ u : List (Letter ℂ (Fin n)), Lifted (ofWord L st u) (ofWord L st (u.map upL))
+  | [] => ⟨by simp [ofWord, Start.frame, liftM_one], fun Y => io_succ _, fun Y => io_succ _, fun Y => io_succ _,
+      by simp [ofWord, Start.frame, liftM_one], by simp [ofWord, Start.frame, liftM_one], rfl, rfl⟩
+  | l :: u => by
+    have ih := lifted_ofWord st u
+    rw [List.map_cons]
+    by_cases hp : l.plus
+    · have e1 : ofWord L st (l :: u) = (ofWord L st u).plus L l.intersection_update_fsHerm_neg_one l.pt := by simp [ofWord, hp]
+      have e2 : ofWord L st (upL l :: u.map upL) = (ofWord L st (u.map upL)).plus L l.intersection_update_fsHerm_neg_one.succ l.pt := by
+        simp [ofWord, upL, hp]
+      rw [e1, e2]
+      exact lifted_plus L ih l.intersection_update_fsHerm_neg_one l.pt
+    · have e1 : ofWord L st (l :: u) = (ofWord L st u).minus L l.intersection_update_fsHerm_neg_one l.pt := by simp [ofWord, hp]
+      have e2 : ofWord L st (upL l :: u.map upL) = (ofWord L st (u.map upL)).minus L l.intersection_update_fsHerm_neg_one.succ l.pt := by
+        simp [ofWord, upL, hp]
+      rw [e1, e2]
+      exact lifted_minus L ih l.intersection_update_fsHerm_neg_one l.pt
+
+theorem bT_lift (σ : Site A) : ∀ u : List (Letter ℂ (Fin n)), bT σ (u.map upL) = liftM (bT σ u)
+  | [] => by simp [bT, liftM_one]
+  | l :: u => by
+    rw [List.map_cons, bT, bT, bT_lift σ u, liftM_mul]
+    congr 1
+    show ins l.intersection_update_fsHerm_neg_one.succ (lift0 (if l.plus then Ts σ l.pt else (Ts σ l.pt).map star)) =
+      liftM (ins l.intersection_update_fsHerm_neg_one (lift0 (if l.plus then Ts σ l.pt else (Ts σ l.pt).map star)))
+    rw [liftZero_succ_eq_map, ins_succ]
+
+theorem bTA_lift (u : List (Letter ℂ (Fin n))) : TL.bTA L (u.map upL) = liftM (TL.bTA L u) := by
+  simp only [TL.bTA, bT_lift]
+  rw [← liftRingHom_apply_eq_liftM, map_list_prod, List.map_map]
+  rfl
+
+end slots
+
+end Formalism.FourierDecayAlt.P.PBN
+end
+end
+
+section
+
+noncomputable section
+
+open Matrix MeasureTheory Formalism.REAL Formalism.QuantumDeterminants Formalism.FourierDecayAlt Formalism.FourierDecayAlt.P.Topx1
+open scoped ComplexConjugate
+
+namespace Formalism.FourierDecayAlt.P.PBI
+
+variable {P : M.Par} {Wp Wq : Type} [NormedAddCommGroup Wp] [InnerProductSpace ℂ Wp] [NormedAddCommGroup Wq]
+  [InnerProductSpace ℂ Wq] [FiniteDimensional ℂ Wp] [FiniteDimensional ℂ Wq]
+
+theorem exAt (p : KB.Pl P Wp Wq) {ν'r : Fin (2 * (P.r - P.r) + P.k + 1) → ℂ}
+    {m₀r : B.Mat P.k (P.r - P.r)} (hLev : LevFrame p ν'r m₀r)
+    (Ψ : Q.RadSp (JC.parLev P P.r).k (JC.parLev P P.r).r (p.T.bs P.r).z (p.T.bs P.r).z' (p.T.bs P.r).π
+      (p.T.bs P.r).π')
+    (x : (Fin (JC.parLev P P.r).r → ℂ) × Q.Mx (JC.parLev P P.r).k (JC.parLev P P.r).r)
+    (hx : x ∈ Q.DomR (JC.parLev P P.r).k (JC.parLev P P.r).r (p.T.bs P.r).z (p.T.bs P.r).z')
+    {γ₀ : B.Mat P.k (P.r - P.r)} (hγG : γ₀ ∈ B.GV P.k (P.r - P.r))
+    (hζ : Q.zetaL P.k (P.r - P.r) (p.T.bs P.r).z (p.T.bs P.r).z' (Fin.last _) γ₀ =
+      Q.zetaL P.k (P.r - P.r) (p.T.bs P.r).z (p.T.bs P.r).z' (Fin.last _) x.2)
+    (hγF : D.IsDFrame (p.T.bs P.r) ν'r m₀r γ₀) :
+    ∑ ρ : M.Ty P, (p.TP.E ρ).comp ((Ψ : Q.Fn (JC.parLev P P.r).k (JC.parLev P P.r).r (Wq →L[ℂ] Wp)) x.1 γ₀) =
+      (Ψ : Q.Fn (JC.parLev P P.r).k (JC.parLev P P.r).r (Wq →L[ℂ] Wp)) x.1 γ₀ := by
+  classical
+  have hV := grpInt_at_dframe p hLev Ψ x hx hγG hζ hγF
+  have hPl : Q.IsPlace (JC.parLev P P.r) (p.T.bs P.r).z (p.T.bs P.r).z' (p.T.bs P.r).π (p.T.bs P.r).π' :=
+    Formalism.FourierDecayAlt.P.JCTx5.isPlace_lev P p.T ⟨P.r, by omega⟩ p.hP
+  have hn : P.r + (P.r - P.r) = P.r := by omega
+  have hz : D.castV hn (liftVec P.k P.r (P.r - P.r) (p.T.bs P.r).z) = p.T.base.z := p.T.z_lev P.r le_rfl
+  have hν : D.castV hn (liftVec P.k P.r (P.r - P.r) (m₀r *ᵥ ν'r)) = p.m₀ *ᵥ p.ν' := by
+    rw [← Formalism.FourierDecayAlt.P.DiagonalScalarMatrices.castV_mulVec_lift hn, hLev.1, hLev.2.1]
+  have hπ : (p.T.bs P.r).π = fun y => p.T.base.π (D.castM hn (ιLev P.k P.r (P.r - P.r) y)) :=
+    funext fun y => p.T.π_lev P.r le_rfl y
+  have hcap : ∀ (Bs : Fin (P.k - 1) → Fin (2 * (P.r - P.r) + P.k + 1) → ℂ) (w : ℂ) (v : Wp),
+      Q.capRep P.k (P.r - P.r) (p.T.bs P.r).π Bs w v =
+        Q.capRep P.k P.r p.T.base.π (fun c => D.castV hn (liftVec P.k P.r (P.r - P.r) (Bs c))) w v := by
+    intro Bs w v
+    rw [Formalism.FourierDecayAlt.P.DiagonalScalarMatrices.capRep_lift_cast hn, hπ]
+  have hfr : ∀ Bs : Fin (P.k - 1) → Fin (2 * (P.r - P.r) + P.k + 1) → ℂ,
+      Q.IsFrameOf P.k (P.r - P.r) [(p.T.bs P.r).z, m₀r *ᵥ ν'r] Bs →
+        Q.IsFrameOf P.k P.r [p.T.base.z, p.m₀ *ᵥ p.ν'] (fun c => D.castV hn (liftVec P.k P.r (P.r - P.r) (Bs c))) := by
+    intro Bs hB
+    have h := Formalism.FourierDecayAlt.P.DiagonalScalarMatrices.frame_lift_cast hn _ Bs hB
+    simpa only [List.map_cons, List.map_nil, hz, hν] using h
+  let TP' : Top.TypeProj (JC.parLev P P.r) (p.T.bs P.r).π (p.T.bs P.r).z (m₀r *ᵥ ν'r) :=
+    { E := p.TP.E
+      idem := p.TP.idem
+      orth := p.TP.orth
+      selfAdj := p.TP.selfAdj
+      eigen := fun Bs hB ρ w v => (hcap Bs w _).trans (p.TP.eigen _ (hfr Bs hB) ρ w v)
+      full := fun Bs hB ρ v h => p.TP.full _ (hfr Bs hB) ρ v fun w => (hcap Bs w v).symm.trans (h w) }
+  exact types_of_grpInt (JC.parLev P P.r) (p.T.bs P.r) ν'r m₀r TP' hPl hLev.2.2 _ hV
+
+def HeadWeightAt : Prop :=
+  ∀ (Wp Wq : Type) [NormedAddCommGroup Wp] [InnerProductSpace ℂ Wp] [NormedAddCommGroup Wq]
+    [InnerProductSpace ℂ Wq] [FiniteDimensional ℂ Wp] [FiniteDimensional ℂ Wq] (P : M.Par) (p : KB.Pl P Wp Wq) (F)
+    (w : List C.Letter)
+    (X : Q.ActualOps (JC.parLev P P.r).k (JC.parLev P P.r).r (p.T.bs P.r).z (p.T.bs P.r).z' (p.T.bs P.r).π (p.T.bs P.r).π')
+    (μ : Measure (Mt P.k (P.r - P.r)))
+    (L : R.LevelData (Q.Pr (Q.RadSp (JC.parLev P P.r).k (JC.parLev P P.r).r (p.T.bs P.r).z (p.T.bs P.r).z'
+      (p.T.bs P.r).π (p.T.bs P.r).π')) (JC.parLev P P.r).r)
+    (st : Fr.Start (Q.Pr (Q.RadSp (JC.parLev P P.r).k (JC.parLev P P.r).r (p.T.bs P.r).z (p.T.bs P.r).z'
+      (p.T.bs P.r).π (p.T.bs P.r).π'))) (Cb : ℝ) (ν'r : Fin (2 * (P.r - P.r) + P.k + 1) → ℂ)
+    (m₀r : B.Mat P.k (P.r - P.r)),
+    P5.IsData (JC.parLev P P.r) (p.T.bs P.r).z (p.T.bs P.r).z' (p.T.bs P.r).π (p.T.bs P.r).π' X μ L st p.l0 →
+    KB.InDDplus2 P p.l0 p.T.base Cb p.Θ → KB.CptCoef p.T.base F → KB.CutWord P p.l0 w → LevFrame p ν'r m₀r →
+    ∀ x ∈ Q.DomR (JC.parLev P P.r).k (JC.parLev P P.r).r (p.T.bs P.r).z (p.T.bs P.r).z',
+    ∀ γ₀ ∈ B.GV P.k (P.r - P.r),
+      Q.zetaL P.k (P.r - P.r) (p.T.bs P.r).z (p.T.bs P.r).z' (Fin.last _) γ₀ =
+        Q.zetaL P.k (P.r - P.r) (p.T.bs P.r).z (p.T.bs P.r).z' (Fin.last _) x.2 →
+      D.IsDFrame (p.T.bs P.r) ν'r m₀r γ₀ →
+    (∀ h : C.LPt, D.IsLocPt h P.r →
+        ∀ (y : Wd.Ix (Fin w.length) → Q.RadSp (JC.parLev P P.r).k (JC.parLev P P.r).r (p.T.bs P.r).z
+          (p.T.bs P.r).z' (p.T.bs P.r).π (p.T.bs P.r).π') e,
+        (P5.act ((Fr.ofWord L st (D.positionted w)).d L) y e :
+            Q.Fn (JC.parLev P P.r).k (JC.parLev P P.r).r (Wq →L[ℂ] Wp)) x.1 γ₀ =
+          ∑ ρ : M.Ty P, ((Top.dH P p.l0 (Tz P.k P.r p.T.base.z * Tz P.k P.r p.T.base.z') w
+              (h ++ [(1, Q.zetaL P.k (P.r - P.r) (p.T.bs P.r).z (p.T.bs P.r).z' (Fin.last _) x.2)]) e ρ ^ 2 : ℝ) : ℂ) •
+            (p.TP.E ρ).comp ((y e : Q.Fn (JC.parLev P P.r).k (JC.parLev P P.r).r (Wq →L[ℂ] Wp)) x.1 γ₀))
+
+end Formalism.FourierDecayAlt.P.PBI
+
+namespace Formalism.FourierDecayAlt.P
+
+theorem head_types_at_of_weight : PBI.HeadWeightAt → PBI.HeadTypesAt := by
+  intro hW Wp Wq _ _ _ _ _ _ P p F w X μ L st Cb ν'r m₀r hD hI hC hCut hLev x hx γ₀ hγG hζ hγF
+  exact ⟨fun Ψ => PBI.exAt p hLev Ψ x hx hγG hζ hγF,
+    hW Wp Wq P p F w X μ L st Cb ν'r m₀r hD hI hC hCut hLev x hx γ₀ hγG hζ hγF⟩
+
+end Formalism.FourierDecayAlt.P
+end
+end

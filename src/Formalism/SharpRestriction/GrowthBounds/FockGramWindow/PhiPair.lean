@@ -1,6 +1,6 @@
 module
 
-public import Formalism.MahlerMeasure.TieVars
+public import Formalism.MahlerMeasure.Bundle002
 public import Mathlib.NumberTheory.Padics.PadicNumbers
 public import Formalism.MahlerMeasure.MahlerMeasureProofs.RemoveS
 public import Formalism.ThetaLogCoordinates.BihomogeneousPairs.LetterChainEmbeddings.TieFPowMulFree

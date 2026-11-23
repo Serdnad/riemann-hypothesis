@@ -1,8 +1,8 @@
 module
 
-import Formalism.LatticeSlopes.LatticeSlopesProofs.SlopesBdd
+import Formalism.LatticeSlopes.LatticeSlopesProofs.Bundle002
 public import Formalism.LatticeSlopes.Statement
-public import Formalism.LatticeSlopes.LatticeSlopesProofs.CovolEqGram
+public import Formalism.LatticeSlopes.LatticeSlopesProofs.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

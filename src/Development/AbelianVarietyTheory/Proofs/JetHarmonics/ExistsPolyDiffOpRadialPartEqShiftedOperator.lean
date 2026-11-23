@@ -1,24 +1,24 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Jets.BasicLiftAll
+public import Development.AbelianVarietyTheory.Definitions.Jets.Bundle005
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.EventuallyLevelPointMemOpen
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.LevelFormSesquilinearFiniteClass
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.CellMulExp
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.PolyLiftOfSmoothComm
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.QuantumMinorSumPolynomialOperator
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle150
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle114
 import Formalism.FormalDegreeBessel.FinalG
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.AAvCongr
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.ActualAlgebraFacts
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.BigCellZetaMinors
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle162
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle083
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.IntegrableCsmul
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.LeadingTermVectorIdentity
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.LemmaDDeterminantIdentity
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle082
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle065
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.LiftClosedUnderOperations
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.LocOfSmoothOnH
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.RdVOfEq
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle154
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.RegularisedPairingViaPhase
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.RootVectorActionCutoff
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.WCellMemOmPlus
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle120
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle122
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.WeylCellConjTransposeMulApply
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -182,7 +182,7 @@ theorem res_mn_succ {z z' : Fin (2 * r + k + 1) → ℂ} (hz : inWb k r z) (hz' 
   have hvK : LeftEq k r z 0 D (PBG.vK hD J hS : Mx k r → E) := by
     intro g hg n hn
     have hng : n * g ∈ Glev k r 0 ∩ D := ⟨Qx3.glev_mul hn.2 hg.1, hDN g hg n hn⟩
-    show cut k r 0 D J _ = _ • cut k r 0 D J g
+    show _root_.Formalism.FourierDecayAlt.P.Qx5.cut k r 0 D J _ = _ • _root_.Formalism.FourierDecayAlt.P.Qx5.cut k r 0 D J g
     rw [cut_of_mem J hng, cut_of_mem J hg, hL g hg n hn]
   have hLL : C3.LeftRuleBig k r c (LevelPointCoordinates.EB hD) La' := by
     intro x a b hab

@@ -1,0 +1,130 @@
+module
+
+public import Development.EtaleCohomology.KummerTheory.Bundle006
+public import Development.EtaleCohomology.KummerTheory.Bundle015
+public import Development.EtaleCohomology.KummerTheory.Bundle002
+public import Development.EtaleCohomology.KummerTheory.PlaceExPfZorn
+public import Development.EtaleCohomology.KummerTheory.Bundle005
+public import Development.EtaleCohomology.KummerTheory.Bundle003
+public import Development.EtaleCohomology.KummerTheory.Bundle008
+public import Development.EtaleCohomology.KummerTheory.Bundle009
+public import Development.EtaleCohomology.KummerTheory.Bundle011
+import Development.EtaleCohomology.KummerTheory.Bundle010
+public import Development.EtaleCohomology.KummerTheory.Bundle012
+public import Development.EtaleCohomology.KummerTheory.InjSlice
+public import Development.EtaleCohomology.KummerTheory.Bundle017
+import Development.EtaleCohomology.KummerTheory.Bundle016
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+
+@[expose] public section
+
+section
+
+namespace LateralTheory.KummerTheory
+
+theorem AdicLim_of_fin (hF : AdicFin) : AdicLim := AdicLim_of AdicKer_holds hF AdicCok_holds
+
+end LateralTheory.KummerTheory
+end
+
+section
+
+namespace LateralTheory.Fin.AlgExt
+theorem etale_cohomology_place_restriction_good_reduction : LateralTheory.KummerTheory.PlaceResGood := by
+  apply LateralTheory.KummerTheory.PlaceResGood_of
+theorem etale_cohomology_place_localization_inductive_extension : LateralTheory.KummerTheory.PlaceStep := by
+  apply LateralTheory.KummerTheory.PlaceStep_of <;> first | exact etale_cohomology_place_restriction_good_reduction
+theorem etale_cohomology_place_localization_exists : LateralTheory.KummerTheory.PlaceEx := by
+  apply LateralTheory.KummerTheory.PlaceEx_of_step <;> first | exact etale_cohomology_place_localization_inductive_extension
+theorem etale_cohomology_place_localization_holds : LateralTheory.KummerTheory.Place := by
+  apply LateralTheory.KummerTheory.Place_of_ex <;> first | exact etale_cohomology_place_localization_exists
+theorem etale_cohomology_algebraic_extension_invariance_of_places : LateralTheory.KummerTheory.AlgExt := by
+  apply LateralTheory.KummerTheory.AlgExt_of <;> first | exact etale_cohomology_place_localization_holds
+theorem intersectionNumber_baseChange : LateralTheory.KummerTheory.AlgExt := etale_cohomology_algebraic_extension_invariance_of_places
+end LateralTheory.Fin.AlgExt
+end
+
+section
+
+namespace LateralTheory.Fin.Cont
+theorem etale_continuity_by_five_lemma_in_continuity_assembly : LateralTheory.KummerTheory.ContCut.Five := by
+  apply LateralTheory.KummerTheory.FivePf.Five_of
+theorem etale_continuity_by_induction_on_cover_size_in_continuity_assembly : LateralTheory.KummerTheory.ContCut.Ind := by
+  apply LateralTheory.KummerTheory.IndPf.Ind_of
+theorem etale_continuity_commutes_with_base_change_in_continuity_assembly : LateralTheory.KummerTheory.ContCut.BC := by
+  apply LateralTheory.KummerTheory.BCPf.BC_of
+theorem etale_continuity_glues_along_open_covers_in_continuity_assembly : LateralTheory.KummerTheory.ContCut.Glue := by
+  apply LateralTheory.KummerTheory.GluePf.Glue_of
+theorem etale_flasque_sheaf_colimit_acyclic_in_continuity_assembly : LateralTheory.KummerTheory.ContCut.Flasque := by
+  apply LateralTheory.KummerTheory.FlasquePf.Flasque_of
+theorem etale_kunneth_normalized_dictionary_exists_in_continuity_assembly : LateralTheory.KummerTheory.DictExist := by
+  apply LateralTheory.KummerTheory.DictExist_of
+theorem etale_kunneth_normalization_construction_valid_in_continuity_assembly : LateralTheory.KummerTheory.NrmMk := by
+  apply LateralTheory.KummerTheory.NrmMk_of
+theorem etale_kunneth_dictionary_normalized_in_continuity_assembly : LateralTheory.KummerTheory.DictNormal := by
+  apply LateralTheory.KummerTheory.DictNormal_of' <;> first | exact etale_kunneth_normalization_construction_valid_in_continuity_assembly
+theorem etale_kunneth_dictionary_vanishes_on_zero_in_continuity_assembly : LateralTheory.KummerTheory.DictZero := by
+  apply LateralTheory.KummerTheory.DictZero_of
+theorem etale_kunneth_dictionary_exists_for_sheaves_in_continuity_assembly : LateralTheory.KummerTheory.Dict := by
+  apply LateralTheory.KummerTheory.Dict_of' <;> first | exact etale_kunneth_normalized_dictionary_exists_in_continuity_assembly | exact etale_kunneth_dictionary_normalized_in_continuity_assembly | exact etale_kunneth_dictionary_vanishes_on_zero_in_continuity_assembly
+theorem etale_mayer_vietoris_connecting_map_compatible_in_continuity_assembly : LateralTheory.KummerTheory.ContCut.Delta := by
+  apply LateralTheory.KummerTheory.ContCut.Delta_of <;> first | exact etale_kunneth_dictionary_exists_for_sheaves_in_continuity_assembly | exact etale_continuity_glues_along_open_covers_in_continuity_assembly | exact etale_flasque_sheaf_colimit_acyclic_in_continuity_assembly
+theorem etale_kunneth_colimit_sequence_exact_in_continuity_assembly : LateralTheory.KummerTheory.ContCut.Exact := by
+  apply LateralTheory.KummerTheory.ExactPf.Exact_of <;> first | exact etale_kunneth_dictionary_exists_for_sheaves_in_continuity_assembly | exact etale_continuity_glues_along_open_covers_in_continuity_assembly | exact etale_flasque_sheaf_colimit_acyclic_in_continuity_assembly
+theorem etale_mayer_vietoris_sequence_natural_in_continuity_assembly : LateralTheory.KummerTheory.ContCut.MVnat := by
+  apply LateralTheory.KummerTheory.MVnatPf.MVnat_of <;> first | exact etale_kunneth_dictionary_exists_for_sheaves_in_continuity_assembly | exact etale_mayer_vietoris_connecting_map_compatible_in_continuity_assembly | exact etale_kunneth_colimit_sequence_exact_in_continuity_assembly
+theorem etale_kunneth_continuity_for_affine_ring_colimits_in_continuity_assemb : LateralTheory.KummerTheory.ContCut.AffRing := by
+  apply LateralTheory.KummerTheory.AffRingPf.AffRing_of
+theorem etale_kunneth_continuity_on_affine_schemes_in_continuity_assembly : LateralTheory.KummerTheory.ContCut.Aff := by
+  apply LateralTheory.KummerTheory.AffPf.Aff_of <;> first | exact etale_kunneth_continuity_for_affine_ring_colimits_in_continuity_assemb
+theorem etale_kunneth_cohomology_continuous_under_limits_in_continuity_assembl : LateralTheory.KummerTheory.Cont := by
+  apply LateralTheory.KummerTheory.ContCut.goal_of <;> first | exact etale_continuity_by_five_lemma_in_continuity_assembly | exact etale_continuity_by_induction_on_cover_size_in_continuity_assembly | exact etale_continuity_commutes_with_base_change_in_continuity_assembly | exact etale_continuity_glues_along_open_covers_in_continuity_assembly | exact etale_flasque_sheaf_colimit_acyclic_in_continuity_assembly | exact etale_mayer_vietoris_connecting_map_compatible_in_continuity_assembly | exact etale_kunneth_colimit_sequence_exact_in_continuity_assembly | exact etale_mayer_vietoris_sequence_natural_in_continuity_assembly | exact etale_kunneth_continuity_for_affine_ring_colimits_in_continuity_assemb | exact etale_kunneth_continuity_on_affine_schemes_in_continuity_assembly | exact etale_kunneth_dictionary_exists_for_sheaves_in_continuity_assembly
+theorem intersectionNumber_baseChange : LateralTheory.KummerTheory.Cont := etale_kunneth_cohomology_continuous_under_limits_in_continuity_assembl
+end LateralTheory.Fin.Cont
+end
+
+section
+
+namespace LateralTheory.Fin.Stalk
+theorem etale_cohomology_stalk_compatibility_finite_coefficients_holds : LateralTheory.KummerTheory.Stalk := by
+  apply LateralTheory.Fix.Stalk.intersectionNumber_baseChange
+theorem intersectionNumber_baseChange : LateralTheory.KummerTheory.Stalk := etale_cohomology_stalk_compatibility_finite_coefficients_holds
+end LateralTheory.Fin.Stalk
+end

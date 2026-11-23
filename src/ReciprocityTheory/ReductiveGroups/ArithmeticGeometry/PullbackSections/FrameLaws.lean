@@ -1,12 +1,12 @@
 module
 
-public import Formalism.LocalToGlobal.ProjectiveLattices.AllTest
-public import Formalism.LocalToGlobal.ProjectiveLattices.CoreProofs
-public import Formalism.LocalToGlobal.ProjectiveLattices.CuspFDOf
-public import Formalism.LocalToGlobal.ProjectiveLattices.ReadProofs
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.SecBaseChangeAnySt
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle012
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle014
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle030
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle036
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.Bundle005
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.GenBridgeB
-public import Formalism.LocalToGlobal.ProjectiveLattices.AdelicContinuousOfUniform
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle021
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -42,9 +42,9 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.GenBCFrameR
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.GenBridgeC
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.RdIndepOf
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.TanAddPf
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.Bundle005
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.Bundle012
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.Bundle013
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.WtFieldPf
 
 @[expose] public section

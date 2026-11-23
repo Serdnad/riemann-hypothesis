@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Foundations.IsHermND
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsIntegralValIntegerIff
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle006
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle023
 public import Development.AbelianVarietyTheory.Proofs.HermitianTraceForms.ExistsGlIsometryCompEqOfNondegenerate
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

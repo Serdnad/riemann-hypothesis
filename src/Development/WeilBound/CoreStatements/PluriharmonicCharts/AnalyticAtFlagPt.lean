@@ -1,16 +1,15 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.BasePartFlagPt
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.IsBaseChart
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.BaseChartHolomorphicCompositionStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.BaseVectorPropertiesStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.BlockLUFactorizationStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ExistsFlagPointInOrbitStatement
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle097
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle103
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle172
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle168
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle132
 import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagModelBaseProjectionPoints
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagPointTriangularChangeOrbitStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FrameLUMinorValue
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.FrameMinorValueFormulaStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.TwoPointFibreChartFirst
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle123
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle142
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle134
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle162
 public import Development.WeilBound.CoreStatements.PluriharmonicCharts.ExistsHoloOnOfGerm
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

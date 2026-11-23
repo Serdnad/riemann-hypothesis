@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.HasFramesOfAmpFrames
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle134
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

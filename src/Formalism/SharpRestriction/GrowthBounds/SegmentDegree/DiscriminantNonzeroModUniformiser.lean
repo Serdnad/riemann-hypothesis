@@ -1,15 +1,14 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.DiscriminantNeZeroOfResidueNeZero
+public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.Bundle004
 public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.CoarseLabelFactorisation
-public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.DiscriminantMultihomogeneous
-import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.FrobeniusReductionProduct
-public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.LateVectorsDistinctTops
-import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.SegmentProductDegreeDetermined
-public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.ThresholdPowerBoundOfCounts
+public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.Bundle015
+import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.Bundle010
+import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.Bundle014
+public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.Bundle013
 public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.TopDegreeComparison
-public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.TopOccursInAtMostTwoSegments
-public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.WordOrderBoundOfNumericBound
+public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.Bundle016
+public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.Bundle012
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -46,7 +45,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.AllowedLettersOfLateRows
-public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.DiscriminantNonzeroOfInjectiveTops
+public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.Bundle011
 public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.TopCountLowerBoundsOfOccurrence
 
 @[expose] public section

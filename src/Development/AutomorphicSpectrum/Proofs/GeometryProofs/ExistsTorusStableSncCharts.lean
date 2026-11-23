@@ -1,19 +1,19 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FiniteMinimalPrimes
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle085
 public import ReciprocityTheory.AnalyticForms.RegularLocalRings.AnChart
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsSncModel
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle009
 public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.CoordinateIdeals
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterPC
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ImportsBis
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.AdjoinInverseElementFormStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ChartIdealLocalizationMapStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FiniteTorusTranslatesCoverStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.KaehlerDifferentialsSpanLocalStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.RationalRelationInChartIdealStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.RegularLocalChartCoordsStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.SncResolutionCoverAndCone
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.SncResolutionRegularLocalRingStatement
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle006
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle008
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle015
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle184
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle081
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle017
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle175
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle160
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle091
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle109
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -57,13 +57,12 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
-public import ReciprocityTheory.AnalyticForms.RegularLocalRings.ProjectiveLineMultihomogClassify
-public import ReciprocityTheory.AnalyticForms.RegularLocalRings.StalkLocA
+public import ReciprocityTheory.AnalyticForms.RegularLocalRings.Bundle006
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterAlgRes
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterMinor
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle013
 import Std.Tactic.BVDecide.Normalize.Prop
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsCompletedStrictHens
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.CubicalStructures.CubeSymmetricSwapFirst
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.CubicalStructures.Bundle001
 
 @[expose] public section
 

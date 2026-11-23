@@ -4,7 +4,7 @@ public import GroundTheory.AutomorphicForms.GL2.GJFEInducedTensor
 public import GroundTheory.AutomorphicForms.GL2.GJFEInducedChar
 public import GroundTheory.AutomorphicForms.GL2.GJInducedZeta
 import GroundTheory.AutomorphicForms.GL2.ExistsEqPowMulOfValuationLe
-public import GroundTheory.AutomorphicForms.GL2.GJFEInducedInv
+public import GroundTheory.AutomorphicForms.GL2.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

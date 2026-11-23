@@ -1,7 +1,7 @@
 module
 
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.AeNeZeroComplex
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.LiftDegreeLemmas
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle187
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.BlockOfChoices
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.ComponentFamilySettingOfSettingBis
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.PBFVnice

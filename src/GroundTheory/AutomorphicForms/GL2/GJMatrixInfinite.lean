@@ -1,7 +1,7 @@
 module
 
-public import GroundTheory.GlobalFields.TateThesis.LatticePoissonBasic
-public import GroundTheory.GlobalFields.TateThesis.TraceDualLattice
+public import GroundTheory.GlobalFields.TateThesis.Bundle001
+public import GroundTheory.GlobalFields.TateThesis.Bundle005
 public import GroundTheory.GlobalFields.TateThesis.LatticePoisson
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

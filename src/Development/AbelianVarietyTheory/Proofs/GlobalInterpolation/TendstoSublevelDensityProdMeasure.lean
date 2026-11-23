@@ -45,8 +45,8 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.PerpendicularEmbedding
-import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ContinuousMatrixEntryAbsSum
+import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.Bundle002
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle021
 import Formalism.LocalRingCardinality.DataCD
 import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.GenusMassVolumes
 

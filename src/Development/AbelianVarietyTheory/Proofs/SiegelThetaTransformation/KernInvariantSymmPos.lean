@@ -4,7 +4,7 @@ public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.IsSy
 public import Development.AbelianVarietyTheory.Definitions.ThetaValues.ExistsMemRowHighestTotalDegreeEqTwo
 public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.DifferentiableOnOfTendstoLocallyUniformlyOn
 public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.DblZMemHn
-public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.PolyDerivEqSumList
+public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle027
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -246,8 +246,11 @@ theorem kZero_eq (x₁ x₂ : Frame X.Ψ r) (z w : Fin n → Fin g → ℂ) :
     rw [ptZ, sgnM, diagonal_neg]
     rfl
   rw [h, kM, expM]
-  change ((τ.1 X.κ0 / 2) • ((_ *ᵥ mixV X idx τ (w k) (z k)) ᵥ* _)) ⬝ᵥ _ *ᵥ
-    ((-(τ.1 X.κ0 / 2)) • (_ *ᵥ _ *ᵥ mixV X idx τ (z k) (w k))) = _
+  change ((τ.1 X.κ0 / 2) •
+    (((aLin X x₁ x₂ τ)⁻¹ *ᵥ mixV X idx τ (w k) (z k)) ᵥ* X.Gm.map τ.1)) ⬝ᵥ
+    (imH (ptZ (τ.1 X.κ0) (X.Gm.map τ.1) (-sgnM X) (aLin X x₁ x₂ τ)))⁻¹ *ᵥ
+    ((-(τ.1 X.κ0 / 2)) • (X.Gm.map τ.1 *ᵥ (aAnti X x₁ x₂ τ)⁻¹ *ᵥ
+      mixV X idx τ (z k) (w k))) = _
   rw [smul_dotProduct, mulVec_smul, dotProduct_smul, smul_mulVec, dotProduct_smul, smul_smul,
     mul_comm, ← vecMul_transpose, ← dotProduct_mulVec, ← dotProduct_mulVec]
   simp only [mulVec_mulVec, Matrix.mul_assoc]

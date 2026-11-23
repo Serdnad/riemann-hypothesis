@@ -1,14 +1,14 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EqZeroOfFderivEqZero
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle586
 public import Development.AbelianVarietyTheory.Proofs.ToricGeometry.IsUnitOfLagrangian
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ThetaUnifAV
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle006
 public import ReciprocityTheory.ThetaQuasiPeriods.PeriodLattice
 import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.DualRestrictSurjectiveOfIsTorsionFreeQuotient
 public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.EqZeroOfSemicharacterMultiplier
 public import Development.AbelianVarietyTheory.Proofs.ToricGeometry.ExistsEtaleCoordsVanishing
-public import Development.AbelianVarietyTheory.Proofs.ToricGeometry.ExistsTestFunctionsSubsetOfMemNhds
-public import Development.AbelianVarietyTheory.Proofs.ToricGeometry.ExistsUniquePointOfRingHom
+public import Development.AbelianVarietyTheory.Proofs.ToricGeometry.Bundle007
+public import Development.AbelianVarietyTheory.Proofs.ToricGeometry.Bundle011
 public import Development.AbelianVarietyTheory.Proofs.ToricGeometry.FderivEqZeroOfAffine
 public import Development.AbelianVarietyTheory.Proofs.ToricGeometry.LevelThreeSeparatesPoints
 public import Development.AbelianVarietyTheory.Proofs.ToricGeometry.PolarisedTorusAlgebraicOfParts
@@ -58,7 +58,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-import ReciprocityTheory.ThetaQuasiPeriods.Transl
+import ReciprocityTheory.ThetaQuasiPeriods.Bundle001
 
 @[expose] public section
 

@@ -1,6 +1,6 @@
 module
 
-import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerOrbitVolume.LocDensVolT
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerOrbitVolume.Bundle010
 public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Mathlib.Topology.MetricSpace.Ultra.Basic
 import Mathlib.Algebra.Order.Floor.Extended

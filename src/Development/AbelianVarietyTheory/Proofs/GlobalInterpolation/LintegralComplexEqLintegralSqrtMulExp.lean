@@ -3,7 +3,7 @@ module
 public import Mathlib.LinearAlgebra.Complex.FiniteDimensional
 public import Mathlib.MeasureTheory.Constructions.BorelSpace.Complex
 public import Mathlib.MeasureTheory.Measure.Haar.OfBasis
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ImageSqIoi
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,14 +1,14 @@
 module
 
 public import GroundTheory.ProfiniteCohomology.PoincareDuality.Torsion
-public import GroundTheory.ProfiniteCohomology.CartierDualDefs
+public import GroundTheory.ProfiniteCohomology.Bundle010
 public import GroundTheory.ProfiniteCohomology.ContinuousCochains.LongExactSequence
 public import GroundTheory.ProfiniteCohomology.CyclicCup
 public import GroundTheory.ProfiniteCohomology.DiscreteModules.IsDiscreteRepIffForallExistsOpenNormalSubgroup
 public import GroundTheory.ProfiniteCohomology.GaloisCohomology.UnitsInflationCochainsFHomApply
-public import GroundTheory.ProfiniteCohomology.CupProducts.ExistsCocycleMapFEqD
+public import GroundTheory.ProfiniteCohomology.CupProducts.Bundle001
 public import GroundTheory.ProfiniteCohomology.CyclicCupBrauer
-import GroundTheory.ProfiniteCohomology.FilteredHomology
+import GroundTheory.ProfiniteCohomology.Bundle001
 public import GroundTheory.ProfiniteCohomology.GaloisCohomology.Kummer
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

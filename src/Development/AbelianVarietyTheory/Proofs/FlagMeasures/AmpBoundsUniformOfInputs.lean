@@ -1,9 +1,9 @@
 module
 
 public import Formalism.SharpRestriction.CuspSpanNormBounds.AmplitudeAndVolumeBounds
-public import Formalism.SharpRestriction.CuspSpanNormBounds.BranchingAndRankConstants
+public import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle015
 public import Formalism.SharpRestriction.CuspSpanNormBounds.BruhatCellsKronecker.AbsPointwiseMonoConstant
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.SizesLargeOfPowerBounds
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle200
 public import Formalism.SharpRestriction.CuspSpanNormBounds.AbsoluteAmplitudeSecondOfSource
 public import Formalism.SharpRestriction.CuspSpanNormBounds.BruhatCellsKronecker.FamilyStatementOfItemsFourSeven
 import Mathlib.Algebra.Order.Floor.Extended

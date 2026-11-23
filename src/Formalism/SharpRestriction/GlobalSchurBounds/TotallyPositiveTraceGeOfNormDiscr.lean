@@ -1,10 +1,10 @@
 module
 
 public import Formalism.SharpRestriction.GlobalSchurBounds.SlopeMaxOpenOfHookTwoLeV
-public import Formalism.PeriodIntegrals.Transference
+public import Formalism.PeriodIntegrals.Bundle001
 public import Mathlib.Algebra.AffineMonoid.Basic
-public import Formalism.LocalRingCardinality.PosOfIsomEmb
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.TransferenceMinima
+public import Formalism.LocalRingCardinality.Bundle009
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle014
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

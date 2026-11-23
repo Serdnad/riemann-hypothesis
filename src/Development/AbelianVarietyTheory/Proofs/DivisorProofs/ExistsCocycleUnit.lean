@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.QuasiCompact
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle019
 public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsGrpPullbackThick
-public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsToricRankOne
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle069
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.IsSmulPtSmulPt
-import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.GlobalFnsHolds
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsIsPullbackPow
+import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle012
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle187
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExistsGtPtGenRelRField
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

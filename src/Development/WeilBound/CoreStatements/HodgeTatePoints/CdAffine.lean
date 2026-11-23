@@ -1,7 +1,7 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ToFirst
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.CdChart
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle014
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle052
 public import Development.WeilBound.CoreStatements.HodgeTatePoints.CdFrame
 import Formalism.SharpRestriction.Divisibility.GeneratorPowers.FBIdAd
 import Mathlib.Algebra.Order.Floor.Extended

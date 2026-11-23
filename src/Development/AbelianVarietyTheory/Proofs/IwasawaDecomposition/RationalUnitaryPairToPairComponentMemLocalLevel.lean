@@ -1,14 +1,14 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.GlESymmApply
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ClassLatticeSupPrimeDualLocalizationEq
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.DualLatticeBidual
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.UnitaryCompletionMapsDualLattices
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle295
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle285
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle286
 import Formalism.LocalToGlobal.GlobalTheory.GL6.PBwLocBases
 import Formalism.LocalToGlobal.GlobalTheory.GL6.PRLocV
 import Formalism.LocalToGlobal.GlobalTheory.GL6.PSplitT
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Afsplit
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.RationalPointsLeHolds
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

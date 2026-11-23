@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.HilbertRowConditions.AllJoin
+public import Formalism.LocalToGlobal.HilbertRowConditions.Bundle001
 public import Formalism.LocalToGlobal.GlobalTheory.ConcNWeight
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

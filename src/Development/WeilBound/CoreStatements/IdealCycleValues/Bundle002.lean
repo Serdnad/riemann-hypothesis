@@ -1,0 +1,139 @@
+module
+
+public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.BundleObjects
+public import Mathlib.RingTheory.AlgebraicIndependent.Defs
+public import Mathlib.Basic.Real.Basic
+public import Mathlib.RingTheory.MvPolynomial.Homogeneous
+public import Development.WeilBound.CoreStatements.IdealCycleValues.ProdMapToMultiset
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Topology.Sheaves.Init
+import Development.AutomorphicSpectrum.Definitions.DivisibilityTowers.BundleChernComparison
+import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Objects
+
+@[expose] public section
+
+section
+
+open MvPolynomial GroundTheory.Heights₂.Heights.NumbersDVR GlobalTheory.CompanionTheory.Ar.Num
+
+namespace BaseChangeColon
+
+section
+
+variable {F : Type} [Field F] {Ω : Type} [Field Ω] [Algebra F Ω] {K : Type} {ι : K → Type}
+  {N M : ℕ} {E : Type} [AddCommGroup E] [Module Ω E]
+
+noncomputable def polyCoord (y : (Σ k, ι k) → Ω) (w : Module.Basis (Fin N) Ω E)
+    (φ : Fin M → Module.Dual Ω E) : (Σ o, bundleIdx ι M o) → MvPolynomial (Fin N) Ω
+  | ⟨none, l⟩ => ∑ i, X i * C (φ l (w i))
+  | ⟨some k, i⟩ => C (y ⟨k, i⟩)
+
+noncomputable def polyCone (F : Type) [Field F] [Algebra F Ω] (y : (Σ k, ι k) → Ω)
+    (w : Module.Basis (Fin N) Ω E) (φ : Fin M → Module.Dual Ω E) :
+    MRing (bundleIdx ι M) F →+* MvPolynomial (Option K) (MvPolynomial (Fin N) Ω) :=
+  eval₂Hom (C.comp ((C : Ω →+* MvPolynomial (Fin N) Ω).comp (algebraMap F Ω)))
+    (fun p => C (polyCoord y w φ p) * X p.1)
+
+theorem aeval_polyCoord (y : (Σ k, ι k) → Ω) (w : Module.Basis (Fin N) Ω E)
+    (φ : Fin M → Module.Dual Ω E) {Φ : Type} [Field Φ] [Algebra Ω Φ] (s : Fin N → Φ)
+    (p : Σ o, bundleIdx ι M o) : aeval s (polyCoord y w φ p) = projCoord y w φ s p := by
+  obtain ⟨_ | k, i⟩ := p
+
+  · simp only [polyCoord, projCoord, map_sum, map_mul, aeval_X, aeval_C]
+  · simp only [polyCoord, projCoord, aeval_C]
+
+theorem projIdeal_eq_ker (y : (Σ k, ι k) → Ω) (w : Module.Basis (Fin N) Ω E)
+    (φ : Fin M → Module.Dual Ω E) {Φ : Type} [Field Φ] [Algebra Ω Φ] (s : Fin N → Φ) :
+    projIdeal F y w φ s = RingHom.ker ((MvPolynomial.map
+      ((aeval s : MvPolynomial (Fin N) Ω →ₐ[Ω] Φ) : MvPolynomial (Fin N) Ω →+* Φ)).comp
+        (polyCone F y w φ)) := by
+  unfold projIdeal
+  congr 1
+  refine MvPolynomial.ringHom_ext (fun r => ?_) (fun p => ?_)
+  · simp [polyCone]
+  · simp [polyCone, aeval_polyCoord]
+
+theorem projCoord_change (y : (Σ k, ι k) → Ω) (w w' : Module.Basis (Fin N) Ω E)
+    (φ : Fin M → Module.Dual Ω E) {Φ : Type} [Field Φ] [Algebra Ω Φ] (t : Fin N → Φ) :
+    projCoord y w φ (fun i => ∑ j, t j * algebraMap Ω Φ (w.repr (w' j) i)) = projCoord y w' φ t := by
+  funext p
+  obtain ⟨_ | k, l⟩ := p
+  · simp only [projCoord, Finset.sum_mul]
+    rw [Finset.sum_comm]
+    refine Finset.sum_congr rfl fun j _ => ?_
+    conv_rhs => rw [← w.sum_repr (w' j)]
+
+    simp only [map_sum, map_smul, smul_eq_mul, map_mul, Finset.mul_sum, mul_assoc]
+  · simp only [projCoord]
+
+theorem projIdeal_le (y : (Σ k, ι k) → Ω) (w w' : Module.Basis (Fin N) Ω E)
+    (φ : Fin M → Module.Dual Ω E) {Φ : Type} [Field Φ] [Algebra Ω Φ] (t : Fin N → Φ)
+    (ht : AlgebraicIndependent Ω t) : projIdeal F y w φ t ≤ projIdeal F y w' φ t := by
+  have e : projIdeal F y w' φ t =
+      projIdeal F y w φ (fun i => ∑ j, t j * algebraMap Ω Φ (w.repr (w' j) i)) := by
+    unfold projIdeal
+    rw [projCoord_change]
+  rw [e, projIdeal_eq_ker, projIdeal_eq_ker]
+  intro f hf
+  rw [RingHom.mem_ker, RingHom.comp_apply] at hf ⊢
+  have h0 : polyCone F y w φ f = 0 :=
+    MvPolynomial.map_injective
+      ((aeval t : MvPolynomial (Fin N) Ω →ₐ[Ω] Φ) : MvPolynomial (Fin N) Ω →+* Φ) ht
+      (by rw [hf, map_zero])
+  rw [h0, map_zero]
+
+end
+
+theorem projIdeal_independent_of_basis : ∀ (F : Type) [Field F] (Ω : Type) [Field Ω] [Algebra F Ω] (K : Type) [Fintype K] [DecidableEq K] (ι : K → Type) [∀ k, Fintype (ι k)] (y : (Σ k, ι k) → Ω) (N M : ℕ) (E : Type) [AddCommGroup E] [Module Ω E] (w w' : Module.Basis (Fin N) Ω E) (φ : Fin M → Module.Dual Ω E) (Φ : Type) [Field Φ] [Algebra Ω Φ] (t : Fin N → Φ), AlgebraicIndependent Ω t → projIdeal F y w φ t = projIdeal F y w' φ t := by
+  intro F _ Ω _ _ K _ _ ι _ y N M E _ _ w w' φ Φ _ _ t ht
+  exact le_antisymm (projIdeal_le y w w' φ t ht) (projIdeal_le y w' w φ t ht)
+
+end BaseChangeColon
+end
+
+section
+
+open MvPolynomial GroundTheory.Heights₂.Heights.NumbersDVR GlobalTheory.CompanionTheory.Ar.Num
+
+theorem BaseChangeColon.homogeneous_sum_linear_change_classes : ∀ (G : Type) [AddCommGroup G] (d : ℕ) (n : List G → ℝ), (∀ l l', l.Perm l' → n l = n l') → (∀ b b' l, l.length + 1 = d → n ((b + b') :: l) = n (b :: l) + n (b' :: l)) → ∀ (σ σ' : Type) [Fintype σ] (cls : σ → G) (M : σ' → σ → ℤ) (H : MvPolynomial σ' ℝ) (m : ℕ), H.IsHomogeneous m → ∀ Q : List G, m + Q.length = d → (∑ μ ∈ H.support, H.coeff μ * n ((μ.toMultiset.map fun t => ∑ i, M t i • cls i).toList ++ Q)) = ∑ μ ∈ (aeval (fun t => ∑ i, (C (M t i : ℝ) * X i : MvPolynomial σ ℝ)) H).support, (aeval (fun t => ∑ i, (C (M t i : ℝ) * X i : MvPolynomial σ ℝ)) H).coeff μ * n ((μ.toMultiset.map cls).toList ++ Q) := by
+  intro G _ d n hperm hadd σ σ' _ cls M H m hH Q hQ
+  exact (BaseChangeColon.subst_abs d n hperm hadd cls M H m hH Q hQ).trans
+    (BaseChangeColon.evL_eq _ _).symm
+end

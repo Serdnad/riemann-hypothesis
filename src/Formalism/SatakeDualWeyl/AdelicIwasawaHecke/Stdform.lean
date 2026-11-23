@@ -1,8 +1,8 @@
 module
 
-public import Formalism.SatakeDualWeyl.StatementC
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.SignatureConjugationInvariant
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.SignatureExists
+public import Formalism.SatakeDualWeyl.Bundle001
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle003
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

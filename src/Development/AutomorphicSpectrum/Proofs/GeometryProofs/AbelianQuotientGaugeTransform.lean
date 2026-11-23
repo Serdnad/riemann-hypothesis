@@ -1,13 +1,13 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.SqMap
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle150
 public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.GermComp1ZeroPointLeft
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GeneratorRatioUnitExistsStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle169
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.FBIdJet
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.FBIdSy
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle019
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.FrRatio
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermBPrim
-import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermDJet
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle024
+import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle013
 import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermFunPf
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -48,9 +48,9 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.SabPull
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle010
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.LBPull
-import Development.AutomorphicSpectrum.Definitions.AdelicLattices.FactPrimes
+import Development.AutomorphicSpectrum.Definitions.AdelicLattices.Bundle001
 
 @[expose] public section
 

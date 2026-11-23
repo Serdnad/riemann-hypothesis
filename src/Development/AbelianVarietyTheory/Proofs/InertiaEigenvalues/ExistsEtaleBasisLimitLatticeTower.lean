@@ -1,10 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.TrivIsCr
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsEquivariantMapBreuilKisinMatrixStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsEtaleBasisModPowStatement
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IntegralElementsUnitFactorizationStatement
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LadicDescentStepToOE
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle024
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle802
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle748
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle736
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -47,7 +46,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.LocalPrimeGaloisActionPeriodT
-import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.PolyApproxZeroPadic
+import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle002
 import Formalism.SharpRestriction.LevelLetterCocycles.LocCoh
 
 @[expose] public section

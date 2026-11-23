@@ -1,6 +1,6 @@
 module
 
-public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.FirstDeriv
+public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.Bundle003
 public import Mathlib.RingTheory.MvPowerSeries.Rename
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,12 +1,12 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Foundations.HTBasis
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle010
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsDiscreteValuationRingIntegralClosurePadicInt
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CyclotomicCharacterPadicBasicProperties
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FinrankCyclotomicExtAndCyclotomicCharSurjectiveStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IntegersEqSumZetaPowStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsCycCycChar
-public import Formalism.LocalToGlobal.ProjectiveLattices.AvMono
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle164
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle362
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle431
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle165
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle001
 import Mathlib.Algebra.GroupWithZero.Submonoid.CancelMulZero
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

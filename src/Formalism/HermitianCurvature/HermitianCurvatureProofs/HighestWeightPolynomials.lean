@@ -1,6 +1,6 @@
 module
 
-public import Formalism.HermitianCurvature.CapelliDeterminantAndBranching
+public import Formalism.HermitianCurvature.Bundle009
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.QuantumMinorCommutation
 import Formalism.RealPlaceAnalysis.RealPlaceTaylor.GeneratorCommutatorQuantumDet
 import Formalism.RealPlaceAnalysis.RealPlaceTaylor.QuantumDetHighestWeightHolds

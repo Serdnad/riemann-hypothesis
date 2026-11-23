@@ -1,0 +1,189 @@
+module
+
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ScalWIdent
+public import Formalism.LocalToGlobal.SiegelLatticeTheory.HaarTransversals.UnitaryHaarProducts.InHHAlg
+import Formalism.LocalToGlobal.SiegelLatticeTheory.HaarTransversals.UnitaryHaarProducts.LevelSubgroupCharacterUnitary
+public import Formalism.LocalToGlobal.Divisibility.DefGroup
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.CharacterResidueFieldsEqProdGenericShift
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Basify
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Topology.Sheaves.Init
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsSingle
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle065
+import Formalism.LocalToGlobal.Columns.CoefficientsModP.WeTransposeWordTransposeWord
+import Formalism.LocalToGlobal.SiegelLatticeTheory.HaarTransversals.PoincareInHH
+import Formalism.LocalToGlobal.SiegelLatticeTheory.HaarTransversals.HidaSetting
+import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle001
+
+@[expose] public section
+
+section
+
+open NumberField IsDedekindDomain Matrix Formalism.BasicNotions Formalism.MainNotions.S Formalism.L2.SG.HidaSetting Formalism.L2.SG.PoincareInHH.PoincareSetting Formalism.L2.DIV GlobalTheory.FlagBasis GlobalTheory.LevNorm
+open scoped TensorProduct
+attribute [local instance] Formalism.BasicNotions.Host.cmStar
+
+namespace GlobalTheory.ScalW
+
+
+open Formalism.L2.SG.Pf.unitaryCongruence in
+theorem prj_selfAdjoint : ∀ (D : D7) (X : HidaSetting D) (u : D.what₂.Word) (x y : VA X.B.I),
+    hA X.B.I (GlobalTheory.ScalW.prj X u x) y = hA X.B.I x (GlobalTheory.ScalW.prj X u y) := by
+  intro D X u x y
+  have hT : (D.mem u).A.T ≠ 0 := (D.mem u).A.T_prime.ne_zero
+  have hsum : ∀ (w : VA X.B.I) (g : Fin D.R.rS → VA X.B.I), hA X.B.I w (∑ a, g a) = ∑ a, hA X.B.I w (g a) :=
+    fun w g => map_sum (hL X.B.I w) g Finset.univ
+  have hd : ∀ c, divN X.B.I (D.mem u).A.T c = divN X.B.I (D.mem u).A.T 1 * c := by
+    intro c; unfold divN; ring
+  have hs : sigA X.B.I (divN X.B.I (D.mem u).A.T 1) = divN X.B.I (D.mem u).A.T 1 := by
+    have h2 := congrArg (sigA X.B.I) (gmul_divN X.B.I _ hT 1)
+    rw [map_mul, map_natCast, map_one] at h2
+    rw [← divN_gmul X.B.I _ hT (sigA X.B.I _), h2]
+  rw [hA_symm X.B.I y]
+
+  simp only [prj, hA_sub_right, hA_add_right, hA_smul_right, hsum, map_sub, map_add (f := _), map_sum, map_mul]
+  rw [hd (hA X.B.I (zV X u) x), hd (hA X.B.I (zV X u) y), map_mul, hs]
+  simp only [← hA_symm]
+  rw [add_comm (∑ a, _ * hA X.B.I x (eV X a))]
+  simp only [mul_comm (hA X.B.I x _)]
+  ring
+
+end GlobalTheory.ScalW
+end
+
+section
+
+open NumberField IsDedekindDomain Matrix Formalism.BasicNotions Formalism.MainNotions.S Formalism.L2.SG.HidaSetting Formalism.L2.SG.PoincareInHH.PoincareSetting Formalism.L2.DIV GlobalTheory.FlagBasis GlobalTheory.LevNorm
+open scoped TensorProduct
+attribute [local instance] Formalism.BasicNotions.Host.cmStar
+noncomputable section
+
+namespace GlobalTheory.ScalW
+
+open Formalism.L2.SG.PoincareInHH.Cut
+
+variable {D : D7} (X : HidaSetting D) (u : D.what₂.Word)
+
+theorem hA_eV_eV (a b : Fin D.R.rS) : hA X.B.I (eV X a) (eV X b) = 0 := by
+  rw [eV, eV, HidaSetting.eR, HidaSetting.eR, hA_crd, X.ee]
+  simp
+
+theorem hA_fV_fV (a b : Fin D.R.rS) : hA X.B.I (fV X a) (fV X b) = 0 := by
+  rw [fV, fV, HidaSetting.fR, HidaSetting.fR, hA_crd, X.ff]
+  simp
+
+theorem hA_eV_fV (a b : Fin D.R.rS) : hA X.B.I (eV X a) (fV X b) = if a = b then 1 else 0 := by
+  rw [eV, fV, HidaSetting.eR, HidaSetting.fR, hA_crd, X.ef]
+  split_ifs <;> simp
+
+theorem hA_fV_eV (a b : Fin D.R.rS) : hA X.B.I (fV X a) (eV X b) = if b = a then 1 else 0 :=
+  hA_f_e X a b
+
+theorem hA_zV_eV (a : Fin D.R.rS) : hA X.B.I (zV X u) (eV X a) = 0 := by
+  have h := (VS D).herm.eq (X.eX a) (X.zu u)
+  rw [(X.zu_orth u a).1, map_zero] at h
+  rw [zV, eV, HidaSetting.zR, HidaSetting.eR, hA_crd, ← h]
+  simp
+
+theorem hA_zV_fV (a : Fin D.R.rS) : hA X.B.I (zV X u) (fV X a) = 0 := by
+  have h := (VS D).herm.eq (X.fY a) (X.zu u)
+  rw [(X.zu_orth u a).2, map_zero] at h
+  rw [zV, fV, HidaSetting.zR, HidaSetting.fR, hA_crd, ← h]
+  simp
+
+theorem hA_eV_zV (a : Fin D.R.rS) : hA X.B.I (eV X a) (zV X u) = 0 := by
+  rw [zV, eV, HidaSetting.zR, HidaSetting.eR, hA_crd, (X.zu_orth u a).1]
+  simp
+
+theorem hA_fV_zV (a : Fin D.R.rS) : hA X.B.I (fV X a) (zV X u) = 0 := adelicHermitian_hyperbolicF_anisotropic_eq_zero X u a
+
+theorem hA_zV_zV : hA X.B.I (zV X u) (zV X u) =
+    -(((D.mem u).A.T : ℕ) : X.B.I.E ⊗[X.B.I.F] Af X.B.I.F) := by
+  rw [zV, HidaSetting.zR, hA_crd, X.zu_norm]
+  simp
+
+theorem divN_zero' : divN X.B.I (D.mem u).A.T 0 = 0 := by
+  simp [divN]
+
+theorem prj_eV (b : Fin D.R.rS) : prj X u (eV X b) = eV X b := by
+  simp only [prj, hA_fV_eV, hA_eV_eV, hA_zV_eV, divN_zero', ite_smul, one_smul, zero_smul,
+    Finset.sum_ite_eq, Finset.mem_univ, if_true, Finset.sum_const_zero, add_zero, sub_zero]
+
+theorem prj_fV (b : Fin D.R.rS) : prj X u (fV X b) = fV X b := by
+  simp only [prj, hA_fV_fV, hA_eV_fV, hA_zV_fV, divN_zero', ite_smul, one_smul, zero_smul,
+    Finset.sum_ite_eq', Finset.mem_univ, if_true, Finset.sum_const_zero, zero_add, sub_zero]
+
+theorem prj_zV : prj X u (zV X u) = zV X u := by
+  have hT : ((D.mem u).A.T : ℕ) ≠ 0 := (D.mem u).A.T_prime.ne_zero
+  have h : divN X.B.I (D.mem u).A.T (-(((D.mem u).A.T : ℕ) : X.B.I.E ⊗[X.B.I.F] Af X.B.I.F)) = -1 := by
+    rw [show -(((D.mem u).A.T : ℕ) : X.B.I.E ⊗[X.B.I.F] Af X.B.I.F) =
+      (((D.mem u).A.T : ℕ) : X.B.I.E ⊗[X.B.I.F] Af X.B.I.F) * (-1) by ring]
+    exact Formalism.L2.SG.Pf.unitaryCongruence.divN_gmul X.B.I _ hT _
+  simp only [prj, hA_fV_zV, hA_eV_zV, hA_zV_zV, h, zero_smul, Finset.sum_const_zero, zero_add,
+    neg_smul, one_smul, sub_neg_eq_add]
+
+theorem prj_prj (y : VA X.B.I) : prj X u (prj X u y) = prj X u y := by
+  have hL : ∀ z, prjL X u z = prj X u z := fun _ => rfl
+  rw [← hL (prj X u y)]
+  conv_lhs => arg 2; rw [prj]
+
+  simp only [map_sub, map_add (f := _), map_sum, map_smul]
+  simp only [hL, prj_eV, prj_fV, prj_zV]
+  rfl
+
+theorem prj_fix_idem : ∀ (D : D7) (X : HidaSetting D) (u : D.what₂.Word),
+    (∀ a, GlobalTheory.ScalW.prj X u (GlobalTheory.ScalW.eV X a) = GlobalTheory.ScalW.eV X a ∧
+      GlobalTheory.ScalW.prj X u (GlobalTheory.ScalW.fV X a) = GlobalTheory.ScalW.fV X a) ∧
+    GlobalTheory.ScalW.prj X u (GlobalTheory.ScalW.zV X u) = GlobalTheory.ScalW.zV X u ∧
+    ∀ y, GlobalTheory.ScalW.prj X u (GlobalTheory.ScalW.prj X u y) = GlobalTheory.ScalW.prj X u y :=
+  fun _ X u => ⟨fun a => ⟨prj_eV X u a, prj_fV X u a⟩, prj_zV X u, prj_prj X u⟩
+
+end GlobalTheory.ScalW
+end
+end
+
+section
+
+open NumberField IsDedekindDomain Matrix Formalism.MainNotions.S Formalism.L2.SG.HidaSetting Formalism.L2.DIV GlobalTheory.FlagBasis
+open scoped TensorProduct
+
+theorem _root_.GlobalTheory.T.character_residueFields_eq_prod_genericShift : ∀ (E : Type) [Field E] [NumberField E] (S : Type) [CommRing S] (Pg : Finset (Pl E)) (p p' : ∀ PP : Pl E, S →+* kP PP) (χ : S → ℂ) (ψ0 : ∀ PP : Pl E, AddChar (kP PP) ℂ), IsGenericPsi Pg ψ0 → (∀ s t, χ (s + t) = χ s * χ t) → (∀ s, (∀ PP ∈ Pg, p PP s = 0 ∧ p' PP s = 0) → χ s = 1) → (∀ u u' : ∀ PP : Pl E, kP PP, ∃ s, ∀ PP ∈ Pg, p PP s = u PP ∧ p' PP s = u' PP) → (∀ PP ∈ Pg, (∃ s, (∀ PP' ∈ Pg, (PP' ≠ PP → p PP' s = 0) ∧ p' PP' s = 0) ∧ χ s ≠ 1) ∧ ∃ s, (∀ PP' ∈ Pg, p PP' s = 0 ∧ (PP' ≠ PP → p' PP' s = 0)) ∧ χ s ≠ 1) → ∃ a₁ a₂ : ∀ PP : Pl E, kP PP, (∀ PP ∈ Pg, a₁ PP ≠ 0 ∧ a₂ PP ≠ 0) ∧ ∀ s, χ s = ∏ PP ∈ Pg, ψ0 PP (a₁ PP * p PP s + a₂ PP * p' PP s) := by
+  first | exact @GlobalTheory.LeviBlockCharacter.char_eq_prod_shift | exact GlobalTheory.LeviBlockCharacter.char_eq_prod_shift | (intros; apply GlobalTheory.LeviBlockCharacter.char_eq_prod_shift <;> assumption)
+end

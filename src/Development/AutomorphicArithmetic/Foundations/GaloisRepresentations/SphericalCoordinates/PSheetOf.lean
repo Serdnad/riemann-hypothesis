@@ -1,10 +1,10 @@
 module
 
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalCoordinates.LevelChange
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CompLinearEquivIntertwiningStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ComplexUniformisationExpUniqueFullLevelMarkingStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ComplexUniformisationOfMarkedPeriodsFamily
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.UniformisationAtTransportIsometryStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle643
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1871
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3267
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle644
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

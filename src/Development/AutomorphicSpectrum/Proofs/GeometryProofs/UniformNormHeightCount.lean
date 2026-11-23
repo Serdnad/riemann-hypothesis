@@ -2,18 +2,16 @@ module
 
 public import Development.AutomorphicSpectrum.PublishedTheorems.Geometry₂.NefRR
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ModelSmall
-public import Development.AutomorphicSpectrum.Definitions.DivisibilityTowers.HeckeSectionsIsotropicCommutatorPairingPower
+public import Development.AutomorphicSpectrum.Definitions.DivisibilityTowers.Bundle002
 public import Development.AutomorphicSpectrum.Definitions.DivisibilityTowers.GoodOrigin
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.GeoRead
-import Development.AbelianVarietyTheory.Definitions.Divisors.NonemptyCuspFrame
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.CompLawsTowerBoundStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FullIntersectionHeightBoundStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GenericFrameComponentBoundStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ModelSmallSectionsMulStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.TowerOriginComponentBoundStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.TowerWeightOfZeroStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.UniformNormTowerBoundStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.WeightZeroSectionMembershipStatement
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle058
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle310
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle308
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle303
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle295
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle313
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle301
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -49,7 +47,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.DefiniteFormStabilizerFiniteAwayFromP
+import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle002
 
 @[expose] public section
 

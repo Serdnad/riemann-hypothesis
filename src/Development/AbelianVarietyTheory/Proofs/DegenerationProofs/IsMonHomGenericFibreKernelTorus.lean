@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Degenerations.OfTorusBased
-public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.ExistsSplitTorusPointsMulEquiv
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsScalMulEqZero
+public import Development.AbelianVarietyTheory.Definitions.Degenerations.Bundle004
+public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle009
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle028
 public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.PullPullAndSplitPull
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.TorusCutByInvariantRatiosFieldStatement
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle155
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -56,6 +56,14 @@ open GlobalTheory.ZJ
 noncomputable section
 namespace GlobalTheory.ZJ.KerSubgroup
 open SplitPull
+
+local instance (priority := high) grpObjPullback {S T : Scheme.{0}} (f : T ⟶ S)
+    (G : Over S) [GrpObj G] : GrpObj ((Over.pullback f).obj G) :=
+  letI : (Over.pullback f).Monoidal := (Over.instBraidedPullback (f := f)).toMonoidal
+  Functor.grpObjObj (F := Over.pullback f)
+
+local instance (priority := high) overHomOfNatOne {S : Scheme.{0}} {Y G : Over S} [MonObj G] :
+    OfNat (Y ⟶ G) 1 := ⟨toUnit Y ≫ η⟩
 
 theorem exists_agree_locus (X : Scheme.{0}) (N : Type) (v w : N → Γ(X, ⊤)) :
     ∃ (Z : Scheme.{0}) (m : Z ⟶ X), IsClosedImmersion m ∧ (∀ n, m.appTop.hom (v n) = m.appTop.hom (w n)) ∧

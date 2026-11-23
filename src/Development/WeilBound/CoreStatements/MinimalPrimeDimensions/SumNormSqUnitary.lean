@@ -1,8 +1,8 @@
 module
 
 public import Development.WeilBound.CoreStatements.MinimalPrimeDimensions.GenIdeal
-public import Development.WeilBound.CoreStatements.HomogeneousNonvanishing.VuSelfKnownTheorem
-public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.EqOfIsometricTrivShift
+public import Development.WeilBound.CoreStatements.HomogeneousNonvanishing.Bundle017
+public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.Bundle014
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

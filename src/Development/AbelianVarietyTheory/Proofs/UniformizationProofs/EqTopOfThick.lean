@@ -2,13 +2,13 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.AbelianSchemeLaws.FirstCohomologyVanishesSpecOfIsLocalRing
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ValCalc
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.DegUnif
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.Bundle003
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.GlobalSectionsRankAlgClosed
 public import Development.AbelianVarietyTheory.Definitions.Uniformization.PointEqOfSubsingleton
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.LocGenOfTrivial
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.EqTopOfClosedFibre
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsFourthSide
-import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsUniqueSec
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle093
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle012
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle084
 public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.UniformisationPolarisationsAgreeAtLevel
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -376,6 +376,9 @@ theorem triv_of_thick (hG : GlobalFnsSt) {V : Type} [CommRing V] [IsDomain V] (I
     have hρ : ρ = 1 := by
       have := hB.smooth
       have := hB.proper
+      let f := thick V I e
+      letI : (Over.pullback f).Monoidal := (Over.instBraidedPullback (f := f)).toMonoidal
+      letI : GrpObj ((Over.pullback f).obj B) := Functor.grpObjObj (F := Over.pullback f)
       have hA : IsAbelianScheme (thickObj V I e B) := by
         have : IsCommMonObj B := hB.1
         refine ⟨inferInstance, ?_, ?_, ?_⟩

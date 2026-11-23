@@ -3,7 +3,7 @@ module
 public import Development.ResolutionOfSingularities.EmbeddedResolution.ResolutionOfSingularities
 public import Mathlib.Order.CompletePartialOrder
 public import Development.ResolutionOfSingularities.EmbeddedResolution.IteratedBlowups.BlowupSequenceBasic
-public import Development.ResolutionOfSingularities.Foundations.Blowup.BlowupBasic
+public import Development.ResolutionOfSingularities.Foundations.Blowup.Bundle001
 public import Development.ResolutionOfSingularities.Foundations.Blowup.BlowupCoproduct
 import Development.ResolutionOfSingularities.Foundations.Blowup.BlowupOpenCover
 import Mathlib.Algebra.Order.Floor.Extended

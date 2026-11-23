@@ -1,13 +1,13 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.CharpolySmulOfProd
-public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.CharpolyBlockAndInvariantUnderStabilizerNilradic
+public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.Bundle008
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.DepthZeroLabelsOfLabelLaws
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.TeichmullerRoots
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.MapPrimeToPartFbar
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SubMemMaximalIdealIff
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle177
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle545
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle303
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.EmbeddingClosedIntegral
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HostCmEmbeddingProperties
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle163
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsPlaceOverMoveValConjPl
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -54,7 +54,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.InjPrimeTo
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle009
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.GeneralAdmissibleOfIrreducibilityStmt
 
 @[expose] public section

@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LatticeTransference.DualTransport
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LatticeTransference.Bundle001
 public import Mathlib.LinearAlgebra.BilinearForm.DualLattice
 public import Formalism.LatticeTheta.ThetaShiftInversion
 import Mathlib.Algebra.Order.Floor.Extended

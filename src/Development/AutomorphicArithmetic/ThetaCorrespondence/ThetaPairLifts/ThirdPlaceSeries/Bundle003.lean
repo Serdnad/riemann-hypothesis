@@ -1,0 +1,113 @@
+module
+
+public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.TypeConditions.Bundle001
+public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.TypeConditions.Bundle003
+public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.StringRepresentations.AllCuspidalOpenBound
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Topology.Sheaves.Init
+
+@[expose] public section
+
+section
+
+
+
+section
+noncomputable section
+namespace Formalism.MainNotions.AdmissibleParameterJ
+open Formalism.BasicNotions Formalism.BasicNotions.Loc Formalism.MainNotions Formalism.MainNotions.N Formalism.WeaklyAdmissibleFiltrations Formalism.ConjugateSelfDual NumberField IsDedekindDomain
+variable {D : D7}
+section Sets
+variable (D)
+end Sets
+section Emb
+variable (D)
+variable {D}
+end Emb
+section Stmt
+variable (D)
+variable {D} (L : SizeData₂ D)
+end Stmt
+section admitted
+variable (D)
+def DeRhamFamilyAwayAlt : Prop := ∀ i r, GoodR D.nd i r → _root_.UpperTheory.GalS.G2a D.nd D.naut i r
+variable {D} (L : SizeData₂ D)
+def AdmJAlt : Prop :=
+  _root_.Formalism.MainNotions.AdmissibleParameterJ.DeRhamFamilyAwayAlt D ∧ CrysIffWD D.nd D.naut ∧ _root_.UpperTheory.GalS.DeRhamJumpsDistinctCondition D ∧ AdmDict D ∧ AdmRead D ∧ AdmPar L
+variable (D) in
+def JumpClosed : Prop := ∀ L : SizeData₂ D, _root_.Formalism.MainNotions.AdmissibleParameterJ.AdmJAlt L → JumpConditions L
+end admitted
+end Formalism.MainNotions.AdmissibleParameterJ
+end
+end
+end
+
+section
+
+
+
+section
+noncomputable section
+namespace Formalism.MainNotions.SumRepresentations
+namespace At
+open Formalism.BasicNotions NumberField IsDedekindDomain Formalism.ConjugateSelfDual ReciprocityTheory.Gal Polynomial Formalism.MainNotions.N
+variable {R : Ranks} {H : Host R} {what₂ : Rows.Data R} (N : NData R H what₂) (A : NAut N)
+section RepOps
+variable {Γ : Type} [Group Γ] {k : Type} [CommRing k]
+end RepOps
+def provisionFortyOne (i : N.Loc) : Prop :=
+  ((∃ rq : N.X i → (Formalism.ConjugateSelfDual.G H.E N.Om →* GL (Fin R.nV) (Qbar (N.l i))), ∀ x, IsHeckeGaloisQ N A i x (rq x)) ∧
+    ∃ r, GoodR N i r) ∧
+  (∀ P P' : A.AV i, A.ptV i P ≠ none → A.ptV i P = A.ptV i P' →
+    (∀ Pa Pa', IsBCV N A i P Pa → IsBCV N A i P' Pa' → Pa.Perm Pa') ∧
+    ∀ w, w ∉ N.S i → w ∉ N.Q i →
+      (IsSplitPl H w → A.locV i P w = A.locV i P' w) ∧
+      (¬ IsSplitPl H w → ubc R.nV (A.satV i P w) = ubc R.nV (A.satV i P' w))) ∧
+  ∀ r, GoodR N i r → G1 N i r ∧ _root_.UpperTheory.GalS.G2a N A i r ∧ _root_.UpperTheory.GalS.G3 N i r ∧ G4 N i r
+end At
+open Formalism.BasicNotions
+def adm2_alt (D : D7) : Prop := _root_.UpperTheory.GalS.AutomorphicGaloisAdmissible D.nd D.naut
+def adm7_alt (D : D7) : Prop := _root_.UpperTheory.GalN.AllCuspidalOpenBound D.nd D.naut
+def provisionFortyOne (D : D7) : Prop := ∀ i, _root_.Formalism.MainNotions.SumRepresentations.At.provisionFortyOne D.nd D.naut i
+def CuspidalGaloisUnramified' (D : D7) : Prop := ∀ i, _root_.UpperTheory.GalS.UnusedSlot55 D.nd D.naut i
+def provisionFirst (D : D7) : Prop := _root_.Formalism.MainNotions.SumRepresentations.provisionFortyOne D ∧ _root_.Formalism.MainNotions.SumRepresentations.CuspidalGaloisUnramified' D ∧ Conclusion42 D
+def AdmAAlt (D : D7) : Prop := tie0 D ∧ hypO D ∧ adm1 D ∧ _root_.Formalism.MainNotions.SumRepresentations.adm2_alt D ∧ adm3 D ∧ ArchimedeanSignatureMatching D ∧ adm5 D
+def AdmAtAlt (D : D7) : Prop := _root_.Formalism.MainNotions.SumRepresentations.AdmAAlt D ∧ _root_.Formalism.MainNotions.SumRepresentations.adm7_alt D
+def AdmissibleDatum (D : D7) : Prop := _root_.Formalism.MainNotions.SumRepresentations.AdmAtAlt D ∧ adm6 D ∧ adm8 D
+end Formalism.MainNotions.SumRepresentations
+end
+end
+end

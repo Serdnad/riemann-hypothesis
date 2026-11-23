@@ -2,20 +2,18 @@ module
 
 public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.MetricsProjectionFormulaNef
 public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.GeoNum
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.ProjContract
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.ProjectionFormulaDegree
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle021
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle058
 public import Development.WeilBound.CoreStatements.PlurisubharmonicCones.AevalZeroOfMem
-public import Development.WeilBound.CoreStatements.PlurisubharmonicCones.ExistsCurvePoint
-import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.Assembly
-import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.PContractRelDimLe
+public import Development.WeilBound.CoreStatements.PlurisubharmonicCones.Bundle006
+import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.Bundle014
+import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.Bundle007
 import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.PCutRegular
-import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.PFunctionFieldFinite
-import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.PMChartDehomog
-import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.PMChartHomog
+import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.Bundle013
 import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.PMChartTrdeg
 import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PCoordConeArithVar
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.PBlockRatioAlg
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.PGeoNumCut
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle029
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -58,7 +56,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.IsMultiHomogIdealChain
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.Bundle011
 import Development.AutomorphicSpectrum.Definitions.MetricPeriods.ExistsIntSmulIsAdicIntegralInTensorBasis
 import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.FrameDefinitions.PermFinTwoUniv
 import Mathlib.CategoryTheory.Monoidal.Cartesian.Basic
@@ -66,7 +64,7 @@ import Mathlib.CategoryTheory.Monoidal.Category
 import Mathlib.CategoryTheory.Monoidal.Mon
 import Mathlib.Topology.Sheaves.Presheaf
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsCompletedStrictHens
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.CubicalStructures.CubeSymmetricSwapFirst
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.CubicalStructures.Bundle001
 
 @[expose] public section
 

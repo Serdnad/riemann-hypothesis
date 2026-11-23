@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsBlockEmb
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1911
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.ExpoConjOfIsCsd
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.IsConstAlongSingleton
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.BlockEmbNormalises
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.StandardParabolicUnipotentMono
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2035
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2046
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -45,8 +45,8 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ToGAdMat
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsSplitChartSplitChart
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1891
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle319
 
 @[expose] public section
 

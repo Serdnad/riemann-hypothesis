@@ -1,17 +1,17 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.ToricPeriodBlockIsSymm
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle035
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ConstOfNormPeriodic
 import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.SemicharacterSqEqOneOfSymmetric
-public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.TangentVectorExistsUniqueUniformisingVector
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ValIso
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ValIsoChart
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DualPointOverOriginLiftsTangentVectorUniformisedStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EqZeroOfEntireMulEqZero
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HolomorphicFunctionValuesClassicalUniformisationStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HolomorphicUniformizationComplexBaseChangeStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.UniformisedFibreFrameAtOriginEqRigidificationStatement
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsPushEquiv
+public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle079
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle149
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle150
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1303
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1401
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1304
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1305
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2418
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle048
 import Development.AbelianVarietyTheory.Proofs.ToricGeometry.TopLePreimageOfValAtNeZero
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -52,8 +52,8 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Development.AbelianVarietyTheory.Definitions.Divisors.TorusExt
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CoeffTopMonEqZero
-import ReciprocityTheory.GeometryOfNumbers.LatticeCovolumes.EllipsoidStA
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle710
+import ReciprocityTheory.GeometryOfNumbers.LatticeCovolumes.Bundle001
 
 @[expose] public section
 

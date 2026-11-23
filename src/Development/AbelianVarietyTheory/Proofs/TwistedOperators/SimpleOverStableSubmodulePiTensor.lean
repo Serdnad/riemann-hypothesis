@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SimpleOver
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle013
 public import Mathlib.LinearAlgebra.DFinsupp
 public import Mathlib.LinearAlgebra.Dimension.Basic
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.OperatorStablePiTensorPureKernelSpanStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SimpleOverStableSubmoduleTensorPureKernelSpanStatement
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle033
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle046
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

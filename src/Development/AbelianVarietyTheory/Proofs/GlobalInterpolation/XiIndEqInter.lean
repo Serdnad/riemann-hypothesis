@@ -46,9 +46,9 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.IndexExponentDegree
+import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.Bundle011
 import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.EmbHInjective
-import Formalism.SharpRestriction.CuspSpanNormBounds.Point
+import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle001
 
 @[expose] public section
 

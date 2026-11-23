@@ -2,7 +2,7 @@ module
 
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.LocModelKS
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.OrbitalIntegralReduction
-import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.ProdFormulaE
+import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle009
 import Formalism.SharpRestriction.CuspSpanNormBounds.BruhatCellsKronecker.FamilySeparationBound
 import Formalism.SharpRestriction.CuspSpanNormBounds.BruhatCellsKronecker.GlobalConditionOfLocalAgreement
 import Mathlib.Algebra.Order.Floor.Extended

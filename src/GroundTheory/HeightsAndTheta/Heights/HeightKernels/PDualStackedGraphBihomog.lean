@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.StatementsDualStackedExcLead
+public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.Bundle039
 public import Aesop.BuiltinRules
 import Mathlib.Algebra.AffineMonoid.UniqueSums
 import Mathlib.Algebra.Order.Floor.Extended

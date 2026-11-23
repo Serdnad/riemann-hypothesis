@@ -6,8 +6,8 @@ public import Mathlib.RingTheory.RootsOfUnity.EnoughRootsOfUnity
 public import GroundTheory.GlobalFields.ExistenceTheorem.LocalPowers
 public import GroundTheory.GlobalFields.ExistenceTheorem.PowerIndex
 public import GroundTheory.GlobalFields.IdeleGroups.IndexFormula
-public import GroundTheory.GlobalFields.IdeleGroups.IndexProductFormula
-import GroundTheory.GlobalFields.KummerTheory.LocalIndexAtPlace
+public import GroundTheory.GlobalFields.IdeleGroups.Bundle001
+import GroundTheory.GlobalFields.KummerTheory.Bundle001
 public import GroundTheory.GlobalFields.SplittingFromInequality
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

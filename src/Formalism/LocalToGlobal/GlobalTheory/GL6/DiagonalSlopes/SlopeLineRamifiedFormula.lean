@@ -1,8 +1,8 @@
 module
 
-public import Formalism.LocalToGlobal.GlobalTheory.GL6.DiagonalSlopes.CharacterFiniteLevelZeroOfForms
+public import Formalism.LocalToGlobal.GlobalTheory.GL6.DiagonalSlopes.Bundle001
 public import Formalism.SharpRestriction.GlobalSchurBounds.FiniteModelOfAdmissibleTransports
-public import Formalism.LocalToGlobal.GlobalTheory.GL6.RamifiedLatticePropsOfModel
+public import Formalism.LocalToGlobal.GlobalTheory.GL6.Bundle002
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.RamifiedRankEqFinrank
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.DiagonalSlopes.AdmissibleStabilisersOfCompatibleForms
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.DiagonalSlopes.PSplitT

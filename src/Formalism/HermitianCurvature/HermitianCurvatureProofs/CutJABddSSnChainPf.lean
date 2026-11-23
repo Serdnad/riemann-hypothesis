@@ -1,6 +1,6 @@
 module
 
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutJABddSSnChain
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle024
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.BetaSesquilinearity
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

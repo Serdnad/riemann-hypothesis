@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Statements.PlaceShiftStatements.TraceDefinitePairsEqAutomorphicTrace
-public import Development.AbelianVarietyTheory.Definitions.Divisors.HasDivPlace
+public import Development.AbelianVarietyTheory.Statements.PlaceShiftStatements.Bundle003
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle058
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalCoordinates.DiagAct
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SchurDeterminants.SchurYOffClr
 import Mathlib.Algebra.Order.Floor.Extended
@@ -39,7 +39,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsGDatumOneOneOne
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle015
 import Development.AbelianVarietyTheory.Statements.PlaceShiftStatements.MarkWeightedFixedPointEqDefinitePairOdd
 
 @[expose] public section

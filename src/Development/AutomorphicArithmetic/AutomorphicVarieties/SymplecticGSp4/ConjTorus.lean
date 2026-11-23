@@ -1,11 +1,10 @@
 module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.DecompSigmaOrd
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.EptInt
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Bundle016
 import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.LMemMax
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.PtInSmul
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.SgnMulSelf
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.NormLeOneOfIsIntegral
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Bundle004
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle062
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -54,6 +53,9 @@ import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section
+
+local instance (priority := 2000) ratFieldIsTorsionFreeForSymplecticGSp4ConjTorus (Ω : Type) [Field Ω] [Algebra ℚ Ω] :
+    Module.IsTorsionFree ℚ Ω := DivisionSemiring.to_moduleIsTorsionFree
 
 open NumberField IsDedekindDomain Formalism.ConjugateSelfDual ReciprocityTheory.Gal IsLocalRing UpperTheory.V UpperTheory.V.Base UpperTheory.V.Alg UpperTheory.V.HV UpperTheory.V.GradeZeroInterpolatingElement
 
@@ -217,8 +219,9 @@ private theorem norm_le_one_int (l : ℕ) [Fact l.Prime] (x : PadicAlgCl l) (hx 
 
 private theorem norm_unit {l : ℕ} [Fact l.Prime] (c : Coef l) {x : c.O} (hx : IsUnit x) :
     ‖algebraMap c.O (PadicAlgCl l) x‖ = 1 := by
+  have : Module.Finite ℤ_[l] c.O := c.fin
   have hle : ∀ y : c.O, ‖(y : PadicAlgCl l)‖ ≤ 1 := fun y =>
-    norm_le_one_int l _ ((Algebra.IsIntegral.isIntegral (R := ℤ_[l]) y).map c.O.val)
+    norm_le_one_int l _ ((IsIntegral.of_finite ℤ_[l] y).map c.O.val)
   obtain ⟨u, rfl⟩ := hx
   show ‖((u : c.O) : PadicAlgCl l)‖ = 1
   have h1 : ‖((u : c.O) : PadicAlgCl l)‖ * ‖((u⁻¹ : c.Oˣ) : c.O).1‖ = 1 := by

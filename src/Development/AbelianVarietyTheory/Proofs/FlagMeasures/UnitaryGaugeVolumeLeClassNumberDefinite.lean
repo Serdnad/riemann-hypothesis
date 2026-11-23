@@ -1,12 +1,12 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.IsGaugeAll
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.AdelicLatticeStabiliserIsCompactIsOpen
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.AutPointLatticeIntersectionSelfDualProperties
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle009
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle097
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle111
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.AutPointRationalEquivariance
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.LatticeGaussianSumOfLengthEqTsumStabilizerCosets
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.RiemannianHaarGaugeVolumeUnitaryGroupEq
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.RiemannianHaarGaugeVolumeUnitaryGroupEqStatement
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle288
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle292
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

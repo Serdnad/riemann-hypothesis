@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.FrameUnit
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle072
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -40,7 +40,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.SabPull
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle010
 
 @[expose] public section
 
@@ -122,7 +122,7 @@ theorem valF_comp_mem {W : M.Z.Opens} {X : Scheme.{0}} (h : W.toScheme ⟶ X) (x
     Scheme.Hom.appIso_inv_appLE]
   exact valR_res x le_rfl hy _
 
-theorem mem_O_of_pow (hn : IsNormalScheme M.Z) {z : M.Z} {e : Ω} {m : ℕ} (hm : 0 < m) (h : e ^ m ∈ M.O z) :
+theorem mem_O_of_pow (hn : ReciprocityTheory.ChartRestriction.G.Geo.Tor.IsNormalScheme M.Z) {z : M.Z} {e : Ω} {m : ℕ} (hm : 0 < m) (h : e ^ m ∈ M.O z) :
     e ∈ M.O z := by
   have := RatModel.isIntegrallyClosed_O hn z
   have h1 : IsIntegral (M.O z) (e ^ m) := isIntegral_algebraMap (R := M.O z) (x := ⟨_, h⟩)

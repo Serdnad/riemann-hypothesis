@@ -1,16 +1,16 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Uniformization.IsCPPullback
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ConnectedSpaceOfSection
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ConnectedSpaceSpecOfIsLocalRing
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.EvenCubicUnitEqOne
+public import Development.AbelianVarietyTheory.Definitions.Uniformization.Bundle003
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle028
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle041
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle065
 public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsGtCoordOfTorusQuotient
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsWeightPoints
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.IsCPMapCompCancel
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.KTrivTorusQuotientTowerAlgebraisationStatement
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.NonemptyAlgebraisationAbelianQuotientTowerStatement
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.NonemptyMumfordTorusQuotientTowerStatement
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.TorusCoordinatesCompatOfTorusCompatStatement
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle129
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle063
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle116
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle120
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle103
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle069
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -53,7 +53,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.LBLocalC
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.Bundle005
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.LBPull
 
 @[expose] public section

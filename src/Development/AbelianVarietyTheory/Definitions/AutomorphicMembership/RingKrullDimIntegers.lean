@@ -3,7 +3,7 @@ module
 public import Formalism.LocalRingCardinality.DataDIV
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.FinrankRiemannRochNsmulHyperplane
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.MemEqnSetOmegaCoeff
-public import Development.AbelianVarietyTheory.Definitions.Divisors.NefFibOfIsNef
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle035
 public import Mathlib.NumberTheory.NumberField.Completion.FinitePlace
 import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.RingKrullDimQuotientEqOfMemMinimalPrimes
 import Mathlib.Algebra.Order.Floor.Extended

@@ -1,9 +1,9 @@
 module
 
-public import Formalism.UnipotentAdelicQuotients.ThmBInHecke
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.CmExtensionAdelesStandardModelDictionaryStatement
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsPrimeIdempotentCMFieldStatement
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.PrimeIdempotentEqIndicatorPrimeStatement
+public import Formalism.UnipotentAdelicQuotients.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle055
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle058
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle034
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

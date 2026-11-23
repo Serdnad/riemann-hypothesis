@@ -6,7 +6,7 @@ public import Mathlib.Algebra.MvPolynomial.Monad
 public import Mathlib.Basic.Complex.Basic
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ColumnDegreeLe
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsEqMulProdMinors
-import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.RowAddGenericRowAddTerm
+import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle001
 import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Sl2NonnegWeightOfHighestWeightVector
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ISupEigenspaceEqTop
 import Mathlib.Algebra.Order.Floor.Extended

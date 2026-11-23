@@ -1,9 +1,8 @@
 module
 
 public import GroundTheory.AutomorphicForms.ReductionHeight
-public import GroundTheory.AutomorphicForms.ReductionIdele
-import GroundTheory.GlobalFields.Adele.Compact
-import GroundTheory.GlobalFields.Adele.Discrete
+public import GroundTheory.AutomorphicForms.Bundle012
+import GroundTheory.GlobalFields.Adele.Bundle003
 import GroundTheory.GlobalFields.IdeleGroups.UnitBound
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

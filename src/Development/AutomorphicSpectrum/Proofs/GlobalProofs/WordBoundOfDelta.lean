@@ -1,16 +1,13 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.IsSmoothVec
-public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.IsAdmOnOfFiniteDimensional
-public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.DerivedActionAdditiveStatement
-public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.DerivedActionCommutatorStatement
-public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.DerivedActionOfSmoothVectorStatement
+public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle040
+public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.Bundle001
+public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle048
+public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle052
+public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle045
 public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.HermitianFormLieWordGrowthStatement
-import Development.AutomorphicSpectrum.Proofs.GlobalProofs.LieAlgebraOfLinearGroupClosedStatement
-public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.LieBasisCoordinateGrowthBoundStatement
-public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.LinearIndependentCoefficientNormBoundStatement
-public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.SmoothVectorHermitianFormGrowthStatement
-public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.SmoothVectorsInvariantSubspaceStatement
+import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle044
+public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle046
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -49,7 +46,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.DefClassNum
+import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle008
 import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.ExistsStandardIndModule
 
 @[expose] public section

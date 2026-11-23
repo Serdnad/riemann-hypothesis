@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.AutomorphicForms.GL2.GJFEDefs
+public import GroundTheory.AutomorphicForms.GL2.Bundle005
 public import Formalism.DoubleCosetMeasures.Statement
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

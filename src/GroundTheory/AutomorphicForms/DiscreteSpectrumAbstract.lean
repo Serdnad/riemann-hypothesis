@@ -3,7 +3,7 @@ module
 public import GroundTheory.AutomorphicForms.UnitaryRepresentations.Integrated
 public import Mathlib.Analysis.InnerProductSpace.l2Space
 public import Mathlib.Analysis.Normed.Operator.Compact.Basic
-public import GroundTheory.AutomorphicForms.UnitaryRepresentations
+public import GroundTheory.AutomorphicForms.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

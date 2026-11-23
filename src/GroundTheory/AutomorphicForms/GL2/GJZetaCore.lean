@@ -9,7 +9,7 @@ public import GroundTheory.AutomorphicForms.GL2.ExistsEqPowMulOfValuationLe
 public import GroundTheory.AutomorphicForms.GL2.GJInducedCoeff
 public import GroundTheory.AutomorphicForms.GL2.GJInducedZeta
 public import GroundTheory.AutomorphicForms.JacquetAdmissible
-import GroundTheory.AutomorphicForms.SmoothRepContragredient
+import GroundTheory.AutomorphicForms.Bundle008
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

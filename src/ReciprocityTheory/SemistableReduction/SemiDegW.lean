@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.SemistableReduction.SemiDegT
+public import ReciprocityTheory.SemistableReduction.Bundle024
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -44,9 +44,8 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.SemistableReduction.SemiDegI
+public import ReciprocityTheory.SemistableReduction.Bundle028
 public import ReciprocityTheory.SemistableReduction.SemiDegN
-public import ReciprocityTheory.SemistableReduction.SemiDegQ
 public import ReciprocityTheory.SemistableReduction.SemiDegE
 
 @[expose] public section

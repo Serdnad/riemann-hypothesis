@@ -4,8 +4,8 @@ public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.TopLawQ
 import Formalism.LocalToGlobal.Columns.ChainInst
 import Formalism.LocalToGlobal.Columns.ColumnsProofs.ChainCounts
 public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.ColInst
-public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.KerEquivConcrete
-import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.KerEquivFr
+public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.Bundle002
+import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.Bundle001
 import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.PenultimateKernelDiamondInvariant
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.BeData
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle012
 public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.KummerThetaLogarithms.FirstMomentIdempotentLaw
 public import Formalism.GaussJetBounds.GaussJetProofs.Transfer
 public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.BiextensionHypothesesOfLevelOne

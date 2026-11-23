@@ -1,17 +1,17 @@
 module
 
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.KftwoDefs
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle012
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LocalisedModelUniformisationBaseChange
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.PullRigIsSymmetric
 public import Development.AbelianVarietyTheory.Definitions.KeyFormula.KeyRuleOneOfKeyFormula
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsHeckeQuotientTriple
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle104
 public import Development.AbelianVarietyTheory.Definitions.ShimuraVarieties.PowObjGeometricallyConnected
-import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.PolBaseChangeOfRelAmpleLocal
-public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.ExistsLbHermitian
-public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.NonemptyTorusExtensionOfIsPowGrp
+import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle018
+public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle030
+public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.Bundle007
 public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.ExistsIsGrpPullbackPow
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.IsLieCombIffProd
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.MemNonzeroLocusProdSec
+public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle010
+public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle009
 import Development.AbelianVarietyTheory.Statements.FundamentalDomains.ExistsIsAddFundamentalDomain
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -57,7 +57,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.LBLocal
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.Bundle001
 
 @[expose] public section
 

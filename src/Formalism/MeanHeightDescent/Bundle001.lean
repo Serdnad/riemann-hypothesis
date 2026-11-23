@@ -1,0 +1,141 @@
+module
+
+public import Mathlib.Analysis.SpecialFunctions.Log.Basic
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Topology.Sheaves.Init
+
+@[expose] public section
+
+section
+
+open Finset
+
+noncomputable section
+
+namespace Formalism.ExtensionFiltration
+
+def SizesSZ : Prop :=
+  ∀ (kc m : ℕ) (c : Fin kc → ℝ) (y : Fin m → ℝ) (w S N t η : ℝ),
+    (∀ i, |c i| ≤ S + N + t + 1) → (∀ i, |y i + w| ≤ η + 1) →
+    0 ≤ S → 0 ≤ η → N + t + 1 ≤ S + η → η + 1 ≤ w →
+    (m : ℝ) * (w - η - 1) ≤ (∑ i, |c i|) + ∑ i, |y i| ∧
+    (∑ i, |c i|) + ∑ i, |y i| ≤ 2 * ((m : ℝ) * w + ((kc : ℝ) + 1) * S + ((kc : ℝ) + 1) * η) ∧
+    (2 * (η + 1) ≤ w → (m : ℝ) * w / 2 ≤ (∑ i, |c i|) + ∑ i, |y i|)
+
+def MeanHeights : Prop :=
+  ∀ (ι : Type) [Fintype ι] [Nonempty ι] (h sl : ι → ℝ) (cs cc ρ X : ℝ),
+    0 ≤ ρ → ρ ≤ 1 → 0 ≤ X →
+    (∀ c, 0 ≤ h c + cs) →
+    (∀ c, (1 - ρ) * max 0 (sl c + cs) ≤ h c + cs + cc) →
+    -X ≤ (∑ c, sl c) / (Fintype.card ι : ℝ) →
+    max 0 ((1 - ρ) * cs - X - cc) ≤ (∑ c, (h c + cs)) / (Fintype.card ι : ℝ)
+
+def ElemLogA : Prop :=
+  ∀ A t : ℝ, 0 < A → 0 ≤ t →
+    A * Real.log (2 + t) ≤ 2 * t + A * Real.log (max A 1) + 4
+
+def ElemLogB : Prop :=
+  ∀ T D A cs h : ℝ, 0 ≤ D → 0 ≤ cs → -cs ≤ h → 0 < A →
+    (T - 3 * D - 5) * (h + cs) - (T + 3 * D + 5) * cs - (A * Real.log (max A 1) + 4) ≤
+      T * h - 3 * (D + 1) * |h| - A * Real.log (2 + |h|)
+
+def SumComponents : Prop :=
+  ∀ (ι : Type) [Fintype ι] [Nonempty ι] (T D A cs X cc z ρ R1 R2 Bn δ' : ℝ)
+    (h δ dc degc : ι → ℝ),
+    0 ≤ D → 3 * D + 5 ≤ T → 0 < A → 0 ≤ cs → 0 ≤ X → 0 ≤ cc → 0 ≤ z → z < 1 → 0 ≤ ρ → ρ < 1 →
+    0 ≤ R1 → 0 ≤ R2 → 0 < Bn → 0 < δ' →
+    (∀ c, δ' ≤ δ c ∧ δ c ≤ δ' / (1 - ρ)) →
+    (∀ c, Bn * δ c ≤ dc c ∧ (1 - z) * dc c ≤ Bn * δ c) →
+    (∀ c, -cs ≤ h c) →
+    (∀ c, Bn * δ c * (T * h c - 3 * (D + 1) * |h c| - A * Real.log (2 + |h c|) - R1 - 2 * z * R2)
+      ≤ degc c) →
+    max 0 ((1 - ρ) * cs - X - cc) ≤ (∑ c, (h c + cs)) / (Fintype.card ι : ℝ) →
+    -(T * (X + cc)) - cs * (6 * D + 10 + T * (z + 2 * ρ)) - (A * Real.log (max A 1) + 4) - R1
+        - 2 * z * R2 ≤ (∑ c, degc c) / (∑ c, dc c)
+
+end Formalism.ExtensionFiltration
+end
+end
+
+section
+
+open Finset
+
+noncomputable section
+
+namespace Formalism.ExtensionFiltration
+
+def HSRearranged : Prop :=
+  ∀ T D h J C0 lρ l0 lβ g lΛD lΛT zc z dc Bd degc : ℝ,
+    0 ≤ T → 0 ≤ D → 0 ≤ C0 → 0 ≤ zc → zc ≤ z → z ≤ 1 / 2 → 0 < dc → dc * (1 - zc) = Bd →
+    lρ ≤ l0 + C0 * Real.log (2 + |h|) →
+    0 ≤ T * (Real.log 2 + l0 + lβ / 2) + lΛD + lΛT →
+    (1 - zc) * (T * h - 3 * (D + 1) * |h| - J - C0 * D ^ 2 * (lρ + Real.log T) - (T + D + 1) * lβ
+        - (T + D ^ 2) * (g + 2))
+      - zc * (T * (Real.log 2 + lρ + lβ / 2) + lΛD + lΛT) ≤ degc / dc →
+    Bd * (T * h - 3 * (D + 1) * |h| - (C0 * (C0 * D ^ 2 + 2 * z * T)) * Real.log (2 + |h|)
+        - (J + C0 * D ^ 2 * (l0 + Real.log T) + (T + D + 1) * lβ + (T + D ^ 2) * (g + 2))
+        - 2 * z * (T * (Real.log 2 + l0 + lβ / 2) + lΛD + lΛT)) ≤ degc
+
+def CombinedAverageDegreeBound : Prop :=
+  ∀ (ι : Type) [Fintype ι] [Nonempty ι] (T D A cs X cc z ρ R1 R2 Bn δ' : ℝ)
+    (h sl δ dc degc : ι → ℝ) (LL0 U b Ca Cb PPf e1 e2 muU : ℝ),
+    0 ≤ D → 3 * D + 5 ≤ T → 0 < A → 0 ≤ cs → 0 ≤ X → 0 ≤ cc → 0 ≤ z → z < 1 → 0 ≤ ρ → ρ < 1 →
+    0 ≤ R1 → 0 ≤ R2 → 0 < Bn → 0 < δ' →
+    (∀ c, δ' ≤ δ c ∧ δ c ≤ δ' / (1 - ρ)) →
+    (∀ c, Bn * δ c ≤ dc c ∧ (1 - z) * dc c ≤ Bn * δ c) →
+
+    (∀ c, 0 ≤ h c + cs) →
+    (∀ c, (1 - ρ) * max 0 (sl c + cs) ≤ h c + cs + cc) →
+    -X ≤ (∑ c, sl c) / (Fintype.card ι : ℝ) →
+
+    (∀ c, Bn * δ c * (T * h c - 3 * (D + 1) * |h c| - A * Real.log (2 + |h c|) - R1 - 2 * z * R2)
+      ≤ degc c) →
+
+    T * X ≤ Ca * LL0 * U + e1 → T * cc ≤ Cb * LL0 * U + e2 →
+    cs * (6 * D + 10 + T * (z + 2 * ρ)) + (A * Real.log (max A 1) + 4) + R1 + 2 * z * R2 + PPf
+      + e1 + e2 ≤ b / 4 →
+
+    2 * ((∑ c, degc c) / (∑ c, dc c) - PPf) ≤ muU →
+    -(2 * ((Ca + Cb) * LL0 * U + b / 4)) ≤ muU
+
+end Formalism.ExtensionFiltration
+end
+end

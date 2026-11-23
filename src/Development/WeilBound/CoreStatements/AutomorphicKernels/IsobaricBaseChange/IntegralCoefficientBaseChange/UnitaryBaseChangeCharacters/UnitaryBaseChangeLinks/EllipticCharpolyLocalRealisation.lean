@@ -1,12 +1,14 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.SimpleTwistedTraceFormulaStable
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsOrthonormalBasisUnimodularHermitianLocalRi
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsMatrixCharpolyPreservingHermitianFormCMStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PlaceConjugationPropertiesCmField
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle012
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1231
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1232
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1233
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1234
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1752
 public import Formalism.LocalToGlobal.IndefiniteReal.LocalNormSurjectivity.MemMaxVAIff
-public import Formalism.LocalToGlobal.IndefiniteReal.LocalNormSurjectivity.WittFN
-public import Formalism.LocalToGlobal.IndefiniteReal.LocalNormSurjectivity.WittHS
+public import Formalism.LocalToGlobal.IndefiniteReal.LocalNormSurjectivity.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

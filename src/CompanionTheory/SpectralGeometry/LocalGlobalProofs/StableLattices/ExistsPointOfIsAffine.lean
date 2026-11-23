@@ -2,12 +2,12 @@ module
 
 public import CompanionTheory.AutomorphicTheory.TemperedLocalSpectra.ObstructionLifting.H1StructureDimLe
 public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.SmoothMorphisms.LineBundleSpreadsOut
-public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.GlobalFnsHolds
+public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle012
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsAdditiveLiftIff
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LiftLeftFst
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.IsAbelianSchemeOfIsGrpPullback
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.LineBundleIsoDescendsToSubringOfFinset
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.TheoremOfCubeTwoProjectiveFactors
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle091
+public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle045
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle072
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -244,6 +244,8 @@ theorem isAdditive_ev {M : LB (A ⊗ T).left} (hM : M.IsLB) (h : IsAdditive M) (
 
 theorem surjective_snd (hA : IsAbelianScheme A) (V : T.left.Opens) :
     Function.Surjective ((snd A T).left ∣_ V).appTop.hom := by
+  letI : (Over.pullback V.ι).Monoidal :=
+    (Over.instBraidedPullback (f := V.ι)).toMonoidal
   have hG := GlobalTheory.PolPull.isAbelianScheme_of_isGrpPullback hA (isGrpPullback_pullback A T.hom)
   have hV := GlobalTheory.PolPull.isAbelianScheme_of_isGrpPullback hG (isGrpPullback_pullback _ V.ι)
   have h1 : Function.Surjective (pullback.snd (pullback.snd A.hom T.hom) V.ι).appTop.hom :=

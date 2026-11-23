@@ -1,9 +1,9 @@
 module
 
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.HasDerivAtEpart
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle081
 import Formalism.FormalDegreeBessel.FinalG
 import Formalism.FormalDegreeBessel.FormalDegreeRatio.UnitaryWeylNormalHolds
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.ListMapSumApply
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle096
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.UnipotentComposition.Expand
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -54,8 +54,8 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.HsVecApply
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.IsOpenBigCellSet
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle025
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle085
 public import Mathlib.Analysis.Calculus.BumpFunction.Basic
 
 @[expose] public section

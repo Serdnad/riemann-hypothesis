@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.SnapperDiffPolySt
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle029
 public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.PPolyOfDiffs
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

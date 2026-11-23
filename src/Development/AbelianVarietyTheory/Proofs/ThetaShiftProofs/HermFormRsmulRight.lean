@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.ArchimedeanThetaValues.IsThetaL2NormSquared
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.FramePeriodsAlongIsotropicFlowAndBlockChangeStatement
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.RiemannFormFramePeriodsEqMajorantStatement
+public import Development.AbelianVarietyTheory.Definitions.ArchimedeanThetaValues.Bundle003
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle029
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle031
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

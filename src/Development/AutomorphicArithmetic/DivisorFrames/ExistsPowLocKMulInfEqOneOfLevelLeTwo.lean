@@ -3,7 +3,7 @@ module
 public import Formalism.LocalToGlobal.UnitaryNorms.IsUnitaryNormOf
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExistsPowLocKMulInf
 import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.MaxVSpanSingleton
-public import Formalism.LocalToGlobal.UnitaryNorms.CharProd
+public import Formalism.LocalToGlobal.UnitaryNorms.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -48,9 +48,9 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.CharacterValuation
+import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.Bundle011
 import Formalism.LocalToGlobal.KernelLattices.XiIndCClass
-import Formalism.SharpRestriction.CuspSpanNormBounds.Point
+import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle001
 
 @[expose] public section
 

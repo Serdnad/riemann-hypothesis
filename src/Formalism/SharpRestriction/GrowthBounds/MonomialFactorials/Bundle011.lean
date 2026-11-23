@@ -1,0 +1,403 @@
+module
+
+public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.Bundle007
+public import Formalism.ThetaLogCoordinates.BihomogeneousPairs.LetterChainEmbeddings.Bundle001
+public import Formalism.ThetaLogCoordinates.BihomogeneousPairs.FinalLL
+public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.Bundle008
+import Formalism.PolynomialDimension.MultinomialDepth.PartnerM
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Etale.Weakly
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.TotallySplit
+import Mathlib.Tactic.Basify
+import Mathlib.Tactic.ENatToNat
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Linter.Style
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Topology.Sheaves.Init
+import Std.Tactic.BVDecide.Normalize.BitVec
+
+@[expose] public section
+
+section
+
+noncomputable section
+
+namespace Formalism.MainNotions.G.SymmetricFormBlocks
+
+open MvPolynomial Finset Formalism.MainNotions.G Formalism.MainNotions.flipOneThree Formalism.MainNotions.G.CountingStatementReduction
+
+section Gen
+
+variable (p : ℕ) [Fact p.Prime] {N r : ℕ} [NeZero r] (G : Formalism.GM.M.BlockData N)
+
+theorem le_expM (l : (Fin G.T.t → ℕ) × ℕ) (hl : l ∈ levels G) :
+    padicValNat p (lvC (r := r) G l.1 l.2 * degFact G l.1 l.2) ≤ expM p (r := r) G :=
+  Finset.le_sup (f := fun l : (Fin G.T.t → ℕ) × ℕ => padicValNat p (lvC (r := r) G l.1 l.2 * degFact G l.1 l.2)) hl
+
+theorem levels_nonempty : (levels G).Nonempty := by
+  classical
+  refine ⟨(fun _ => 0, 0), ?_⟩
+  unfold levels
+  rw [Finset.mem_filter, Finset.mem_product, Fintype.mem_piFinset]
+  exact ⟨⟨fun _ => Finset.mem_range.2 (Nat.succ_pos _), Finset.mem_range.2 (Nat.succ_pos _)⟩,
+    fun _ => ⟨Nat.zero_le _, Nat.zero_le _⟩, Nat.zero_le _⟩
+
+theorem exists_expM : ∃ l ∈ levels G, expM p (r := r) G = padicValNat p (lvC (r := r) G l.1 l.2 * degFact G l.1 l.2) :=
+  Finset.exists_mem_eq_sup (levels G) (levels_nonempty G)
+    (fun l : (Fin G.T.t → ℕ) × ℕ => padicValNat p (lvC (r := r) G l.1 l.2 * degFact G l.1 l.2))
+
+end Gen
+
+section Inst
+
+variable (C0 CE1 CE2 : ℝ) (X : flipOneThree.Inst)
+
+def aBig : ℕ := (3 * X.s + 2) * X.L.a
+
+def RestLL : Prop :=
+  ∀ aTop ∈ Fintype.piFinset (fun _ : Fin X.s => X.winA), ∀ aPlus ∈ X.winA,
+    ∀ b, Kept X.p X.r (X.S C0 CE1 CE2) aTop b →
+      ∀ x ∈ (gB C0 CE1 CE2 X aTop aPlus b).PSZ X.p (r := X.r),
+        ((X.p : ℚ_[X.p]) ^ (expU X.p (r := X.r) (gB C0 CE1 CE2 X aTop aPlus b) (aBig X))) • x ∈
+          (gB C0 CE1 CE2 X aTop aPlus b).SSZ X.p (r := X.r)
+
+def RestVal : Prop :=
+  ∀ aTop ∈ Fintype.piFinset (fun _ : Fin X.s => X.winA), ∀ aPlus ∈ X.winA,
+    ∀ b, Kept X.p X.r (X.S C0 CE1 CE2) aTop b →
+      ∀ l ∈ levels (gB C0 CE1 CE2 X aTop aPlus b),
+        ∀ z ∈ (gB C0 CE1 CE2 X aTop aPlus b).SSZ X.p (r := X.r), ∀ μ ∈ z.support,
+          (padicValNat X.p (lvC (r := X.r) (gB C0 CE1 CE2 X aTop aPlus b) l.1 l.2 *
+              degFact (gB C0 CE1 CE2 X aTop aPlus b) l.1 l.2) : ℝ) +
+            2 * (expU X.p (r := X.r) (gB C0 CE1 CE2 X aTop aPlus b) (aBig X) : ℝ) ≤
+          (padicValNat X.p (μ.prod fun _ k => k.factorial) : ℝ) + levelPassageLoss X
+
+theorem lv_eq (aTop : Fin X.s → ℕ) (aPlus : ℕ) (b : SegBlock X.s X.r) :
+    lv C0 CE1 CE2 X aTop b = levels (gB C0 CE1 CE2 X aTop aPlus b) := rfl
+
+theorem gB_blockOK (aTop : Fin X.s → ℕ) (aPlus : ℕ) (b : SegBlock X.s X.r) :
+    (gB C0 CE1 CE2 X aTop aPlus b).BlockOK := by
+  refine ⟨⟨?_, ?_, ?_⟩, ?_, ?_, ?_⟩
+  · intro i i' h
+    have h' : (i : ℕ) < (i' : ℕ) := h
+    show 2 * ((X.S C0 CE1 CE2).sigma + (i : ℕ)) < 2 * ((X.S C0 CE1 CE2).sigma + (i' : ℕ))
+    omega
+  · intro i
+    have hi : (X.S C0 CE1 CE2).sigma + (i : ℕ) < X.s := (uTop (X.S C0 CE1 CE2) i).2
+    refine ⟨?_, ?_, ?_⟩
+    · show 2 * ((X.S C0 CE1 CE2).sigma + (i : ℕ)) + 1 < 2 * X.s + 1
+      omega
+    · show decide ((2 * ((X.S C0 CE1 CE2).sigma + (i : ℕ))) % 2 = 0) = true
+      simp
+    · show decide ((2 * ((X.S C0 CE1 CE2).sigma + (i : ℕ)) + 1) % 2 = 0) = false
+      rw [decide_eq_false_iff_not]
+      omega
+  · intro i
+    have hi : (i : ℕ) < (X.S C0 CE1 CE2).t := i.2
+    refine ⟨(⟨(i : ℕ), Nat.lt_succ_of_lt hi⟩ : Fin ((X.S C0 CE1 CE2).t + 1)), ?_⟩
+    show (if h : (i : ℕ) < (X.S C0 CE1 CE2).t then 2 * (uTop (X.S C0 CE1 CE2) ⟨(i : ℕ), h⟩ : ℕ) + 1 else 2 * X.s + 1) =
+      2 * ((X.S C0 CE1 CE2).sigma + (i : ℕ)) + 1
+    rw [dite_eq_left hi]
+    rfl
+  · intro i
+    have hi : (X.S C0 CE1 CE2).sigma + (i : ℕ) < X.s := (uTop (X.S C0 CE1 CE2) i).2
+    show 2 * ((X.S C0 CE1 CE2).sigma + (i : ℕ)) + 1 < 2 * X.s
+    omega
+  · show decide ((2 * X.s) % 2 = 0) = true
+    simp
+  · rfl
+
+theorem block_valuation_Zp_of_lattice_inclusion (hr : 1 ≤ X.r) (hLL : RestLL C0 CE1 CE2 X) (hV : RestVal C0 CE1 CE2 X) :
+    BlockBoundIntegers C0 CE1 CE2 X := by
+  intro aTop hT aPlus hP b hK D _
+  obtain ⟨n, x, y, hx, hy, hxy, hsum⟩ := blkZ_gen X.p (r := X.r) (gB C0 CE1 CE2 X aTop aPlus b)
+    (gB_blockOK C0 CE1 CE2 X aTop aPlus b) hr (expU X.p (r := X.r) (gB C0 CE1 CE2 X aTop aPlus b) (aBig X))
+    (expM X.p (r := X.r) (gB C0 CE1 CE2 X aTop aPlus b)) (hLL aTop hT aPlus hP b hK)
+    (fun l hl => le_expM X.p _ l hl) D
+  refine ⟨n, x, y, _, hx, hy, hxy, ?_, hsum⟩
+  intro z hz μ hμ
+  obtain ⟨l, hl, hl'⟩ := exists_expM X.p (r := X.r) (gB C0 CE1 CE2 X aTop aPlus b)
+  have h := hV aTop hT aPlus hP b hK l hl z hz μ hμ
+  rw [← hl'] at h
+  push_cast
+  linarith
+
+theorem gB_deg_le {CYb Cde Ck CD Cb Cc : ℝ} (hCYb : 1 ≤ CYb) (hCE1 : 0 ≤ CE1) (hCE2 : 0 ≤ CE2)
+    (hH : flipOneThree.HI C0 CYb Cde Ck CD Cb Cc X) (aTop : Fin X.s → ℕ)
+    (haTop : aTop ∈ Fintype.piFinset (fun _ : Fin X.s => X.winA)) (aPlus : ℕ) (haPlus : aPlus ∈ X.winA)
+    (b : SegBlock X.s X.r) (hK : Kept X.p X.r (X.S C0 CE1 CE2) aTop b) :
+    1 ≤ aBig X ∧ (∀ x, (gB C0 CE1 CE2 X aTop aPlus b).LL.deg x ≤ 2 * aBig X) ∧
+      (gB C0 CE1 CE2 X aTop aPlus b).B ≤ 2 * aBig X ∧
+      (∀ i, (gB C0 CE1 CE2 X aTop aPlus b).T.z i ≤ 2 * aBig X) ∧
+      (gB C0 CE1 CE2 X aTop aPlus b).zPlus ≤ 2 * aBig X := by
+  have hF := hiFacts C0 CYb Cde Ck CD Cb Cc X hCYb hH
+  have hmR : (4 : ℝ) ≤ (X.L.m : ℝ) := by exact_mod_cast hF.m4
+  have hp25 : (25 : ℝ) ≤ (X.L.p : ℝ) := by nlinarith [hF.p_ge]
+  have hp1 : 1 ≤ X.p := by
+    have : (1 : ℝ) ≤ (X.L.p : ℝ) := by linarith
+    exact_mod_cast this
+  have ha0 : (0 : ℝ) ≤ (X.L.a : ℝ) := Nat.cast_nonneg _
+  have hs0 : (0 : ℝ) ≤ (X.s : ℝ) := Nat.cast_nonneg _
+  have hb10 : 5 / 2 * X.L.b' ≤ (X.L.a : ℝ) / 10 := by nlinarith [hF.b_lt, hF.b0]
+  have hE0 : 0 ≤ (X.S C0 CE1 CE2).E0 := by
+    show 0 ≤ errorTermBound CE1 CE2 X.L.p X.L.k X.L.N1 X.L.Q X.L.c X.L.a X.L.b' (X.L.La C0)
+    unfold errorTermBound
+    have h1 := hF.La0
+    have h2 := hF.b0.le
+    have h3 : (0 : ℝ) ≤ X.L.k := by show (0 : ℝ) ≤ (X.L.m : ℝ) + 1; positivity
+    have h4 : (0 : ℝ) ≤ X.L.Q := by show (0 : ℝ) ≤ (X.L.p : ℝ) ^ X.L.G'; positivity
+    positivity
+  have hLa : (X.S C0 CE1 CE2).La / ((X.r : ℝ) + 1) + 4 / (X.p : ℝ) ^ 2 ≤ 1 := by
+    show X.L.La C0 / ((X.L.m : ℝ) + 1) + 4 / (X.L.p : ℝ) ^ 2 ≤ 1
+    have h1 : X.L.La C0 / ((X.L.m : ℝ) + 1) ≤ 1 / 2 := by
+      rw [div_le_iff₀ (by positivity)]
+      linarith [hF.La_lt]
+    have h2 : 4 / (X.L.p : ℝ) ^ 2 ≤ 1 / 2 := by
+      rw [div_le_iff₀ (by positivity)]
+      nlinarith
+    linarith
+  have hbig : ((2 * aBig X : ℕ) : ℝ) = 2 * ((3 * (X.s : ℝ) + 2) * (X.L.a : ℝ)) := by
+    unfold aBig; push_cast; ring
+  have hsa : 0 ≤ (X.s : ℝ) * (X.L.a : ℝ) := mul_nonneg hs0 ha0
+  have hwin : ∀ x ∈ X.winA, (x : ℝ) ≤ 2 * (X.L.a : ℝ) := by
+    intro x hx
+    have h2 := (Finset.mem_Icc.1 hx).2
+    have h3 : (x : ℝ) ≤ (⌊(X.L.a : ℝ) + X.L.a / (X.L.k * X.L.Y) + X.xa⌋₊ : ℝ) := by exact_mod_cast h2
+    exact (h3.trans (Nat.floor_le hF.win0)).trans hF.win_le
+  have hbT : ∀ i, ((X.S C0 CE1 CE2).bTop i : ℝ) ≤ (X.L.a : ℝ) / 10 := fun i =>
+    (hF.bT_le _ (segPos_mem X.L.TT X.j i)).trans hb10
+  have hbP : ((X.S C0 CE1 CE2).bPlus : ℝ) ≤ (X.L.a : ℝ) / 10 := (hF.bT_le _ (segNext_mem X.L.TT X.j)).trans hb10
+  refine ⟨?_, fun x => ?_, ?_, fun i => ?_, ?_⟩
+  · have h1 : 1 ≤ X.L.a := by exact_mod_cast hF.a1
+    unfold aBig
+    exact Nat.mul_pos (by omega) h1
+  · have h1 := segChain_deg_le (X.S C0 CE1 CE2) aTop b hK hp1 hE0 hF.La0 hLa (2 * (X.L.a : ℝ)) ((X.L.a : ℝ) / 10)
+      hbT hbP (fun i => hwin _ (Fintype.mem_piFinset.1 haTop i))
+      (show (X.L.a : ℝ) ≤ 2 * (X.L.a : ℝ) by linarith) x
+    have h2 : (((gB C0 CE1 CE2 X aTop aPlus b).LL.deg x : ℕ) : ℝ) ≤ ((2 * aBig X : ℕ) : ℝ) := by
+      rw [hbig]
+      refine le_trans h1 ?_
+      nlinarith
+    exact_mod_cast h2
+  · have h2 : (((gB C0 CE1 CE2 X aTop aPlus b).B : ℕ) : ℝ) ≤ ((2 * aBig X : ℕ) : ℝ) := by
+      rw [hbig]
+      refine le_trans hbP ?_
+      nlinarith
+    exact_mod_cast h2
+  · have h0 : (gB C0 CE1 CE2 X aTop aPlus b).T.z i ≤ (X.S C0 CE1 CE2).bTop (uTop (X.S C0 CE1 CE2) i) :=
+      (Nat.sub_le _ _).trans (coarseA_le (X.S C0 CE1 CE2) b _)
+    have h2 : (((gB C0 CE1 CE2 X aTop aPlus b).T.z i : ℕ) : ℝ) ≤ ((2 * aBig X : ℕ) : ℝ) := by
+      rw [hbig]
+      refine le_trans (Nat.cast_le.2 h0) (le_trans (hbT _) ?_)
+      nlinarith
+    exact_mod_cast h2
+  · have h0 : (gB C0 CE1 CE2 X aTop aPlus b).zPlus ≤ aPlus := Nat.sub_le _ _
+    have h2 : (((gB C0 CE1 CE2 X aTop aPlus b).zPlus : ℕ) : ℝ) ≤ ((2 * aBig X : ℕ) : ℝ) := by
+      rw [hbig]
+      refine le_trans (Nat.cast_le.2 h0) (le_trans (hwin _ haPlus) ?_)
+      nlinarith
+    exact_mod_cast h2
+
+theorem restLL_of {CYb Cde Ck CD Cb Cc : ℝ} (hCYb : 1 ≤ CYb) (hCE1 : 0 ≤ CE1) (hCE2 : 0 ≤ CE2)
+    (hH : flipOneThree.HI C0 CYb Cde Ck CD Cb Cc X)
+    (hTU : ∀ (aTop : Fin X.s → ℕ) (aPlus : ℕ) (b : SegBlock X.s X.r),
+      Formalism.InvariantFactorPaths.KP.LL.HypJoin X.p (r := X.r) (gB C0 CE1 CE2 X aTop aPlus b) ∧
+      Formalism.InvariantFactorPaths.KP.LL.HypU X.p (r := X.r) (gB C0 CE1 CE2 X aTop aPlus b)) : RestLL C0 CE1 CE2 X := by
+  intro aTop hT aPlus hP b hK
+  obtain ⟨h1, h2, h3, h4, h5⟩ := gB_deg_le C0 CE1 CE2 X hCYb hCE1 hCE2 hH aTop hT aPlus hP b hK
+  have hr : 1 ≤ X.r := by have := r_ge C0 CYb Cde Ck CD Cb Cc X hH; omega
+  exact (Formalism.InvariantFactorPaths.KP.Top.levelLattice X.p (2 * X.s + 1) X.r (gB C0 CE1 CE2 X aTop aPlus b) (aBig X)
+    (gB_blockOK C0 CE1 CE2 X aTop aPlus b) hr h1 h2 h3 h4 h5 (hTU aTop aPlus b).1 (hTU aTop aPlus b).2).2.2
+
+end Inst
+
+end Formalism.MainNotions.G.SymmetricFormBlocks
+
+end
+end
+
+section
+
+noncomputable section
+
+namespace Formalism.MainNotions.G.SymmetricFormBlocks
+
+open MvPolynomial Finset Formalism.GM.ProjS
+
+section Level
+
+variable (p : ℕ) [Fact p.Prime] {N r : ℕ} [NeZero r] (G : Formalism.GM.M.BlockData N)
+
+theorem exists_fd_Ljj (j : Fin G.T.t → ℕ) (jp : ℕ) :
+    ∃ W : Submodule ℚ_[p] (MvPolynomial (Formalism.GM.M.BVar N r G.T.t) ℚ_[p]), FiniteDimensional ℚ_[p] W ∧
+      ∀ x ∈ Ljj p (r := r) G j jp, x ∈ W := by
+  classical
+  set Yq := Formalism.GM.M.Y p (r := r) (G.lettersAt j jp) G.T.J G.T.thr with hYq
+  have : FiniteDimensional ℚ_[p] (Formalism.GM.M.Pol p r (G.lettersAt j jp)) := Formalism.CountingSumsFrames.pol_finiteDimensional _
+  have : FiniteDimensional ℚ_[p] Yq := Submodule.finiteDimensional_of_le inf_le_left
+  let bY := Module.finBasis ℚ_[p] Yq
+  let Ms := xiMons (r := r) G (G.B - jp)
+  let fam : Fin (Module.finrank ℚ_[p] Yq) × Ms → MvPolynomial (Formalism.GM.M.BVar N r G.T.t) ℚ_[p] :=
+    fun ab => rename (Formalism.GM.M.chainEmb N r G.T.t) ((bY ab.1 : Yq) : _) * monomial (ab.2 : _ →₀ ℕ) 1
+  let W := Submodule.span ℚ_[p] (Set.range fam)
+  have hsub : ∀ x ∈ Ljj p (r := r) G j jp, x ∈ W := by
+    intro x hx
+    have hle : Ljj p (r := r) G j jp ≤ W.restrictScalars ℤ_[p] := by
+      unfold Ljj
+      rw [Submodule.span_le]
+      rintro _ ⟨y, hy, g, hg, rfl⟩
+      have hyY : y ∈ Yq := (Submodule.mem_inf.1 hy).1
+      have hy2 : y ∈ Submodule.span ℚ_[p] (Set.range fun a => ((bY a : Yq) : MvPolynomial _ ℚ_[p])) := by
+        have h3 : (⟨y, hyY⟩ : Yq) ∈ (⊤ : Submodule ℚ_[p] Yq) := Submodule.mem_top
+        rw [← bY.span_eq] at h3
+        have h4 := Submodule.mem_map_of_mem (f := Yq.subtype) h3
+        rw [Submodule.map_span, ← Set.range_comp] at h4
+        exact h4
+      have hg2 := xi_mem_span p G (G.B - jp) g hg
+      show rename (Formalism.GM.M.chainEmb N r G.T.t) y * g ∈ W
+      have hy3 : rename (Formalism.GM.M.chainEmb N r G.T.t) y ∈ Submodule.span ℚ_[p]
+          (Set.range fun a => rename (Formalism.GM.M.chainEmb N r G.T.t) ((bY a : Yq) : MvPolynomial _ ℚ_[p])) := by
+        have := Submodule.mem_map_of_mem (f := (rename (Formalism.GM.M.chainEmb N r G.T.t) :
+          MvPolynomial _ ℚ_[p] →ₐ[ℚ_[p]] MvPolynomial _ ℚ_[p]).toLinearMap) hy2
+        rw [Submodule.map_span, ← Set.range_comp] at this
+        exact this
+      have hmul := Submodule.mul_mem_mul hy3 hg2
+      rw [Submodule.span_mul_span] at hmul
+      refine Submodule.span_mono ?_ hmul
+      rintro _ ⟨u, ⟨a, rfl⟩, v, ⟨m, hm, rfl⟩, rfl⟩
+      exact ⟨(a, ⟨m, hm⟩), rfl⟩
+    exact hle hx
+  exact ⟨W, FiniteDimensional.span_of_finite ℚ_[p] (Set.finite_range fam), hsub⟩
+
+theorem bePhi_smul_left (j : Fin G.T.t → ℕ) (jp : ℕ) (c : ℚ_[p]) (u v : MvPolynomial (Formalism.GM.M.BVar N r G.T.t) ℚ_[p]) :
+    bePhi p (r := r) G j jp (c • u) v = c * bePhi p (r := r) G j jp u v := by
+  unfold bePhi
+  rw [map_smul, fockK_smul_left, mul_div_assoc]
+
+theorem bePhi_sum_left (j : Fin G.T.t → ℕ) (jp : ℕ) {ι : Type} (s : Finset ι) (f : ι → MvPolynomial (Formalism.GM.M.BVar N r G.T.t) ℚ_[p])
+    (v : MvPolynomial (Formalism.GM.M.BVar N r G.T.t) ℚ_[p]) :
+    bePhi p (r := r) G j jp (∑ i ∈ s, f i) v = ∑ i ∈ s, bePhi p (r := r) G j jp (f i) v := by
+  unfold bePhi
+
+  rw [map_sum, fockK_sum_left, Finset.sum_div]
+
+theorem bePhi_smul_right (j : Fin G.T.t → ℕ) (jp : ℕ) (c : ℚ_[p]) (u v : MvPolynomial (Formalism.GM.M.BVar N r G.T.t) ℚ_[p]) :
+    bePhi p (r := r) G j jp u (c • v) = c * bePhi p (r := r) G j jp u v := by
+  unfold bePhi
+  rw [fockK_smul_right, mul_div_assoc]
+
+theorem gcL_bdd (j : Fin G.T.t → ℕ) (jp : ℕ) (D : ℤ) :
+    BddAbove {n | ∃ x y : Fin n → MvPolynomial (Formalism.GM.M.BVar N r G.T.t) ℚ_[p],
+      (∀ i, x i ∈ Ljj p (r := r) G j jp) ∧ (∀ i, y i ∈ Ljj p (r := r) G j jp) ∧
+      ∀ i k, bePhi p (r := r) G j jp (x i) (y k) = if i = k then (p : ℚ_[p]) ^ D else 0} := by
+  classical
+  obtain ⟨W, hW, hsub⟩ := exists_fd_Ljj p (r := r) G j jp
+  refine ⟨Module.finrank ℚ_[p] W, ?_⟩
+  rintro n ⟨x, y, hx, hy, hxy⟩
+  have hp0 : (p : ℚ_[p]) ^ D ≠ 0 := zpow_ne_zero _ (Nat.cast_ne_zero.2 (Fact.out : p.Prime).ne_zero)
+  have hli : LinearIndependent ℚ_[p] (fun i => (⟨x i, hsub _ (hx i)⟩ : W)) := by
+    rw [linearIndependent_iff']
+    intro s g hs i hi
+    have h0 : ∑ k ∈ s, g k • x k = 0 := by
+      have := congrArg Subtype.val hs
+      simpa using this
+    have h1 := congrArg (fun u => bePhi p (r := r) G j jp u (y i)) h0
+    simp only [bePhi_sum_left, bePhi_smul_left, hxy] at h1
+    rw [Finset.sum_eq_single i (fun k _ hk => by rw [if_neg hk, mul_zero]) (fun h => absurd hi h), if_pos rfl] at h1
+    have h2 : bePhi p (r := r) G j jp 0 (y i) = 0 := by
+      have := bePhi_smul_left p (r := r) G j jp 0 0 (y i)
+      simpa using this
+    rw [h2] at h1
+    exact (mul_eq_zero.1 h1).resolve_right hp0
+  have := hli.fintype_card_le_finrank
+  simpa using this
+
+theorem xiMons_spec (n : ℕ) (m : Formalism.GM.M.BVar N r G.T.t →₀ ℕ) (hm : m ∈ xiMons (r := r) G n) :
+    (∀ v ∈ m.support, ∃ c, v = Formalism.GM.M.xiVar N r G.T.t c) ∧ (∑ c, m (Formalism.GM.M.xiVar N r G.T.t c) = n) ∧
+      (∑ v ∈ m.support, m v = n) := by
+  classical
+  unfold xiMons at hm
+  rw [Finset.mem_image] at hm
+  obtain ⟨e, he, rfl⟩ := hm
+  have hsum := (CountingStatementReduction.mem_Ev e).1 he
+  have happ : ∀ c, (∑ d : Fin r, Finsupp.single (Formalism.GM.M.xiVar N r G.T.t d) (e d)) (Formalism.GM.M.xiVar N r G.T.t c) = e c := by
+    intro c
+    rw [Finsupp.finsetSum_apply, Finset.sum_eq_single c]
+    · simp
+    · intro d _ hd
+      rw [Finsupp.single_apply, if_neg]
+      intro h
+      exact hd (xiVar_inj (r := r) G h)
+    · intro h; exact absurd (Finset.mem_univ c) h
+  refine ⟨fun v hv => ?_, by simp only [happ]; exact hsum, ?_⟩
+  · by_contra hne
+    push Not at hne
+    apply Finsupp.mem_support_iff.1 hv
+    rw [Finsupp.finsetSum_apply]
+    refine Finset.sum_eq_zero fun d _ => ?_
+    rw [Finsupp.single_apply, if_neg]
+    intro h
+    exact hne d h.symm
+  · have : (∑ d : Fin r, Finsupp.single (Formalism.GM.M.xiVar N r G.T.t d) (e d)).sum (fun _ k => k) = ∑ c, e c := by
+      rw [← Finsupp.sum_finsetSum_index (fun _ => rfl) (fun _ _ _ => rfl)]
+      exact Finset.sum_congr rfl fun d _ => Finsupp.sum_single_index rfl
+    rw [← hsum, ← this]
+    rfl
+
+theorem card_xiMons_eq (n : ℕ) : (xiMons (r := r) G n).card = dXi r n := by
+  classical
+  unfold xiMons
+  rw [Finset.card_image_of_injective]
+  · rw [CountingStatementReduction.card_Ev]
+    unfold dXi
+    have hr : 1 ≤ r := Nat.one_le_iff_ne_zero.2 (NeZero.ne r)
+    obtain ⟨r', rfl⟩ : ∃ r', r = r' + 1 := ⟨r - 1, by omega⟩
+    have e1 : r' + 1 + n - 1 = n + r' := by omega
+    have e2 : n + (r' + 1) - 1 = n + r' := by omega
+    rw [e1, e2, Nat.add_sub_cancel, Nat.choose_symm_add]
+  · intro e e' h
+    funext c
+    have := congrArg (fun f : Formalism.GM.M.BVar N r G.T.t →₀ ℕ => f (Formalism.GM.M.xiVar N r G.T.t c)) h
+    simp only [Finsupp.finsetSum_apply] at this
+    rwa [Finset.sum_eq_single c (fun d _ hd => by rw [Finsupp.single_apply, if_neg (fun h => hd (xiVar_inj (r := r) G h))])
+      (fun h => absurd (Finset.mem_univ c) h), Finset.sum_eq_single c
+      (fun d _ hd => by rw [Finsupp.single_apply, if_neg (fun h => hd (xiVar_inj (r := r) G h))])
+      (fun h => absurd (Finset.mem_univ c) h), Finsupp.single_eq_same, Finsupp.single_eq_same] at this
+
+end Level
+
+end Formalism.MainNotions.G.SymmetricFormBlocks
+
+end
+end

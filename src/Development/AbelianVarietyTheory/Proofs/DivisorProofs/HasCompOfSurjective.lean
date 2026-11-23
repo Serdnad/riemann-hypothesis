@@ -1,9 +1,9 @@
 module
 
-public import GroundTheory.AutomorphicForms.TensorProductTheorem.TwoFactorUnique
+public import GroundTheory.AutomorphicForms.TensorProductTheorem.Bundle001
 public import Development.AbelianVarietyTheory.Definitions.Foundations.SmoothPartStable
 public import Mathlib.RepresentationTheory.Irreducible
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsIrreducibleIff
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle001
 public import GroundTheory.AutomorphicForms.TensorProductTheorem.OuterTensor
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended

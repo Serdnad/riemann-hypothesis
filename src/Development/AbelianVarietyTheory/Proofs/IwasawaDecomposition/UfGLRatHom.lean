@@ -1,9 +1,9 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.LatAtLattice
-public import Formalism.LocalToGlobal.Columns.RecLevelStep
-public import Formalism.LocalToGlobal.HermitianForms.FramesLemmas
-public import Formalism.LocalToGlobal.Columns.RecLevelAsm
+public import Formalism.LocalToGlobal.Columns.Bundle023
+public import Formalism.LocalToGlobal.HermitianForms.Bundle001
+public import Formalism.LocalToGlobal.Columns.Bundle016
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.MemPrinCongOfSm
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.EmbFColZeroMemMram
 import Formalism.LocalToGlobal.Columns.PolyFnLemmas
@@ -54,7 +54,7 @@ noncomputable section
 
 namespace GlobalTheory.Mem.Col2.RowTie
 
-open NumberField IsDedekindDomain Matrix Formalism.BasicNotions Formalism.HermitianLatticesTheory Formalism.L2.Col Formalism.L2.DIV Formalism.L2.Forms Formalism.UG
+open NumberField IsDedekindDomain Matrix Formalism.BasicNotions Formalism.HermitianLatticesTheory _root_.Formalism.L2.Col Formalism.L2.DIV Formalism.L2.Forms Formalism.UG
 open scoped TensorProduct
 
 section Ext

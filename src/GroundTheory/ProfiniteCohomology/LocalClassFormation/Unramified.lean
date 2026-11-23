@@ -1,14 +1,14 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.LocalClassFormation.IntegerUnitsToUnitsHomApply
+public import GroundTheory.ProfiniteCohomology.LocalClassFormation.Bundle001
 public import GroundTheory.LocalFields.UnramifiedGalois
-public import GroundTheory.LocalFields.UnramifiedDefs
-public import GroundTheory.ProfiniteCohomology.TorsionDualDefs
-public import GroundTheory.TateCohomology.Characters
+public import GroundTheory.LocalFields.Bundle003
+public import GroundTheory.ProfiniteCohomology.Bundle002
+public import GroundTheory.TateCohomology.Bundle006
 public import Mathlib.RepresentationTheory.Homological.TateCohomology.Basic
 public import GroundTheory.LocalFields.UnramifiedNorms
 public import GroundTheory.ProfiniteCohomology.ClassFormations.IsIsoCohomologyMapAlongResSubgroupOfHom
-public import GroundTheory.TateCohomology.Herbrand
+public import GroundTheory.TateCohomology.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

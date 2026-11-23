@@ -1,7 +1,7 @@
 module
 
-public import Formalism.LocalToGlobal.UnitaryNorms.MemFIffReal
-public import Formalism.LocalToGlobal.UnitaryNorms.CharTied
+public import Formalism.LocalToGlobal.UnitaryNorms.Bundle005
+public import Formalism.LocalToGlobal.UnitaryNorms.Bundle006
 public import Mathlib.NumberTheory.NumberField.ClassNumber
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

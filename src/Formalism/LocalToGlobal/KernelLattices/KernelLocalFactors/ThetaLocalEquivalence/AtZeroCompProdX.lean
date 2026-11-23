@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.ThDistC
-public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.BlockShape
+public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

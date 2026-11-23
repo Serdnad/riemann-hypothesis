@@ -2,7 +2,7 @@ module
 
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.DualFamilyCounting.NcRealXECPfA
 public import Mathlib.Data.FinEnum
-public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.DualFamilyCounting.NcRealXECPfB
+public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.DualFamilyCounting.Bundle048
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -192,7 +192,7 @@ theorem normLm (t : (CI k r → ℂ) × (Fin r → ℝ)) :
   rw [sum_pos]
   simp only [Fintype.sum_sum_type, posE_apply, pos, Fintype.sum_prod_type, Finset.sum_add_distrib]
   simp only [b_ee, b_ss, b_ws, b_es]
-  simp only [Lm_ew, Lm_we, Lm_ww, Lm_se, Lm_sw, Complex.normSq_zero, Finset.sum_const_zero, cB]
+  simp only [Lm_ew, Lm_we, Lm_ww, Lm_se, Lm_sw, Complex.normSq_zero, Finset.sum_const_zero, _root_.WlocSk.NB.cB]
   ring
 
 def xsL (Z : Mx k r) : CI k r → ℂ

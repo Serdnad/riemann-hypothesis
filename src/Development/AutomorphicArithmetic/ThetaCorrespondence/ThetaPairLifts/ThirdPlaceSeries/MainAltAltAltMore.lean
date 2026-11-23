@@ -1,14 +1,14 @@
 module
 
-public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.CuspidalGaloisUnramified
-public import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.JumpDictionary
+public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.Bundle003
+public import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.Bundle005
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.DecompositionInvariantsCondition
-public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.OneSubPhiOntoOfFilZero
+public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.Bundle011
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.JumpDictCrysAtOfWeights
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.BlockCharactersCrystallineOfRules
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ChiOneAwayFromType
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsConstituentOfIsBlockSum
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsCrysInclusion
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle469
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle505
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle433
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -73,5 +73,23 @@ theorem main_alt_alt_alt : GlobalTheory.Published.FontaineBcris → ∀ D : D7, 
   exact GlobalTheory.BlockCrys.isCrys_inv _ (hR.1 _ _) (hR.2 _ _) _
     (GlobalTheory.ChiOneEnl.isCrys_chiE_of_constituent D i w hw L' hL (hR.1 _ _) _ _ (isConstituent_chiGL D i) hE)
 end GlobalTheory.ChiOneNoPt
+end
+end
+
+end
+
+section
+
+@[expose] public section
+
+
+
+section
+open NumberField IsDedekindDomain Formalism Formalism.ConjugateSelfDual ReciprocityTheory.Gal Formalism.BasicNotions Formalism.BasicNotions.Loc Formalism.MainNotions Formalism.MainNotions.N Formalism.WeaklyAdmissibleFiltrations Module
+
+theorem _root_.GlobalTheory.T.chiOne_of_not_mem_gset : GlobalTheory.Published.FontaineBcris → ∀ D : D7, SumRepresentations.tie0 D → _root_.Formalism.MainNotions.SumRepresentations.adm2_alt D → SumRepresentations.adm5 D → GlobalTheory.IndefiniteRowSideFullHecke.JumpDictionary.BlockCharParam D → GlobalTheory.HubX.MuUnr D → ∀ i : D.nd.Loc, D.nd.l i ∉ TwistedPlaces.gset D → GlobalTheory.PtCore.ChiOneE D i := by
+  first | exact @_root_.GlobalTheory.ChiOneNoPt.main_alt_alt_alt | exact _root_.GlobalTheory.ChiOneNoPt.main_alt_alt_alt | (intros; apply _root_.GlobalTheory.ChiOneNoPt.main_alt_alt_alt <;> assumption)
+end
+
 end
 end

@@ -40,7 +40,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 public import Formalism.LocalRingCardinality.RhoDetPrimeEqMuTildeMulChiPow
 import Formalism.LocalToGlobal.BesselHermitianTheta.NoncompactGapAtLeastRange
-public import Formalism.LocalToGlobal.Divisibility.HeckeRI
+public import Formalism.LocalToGlobal.Divisibility.Bundle003
 public import Formalism.LocalToGlobal.IndefiniteReal.CutTuples2
 import Formalism.LocalToGlobal.IndefiniteReal.LinksDefs
 

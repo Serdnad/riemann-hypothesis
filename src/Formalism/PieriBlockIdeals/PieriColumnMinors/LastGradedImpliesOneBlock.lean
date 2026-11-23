@@ -1,8 +1,8 @@
 module
 
-public import Formalism.PieriBlockIdeals.BranchingBoundLastGradedOneRow
+public import Formalism.PieriBlockIdeals.Bundle004
 public import Formalism.GradedWeylDivisibility.FinalC
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LDrowLemmas
+public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle002
 public import Formalism.PieriBlockIdeals.PieriColumnMinors.DividedPowerZeroZeroVector
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

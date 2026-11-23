@@ -1,11 +1,9 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.LocallyCompactUnipFlag
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsWeightPreservingPartNonLoweringUnitStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsotropicFlagStabilizerNotLowerWeightStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MemIsotropicFlagLeviOfKeepsWeightsStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.OppositeIsotropicFlagStabilizerNotRaiseWeightStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SplitTorusElementMemIsotropicFlagLeviStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1992
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1982
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1981
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

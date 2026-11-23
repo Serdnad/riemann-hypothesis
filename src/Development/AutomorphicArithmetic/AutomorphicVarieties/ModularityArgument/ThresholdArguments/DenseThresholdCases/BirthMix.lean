@@ -1,22 +1,20 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.AfDesc
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.AutomorphyLifting.PrimeIndexConstruction.MixSeedPAlt
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.Bundle021
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.AutomorphyLifting.PrimeIndexConstruction.Bundle001
 public import PositivityTheory.AutomorphicForms.PublishedInputs.JacquetLanglands.TorusKernels.IsHolVOf
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsDecompositionGroupCyclotomicCharacterZpowN
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CyclotomicCharInertiaSurjective
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle143
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle182
 public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.ConclusionAbsPow
 public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.ExistsCoprimePowOfMemIneKer
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.FrobeniusEigenvaluesTwist
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.GaloisRepIrreducibilityCriterion
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.Places
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.HolomorphicIrreducibility.LineOfNotIrr
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.HolomorphicIrreducibility.ShapeFacts
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.Bundle055
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.Bundle006
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.HolomorphicIrreducibility.Bundle007
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.AutomorphyLifting.PrimeIndexConstruction.PlainAtRTwist
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.AutomorphyLifting.PrimeIndexConstruction.PrOrd
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.AutNewform2A
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.Bundle078
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.SVROrdIrr
-import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.TAlgCyc
+import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.Bundle020
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -71,10 +69,10 @@ theorem UpperTheory.V.Z.Win.Birth.mix_birth_of_prints :
   classical
   rintro hP hM F Ω _ _ _ _ _ _ l _ hl hev hsp ι ξ hξ hodd hunr ⟨u, Au, hu2, hAu, hur⟩ hsq hdec P ⟨w₁, hw₁, hl₁⟩ ⟨w₂, hw₂, hl₂⟩
   have : IsGalois F Ω := IsAlgClosure.isGalois F Ω
-  have hv : ∀ {w : Pl F} {A : ValuationSubring Ω}, ((l : ℕ) : 𝓞 F) ∈ w.asIdeal → IsPlaceOver A w →
+  have hv : ∀ {w : Pl F} {A : ValuationSubring Ω}, ((l : ℕ) : 𝓞 F) ∈ w.asIdeal → _root_.Formalism.ConjugateSelfDual.IsPlaceOver A w →
       A.valuation (l : Ω) < 1 := fun h hA => by simpa using (hA _).2 h
   have hn : ∀ g, ‖(ξ g : Qbar l)‖ = 1 := fun g => by
-    have : Finite (G F Ω ⧸ ξ.ker) := Subgroup.quotient_finite_of_isOpen _ hξ
+    have : Finite (_root_.Formalism.ConjugateSelfDual.G F Ω ⧸ ξ.ker) := Subgroup.quotient_finite_of_isOpen _ hξ
     have h0 : ξ.ker.index ≠ 0 := Subgroup.index_ne_zero_of_finite
     have h1 : ξ g ^ ξ.ker.index = 1 := by rw [← map_pow]; exact ξ.ker.pow_index_mem g
     have h2 : ‖(ξ g : Qbar l)‖ ^ ξ.ker.index = 1 := by rw [← norm_pow, ← Units.val_pow_eq_pow_val, h1]; simp
@@ -189,7 +187,7 @@ theorem UpperTheory.V.Z.Win.Birth.mix_birth_of_prints :
       simp only [normV, Ideal.absNorm_apply, Submodule.cardQuot_apply]
   have hTw : ∃ π : TR.CuspSub F 2, AttR ι (tw r₁ (cycBar F Ω l ^ k)) π ∧
       ∀ v (m : Fin 2 → ℤ), π₁.HasInfChar v (infOf m) → π.HasInfChar v (infOf fun i => m i + k) := by
-    refine ⟨π₁.twist (Model.absPow F k), ⟨(UpperTheory.galoisRep_irreducibility_criterion.1 _ (G F Ω) _ 2 r₁).2.2 _ h₁.att.1, ?_⟩, fun v m h => ?_⟩
+    refine ⟨π₁.twist (Model.absPow F k), ⟨(UpperTheory.galoisRep_irreducibility_criterion.1 _ (_root_.Formalism.ConjugateSelfDual.G F Ω) _ 2 r₁).2.2 _ h₁.att.1, ?_⟩, fun v m h => ?_⟩
     · have h0 : Ideal.span {((l : ℕ) : 𝓞 F)} ≠ 0 := by
         rw [Ne, Ideal.zero_eq_bot, Ideal.span_singleton_eq_bot]
         exact_mod_cast (Fact.out : l.Prime).ne_zero
@@ -234,10 +232,10 @@ theorem UpperTheory.V.Z.Win.Birth.mix_birth_of_prints :
     change _ ↔ ‖((a * b⁻¹ : (Qbar l)ˣ) : Qbar l) - 1‖ < 1
     rw [Cong, show (a : Qbar l) - b = (((a * b⁻¹ : (Qbar l)ˣ) : Qbar l) - 1) * b by
       rw [sub_mul, Units.val_mul, mul_assoc, Units.inv_mul, mul_one, one_mul], norm_mul, hb, mul_one]
-  have cyc_val (s : G F Ω) :
+  have cyc_val (s : _root_.Formalism.ConjugateSelfDual.G F Ω) :
       ((cycBar F Ω l s : (Qbar l)ˣ) : Qbar l) =
         algebraMap ℚ_[l] (Qbar l) ((cycZ F Ω l s : ℤ_[l]) : ℚ_[l]) := rfl
-  have cyc_mem (s : G F Ω) {j : ℤ} (hj : (l : ℤ) - 1 ∣ j) : cycBar F Ω l s ^ j ∈ U1 := by
+  have cyc_mem (s : _root_.Formalism.ConjugateSelfDual.G F Ω) {j : ℤ} (hj : (l : ℤ) - 1 ∣ j) : cycBar F Ω l s ^ j ∈ U1 := by
     obtain ⟨j, rfl⟩ := hj
     rw [zpow_mul, show (l : ℤ) - 1 = ((l - 1 : ℕ) : ℤ) by rw [Nat.cast_pred (Fact.out : l.Prime).pos], zpow_natCast]
     refine zpow_mem ?_ j
@@ -250,36 +248,36 @@ theorem UpperTheory.V.Z.Win.Birth.mix_birth_of_prints :
     rw [← PadicInt.mem_nonunits, ← IsLocalRing.mem_maximalIdeal, ← PadicInt.ker_toZMod, RingHom.mem_ker, map_sub, map_pow,
       map_one, ZMod.pow_card_sub_one_eq_one, sub_self]
     exact ((cycZ F Ω l s).isUnit.map _).ne_zero
-  have dec_cong {A : ValuationSubring Ω} {w : Pl F} (hA : IsPlaceOver A w) (χ : ↥(Dec (F := F) A) →* (Qbar l)ˣ)
-      (hc : Continuous fun g => (χ g : Qbar l)) (hI : ∀ g : ↥(Dec (F := F) A), (g : G F Ω) ∈ Ine (F := F) A → χ g ∈ U1)
-      (hF : ∀ σ : ↥(Dec (F := F) A), IsFrob A (normV w) (σ : G F Ω) → χ σ ∈ U1) (g : ↥(Dec (F := F) A)) :
+  have dec_cong {A : ValuationSubring Ω} {w : Pl F} (hA : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A w) (χ : ↥(_root_.ReciprocityTheory.Gal.Dec (F := F) A) →* (Qbar l)ˣ)
+      (hc : Continuous fun g => (χ g : Qbar l)) (hI : ∀ g : ↥(_root_.ReciprocityTheory.Gal.Dec (F := F) A), (g : _root_.Formalism.ConjugateSelfDual.G F Ω) ∈ Ine (F := F) A → χ g ∈ U1)
+      (hF : ∀ σ : ↥(_root_.ReciprocityTheory.Gal.Dec (F := F) A), IsFrob A (normV w) (σ : _root_.Formalism.ConjugateSelfDual.G F Ω) → χ σ ∈ U1) (g : ↥(_root_.ReciprocityTheory.Gal.Dec (F := F) A)) :
       χ g ∈ U1 := by
     obtain ⟨σ, hσ⟩ := ReciprocityTheory.Gal.exists_isFrob hA
     have h1 := GlobalTheory.TameQuot.closure_frob_sup_Ine F Ω A w hA ⟨σ, hσ.1⟩ hσ
-    have ho : IsOpen (U1.comap χ : Set ↥(Dec (F := F) A)) :=
+    have ho : IsOpen (U1.comap χ : Set ↥(_root_.ReciprocityTheory.Gal.Dec (F := F) A)) :=
       isOpen_lt (hc.sub continuous_const).norm continuous_const
     have h2 := Subgroup.topologicalClosure_minimal _ (sup_le ((Subgroup.zpowers_le).2 (hF ⟨σ, hσ.1⟩ hσ))
-      fun x (hx : x ∈ (Ine (F := F) A).subgroupOf (Dec (F := F) A)) => hI x hx : _ ≤ U1.comap χ)
+      fun x (hx : x ∈ (Ine (F := F) A).subgroupOf (_root_.ReciprocityTheory.Gal.Dec (F := F) A)) => hI x hx : _ ≤ U1.comap χ)
       (Subgroup.isClosed_of_isOpen _ ho)
     rw [h1] at h2
     exact h2 (Subgroup.mem_top g)
-  have ordAt_tw {r : G F Ω →* GL (Fin 2) (Qbar l)} (hr : Continuous r) {s : ℤ} (hs : (l : ℤ) - 1 ∣ s)
-      {ψ₀ ψ₁ : G F Ω →* (Qbar l)ˣ} (hd : Matrix.GeneralLinearGroup.det.comp r = cycBar F Ω l ^ s * (ψ₀ * ψ₁))
+  have ordAt_tw {r : _root_.Formalism.ConjugateSelfDual.G F Ω →* GL (Fin 2) (Qbar l)} (hr : Continuous r) {s : ℤ} (hs : (l : ℤ) - 1 ∣ s)
+      {ψ₀ ψ₁ : _root_.Formalism.ConjugateSelfDual.G F Ω →* (Qbar l)ˣ} (hd : Matrix.GeneralLinearGroup.det.comp r = cycBar F Ω l ^ s * (ψ₀ * ψ₁))
       (hc : Continuous ψ₀) (h0 : ∀ g, ‖(ψ₀ g : Qbar l)‖ = 1) (h1 : ∀ g, ‖(ψ₁ g : Qbar l)‖ = 1)
-      {A : ValuationSubring Ω} {w : Pl F} (hA : IsPlaceOver A w) (hI : Ine (F := F) A ≤ ψ₀.ker)
-      {m : Fin 2 → ℤ} (hm : (l : ℤ) - 1 ∣ m 0) {κ : Fin 2 → ↥(Dec (F := F) A) →* (Qbar l)ˣ}
-      (hκ : IsFlagOn r (Dec (F := F) A) κ)
-      (hκI : ∀ i (g : ↥(Dec (F := F) A)), (g : G F Ω) ∈ Ine (F := F) A → κ i g = cycBar F Ω l g ^ m i)
-      (hκF : ∀ σ : ↥(Dec (F := F) A), IsFrob A (normV w) (σ : G F Ω) →
-        Cong (κ 0 σ⁻¹ * cycBar F Ω l (σ : G F Ω) ^ m 0) (ψ₀ (σ : G F Ω)⁻¹))
+      {A : ValuationSubring Ω} {w : Pl F} (hA : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A w) (hI : Ine (F := F) A ≤ ψ₀.ker)
+      {m : Fin 2 → ℤ} (hm : (l : ℤ) - 1 ∣ m 0) {κ : Fin 2 → ↥(_root_.ReciprocityTheory.Gal.Dec (F := F) A) →* (Qbar l)ˣ}
+      (hκ : IsFlagOn r (_root_.ReciprocityTheory.Gal.Dec (F := F) A) κ)
+      (hκI : ∀ i (g : ↥(_root_.ReciprocityTheory.Gal.Dec (F := F) A)), (g : _root_.Formalism.ConjugateSelfDual.G F Ω) ∈ Ine (F := F) A → κ i g = cycBar F Ω l g ^ m i)
+      (hκF : ∀ σ : ↥(_root_.ReciprocityTheory.Gal.Dec (F := F) A), IsFrob A (normV w) (σ : _root_.Formalism.ConjugateSelfDual.G F Ω) →
+        Cong (κ 0 σ⁻¹ * cycBar F Ω l (σ : _root_.Formalism.ConjugateSelfDual.G F Ω) ^ m 0) (ψ₀ (σ : _root_.Formalism.ConjugateSelfDual.G F Ω)⁻¹))
       {k : ℕ} (hk : (l : ℤ) - 1 ∣ k) :
       OrdAt (tw r (cycBar F Ω l ^ k)) (fun i => m i + k) ![ψ₀, ψ₁] A := by
     refine ⟨_, (shapeFacts l _ 2 r (cycBar F Ω l ^ k)).2.2.1 _ κ hκ, fun i g hg => ?_, ?_⟩
     · simp [hκI i g hg, zpow_add]
     obtain ⟨P, hP⟩ := hκ
-    have e0 : ∀ g : ↥(Dec (F := F) A), κ 0 g * (ψ₀ g)⁻¹ ∈ U1 := by
-      refine dec_cong hA (κ 0 * (ψ₀.comp (Dec (F := F) A).subtype)⁻¹) ?_ (fun g hg => ?_) fun σ hσ => ?_
-      · have c1 : Continuous fun g : ↥(Dec (F := F) A) => (P * r g * P⁻¹ : GL (Fin 2) (Qbar l)) 0 0 :=
+    have e0 : ∀ g : ↥(_root_.ReciprocityTheory.Gal.Dec (F := F) A), κ 0 g * (ψ₀ g)⁻¹ ∈ U1 := by
+      refine dec_cong hA (κ 0 * (ψ₀.comp (_root_.ReciprocityTheory.Gal.Dec (F := F) A).subtype)⁻¹) ?_ (fun g hg => ?_) fun σ hσ => ?_
+      · have c1 : Continuous fun g : ↥(_root_.ReciprocityTheory.Gal.Dec (F := F) A) => (P * r g * P⁻¹ : GL (Fin 2) (Qbar l)) 0 0 :=
           (Units.continuous_val.comp ((continuous_const.mul (hr.comp continuous_subtype_val)).mul
             continuous_const)).matrix_elem 0 0
         simp only [(hP _).2] at c1
@@ -287,34 +285,34 @@ theorem UpperTheory.V.Z.Win.Birth.mix_birth_of_prints :
       · change κ 0 g * (ψ₀ g)⁻¹ ∈ _
         rw [hκI 0 g hg, MonoidHom.mem_ker.1 (hI hg), inv_one, mul_one]
         exact cyc_mem _ hm
-      · have := U1.mul_mem (U1.inv_mem ((cong_iff (h0 _)).1 (hκF σ hσ))) (cyc_mem (σ : G F Ω) hm)
+      · have := U1.mul_mem (U1.inv_mem ((cong_iff (h0 _)).1 (hκF σ hσ))) (cyc_mem (σ : _root_.Formalism.ConjugateSelfDual.G F Ω) hm)
         convert this using 1
         change κ 0 σ * (ψ₀ σ)⁻¹ = _
         simp only [map_inv]
         apply Units.ext
         simp only [Units.val_mul, Units.val_inv_eq_inv_val]
         field_simp
-    have ed : ∀ g : ↥(Dec (F := F) A), κ 0 g * κ 1 g = cycBar F Ω l g ^ s * (ψ₀ g * ψ₁ g) := fun g => by
-      have h2 : Matrix.GeneralLinearGroup.det (r g) = cycBar F Ω l g ^ s * (ψ₀ g * ψ₁ g) := DFunLike.congr_fun hd (g : G F Ω)
+    have ed : ∀ g : ↥(_root_.ReciprocityTheory.Gal.Dec (F := F) A), κ 0 g * κ 1 g = cycBar F Ω l g ^ s * (ψ₀ g * ψ₁ g) := fun g => by
+      have h2 : Matrix.GeneralLinearGroup.det (r g) = cycBar F Ω l g ^ s * (ψ₀ g * ψ₁ g) := DFunLike.congr_fun hd (g : _root_.Formalism.ConjugateSelfDual.G F Ω)
       have h3 : Matrix.GeneralLinearGroup.det (P * r g * P⁻¹) = Matrix.GeneralLinearGroup.det (r g) := by
         rw [map_mul, map_mul, map_inv, mul_inv_cancel_comm]
       rw [← h2, ← h3]
       apply Units.ext
       rw [Matrix.GeneralLinearGroup.val_det_apply, Matrix.det_fin_two, (hP g).2, (hP g).2, (hP g).1 1 0 (by decide)]
       simp
-    have hk' : ∀ g : G F Ω, cycBar F Ω l g ^ k ∈ U1 := fun g => by simpa using cyc_mem g hk
+    have hk' : ∀ g : _root_.Formalism.ConjugateSelfDual.G F Ω, cycBar F Ω l g ^ k ∈ U1 := fun g => by simpa using cyc_mem g hk
     refine Fin.forall_fin_two.2 ⟨fun g => (cong_iff (h0 _)).2 ?_, fun g => (cong_iff (h1 _)).2 ?_⟩
     · convert U1.mul_mem (e0 g) (hk' g) using 1
       change κ 0 g * cycBar F Ω l g ^ k * (ψ₀ g)⁻¹ = _
       rw [mul_right_comm]
-    · convert U1.mul_mem (U1.mul_mem (U1.inv_mem (e0 g)) (cyc_mem (g : G F Ω) hs)) (hk' g) using 1
+    · convert U1.mul_mem (U1.mul_mem (U1.inv_mem (e0 g)) (cyc_mem (g : _root_.Formalism.ConjugateSelfDual.G F Ω) hs)) (hk' g) using 1
       change κ 1 g * cycBar F Ω l g ^ k * (ψ₁ g)⁻¹ = _
       rw [← mul_left_cancel_iff (a := κ 0 g), ← mul_assoc, ← mul_assoc, ed]
       apply Units.ext
       simp only [Units.val_mul, Units.val_inv_eq_inv_val]
       field_simp
-  have exists_ine (A : ValuationSubring Ω) (hv : A.valuation (l : Ω) < 1) {H : Subgroup (G F Ω)}
-      (hH : IsOpen (H : Set (G F Ω))) {n : ℤ} (hn : n ≠ 0) : ∃ g ∈ H, g ∈ Ine (F := F) A ∧ cycBar F Ω l g ^ n ≠ 1 := by
+  have exists_ine (A : ValuationSubring Ω) (hv : A.valuation (l : Ω) < 1) {H : Subgroup (_root_.Formalism.ConjugateSelfDual.G F Ω)}
+      (hH : IsOpen (H : Set (_root_.Formalism.ConjugateSelfDual.G F Ω))) {n : ℤ} (hn : n ≠ 0) : ∃ g ∈ H, g ∈ Ine (F := F) A ∧ cycBar F Ω l g ^ n ≠ 1 := by
     have : CharZero Ω := charZero_of_injective_algebraMap (algebraMap F Ω).injective
     have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed F
     have : Algebra.IsAlgebraic ℚ Ω := Algebra.IsAlgebraic.trans ℚ F Ω
@@ -331,12 +329,12 @@ theorem UpperTheory.V.Z.Win.Birth.mix_birth_of_prints :
     have : K.fixingSubgroup.FiniteIndex := Subgroup.finiteIndex_of_finite_quotient
     obtain ⟨N, hN, -, hmem⟩ := Subgroup.exists_pow_mem_of_index_ne_zero
       (Subgroup.FiniteIndex.index_ne_zero (H := K.fixingSubgroup)) σ
-    let g : G F Ω := { (σ ^ N).toRingEquiv with
+    let g : _root_.Formalism.ConjugateSelfDual.G F Ω := { (σ ^ N).toRingEquiv with
       commutes' := fun x => (IntermediateField.mem_fixingSubgroup_iff _ _).1 hmem _ ⟨x, rfl⟩ }
     have hD : σ ^ N ∈ Ine (F := ℚ) A := pow_mem hσ N
     have hg : g ∈ Ine (F := F) A := ⟨hD.1, hD.2⟩
     have hc : cycZ F Ω l g = u ^ N := by rw [← hσu, ← map_pow]; rfl
-    have : Finite (G F Ω ⧸ H) := Subgroup.quotient_finite_of_isOpen H hH
+    have : Finite (_root_.Formalism.ConjugateSelfDual.G F Ω ⧸ H) := Subgroup.quotient_finite_of_isOpen H hH
     have : H.FiniteIndex := Subgroup.finiteIndex_of_finite_quotient
     obtain ⟨M, hM, -, hMH⟩ := Subgroup.exists_pow_mem_of_index_ne_zero (H := H) Subgroup.FiniteIndex.index_ne_zero g
     refine ⟨_, hMH, pow_mem hg M, fun h => ?_⟩
@@ -346,7 +344,7 @@ theorem UpperTheory.V.Z.Win.Birth.mix_birth_of_prints :
     refine hu ((N : ℤ) * M * n) (mul_ne_zero (by positivity) hn) (hinj ?_)
     rw [map_one, ← h, cycBar, MonoidHom.comp_apply, map_pow (cycZ F Ω l), hc, zpow_mul, zpow_mul, zpow_natCast,
       zpow_natCast, map_zpow]
-  have irrOpen_of (hl : l ≠ 2) {r : G F Ω →* GL (Fin 2) (Qbar l)} {ξ : G F Ω →* (Qbar l)ˣ}
+  have irrOpen_of (hl : l ≠ 2) {r : _root_.Formalism.ConjugateSelfDual.G F Ω →* GL (Fin 2) (Qbar l)} {ξ : _root_.Formalism.ConjugateSelfDual.G F Ω →* (Qbar l)ˣ}
       (hn : ∀ g, ‖(ξ g : Qbar l)‖ = 1) (hi : IsIrr r) (hres : ResSum r ![1, ξ]) (hsq : ∃ g, ¬ Cong (ξ g ^ 2) 1)
       {A : ValuationSubring Ω} (hv : A.valuation (l : Ω) < 1) {k : ℤ} (hk : k ≠ 0) {ψ} (ho : OrdAt r ![k, 0] ψ A) :
       IrrOpen r := by
@@ -354,16 +352,16 @@ theorem UpperTheory.V.Z.Win.Birth.mix_birth_of_prints :
     obtain ⟨κ, ⟨P, hP⟩, hκ, -⟩ := ho
     obtain ⟨g₀, hg₀⟩ := hsq
     have : IsGalois F Ω := IsAlgClosure.isGalois F Ω
-    have : Finite (G F Ω ⧸ H) := H.quotient_finite_of_isOpen hH
+    have : Finite (_root_.Formalism.ConjugateSelfDual.G F Ω ⧸ H) := H.quotient_finite_of_isOpen hH
     have : H.FiniteIndex := Subgroup.finiteIndex_of_finite_quotient
-    have hO : IsOpen (H.normalCore : Set (G F Ω)) :=
+    have hO : IsOpen (H.normalCore : Set (_root_.Formalism.ConjugateSelfDual.G F Ω)) :=
       Subgroup.isOpen_of_isClosed_of_finiteIndex _ (H.normalCore_isClosed (H.isClosed_of_isOpen hH))
     have h1 : IsIrr (r.comp H.normalCore.subtype) := by
       by_contra hI
       refine hg₀ ((sIabs l hl _ r ξ hn hi hres _ inferInstance ?_ hI).2 g₀)
       obtain ⟨g, hgH, hg, hne⟩ := exists_ine A hv hO hk
       refine ⟨g, hgH, ?_⟩
-      let s : ↥(Dec (F := F) A) := ⟨g, Ine_le_Dec A hg⟩
+      let s : ↥(_root_.ReciprocityTheory.Gal.Dec (F := F) A) := ⟨g, Ine_le_Dec A hg⟩
       have e : ((P * r g * P⁻¹ : GL (Fin 2) (Qbar l)) : Matrix (Fin 2) (Fin 2) (Qbar l)).charpoly =
           (r g : Matrix (Fin 2) (Fin 2) (Qbar l)).charpoly := by
         rw [Units.val_mul, Units.val_mul, Matrix.coe_units_inv]
@@ -374,12 +372,12 @@ theorem UpperTheory.V.Z.Win.Birth.mix_birth_of_prints :
       simpa using Units.ext h
     exact ⟨h1.1, fun _ _ _ => Submodule.mem_top, fun W hW hI => h1.2.2 W hW fun g v hv => hI ⟨g, H.normalCore_le g.2⟩ v hv⟩
 
-  have SF := shapeFacts l (G F Ω) 2 r₁ (cycBar F Ω l ^ k)
-  have hU : ∀ g : G F Ω, cycBar F Ω l g ^ k ∈ U1 := fun g => by simpa using cyc_mem g hkz
-  have hn' : ∀ i g, ‖(((![1, ξ] : Fin 2 → G F Ω →* (Qbar l)ˣ) i g : (Qbar l)ˣ) : Qbar l)‖ = 1 :=
+  have SF := shapeFacts l (_root_.Formalism.ConjugateSelfDual.G F Ω) 2 r₁ (cycBar F Ω l ^ k)
+  have hU : ∀ g : _root_.Formalism.ConjugateSelfDual.G F Ω, cycBar F Ω l g ^ k ∈ U1 := fun g => by simpa using cyc_mem g hkz
+  have hn' : ∀ i g, ‖(((![1, ξ] : Fin 2 → _root_.Formalism.ConjugateSelfDual.G F Ω →* (Qbar l)ˣ) i g : (Qbar l)ˣ) : Qbar l)‖ = 1 :=
     Fin.forall_fin_two.2 ⟨fun g => by simp, hn⟩
   have hres : ResSum (tw r₁ (cycBar F Ω l ^ k)) ![1, ξ] := by
-    refine (shapeFacts l (G F Ω) 2 _ 1).2.2.2.2.1 _ _ 1 (fun i g => ?_)
+    refine (shapeFacts l (_root_.Formalism.ConjugateSelfDual.G F Ω) 2 _ 1).2.2.2.2.1 _ _ 1 (fun i g => ?_)
       (SF.2.2.2.1 _ (fun g => norm_of_cong (hU g)) hres₁) fun i g => ?_
     · rw [MonoidHom.mul_apply, Units.val_mul, norm_mul, hn', one_mul]
       exact norm_of_cong (hU g)
@@ -388,7 +386,7 @@ theorem UpperTheory.V.Z.Win.Birth.mix_birth_of_prints :
       rw [MonoidHom.mul_apply, Equiv.Perm.one_apply, mul_inv_cancel_comm]
       exact hU g
   have hO := _root_.UpperTheory.V.Z.Win.RR.ordAbove_of_printsH hP F Ω l hl hsp ι ξ _ c m a π₁ r₁ h₁
-  have hO₁ : ∀ w ∈ P, ((l : ℕ) : 𝓞 F) ∈ w.asIdeal → ∀ A, IsPlaceOver A w →
+  have hO₁ : ∀ w ∈ P, ((l : ℕ) : 𝓞 F) ∈ w.asIdeal → ∀ A, _root_.Formalism.ConjugateSelfDual.IsPlaceOver A w →
       OrdAt (tw r₁ (cycBar F Ω l ^ k)) ![(k : ℤ) + t, -(t : ℤ)] ![ξ, 1] A := fun w h hw A hA => by
     obtain ⟨κ, h1, h2, h3⟩ := hO w hw A hA
     have := ordAt_tw (ψ₀ := ξ) (ψ₁ := 1) h₁.cont hkz.neg_right (by rw [mul_one]; exact h₁.det)
@@ -398,7 +396,7 @@ theorem UpperTheory.V.Z.Win.Birth.mix_birth_of_prints :
     rw [hm₁ w h]
     ext i
     fin_cases i <;> simp <;> ring
-  have hO₂ : ∀ w ∉ P, ((l : ℕ) : 𝓞 F) ∈ w.asIdeal → ∀ A, IsPlaceOver A w →
+  have hO₂ : ∀ w ∉ P, ((l : ℕ) : 𝓞 F) ∈ w.asIdeal → ∀ A, _root_.Formalism.ConjugateSelfDual.IsPlaceOver A w →
       OrdAt (tw r₁ (cycBar F Ω l ^ k)) ![(k : ℤ), 0] ![1, ξ] A := fun w h hw A hA => by
     obtain ⟨κ, h1, h2, h3⟩ := hO w hw A hA
     have := ordAt_tw (ψ₀ := 1) (ψ₁ := ξ) h₁.cont hkz.neg_right (by rw [one_mul]; exact h₁.det)
@@ -415,11 +413,11 @@ theorem UpperTheory.V.Z.Win.Birth.mix_birth_of_prints :
     ⟨fun A hA => ?_, UpperTheory.V.Z.Win.Birth.prTw F Ω l ι r₁ _ (by
       simpa using (_root_.UpperTheory.V.Sd.alg_cyclotomic_of_printed_results hP.toClassicalTheorems F Ω l ι).1 (k : ℤ) 1 (by simp)) (UpperTheory.V.Z.Win.Birth.prOrd F Ω l ι ξ _ c m a π₁ r₁ h₁)⟩,
     fun w hw => ⟨fun h => ⟨hO₁ w h hw, fun τ hτ => ?_⟩, fun h => ⟨hO₂ w h hw, fun τ hτ => ?_⟩⟩⟩
-  · have hz : Continuous fun s : G F Ω => ((cycZ F Ω l s : ℤ_[l]ˣ) : ℤ_[l]) :=
+  · have hz : Continuous fun s : _root_.Formalism.ConjugateSelfDual.G F Ω => ((cycZ F Ω l s : ℤ_[l]ˣ) : ℤ_[l]) :=
       Units.continuous_val.comp (continuous_cycZ F Ω l)
-    have hcyc : Continuous fun s : G F Ω => (cycBar F Ω l s : Qbar l) :=
+    have hcyc : Continuous fun s : _root_.Formalism.ConjugateSelfDual.G F Ω => (cycBar F Ω l s : Qbar l) :=
       (continuous_algebraMap ℚ_[l] (PadicAlgCl l)).comp (continuous_subtype_val.comp hz)
-    have hval : Continuous fun s : G F Ω => (tw r₁ (cycBar F Ω l ^ k) s : Matrix (Fin 2) (Fin 2) (Qbar l)) := by
+    have hval : Continuous fun s : _root_.Formalism.ConjugateSelfDual.G F Ω => (tw r₁ (cycBar F Ω l ^ k) s : Matrix (Fin 2) (Fin 2) (Qbar l)) := by
       simp only [tw_val, MonoidHom.pow_apply, Units.val_pow_eq_pow_val]
       exact (hcyc.pow k).smul (Units.continuous_val.comp h₁.cont)
     refine Units.continuous_iff.2 ⟨hval, ?_⟩
@@ -436,7 +434,7 @@ theorem UpperTheory.V.Z.Win.Birth.mix_birth_of_prints :
     simp only [zpow_neg, zpow_natCast, MonoidHom.mul_apply, MonoidHom.pow_apply, Units.val_mul, Units.val_inv_eq_inv_val,
       Fintype.card_fin]
     field_simp
-  · refine (shapeFacts l (G F Ω) 2 _ 1).2.1 _ _ _ 1 (SF.1 _ _ (_root_.UpperTheory.V.Z.Win.RR.ordAway_a_alt hP F Ω l ι ξ _ c m a π₁ r₁ h₁ A hA))
+  · refine (shapeFacts l (_root_.Formalism.ConjugateSelfDual.G F Ω) 2 _ 1).2.1 _ _ _ 1 (SF.1 _ _ (_root_.UpperTheory.V.Z.Win.RR.ordAway_a_alt hP F Ω l ι ξ _ c m a π₁ r₁ h₁ A hA))
       fun i s hs => ?_
     have h1 : cycZ F Ω l s = 1 := (UpperTheory.V.Base.places F Ω l A).2.2.2 hA hs
     rw [MonoidHom.mul_apply, MonoidHom.pow_apply, cycBar, MonoidHom.comp_apply, h1, map_one, one_pow, mul_one]

@@ -1,14 +1,14 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.TwConj
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle001
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsOpenKerFinIdele
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.DifferentiableAtChart
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsRationalUnitaryDeterminantMapRationalUnitaryTo
-public import Development.AutomorphicArithmetic.IntegralCasts.IsOpenStabOfMemNhds
-public import Formalism.RealPlaceAnalysis.StatementE
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContinuousOfValuedEq
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.UnderEqIffConjPl
-public import Formalism.RealPlaceAnalysis.ThirdArithmeticHolds
+public import Development.AutomorphicArithmetic.IntegralCasts.Bundle001
+public import Formalism.RealPlaceAnalysis.Bundle003
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle096
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle092
+public import Formalism.RealPlaceAnalysis.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -79,7 +79,9 @@ theorem pla_int (z : AE F E) : ∀ᶠ v : Pl F in cofinite, ∀ t : E →ₐ[F] 
     filter_upwards [h1, h2] with v hv hv' t
     have h3 : t (d • e) ∈ v.adicCompletionIntegers F := apply_coe_mem t (⟨d • e, hi⟩ : 𝓞 E)
     have h4 : t e = algebraMap F (Fv F v) (d : F)⁻¹ * t (d • e) := by
-      rw [← Int.cast_smul_eq_zsmul F, map_smul, Algebra.smul_def, ← mul_assoc, ← map_mul, inv_mul_cancel₀ hd', map_one, one_mul]
+      have ht : t (d • e) = algebraMap F (Fv F v) (d : F) * t e := by
+        rw [← Int.cast_smul_eq_zsmul F, Algebra.smul_def, map_mul, AlgHom.commutes]
+      rw [ht, ← mul_assoc, ← map_mul, inv_mul_cancel₀ hd', map_one, one_mul]
     show evFin F v a * t e ∈ _
     rw [h4]
     exact mul_mem hv' (mul_mem hv h3)

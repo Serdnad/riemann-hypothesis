@@ -1,7 +1,7 @@
 module
 
-public import Formalism.PieriBlockIdeals.CapelliCentralEnveloping
-public import Formalism.PieriBlockIdeals.LemmaWAssembled
+public import Formalism.PieriBlockIdeals.Bundle001
+public import Formalism.PieriBlockIdeals.Bundle002
 public import Mathlib.RingTheory.LaurentSeries
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

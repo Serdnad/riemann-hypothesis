@@ -1,16 +1,15 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.FrobeniusFields.ExistsResQ
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.CharacterLevelBounds.ClsFacts
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.FrobeniusFields.Bundle002
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.CharacterLevelBounds.Bundle001
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CharacterLevelBounds.PlacesQ
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.CompCond
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.ExistsStrictHenselianAbsolutelyClosedLocalRing
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.OrdProjNDvd
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.Th1Facts
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.Bundle007
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.Bundle006
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.Bundle009
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.Bundle009
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PrimitiveFrobeniusFixed.PlaceBasic
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.TwoPowLtSqMulOfPrimitiveCharPowEqOne
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Bundle001
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.DirichletGroupPowers.RedOne
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.FrobeniusFields.BarFacts
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -49,11 +48,15 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.EtaKer
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.Bundle002
 
 @[expose] public section
 
 open NumberField IsDedekindDomain Formalism.ConjugateSelfDual Formalism.HC ReciprocityTheory.Gal IsLocalRing Polynomial UpperTheory.V UpperTheory.V.Base UpperTheory.V.Alg UpperTheory.V.HV UpperTheory.V.GradeZeroInterpolatingElement UpperTheory.V.Ws
+
+local instance (priority := 2000) ratFieldIsTorsionFreeForBigOm (Ω : Type) [Field Ω] [CharZero Ω] :
+    Module.IsTorsionFree ℚ Ω :=
+  _root_.DivisionSemiring.to_moduleIsTorsionFree
 
 theorem UpperTheory.V.Keep.bigOm :
     ∀ {Ω : Type} [Field Ω] [CharZero Ω] [IsAlgClosure ℚ Ω] {l : ℕ} [Fact l.Prime] {c : Coef l} (D : Raw Ω c), Ctx2 D → ∀ (κ : G ℚ Ω →* c.Oˣ) (j : ℕ), κ ^ l ^ j = 1 → ∀ A : ValuationSubring Ω, A.valuation (l : Ω) < 1 → ∃ g ∈ Dec (F := ℚ) A, D.om g = 1 ∧ Raw.bar D.Psi g = 1 ∧ κ g = 1 ∧ Raw.bar D.ξ g ^ 4 ≠ 1 := by

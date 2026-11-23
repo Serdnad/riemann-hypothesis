@@ -1,8 +1,8 @@
 module
 
-public import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProperCohomology.ZariskiLocal
+public import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProperCohomology.Bundle010
 public import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProperCohomology.FormalLimit
-public import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProperCohomology.HasExtInstances
+public import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProperCohomology.Bundle001
 public import Mathlib.AlgebraicGeometry.Morphisms.Proper
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

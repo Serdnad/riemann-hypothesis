@@ -1,11 +1,11 @@
 module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.NearSplit
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.ClassFieldRamification.MinkAbs
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.ClassFieldRamification.Bundle005
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PlacesOfRationals.PlacesQ
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.GeAlgTop
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Bundle003
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.LMemMax
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.PtInSmul
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Bundle016
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -52,6 +52,10 @@ import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section
+
+local instance (priority := 2000) ratFieldIsTorsionFreeForDiagConst
+    (Ω : Type) [Field Ω] [CharZero Ω] : Module.IsTorsionFree ℚ Ω :=
+  DivisionSemiring.to_moduleIsTorsionFree
 
 open NumberField IsDedekindDomain Formalism.ConjugateSelfDual Formalism.HC ReciprocityTheory.Gal IsLocalRing Polynomial UpperTheory.V.Base UpperTheory.V.Alg UpperTheory.V.HV UpperTheory.V.GradeZeroInterpolatingElement UpperTheory.V.Ws
 
@@ -161,6 +165,7 @@ private def dchar {H K : Type} [Group H] [CommRing K] [IsDomain K] (r : H →* M
       exact h i k hk.symm ⟨a, left_ne_zero_of_mul h0⟩ ⟨b, right_ne_zero_of_mul h0⟩
     · simp
 
+set_option linter.overlappingInstances false in
 private theorem mink {Ω A : Type} [Field Ω] [CharZero Ω] [IsAlgClosure ℚ Ω] [CommRing A] [IsDomain A]
     [IsDiscreteValuationRing A] (κ : G ℚ Ω →* A) (hc : AdicCont (maximalIdeal A) κ) (N : ℕ)
     (h : ∀ B : ValuationSubring Ω, ∀ g ∈ Ine (F := ℚ) B, κ g ^ N = 1) (g : G ℚ Ω) : κ g ^ N = 1 := by

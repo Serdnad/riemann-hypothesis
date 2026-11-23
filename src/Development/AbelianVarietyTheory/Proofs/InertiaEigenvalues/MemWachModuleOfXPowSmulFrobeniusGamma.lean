@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.NotFullBot
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle005
 public import Formalism.SharpRestriction.LevelLetterCocycles.DeltaInvariantLattices
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.MapConstantCoeffEqOne
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NBasisLoc
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle457
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle231
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WachInclusionXQFrobenius
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -285,6 +285,8 @@ theorem X_pow_dvd_entry_of_fintype (D : Formalism.BasicNotions.D7) (HW : HWOf D.
   have hf : ∀ (Z : Matrix ι ι (AA K LL)) i j, f Z i j = Z (e.symm i) (e.symm j) := fun Z i j => rfl
   have hmap : ∀ (g : AA K LL → AA K LL) (Z : Matrix ι ι (AA K LL)), (f Z).map g = f (Z.map g) :=
     fun g Z => rfl
+  have hsmul (r : AA K LL) (Z : Matrix ι ι (AA K LL)) : f (r • Z) = r • f Z :=
+    Matrix.ext fun i j => rfl
   have key := GlobalTheory.NL.WachMat.X_pow_dvd_entry D HW l K s LL h (Fintype.card ι) a m m'
     (f B) (f G) (f G₁) (f Pm) (f P₁) (f P₁') ?_ ?_ ?_ ?_ ?_
   · intro i j
@@ -296,9 +298,9 @@ theorem X_pow_dvd_entry_of_fintype (D : Formalism.BasicNotions.D7) (HW : HWOf D.
   · intro i j
     rw [← map_one f, ← map_sub, hf]
     exact hG₁ _ _
-  · rw [hmap, ← map_mul, ← map_smul, hγ, map_smul, map_mul]
-  · rw [← map_mul, hP, map_smul, map_one]
-  · rw [hmap, ← map_mul, hφ, map_smul, map_mul]
+  · rw [hmap, ← map_mul, ← hsmul, hγ, hsmul, map_mul]
+  · rw [← map_mul, hP, hsmul, map_one]
+  · rw [hmap, ← map_mul, hφ, hsmul, map_mul]
 
 
 

@@ -5,7 +5,7 @@ public import Development.ResolutionOfSingularities.EmbeddedResolution.Derivativ
 public import Mathlib.AlgebraicGeometry.Morphisms.Smooth
 public import Mathlib.RingTheory.RegularLocalRing.Defs
 public import Mathlib.RingTheory.SimpleRing.Principal
-import Development.ResolutionOfSingularities.EmbeddedResolution.DerivativeIdeal.DerivativeIdealLocalization
+import Development.ResolutionOfSingularities.EmbeddedResolution.DerivativeIdeal.Bundle001
 public import Development.ResolutionOfSingularities.EmbeddedResolution.DerivativeIdeal.DerivativeIdealOrderDecrease
 public import Development.ResolutionOfSingularities.EmbeddedResolution.EtaleCoordinates.LocalParameters
 import Mathlib.Algebra.Order.Floor.Extended

@@ -1,9 +1,9 @@
 module
 
-public import Formalism.LocalRingCardinality.DataLevel
+public import Formalism.LocalRingCardinality.Bundle002
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Adelstab
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.AdelstabL
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.AfsplitB
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle012
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle006
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Levelv
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -50,7 +50,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import Formalism.SharpRestriction.GenusPolyhedralBounds.RelativeIndexClassSets.LevGapFacts
+public import Formalism.SharpRestriction.GenusPolyhedralBounds.RelativeIndexClassSets.Bundle002
 
 @[expose] public section
 

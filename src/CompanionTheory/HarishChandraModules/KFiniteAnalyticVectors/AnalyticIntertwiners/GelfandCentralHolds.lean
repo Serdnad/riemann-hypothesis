@@ -4,7 +4,7 @@ public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.DiscreteSeriesExi
 public import Formalism.LocalToGlobal.IndefiniteReal.SobolevIteration.ArvOSobPfSt
 public import CompanionTheory.HarishChandraModules.KFiniteAnalyticVectors.AdmissibleSmoothVectors.AdmissibleOfFiniteRank
 public import Development.WeilBound.HeckeVectors.SmoothVectors.SobolevApproximation.SobApproxHolds
-public import Formalism.LocalToGlobal.IndefiniteReal.SmExpSmulContDiff
+public import Formalism.LocalToGlobal.IndefiniteReal.Bundle016
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,14 +1,14 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AlgIdemBinv
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsCubeStepGeneratorTensorPowerPairs
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsIsoGluedFromLinCombPullback
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsLinCombPullbackTransportIsoWithValues
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsLineBundleIsoCompLinCombGenerator
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LamPtsPull
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ThetaValueProductFormulaDegeneration
-import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.TauBalPow
-import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.NonemptyFiniteNormalising
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2931
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2888
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2896
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2895
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3057
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2935
+import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.Bundle018
+import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle018
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -48,7 +48,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ExistsZeroGt
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.LBPull
-import Development.AbelianVarietyTheory.Definitions.Divisors.GalRigidOfSurjective
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle074
 
 @[expose] public section
 

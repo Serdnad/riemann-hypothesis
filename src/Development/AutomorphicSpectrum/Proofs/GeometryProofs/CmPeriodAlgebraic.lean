@@ -1,22 +1,19 @@
 module
 
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsCMFrame
-public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.AbelianSchemeLawsUnconditional
-public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.CmCurveBaseChangeComp
-public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.CmFamilyDescendsToNumberFieldStatement
-public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.CmFamilyExtendsOverDedekindDomainStatement
-public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.EllMapCancelAndSabMapCancel
-public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.EllPullExistsOAct
-public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.ExistsCmCurveHomFamilyToFibreAtPeriodStatement
+public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle024
+public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle036
+public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle058
+public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle037
+public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle072
 public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.ExistsGoodReductionModelCmPeriodFibre
-import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.ExistsUniqueCmHermitianLatticeFormStatement
-public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.HomExtDvrOfCardTorsion
-import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.PrincipalTripleExtendsOfCurveHomomorphismsStatement
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ThetaUniformisationComplexAbelianVarieties
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.CardTorsionPointsUnconditional
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.KernelFiniteFlatHolds
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FamilyPurePeriodsSpanStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.PeriodsSpanPureDecompositionStatement
+import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle053
+import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle079
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle190
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle101
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle126
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle260
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle157
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -158,8 +155,8 @@ theorem exists_pack_given : ∀ (E : Type) [Field E] [NumberField E] [IsCMField 
   obtain ⟨h₁, hh₁, -⟩ := GlobalTheory.T.exists_unique_cmHermitianLatticeForm E H (FU.Di i) ε₁
   choose k₁ hk₁ hle hdesc using fun b => exists_desc hU hL FU i hP k₀ (C₀ b) (Z b).C' (c' b) (Z b).u (Z b).theta
     (Z b).c_ne (Z b).lat (Z b).hω (hε b) (hh b) T T' nT mT'
-  obtain ⟨k₂, hk₂, hle₂, hdesc₂⟩ := exists_desc hU hL FU i hP k₀ (twist (C₀ true) false)
-    (twist (Z true).C' false) (ellMap_twist (c' true) false) (Z true).u (Z true).theta
+  obtain ⟨k₂, hk₂, hle₂, hdesc₂⟩ := exists_desc hU hL FU i hP k₀ (_root_.GlobalTheory.CM.PeriodModel.twist (C₀ true) false)
+    (_root_.GlobalTheory.CM.PeriodModel.twist (Z true).C' false) (ellMap_twist (c' true) false) (Z true).u (Z true).theta
     (Z true).c_ne (Z true).lat htw hε₁ hh₁ T T' nT mT'
 
   obtain ⟨K₁, _, e₄, e₄'⟩ : ∃ K₁ : IntermediateField ℚ ℂ, FiniteDimensional ℚ K₁ ∧ (∀ b, k₁ b ≤ K₁) ∧ k₂ ≤ K₁ := by
@@ -182,7 +179,7 @@ theorem exists_pack_given : ∀ (E : Type) [Field E] [NumberField E] [IsCMField 
   have hnT : m₃.φ ≫ m.φ = nT.φ := by rw [← hm₂, ← Category.assoc, hm₃, hmT']
   choose ψ₂ hψ₂ hex₂ using fun b => hdesc b K₁ e₅ (e₄ b) _ (C₂ b) (φ₂ b) (φ₃ b) T₂ m₂ m₃ _ m (c₂ b) (c₃ b)
     (hφ₃ b) hm₃ hnT
-  obtain ⟨ψt, hψt, hext⟩ := hdesc₂ K₁ e₅ e₄' _ (twist (C₂ true) false) (φ₂ true) (φ₃ true) T₂ m₂ m₃ _ m
+  obtain ⟨ψt, hψt, hext⟩ := hdesc₂ K₁ e₅ e₄' _ (_root_.GlobalTheory.CM.PeriodModel.twist (C₂ true) false) (φ₂ true) (φ₃ true) T₂ m₂ m₃ _ m
     (ellMap_twist (c₂ true) false) (ellMap_twist (c₃ true) false) (hφ₃ true) hm₃ hnT
   have hpt : ∀ b (z : Fin (Z b).C'.P.g → ℂ),
       (((Z b).u.ex z).left ≫ φ₃ b) ≫ (C₂ b).P.A.hom = spMap (algebraMap K₁ ℂ) := fun b z => by

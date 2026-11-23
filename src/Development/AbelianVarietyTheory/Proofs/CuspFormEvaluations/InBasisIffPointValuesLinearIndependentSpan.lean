@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.ThetaValues.Generic
+public import Development.AbelianVarietyTheory.Definitions.ThetaValues.Bundle002
 public import Formalism.SharpRestriction.GenusPolyhedralBounds.RelativeIndexClassSets.PublishedIntClosHolds
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.GenericSectionsPolynomialDictionaryStatement
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.IndepSpanRankTransferLargeFieldComplexStatement
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle060
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle061
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -191,7 +191,7 @@ theorem exists_family (u : WeightFamilies.Wt D j) (m : ℕ) :
       rintro _ ⟨p, rfl⟩
       have := secPow_mul_mem_Mon X la w (u := u) (a := 1) (n := m) (α := Pi.single p.1 1) (by simp)
         (emb_mem_Vw X la N _ (e p.2))
-      rwa [secPow, prod_pow_single (fun i => sec X la w i.succ)] at this
+      rwa [_root_.Formalism.MainNotions.Gaps.EtaleWeightGaps.secPow, prod_pow_single (fun i => sec X la w i.succ)] at this
     · refine iSup₂_le fun α hα => ?_
       rintro _ ⟨v, hv, rfl⟩
       refine mon_mul_mem (fun i => sec X la w i.succ) (fun l => emb X la N (X.inc _ (e l))) hα ?_

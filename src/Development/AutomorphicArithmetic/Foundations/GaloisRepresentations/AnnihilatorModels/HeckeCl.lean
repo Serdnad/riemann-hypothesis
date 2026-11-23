@@ -1,7 +1,7 @@
 module
 
-public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.PAdicWittLattices.SplitsBasic
-public import Development.AutomorphicArithmetic.CommutativeAlgebra.EtaleCohomology.VecZero
+public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.PAdicWittLattices.Bundle004
+public import Development.AutomorphicArithmetic.CommutativeAlgebra.EtaleCohomology.Bundle006
 public import Development.EtaleCohomology.EtaleTrace.LadicH0LocallyConstant
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

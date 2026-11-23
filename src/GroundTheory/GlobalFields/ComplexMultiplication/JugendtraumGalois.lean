@@ -4,7 +4,7 @@ public import GroundTheory.GlobalFields.ClassFieldConsequences.HilbertClassField
 public import GroundTheory.GlobalFields.ComplexMultiplication.AnalyticUniformization
 public import GroundTheory.GlobalFields.ComplexMultiplication.ClassGroupActionLattice
 public import GroundTheory.GlobalFields.GlobalArtinMap.ArtinMap
-public import GroundTheory.GlobalFields.ComplexMultiplication.AutCFixed
+public import GroundTheory.GlobalFields.ComplexMultiplication.Bundle003
 public import GroundTheory.GlobalFields.ComplexMultiplication.HilbertClassField
 public import GroundTheory.GlobalFields.ComplexMultiplication.JugendtraumUniformization
 public import GroundTheory.GlobalFields.ComplexMultiplication.MainTheoremIdeles

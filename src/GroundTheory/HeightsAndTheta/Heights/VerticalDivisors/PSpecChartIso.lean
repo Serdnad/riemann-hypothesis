@@ -1,9 +1,9 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.PChartDomain
-public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.StatementsSecIdealOfPrime
+public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.Bundle014
+public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.Bundle007
 public import Mathlib.Order.CompletePartialOrder
-public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.PSpecMax
+public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.Bundle012
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

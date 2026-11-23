@@ -1,8 +1,8 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.PrimeIdealsCountingBounds
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle240
 public import Formalism.LocalRingCardinality.DataRows
-public import Formalism.LocalRingCardinality.DataArith
+public import Formalism.LocalRingCardinality.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

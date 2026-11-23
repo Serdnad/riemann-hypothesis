@@ -1,51 +1,50 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GramFrMulInv
-public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.TupPrimeEmpty
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.NabBaseChange
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SuppAtMul
-public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.ActsLinOfSplitLin
-public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.PlaceS
-import Development.AbelianVarietyTheory.BlockTheory.HeightDefect.TotallyPositiveExponents
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2490
+public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.Bundle003
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2458
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2480
+public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.Bundle003
+public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.Bundle005
+import Development.AbelianVarietyTheory.BlockTheory.HeightDefect.Bundle001
 import Development.AbelianVarietyTheory.Counterexamples.HeightSurvey.StarPurelyImaginaryEqNeg
-import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.MemRangeOfOneTmulMem
+import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle063
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FlatVectorEqUnitSmulCentralTranslatePlacePart
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FlatVectorThreeStepsConjugatePlaces
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HeckeCharacterConjHalfIdeleEqProdLocalStatement
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2516
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LatTranslateOfPrime
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MemCompletedPairLatticeIffAdjointFrameMatrixInte
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MemCompletedPairLatticeIffFrameMatrixIntegralOnH
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MemLatticeIffUniformiserReductionVanishes
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2496
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2495
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2522
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ScalarDilationElementSupportDetPullback
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SumHeisenbergTranslatesBaseVectorEqCardSmulStatement
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TameKernelTypePlaceThetaVectorLatticeFixedStatement
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TwistedSplittingCharacterUnitOffPlaces
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.WeilRepApplyEqSmulOfHalfIndicatorBaseStatement
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2517
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2514
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2519
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IntValuationEqOfMem
 import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsPowEqSpan
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FiniteRamifiedPlacesHeckeCharacter
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FlatVecExistsUnique
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FlatVectorEqUnitMulCentralTranslateLiftVector
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.MemLatOfIsIntMAdjConjHalf
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WeilOperatorIdempotentSumVacuumNormalisedSumStatement
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WeilRepCentralActsByDilationUnit
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsNonvanishingFiniteDatumDefiniteLift
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle575
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle836
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle965
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle862
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle786
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle954
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle501
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsNsmulIntMemLatO
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.GramMapMulInv
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle305
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IdempotentMulEqZeroOfOrthogonal
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsAdelicUnitarySplitPlaceComponent
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsEqMulOfResSNeOne
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsSelfDualCoordLatticeOfSelfDualFrame
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle175
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle554
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle171
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.MemHatIffOfSelfDual
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.TameHeckeCharSplitSupportedEqProdResidue
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.AdelicUnitaryExistsWithPrescribedParts
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle265
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle077
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsAdeleRingTensorEquivInfiniteProdFinite
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsAlgebraMapOfSigRFixed
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle080
 import Formalism.LocalToGlobal.BesselHermitianTheta.LemmasWeil
-import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.ExistsNatSmulSingle
+import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.Bundle015
 import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.FinPartDetAtInvInt
 public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.LatSelf
-public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.PlaceAt
+public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.Bundle013
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -689,12 +688,12 @@ theorem isSBHalf_actPull {D : D7} {S T : HSp D} {e : AE D} {Λ : AddSubgroup (WO
   refine ⟨fun t ht => (isHalf_actO _ _ t).1 (hsupp _ ht), k * N, Nat.mul_pos hk (Nat.pos_of_ne_zero hN),
     fun u hu hue t => ?_, fun t ht => ?_⟩
   · simp only [actPull, inv_one]
-    rw [actO_add, actO_nsmul, mul_smul]
+    rw [actO_add, _root_.Formalism.IndefR.Fin.LevelGroupLemmas.actO_nsmul, mul_smul]
     exact hinv _ (h2 u hu hue) (hns _ _ ((isHalf_actO _ _ u).2 hue)) _
   · have hth : IsHalf e t := (isHalf_actO _ _ t).1 (hsupp _ ht)
     have h3 := hcpt _ ht
     simp only [inv_one] at h3
-    rw [← actO_nsmul] at h3
+    rw [← _root_.Formalism.IndefR.Fin.LevelGroupLemmas.actO_nsmul] at h3
     rw [mul_comm, mul_smul]
     exact nsmul_mem (h1 _ (hns _ _ hth) h3) N
 

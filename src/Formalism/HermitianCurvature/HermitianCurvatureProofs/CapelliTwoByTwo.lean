@@ -1,10 +1,10 @@
 module
 
 public import Formalism.HermitianCurvature.StatementQr
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.AnisotropicColumnSums
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle073
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CapelliCoordinates
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.FrameEntries
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.LemmaDDeterminantIdentity
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle065
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.RestrictionIrrelevantDoubleLevelOperator
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

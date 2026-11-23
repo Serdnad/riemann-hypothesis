@@ -1,9 +1,8 @@
 module
 
-public import Development.WeilBound.ThetaLifts.FrameEstimates.TowerRallisLemma
-public import Development.WeilBound.ThetaLifts.FrameEstimates.LatMeas
+public import Development.WeilBound.ThetaLifts.FrameEstimates.Bundle002
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.IsSmoothModerateOfIsAutFunSm
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.NonarchimedeanGroupOfIsCompactIsOpen
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle299
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

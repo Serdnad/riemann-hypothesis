@@ -2,7 +2,7 @@ module
 
 public import Mathlib.NumberTheory.ArithmeticFunction.Moebius
 public import Mathlib.NumberTheory.LSeries.RiemannZeta
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.NormRiemannZetaSubPartialSumLeStatement
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle024
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.SumTruncConv
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

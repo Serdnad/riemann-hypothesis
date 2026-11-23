@@ -1,10 +1,10 @@
 module
 
 public import Formalism.UnipotentAdelicQuotients.SWXSDefs
-public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.IntegralAlmostAllPlacesStatement
+public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.Bundle028
 public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.LengthRestrictScalarsEqSumInertiaDegOfSubset
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.QuadraticExtNormFormOverAlgebra
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.UnitNormFormAtOddPlace
+public import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle009
+public import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle016
 import Mathlib.Algebra.AffineMonoid.UniqueSums
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

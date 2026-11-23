@@ -1,8 +1,8 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.SelectionLemmas
+public import Formalism.SharpRestriction.GrowthBounds.Bundle003
 public import Formalism.SharpRestriction.GrowthBounds.IsResidueClassZero
-public import Formalism.SharpRestriction.ElevenLe
+public import Formalism.SharpRestriction.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

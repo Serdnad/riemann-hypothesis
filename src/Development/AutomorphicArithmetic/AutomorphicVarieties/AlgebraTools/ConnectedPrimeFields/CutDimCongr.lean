@@ -2,8 +2,8 @@ module
 
 public import ReciprocityTheory.CommutativeAlgebra.ChainConnInDim
 public import Mathlib.RingTheory.AdicCompletion.Basic
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.ConnectedPrimeFields.BaseExistsPrime
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.ConnectedPrimeFields.MaxNotMemMinimalPrimes
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.ConnectedPrimeFields.Bundle005
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.ConnectedPrimeFields.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -49,7 +49,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Presheaf
-public import ReciprocityTheory.CommutativeAlgebra.SaturatedChains.Integral
+public import ReciprocityTheory.CommutativeAlgebra.SaturatedChains.Bundle001
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section

@@ -1,11 +1,11 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.LamPolySmulRight
+public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.Bundle001
 public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.CloudIsoDef
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LBidetLemmas
+import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle004
 public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.OneMemDualWeyl
 public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.Tensor
-public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.TensorKP
+public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

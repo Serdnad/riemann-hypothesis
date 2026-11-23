@@ -1,9 +1,9 @@
 module
 
 public import Development.AutomorphicArithmetic.RealSpanData.RealData
-public import Development.AbelianVarietyTheory.Definitions.Divisors.HasDivPlace
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FinrankJointEigenspaceAddConjEqMul
-public import Development.AutomorphicArithmetic.CommutativeAlgebra.TraceActionEqSumPlaces
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle058
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle737
+public import Development.AutomorphicArithmetic.CommutativeAlgebra.Bundle045
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -44,7 +44,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsDimEqOne
-import Development.AbelianVarietyTheory.Definitions.Divisors.PointsNonemptyUnitaryRankOne
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle045
 
 @[expose] public section
 

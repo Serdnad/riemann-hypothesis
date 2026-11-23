@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PrincipalLevelMulArchimedeanMemNhds
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2329
 public import Formalism.LocalToGlobal.IndefiniteReal.LocalNewformFunction
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

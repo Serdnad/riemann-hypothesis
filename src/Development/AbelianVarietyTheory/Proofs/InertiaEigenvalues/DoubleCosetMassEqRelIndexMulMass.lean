@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FiniteDcOfCover
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle070
 public import Mathlib.GroupTheory.Index
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,10 +1,10 @@
 module
 
-public import Formalism.LocalToGlobal.GlobalTheory.UnramifiedTrace.EopUEq
+public import Formalism.LocalToGlobal.GlobalTheory.UnramifiedTrace.Bundle002
 public import Formalism.LocalToGlobal.GlobalTheory.UnramifiedDiagonal.HeckeRamifiedZeroOfMatchingsAndDu
 import Formalism.LocalToGlobal.GlobalTheory.GL6.DiagonalSlopes.PSplitT
-import Formalism.LocalToGlobal.GlobalTheory.GL6.DiamondPreservesRationalFormZero
-public import Formalism.LocalToGlobal.GlobalTheory.UnramifiedTrace.SumFib
+import Formalism.LocalToGlobal.GlobalTheory.GL6.Bundle003
+public import Formalism.LocalToGlobal.GlobalTheory.UnramifiedTrace.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

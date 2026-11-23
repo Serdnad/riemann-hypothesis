@@ -2,8 +2,8 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.MatrixOfBesselTwoSidedAction
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.ExistsIsFolnerUWset
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.SymmetricMeasureL2NormEqResolutionL2
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.UnipotentUpperFacts
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle077
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle065
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -368,3 +368,19 @@ theorem rset_unimodular : ∀ (k r : ℕ) (γ : Mat k r), γ ∈ GG k r → IsCl
     isUnimod_of_subset_Nset (isClosedSub_Rset hγ) (fun _ h => h.1) hμ⟩
 
 end GlobalTheory.UnipUnimod
+
+end
+end
+
+section
+
+@[expose] public section
+
+open MeasureTheory Matrix Formalism.QuantumDeterminants Formalism.MainNotions.S GlobalTheory.SgInf GlobalTheory.SnMass
+open scoped InnerProductSpace ENNReal
+
+theorem _root_.GlobalTheory.T.unipotentRadical_inter_conjugate_closed_unimodular : ∀ (k r : ℕ) (γ : Mat k r), γ ∈ GG k r → IsClosedSub k r (Rset k r γ) ∧ ∀ μ, IsHaarOn (Rset k r γ) μ → IsUnimod (Rset k r γ) μ := by
+  first | exact @GlobalTheory.UnipUnimod.rset_unimodular | exact GlobalTheory.UnipUnimod.rset_unimodular | (intros; apply GlobalTheory.UnipUnimod.rset_unimodular <;> assumption)
+
+end
+end

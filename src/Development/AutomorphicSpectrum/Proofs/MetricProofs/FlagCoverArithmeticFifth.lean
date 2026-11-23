@@ -1,15 +1,15 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.IsImg
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.PtsOverPt
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.BlockDiagonalMinorVanishingStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagCoverArithmeticFirstStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagCoverArithmeticThirdStatement
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagModelBaseProjectionPointsStatement
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.SameOrbitRefl
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle154
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle014
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle082
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle161
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle162
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle121
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle152
 import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PCoordConeArithVar
 import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.CoordinateIdeals.MemMCoordIdealOfAevalEqZero
-import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.FrameDefinitions.Values
+import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.FrameDefinitions.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

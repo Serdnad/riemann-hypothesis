@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.PointSide
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle037
 public import Mathlib.Tactic.Linter.Style
 public import Mathlib.Tactic.Polynomial.Basic
 public import Mathlib.Tactic.ReduceModChar
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FibreFiniteCard
-public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.StabilizerMassQuotient
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle088
+public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

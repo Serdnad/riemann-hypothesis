@@ -4,8 +4,8 @@ public import Formalism.HermitianCurvature.HermitianCurvatureProofs.LevelFormSes
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CapelliWordSumExpansion
 public import Mathlib.Analysis.Calculus.BumpFunction.FiniteDimension
 public import Mathlib.Analysis.Calculus.BumpFunction.Normed
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.BXiAsm
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.BigCellVanishingOfCommute
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle135
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle036
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.CompactGroupHaarExists
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.LieDecompositionLocal
 import Mathlib.Algebra.Order.Archimedean.Real.Hom

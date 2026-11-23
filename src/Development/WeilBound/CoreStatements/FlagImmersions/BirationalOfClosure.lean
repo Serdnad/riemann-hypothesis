@@ -1,7 +1,7 @@
 module
 
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsSmoothHermTrivLine
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HomogRelationRatioReindex
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle104
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LogResolutionReindexed
 import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.CoordinateIdeals.MemMCoordIdealOfAevalEqZero
 import Mathlib.Algebra.Order.Floor.Extended

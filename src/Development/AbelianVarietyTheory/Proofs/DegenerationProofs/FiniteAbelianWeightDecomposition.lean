@@ -4,7 +4,7 @@ public import Mathlib.GroupTheory.Rank
 public import Mathlib.Order.CompletePartialOrder
 public import Mathlib.RepresentationTheory.Basic
 public import Mathlib.RingTheory.RootsOfUnity.EnoughRootsOfUnity
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.CharSumInv
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

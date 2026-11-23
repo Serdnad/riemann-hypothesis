@@ -1,7 +1,7 @@
 module
 
-public import Formalism.SharpRestriction.LevelLetterCocycles.LiftingTheoremOfExplicit
-public import Formalism.PadicSubsetSums.StableGradedCounts.LiftingTheExponent
+public import Formalism.SharpRestriction.LevelLetterCocycles.Bundle011
+public import Formalism.PadicSubsetSums.StableGradedCounts.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

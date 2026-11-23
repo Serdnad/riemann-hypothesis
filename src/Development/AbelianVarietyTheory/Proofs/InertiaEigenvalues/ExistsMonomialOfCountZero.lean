@@ -2,11 +2,11 @@ module
 
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.HasSupportOfIsSubquotientProdIrr
 public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.HasFiniteLengthOfIsIrreducible
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.InstAddCommGroupTwo
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle120
 public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.RadfordShufflePolynomialHolds
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.BorelCasselmanHolds
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle049
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.JhMultSubAddQuot
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.JordanHolderMultiplicityNormalizedBorelJacquetUn
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle122
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.LengthFilterFinRange
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ShuffleCountLinearIndependentClasses
 import Mathlib.Algebra.Order.Floor.Extended
@@ -394,9 +394,9 @@ theorem fixed_iwahori_ne_bot : GlobalTheory.Published.GeometricLemma → GlobalT
     rw [hu, map_zero]
   unfold wordMult at hw
   split_ifs at hw with hlen
-  · have hθ : ∀ t ∈ torusO k (Fin n), torusChar (fun i : Fin n => unrChar k (w.getD i 1)) t = 1 := by
+  · have hθ : ∀ t ∈ torusO k (Fin n), _root_.GlobalTheory.SmGL.torusChar (fun i : Fin n => unrChar k (w.getD i 1)) t = 1 := by
       intro t ht
-      rw [torusChar_apply]
+      rw [_root_.GlobalTheory.SmGL.torusChar_apply]
       exact Finset.prod_eq_one fun i _ =>
         isUnram_unrChar k _ (t i) ((show ∀ i, valuation k (t i : k) = 1 from ht) i)
     rw [UnramFixed.jhMult_jacB_eq_expMult k n V π hs _ hθ] at hw

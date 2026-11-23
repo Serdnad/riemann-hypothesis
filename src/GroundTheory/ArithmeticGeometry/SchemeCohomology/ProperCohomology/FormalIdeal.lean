@@ -1,7 +1,7 @@
 module
 
-public import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProperCohomology.HasFiniteBiproductsModules
-import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProperCohomology.CokernelCoherent
+public import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProperCohomology.Bundle007
+import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProperCohomology.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

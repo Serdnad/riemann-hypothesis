@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.AdelicHermitianForms.AdelicPair
+public import Development.AbelianVarietyTheory.Definitions.AdelicHermitianForms.Bundle001
 public import Mathlib.RingTheory.DedekindDomain.FiniteAdeleRing
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.CoordDivisible
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsSumIntegralBasis
-import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.IntegralFiniteAdeleCompactClosedMultiples
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle019
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle051
+import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle047
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,9 +1,9 @@
 module
 
 public import Formalism.SharpRestriction.CuspSpanNormBounds.CayleyDegreeNondegeneracy.ShortVectorEveryPlace
-public import Formalism.HermitianLattices.DefsCS
+public import Formalism.HermitianLattices.Bundle002
 public import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
-public import Formalism.FockGram.FockGramProofs.CovolGram
+public import Formalism.FockGram.FockGramProofs.Bundle001
 public import Formalism.HermitianLattices.FinalNeighbourConstruct
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

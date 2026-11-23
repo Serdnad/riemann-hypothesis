@@ -1,8 +1,8 @@
 module
 
-public import Formalism.PolynomialDimension.StatementNum
+public import Formalism.PolynomialDimension.Bundle001
 public import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.FramesOf
-public import Formalism.SharpRestriction.GrowthBounds.TwistedSubstitution.PlaneCoeff
+public import Formalism.SharpRestriction.GrowthBounds.TwistedSubstitution.Bundle001
 public import Formalism.SharpRestriction.GrowthBounds.DiagonalSupport.SlackBoundReal
 public import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.SPbound
 import Formalism.SharpRestriction.GrowthBounds.WittFrameLocaliserOrders

@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.BlockTheory.NonGaloisCusps.ImageStableDegreeBounds
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.MonodromyReductionModuloHighDegreeStatement
+public import Development.AbelianVarietyTheory.BlockTheory.NonGaloisCusps.Bundle004
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle286
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

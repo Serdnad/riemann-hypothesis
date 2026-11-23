@@ -1,6 +1,6 @@
 module
 
-public import Formalism.FrobeniusOrbits.HostDiffSupport
+public import Formalism.FrobeniusOrbits.Bundle001
 public import Formalism.SharpRestriction.RamificationFrobenius.TotientGaloisClasses.ArtinMapSecondEqJacobiSym
 import Formalism.FrobeniusOrbits.FrobeniusOrbitsProofs.CoprimeTwoPow
 public import Formalism.FrobeniusOrbits.FrobeniusOrbitsProofs.Decomp

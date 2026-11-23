@@ -3,8 +3,8 @@ module
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.TraceFormula.GL4GeometricSide.InnerEq
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsNormalisedThetaSub
 import Aesop.Main
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsIntegralEqSum
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.OnlyStableSubspaces
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle535
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle411
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

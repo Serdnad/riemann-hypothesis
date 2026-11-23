@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.JetOpIntegral
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle118
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.MemZmuOfPowPred
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.SumPiFinsetFinSuccCons
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.SumValsQOfInvariant
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle061
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.LastTwoStepsGuarded
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

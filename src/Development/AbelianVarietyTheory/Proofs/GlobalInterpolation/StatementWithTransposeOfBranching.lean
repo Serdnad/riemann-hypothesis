@@ -1,15 +1,15 @@
 module
 
-public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.InterlacingEquivariance
+public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.Bundle010
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.SplitLastBlockActX
 public import Formalism.LocalToGlobal.Columns.CoefColLemmas
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.EquivariantMapEqSmul
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.IsBasisAtBlock
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.TensorMapDescent
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.WeightedLeadingTermSplitZMinor
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle111
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle066
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle064
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle067
 import Development.AbelianVarietyTheory.PublishedTheorems.PublishedFoundations.FiniteIntertwining
 import Formalism.GradedWeylDivisibility.DualWeylDominanceOf
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LClosedeqLemmas
+import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle002
 import Formalism.LocalToGlobal.Columns.CoefficientsModP.FkPderivBlockEmbNe
 import Formalism.LocalToGlobal.Columns.PolyFnLemmas
 import Mathlib.Algebra.Order.Floor.Extended
@@ -61,7 +61,8 @@ noncomputable section
 
 namespace GlobalTheory.BranchFormula
 
-open Formalism.BasicNotions Formalism.L2.DIV Formalism.L2.Col Formalism.L2.Col.Br GlobalTheory.IndefiniteRowSideFullHecke.InterlacingEquivariance
+open Formalism.BasicNotions Formalism.L2.DIV Formalism.L2.Col.Br GlobalTheory.IndefiniteRowSideFullHecke.InterlacingEquivariance
+open _root_.Formalism.L2.Col (extVV extVV_mem nablaSq_eq_delSq)
 open Formalism.MainNotions.PrimeDegreeVariant (embGL lastGL)
 
 theorem isBlock_embGL (R : Type) [CommRing R] {N n : ℕ} (hN : N = n + 1) (g : GL (Fin n) R) :

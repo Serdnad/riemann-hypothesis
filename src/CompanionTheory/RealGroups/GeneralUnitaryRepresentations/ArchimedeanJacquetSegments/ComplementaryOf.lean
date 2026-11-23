@@ -1,7 +1,7 @@
 module
 
 public import CompanionTheory.RealGroups.GeneralUnitaryRepresentations.ArchimedeanJacquetSegments.Complementary
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.HermApply
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle033
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

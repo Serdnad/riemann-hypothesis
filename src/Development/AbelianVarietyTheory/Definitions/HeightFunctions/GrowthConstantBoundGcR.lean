@@ -1,13 +1,12 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Jets.ExistsSecTieFOfTies
-public import Development.AbelianVarietyTheory.Definitions.ThetaValues.IsBlockProd
+public import Development.AbelianVarietyTheory.Definitions.Jets.Bundle004
+public import Development.AbelianVarietyTheory.Definitions.ThetaValues.Bundle001
 public import Formalism.SharpRestriction.GenusPolyhedralBounds.RelativeIndexClassSets.AdmissibleModuleIffLatticeQuotients
-public import Formalism.SharpRestriction.GenusPolyhedralBounds.RelativeIndexClassSets.TheoremZeroOfReducedInputs
-public import Formalism.SharpRestriction.GenusPolyhedralBounds.RelativeIndexClassSets.CombBound4Of
-public import Formalism.LocalToGlobal.ProjectiveLattices.SupNDataOfNonneg
-public import Formalism.LocalToGlobal.ProjectiveLattices.EtArch
-public import Formalism.LocalToGlobal.ProjectiveLattices.Adm3OfExtension
+public import Formalism.SharpRestriction.GenusPolyhedralBounds.RelativeIndexClassSets.Bundle008
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle038
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle040
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle042
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

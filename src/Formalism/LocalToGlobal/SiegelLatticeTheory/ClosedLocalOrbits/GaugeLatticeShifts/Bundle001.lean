@@ -1,0 +1,221 @@
+module
+
+public import Mathlib.Algebra.Field.Defs
+public import Mathlib.Data.Matrix.Mul
+public import Mathlib.MeasureTheory.Constructions.BorelSpace.Basic
+public import Mathlib.MeasureTheory.Group.Defs
+public import Mathlib.MeasureTheory.Constructions.Pi
+public import Mathlib.MeasureTheory.Integral.Lebesgue.Basic
+public import Mathlib.MeasureTheory.Measure.OpenPos
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.WittVector.IsPoly
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Linter.HaveILetI
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.TypeStar
+import Mathlib.Tactic.Polynomial.Basic
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Topology.Sheaves.Init
+public import Mathlib.MeasureTheory.Measure.Haar.Basic
+public import Mathlib.MeasureTheory.Measure.Haar.Unique
+public import Mathlib.Algebra.BigOperators.Fin
+
+@[expose] public section
+
+section
+
+namespace Formalism.L2.SG.Pf.RCoc
+
+def KerBaseChange : Prop :=
+  ∀ (K L : Type) [Field K] [Field L] (f : K →+* L) (m p : Type) [Fintype m] [Fintype p] [DecidableEq p]
+    (A : Matrix m p K), ∃ P : Matrix p p K, A * P = 0 ∧
+      ∀ z : p → L, (A.map f).mulVec z = 0 → (P.map f).mulVec z = z
+
+end Formalism.L2.SG.Pf.RCoc
+end
+
+section
+
+noncomputable section
+
+open MeasureTheory Measure Topology
+open scoped ENNReal NNReal
+
+namespace Formalism.L2.SG.RealObj.InfCut.JacobianCoordinates.JL.HaarCore
+
+variable {G : Type*} [Group G] [TopologicalSpace G] [IsTopologicalGroup G] [LocallyCompactSpace G] [T2Space G]
+  [SecondCountableTopology G] [MeasurableSpace G] [BorelSpace G]
+
+def subOf (H : Set G) (h1 : (1 : G) ∈ H) (hm : ∀ x ∈ H, ∀ y ∈ H, x * y ∈ H) (hi : ∀ x ∈ H, x⁻¹ ∈ H) :
+    Subgroup G where
+  carrier := H
+  one_mem' := h1
+  mul_mem' := fun {a b} ha hb => hm a ha b hb
+  inv_mem' := fun {a} ha => hi a ha
+
+theorem pull (S : Subgroup G) (hS : IsClosed (S : Set G)) (ν : Measure G) (hνc : ν (S : Set G)ᶜ = 0)
+    (hνi : ∀ s ∈ S, ν.map (fun x => s * x) = ν) (hνf : IsFiniteMeasureOnCompacts ν) :
+    (ν.comap (Subtype.val : S → G)).IsMulLeftInvariant ∧
+      IsFiniteMeasureOnCompacts (ν.comap (Subtype.val : S → G)) ∧
+      (ν.comap (Subtype.val : S → G)).map Subtype.val = ν := by
+  have hme : MeasurableEmbedding (Subtype.val : S → G) :=
+    MeasurableEmbedding.subtype_coe hS.measurableSet
+  have hmap : (ν.comap (Subtype.val : S → G)).map Subtype.val = ν := by
+    rw [hme.map_comap, Subtype.range_coe]
+    exact Measure.restrict_eq_self_of_ae_mem (ae_iff.2 hνc)
+  refine ⟨⟨fun g => ?_⟩, ⟨fun K hK => ?_⟩, hmap⟩
+  · have h1 : ((ν.comap (Subtype.val : S → G)).map (fun x => g * x)).map Subtype.val = ν := by
+      rw [Measure.map_map hme.measurable (measurable_const_mul g)]
+      have : (Subtype.val : S → G) ∘ (fun x : S => g * x) =
+          (fun x : G => (g : G) * x) ∘ (Subtype.val : S → G) := by
+        funext x; rfl
+      rw [this, ← Measure.map_map (measurable_const_mul _) hme.measurable, hmap]
+      exact hνi g g.2
+    calc (ν.comap (Subtype.val : S → G)).map (fun x => g * x)
+        = (((ν.comap (Subtype.val : S → G)).map (fun x => g * x)).map Subtype.val).comap
+            Subtype.val := (hme.comap_map _).symm
+      _ = ν.comap Subtype.val := by rw [h1]
+  · rw [hme.comap_apply]
+    exact (hK.image continuous_subtype_val).measure_lt_top
+
+theorem haar_unique (S : Subgroup G) (hS : IsClosed (S : Set G)) (μ m : Measure G) (hμ0 : μ ≠ 0)
+    (hμc : μ (S : Set G)ᶜ = 0) (hμi : ∀ s ∈ S, μ.map (fun x => s * x) = μ) (hμf : IsFiniteMeasureOnCompacts μ)
+    (hmc : m (S : Set G)ᶜ = 0) (hmi : ∀ s ∈ S, m.map (fun x => s * x) = m) (hmf : IsFiniteMeasureOnCompacts m) :
+    ∃ c : ℝ≥0∞, c ≠ ∞ ∧ m = c • μ := by
+  haveI : LocallyCompactSpace S := hS.isClosedEmbedding_subtypeVal.locallyCompactSpace
+  haveI : SecondCountableTopology S :=
+    TopologicalSpace.Subtype.secondCountableTopology (S : Set G)
+  obtain ⟨hμl, hμk, hμm⟩ := pull S hS μ hμc hμi hμf
+  obtain ⟨hml, hmk, hmm⟩ := pull S hS m hmc hmi hmf
+  set μ' := μ.comap (Subtype.val : S → G)
+  set m' := m.comap (Subtype.val : S → G)
+  have hμ := Measure.isMulLeftInvariant_eq_smul μ' (Measure.haar : Measure S)
+  have hm := Measure.isMulLeftInvariant_eq_smul m' (Measure.haar : Measure S)
+  set d := Measure.haarScalarFactor μ' (Measure.haar : Measure S)
+  set c := Measure.haarScalarFactor m' (Measure.haar : Measure S)
+  have hd : d ≠ 0 := by
+    intro h0
+    apply hμ0
+    rw [← hμm, hμ, h0, zero_smul, Measure.map_zero]
+  refine ⟨((c / d : ℝ≥0) : ℝ≥0∞), ENNReal.coe_ne_top, ?_⟩
+  have hm'' : m' = (c / d) • μ' := by
+    rw [hm, hμ, smul_smul, div_mul_cancel₀ c hd]
+  rw [← hmm, ← hμm, hm'', Measure.map_smul _ measurable_subtype_coe.aemeasurable]
+  rfl
+
+end Formalism.L2.SG.RealObj.InfCut.JacobianCoordinates.JL.HaarCore
+end
+end
+
+section
+
+noncomputable section
+
+open MeasureTheory
+open scoped ENNReal
+
+namespace Formalism.L2.SG.RealObj.InfCut.ProductExactness.PiM
+
+theorem lintegral_fin_prod : ∀ (m : ℕ) {α : Fin m → Type} [∀ i, MeasurableSpace (α i)] (μ : ∀ i, Measure (α i))
+    [∀ i, SigmaFinite (μ i)] (f : ∀ i, α i → ℝ≥0∞), (∀ i, Measurable (f i)) →
+    ∫⁻ x, ∏ i, f i (x i) ∂Measure.pi μ = ∏ i, ∫⁻ x, f i x ∂μ i
+  | 0, α, _, μ, _, f, _ => by
+    simp
+  | m + 1, α, _, μ, _, f, hf => by
+    have hmp := measurePreserving_piFinSuccAbove μ 0
+    set g : α 0 × ((j : Fin m) → α (Fin.succAbove 0 j)) → ℝ≥0∞ :=
+      fun z => f 0 z.1 * ∏ i : Fin m, f (Fin.succAbove 0 i) (z.2 i) with hg
+    have key : ∫⁻ x, ∏ i, f i (x i) ∂Measure.pi μ =
+        ∫⁻ x, g (MeasurableEquiv.piFinSuccAbove α 0 x) ∂Measure.pi μ := by
+      congr 1
+      funext x
+      rw [Fin.prod_univ_succAbove _ 0]
+      rfl
+    have hpm : ∫⁻ b, g b ∂((μ 0).prod (Measure.pi fun j => μ (Fin.succAbove 0 j))) =
+        (∫⁻ x, f 0 x ∂μ 0) * ∫⁻ y : (j : Fin m) → α (Fin.succAbove 0 j), ∏ i, f (Fin.succAbove 0 i) (y i)
+          ∂(Measure.pi fun j => μ (Fin.succAbove 0 j)) :=
+      lintegral_prod_mul (f := f 0) (g := fun y : (j : Fin m) → α (Fin.succAbove 0 j) => ∏ i, f (Fin.succAbove 0 i) (y i))
+        (hf 0).aemeasurable
+        (Finset.measurable_prod _ fun i _ => (hf _).comp (measurable_pi_apply i)).aemeasurable
+    rw [key, hmp.lintegral_comp_emb (MeasurableEquiv.piFinSuccAbove α 0).measurableEmbedding g, hpm,
+      lintegral_fin_prod m (fun j => μ (Fin.succAbove 0 j)) (fun j => f (Fin.succAbove 0 j)) (fun j => hf _),
+      Fin.prod_univ_succAbove _ 0]
+
+theorem lintegral_pi_prod {ι : Type} [Fintype ι] {α : ι → Type} [∀ i, MeasurableSpace (α i)] (μ : ∀ i, Measure (α i))
+    [∀ i, SigmaFinite (μ i)] (f : ∀ i, α i → ℝ≥0∞) (hf : ∀ i, Measurable (f i)) :
+    ∫⁻ x, ∏ i, f i (x i) ∂Measure.pi μ = ∏ i, ∫⁻ x, f i x ∂μ i := by
+  let e := (Fintype.equivFin ι).symm
+  have hmp := measurePreserving_piCongrLeft μ e
+  rw [← hmp.lintegral_comp_emb (MeasurableEquiv.measurableEmbedding _)]
+  have h1 : ∀ g : (∀ i', α (e i')), ∏ i, f i ((MeasurableEquiv.piCongrLeft α e g) i) =
+      ∏ i', f (e i') (g i') := by
+    intro g
+    rw [← Fintype.prod_equiv e (fun i' => f (e i') (MeasurableEquiv.piCongrLeft α e g (e i')))
+      (fun i => f i (MeasurableEquiv.piCongrLeft α e g i)) (fun _ => rfl)]
+    congr 1
+    funext i'
+    rw [MeasurableEquiv.piCongrLeft_apply_apply]
+  simp only [h1]
+  rw [lintegral_fin_prod _ (fun i' => μ (e i')) (fun i' => f (e i')) (fun i' => hf _)]
+  exact Fintype.prod_equiv e _ _ (fun _ => rfl)
+
+end Formalism.L2.SG.RealObj.InfCut.ProductExactness.PiM
+end
+end
+
+section
+
+open MeasureTheory Measure
+open scoped ENNReal
+
+set_option linter.dupNamespace false
+
+namespace Formalism.L2.SG.Pf.QuotIndep
+
+def QuotIndep : Prop :=
+  ∀ (G : Type) [Group G] [TopologicalSpace G] [IsTopologicalGroup G] [LocallyCompactSpace G] [T2Space G]
+    [SecondCountableTopology G] [MeasurableSpace G] [BorelSpace G] (S : Subgroup G), IsClosed (S : Set G) →
+    ∀ (μS : Measure S) [μS.IsMulLeftInvariant] [μS.IsMulRightInvariant] [IsFiniteMeasureOnCompacts μS]
+      [IsOpenPosMeasure μS] [SFinite μS] (μ ν₁ ν₂ : Measure G),
+      (∀ f : G → ℝ≥0∞, Measurable f → ∫⁻ x, f x ∂μ = ∫⁻ x, ∫⁻ s, f ((s : G) * x) ∂μS ∂ν₁) →
+      (∀ f : G → ℝ≥0∞, Measurable f → ∫⁻ x, f x ∂μ = ∫⁻ x, ∫⁻ s, f ((s : G) * x) ∂μS ∂ν₂) →
+      ∀ f : G → ℝ≥0∞, Measurable f → (∀ (s : S) (x : G), f ((s : G) * x) = f x) →
+        ∫⁻ x, f x ∂ν₁ = ∫⁻ x, f x ∂ν₂
+
+end Formalism.L2.SG.Pf.QuotIndep
+end

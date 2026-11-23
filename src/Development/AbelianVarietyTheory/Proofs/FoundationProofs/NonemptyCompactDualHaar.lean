@@ -2,14 +2,13 @@ module
 
 import Formalism.LocalRingCardinality.SpanPowerMembership.HaarDensityNeZero
 public import Formalism.LocalRingCardinality.DataCD
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.CompactSpaceUpqTZeroRight
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle104
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsPosFiniteDensityOfAlmostTranslationInvaria
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExpBallUMemNhds
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ReImMapSurjective
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.TranslateChartBallDistortion
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.HaarUpqEqOfOmegaDensity
-import Development.AbelianVarietyTheory.Proofs.HeightProofs.HaarUpqIsMulRightInvariant
-import Formalism.RealPlaceAnalysis.InstMeasurableSpaceUJ
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle076
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle006
+public import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle016
+import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle015
+import Formalism.RealPlaceAnalysis.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

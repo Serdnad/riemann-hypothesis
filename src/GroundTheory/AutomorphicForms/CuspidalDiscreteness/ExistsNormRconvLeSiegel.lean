@@ -2,7 +2,7 @@ module
 
 public import GroundTheory.AutomorphicForms.CuspidalDiscreteness.SiegelConj
 public import GroundTheory.AutomorphicForms.CuspidalDiscreteness.SmoothingFinite
-public import GroundTheory.AutomorphicForms.CuspidalDiscreteness.TorusReduction
+public import GroundTheory.AutomorphicForms.CuspidalDiscreteness.Bundle001
 public import GroundTheory.AutomorphicForms.CuspidalDiscreteness.DiffBound
 public import GroundTheory.AutomorphicForms.CuspidalDiscreteness.SiegelCount
 public import GroundTheory.AutomorphicForms.CuspidalDiscreteness.SiegelFinite

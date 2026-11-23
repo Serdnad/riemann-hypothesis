@@ -1,9 +1,9 @@
 module
 
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.DegUnif
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.Bundle003
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.LocallyOfFinitePresentationDiagMap
 public import Mathlib.Tactic.ENatToNat
-import Development.AbelianVarietyTheory.Definitions.Uniformization.IsCPPullback
+import Development.AbelianVarietyTheory.Definitions.Uniformization.Bundle003
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.TorsionEmbeddingGeometricPoints
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -46,7 +46,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.AppCompatGeneric
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.LBCorr
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.LBLocal
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.Bundle001
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.ChartPullbacks.TangentLinearity.ResEqOfResEq
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.HomBaseChangeBijectiveOfLeNilradical
 
@@ -194,9 +194,9 @@ theorem tau_fst : tau R I e X ≫ torusFst (Spec (CommRingCat.of (R ⧸ I ^ (e +
   simp only [tau, Category.assoc]
   rw [h', reassoc_of% hι, ← h, reassoc_of% hinv]
 
-theorem tau_chi (a : X) : (tau R I e X).appTop.hom (chi (S := Spec (CommRingCat.of (R ⧸ I ^ (e + 1 + 1)))) X a) =
-    chi (S := Spec (CommRingCat.of (R ⧸ I ^ (e + 1)))) X a := by
-  rw [chi, chi, coord, coord]
+theorem tau_chi (a : X) : (tau R I e X).appTop.hom (_root_.ReciprocityTheory.ChartRestriction.G.Semi.Rosenlicht.chi (S := Spec (CommRingCat.of (R ⧸ I ^ (e + 1 + 1)))) X a) =
+    _root_.ReciprocityTheory.ChartRestriction.G.Semi.Rosenlicht.chi (S := Spec (CommRingCat.of (R ⧸ I ^ (e + 1)))) X a := by
+  rw [_root_.ReciprocityTheory.ChartRestriction.G.Semi.Rosenlicht.chi, _root_.ReciprocityTheory.ChartRestriction.G.Semi.Rosenlicht.chi, _root_.ReciprocityTheory.ChartRestriction.G.Semi.Rosenlicht.coord, _root_.ReciprocityTheory.ChartRestriction.G.Semi.Rosenlicht.coord]
   simp only [Over.id_left, Category.id_comp]
   conv_rhs => rw [← tau_fst R I e X]
   rw [CommRingCat.comp_apply, CommRingCat.comp_apply, appTop_comp_apply]
@@ -213,6 +213,7 @@ theorem pullTop_val {Y Z : Scheme.{0}} (f : Y ⟶ Z) (w : Γ(Z, ⊤)ˣ) :
 
 theorem one_fst {S S' : Scheme.{0}} (f : S' ⟶ S) (B : Over S) [GrpObj B] (T : Over S') :
     (toUnit T ≫ η[(Over.pullback f).obj B]).left ≫ pullback.fst B.hom f = T.hom ≫ f ≫ η[B].left := by
+  letI : (Over.pullback f).Monoidal := (Over.instBraidedPullback (f := f)).toMonoidal
   have e := congrArg (fun z => z.left) (map_one (ReciprocityTheory.ChartRestriction.G.Geo.Tor.pushHom
     (ReciprocityTheory.ChartRestriction.G.Geo.Tor.isGrpPullback_pullback B f) T))
   have e₁ : (1 : T ⟶ (Over.pullback f).obj B) = toUnit T ≫ η[(Over.pullback f).obj B] := Hom.one_def

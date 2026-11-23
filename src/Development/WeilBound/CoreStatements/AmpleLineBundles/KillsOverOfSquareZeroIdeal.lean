@@ -1,8 +1,8 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsCocharLie
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle002
 public import Development.WeilBound.CoreStatements.AmpleLineBundles.TopLePreimageOfEpsFibreSndComp
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsCocharLieLieModel
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle009
 public import Development.WeilBound.CoreStatements.AmpleLineBundles.SquareZeroDeformationAdditivity
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

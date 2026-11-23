@@ -1,6 +1,6 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.RestSegCore
+public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.Bundle003
 public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.RecursionWithDensities
 import Formalism.SharpRestriction.GrowthBounds.ValuationLowestDegreeMapFractionField
 import Mathlib.Algebra.Order.Floor.Extended

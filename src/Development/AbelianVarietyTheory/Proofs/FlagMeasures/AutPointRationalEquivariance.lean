@@ -2,8 +2,8 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.LayerProd
 public import Formalism.SatakeDualWeyl.DefsCS
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.CsApprox
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.CsSpan
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle011
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle014
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsStableGauss
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle100
 public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Mathlib.Order.CompletePartialOrder
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NonemptyMeasAndReps
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.QuadraticStarStructure
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SelfDualMeasureExistsUniqueFourierInversion
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle099
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle145
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,12 +1,12 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.InfOfMulFinOf
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.KerFockMovedReal
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.FrChInv
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle520
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle617
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle227
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HighestWeightBelow
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsFockFrameChangeLastColumnDefinitePair
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle627
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.HasInfExpOfOrder
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.TendstoInfMulProd
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle211
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -45,7 +45,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.ClassFunctionSumIntegral
+public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.Bundle010
 
 @[expose] public section
 
@@ -272,8 +272,8 @@ theorem detShift_top (G : GridData L sc) (t : T) (j : ℕ) (hj : j < D.R.m) (τ 
   have h1 := isHC_top D sc.cGap τ hj' r1
   have hE := h0.1.card_entries.trans h0.2.1
   have hF := h1.1.card_entries.trans h1.2.1
-  have e0 : entries (Node.par D sc.cGap (.top j) τ) = (num D sc.cGap τ).weightX j := entries_plus _
-  have e1 : entries (Node.par D sc.cGap (.top (j + 1)) τ) = (num D sc.cGap τ).weightX (j + 1) := entries_plus _
+  have e0 : GlobalTheory.SignedHC.entries (Node.par D sc.cGap (.top j) τ) = (num D sc.cGap τ).weightX j := entries_plus _
+  have e1 : GlobalTheory.SignedHC.entries (Node.par D sc.cGap (.top (j + 1)) τ) = (num D sc.cGap τ).weightX (j + 1) := entries_plus _
   have w0 : ∀ r, ((wt G (.top j) τ).w r : ℚ) = highestWeight _ hE r := fun r => wtOf_cast hE h0.2.2 r
   have w1 : ∀ r, ((wt G (.top (j + 1)) τ).w r : ℚ) = highestWeight _ hF r := fun r => wtOf_cast hF h1.2.2 r
   have hb : (G.V (.top (j + 1))).rank = (G.V (.top j)).rank + (D.R.t + 1) := by

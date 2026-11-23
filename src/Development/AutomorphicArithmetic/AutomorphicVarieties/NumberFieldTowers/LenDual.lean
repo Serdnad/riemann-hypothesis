@@ -2,8 +2,7 @@ module
 
 public import Formalism.GaloisCohomology.Statement
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.KummerTheory.ZmodToQZ
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.NumberFieldTowers.DualKer
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.NumberFieldTowers.QzSep
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.NumberFieldTowers.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

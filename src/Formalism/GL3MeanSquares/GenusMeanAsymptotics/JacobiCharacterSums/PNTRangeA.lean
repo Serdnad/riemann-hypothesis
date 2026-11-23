@@ -2,7 +2,7 @@ module
 
 public import Formalism.GL3MeanSquares.GenusMeanAsymptotics.JacobiCharacterSums.DeuringHeilbronnM
 public import Mathlib.RingTheory.SimpleRing.Principal
-public import Formalism.GL3MeanSquares.GenusMeanAsymptotics.JacobiCharacterSums.PNTEOf
+public import Formalism.GL3MeanSquares.GenusMeanAsymptotics.JacobiCharacterSums.Bundle024
 import Formalism.LandauZeroFreeBounds.SiegelWalfiszAPOfSiegelLower
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

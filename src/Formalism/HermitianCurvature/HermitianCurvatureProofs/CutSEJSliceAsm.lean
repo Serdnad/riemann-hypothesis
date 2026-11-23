@@ -1,9 +1,9 @@
 module
 
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutSEJSliceCut
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle217
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutSEPairAtDeriv
 public import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.SfiniteOfIsHaarOn
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle026
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,7 +1,7 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FrobTwistBaseChangeHomApp
-public import Development.AbelianVarietyTheory.Definitions.Divisors.PadicActionConstInjective
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle010
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CobOneEqZeroOfConnecting
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

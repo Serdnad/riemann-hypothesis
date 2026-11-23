@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.RowMinor
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.OfRoots
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.CongruenceStabUFromIntegralUnipotentIsometryStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.CoveringOHolds
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle012
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle006
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle314
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle083
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.CovolumeCongruenceStabiliser
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsUniquePlace
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle256
 import Development.AbelianVarietyTheory.Proofs.FlagMeasures.GramUnipotentStabilizerBruhatCellConjRoot
 import Formalism.FlagUnipotentLattices.CardSubgroupsOfIndexLe
 import Mathlib.Algebra.Order.Floor.Extended

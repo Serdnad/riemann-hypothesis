@@ -6,7 +6,7 @@ public import Mathlib.LinearAlgebra.Dual.Defs
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.EulerZetaGammaInvIdentity
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.InterlaceSignTwo
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.LevelNablaStarRelations
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.MultiplicationOpHom
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle019
 import Mathlib.Algebra.AffineMonoid.UniqueSums
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended

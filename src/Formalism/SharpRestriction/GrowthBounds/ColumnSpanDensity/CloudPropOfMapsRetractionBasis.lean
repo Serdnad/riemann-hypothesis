@@ -2,7 +2,7 @@ module
 
 public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.CloudBoundOfPropAndWeylDimension
 public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.FactorsLEOfFintype
-public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.CloudCount
+public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.Bundle012
 public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.FactorizationBoundMonoLattices
 public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.LemmaSMat
 import Mathlib.Algebra.Order.Floor.Extended

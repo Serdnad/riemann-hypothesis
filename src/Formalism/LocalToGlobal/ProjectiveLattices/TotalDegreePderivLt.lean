@@ -1,7 +1,7 @@
 module
 
-public import Formalism.LocalToGlobal.ProjectiveLattices.PowMapMemOfPowMulMem
-public import ReciprocityTheory.SemistableReduction.ComapInclusionIsLocalHom
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle003
+public import ReciprocityTheory.SemistableReduction.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -53,7 +53,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.SemistableReduction.AlgAll
+public import ReciprocityTheory.SemistableReduction.Bundle019
 
 @[expose] public section
 

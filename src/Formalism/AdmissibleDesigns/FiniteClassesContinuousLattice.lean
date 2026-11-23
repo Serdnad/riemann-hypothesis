@@ -1,11 +1,11 @@
 module
 
 public import Formalism.AdmissibleDesigns.NonemptyPl
-public import Formalism.CharacterColumnKernels.IdempotentNormalForms.GlobalConcreteOf
+public import Formalism.CharacterColumnKernels.IdempotentNormalForms.Bundle004
 public import Formalism.WachLatticeTwists.RealClassMaps.RealClassMapTheorem
 public import Formalism.WachLatticeTwists.RealClassMaps.StatClassMapReal
 public import Formalism.WachLatticeTwists.SplitLocalLifts.Statement
-public import Formalism.WeaklyAdmissibleFiltrations.CrystallineStableLifts.Galois
+public import Formalism.WeaklyAdmissibleFiltrations.CrystallineStableLifts.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

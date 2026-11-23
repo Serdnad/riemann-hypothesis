@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.HasLabelOfIsCuspOf
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle694
 public import Development.DiscreteGroups.GlobalIrreducibility.IneEqOfHasGreenLe
 public import Development.DiscreteGroups.GlobalIrreducibility.LocTypeOfSerParamLe
 import Mathlib.Algebra.Order.Floor.Extended
@@ -39,7 +39,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.InjPrimeTo
+import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle009
 
 @[expose] public section
 

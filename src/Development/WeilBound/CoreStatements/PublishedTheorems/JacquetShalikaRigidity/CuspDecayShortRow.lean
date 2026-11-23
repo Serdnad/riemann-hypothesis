@@ -2,8 +2,8 @@ module
 
 public import Development.WeilBound.CoreStatements.PublishedTheorems.JacquetShalikaRigidity.ColumnConjugationMeasure
 public import GroundTheory.AutomorphicForms.ReductionSiegel
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IdeleModuleDetDiagUnitsPosIdele
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CuspRapidDecaySiegelGL
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle245
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle452
 import GroundTheory.AutomorphicForms.CuspidalDiscreteness.SiegelConj
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,16 +1,14 @@
 module
 
-public import Formalism.LocalToGlobal.ProjectiveLattices.CurveAsm
-public import Formalism.LocalToGlobal.ProjectiveLattices.TieUpC
-public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.BirationalOfFormRatiosFullTrdegStatement
-public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.CompSplitRecord
-public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.CountQAtStGenericSectionPrimesStatement
-public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.CurveLocOfCountQAt
-public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.CurveModelExistsAllPrimesAllPointsStatement
-public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.CuspEqZeroOfGenericValues
-import Formalism.LocalToGlobal.ProjectiveLattices.CompFin
-import Formalism.LocalToGlobal.ProjectiveLattices.CurveInj
-public import Formalism.LocalToGlobal.ProjectiveLattices.CurveSec
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle048
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle046
+public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.Bundle047
+public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.Bundle038
+public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.Bundle036
+public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.Bundle048
+import Formalism.LocalToGlobal.ProjectiveLattices.Bundle014
+import Formalism.LocalToGlobal.ProjectiveLattices.Bundle049
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle033
 import Formalism.LocalToGlobal.ProjectiveLattices.LocalUnitReduction.IsUnitMkOfForallPrime
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

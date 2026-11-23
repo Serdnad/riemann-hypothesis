@@ -1,11 +1,11 @@
 module
 
-public import Formalism.LogFactorialIndices.StatementIdx
+public import Formalism.LogFactorialIndices.Bundle001
 public import Formalism.FilteredPoleLength.LocalDescentLevels.MemSpanBasisFun
-public import Formalism.FilteredPoleLength.LocalDescentLevels.LengthBaseChange
-public import Formalism.FilteredPoleLength.LocalDescentLevels.LevelsChain
+public import Formalism.FilteredPoleLength.LocalDescentLevels.Bundle003
+public import Formalism.FilteredPoleLength.LocalDescentLevels.Bundle002
 public import Formalism.FilteredPoleLength.LocalDescentLevels.LevelsChainOfAddOneLe
-public import Formalism.IncomingBounds.FlowDegreeBounds.IndexLastReductionHolds
+public import Formalism.IncomingBounds.FlowDegreeBounds.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

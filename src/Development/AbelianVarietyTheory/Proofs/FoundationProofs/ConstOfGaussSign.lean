@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IdxEqRelIndex
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle235
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.HESmulRight
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.InducedTypeThetaGenusOnePermutes
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.PullEqGaussSmulIntertwiner

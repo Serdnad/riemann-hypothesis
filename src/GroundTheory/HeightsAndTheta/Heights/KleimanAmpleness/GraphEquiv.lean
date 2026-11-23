@@ -1,7 +1,7 @@
 module
 
 import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.PCechDoubleStair
-public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.KerAltSucc
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle001
 public import Mathlib.Algebra.Module.Prod
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

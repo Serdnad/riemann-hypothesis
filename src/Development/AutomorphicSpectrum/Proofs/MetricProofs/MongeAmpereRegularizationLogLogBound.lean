@@ -1,9 +1,9 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.IsTwiceDifferentiableAt
+public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.Bundle001
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FixedMemberBase
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.LoglogQuotNonneg
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.SingularWeightMonotoneRegularizationStatement
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle018
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle032
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -50,9 +50,9 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.AnalyticForms.LeviForms.Energy
+public import ReciprocityTheory.AnalyticForms.LeviForms.Bundle003
 public import ReciprocityTheory.AnalyticForms.LeviForms.TailBoundA
-public import ReciprocityTheory.AnalyticForms.PotentialTheory.ContDiffAtOfIsPotential
+public import ReciprocityTheory.AnalyticForms.PotentialTheory.Bundle003
 import ReciprocityTheory.AnalyticForms.PotentialTheory.IntegrableOnTargetOfTsupport
 public import ReciprocityTheory.AnalyticForms.PotentialTheory.MaMeasure
 import ReciprocityTheory.AnalyticForms.PotentialTheory.PshShiftA

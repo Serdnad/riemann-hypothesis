@@ -2,9 +2,8 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.PhiTopAgree
 public import Formalism.LocalToGlobal.Columns.ColumnsProofs.ChainCounts
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ResiduesOfCompletionAtPrimeWithUniformizerStatement
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.SymLevelTestFunctionsAgreeRationalPointsStatement
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.UnfoldingIntegralEqFiniteSumOverNumberFieldStatement
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle056
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle063
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -3,7 +3,7 @@ module
 public import CompanionTheory.HarishChandraModules.BesselParameterIntegrals.SmoothCyclicVectors.SmoothVec
 public import Mathlib.Analysis.CStarAlgebra.Module.Constructions
 public import CompanionTheory.HarishChandraModules.BesselParameterIntegrals.SmoothCyclicVectors.IntegralMemOfIsClosed
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.SmoothOnAdditive
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle023
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

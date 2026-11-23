@@ -1,14 +1,14 @@
 module
 
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsLatFamilyCongr
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.HtatPar
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle054
 public import Development.AutomorphicSpectrum.Statements.GeometryStatements.IsPolLatticePlane
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ArithmeticHilbertSamuelLowerBound
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ArithVarietyCoordIdeal
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ArithVarietyCoordIdealStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeTateFreeIntegralModelsStatement
-import Development.WeilBound.CoreStatements.HodgeTatePoints.HcptgenRing
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.HtatPol
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle082
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle092
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle188
+import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle019
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle028
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

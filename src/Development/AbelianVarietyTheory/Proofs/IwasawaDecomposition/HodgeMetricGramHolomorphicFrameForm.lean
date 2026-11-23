@@ -1,16 +1,15 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.MultOfNotMem
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.ToroidalCompactificationData
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsIsLieBase
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.EqOfConjEqOne
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle206
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle040
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle682
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle666
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsFramedChartExponentialToroidalModel
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FrameCoefficientEqOmegaRatio
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FrameCoefficientEqWeightRatio
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle651
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HodgeMetricUniformisationSmoothOnInterior
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.PtEqOfPtOfFrameEq
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.UnfoldedFramesParabolicRelation
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.RelabelEmbeddingsGoodBijectiveConjCompat
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle388
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle531
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle028
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -47,8 +46,8 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.KaUnfoldPfB
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.OrthoStatementPf
-import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.InterPolyProdSum
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.Bundle007
+import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.Bundle008
 
 @[expose] public section
 

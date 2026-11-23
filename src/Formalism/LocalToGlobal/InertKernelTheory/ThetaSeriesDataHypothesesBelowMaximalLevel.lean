@@ -1,8 +1,8 @@
 module
 
-public import Formalism.LocalToGlobal.InertKernelTheory.StatementAdmAt
+public import Formalism.LocalToGlobal.InertKernelTheory.Bundle011
 public import Formalism.LocalToGlobal.InertKernelTheory.TranslatesOfInertKernelAtPlace
-public import Formalism.LocalToGlobal.InertKernelTheory.SecondKernelCoupledLastLift
+public import Formalism.LocalToGlobal.InertKernelTheory.Bundle010
 public import Formalism.LocalToGlobal.PairingIndexBounds.OrthogonalChartLevels.FrecAt
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

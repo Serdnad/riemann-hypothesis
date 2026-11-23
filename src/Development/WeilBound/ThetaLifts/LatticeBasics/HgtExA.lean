@@ -2,10 +2,10 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.Foundations.ExistsAHEqOfMemRatPts
 public import Development.AutomorphicSpectrum.Proofs.AdelicProofs.HasIwasawaOfFrame
-public import Development.WeilBound.ThetaLifts.LatticeBasics.Hypotheses2
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle004
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsIsLatticeFrameIsMajorantFrame
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsSiegelHProjArchEq
-public import Development.WeilBound.ThetaLifts.LatticeBasics.HgtArch
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle308
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle019
 public import Development.WeilBound.ThetaLifts.LatticeBasics.HgtFin
 import Development.WeilBound.ThetaLifts.LatticeBasics.HgtWitt
 import Mathlib.Algebra.Order.Floor.Extended

@@ -2,7 +2,7 @@ module
 
 public import Formalism.WindowSums.Statement
 public import Formalism.SharpRestriction.LevelLetterCocycles.CrystallineMapLemmas
-public import Formalism.SharpRestriction.LevelLetterCocycles.LocalTheoryWindows
+public import Formalism.SharpRestriction.LevelLetterCocycles.Bundle011
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

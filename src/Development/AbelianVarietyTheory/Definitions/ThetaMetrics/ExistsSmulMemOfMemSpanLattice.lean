@@ -3,7 +3,7 @@ module
 public import Mathlib.CategoryTheory.Category.Basic
 public import Mathlib.NumberTheory.NumberField.InfinitePlace.Embeddings
 public import Development.AbelianVarietyTheory.Definitions.QuasicoherentCohomology.MemSaturatedOrderIsoSubspaceSpanSymmApply
-public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.FinrankMulDiscrRpowLeSumSqOfMemTraceDual
+public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

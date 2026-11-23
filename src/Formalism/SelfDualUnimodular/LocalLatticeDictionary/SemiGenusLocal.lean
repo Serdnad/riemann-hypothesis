@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.LatDictZAbs
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.WittExtensionTheorem
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle005
 public import Formalism.SelfDualUnimodular.LocalLatticeDictionary.ExistsUnitNorm
 public import Formalism.SelfDualUnimodular.LocalLatticeDictionary.SelfDualRestr
 import Mathlib.Algebra.Order.Floor.Extended

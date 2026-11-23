@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsDualDualRep
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsPlaceOverMoveValCc
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsAlternatingFormLeftCorankLeOneStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SemilinearCoefficientMapCocycles
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle015
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle297
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle084
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle344
 public import Development.AutomorphicArithmetic.CyclotomicBounds.CyclotomicOrders.ExistsCycZPowNeOne
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -359,9 +359,11 @@ theorem abs_two (hcc : ∀ g, cj (cj g) = g) (A : (Fin r → K) ≃ₗ[K] (Fin r
     have e1 : (Submodule.Quotient.mk y₀ : H1 ρ') = C.symm (t' : H1 ρ) := by
       rw [LinearEquiv.eq_symm_apply]; exact hηt
 
-    rw [e1, hxs t', map_sum]
+    rw [e1, hxs t']
+    change C.symm.toLinearMap _ = _
+    rw [map_sum C.symm.toLinearMap]
     refine Finset.sum_congr rfl fun b _ => ?_
-    rw [map_smul]
+    rw [map_smul C.symm.toLinearMap]
     rfl
   have := hc (x₀ a) y₀ _ _ (hxs (t a)) e
   rw [h0 a y₀ hη] at this

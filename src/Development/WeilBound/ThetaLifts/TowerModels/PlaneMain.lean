@@ -1,12 +1,11 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.CTSmallCone
-public import Development.WeilBound.ThetaLifts.TowerModels.PlaneCodiff
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsIntegerAddConjEqOneOfFormallyUnramified
-public import Development.WeilBound.ThetaLifts.TowerModels.PlaneBas
-public import Development.WeilBound.ThetaLifts.TowerModels.PlaneComp
+public import Development.WeilBound.ThetaLifts.TowerModels.Bundle004
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle063
+public import Development.WeilBound.ThetaLifts.TowerModels.Bundle002
+public import Development.WeilBound.ThetaLifts.TowerModels.Bundle003
 public import Development.WeilBound.ThetaLifts.TowerModels.PlaneIso
-public import Development.WeilBound.ThetaLifts.TowerModels.PlanePair
 import Development.WeilBound.ThetaLifts.TowerModels.PlaneReal
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

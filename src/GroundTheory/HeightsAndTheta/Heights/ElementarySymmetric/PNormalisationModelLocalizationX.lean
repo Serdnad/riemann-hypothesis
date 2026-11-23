@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StNormalisationModelLocalization
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle065
 public import Mathlib.Order.CompletePartialOrder
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

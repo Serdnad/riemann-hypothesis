@@ -1,7 +1,7 @@
 module
 
 public import Development.ResolutionOfSingularities.Foundations.Blowup.BlowupProperties
-public import Development.ResolutionOfSingularities.Foundations.Blowup.AffineBlowupProper
+public import Development.ResolutionOfSingularities.Foundations.Blowup.Bundle001
 public import Development.ResolutionOfSingularities.Foundations.Blowup.AffineBlowupUniversal
 public import Development.ResolutionOfSingularities.Foundations.Blowup.BlowupExistence
 import Mathlib.Algebra.Order.Floor.Extended

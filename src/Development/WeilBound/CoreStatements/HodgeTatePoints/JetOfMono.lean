@@ -1,14 +1,13 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.TjEqZeroIff
-public import Formalism.LocalToGlobal.ProjectiveLattices.IsCombAt
-public import Formalism.LocalToGlobal.ProjectiveLattices.SubConstMemOrig
+public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.Bundle030
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle011
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle001
 public import Mathlib.RingTheory.Henselian
 public import Mathlib.RingTheory.MvPowerSeries.Derivative
 public import Mathlib.RingTheory.RegularLocalRing.Defs
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsUnitCharts
-public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.ExistsPowEqFractionRingOfPderivEqZero
-public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.IsLocalRingOfAug
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle041
+public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.Bundle008
 public import Formalism.LocalToGlobal.ProjectiveLattices.ThGerm
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.FBIdJet
 import Mathlib.Algebra.Order.Floor.Extended

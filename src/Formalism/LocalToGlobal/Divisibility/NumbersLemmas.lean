@@ -2,9 +2,9 @@ module
 
 public import Formalism.LocalToGlobal.Divisibility.Numbers
 public import Formalism.LocalRingCardinality.DataForced
-public import Formalism.LocalRingCardinality.DataKap
-public import Formalism.QuotientMetricDivisors.TheoremDivIneqRowsShift
-public import Formalism.LocalRingCardinality.HostCls
+public import Formalism.LocalRingCardinality.Bundle005
+public import Formalism.QuotientMetricDivisors.Bundle003
+public import Formalism.LocalRingCardinality.Bundle002
 public import Formalism.LocalRingCardinality.RankBoundMonotoneInDimension
 import Formalism.SharpRestriction.RamificationFrobenius.TotientGaloisClasses.HostFacts
 import Mathlib.Algebra.Order.Floor.Extended

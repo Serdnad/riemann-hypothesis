@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsIsFinOf
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle693
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.SplitPlaceLocalGroupElementsJacobiBessel
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.MemRootExchangeParabolicAndFourierJacobiIffEntri
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.PeriodIdealZpowCompletionAdeleConjIff
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle058
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle400
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.PeriodLocalGroupsNormalFramesSplitPlace
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LevRowSuccInfUA
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1830
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SumOKEx
 import Formalism.LocalRingCardinality.SpanPowerMembership.LocAtA
 import Formalism.LocalToGlobal.Divisibility.DefGroupLemmas
@@ -49,7 +49,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DiagonalBlockDetBlockTriangular
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RealLineOfPeriodsOnLine
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle469
 
 @[expose] public section
 

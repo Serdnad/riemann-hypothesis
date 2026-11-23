@@ -1,12 +1,12 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ContinuousOfMemSmoothSpan
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle876
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.MemBddFormsOfWithSmoothings
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FourierTransformUniformRapidDecayFamilyStatement
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle564
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IntegrableInfMeasure
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IntegrableOnAbsDetRpowLeOneFundamentalDomainStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.MellinIntegralRapidDecayEntireOfLeOneStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SummableNonzeroRationalVectorLeShortestVectorStatement
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle902
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle572
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle908
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -101,7 +101,7 @@ theorem stronglyMeasurable_rsHat {F F' : Sm E a} (h : Continuous F.1) (h' : Cont
     StronglyMeasurable fun g => rsHat ℓ F.1 F'.1 Φ J η g (y g) := by
   simp only [rsHat_eq J η F F' hΦ]
   have h1 : ∀ i, Continuous fun g => pInf E (y g i) := fun i =>
-    continuous_pInf.comp ((continuous_apply i).comp hy)
+    _root_.GlobalTheory.CuspRep.continuous_pInf.comp ((continuous_apply i).comp hy)
   have h2 : ∀ i, Continuous fun g => pFin E (y g i) := fun i =>
     (continuous_snd : Continuous (pFin E)).comp ((continuous_apply i).comp hy)
   have h3 : Continuous ((latt a (traceDualIdeal E J)).indicator (1 : (Fin a → Af E) → ℂ)) :=

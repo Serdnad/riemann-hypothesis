@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.HeightFunctions.NormComparisonConstants
+public import Development.AbelianVarietyTheory.Definitions.HeightFunctions.Bundle001
 public import Development.AbelianVarietyTheory.Definitions.HeightFunctions.FiniteDimensionalOfSz
 public import Mathlib.NumberTheory.NumberField.ClassNumber
 import Mathlib.Algebra.Order.Floor.Extended

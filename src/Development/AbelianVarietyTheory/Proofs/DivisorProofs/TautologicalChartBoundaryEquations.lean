@@ -1,16 +1,16 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.HasRigidCoords
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle077
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.TraceFormTwistIsoOfPullback
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IdealAlongLocalSpecVanishingIdealComplEqSpan
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IdealEqSpanMonomialOfOrdersAlongCompleteDVRStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsRadicalSpanProdRelativeRegularParameters
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsReducedAdicCompletionTensorResidueField
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MonomialBoundaryFamilyPullUnitaryTraitFormStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TautologicalChartIsEtaleCompletionLocalRingStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ChartRingFormallyUnramified
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsCompleteLocalEtaleNeighbourhood
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.IsPosHermOfPositive
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2690
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2901
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2753
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2536
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3020
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3272
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle670
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle677
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle063
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -46,7 +46,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import ReciprocityTheory.AnalyticForms.RegularLocalRings.DivSheaf
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.AbProj
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle007
 
 @[expose] public section
 

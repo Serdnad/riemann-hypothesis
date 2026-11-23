@@ -1,0 +1,332 @@
+module
+
+public import Mathlib.Analysis.Complex.Norm
+public import Mathlib.NumberTheory.NumberField.Basic
+public import Mathlib.FieldTheory.Galois.IsGaloisGroup
+public import Mathlib.RingTheory.Frobenius
+public import Mathlib.LinearAlgebra.Charpoly.Basic
+public import Mathlib.LinearAlgebra.FreeModule.PID
+public import Mathlib.LinearAlgebra.Trace
+public import Mathlib.RingTheory.Flat.TorsionFree
+public import Mathlib.RingTheory.PowerSeries.Basic
+public import Mathlib.RingTheory.SimpleRing.Principal
+import Mathlib.Algebra.Module.StablyFree.Basic
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.CStarAlgebra.Classes
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+public import Mathlib.LinearAlgebra.Charpoly.ToMatrix
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+public import Mathlib.RingTheory.PowerSeries.Derivative
+public import Mathlib.RingTheory.PowerSeries.Inverse
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.WittVector.IsPoly
+import Mathlib.Tactic.Basify
+import Mathlib.Tactic.ENatToNat
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.Polynomial.Basic
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Tactic.TypeStar
+import Mathlib.Topology.Sheaves.Init
+public import Mathlib.RingTheory.DedekindDomain.Ideal.Lemmas
+import Std.Tactic.BVDecide.Normalize.Prop
+public import Mathlib.RingTheory.Derivation.Basic
+
+@[expose] public section
+
+section
+
+set_option maxSynthPendingDepth 1
+
+noncomputable section
+
+open IsDedekindDomain NumberField Filter Topology ComplexConjugate
+
+namespace GroundTheory.Global
+
+section Average
+
+variable {G : Type*} [Group G]
+
+end Average
+
+variable {K L : Type*} [Field K] [NumberField K] [Field L] [NumberField L] [Algebra K L]
+  [IsGalois K L]
+
+section LocalAverage
+
+variable (v : HeightOneSpectrum (𝓞 K))
+
+end LocalAverage
+
+
+
+
+
+section Convergence
+
+omit [IsGalois K L] in
+theorem exists_norm_le (f : Gal(L/K) → ℂ) : ∃ C, ∀ g, ‖f g‖ ≤ C := by
+  classical
+  have := Fintype.ofFinite Gal(L/K)
+  exact ⟨∑ g, ‖f g‖, fun g => Finset.single_le_sum (fun x _ => norm_nonneg (f x))
+    (Finset.mem_univ g)⟩
+
+end Convergence
+
+section Holomorphy
+
+end Holomorphy
+
+section Additivity
+
+end Additivity
+
+section Conjugation
+
+end Conjugation
+
+end GroundTheory.Global
+end
+end
+
+section
+
+noncomputable section
+
+open IsDedekindDomain NumberField
+open scoped Pointwise
+
+namespace GroundTheory.Global
+
+section Average
+
+variable {G H : Type*} [Group G] [Group H]
+
+end Average
+
+variable {K F L : Type*} [Field K] [NumberField K] [Field F] [NumberField F] [Field L]
+  [NumberField L] [Algebra K F] [Algebra K L] [Algebra F L] [IsScalarTower K F L]
+  [IsGalois K F] [IsGalois K L]
+
+
+omit [NumberField K] [NumberField F] [NumberField L] [IsGalois K L] in
+theorem algebraMap_restrictNormalHom_smul (σ : Gal(L/K)) (x : 𝓞 F) :
+    algebraMap (𝓞 F) (𝓞 L) (AlgEquiv.restrictNormalHom F σ • x) =
+      σ • algebraMap (𝓞 F) (𝓞 L) x := by
+  apply RingOfIntegers.coe_injective
+  change algebraMap F L ((σ.restrictNormal F) (x : F)) = σ (algebraMap F L (x : F))
+  exact AlgEquiv.restrictNormal_commutes σ F x
+
+
+
+
+
+
+
+
+theorem IsArithFrobAt.restrictNormalHom {φ : Gal(L/K)} {Q : Ideal (𝓞 L)}
+    (h : IsArithFrobAt (𝓞 K) φ Q) :
+    IsArithFrobAt (𝓞 K) (AlgEquiv.restrictNormalHom F φ) (Q.under (𝓞 F)) := by
+  intro x
+  rw [Ideal.under_under]
+  change algebraMap (𝓞 F) (𝓞 L) (AlgEquiv.restrictNormalHom F φ • x -
+    x ^ Nat.card (𝓞 K ⧸ Q.under (𝓞 K))) ∈ Q
+  rw [map_sub, map_pow, algebraMap_restrictNormalHom_smul]
+  exact h _
+
+end GroundTheory.Global
+end
+end
+
+section
+
+noncomputable section
+
+open Polynomial
+
+namespace GroundTheory.Global
+
+section MatrixJacobi
+
+variable {R : Type*} [CommRing R] {n : Type*} [Fintype n] [DecidableEq n]
+
+def matrixGeomSeries (M : Matrix n n R) : Matrix n n (PowerSeries R) :=
+  Matrix.of fun i j => PowerSeries.mk fun k => (M ^ k) i j
+
+theorem coeff_map_C_mul_matrixGeomSeries (M : Matrix n n R) (k : ℕ) (i j : n) :
+    PowerSeries.coeff k ((M.map PowerSeries.C * matrixGeomSeries M) i j) = (M ^ (k + 1)) i j := by
+
+  rw [pow_succ', Matrix.mul_apply, Matrix.mul_apply, map_sum]
+  refine Finset.sum_congr rfl fun l _ => ?_
+  simp [matrixGeomSeries, PowerSeries.coeff_C_mul]
+
+theorem one_sub_X_smul_mul_matrixGeomSeries (M : Matrix n n R) :
+    (1 - (PowerSeries.X : PowerSeries R) • M.map PowerSeries.C) * matrixGeomSeries M = 1 := by
+  ext i j k
+  rw [Matrix.sub_mul, Matrix.one_mul, Matrix.smul_mul, Matrix.sub_apply, Matrix.smul_apply,
+    smul_eq_mul, map_sub]
+  rcases k with _ | k
+  · simp [matrixGeomSeries, Matrix.one_apply]
+  · rw [PowerSeries.coeff_succ_X_mul, coeff_map_C_mul_matrixGeomSeries]
+    by_cases h : i = j <;> simp [matrixGeomSeries, Matrix.one_apply, h]
+
+theorem trace_matrixGeomSeries_mul (M : Matrix n n R) :
+    (matrixGeomSeries M * M.map PowerSeries.C).trace =
+      PowerSeries.mk fun k => (M ^ (k + 1)).trace := by
+  ext k
+
+  rw [PowerSeries.coeff_mk, pow_succ, Matrix.trace, Matrix.trace, map_sum]
+  refine Finset.sum_congr rfl fun i _ => ?_
+
+  rw [Matrix.diag_apply, Matrix.diag_apply, Matrix.mul_apply, Matrix.mul_apply, map_sum]
+  refine Finset.sum_congr rfl fun l _ => ?_
+  simp [matrixGeomSeries, PowerSeries.coeff_mul_C]
+
+theorem coe_charpolyRev (M : Matrix n n R) :
+    ((M.charpolyRev : R[X]) : PowerSeries R) =
+      (1 - (PowerSeries.X : PowerSeries R) • M.map PowerSeries.C).det := by
+  rw [Matrix.charpolyRev, ← Polynomial.coeToPowerSeries.ringHom_apply, RingHom.map_det]
+  congr 1
+  ext i j : 1
+  by_cases h : i = j <;>
+    simp [h, Polynomial.coeToPowerSeries.ringHom_apply] <;> ring
+
+theorem coe_derivative_charpolyRev (M : Matrix n n R) :
+    ((derivative M.charpolyRev : R[X]) : PowerSeries R) =
+      -(M.charpolyRev : PowerSeries R) * PowerSeries.mk fun k => (M ^ (k + 1)).trace := by
+  set T : PowerSeries R := PowerSeries.X
+  set N : Matrix n n (PowerSeries R) := M.map PowerSeries.C
+  set A : Matrix n n (PowerSeries R) := 1 - T • N
+  set B := matrixGeomSeries M
+  have hAB : A * B = 1 := one_sub_X_smul_mul_matrixGeomSeries M
+
+  set ψ : R[X] →+* (PowerSeries R)[X] :=
+    (Polynomial.compRingHom (Polynomial.C T + Polynomial.X)).comp
+      (Polynomial.mapRingHom PowerSeries.C)
+  have hψ : ∀ p : R[X], ψ p = (p.map PowerSeries.C).comp (Polynomial.C T + Polynomial.X) :=
+    fun p => rfl
+  have hfac : ψ M.charpolyRev =
+      Polynomial.C A.det * (1 + (Polynomial.X : (PowerSeries R)[X]) •
+        (-(B * N)).map Polynomial.C).det := by
+    rw [Matrix.charpolyRev, RingHom.map_det, RingHom.map_det, ← Matrix.det_mul]
+    congr 1
+    have h1 : A.map Polynomial.C * (1 + (Polynomial.X : (PowerSeries R)[X]) •
+        (-(B * N)).map Polynomial.C) =
+        A.map Polynomial.C - (Polynomial.X : (PowerSeries R)[X]) • N.map Polynomial.C := by
+      rw [mul_add, mul_one, Matrix.mul_smul, ← Matrix.map_mul, Matrix.mul_neg,
+        ← Matrix.mul_assoc, hAB, Matrix.one_mul, Matrix.map_neg _ (map_neg Polynomial.C), smul_neg, sub_eq_add_neg]
+    rw [show (Polynomial.C : PowerSeries R →+* (PowerSeries R)[X]).mapMatrix A =
+      A.map Polynomial.C from rfl, h1]
+    ext i j
+    by_cases h : i = j <;>
+      simp [hψ, A, N, T, h] <;> ring
+  have hder : (derivative (ψ M.charpolyRev)).eval 0 =
+      ((derivative M.charpolyRev : R[X]) : PowerSeries R) := by
+    rw [hψ, Polynomial.derivative_comp, Polynomial.derivative_add, Polynomial.derivative_C,
+      Polynomial.derivative_X, zero_add, one_mul, Polynomial.eval_comp, Polynomial.derivative_map,
+      Polynomial.eval_add, Polynomial.eval_C, Polynomial.eval_X, add_zero, Polynomial.eval_map,
+      Polynomial.eval₂_C_X_eq_coe]
+  rw [← hder, hfac, Polynomial.derivative_C_mul, Polynomial.eval_mul, Polynomial.eval_C,
+    Matrix.derivative_det_one_add_X_smul, Matrix.trace_neg, ← coe_charpolyRev,
+    ← trace_matrixGeomSeries_mul, mul_neg, neg_mul]
+
+end MatrixJacobi
+
+section LogSeries
+
+variable {k : Type*} [Field k] [CharZero k]
+
+end LogSeries
+
+section Endomorphism
+
+variable {k W W' : Type*} [Field k] [AddCommGroup W] [Module k W] [FiniteDimensional k W]
+  [AddCommGroup W'] [Module k W'] [FiniteDimensional k W']
+
+theorem reverse_charpoly_eq_charpolyRev {ι : Type*} [Fintype ι] [DecidableEq ι]
+    (b : Module.Basis ι k W) (A : Module.End k W) :
+    A.charpoly.reverse = (LinearMap.toMatrix b b A).charpolyRev := by
+  rw [← Matrix.reverse_charpoly, LinearMap.charpoly_toMatrix]
+
+theorem constantCoeff_reverse_charpoly (A : Module.End k W) :
+    PowerSeries.constantCoeff (A.charpoly.reverse : PowerSeries k) = 1 := by
+  rw [Polynomial.constantCoeff_coe, Polynomial.coeff_zero_reverse,
+    (LinearMap.charpoly_monic A).leadingCoeff]
+
+theorem coe_derivative_reverse_charpoly (A : Module.End k W) :
+    ((derivative A.charpoly.reverse : k[X]) : PowerSeries k) =
+      -(A.charpoly.reverse : PowerSeries k) *
+        PowerSeries.mk fun m => LinearMap.trace k W (A ^ (m + 1)) := by
+  classical
+  let b := Module.Free.chooseBasis k W
+  rw [reverse_charpoly_eq_charpolyRev b, coe_derivative_charpolyRev]
+  congr 2
+  funext m
+  rw [LinearMap.trace_eq_matrix_trace k b, LinearMap.toMatrix_pow]
+
+theorem reverse_charpoly_eq_of_trace_pow_eq [CharZero k] (A : Module.End k W)
+    (B : Module.End k W')
+    (h : ∀ m, 0 < m → LinearMap.trace k W (A ^ m) = LinearMap.trace k W' (B ^ m)) :
+    A.charpoly.reverse = B.charpoly.reverse := by
+  set P : PowerSeries k := ((A.charpoly.reverse : k[X]) : PowerSeries k) with hPdef
+  set Q : PowerSeries k := ((B.charpoly.reverse : k[X]) : PowerSeries k) with hQdef
+  set D : PowerSeries k := PowerSeries.mk fun m => LinearMap.trace k W (A ^ (m + 1))
+  have hP : PowerSeries.constantCoeff P = 1 := constantCoeff_reverse_charpoly A
+  have hQ : PowerSeries.constantCoeff Q = 1 := constantCoeff_reverse_charpoly B
+  have hQQ : Q⁻¹ * Q = 1 := PowerSeries.inv_mul_cancel Q (by rw [hQ]; exact one_ne_zero)
+  have hdP : PowerSeries.derivative P = -P * D := by
+    rw [hPdef, PowerSeries.derivative_coe, coe_derivative_reverse_charpoly]
+  have hdQ : PowerSeries.derivative Q = -Q * D := by
+    rw [hQdef, PowerSeries.derivative_coe, coe_derivative_reverse_charpoly]
+    congr 2
+    funext m
+    exact (h (m + 1) m.succ_pos).symm
+  have h1 : P * Q⁻¹ = 1 := by
+    apply PowerSeries.derivative.ext
+    · rw [Derivation.leibniz, PowerSeries.derivative_inv', hdP, hdQ,
+        Derivation.map_one_eq_zero, smul_eq_mul, smul_eq_mul]
+      linear_combination (P * Q⁻¹ * D) * hQQ
+    · rw [map_mul, PowerSeries.constantCoeff_inv, hP, hQ, map_one, inv_one, mul_one]
+  have h2 : P = Q := by
+    calc P = P * (Q⁻¹ * Q) := by rw [hQQ, mul_one]
+      _ = Q := by rw [← mul_assoc, h1, one_mul]
+  exact Polynomial.coe_inj.1 h2
+
+end Endomorphism
+
+end GroundTheory.Global
+end
+end

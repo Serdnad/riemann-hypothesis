@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.JEvExists
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle007
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.DsExistsOfDiscreteSeriesExists
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GoodParameterFirstSpace
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GridFirstColumnSpaceRankSignatureSelfDual
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.GoodParDualPar
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1082
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1560
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle253
 public import Formalism.LocalToGlobal.BesselHermitianTheta.LemmasSign
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.GaloisLevelStructure.TiedLevel
+public import Formalism.LocalToGlobal.GaloisLevelStructure.Bundle003
 public import Formalism.LocalToGlobal.NormalizedHeckeFactors.ExpDefs
 public import Formalism.SharpRestriction.LevelLetterCocycles.TWSet
 import Mathlib.Algebra.Order.Floor.Extended

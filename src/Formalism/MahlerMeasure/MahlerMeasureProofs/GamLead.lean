@@ -1,8 +1,8 @@
 module
 
-public import Formalism.MahlerMeasure.HasOrder
+public import Formalism.MahlerMeasure.Bundle004
 public import Mathlib.CategoryTheory.Category.Basic
-public import Formalism.MahlerMeasure.FinalM
+public import Formalism.MahlerMeasure.Bundle003
 import Formalism.MahlerMeasure.MahlerMeasureProofs.FreezeBij
 import Formalism.MahlerMeasure.MahlerMeasureProofs.LevelAct
 import Mathlib.Algebra.Module.StablyFree.Basic

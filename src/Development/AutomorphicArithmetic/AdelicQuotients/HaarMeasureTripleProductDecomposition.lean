@@ -46,7 +46,7 @@ import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
 import Development.AbelianVarietyTheory.Definitions.Divisors.HilbertNinetyQuotientHomEqIff
 import Development.AbelianVarietyTheory.Definitions.Foundations.NormEulerPolySubOneLe
 import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.SchurStep
-import Development.WeilBound.ThetaLifts.LatticeBasics.EulerA
+import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle001
 public import Mathlib.MeasureTheory.Measure.Haar.Unique
 
 @[expose] public section

@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.JGenSpecializes
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsIdealSheafAwayFromP
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsModelRefinementGenerating
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle231
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle629
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle634
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

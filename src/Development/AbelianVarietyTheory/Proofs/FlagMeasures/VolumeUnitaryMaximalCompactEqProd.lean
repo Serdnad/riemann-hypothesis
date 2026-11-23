@@ -1,12 +1,12 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.TendstoOfSqueeze
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.DefClassNum
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsAlgebrasMaxCompactAndLeviInterStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.GaugeMeasureMatrixAlgebraSubgroupLocalAsymptoticStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.RiemannianHaarGaugeExistsPosUnique
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.RiemannianHaarGaugeVolumeUnitaryGroupEqStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.RiemannianHaarGaugeWholeGroupStatement
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle008
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle142
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle247
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle124
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle292
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle140
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

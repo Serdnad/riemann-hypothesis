@@ -46,7 +46,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import Development.AutomorphicArithmetic.QuadraticCharacters.LogDerivAtOne
+public import Development.AutomorphicArithmetic.QuadraticCharacters.Bundle001
 
 @[expose] public section
 

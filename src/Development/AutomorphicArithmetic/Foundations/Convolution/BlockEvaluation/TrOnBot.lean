@@ -2,9 +2,9 @@ module
 
 public import Development.AutomorphicArithmetic.Foundations.Convolution.BlockEvaluation.TruncSpec
 public import Development.AutomorphicArithmetic.Foundations.Convolution.BlockEvaluation.AbsDAtTop
-public import Development.AutomorphicArithmetic.Foundations.Convolution.BlockEvaluation.SideEst
-public import Development.AutomorphicArithmetic.Foundations.Convolution.BlockEvaluation.TotalDegreeAevalLe
-public import Development.AutomorphicArithmetic.Foundations.Convolution.PolynomialCoefficientBounds.Degree
+public import Development.AutomorphicArithmetic.Foundations.Convolution.BlockEvaluation.Bundle002
+public import Development.AutomorphicArithmetic.Foundations.Convolution.BlockEvaluation.Bundle001
+public import Development.AutomorphicArithmetic.Foundations.Convolution.PolynomialCoefficientBounds.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

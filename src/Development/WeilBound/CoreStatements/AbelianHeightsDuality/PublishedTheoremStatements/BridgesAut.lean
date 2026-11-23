@@ -1,10 +1,10 @@
 module
 
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.SiegelKlingenDeligneRibet
-public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.GreenCuspidalIff
+public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.Bundle004
 public import Development.AbelianVarietyTheory.PublishedTheorems.PublishedFoundations.GreenSeriesSt
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ProdFactorsOfMonic
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SiegelKlingenDeligneRibetOfBoth
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle928
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

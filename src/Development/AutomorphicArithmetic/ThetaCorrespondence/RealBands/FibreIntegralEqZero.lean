@@ -2,7 +2,7 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.DepthPays
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.RealBands.DecaysZero
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsClosedParabolicSubgroups
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle675
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.RealBands.IntegralCoefEqZero
 import Development.AutomorphicArithmetic.ThetaCorrespondence.RealBands.IsCompactBall
 import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.IdemElt

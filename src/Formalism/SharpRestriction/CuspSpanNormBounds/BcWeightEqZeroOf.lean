@@ -1,7 +1,7 @@
 module
 
-public import Formalism.SharpRestriction.CuspSpanNormBounds.ContinuousCjIT
-public import Formalism.SharpRestriction.CuspSpanNormBounds.StarVecMulDM
+public import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle012
+public import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle016
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -46,7 +46,7 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Separation.CompletelyRegular
 import Mathlib.Topology.Sheaves.Init
-import Formalism.SharpRestriction.CuspSpanNormBounds.OnePlaceEstimates
+import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle010
 
 @[expose] public section
 

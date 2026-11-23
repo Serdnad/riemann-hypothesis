@@ -48,7 +48,7 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Algebra.Group.Units
 import Mathlib.Topology.Sheaves.Init
-public import GroundTheory.AutomorphicForms.DixmierMalliavinBasic
+public import GroundTheory.AutomorphicForms.Bundle004
 
 @[expose] public section
 

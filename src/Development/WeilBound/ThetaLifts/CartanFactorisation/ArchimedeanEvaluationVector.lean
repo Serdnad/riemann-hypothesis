@@ -1,6 +1,6 @@
 module
 
-public import Development.WeilBound.ThetaLifts.CartanFactorisation.CartanConj
+public import Development.WeilBound.ThetaLifts.CartanFactorisation.Bundle002
 public import Development.WeilBound.ThetaLifts.CartanFactorisation.NonemptyCoord
 public import Development.WeilBound.ThetaLifts.CartanFactorisation.EqOfInner
 public import Development.WeilBound.ThetaLifts.CartanFactorisation.ExistsCharNe

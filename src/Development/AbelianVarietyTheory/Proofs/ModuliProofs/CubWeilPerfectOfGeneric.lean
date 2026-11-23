@@ -2,12 +2,12 @@ module
 
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PlaceDivisors.AlWellDefSt
 public import Development.AbelianVarietyTheory.Definitions.Uniformization.PointEqOfSubsingleton
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.IsReducedTorsionGeometricFibre
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.CardAlgHomReducedTraceSum
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsAlgHomLocalizationAugmentation
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.IsUnitDetPairingOfBicharacterOfDvdTraceStatement
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.CubWeilOneLeft
-public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.FinRepExistsIsPullbackSpec
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle035
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle009
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle058
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle016
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle060
+public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.Bundle020
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

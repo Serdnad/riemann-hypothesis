@@ -4,7 +4,7 @@ import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerOrbitVolume.S
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerVolume.SdUniq
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerVolume.PosNear
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdelicLocalCompactness.T2SpaceTensorProductFiniteExtension
-import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerVolume.DensFibV
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerVolume.Bundle009
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerVolume.TensAll
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerVolume.TensTop
 import Mathlib.Algebra.Order.Floor.Extended
@@ -91,10 +91,10 @@ theorem crd_smul (s : Fv F v) (z : Fv F v ⊗[F] E) (k : Fin d) :
   simp [crd]
 
 theorem sigR_smul (σ : E →ₐ[F] E) (s : Fv F v) (z : Fv F v ⊗[F] E) :
-    sigR (Fv F v) σ (s • z) = s • sigR (Fv F v) σ z := by
+    _root_.Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.sigR (Fv F v) σ (s • z) = s • _root_.Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.sigR (Fv F v) σ z := by
   rw [Algebra.smul_def, Algebra.smul_def, map_mul]
   congr 1
-  simp [sigR, Algebra.TensorProduct.algebraMap_apply]
+  simp [_root_.Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.sigR, Algebra.TensorProduct.algebraMap_apply]
 
 theorem BR_smul_left (σ : E →ₐ[F] E) {M n : ℕ} (J : Matrix (Fin M) (Fin M) E) (s : Fv F v)
     (X Y : Fin n → Fin M → Fv F v ⊗[F] E) :
@@ -258,10 +258,10 @@ theorem isCompact_latA : IsCompact (latA v b : Set (Fv F v ⊗[F] E)) := by
   exact (isCompact_latV b v 1 1).image ((continuous_apply 0).comp (continuous_apply 0))
 
 def latS (σ : E →ₐ[F] E) : AddSubgroup (Fv F v ⊗[F] E) :=
-  latA v b ⊔ (latA v b).map (sigR (Fv F v) σ).toAddMonoidHom
+  latA v b ⊔ (latA v b).map (_root_.Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.sigR (Fv F v) σ).toAddMonoidHom
 
 theorem mem_latS (σ : E →ₐ[F] E) (z : Fv F v ⊗[F] E) :
-    z ∈ latS v b σ ↔ ∃ x ∈ latA v b, ∃ y ∈ latA v b, x + sigR (Fv F v) σ y = z := by
+    z ∈ latS v b σ ↔ ∃ x ∈ latA v b, ∃ y ∈ latA v b, x + _root_.Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.sigR (Fv F v) σ y = z := by
   simp only [latS, AddSubgroup.mem_sup, AddSubgroup.mem_map]
   constructor
   · rintro ⟨x, hx, _, ⟨y, hy, rfl⟩, rfl⟩
@@ -271,7 +271,7 @@ theorem mem_latS (σ : E →ₐ[F] E) (z : Fv F v ⊗[F] E) :
 
 theorem isCompact_latS (σ : E →ₐ[F] E) : IsCompact (latS v b σ : Set (Fv F v ⊗[F] E)) := by
   have e : (latS v b σ : Set (Fv F v ⊗[F] E)) =
-      (fun p : (Fv F v ⊗[F] E) × (Fv F v ⊗[F] E) => p.1 + sigR (Fv F v) σ p.2) ''
+      (fun p : (Fv F v ⊗[F] E) × (Fv F v ⊗[F] E) => p.1 + _root_.Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.sigR (Fv F v) σ p.2) ''
         ((latA v b : Set (Fv F v ⊗[F] E)) ×ˢ (latA v b : Set (Fv F v ⊗[F] E))) := by
     ext z
     rw [SetLike.mem_coe, mem_latS]
@@ -302,7 +302,7 @@ theorem smul_mem_latS (σ : E →ₐ[F] E) {s : Fv F v} (hs : s ∈ v.adicComple
     rw [smul_add, sigR_smul]⟩
 
 theorem trace_sigR (σ : E →ₐ[F] E) (hσ : ∀ x, σ (σ x) = x) (w : Fv F v ⊗[F] E) :
-    Algebra.trace (Fv F v) (Fv F v ⊗[F] E) (sigR (Fv F v) σ w) =
+    Algebra.trace (Fv F v) (Fv F v ⊗[F] E) (_root_.Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.sigR (Fv F v) σ w) =
       Algebra.trace (Fv F v) (Fv F v ⊗[F] E) w := by
   let B := Algebra.TensorProduct.basis (Fv F v) (Module.finBasis F E)
   have hB : ∀ k, B k = (1 : Fv F v) ⊗ₜ[F] (Module.finBasis F E) k := fun k =>
@@ -317,8 +317,8 @@ theorem trace_sigR (σ : E →ₐ[F] E) (hσ : ∀ x, σ (σ x) = x) (w : Fv F v
   rw [map_sum, map_sum, map_sum]
   refine Finset.sum_congr rfl fun k _ => ?_
   rw [sigR_smul, map_smul, map_smul, hB]
-  have : sigR (Fv F v) σ ((1 : Fv F v) ⊗ₜ[F] (Module.finBasis F E) k) =
-      (1 : Fv F v) ⊗ₜ[F] σ ((Module.finBasis F E) k) := by simp [sigR]
+  have : _root_.Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.sigR (Fv F v) σ ((1 : Fv F v) ⊗ₜ[F] (Module.finBasis F E) k) =
+      (1 : Fv F v) ⊗ₜ[F] σ ((Module.finBasis F E) k) := by simp [_root_.Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.sigR]
   rw [this, trace_one_tmul, trace_one_tmul, htr]
 
 def latH (σ : E →ₐ[F] E) (a : ℕ) : AddSubgroup (HermR (Fv F v) σ a) where
@@ -340,7 +340,7 @@ theorem latH_eq (σ : E →ₐ[F] E) (a : ℕ) :
 
 def iota (σ : E →ₐ[F] E) {a : ℕ} (X : Fin a → Fin a → Fv F v ⊗[F] E) :
     Matrix (Fin a) (Fin a) (Fv F v ⊗[F] E) :=
-  fun p q => sigR (Fv F v) σ (X p q) + X q p
+  fun p q => _root_.Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.sigR (Fv F v) σ (X p q) + X q p
 
 theorem iota_mem (σ : E →ₐ[F] E) (hσ : ∀ x, σ (σ x) = x) {a : ℕ}
     (X : Fin a → Fin a → Fv F v ⊗[F] E) : iota v σ X ∈ HermR (Fv F v) σ a := by

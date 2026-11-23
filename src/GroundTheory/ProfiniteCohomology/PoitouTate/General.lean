@@ -3,7 +3,7 @@ module
 public import GroundTheory.ProfiniteCohomology.PoitouTate.Abstract
 public import GroundTheory.ProfiniteCohomology.CohomologicalDimension.SubsingletonCohomologyOfPrimaryOfFinite
 public import GroundTheory.ProfiniteCohomology.PoincarePairs
-import GroundTheory.ProfiniteCohomology.TorsionDualFinite
+import GroundTheory.ProfiniteCohomology.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

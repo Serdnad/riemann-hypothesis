@@ -2,9 +2,9 @@ module
 
 public import Development.WeilBound.ThetaLifts.SmallCones.KerGeo
 public import Development.WeilBound.ThetaLifts.LeviDeterminants.MCSpan
-import Development.WeilBound.ThetaLifts.LeviDeterminants.MixedModels.PlaneAd
+import Development.WeilBound.ThetaLifts.LeviDeterminants.MixedModels.Bundle001
 public import Development.WeilBound.ThetaLifts.SmallCones.ExpAlg
-import Development.WeilBound.ThetaLifts.SmallCones.FourierUniq
+import Development.WeilBound.ThetaLifts.SmallCones.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -44,7 +44,7 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.Divisors.MatchingOfParts
 import Development.WeilBound.ThetaLifts.CTKernel
-import Development.WeilBound.ThetaLifts.TowerModels.PlaneHerm
+import Development.WeilBound.ThetaLifts.TowerModels.Bundle003
 
 @[expose] public section
 

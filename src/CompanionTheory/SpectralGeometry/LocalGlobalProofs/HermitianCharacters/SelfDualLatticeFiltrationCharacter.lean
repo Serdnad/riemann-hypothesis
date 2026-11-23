@@ -1,8 +1,8 @@
 module
 
 public import Formalism.UnipotentAdelicQuotients.SWXSDefs
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FiniteAdeleStrongApproximationModNat
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.IsOpenNsmulAdelicCompletionOfVectorSet
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle009
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle023
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

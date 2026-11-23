@@ -1,0 +1,154 @@
+module
+
+public import Formalism.LocalToGlobal.GroupLattices.PendingLemmas.InvarianceIffAdditiveMapsExist
+public import Formalism.LocalToGlobal.PairingIndexBounds.OrthogonalChartLevels.FdOfCharts
+public import Formalism.LocalToGlobal.PairingIndexBounds.OrthogonalChartLevels.LtCNeZero
+public import Formalism.LocalToGlobal.TorsionIntegrality.CMGoodModels.Statement
+public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.Bundle002
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Topology.Sheaves.Init
+import Formalism.LocalToGlobal.InertKernelTheory.FirstKernelGeneratorOfOrthogonal
+import Formalism.LocalToGlobal.KernelLattices.LateralTheory
+import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.Bundle001
+import Formalism.LocalToGlobal.TorsionIntegrality.UniformGaussModels.IsHypPair
+
+@[expose] public section
+
+section
+
+noncomputable section
+
+open Formalism.BasicNotions NumberField IsDedekindDomain Formalism.MainNotions.G Formalism.MainNotions.FormalGroupSystem Formalism.L2.G.Pend Formalism.MainNotions Formalism.L2.Ker
+open scoped TensorProduct
+
+namespace Formalism.L2.KerInert.AdmLoc
+
+attribute [local instance] Formalism.BasicNotions.Host.cmStar
+
+open Formalism.L2.PairingIndexBounds.F
+
+section Gen
+
+variable {p : ℕ} [Fact p.Prime] {D : D7}
+
+abbrev pendG (X : Sys p) [IsFractionRing X.G.O X.G.Kf] (E : CEmbC X.G) (hfin : ∀ j c, (X.Lv.lev j c).FinClasses)
+    (hst : FinStab X.Lv) {g : GL3Theta.G1 p} (hLT : LTIso g) (pos : (Σ v : X.Pl, Fin (X.G.P.n' v)) ≃ D.what₂.Tau)
+    (fd : FData X D) {cc : Ideal (𝓞 D.host.K)} {δ : ℂ} (B : Base D cc δ) (χ : TaylorLogMetric.IdE D → ℂ)
+    (lam : TaylorLogMetric.Qbar →+* ℂ_[p]) (SS : Finset (HeightOneSpectrum (𝓞 D.host.E))) (cl : ℕ)
+    (Ξ₀ : ∀ j, X.Lt j → X.Lt (j + 1) → Formalism.L2.Col.HomE D.host.E ((X.Pj j).m + 1) ((X.Pj (j + 1)).m + 1) → ℂ)
+    (muT : ℕ → (D.host.E ⊗[D.host.F] FiniteAdeleRing (𝓞 D.host.F) D.host.F)ˣ → ℂ) : Pend X :=
+  pendT X E hfin hst hLT pos (FrecG E.toCEmb pos fd B χ lam SS cl Ξ₀ muT (ltC g hLT))
+
+def CurveIn (D : D7) (p : ℕ) [Fact p.Prime] (cc : Ideal (𝓞 D.host.K)) (δ : ℂ) (g : GL3Theta.G1 p) (B : Base D cc δ)
+    (χ : TaylorLogMetric.IdE D → ℂ) (lam : TaylorLogMetric.Qbar →+* ℂ_[p]) : Prop :=
+  5 ≤ p ∧ GL3Theta.At D cc δ g ∧ GL3Theta.InertK D p ∧ GL3Theta.ModelOverW g.lam g.abelian₂ g.C ∧ TaylorLogMetric.IsCurveIdeal D cc ∧
+    TaylorLogMetric.IsDiscriminantTwelfthRootOfIdealLattice D cc δ ∧ TaylorLogMetric.IsChi D χ ∧ lam = g.lam ∧ g.abelian₂ = B.tor.abelian₂
+
+def XiIn (X : Sys p) [IsFractionRing X.G.O X.G.Kf] (E : CEmbC X.G) (hfin : ∀ j c, (X.Lv.lev j c).FinClasses)
+    (hst : FinStab X.Lv) {g : GL3Theta.G1 p} (hLT : LTIso g) (pos : (Σ v : X.Pl, Fin (X.G.P.n' v)) ≃ D.what₂.Tau)
+    (fd : FData X D) {cc : Ideal (𝓞 D.host.K)} {δ : ℂ} (B : Base D cc δ) (χ : TaylorLogMetric.IdE D → ℂ)
+    (lam : TaylorLogMetric.Qbar →+* ℂ_[p]) (SS : Finset (HeightOneSpectrum (𝓞 D.host.E))) (cl : ℕ)
+    (Ξ₀ : ∀ j, X.Lt j → X.Lt (j + 1) → Formalism.L2.Col.HomE D.host.E ((X.Pj j).m + 1) ((X.Pj (j + 1)).m + 1) → ℂ)
+    (muT : ℕ → (D.host.E ⊗[D.host.F] FiniteAdeleRing (𝓞 D.host.F) D.host.F)ˣ → ℂ) : Prop :=
+  ∀ v, ∀ j < X.mm, letI := algKfC E.toCEmb
+    XiEx X ℂ_[p] (pendG X E hfin hst hLT pos fd B χ lam SS cl Ξ₀ muT).ThF v j
+
+end Gen
+
+
+
+end Formalism.L2.KerInert.AdmLoc
+end
+end
+
+section
+
+noncomputable section
+
+namespace Formalism.L2.KerInert.RepFrame
+
+open Formalism.MainNotions.FormalGroupSystem Formalism.L2.Th1.D Formalism.L2.Th1.Top Formalism.L2.KerInert.K1
+open Formalism.InvariantFactorPaths.G7 (UnrOK)
+open Formalism.L2.Th1.CM (MaximalUnramifiedExtension)
+open Formalism.L2.G.Pend (wittFractionAlgebraCp Frm tw rank_eq)
+open NumberField Formalism.BasicNotions Formalism.MainNotions.TaylorLogMetric Formalism.L2.Ker
+
+variable {p : ℕ} [Fact p.Prime] (X : Sys p) [IsFractionRing X.G.O X.G.Kf] (E : Formalism.L2.G.Pend.CEmbC X.G)
+
+def twE (v : X.Pl) (s : Fin (X.G.P.n' v)) : X.G.P.Qq v →+* ℂ_[p] :=
+  letI := wittFractionAlgebraCp p
+  letI := Formalism.L2.G.Pend.algKfC E.toCEmb
+  tw X ℂ_[p] v s
+
+def wE (p : ℕ) [Fact p.Prime] (w : WW p) : ℂ_[p] :=
+  letI := wittFractionAlgebraCp p
+  algebraMap (K0 p) ℂ_[p] (algebraMap (WW p) (K0 p) w)
+
+variable (M : ∀ j, X.Lt j → ∀ v : X.Pl, Matrix (Fin ((X.Pj j).m + 1)) (Fin ((X.Pj j).m + 1)) (X.G.P.Qq v))
+  {j : ℕ} {L0 : X.Lt j} {La' : X.Lt (j + 1)} (φ : Frm X j L0 La')
+
+def Gp (v : X.Pl) : Matrix (Fin ((X.Pj (j + 1)).m + 1)) (Fin ((X.Pj (j + 1)).m + 1)) (X.G.P.Qq v) :=
+  M (j + 1) La' v * (φ.g' v : Matrix (Fin ((X.Pj (j + 1)).m + 1)) (Fin ((X.Pj (j + 1)).m + 1)) (X.G.P.Qq v))
+
+def Gpi (v : X.Pl) : Matrix (Fin ((X.Pj (j + 1)).m + 1)) (Fin ((X.Pj (j + 1)).m + 1)) (X.G.P.Qq v) :=
+  (((φ.g' v)⁻¹ : GL _ _) : Matrix (Fin ((X.Pj (j + 1)).m + 1)) (Fin ((X.Pj (j + 1)).m + 1)) (X.G.P.Qq v)) *
+    (M (j + 1) La' v)⁻¹
+
+def Gm (v : X.Pl) : Matrix (Fin ((X.Pj j).m + 1)) (Fin ((X.Pj j).m + 1)) (X.G.P.Qq v) :=
+  M j L0 v * (φ.g v : Matrix (Fin ((X.Pj j).m + 1)) (Fin ((X.Pj j).m + 1)) (X.G.P.Qq v))
+
+def Gmi (v : X.Pl) : Matrix (Fin ((X.Pj j).m + 1)) (Fin ((X.Pj j).m + 1)) (X.G.P.Qq v) :=
+  (((φ.g v)⁻¹ : GL _ _) : Matrix (Fin ((X.Pj j).m + 1)) (Fin ((X.Pj j).m + 1)) (X.G.P.Qq v)) * (M j L0 v)⁻¹
+
+variable (hfin : ∀ j c, (X.Lv.lev j c).FinClasses) (D : D7) (pos : (Σ v : X.Pl, Fin (X.G.P.n' v)) ≃ D.what₂.Tau)
+    (large₂ : ∀ j, X.Lt j → X.Lt (j + 1) → Submodule (𝓞 D.host.E) (Fin ((X.Pj j).m + 1) → D.host.E))
+    (Lg' : ∀ j, X.Lt j → X.Lt (j + 1) → Submodule (𝓞 D.host.E) (Fin ((X.Pj (j + 1)).m + 1) → D.host.E))
+
+def LamPosG (lam : Qbar →+* ℂ_[p]) (ρ : ∀ v : X.Pl, D.host.E →+* X.G.P.Qq v) : Prop :=
+  ∀ v s x, lamC lam (embT D (pos ⟨v, s⟩) x) = twE X E v s (ρ v (if IsOddPos s then D.host.conj x else x))
+
+def FrobTw : Prop :=
+  ∃ (σ : MaximalUnramifiedExtension p →+* MaximalUnramifiedExtension p) (twK : ∀ (v : X.Pl) (s : Fin (X.G.P.n' v)), X.G.P.Qq v →+* MaximalUnramifiedExtension p) (wK : WW p →+* MaximalUnramifiedExtension p),
+    UnrOK (MaximalUnramifiedExtension p) p σ ∧ (∀ v s x, ((twK v s x : MaximalUnramifiedExtension p) : ℂ_[p]) = twE X E v s x) ∧
+    (∀ v s x, σ (twK v s x) = twK v (finRotate _ s) x) ∧ (∀ w, ((wK w : MaximalUnramifiedExtension p) : ℂ_[p]) = wE p w) ∧
+    (∀ w, σ (wK w) = wK (sigW p w)) ∧ (∀ w, ‖((wK w : MaximalUnramifiedExtension p) : ℂ_[p])‖ ≤ 1)
+
+def MInv : Prop := ∀ j (La : X.Lt j) (v : X.Pl), IsUnit (M j La v).det
+
+end Formalism.L2.KerInert.RepFrame
+end
+end

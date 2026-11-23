@@ -1,7 +1,6 @@
 module
 
-public import Development.WeilBound.CoreStatements.PublishedTheorems.GlobalEulerCharacteristic.LemmaX
-public import Development.WeilBound.CoreStatements.PublishedTheorems.GlobalEulerCharacteristic.RatioOneKilled
+public import Development.WeilBound.CoreStatements.PublishedTheorems.GlobalEulerCharacteristic.Bundle001
 public import Development.WeilBound.CoreStatements.PublishedTheorems.GlobalEulerCharacteristic.WorkAssemble
 public import Development.WeilBound.CoreStatements.PublishedTheorems.GlobalEulerCharacteristic.WorkDevis
 import Mathlib.Algebra.Order.Floor.Extended

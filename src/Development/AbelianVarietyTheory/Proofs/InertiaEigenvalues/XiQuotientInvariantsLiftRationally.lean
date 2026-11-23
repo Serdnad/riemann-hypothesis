@@ -1,13 +1,13 @@
 module
 
-import Formalism.SharpRestriction.LevelLetterCocycles.LocalTheoremOfUnramifiedLifting
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.ExpStar
+import Formalism.SharpRestriction.LevelLetterCocycles.Bundle027
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle010
 public import Mathlib.Algebra.Lie.OfAssociative
 public import Development.AbelianVarietyTheory.CrystallinePeriods.RingIface
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CyclotomicCharacterPadicBasicProperties
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle164
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.DeRhamFilQuotientXiPowerAinf
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FinrankCyclotomicExtAndCyclotomicCharSurjective
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NonemptyThetaOnBdRPlusPeriodData
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle401
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

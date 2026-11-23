@@ -1,13 +1,13 @@
 module
 
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsPullOWOverComp
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle199
 public import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.HodgeWedgeFields.H1CommutesBaseChange
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CechTripleRestrictCompositeInjectiveSecond
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsUniqueIsPullForm
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GlueCommaOfBasis
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HasLocOAff
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RestrictPull1InjectiveOfSepGlue
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SepOfFactoringCover
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle601
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle292
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle452
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle157
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle290
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -116,7 +116,7 @@ theorem kunneth_open (A B : Over (Sp R)) (U : A.left.affineOpens) (V : B.left.af
       rw [Category.assoc, Category.assoc, m1, ← Category.assoc (pullbackSpecIso R Sa Sb).inv, pullbackSpecIso_inv_fst]
       have m2 : spMap κ.toRingHom ≫ Spec.map (CommRingCat.ofHom Algebra.TensorProduct.includeLeftRingHom) =
           spMap (secPull A.hom (A ⊗ B).hom ⟨(⟨_, hV⟩, U), inf_le_left⟩) := by
-        rw [← l, spMap_comp]
+        rw [← l, _root_.GlobalTheory.Cris.spMap_comp]
       rw [← Category.assoc, m2]
       exact s1
     · have s1 := secPull_affPt (φ := (snd A B).left) B.hom (A ⊗ B).hom ⟨(⟨_, hV⟩, V), inf_le_right⟩
@@ -128,7 +128,7 @@ theorem kunneth_open (A B : Over (Sp R)) (U : A.left.affineOpens) (V : B.left.af
       rw [Category.assoc, Category.assoc, m1, ← Category.assoc (pullbackSpecIso R Sa Sb).inv, pullbackSpecIso_inv_snd]
       have m2 : spMap κ.toRingHom ≫ Spec.map (CommRingCat.ofHom (Algebra.TensorProduct.includeRight : Sb →ₐ[R] Sa ⊗[R] Sb).toRingHom) =
           spMap (secPull B.hom (A ⊗ B).hom ⟨(⟨_, hV⟩, V), inf_le_right⟩) := by
-        rw [← l, spMap_comp]
+        rw [← l, _root_.GlobalTheory.Cris.spMap_comp]
       rw [← Category.assoc]
       exact (congrArg (· ≫ iV) m2).trans s1
   haveI hj1 : IsOpenImmersion j := inferInstance

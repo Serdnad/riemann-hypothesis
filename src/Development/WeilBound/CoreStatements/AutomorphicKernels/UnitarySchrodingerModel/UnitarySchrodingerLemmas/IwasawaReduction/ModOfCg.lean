@@ -1,8 +1,8 @@
 module
 
-public import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.WeilSiegelTheta.BigCellDefs
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AbsAUNeZero
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HermitianMeasureConjugationStatement
+public import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.WeilSiegelTheta.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1518
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle745
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

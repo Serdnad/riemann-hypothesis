@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.CharacterGerms.RowTiePCEqDer
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle017
 public import Formalism.LocalToGlobal.CharacterGerms.RowTiePGerm
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -76,13 +76,13 @@ theorem integral_second_axis_points : ∀ k i, IntS V (((![0, pt C dd 1] : Fin 2
   · exact intS_X _
 
 theorem eval_outer_points_first (j : Fin dd) : ev (n := 2) ((![pt C dd 0, 0, pt C dd 1] : Fin 3 → Pt C 2 dd)) (pt C (n := 3) dd 0 j) = pt C dd 0 j := by
-  rw [show (pt C (n := 3) dd 0 j) = X ((0 : Fin 3), j) from rfl, ev_X constant_zero_outer_points]; rfl
+  rw [show (pt C (n := 3) dd 0 j) = X ((0 : Fin 3), j) from rfl, PartialDerivEval.ev_X constant_zero_outer_points]; rfl
 
 theorem eval_outer_points_middle (j : Fin dd) : ev (n := 2) ((![pt C dd 0, 0, pt C dd 1] : Fin 3 → Pt C 2 dd)) (pt C (n := 3) dd 1 j) = 0 := by
-  rw [show (pt C (n := 3) dd 1 j) = X ((1 : Fin 3), j) from rfl, ev_X constant_zero_outer_points]; rfl
+  rw [show (pt C (n := 3) dd 1 j) = X ((1 : Fin 3), j) from rfl, PartialDerivEval.ev_X constant_zero_outer_points]; rfl
 
 theorem eval_outer_points_last (j : Fin dd) : ev (n := 2) ((![pt C dd 0, 0, pt C dd 1] : Fin 3 → Pt C 2 dd)) (pt C (n := 3) dd 2 j) = pt C dd 1 j := by
-  rw [show (pt C (n := 3) dd 2 j) = X ((2 : Fin 3), j) from rfl, ev_X constant_zero_outer_points]; rfl
+  rw [show (pt C (n := 3) dd 2 j) = X ((2 : Fin 3), j) from rfl, PartialDerivEval.ev_X constant_zero_outer_points]; rfl
 
 theorem group_law_zero_right (Y : FBChart C V O dd) {n : ℕ} (P : Pt C n dd) (hP : ∀ j, constantCoeff (P j) = 0) (j : Fin dd) :
     ev (n := n) ![P, 0] (Y.B.G.F j) = P j := by
@@ -223,11 +223,11 @@ theorem hi1 (Y : FBChart C V O dd) (i : Fin dd) :
     funext k j; fin_cases k
     · exact eval_outer_points_first j
     · exact eval_outer_points_middle j
-  rw [hph, pderiv_expS hg, ← hph, ev_mul constant_zero_outer_points, Y.B.cocycleLeft_zero_snd, one_mul, map_sub, map_add (f := _), ev_sub constant_zero_outer_points,
-    ev_add constant_zero_outer_points, hA, ev_zero constant_zero_outer_points, zero_add, hB, hE1B, hC, ev_sum constant_zero_outer_points]
+  rw [hph, pderiv_expS hg, ← hph, PartialDerivEval.ev_mul constant_zero_outer_points, Y.B.cocycleLeft_zero_snd, one_mul, map_sub, map_add (f := _), ev_sub constant_zero_outer_points,
+    PartialDerivEval.ev_add constant_zero_outer_points, hA, PartialDerivEval.ev_zero constant_zero_outer_points, zero_add, hB, hE1B, hC, PartialDerivEval.ev_sum constant_zero_outer_points]
   congr 1
   refine Finset.sum_congr rfl fun j _ => ?_
-  rw [ev_mul constant_zero_outer_points, hE1C, hE1D]
+  rw [PartialDerivEval.ev_mul constant_zero_outer_points, hE1C, hE1D]
 
 theorem hs1 (Y : FBChart C V O dd) (i : Fin dd) :
     ev (n := 2) (![0, pt C dd 1] : Fin 2 → Pt C 2 dd) (pderiv (R := C) ((0 : Fin 2), i) Y.B.sy) =
@@ -257,7 +257,7 @@ theorem hs1 (Y : FBChart C V O dd) (i : Fin dd) :
     funext k j; fin_cases k
     · exact ev_X constant_zero_second_axis 1 j
     · exact ev_X constant_zero_second_axis 0 j
-  rw [hsy, pderiv_expS hg, ← hsy, ev_mul constant_zero_second_axis, h1, one_mul, map_sub, ev_sub constant_zero_second_axis, hd, hE]
+  rw [hsy, pderiv_expS hg, ← hsy, PartialDerivEval.ev_mul constant_zero_second_axis, h1, one_mul, map_sub, ev_sub constant_zero_second_axis, hd, hE]
 
 end RowTiePCEqM
 

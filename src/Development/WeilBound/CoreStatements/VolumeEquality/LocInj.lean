@@ -1,8 +1,8 @@
 module
 
 public import Development.WeilBound.CoreStatements.VolumeEquality.RootBranches
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.BallAutomorphismInverseExists
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ContinuousHermitianMatrixFamily
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle049
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle037
 public import Development.WeilBound.CoreStatements.VolumeEquality.LocInjA
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

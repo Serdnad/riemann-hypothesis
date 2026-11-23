@@ -1,6 +1,6 @@
 module
 
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.ThetaConjOfParts
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle030
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.DilationUnipotentWeylMeasure
 public import Mathlib.FieldTheory.Perfect
 public import Mathlib.LinearAlgebra.FreeModule.PID

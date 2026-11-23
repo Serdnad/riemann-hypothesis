@@ -2,12 +2,12 @@ module
 
 public import GroundTheory.ProfiniteCohomology.RealPlaces.VanishingUnitsDefs
 public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.HighUnits
-public import GroundTheory.ProfiniteCohomology.RealPlaces.GSDefs
+public import GroundTheory.ProfiniteCohomology.RealPlaces.Bundle002
 public import GroundTheory.ProfiniteCohomology.RealPlaces.LocalCohomologyIsoHomologyMapNormCochains
 import GroundTheory.ProfiniteCohomology.ClassFormations.HighFormations
 import GroundTheory.ProfiniteCohomology.GlobalClassFormation.HighUnitsLocal
-import GroundTheory.ProfiniteCohomology.GlobalClassFormation.LocalResConj
-public import GroundTheory.ProfiniteCohomology.RestrictedRamification.EqZeroOfPowNsmulCohomologySUnitsOfOdd
+import GroundTheory.ProfiniteCohomology.GlobalClassFormation.Bundle003
+public import GroundTheory.ProfiniteCohomology.RestrictedRamification.Bundle013
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

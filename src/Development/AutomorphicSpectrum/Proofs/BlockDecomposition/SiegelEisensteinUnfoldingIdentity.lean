@@ -1,7 +1,7 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsUnitHermOfDet
-public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.MeasurableSetIntF
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle608
+public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle057
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -42,7 +42,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.PublishedTheorems.GlobalTheta.IsSchwartzBruhatOfProd
+import Development.AbelianVarietyTheory.PublishedTheorems.GlobalTheta.Bundle002
 
 @[expose] public section
 

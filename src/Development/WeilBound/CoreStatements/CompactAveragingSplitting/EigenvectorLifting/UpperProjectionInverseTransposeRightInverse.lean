@@ -5,10 +5,10 @@ public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFor
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.PowDvdOfHermMatEq
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsLocallyConstantOrbit
 public import Mathlib.RingTheory.PowerSeries.Basic
-import Development.AbelianVarietyTheory.Definitions.Foundations.SecondCountableAndT2LocalField
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.EventuallyDeepSubset
+import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle006
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle076
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IwasawaBlockTriangular
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.NormLeOfCompleteHomogeneousLe
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle011
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -70,6 +70,8 @@ open scoped NNReal ENNReal Pointwise
 noncomputable section
 
 namespace PositivityTheory.ThK.SplitLoc.Unr
+
+attribute [local instance 10000] GlobalTheory.SplitWeil.matrixMeasurableSpace
 
 open GlobalTheory.SplitFlip GlobalTheory.SplitWeil GlobalTheory.SmGL
 

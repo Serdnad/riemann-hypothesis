@@ -1,28 +1,26 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.NormVal
-public import Development.AbelianVarietyTheory.Definitions.Uniformization.AllDV
-public import Development.AbelianVarietyTheory.Statements.SemistableTorsion.UTorsSt
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle067
+public import Development.AbelianVarietyTheory.Definitions.Uniformization.Bundle001
+public import Development.AbelianVarietyTheory.Statements.SemistableTorsion.Bundle001
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.PeriodicValuation
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.VRatioGtStatement
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.Bundle012
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.LawsThirdToSixthOfLaws
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.EigensectionSupport
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.EqZeroOfSumV
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsEquivYEqZero
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsExpandsFAndNuGeOfIsComb
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle179
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle192
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle072
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle197
 public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsGlobalGenerators
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsRatLog
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsTorusPoint
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.LinCombValueAct
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.NuGeTranslatePullSmul
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.TestQuadraticFormEqPsiValuationMul
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle075
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle188
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle202
 import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ThetaSysFFMemFinitePerpProj
 public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.UtestGeomNonempty
-import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.ExistsBasisOfCoord
-import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.ValuationThetaRatioEqBilinear
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsPrimGenerator
-import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.TwistedPrincipalPolarisationSectionsBaseChange
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ValueAtFormalTorsion
+import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.Bundle034
+import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.Bundle019
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle040
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle125
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle126
 import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ValueAtOrigin
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -89,15 +87,15 @@ variable {o Ω : Type} [CommRing o] [Field Ω] [Algebra o Ω] {S : ThetaSys o Ω
 theorem ρ_mul_proj {T : AddSubgroup S.Gam} (hT : S.IsoFree T) (c : T →+ ZMod S.N) (a : T) :
     S.ρ a * S.proj T c = S.ζN ^ (c a).val • S.proj T c := by
   have := Fintype.ofFinite T
-  have h1 : S.ζN ^ (c a).val * chi S (c a) = 1 := by
+  have h1 : S.ζN ^ (c a).val * GlobalTheory.ZH.GlobalGen.chi S (c a) = 1 := by
     have := chi_add S (-c a) (c a)
     rw [neg_add_cancel, chi_zero] at this
     rw [this]
-    simp only [chi, neg_neg]
+    simp only [GlobalTheory.ZH.GlobalGen.chi, neg_neg]
   rw [proj_eq, Matrix.mul_smul, smul_comm (S.ζN ^ (c a).val)]
   congr 1
   rw [Finset.mul_sum, Finset.smul_sum,
-    ← Equiv.sum_comp (Equiv.addLeft a) fun t : T => S.ζN ^ (c a).val • chi S (c t) • S.ρ t]
+    ← Equiv.sum_comp (Equiv.addLeft a) fun t : T => S.ζN ^ (c a).val • GlobalTheory.ZH.GlobalGen.chi S (c t) • S.ρ t]
   refine Finset.sum_congr rfl fun t _ => ?_
   rw [Matrix.mul_smul, ρ_mul_ρ hT, Equiv.coe_addLeft, map_add (f := _), chi_add, smul_smul, ← _root_.mul_assoc, h1, _root_.one_mul]
 

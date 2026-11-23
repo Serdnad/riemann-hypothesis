@@ -1,8 +1,8 @@
 module
 
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.IsSmoothModerateOfIsAutFunSm
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsHermRingRat
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ExistsLevi
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle622
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle091
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

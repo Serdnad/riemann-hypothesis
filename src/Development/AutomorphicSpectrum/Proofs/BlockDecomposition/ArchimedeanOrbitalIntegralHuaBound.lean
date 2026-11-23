@@ -1,7 +1,6 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SecondCountableHermC
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.TupCoordApply
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle009
 public import Mathlib.Analysis.Distribution.SchwartzSpace.Basic
 public import Mathlib.Analysis.Normed.Lp.MeasurableSpace
 public import Mathlib.LinearAlgebra.Complex.FiniteDimensional
@@ -9,7 +8,7 @@ public import Mathlib.MeasureTheory.Measure.Haar.OfBasis
 public import Mathlib.Topology.Separation.CompletelyRegular
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ContinuousSeminormDiffSLe
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.DetConjUnitary
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ArchimedeanOrbitMeasures.PiDens
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ArchimedeanOrbitMeasures.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

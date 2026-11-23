@@ -3,12 +3,12 @@ module
 public import Formalism.SharpRestriction.GrowthBounds.DualFockLinear.OneSidedLemma4Realisable
 import Formalism.LocalToGlobal.GroupLattices.FockModels.ElementaryDivisorBasis
 public import Formalism.LocalToGlobal.GroupLattices.FockModels.TransposeWords.TransposeWordsProofs.ProdBlockEmbMonomial
-import Formalism.SharpRestriction.GrowthBounds.DualFockLinear.FockRLinDual
-public import Formalism.SharpRestriction.GrowthBounds.DualFockLinear.FockSumRight
-public import Formalism.SharpRestriction.GrowthBounds.DualFockLinear.LaTwInvT
+import Formalism.SharpRestriction.GrowthBounds.DualFockLinear.Bundle009
+public import Formalism.SharpRestriction.GrowthBounds.DualFockLinear.Bundle010
+public import Formalism.SharpRestriction.GrowthBounds.DualFockLinear.Bundle012
 public import Formalism.SharpRestriction.GrowthBounds.DualFockLinear.PairFormula
 import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.EdgePlane
-import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.ScaleNegMono
+import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -51,7 +51,7 @@ import Mathlib.Topology.Sheaves.Init
 public import Formalism.LocalToGlobal.GroupLattices.FockModels.TestSideEdge
 public import Formalism.LocalToGlobal.GroupLattices.FockModels.TransposeWords.FockR
 public import Formalism.LocalToGlobal.GroupLattices.FockModels.TransposeWords.TransposeWordsProofs.FockPairingRowAction
-public import Formalism.SharpRestriction.GrowthBounds.DualFockLinear.FockRAddRight
+public import Formalism.SharpRestriction.GrowthBounds.DualFockLinear.Bundle011
 
 @[expose] public section
 

@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.CharacterGerms.RowTiePKeyTeichDef
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle011
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -45,7 +45,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Formalism.LocalToGlobal.CharacterGerms.RowTiePKeyDef
+import Formalism.LocalToGlobal.CharacterGerms.Bundle019
 public import Mathlib.Data.Matrix.Basic
 
 @[expose] public section

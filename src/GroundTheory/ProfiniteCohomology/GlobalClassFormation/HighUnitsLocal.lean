@@ -1,8 +1,8 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.LocalInvariants
+public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.Bundle002
 public import GroundTheory.ProfiniteCohomology.ClassFormations.HighFormations
-import GroundTheory.ProfiniteCohomology.GlobalClassFormation.CupDecompositionGlobal
+import GroundTheory.ProfiniteCohomology.GlobalClassFormation.Bundle005
 import GroundTheory.ProfiniteCohomology.GlobalClassFormation.SignsCup
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

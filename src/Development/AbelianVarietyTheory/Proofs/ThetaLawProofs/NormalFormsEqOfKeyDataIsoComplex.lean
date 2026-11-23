@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.KeyFormula.SameObj
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.DualNumberRingHomExt
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.KeyPBId
+public import Development.AbelianVarietyTheory.Definitions.KeyFormula.Bundle002
+public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle027
+public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle037
 import Development.AbelianVarietyTheory.Proofs.ToricGeometry.TopLePreimageOfValAtNeZero
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

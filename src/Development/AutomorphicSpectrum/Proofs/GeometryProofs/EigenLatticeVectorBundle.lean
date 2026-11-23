@@ -1,12 +1,12 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsFlatAnIffIsConstMul
-public import Formalism.LocalToGlobal.ProjectiveLattices.GenFrPfB
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.RelatedPairsOrbitalTermEq
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GenMapFromSpecStalk
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle011
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle020
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle018
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle044
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LatticeEigenVectorBundle
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieLatticeVectorBundleOfSmooth
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieModelPullbackCorrespondence
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle074
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

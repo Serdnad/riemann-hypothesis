@@ -3,7 +3,7 @@ module
 public import Development.AbelianVarietyTheory.Definitions.Foundations.CdScaleTieIff
 public import Formalism.SharpRestriction.CuspSpanNormBounds.GlobAut
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.FiniteAdelicUnitaryCongruenceTopology
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.MemAdelicLatticeClosureIffSwapMemSpan
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle215
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CompletedLatticeStabilizerCompactOpen
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -43,8 +43,8 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 public import Development.AbelianVarietyTheory.Definitions.ExistenceOfLattices.Hat1
-import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.TopfBasis
-import Formalism.SharpRestriction.LevelLetterCocycles.ArithmeticCylinders
+import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle005
+import Formalism.SharpRestriction.LevelLetterCocycles.Bundle006
 
 @[expose] public section
 

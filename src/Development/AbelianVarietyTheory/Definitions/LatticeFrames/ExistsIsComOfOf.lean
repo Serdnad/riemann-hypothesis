@@ -2,10 +2,10 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.TiedAt
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.CombAtSingleZero
-public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.FrameTop
-public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.MiPinnedWithFinIff
+public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.Bundle022
+public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.Bundle011
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.HasDerivAtZeroAndIsTheta
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.HeisOFinsetSum
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle217
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

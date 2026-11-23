@@ -1,13 +1,13 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.RestrictedRamification.BaseLevel
+public import GroundTheory.ProfiniteCohomology.RestrictedRamification.Bundle006
 public import GroundTheory.ProfiniteCohomology.PoincareDuality.TensorHomZmodDualIsoZmodMulPairing
 public import GroundTheory.ProfiniteCohomology.PoitouTate.ZmodToQZCompactCohomologyResMapOfLocalInv
 import GroundTheory.ProfiniteCohomology.PoincarePairs
 public import GroundTheory.ProfiniteCohomology.PoitouTate.PoitouTateNineTermGs
 public import GroundTheory.ProfiniteCohomology.PoitouTate.RealAbstract
 import GroundTheory.ProfiniteCohomology.RestrictedRamification.BaseInv
-import GroundTheory.ProfiniteCohomology.RestrictedRamification.BijectiveGsLocalInvRootsOfPlaces
+import GroundTheory.ProfiniteCohomology.RestrictedRamification.Bundle012
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

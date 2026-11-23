@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsZModTorsorIff
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle004
 public import Mathlib.Algebra.Category.Ring.Basic
 public import Mathlib.CategoryTheory.Limits.Shapes.Pullback.IsPullback.Defs
 public import Mathlib.RingTheory.EssentialFiniteness
 public import Mathlib.RingTheory.FinitePresentation
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsIsColimitPushoutUnder
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle298
 public import Mathlib.Algebra.Category.Ring.FinitePresentation
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

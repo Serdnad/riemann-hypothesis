@@ -1,10 +1,8 @@
 module
 
-public import Formalism.PeriodIntegrals.ExpTri
+public import Formalism.PeriodIntegrals.Bundle003
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ExponentialTriangular.SortedSpec
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ExponentialTriangular.ExpTriOf
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ExponentialTriangular.PsumEqRange
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ExponentialTriangular.SpecExists
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ExponentialTriangular.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

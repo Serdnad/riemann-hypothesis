@@ -2,12 +2,12 @@ module
 
 public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.HasFiniteLengthOfIsIrreducible
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.GeneralLinearGroups.CasselmanSuffTemp
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.IsSemisimpleRepresentationTprodChevalley
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle049
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsLocallyConstantModulus
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.JacquetModuleMapInjectiveOfInjective
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.AdmissibleUnitarySemisimple
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CompactOpenSubgroupsBasis
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SocleOfMultiplicityOne
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle125
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle064
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle120
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle655
 import GroundTheory.LocalFields.PadicLogSeries
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -47,7 +47,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Development.AutomorphicArithmetic.ThetaCorrespondence.GeneralLinearGroups.FirstIn
+import Development.AutomorphicArithmetic.ThetaCorrespondence.GeneralLinearGroups.Bundle001
 
 @[expose] public section
 

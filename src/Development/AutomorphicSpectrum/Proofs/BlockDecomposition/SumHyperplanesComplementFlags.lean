@@ -1,10 +1,8 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MemRiemannRochSpaceIffRegularAtEverywhere
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CardAffineHyperplaneStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CardFunctionalsVanishingSubspaceStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CardTwoAffineHyperplanesStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HermitianCountFromHyperplanesStatement
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle050
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle102
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle098
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

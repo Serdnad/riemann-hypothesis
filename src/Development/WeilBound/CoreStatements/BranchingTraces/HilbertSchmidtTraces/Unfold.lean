@@ -46,8 +46,8 @@ import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.EqZeroOfInne
 import Development.AutomorphicSpectrum.Definitions.MetricPeriods.IsNormEmbId
 import Formalism.FormalDegreeBessel.StatementWR
 import Formalism.LocalToGlobal.BesselHermitianTheta.NoncompactGapAtLeastRange
-import Formalism.RealPlaceAnalysis.StatementA
-import Formalism.SharpRestriction.CuspSpanNormBounds.Point
+import Formalism.RealPlaceAnalysis.Bundle001
+import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle001
 public import Mathlib.MeasureTheory.Group.LIntegral
 
 @[expose] public section

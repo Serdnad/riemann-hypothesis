@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Foundations.OrderedConst
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle005
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.LeviEmbMemNormalizerLower
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.LeadingPrincipalMinorMulModConductorStatement
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle093
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -286,6 +286,6 @@ theorem GlobalTheory.PsType.theta_emb₂_std : ∀ (k : Type) [Field k] [Valuati
       refine Finset.prod_congr rfl fun j _ => ?_
       rw [minor_natAdd, nxt_natAdd]
       by_cases hT : Triv ((fun i => ψ (Fin.natAdd r i)) j / nxt (fun i => ψ (Fin.natAdd r i)) j) 1
-      · rw [ev_of_triv_one _ hT, ev_of_triv_one _ hT, ev_of_triv_one _ hT, one_mul]
+      · simp only [_root_.GlobalTheory.PsType.BlockTheta.ev_of_triv_one _ hT, one_mul]
       · exact ev_mul_of_val _ hda ((GlobalTheory.T.leadingPrincipalMinor_mul_mod_conductor k t _ hord₂ j hT).1 b hb)
   rw [hsplit, prod_ev_nxt, ← mul_assoc, first_part]

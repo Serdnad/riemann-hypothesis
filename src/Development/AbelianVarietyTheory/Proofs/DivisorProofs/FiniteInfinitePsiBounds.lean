@@ -1,10 +1,10 @@
 module
 
 public import Development.AbelianVarietyTheory.Statements.PlaceShiftStatements.InfClassAt
-import Development.AbelianVarietyTheory.Counterexamples.RotationExamples.OneLeAPlLast
-import Development.AbelianVarietyTheory.Definitions.Divisors.IsTestLatUnique
+import Development.AbelianVarietyTheory.Counterexamples.RotationExamples.Bundle001
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle053
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EqOneOfConjMemOfPow
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.AdelicUnitaryExistsWithPrescribedParts
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle077
 import Formalism.LocalToGlobal.Columns.CoefColLemmas
 import Formalism.LocalToGlobal.Divisibility.CoefModLemmas
 import Mathlib.Algebra.Order.Floor.Extended

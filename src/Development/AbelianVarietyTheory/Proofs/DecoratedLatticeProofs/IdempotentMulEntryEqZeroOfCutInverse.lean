@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FinPartAlgebraMap
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle331
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.IsSumFrame
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.EqSumFiniteCoordsOfInfinitePartZero
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsIdempotentComponentOfGroupElement
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle278
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle256
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -113,7 +113,7 @@ theorem eFin_of_placeIdem {v : Pl D} {ε : AF D.host.F} (h : IsPlaceIdem D v ε)
   obtain ⟨α, rfl, h1, h2⟩ := h
   unfold eFin
   congr 1
-  refine af_ext _ fun u => ?_
+  refine _root_.GlobalTheory.LocWeil.PlaceIdem.af_ext _ fun u => ?_
   by_cases hu : u = v
   · subst hu; rw [h1, evalV_single_same]
   · rw [h2 u hu, evalV_single_ne _ hu]
@@ -122,7 +122,7 @@ open GlobalTheory.LocWeil.PlaceIdem in
 theorem eFin_idem (v : Pl D) : eFin D.host.F v * eFin D.host.F v = eFin D.host.F v := by
   refine Prod.ext (mul_zero _) ?_
   change singleV D.host.F v 1 * singleV D.host.F v 1 = singleV D.host.F v 1
-  refine af_ext _ fun u => ?_
+  refine _root_.GlobalTheory.LocWeil.PlaceIdem.af_ext _ fun u => ?_
   rw [map_mul]
   by_cases hu : u = v
   · subst hu; rw [evalV_single_same, mul_one]
@@ -150,7 +150,7 @@ theorem c_mul {W : Type} [Fintype W] (v : W → Pl D) (hv : Function.Injective v
   · set_option synthInstance.maxHeartbeats 100000 in
       rw [map_mul, map_zero, map_sub, map_sub, map_sum, map_one, hp2]
     simp only [hs, sub_zero]
-    refine af_ext _ fun u => ?_
+    refine _root_.GlobalTheory.LocWeil.PlaceIdem.af_ext _ fun u => ?_
 
     rw [map_mul, map_zero, map_sub, map_one, map_sum]
     by_cases hu : u ∈ Set.range v

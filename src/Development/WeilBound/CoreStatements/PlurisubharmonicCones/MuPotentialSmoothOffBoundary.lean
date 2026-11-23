@@ -1,13 +1,13 @@
 module
 
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.PotentialsBoundedRegSettingEqReference
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.HodgeMetricFramePropertiesStatement
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle120
 public import Development.WeilBound.CoreStatements.PlurisubharmonicCones.SubmatrixGram
-public import GroundTheory.HeightsAndTheta.Heights.ElementarySymmetric.GramAtLocalLog
-public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.ContDiffAtSqrtQuotNormSq
+public import GroundTheory.HeightsAndTheta.Heights.ElementarySymmetric.Bundle015
+public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.Bundle003
 import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.GramMatrices.PGramAtPosDef
 import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.IsMultiHomogChartMonomial
-import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.SplitModelToPlaceModel
+import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.Bundle009
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -50,7 +50,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Development.AutomorphicSpectrum.Definitions.MetricPeriods.ExistsIntSmulIsAdicIntegralInTensorBasis
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsCompletedStrictHens
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.CubicalStructures.CubeSymmetricSwapFirst
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.CubicalStructures.Bundle001
 
 @[expose] public section
 

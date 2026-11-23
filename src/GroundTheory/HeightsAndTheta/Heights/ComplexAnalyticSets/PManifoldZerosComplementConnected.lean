@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StManifoldZerosComplementConnected
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle015
 public import Mathlib.LinearAlgebra.Dimension.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

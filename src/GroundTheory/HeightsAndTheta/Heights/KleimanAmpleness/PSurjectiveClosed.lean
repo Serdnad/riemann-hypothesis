@@ -1,8 +1,8 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.GenericPointSectionHypotheses
-public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.StatementsTildeVanish
-public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.StatementsIdealTwist
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle010
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle009
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle008
 public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Statements
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

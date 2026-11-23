@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PadicSubsetSums.CentralIdempotents.IsConstituent
+public import Formalism.PadicSubsetSums.CentralIdempotents.Bundle001
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
 public import Mathlib.RepresentationTheory.Coinduced
 public import Mathlib.RepresentationTheory.Irreducible

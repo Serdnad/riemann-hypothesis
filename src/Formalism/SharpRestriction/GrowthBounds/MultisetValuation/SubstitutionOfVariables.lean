@@ -1,10 +1,10 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.IntegralExpRename
-public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.CyclicPowerClassOfExpEquiv
+public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle010
+public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.Bundle001
 public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.InParamMap
-import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.IntRPsubst
-import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.NatCastInvMemRp
+import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle006
+import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

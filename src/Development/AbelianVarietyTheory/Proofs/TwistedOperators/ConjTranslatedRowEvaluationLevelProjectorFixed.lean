@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RowLevelMatch
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.TensTInner
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle231
 public import Formalism.LocalToGlobal.IndefiniteReal.LinksLemmas
 public import Formalism.LocalToGlobal.GlobalTheory.GL5.FamilyMassVolumeIdentityOfClassDecomp
 public import Formalism.LocalToGlobal.IndefiniteReal.PeterssonHilbertSpace

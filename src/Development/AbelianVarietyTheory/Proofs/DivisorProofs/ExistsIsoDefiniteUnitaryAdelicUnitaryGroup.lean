@@ -7,7 +7,7 @@ public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Ramificat
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.UnramifiedOfIsCMUnram
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsFinsetDefiniteUnitaryDoubleCosets
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsAdeleRingTensorEquivInfiniteProdFinite
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.QuotientMeasureEqChosenProbability
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle061
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -47,8 +47,8 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GaloisOfRegularForms
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsStableComplBot
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1085
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1174
 
 @[expose] public section
 

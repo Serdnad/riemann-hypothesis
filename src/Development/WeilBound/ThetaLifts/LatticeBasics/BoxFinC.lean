@@ -1,7 +1,7 @@
 module
 
-public import Development.WeilBound.ThetaLifts.LatticeBasics.BoxFinV
-public import Development.WeilBound.ThetaLifts.LatticeBasics.SecondFromFirstStatement
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle016
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle007
 public import Development.WeilBound.ThetaLifts.LatticeBasics.ThetaBox
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,7 +1,7 @@
 module
 
-public import Formalism.PeriodIntegrals.NUnimodLoc
-public import Formalism.PeriodIntegrals.QuotSetU
+public import Formalism.PeriodIntegrals.Bundle020
+public import Formalism.PeriodIntegrals.Bundle012
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalUnimodularLattice.NonstandardUnimodularLattice
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

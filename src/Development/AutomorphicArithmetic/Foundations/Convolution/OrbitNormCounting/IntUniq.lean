@@ -1,10 +1,9 @@
 module
 
 public import Development.AutomorphicArithmetic.Foundations.Convolution.OrbitNormCounting.NormCount
-public import Development.AutomorphicArithmetic.Foundations.Convolution.HermitianDescent.ConjSep
+public import Development.AutomorphicArithmetic.Foundations.Convolution.HermitianDescent.Bundle003
 public import Development.AutomorphicArithmetic.Foundations.Convolution.OrbitNormCounting.Transl
-public import Development.AutomorphicArithmetic.UnitaryInvolutions.EventuallyMapMemMaximalCompactGL
-public import Development.AutomorphicArithmetic.UnitaryInvolutions.EventuallySeparableOfIntegralModel
+public import Development.AutomorphicArithmetic.UnitaryInvolutions.Bundle001
 public import Development.AutomorphicArithmetic.UnitaryInvolutions.UnitaryInvolutionStabilizesIntegralAtNonsplit
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Tjcosets
 import Mathlib.Algebra.Order.Floor.Extended

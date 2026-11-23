@@ -2,7 +2,7 @@ module
 
 public import Formalism.PairingDivisors.StatementH
 public import Formalism.PairingDivisors.PairingDivisorProofs.SumValuationNat
-import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.ProdFormula
+import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.Bundle002
 import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.ValBasic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,12 +1,12 @@
 module
 
-public import Formalism.PieriBlockIdeals.StatementLA
+public import Formalism.PieriBlockIdeals.Bundle003
 public import Formalism.GradedWeylDivisibility.DualWeylDominanceOf
 public import Formalism.GradedWeylDivisibility.FinalB
 public import Formalism.GradedWeylDivisibility.FinalC
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.ClosedEqNabla
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LBidetLemmas
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LDlatLemmas
+public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle015
+import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle004
+public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle011
 import Mathlib.Algebra.AffineMonoid.Basic
 import Mathlib.Algebra.AffineMonoid.UniqueSums
 import Mathlib.Algebra.Order.Floor.Extended

@@ -1,10 +1,10 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.RootWeights.ExistsHighestCoordinateFunctional
-public import Formalism.SharpRestriction.GrowthBounds.RootWeights.HeisenbergDividedPowerExpansion
-public import Formalism.SharpRestriction.GrowthBounds.RootWeights.IntegralEnvelopingPreservesSubmodule
+public import Formalism.SharpRestriction.GrowthBounds.RootWeights.Bundle012
+public import Formalism.SharpRestriction.GrowthBounds.RootWeights.Bundle005
+public import Formalism.SharpRestriction.GrowthBounds.RootWeights.Bundle006
 public import Formalism.SharpRestriction.GrowthBounds.RootWeights.RaiseLowerPowCommutatorOnWeight
-import Formalism.SharpRestriction.GrowthBounds.RootWeights.WeightEntriesBetweenExtremeHighest
+import Formalism.SharpRestriction.GrowthBounds.RootWeights.Bundle020
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

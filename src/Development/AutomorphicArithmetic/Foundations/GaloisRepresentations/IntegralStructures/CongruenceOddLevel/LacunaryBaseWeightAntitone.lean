@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.LimWPhi
-public import Development.AbelianVarietyTheory.Definitions.Divisors.OverPair
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.NormLeOneOfIsIntegralInt
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle021
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle050
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle223
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -42,7 +42,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.Definitions.Divisors.IsIntegralOpW
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle051
 
 @[expose] public section
 

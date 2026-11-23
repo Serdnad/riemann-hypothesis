@@ -1,15 +1,14 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.AvgVanish
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.PolyBall
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle317
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle107
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.EqZeroOfEigOfMemTwKer
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsMemTwKerPolyBall
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsRepsSumEqZero
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LocallyConstantCompactSupportUnipotent
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MirabolicCellStructureData
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MirabolicDoubleCosetDecompositionStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MirabolicFourierExpansion
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ThetaOpenMirabolic
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle124
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle367
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle338
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle356
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle150
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle132
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.CubicExponentialFactor
+public import Formalism.PeriodIntegrals.Bundle003
 public import Mathlib.Analysis.Normed.Field.Instances
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

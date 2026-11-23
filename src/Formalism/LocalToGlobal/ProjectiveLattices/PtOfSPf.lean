@@ -1,13 +1,12 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.FramedPointBaseChangeLaws
-public import Formalism.LocalToGlobal.ProjectiveLattices.PtOfSInst
+import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle014
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle046
 public import Formalism.LocalToGlobal.ProjectiveLattices.CurveLoc
-public import Formalism.LocalToGlobal.ProjectiveLattices.CurveOpen
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.SecBaseChangeAnySt
-public import Formalism.LocalToGlobal.ProjectiveLattices.CurveInj
-public import Formalism.LocalToGlobal.ProjectiveLattices.CurveUnit
-public import Formalism.LocalToGlobal.ProjectiveLattices.PtOfSPfBC
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle045
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.Bundle005
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle049
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle028
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

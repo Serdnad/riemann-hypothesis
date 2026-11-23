@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsLeadOfUnif
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PtR
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle073
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle633
 import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExpansionBijectiveOverFields
-import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.AllSixAbelianSchemeLawsHold
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle126
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

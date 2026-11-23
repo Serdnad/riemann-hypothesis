@@ -2,22 +2,12 @@ module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.SymmetricPowerTransfer.GeneralizedEigenspaces.PlacesOverFinite.LinkedEndEOf
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.HilbertClassFieldOfGlobalArtinReciprocity
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ModFFiniteIdeleUpToExtension
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle713
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.InertialOrderFifteenCharAuxiliaryPrimeSpec
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.TwistedAutomorphicForms.AwayTriv
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.TwistedAutomorphicForms.ConjPlace
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.TwistedAutomorphicForms.Descend
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.TwistedAutomorphicForms.FrobInert
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.TwistedAutomorphicForms.FrobSplit
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.TwistedAutomorphicForms.GlueExt
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.TwistedAutomorphicForms.InfTriv
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.TwistedAutomorphicForms.Kron
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.TwistedAutomorphicForms.LevPow
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.TwistedAutomorphicForms.LocProd
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.TwistedAutomorphicForms.Bundle001
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.TwistedAutomorphicForms.Bundle002
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.TwistedAutomorphicForms.Bundle003
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.TwistedAutomorphicForms.PhiPart
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.TwistedAutomorphicForms.ResOpen
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.TwistedAutomorphicForms.UnrAE
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.TwistedAutomorphicForms.VerGroup
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -182,9 +172,9 @@ private theorem ideleExt_of (hG : Glue) (hP : LevPow) (hK : Kron) (hΦ : PhiPart
     exact h6 _ (div_mem hu (lev_one.1 (c3 1 _ (lev_one.2 hu))))
 
 private theorem frob_val {L Ω B : Type} [Field L] [NumberField L] [Field Ω] [Algebra L Ω] [CommGroup B] [TopologicalSpace B]
-    [T1Space B] {art : Ideles L →* Gab L Ω} (ha : IsGlobalArtin art) {κ : G L Ω →* B} (hκ : Continuous κ)
-    {w : HeightOneSpectrum (𝓞 L)} {A : ValuationSubring Ω} (hA : IsPlaceOver A w) (hu : ∀ s ∈ Ine (F := L) A, κ s = 1)
-    {s : G L Ω} (hs : IsFrob A (normV w) s) {y : (w.adicCompletion L)ˣ} (hy : IsUnifAt w y) :
+    [T1Space B] {art : Ideles L →* Gab L Ω} (ha : IsGlobalArtin art) {κ : _root_.Formalism.ConjugateSelfDual.G L Ω →* B} (hκ : Continuous κ)
+    {w : HeightOneSpectrum (𝓞 L)} {A : ValuationSubring Ω} (hA : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A w) (hu : ∀ s ∈ Ine (F := L) A, κ s = 1)
+    {s : _root_.Formalism.ConjugateSelfDual.G L Ω} (hs : IsFrob A (normV w) s) {y : (w.adicCompletion L)ˣ} (hy : IsUnifAt w y) :
     liftAb κ hκ (art (localIdele L w y)) = (κ s)⁻¹ := by
   obtain ⟨x, hx, e⟩ := (ha.frob w A hA _).2 ⟨s, hs, rfl⟩
   have h1 : IsUnitAt w (y * x⁻¹) := by
@@ -197,7 +187,7 @@ private theorem frob_val {L Ω B : Type} [Field L] [NumberField L] [Field Ω] [A
 
 private theorem exists_conj {F L Ω : Type} [Field F] [Field L] [Field Ω] [Algebra F L] [Algebra F Ω] [Algebra L Ω]
     [IsScalarTower F L Ω] (h : (resG F L Ω).range.index = 2) :
-    (∃ g, g ∉ (resG F L Ω).range) ∧ ∀ (g : G F Ω) (s : G L Ω), ∃ s', resG F L Ω s' = g * resG F L Ω s * g⁻¹ := by
+    (∃ g, g ∉ (resG F L Ω).range) ∧ ∀ (g : _root_.Formalism.ConjugateSelfDual.G F Ω) (s : _root_.Formalism.ConjugateSelfDual.G L Ω), ∃ s', resG F L Ω s' = g * resG F L Ω s * g⁻¹ := by
   refine ⟨?_, fun g s => (Subgroup.normal_of_index_eq_two h).conj_mem _ ⟨s, rfl⟩ g⟩
   by_contra hc
   push Not at hc
@@ -268,12 +258,12 @@ theorem UpperTheory.V.Z.Sym.Pl.lemTWM : GlobalTheory.Published.GlobalArtinRecipr
       rw [hNv z σ hσ.symm]
       exact infTriv F Ω _ art ha ν hν hc z σ hz hσ.symm)
     (fun v hv x hx => by
-      obtain ⟨A, hA⟩ := (exists_isPlaceOver Ω v : ∃ A : ValuationSubring Ω, IsPlaceOver A v)
+      obtain ⟨A, hA⟩ := (exists_isPlaceOver Ω v : ∃ A : ValuationSubring Ω, _root_.Formalism.ConjugateSelfDual.IsPlaceOver A v)
       obtain ⟨σ, hσ, e⟩ := GlobalTheory.GalChar.exists_ine ha hA hx
       rw [hNv _ σ e]
       exact hr v A hA hv σ hσ)
   obtain ⟨κ, hκ, h6⟩ := descend L Ω _ artL haL ψ hψ h3 h4
-  have h7 : ∀ (w : HeightOneSpectrum (𝓞 L)) (A : ValuationSubring Ω), IsPlaceOver A w → ∀ s ∈ Ine (F := L) A,
+  have h7 : ∀ (w : HeightOneSpectrum (𝓞 L)) (A : ValuationSubring Ω), _root_.Formalism.ConjugateSelfDual.IsPlaceOver A w → ∀ s ∈ Ine (F := L) A,
       (((M : ℕ) : 𝓞 L) ∉ w.asIdeal → κ s = 1) ∧ (w ∉ Φ → κ s ^ k = 1) := fun w A hA s hs => by
     obtain ⟨x, hx, e⟩ := GlobalTheory.GalChar.exists_unit haL hA hs
     rw [h6 _ s e]

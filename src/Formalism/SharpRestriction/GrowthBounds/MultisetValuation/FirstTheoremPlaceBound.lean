@@ -2,12 +2,11 @@ module
 
 public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.DworkExponentialRestrictions
 public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.EaGeCOfNorm
-public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.BiadditiveSecondVariable
-public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.EaApplyDScale
+public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle018
+public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle019
 public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.EaDegreeMapDomain
 import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.GainOfCapacityLoss
-public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.NmRestNormOfPlace
-public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.ThRestGcVOf
+public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle017
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -44,7 +43,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.EaRestSExpV
+public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle014
 public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.EaRestSExpVOf
 
 @[expose] public section

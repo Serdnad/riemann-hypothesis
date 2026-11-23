@@ -1,7 +1,7 @@
 module
 
-public import Formalism.LocalToGlobal.UnitaryNorms.RealCyclotomicTwoPower
-public import Formalism.LocalToGlobal.UnitaryNorms.Lemmas
+public import Formalism.LocalToGlobal.UnitaryNorms.Bundle001
+public import Formalism.LocalToGlobal.UnitaryNorms.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

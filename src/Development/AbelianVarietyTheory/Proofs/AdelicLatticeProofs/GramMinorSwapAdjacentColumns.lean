@@ -44,7 +44,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.Definitions.AdelicHermitianForms.AdelicPair
+import Development.AbelianVarietyTheory.Definitions.AdelicHermitianForms.Bundle001
 public import Mathlib.LinearAlgebra.Matrix.Block
 
 @[expose] public section

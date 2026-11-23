@@ -1,9 +1,9 @@
 module
 
-public import Formalism.LocalToGlobal.IndefiniteReal.LinksW
-public import Formalism.LocalToGlobal.IndefiniteReal.WeilFull
+public import Formalism.LocalToGlobal.IndefiniteReal.Bundle023
+public import Formalism.LocalToGlobal.IndefiniteReal.Bundle015
 public import Formalism.LocalToGlobal.IndefiniteReal.PrimitiveStatementsWithPassage
-public import Formalism.LocalToGlobal.IndefiniteReal.HeckeIndexRange
+public import Formalism.LocalToGlobal.IndefiniteReal.Bundle010
 public import Formalism.LocalToGlobal.Columns.HeckeInertComm
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

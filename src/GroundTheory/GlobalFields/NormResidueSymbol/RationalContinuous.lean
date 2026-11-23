@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.GlobalFields.NormResidueSymbol.RationalCyclotomic
+public import GroundTheory.GlobalFields.NormResidueSymbol.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

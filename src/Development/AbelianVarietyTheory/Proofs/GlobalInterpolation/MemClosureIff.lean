@@ -2,14 +2,14 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.KerIsTerm
 public import Formalism.LocalToGlobal.Columns.CoefficientsModP.BaseCh
-public import Formalism.LocalToGlobal.Columns.SmulMemTrpSet
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.SmulMemLocPOfVal
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.WeylRowActionMemWeylLatticeSquare
+public import Formalism.LocalToGlobal.Columns.Bundle011
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle219
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle079
 import Formalism.GradedWeylDivisibility.DualWeylDominanceOf
 import Formalism.HermitianLattices.HermitianLatticesProofs.DualLattice
 import Formalism.LocalRingCardinality.Lemmas
-public import Formalism.LocalToGlobal.Columns.BtExistsSmulLeOfFg
-import Formalism.LocalToGlobal.Columns.CoefficientsModP
+public import Formalism.LocalToGlobal.Columns.Bundle032
+import Formalism.LocalToGlobal.Columns.Bundle031
 import Formalism.LocalToGlobal.Columns.PolyFnLemmas
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -59,7 +59,7 @@ noncomputable section
 
 namespace GlobalTheory.LvT.Built.ValLat
 
-open NumberField IsDedekindDomain Matrix Formalism.BasicNotions Formalism.HermitianLatticesTheory Formalism.L2.Col Formalism.L2.DIV GlobalTheory.Mem.Col2
+open NumberField IsDedekindDomain Matrix Formalism.BasicNotions Formalism.HermitianLatticesTheory _root_.Formalism.L2.Col Formalism.L2.DIV GlobalTheory.Mem.Col2
 open Formalism.MainNotions.product_first_zeroth_parts (Ow blk IntSpan)
 
 section Poly

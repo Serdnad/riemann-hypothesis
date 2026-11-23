@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.MassComputations.AlgebraMapMemOv
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.MassComputations.Bundle006
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.MassComputations.IsCompactOhat
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.MassComputations.LatHat
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdelicLocalCompactness.T2SpaceTensorProductFiniteExtension

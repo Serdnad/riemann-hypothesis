@@ -1,6 +1,6 @@
 module
 
-public import Development.ResolutionOfSingularities.EmbeddedResolution.StrictTransformCharts.BlowupSmoothness
+public import Development.ResolutionOfSingularities.EmbeddedResolution.StrictTransformCharts.Bundle001
 public import Development.ResolutionOfSingularities.EmbeddedResolution.StrictTransformCharts.ControlledTransform
 public import Development.ResolutionOfSingularities.EmbeddedResolution.DerivativeIdeal.DerivativeIdealSheaf
 public import Mathlib.RingTheory.RegularLocalRing.Defs

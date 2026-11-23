@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.ProjectiveLattices.ExtendedPointBaseChange
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle026
 public import Formalism.LocalToGlobal.ProjectiveLattices.SecPtOrd
 public import Formalism.LocalToGlobal.ProjectiveLattices.NormalizedValuationMul
 import Mathlib.Algebra.Order.Floor.Extended

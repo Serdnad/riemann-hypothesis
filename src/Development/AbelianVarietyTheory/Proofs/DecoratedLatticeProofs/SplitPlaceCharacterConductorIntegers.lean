@@ -1,11 +1,11 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.IsSumFrame
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.AddCharTrivialIntegralFiniteAdeleMul
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.StdCharFinitePartRationalEqExpTrace
-import Development.AbelianVarietyTheory.Proofs.HeightProofs.SymplecticValTauCompat
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FiniteAdeleStrongApproximationModNat
-public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.FactPrincipalDatum
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle067
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle078
+import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle035
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle009
+public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.Bundle002
 public import Formalism.LocalToGlobal.ProjectiveLattices.HostInt
 import Mathlib.Algebra.AffineMonoid.Basic
 import Mathlib.Algebra.Module.StablyFree.Basic

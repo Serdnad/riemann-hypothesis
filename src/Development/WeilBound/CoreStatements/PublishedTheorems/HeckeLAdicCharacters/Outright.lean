@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.HeckeLAdicCharacterDeRham
+public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.Bundle006
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FrobPowRead
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LubinTatePeriodNotFilteredStatement
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle419
 public import Development.WeilBound.CoreStatements.HeckeCharacterDeRham.DeRhamHeckeResults.LAdicHeckeDeRham.LAdicHeckeFields.FieldOfLeaves
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

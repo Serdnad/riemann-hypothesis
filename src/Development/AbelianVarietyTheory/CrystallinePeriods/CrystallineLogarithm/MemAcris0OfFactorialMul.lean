@@ -2,10 +2,9 @@ module
 
 public import Development.AutomorphicArithmetic.IntegralCasts.CrystallinePeriods.ExistsFactorialMulEqPow
 public import Development.AutomorphicArithmetic.IntegralCasts.CrystallinePeriods.DeRham
-public import Development.AutomorphicArithmetic.IntegralCasts.CrystallinePeriods.DeRhamMap
-public import Development.AutomorphicArithmetic.IntegralCasts.CrystallinePeriods.Embedding
+public import Development.AutomorphicArithmetic.IntegralCasts.CrystallinePeriods.Bundle001
 public import Development.AutomorphicArithmetic.IntegralCasts.CrystallinePeriods.MapEqPadicPowCyclotomicCharacter
-public import Development.AutomorphicArithmetic.IntegralCasts.CrystallinePeriods.Action
+public import Development.AutomorphicArithmetic.IntegralCasts.CrystallinePeriods.Bundle002
 import Development.AutomorphicArithmetic.IntegralCasts.CrystallinePeriods.EqZeroOfPMulEqZero
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

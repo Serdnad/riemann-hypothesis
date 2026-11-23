@@ -8,13 +8,13 @@ public import Mathlib.FieldTheory.IsSepClosed
 public import Mathlib.FieldTheory.RatFunc.Basic
 public import Mathlib.GroupTheory.Nilpotent
 public import Mathlib.RingTheory.SimpleRing.Principal
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.COneH2UnitsSubsingleton
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle583
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TsenAlgebraicExtensionRatFunc
 public import GroundTheory.ProfiniteCohomology.ClassFormations.IsIsoCohomologyMapAlongResSubgroupOfHom
 public import GroundTheory.ProfiniteCohomology.GaloisCohomology.Kummer
 public import GroundTheory.ProfiniteCohomology.LocalClassFormation.FiniteVanishing.Vanishing
-public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.Scalars
-public import GroundTheory.ProfiniteCohomology.RestrictedRamification.DimensionSylow
+public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.Bundle002
+public import GroundTheory.ProfiniteCohomology.RestrictedRamification.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

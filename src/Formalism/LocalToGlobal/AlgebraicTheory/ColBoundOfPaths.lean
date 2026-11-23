@@ -1,11 +1,10 @@
 module
 
-public import Formalism.LocalToGlobal.AlgebraicTheory.StatementC
-public import Formalism.LocalToGlobal.AlgebraicTheory.StatementD
+public import Formalism.LocalToGlobal.AlgebraicTheory.Bundle001
 public import Formalism.LocalToGlobal.AlgebraicTheory.AlgebraicTheoryProofs.DvdOfNormIntCastLt
 public import Formalism.LocalToGlobal.AlgebraicTheory.AlgebraicTheoryProofs.EtJets
 public import Formalism.LocalToGlobal.AlgebraicTheory.AlgebraicTheoryProofs.EtPower
-public import Formalism.LocalToGlobal.AlgebraicTheory.AlgebraicTheoryProofs.JetsInOfOneVariable
+public import Formalism.LocalToGlobal.AlgebraicTheory.AlgebraicTheoryProofs.Bundle001
 public import Formalism.LocalToGlobal.AlgebraicTheory.AlgebraicTheoryProofs.LogDerivativeJetsIntegral
 import Formalism.LocalToGlobal.AlgebraicTheory.AlgebraicTheoryProofs.ScalarConst
 import Formalism.LocalToGlobal.AlgebraicTheory.AlgebraicTheoryProofs.TensZEt

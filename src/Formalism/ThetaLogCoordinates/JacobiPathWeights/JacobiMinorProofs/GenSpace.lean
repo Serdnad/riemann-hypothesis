@@ -1,6 +1,6 @@
 module
 
-public import Formalism.ThetaLogCoordinates.JacobiPathWeights.DetLetters
+public import Formalism.ThetaLogCoordinates.JacobiPathWeights.Bundle001
 public import Formalism.ThetaLogCoordinates.JacobiPathWeights.JacobiMinorProofs.ExistsSuppOfEvalNe
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -45,7 +45,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-public import Formalism.ThetaLogCoordinates.JacobiPathWeights.GenSpaceFacts
+public import Formalism.ThetaLogCoordinates.JacobiPathWeights.Bundle003
 
 @[expose] public section
 

@@ -1,8 +1,7 @@
 module
 
-public import Development.EtaleCohomology.EtaleSheaves.SpectrumLimits
-public import Development.EtaleCohomology.EtaleSheaves.SpectrumLimits.QuotCop
-public import Development.EtaleCohomology.EtaleSheaves.SpectrumLimits.TensCop
+public import Development.EtaleCohomology.EtaleSheaves.Bundle044
+public import Development.EtaleCohomology.EtaleSheaves.SpectrumLimits.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

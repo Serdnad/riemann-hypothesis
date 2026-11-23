@@ -1,10 +1,10 @@
 module
 
 public import GroundTheory.PAdicHodge.NormalizedTrace
-public import GroundTheory.PAdicHodge.CyclotomicField
+public import GroundTheory.PAdicHodge.Bundle002
 public import Mathlib.RingTheory.Polynomial.Cyclotomic.Basic
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.NormNatCastPrime
-import GroundTheory.PAdicHodge.GaloisOnCp
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle059
+import GroundTheory.PAdicHodge.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

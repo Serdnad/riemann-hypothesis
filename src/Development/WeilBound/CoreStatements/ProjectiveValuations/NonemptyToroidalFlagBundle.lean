@@ -1,9 +1,9 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.BarCompSubsetClosure
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HasFibrewiseNonvanishingThetaSectionOfSmoothMode
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PushInvertibleOfHasTheta
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ToroidalFlagNonempty
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2658
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2332
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3266
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

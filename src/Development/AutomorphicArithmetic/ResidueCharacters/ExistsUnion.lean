@@ -2,7 +2,7 @@ module
 
 public import Development.AutomorphicArithmetic.ResidueCharacters.InvariantsKilledOverCyclotomicAlt
 public import Formalism.SharpRestriction.LevelLetterCocycles.DecompositionData
-public import Development.AutomorphicArithmetic.CyclotomicBounds.FiniteDimensionalRoots
+public import Development.AutomorphicArithmetic.CyclotomicBounds.Bundle003
 import Formalism.SharpRestriction.RamificationFrobenius.TotientGaloisClasses.HostFacts
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

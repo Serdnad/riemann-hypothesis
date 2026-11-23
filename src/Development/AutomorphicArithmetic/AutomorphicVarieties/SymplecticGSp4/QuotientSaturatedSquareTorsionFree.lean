@@ -1,12 +1,12 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.EntryMem
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.ChartRank
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.CoSqz
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.CotFg
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.DerExtend
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.DerHom
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.SpansOfDer
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Bundle007
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.Bundle007
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.Bundle008
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.Bundle011
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.Bundle013
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.Bundle004
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.Bundle005
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.ASmooth
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.TanGlob
 import Mathlib.Algebra.Order.Floor.Extended
@@ -55,6 +55,9 @@ import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section
+
+local instance (priority := 2000) ratFieldIsTorsionFreeForSymplecticGSp4QuotientSatSq (Ω : Type) [Field Ω] [Algebra ℚ Ω] :
+    Module.IsTorsionFree ℚ Ω := DivisionSemiring.to_moduleIsTorsionFree
 
 open NumberField IsDedekindDomain Formalism.ConjugateSelfDual ReciprocityTheory.Gal IsLocalRing UpperTheory.V UpperTheory.V.Base UpperTheory.V.Alg UpperTheory.V.HV UpperTheory.V.GradeZeroInterpolatingElement
 
@@ -106,6 +109,8 @@ private theorem cotangent_rank_le_weight_count [Fintype τ] (h : IsChart 𝒜 x 
     · exact congrFun h0 ⟨i, hi⟩
     · exact m1bLin_wt h i hi hf.1
   have h1 := LinearMap.rank_le_of_injective ψ hinj
+  have : Nontrivial (FractionRing O) := (FractionRing.field O).toDivisionRing.toNontrivial
+  have : StrongRankCondition (FractionRing O) := commRing_strongRankCondition (FractionRing O)
   rwa [← IsLocalization.rank_eq (FractionRing O) (nonZeroDivisors O) le_rfl (N := {i // wt i = j} → FractionRing O),
     rank_fun'] at h1
 
@@ -181,10 +186,13 @@ end
 private theorem origin_nonzero_weight_eq_zero {O X R : Type} [CommRing O] [AddCommGroup X] [CommRing R] [Algebra O R] (W : WPres O X R)
     (h : W.HasOrigin) {j : X} (hj : j ≠ 0) {f : R} (hf : f ∈ W.part j) : W.origin h f = 0 := by
   obtain ⟨g, hg, rfl⟩ := hf
-  have := hg 0 (by simpa using hj.symm)
-  exact (W.origin_π h g).trans (by simpa using this)
+  have := hg 0 (by simpa only [map_zero] using hj.symm)
+  exact (W.origin_π h g).trans (by simpa only [MvPowerSeries.coeff_zero_eq_constantCoeff_apply] using this)
 
 section
+
+local instance : Module.Free ℤ (ℤ × ℤ) :=
+  @Module.Free.prod ℤ ℤ ℤ _ _ _ _ _ (Module.Free.self ℤ) (Module.Free.self ℤ)
 
 variable {Ω : Type} [Field Ω] [CharZero Ω] [IsAlgClosure ℚ Ω] {l : ℕ} [Fact l.Prime] {c : Coef l} {D : Raw Ω c}
 
@@ -253,7 +261,7 @@ private theorem spans_cotangent_of_derivation_test (hD : D.Good) (hSo : SoV Ω l
   haveI := c.dvr
   refine spans_of_der c.O M.W.A (ℤ × ℤ) M.W.gr _ (fun i hi f hf => origin_nonzero_weight_eq_zero M.W M.org hi hf) w ?_ κ F hF
     fun δ hδ hwt h0 => ?_
-  · rw [cot_fg]
+  · rw [cot_fg c.O (ℤ × ℤ) M.R M.W M.org w]
     exact Submodule.fg_span (Set.finite_range _)
   · obtain ⟨δ', ⟨h1, rfl⟩, -⟩ := (der_extend c.O M.R (ℤ × ℤ) M.W M.org c.O).1 δ hδ
     have hwt' : HasWt M.W.part w δ' := fun i hi f hf => hwt i hi ⟨f, M.W.part_le_A hf⟩ hf
@@ -266,7 +274,7 @@ private theorem cotangent_rank_at_weight_eq_dims (M : Model D) (w : ℤ × ℤ) 
     Module.rank c.O (cotLat (M.W.originA M.org) M.W.gr w) = (tDims M.r M.r' M.m w : ℕ) := by
   obtain ⟨τ, _, wt, φ, hc, hn⟩ := M.smooth
   haveI : Module.Finite c.O (cotLat (M.W.originA M.org) M.W.gr w) := by
-    rw [Module.Finite.iff_fg, cot_fg]
+    rw [Module.Finite.iff_fg, cot_fg c.O (ℤ × ℤ) M.R M.W M.org w]
     exact Submodule.fg_span (Set.finite_range _)
   rw [← Module.finrank_eq_rank, ← hn w]
   exact congrArg _ (chart_rank c.O M.W.A (ℤ × ℤ) M.W.gr _ τ wt φ hc w)

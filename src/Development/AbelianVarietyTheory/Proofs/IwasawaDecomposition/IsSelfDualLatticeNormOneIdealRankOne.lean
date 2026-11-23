@@ -1,16 +1,16 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.LatAtLattice
-public import Formalism.LocalToGlobal.Columns.GoodXgE
+public import Formalism.LocalToGlobal.Columns.Bundle001
 public import Formalism.LocalToGlobal.Columns.RecPerFF
-public import Formalism.LocalToGlobal.KernelLattices.JetFieldLeKR
+public import Formalism.LocalToGlobal.KernelLattices.Bundle003
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsAbsIrrCharCompIff
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.EvaluationDatumOkBaseTuple
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.OrdSubDetSubStdL
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.NuRowSuccEqWt
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle596
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle318
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle130
 import Formalism.LocalRingCardinality.RankBoundMonotoneInDimension
 import Formalism.LocalToGlobal.Columns.BaseLemmas
-public import Formalism.LocalToGlobal.Columns.InvariantSubspaceCoordsX
+public import Formalism.LocalToGlobal.Columns.Bundle013
 import Formalism.LocalToGlobal.Divisibility.ProjLemmas
 import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.ColInst
 import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.PeriodLatticeFinitelyGenerated

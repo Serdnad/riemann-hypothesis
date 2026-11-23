@@ -1,7 +1,7 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.EvFinSSOneNot
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.EqZeroOfComps
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle532
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle533
 import Formalism.LocalToGlobal.ProjectiveLattices.HalfOneAddSqrtNegIsIntegral
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

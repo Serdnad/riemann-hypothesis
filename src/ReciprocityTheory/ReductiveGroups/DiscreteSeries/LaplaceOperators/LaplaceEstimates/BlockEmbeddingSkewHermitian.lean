@@ -47,12 +47,12 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.HighestWeights.FromHC
-import ReciprocityTheory.ReductiveGroups.DiscreteSeries.HighestWeights.OneParam
-import ReciprocityTheory.ReductiveGroups.DiscreteSeries.HighestWeights.Weight
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.LaplaceOperators.CapelliIdentity.Central
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.HighestWeights.Bundle002
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.HighestWeights.Bundle004
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.LaplaceOperators.CapelliIdentity.Bundle002
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.LaplaceOperators.TransportGeo
 import Std.Tactic.BVDecide.Normalize.Prop
-public import Formalism.RealPlaceAnalysis.StatementKT
+public import Formalism.RealPlaceAnalysis.Bundle002
 
 @[expose] public section
 

@@ -1,8 +1,8 @@
 module
 
 public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.RestrictedBoundsWeakenFromNineToEight
-public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.FinrankEqSpanGen
-public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.RestBCdimOfYbc
+public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.Bundle006
+public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.Bundle013
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

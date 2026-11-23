@@ -1,12 +1,12 @@
 module
 
 public import Development.WeilBound.ThetaLifts.SmallCones.KerPol
-import Development.WeilBound.ThetaLifts.LeviDeterminants.MixedModels.PlaneAd
+import Development.WeilBound.ThetaLifts.LeviDeterminants.MixedModels.Bundle001
 import Development.WeilBound.ThetaLifts.SmallCones.ExpAlg
-import Development.WeilBound.ThetaLifts.SmallCones.FourierUniq
-public import Development.WeilBound.ThetaLifts.SmallCones.KerUni
+import Development.WeilBound.ThetaLifts.SmallCones.Bundle007
+public import Development.WeilBound.ThetaLifts.SmallCones.Bundle009
 import Development.WeilBound.ThetaLifts.SmallCones.MatCancel
-public import Development.WeilBound.ThetaLifts.TowerModels.PlaneForm
+public import Development.WeilBound.ThetaLifts.TowerModels.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

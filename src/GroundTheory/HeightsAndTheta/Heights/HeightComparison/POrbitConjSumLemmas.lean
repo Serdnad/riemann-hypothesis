@@ -2,7 +2,7 @@ module
 
 public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.HeightObjects
 public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.HeightPtsIntegralPoints
-public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.POrbitDegree
+public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.Bundle005
 public import GroundTheory.HeightsAndTheta.Heights.HeightsOfSets.FieldChange
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

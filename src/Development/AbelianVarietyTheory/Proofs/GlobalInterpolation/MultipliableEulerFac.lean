@@ -1,7 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.LocalDualIndex
-public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.LocalDensityEuler
+public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.Bundle004
 import Mathlib.Algebra.AffineMonoid.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

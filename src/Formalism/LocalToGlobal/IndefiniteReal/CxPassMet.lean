@@ -47,7 +47,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Formalism.LocalToGlobal.GlobalTheory.DivPassage
+import Formalism.LocalToGlobal.GlobalTheory.Bundle001
 
 @[expose] public section
 

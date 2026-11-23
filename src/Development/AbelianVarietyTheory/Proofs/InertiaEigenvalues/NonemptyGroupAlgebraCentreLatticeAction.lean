@@ -1,11 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.CoeffRingsHaveRootsOfUnity
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.AddValuationNonnegRingOfIntegersNumberFieldStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CenterMonoidAlgebraLeSpanCentralIntegralStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CentralIntegralPreservesLocalisedLatticeImageStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ComparisonMapIntertwinesGroupAlgebraActionStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.MemHeckeEigOfImageMovedByCentreStatement
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle016
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle088
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle075
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle386
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle405
 import Formalism.SharpRestriction.LevelLetterCocycles.EndomorphismIndexBound
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -43,7 +42,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.CentralIdemCoeff
+import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle008
 
 @[expose] public section
 

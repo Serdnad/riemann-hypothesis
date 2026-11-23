@@ -1,9 +1,9 @@
 module
 
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.HookLengthBound.DetShiftNormOf
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.FockQRowDivAdj
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LFockqLemmas
-import Formalism.RealPlaceAnalysis.RealPlaceTaylor.ProdFactorialSupportSubSingle
+public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle014
+public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle006
+import Formalism.RealPlaceAnalysis.RealPlaceTaylor.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

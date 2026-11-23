@@ -1,20 +1,19 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ExistsUniqueLeftBasisCoordsAdicCompletion
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.LieMultIffExistsFrame
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle015
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsLieModel
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeInnerProductAdjointStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle267
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeInnerProductPullbackUnique
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsPrincipalBaseChangeIffStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieModelExistsUniqueAct
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieModelExistsUniqueSemilinearStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieModelFiniteBaseChangeStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieModelFunctorialMap
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieModelPullbackCorrespondenceStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle199
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle021
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle064
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle163
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle013
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle083
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.PolarizedDataFieldExtension
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.SemiAbelianPullbackTorusExtensionStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.TorusExtensionModuleStructureStatement
-public import Development.WeilBound.CoreStatements.PlurisubharmonicCones.IntValSmul
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle244
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle145
+public import Development.WeilBound.CoreStatements.PlurisubharmonicCones.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -56,7 +55,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.PullCub
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.SabComp
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle008
 
 @[expose] public section
 

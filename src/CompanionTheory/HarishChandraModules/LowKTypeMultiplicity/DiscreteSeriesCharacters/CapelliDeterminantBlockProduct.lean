@@ -1,7 +1,7 @@
 module
 
-public import Formalism.PeriodIntegrals.DSInfCharCap
-public import Formalism.PeriodIntegrals.IsLowUnitH
+public import Formalism.PeriodIntegrals.Bundle020
+public import Formalism.PeriodIntegrals.Bundle013
 public import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
 public import Mathlib.RingTheory.MvPolynomial.IrreducibleQuadratic
 import Mathlib.Algebra.Order.Floor.Extended

@@ -1,6 +1,6 @@
 module
 
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SquareIntegrability.SplitOA
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SquareIntegrability.Bundle003
 public import Formalism.FlagUnipotentLattices.CardSubmodulesAndLinearEquivBounds
 import Mathlib.Algebra.AffineMonoid.Basic
 import Mathlib.Algebra.Order.Archimedean.Real.Hom

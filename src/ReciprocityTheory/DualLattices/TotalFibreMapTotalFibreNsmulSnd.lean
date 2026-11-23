@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.DualLattices.TangentPairingStatement
+public import ReciprocityTheory.DualLattices.Bundle012
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -43,7 +43,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.DualLattices.InstAddCommMonoidFibreFst
-import ReciprocityTheory.DualLattices.IsFibreSq
+import ReciprocityTheory.DualLattices.Bundle013
 public import ReciprocityTheory.DualLattices.NsmulTensorEqZero
 public import ReciprocityTheory.DualLattices.SmKerSurj
 public import Mathlib.LinearAlgebra.TensorProduct.RightExactness

@@ -1,13 +1,12 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.LevelSectionsExactKernelLocusOpen
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ExistsGenOfIsVBOne
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle006
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle004
 public import Mathlib.Data.Matrix.ColumnRowPartitioned
 public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.AlternatingMapSumSmulEqDetSmul
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.DetFromColsFrameChange
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.FromRowsMulFromColsSplit
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle002
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LatticeEigenVectorBundle
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.WedgeLineLatticeVectorBundleStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle075
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

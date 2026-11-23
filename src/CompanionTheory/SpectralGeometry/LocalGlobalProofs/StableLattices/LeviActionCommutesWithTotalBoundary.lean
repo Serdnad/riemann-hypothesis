@@ -1,9 +1,9 @@
 module
 
 public import CompanionTheory.RealGroups.DiscreteSeries.DiscreteSeriesClassification.DiscreteSeriesExhaustion.FarRegularity.LKTExists
-public import CompanionTheory.HarishChandraModules.LowKTypeMultiplicity.EigenspaceCyclicDensity.CreationOperators.CreApply
+public import CompanionTheory.HarishChandraModules.LowKTypeMultiplicity.EigenspaceCyclicDensity.CreationOperators.Bundle001
 public import CompanionTheory.HarishChandraModules.LowKTypeMultiplicity.EigenspaceCyclicDensity.CreationOperators.DifferentialBoundedSupport
-public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.OrderedCreationCommutesPastLevi
+public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.Bundle033
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -45,10 +45,10 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.Bdy
+import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.Bundle057
 import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.BaseChangeDefiniteUnitary
 import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.IsNormalisedOfIsDiscrete
-import Development.AutomorphicArithmetic.IntegralCasts.IsOpenStabOfMemNhds
+import Development.AutomorphicArithmetic.IntegralCasts.Bundle001
 
 @[expose] public section
 
@@ -445,3 +445,23 @@ theorem lF_bd : ∀ (n : ℕ) (lev : Fin n → ℕ) (V : Type) [AddCommGroup V] 
   rw [sub_eq_zero.1 h1, sub_eq_zero.1 h2]
 
 end GlobalTheory.CompanionTheory.RgCOBlock.LeviBd
+
+end
+end
+
+section
+
+@[expose] public section
+
+open Finset Polynomial
+open Formalism.REAL (GlRel KHighest IsWeight qdet Tm qminor)
+open CompanionTheory.D.LK (Pos Cn ann cre lift bd cpt allT wt ev)
+open CompanionTheory.RgExh CompanionTheory.RgExh.U
+open GlobalTheory.CuspRep GlobalTheory.UnitaryBC GlobalTheory.SmGL GlobalTheory.DiscSpec
+open GlobalTheory.CompanionTheory.RgCOBlock
+
+theorem _root_.GlobalTheory.T.levi_action_commutes_with_total_boundary : ∀ (n : ℕ) (lev : Fin n → ℕ) (V : Type) [AddCommGroup V] [Module ℂ V] (E : Fin n → Fin n → Module.End ℂ V), Monotone lev → GlRel E → ∀ (x : Cn n V), SuppIn (inU lev) x → ∀ p q, lev p = lev q → lF E p q (bd (allT n) E x) = bd (allT n) E (lF E p q x) := by
+  first | exact @GlobalTheory.CompanionTheory.RgCOBlock.LeviBd.lF_bd | exact GlobalTheory.CompanionTheory.RgCOBlock.LeviBd.lF_bd | (intros; apply GlobalTheory.CompanionTheory.RgCOBlock.LeviBd.lF_bd <;> assumption)
+
+end
+end

@@ -4,8 +4,8 @@ public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsIsEffA
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsTorsionFreeOfForallExists
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ToBidualNaturalityDualSheafTranspose
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsQuasicoherentEigenQuot
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsIsFrameOfBijectiveStalk
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsVBAndClsDetOfShortExact
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle968
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1137
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

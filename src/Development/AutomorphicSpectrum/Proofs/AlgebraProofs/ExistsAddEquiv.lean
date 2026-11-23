@@ -1,10 +1,10 @@
 module
 
 public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.IsTight
-public import Development.AutomorphicSpectrum.Statements.AlgebraStatements.HodgeTateDatumStatement
+public import Development.AutomorphicSpectrum.Statements.AlgebraStatements.Bundle001
 public import Mathlib.Data.ZMod.QuotientRing
 public import Mathlib.RingTheory.AdicCompletion.RingHom
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.PolarisedAugmentationTheoremStatement
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle054
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

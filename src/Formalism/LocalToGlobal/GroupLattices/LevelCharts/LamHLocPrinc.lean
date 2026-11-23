@@ -4,7 +4,7 @@ public import Formalism.LocalToGlobal.GroupLattices.LevelCharts.AtGGlob
 public import Formalism.LocalToGlobal.GroupLattices.LevelCharts.FiniteCompG
 public import Formalism.LocalToGlobal.GroupLattices.LevelCharts.SignBlockDeterminant
 public import Formalism.LocalToGlobal.GroupLattices.LevelCharts.AtGLev
-public import Formalism.LocalToGlobal.GroupLattices.LevelCharts.PsiZeroNontrivialCharacter
+public import Formalism.LocalToGlobal.GroupLattices.LevelCharts.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

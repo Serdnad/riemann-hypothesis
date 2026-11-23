@@ -1,8 +1,8 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.RootWeights.SubstitutionPreservesOfGenerators
-public import Formalism.SharpRestriction.GrowthBounds.RootWeights.ValuationBoundDetPowerFactor
-public import Formalism.SharpRestriction.GrowthBounds.RootWeights.PropertySubmoduleWeightEntryComponent
+public import Formalism.SharpRestriction.GrowthBounds.RootWeights.Bundle012
+public import Formalism.SharpRestriction.GrowthBounds.RootWeights.Bundle014
+public import Formalism.SharpRestriction.GrowthBounds.RootWeights.Bundle011
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

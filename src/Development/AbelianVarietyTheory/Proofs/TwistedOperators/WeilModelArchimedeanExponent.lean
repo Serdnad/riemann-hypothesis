@@ -1,24 +1,24 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsPairReading
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle362
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsUSplittingInl
 import Development.AbelianVarietyTheory.Counterexamples.HeightSurvey.StarPurelyImaginaryEqNeg
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.LowVanishFockOfLowVanish
 import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.EqZeroOfLintegralEqZero
 import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsInverseChart
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ArchActionReadingsCompatible
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ArchHeisenbergDerivativesExistStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ArchimedeanTracePairingBilinearNondegenerateStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1367
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1460
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1435
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsWeilDatumTransportAdelicSchwartzThetaTrans
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HasArchimedeanCharExponentsConjOfHasInfExp
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HasDerivAtThetaTransformHeisenbergRealLine
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SchwartzComplexStructureVacuumSolutionEqSmulStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1873
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1969
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1477
 import Development.AbelianVarietyTheory.Proofs.HeightProofs.CmTypeRestrictRealSubfieldInfinitePlaceBijective
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ArchimedeanLineEqRealScalarSmulSupported
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsDarbouxComplexStructureTwoInvolutionsStatement
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle352
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle265
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsFockPolynomialOperatorHeisenbergDerivative
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsRationalDarbouxOrientedPairTransport
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.FockCreationPreservesFockVectorsTwoFrames
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle363
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle339
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.LieActionFockOperatorsScalarsTrace
 import Formalism.LocalRingCardinality.SpanPowerMembership.ExampleLayerExistsGenerators
 import Formalism.LocalToGlobal.BesselHermitianTheta.LemmasWeil
@@ -380,7 +380,8 @@ theorem compAt_cplx {θ : InfFam D} (hθ : IsInfFam θ) (A : Fr M) (B : Fr X)
     rw [toO, GlobalTheory.OrientedHeis.compAt_mul]
     congr 1
     · ext i j
-      simp only [compAt, map_apply, transpose_apply, conjTranspose_apply, hp, RCLike.star_def, Complex.conj_conj]
+      simp only [Formalism.IndefR.Datum.compAt, map_apply, transpose_apply, conjTranspose_apply, hp,
+        RCLike.star_def, Complex.conj_conj]
     · ext i j
       exact GlobalTheory.FockCompare.comp_incA hθ (τf w) _
   obtain ⟨s1, s2, -⟩ := GlobalTheory.ChainFr.Model.isCartanInv_cart (frSgn ε A) (τf w)

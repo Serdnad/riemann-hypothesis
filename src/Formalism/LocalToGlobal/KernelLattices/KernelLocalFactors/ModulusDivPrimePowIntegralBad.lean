@@ -39,9 +39,9 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Formalism.HermitianLattices.StatementJac
+import Formalism.HermitianLattices.Bundle001
 public import Formalism.LocalRingCardinality.Params
-import Formalism.LocalRingCardinality.SpanPowerMembership.HasStrictFDerivAtExpZero
+import Formalism.LocalRingCardinality.SpanPowerMembership.Bundle002
 public import Formalism.LocalToGlobal.Columns.AbelianHostFieldConditions
 import Formalism.LocalToGlobal.Columns.AlgebraMapMemMaximalIdealPowIff
 import Formalism.LocalToGlobal.Columns.CoefficientsModP.WeTransposeWordTransposeWord

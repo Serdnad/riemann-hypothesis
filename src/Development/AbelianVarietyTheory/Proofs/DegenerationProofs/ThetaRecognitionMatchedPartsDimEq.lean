@@ -1,8 +1,8 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Degenerations.NotAllMatchRankZero
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.DegenerationDataTorsionStructureAlgClosedStatement
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.TxCosetCriterionStatement
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle059
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle097
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

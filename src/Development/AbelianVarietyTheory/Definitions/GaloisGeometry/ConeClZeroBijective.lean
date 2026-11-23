@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.PullTotMemBTot
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle004
 public import Mathlib.RingTheory.WittVector.IsPoly
 public import Mathlib.Tactic.ReduceModChar
 import Mathlib.Algebra.Order.Floor.Extended

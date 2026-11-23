@@ -2,7 +2,7 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.KeyFormula.DegProd
 public import Mathlib.LinearAlgebra.Matrix.GeneralLinearGroup.Defs
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.SubmatrixMulOfSupport
+public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -46,7 +46,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.HDiscAA
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.Bundle011
 import Std.Tactic.BVDecide.Normalize.Prop
 public import Mathlib.LinearAlgebra.Matrix.Block
 

@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.HaarTransversals.UnitaryHaarProducts.BesselLevi
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.NUnimodLoc
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle033
 public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.QuotProdK
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,9 +1,9 @@
 module
 
-public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.ZariskiEtaleLifting.MapUSharp
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.EtaleLiftingOfNilIdeal
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.PeriodRingBaseChangeFromUniversalStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.PeriodRingUniversalPropertyStatement
+public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.ZariskiEtaleLifting.Bundle005
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle117
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle434
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle496
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

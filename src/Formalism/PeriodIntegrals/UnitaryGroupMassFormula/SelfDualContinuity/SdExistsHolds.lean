@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.SelfDualBridge
+public import Formalism.PeriodIntegrals.Bundle017
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.HaarFibreUniqueness.AdditiveCharacterNontrivial
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.HaarFibreUniqueness.SdExInst
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.SelfDualContinuity.ContinuousReTupSymm

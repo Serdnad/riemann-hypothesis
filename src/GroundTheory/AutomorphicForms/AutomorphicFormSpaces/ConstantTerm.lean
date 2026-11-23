@@ -1,9 +1,9 @@
 module
 
-public import GroundTheory.GlobalFields.TateThesis.AdeleMeasure
+public import GroundTheory.GlobalFields.TateThesis.Bundle006
 public import GroundTheory.AutomorphicForms.AutomorphicFormSpaces.HasModerateGrowthZero
 public import GroundTheory.AutomorphicForms.AutomorphicFormSpaces.Uniform
-import GroundTheory.AutomorphicForms.ReductionMeasure
+import GroundTheory.AutomorphicForms.Bundle012
 import GroundTheory.GlobalFields.Adele.Topology
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,15 +1,15 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsGlobalGenerators
-public import Development.AbelianVarietyTheory.Definitions.Degenerations.RigGen
-public import Development.AbelianVarietyTheory.Definitions.Degenerations.Ser
+public import Development.AbelianVarietyTheory.Definitions.Degenerations.Bundle004
+public import Development.AbelianVarietyTheory.Definitions.Degenerations.Bundle003
 public import Development.AbelianVarietyTheory.Definitions.Uniformization.TXFrame
-public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.LinearIndependentOfCommSmul
+public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle006
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.ThetaGrpActsLinearly
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.AddHomExtSingle
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsOperators
-import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsUniqueOfBasis
-import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.OrthogonalFreeOfPerfectAltZmod
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle057
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle079
+import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle075
+import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.HermitianForms.LastCoordinateUniformizerVectorSpansOrthogonalLi
+public import Formalism.LocalToGlobal.HermitianForms.Bundle003
 public import Formalism.LocalToGlobal.IndefiniteReal.LinksDefs
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

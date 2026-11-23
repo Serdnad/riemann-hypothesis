@@ -7,10 +7,10 @@ import Formalism.DoubleCosetMeasures.Statement
 import GroundTheory.AutomorphicForms.GL2.ExistsEqPowMulOfValuationLe
 public import GroundTheory.AutomorphicForms.GL2.GJFEBlock
 public import GroundTheory.AutomorphicForms.GL2.GJLocalFECoeff
-public import GroundTheory.AutomorphicForms.GL2.GJLocalFEGamma
+public import GroundTheory.AutomorphicForms.GL2.Bundle005
 import GroundTheory.AutomorphicForms.GL2.GJZetaCore
-import GroundTheory.AutomorphicForms.SmoothRepContragredient
-import GroundTheory.AutomorphicForms.SmoothRepSchur
+import GroundTheory.AutomorphicForms.Bundle008
+import GroundTheory.AutomorphicForms.Bundle009
 import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.LeviSmoothLocalization.LeviBlockInduction.GxBlock
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended

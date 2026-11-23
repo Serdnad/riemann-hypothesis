@@ -7,7 +7,7 @@ public import Mathlib.RingTheory.Ideal.Height
 public import Mathlib.RingTheory.IntegralClosure.IntegrallyClosed
 public import Mathlib.RingTheory.Valuation.Integers
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.ExistsAbsoluteValueOfIsDiscreteValuationRing
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.DvrOfHeightOne
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -53,7 +53,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.Divisors.ToSpanSingletonConstGenInjective
-import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.TranslateMemIndOrder
+import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.Bundle001
 import Development.AutomorphicSpectrum.PublishedTheorems.Algebra₂.FarguesHodgeTate
 import Mathlib.CategoryTheory.Monoidal.Cartesian.Basic
 import Mathlib.CategoryTheory.Monoidal.Category

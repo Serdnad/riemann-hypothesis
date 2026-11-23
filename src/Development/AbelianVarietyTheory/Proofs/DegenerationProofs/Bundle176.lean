@@ -1,0 +1,462 @@
+module
+
+public import Development.AbelianVarietyTheory.Definitions.AbelianSchemeLaws.FirstCohomologyVanishesSpecOfIsLocalRing
+public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.FirstCohomologyVanishesOfIsoOfIsGen
+public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle007
+public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.SerreVanishingVeryAmple
+public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.IsProjOverMorphismRestrictOfRelAmple
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle114
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle045
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle042
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.Bundle003
+public import Development.AbelianVarietyTheory.Definitions.Degenerations.AdmissibleBaseOfCompleteDvr
+public import Development.AbelianVarietyTheory.Definitions.Degenerations.Bundle002
+public import Development.AbelianVarietyTheory.Statements.TorsionEndomorphisms.EndDeterminedOnTorsion
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle006
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.Bundle007
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsArcSeriesIntegralAlgebraicOverPowerSeries
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsThetaPointComplexDegenerationSmall
+public import Development.AbelianVarietyTheory.Definitions.Degenerations.AdmissiblePadicIntMaximalIdeal
+public import Development.AbelianVarietyTheory.Definitions.Degenerations.Bundle007
+public import Development.AbelianVarietyTheory.Definitions.Degenerations.MorAlgSt
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle128
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.Bundle005
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle172
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle146
+public import Development.AbelianVarietyTheory.Definitions.Degenerations.Bundle001
+public import Development.AbelianVarietyTheory.Definitions.Degenerations.PlOrdSomeOfAssociated
+public import Mathlib.Analysis.Complex.Norm
+public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle002
+public import Development.AbelianVarietyTheory.Definitions.Degenerations.Bundle003
+public import Development.AbelianVarietyTheory.Definitions.Degenerations.Bundle005
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle174
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsUniqueExpansionSectionAdmissibleBase
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle142
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle173
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle144
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle143
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle121
+import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.TorsionEqOneOfTranslationKeepsRatios
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle110
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle070
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle080
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsIntegralNthRootTestModelPoint
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle165
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle009
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle175
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsAdaptedBasisSectionsModK
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.AlgebraicGeometry.Modules.Sheaf
+import Mathlib.AlgebraicGeometry.AlgClosed.Basic
+import Mathlib.AlgebraicGeometry.Morphisms.WeaklyEtale
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Coalgebra.IsFrobenius
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.RegularLocalRing.Defs
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Linter.HaveILetI
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+public import Development.AbelianVarietyTheory.Definitions.ThetaMetrics.IsRegularFnIffOfIsAffineOpen
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ThetaCore
+import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle075
+
+@[expose] public section
+
+section
+
+open CategoryTheory CategoryTheory.Limits MonoidalCategory CartesianMonoidalCategory MonObj AlgebraicGeometry
+open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Out ReciprocityTheory.ChartRestriction.G.Geo.Tor GlobalTheory.AbLaw
+open scoped CategoryTheory.Obj
+attribute [local instance] Over.cartesianMonoidalCategory
+
+namespace GlobalTheory.Algebraise
+
+theorem exists_veryAmple_h1Zero_pull : ∀ (A : Type) [CommRing A] (X : Over (Spec (CommRingCat.of A))) (L : LB X.left), L.IsLB → RelAmple X L → ∀ (K : Type) [CommRing K] [IsNoetherianRing K] (g₀ : A →+* K) (X₀ : Scheme.{0}) (π : X₀ ⟶ X.left) (f₀ : X₀ ⟶ Spec (CommRingCat.of K)), IsPullback π f₀ X.hom (Spec.map (CommRingCat.ofHom g₀)) → ∃ d : ℕ, 1 ≤ d ∧ FirstCohomologyVanishes ((AbLaw.pw L d).pull π) ∧ ∃ (n : ℕ) (s : Fin (n + 1) → LB.Sec (AbLaw.pw L d)), VeryAmpleBy X.hom (AbLaw.pw L d) s := by
+  intro A _ X L hL h K _ _ g₀ X₀ π f₀ hπ
+  obtain ⟨d₀, hd₀, n₀, s₀, hs₀⟩ := (GlobalTheory.Unif.relAmple_iff_veryAmpleBy A X L hL).1 h
+  have isLB_pw {Y : Scheme.{0}} {H : LB Y} (hH : H.IsLB) (t : ℤ) :
+      (AbLaw.pw H t).IsLB := by
+    refine ⟨hH.cover, ?_, ?_⟩
+    · intro i
+      have h := congrArg (· ^ t) (hH.g_self i)
+      simp only [one_zpow, ← map_zpow] at h
+      exact h
+    · intro i j k
+      have h := congrArg (· ^ t) (hH.cocycle i j k)
+      simp only [mul_zpow, ← map_zpow] at h
+      exact h
+  have hH := isLB_pw hL (d₀ : ℤ)
+  have hH₀ := LB.isLB_pull hH π
+  let s' := fun j => GlobalTheory.Cartier.secPull (s₀ j) π
+  haveI : IsClosedImmersion (pullback.lift π f₀ hπ.w) := by
+    have e : pullback.lift π f₀ hπ.w = hπ.isoPullback.hom := by
+      apply pullback.hom_ext
+      · exact (pullback.lift_fst _ _ _).trans hπ.isoPullback_hom_fst.symm
+      · exact (pullback.lift_snd _ _ _).trans hπ.isoPullback_hom_snd.symm
+    rw [e]
+    infer_instance
+  have hva : VeryAmpleBy f₀ _ s' := by
+    haveI : IsAffineHom π := MorphismProperty.of_isPullback (P := @IsAffineHom) hπ.flip inferInstance
+    have loc (i : Fin (n₀ + 1)) : nonzeroLocus (s' i) = π ⁻¹ᵁ nonzeroLocus (s₀ i) :=
+      GlobalTheory.Cartier.nonzeroLocus_secPull (s₀ i) π
+    have restrict_app {U : X.left.Opens} {V W : X₀.Opens}
+        (e : V ≤ π ⁻¹ᵁ U) (hWV : W ≤ V) (a : Γ(X.left, U)) :
+        rs X₀ hWV ((π.appLE U V e).hom a) = (π.appLE U W (hWV.trans e)).hom a :=
+      congrArg (fun q => q.hom a) (π.appLE_map e (homOfLE hWV).op)
+    refine ⟨GlobalTheory.ProjSpace.iSup_nonzeroLocus_secPull hs₀.1 π, fun i => ?_⟩
+    obtain ⟨haff, r, hr, hsurj⟩ := hs₀.2 i
+    refine ⟨by rw [loc]; exact haff.preimage π, fun j => (π.appLE _ _ (loc i).le).hom (r j), ?_, ?_⟩
+    · intro j k
+      have e := GlobalTheory.Cartier.pull_U (AbLaw.pw L (d₀ : ℤ)) π k
+      change rs X₀ inf_le_right ((π.appLE _ _ e.le).hom ((s₀ j).f (k ⟨⟩))) =
+        rs X₀ inf_le_left ((π.appLE _ _ (loc i).le).hom (r j)) *
+          rs X₀ inf_le_right ((π.appLE _ _ e.le).hom ((s₀ i).f (k ⟨⟩)))
+      rw [restrict_app, restrict_app, restrict_app]
+      exact Segre.ap_ratio π (hr j (k ⟨⟩)) (inf_le_left.trans (loc i).le)
+        (inf_le_right.trans e.le)
+    · intro x
+      refine VeryAmplePull.closure_eq_top hπ.w haff (loc i) (RingHom.range _) (fun d => ?_)
+        (fun c => ?_) x
+      · obtain ⟨p, rfl⟩ := hsurj d
+        refine ⟨MvPolynomial.map g₀ p, ?_⟩
+        rw [MvPolynomial.eval₂Hom_map_hom, MvPolynomial.map_eval₂Hom]
+        exact congrArg (fun q => MvPolynomial.eval₂Hom q _ p)
+          (RingHom.ext fun c => (VeryAmplePull.appLE_cst hπ.w _ _ _ c).symm)
+      · exact ⟨MvPolynomial.C c, MvPolynomial.eval₂Hom_C _ _ _⟩
+  obtain ⟨t₀, ht₀⟩ := GlobalTheory.T.serre_vanishing_very_ample.1 K X₀ f₀ _ n₀ s' hH₀ hva _ hH₀
+  have h1 := ht₀ (t₀.toNat : ℤ) (Int.self_le_toNat t₀)
+  obtain ⟨w, hw⟩ := lbIso_tw hH₀ (t₀.toNat : ℤ)
+  have h2 := H1Iso.firstCohomologyVanishes_of_iso_of_isGen (isLB_tw hH₀ hH₀ _).cover (isLB_pw hH₀ _) w hw h1
+  have h3 := veryAmpleBy_pw A X.left X.hom _ n₀ s₀ hH hs₀ (t₀.toNat + 1) (Nat.le_add_left _ _)
+  have e : AbLaw.pw (AbLaw.pw L (d₀ : ℤ)) ((t₀.toNat + 1 : ℕ) : ℤ) =
+      AbLaw.pw L ((d₀ * (t₀.toNat + 1) : ℕ) : ℤ) := by
+    rw [pw_pw, Nat.cast_mul]
+  refine ⟨d₀ * (t₀.toNat + 1), Nat.mul_pos hd₀ (Nat.succ_pos _), ?_, ?_⟩
+  · rw [← e, pw_pull, Nat.cast_add, Nat.cast_one]
+    exact h2
+  · rw [← e]
+    exact h3
+
+end GlobalTheory.Algebraise
+end
+
+section
+
+open CategoryTheory CategoryTheory.Limits MonoidalCategory CartesianMonoidalCategory MonObj AlgebraicGeometry NumberField
+open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Out ReciprocityTheory.ChartRestriction.G.Geo.Tor
+open scoped CategoryTheory.Obj
+attribute [local instance] Over.cartesianMonoidalCategory
+
+theorem _root_.GlobalTheory.T.existsUnique_hom_of_thickenings' : Laws → Laws2 → ∀ (R : Type) [CommRing R] [IsDomain R] [IsLocalRing R] [IsNoetherianRing R] (I : Ideal R), I ≠ ⊤ → IsAdicComplete I R → IsAdicComplete (IsLocalRing.maximalIdeal R) R → ∀ (Y Z : Over (Spec (CommRingCat.of R))), GlobalTheory.AbLaw.IsProjBy Y.hom → GlobalTheory.AbLaw.IsProjBy Z.hom → Smooth Y.hom → ∀ f : ∀ e, (thickObj R I e Y).left ⟶ Z.left, (∀ e, f e ≫ Z.hom = (fstG I e Y).left ≫ Y.hom) → (∀ e, thickMap R I e Y ≫ f (e + 1) = f e) → ∃! g : Y ⟶ Z, ∀ e, (fstG I e Y).left ≫ g.left = f e := by
+  first | exact @GlobalTheory.LocalMorAlg.existsUnique_hom_of_thickenings | exact GlobalTheory.LocalMorAlg.existsUnique_hom_of_thickenings | (intros; apply GlobalTheory.LocalMorAlg.existsUnique_hom_of_thickenings <;> assumption)
+end
+
+section
+
+open CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj AlgebraicGeometry NumberField
+open scoped CategoryTheory.Obj BigOperators
+open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Out ReciprocityTheory.ChartRestriction.G.Geo.Tor
+attribute [local instance] Over.cartesianMonoidalCategory
+open GlobalTheory GlobalTheory.Ex
+
+theorem _root_.GlobalTheory.T.exists_arcSeries_integral_algebraic_over_powerSeries : HV → Laws6 → GlobalTheory.LN.UDvrSt → GlobalTheory.LN.HomExtSt → ThetaPtDeterminesSt → EndDeterminedOnTorsionSt → ThetaUnifAV → AllA fun {E} _ _ _ {H} {D} {l} {Xo} {c} {W₀} Y {O'} _ _ {b} a => ∀ (K : Type) [Field K] [IsAlgClosed K] [Algebra (FractionRing O') K] [Algebra (PowerSeries O') K] [FaithfulSMul (PowerSeries O') K] [Algebra.IsAlgebraic (PowerSeries O') K], (∀ x, algebraMap (FractionRing O') K (algebraMap O' _ x) = algebraMap (PowerSeries O') K (PowerSeries.C x)) → Nonempty (Ser a K (algebraMap _ K)) := by
+  first | exact @GlobalTheory.ArcSeries.exists_series | exact GlobalTheory.ArcSeries.exists_series | (intros; apply GlobalTheory.ArcSeries.exists_series <;> assumption)
+end
+
+section
+
+open CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj AlgebraicGeometry NumberField
+open scoped CategoryTheory.Obj BigOperators
+open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Out ReciprocityTheory.ChartRestriction.G.Geo.Tor
+attribute [local instance] Over.cartesianMonoidalCategory
+open GlobalTheory GlobalTheory.Ex
+
+theorem _root_.GlobalTheory.T.exists_thetaPoint_complexDegeneration_small : HV → Laws6 → GlobalTheory.LN.UDvrSt → GlobalTheory.LN.HomExtSt → ThetaPtDeterminesSt → EndDeterminedOnTorsionSt → ThetaUnifAV → AllD fun {_} _ _ _ {H} D => ∀ (R : Type) [CommRing R] [IsDomain R] [Algebra (FractionRing R) ℂ] (A : ArcF D R ℂ), A.ρ = H.rt0 → ∀ (k : ℕ) (β : A.N.Form k), A.Bal β → ∀ (m : ℕ) (hm : m ^ 2 ∣ k), Odd m → ∃ ε : ℝ, 0 < ε ∧ ∀ u : ℂˣ, ‖(u : ℂ)‖ < ε → (∀ x, Summable fun χ => ‖(A.N.twist β u).txT m (A.N.twQ β u hm (A.q _ x)) χ‖) ∧ ∃ o : Full D ℂ, o.ρ = H.rt0 ∧ o.I.ζ (m ^ 2) = A.I.ζ (m ^ 2) ∧ o.Theta m fun x => (A.N.twist β u).tx m (A.N.twQ β u hm (A.q _ x)) := by
+  first | exact @GlobalTheory.Ex.Arch.exists_full_of_small | exact GlobalTheory.Ex.Arch.exists_full_of_small | (intros; apply GlobalTheory.Ex.Arch.exists_full_of_small <;> assumption)
+end
+
+section
+
+open CategoryTheory CategoryTheory.Limits MonoidalCategory CartesianMonoidalCategory MonObj AlgebraicGeometry NumberField
+open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Out ReciprocityTheory.ChartRestriction.G.Geo.Tor
+open scoped CategoryTheory.Obj
+attribute [local instance] Over.cartesianMonoidalCategory
+open GlobalTheory.UU
+open GlobalTheory.LN
+noncomputable section
+namespace GlobalTheory.PsiRing
+
+theorem ne_zero_of_secCmp {R V : Type} [CommRing R] [IsDomain R] [CommRing V] [IsDomain V] {φ : R →+* V} {D : DegPre R}
+    {D' : DegPre V} {β : D'.P.A.left ⟶ D.P.A.left} {v : LB.Iso D'.P.L (D.P.L.pull β)} {xe : D'.X ≃+ D.X}
+    (hw : β ≫ D.P.A.hom = D'.P.A.hom ≫ spMap φ) {f : ∀ α, SecBT D (𝟙_ _) 1 α} {f' : ∀ α, SecBT D' (𝟙_ _) 1 α}
+    (h : SecCmp D D' β v xe f f') (h' : ∀ α, ∃ j, (f' α).f j ≠ 0) (α : D.X) : ∃ j, (f α).f j ≠ 0 := by
+  obtain ⟨x, rfl⟩ := xe.surjective α
+  by_contra h0
+  push Not at h0
+  obtain ⟨j, hj⟩ := h' x
+  refine hj (ThetaScalar.eq_zero_of_sval D'.P.isLB _ (fun y J' hJ' => ?_) j)
+  obtain ⟨J, hJ⟩ := exists_good_pt D.P.isLB y
+  let T : Over (Spec (CommRingCat.of R)) := Over.mk (((snd (𝟙_ _) D'.P.A).left ≫ β) ≫ D.P.A.hom)
+  let p : T ⟶ D.P.A := Over.homMk ((snd (𝟙_ _) D'.P.A).left ≫ β) rfl
+  have e := h x _ (𝟙 _) (lift (toUnit T) p).left
+    ((congrArg (fun q => q.left) (lift_snd (toUnit T) p)).trans (Category.id_comp _).symm) y J J' hJ hJ'
+  rw [ThetaScalar.sval_eq_zero _ h0 _ y hJ] at e
+  exact (Units.mul_right_eq_zero _).1 e.symm
+
+theorem exists_generic_map {R V : Type} [CommRing R] [IsDomain R] [CommRing V] [IsDomain V] {φ : R →+* V}
+    (hφ : Function.Injective φ) : ∃ gam : (TK V).left ⟶ (TK R).left, gam ≫ jK R = jK V ≫ spMap φ := by
+  have hi : Function.Injective ((algebraMap V (FractionRing V)).comp φ) :=
+    (IsFractionRing.injective V (FractionRing V)).comp hφ
+  obtain ⟨g, e⟩ : ∃ g : FractionRing R →+* FractionRing V,
+      g.comp (algebraMap R (FractionRing R)) = (algebraMap V (FractionRing V)).comp φ :=
+    ⟨IsLocalization.lift (M := nonZeroDivisors R) (g := (algebraMap V (FractionRing V)).comp φ) fun y =>
+      IsUnit.mk0 _ ((map_ne_zero_iff _ hi).2 (nonZeroDivisors.coe_ne_zero y)), IsLocalization.lift_comp _⟩
+  have e' : spMap g ≫ jK R = jK V ≫ spMap φ := by
+    rw [← Spec.map_comp, ← Spec.map_comp, ← CommRingCat.ofHom_comp, ← CommRingCat.ofHom_comp, e]
+  exact ⟨spMap g, e'⟩
+
+theorem exists_degData_of_thetaNZ : Laws → Laws2 → Ega → ∀ (R : Type) [CommRing R] [IsDomain R] [IsLocalRing R] (I : Ideal R), admitted R I → ∀ (V : Type) [CommRing V] [IsDomain V] [IsLocalRing V], CDvr V → ∀ φ : R →+* V, Function.Injective φ → (IsLocalRing.maximalIdeal V).comap φ = I → ∀ (D : DegPre R) (D' : DegData V (IsLocalRing.maximalIdeal V)) (A : PolAV (Sp (FractionRing R))) (A' : PolAV (Sp (FractionRing V))) (G : Over (Spec (CommRingCat.of R))) [GrpObj G] [IsCommMonObj G] (G' : Over (Spec (CommRingCat.of V))) [GrpObj G'] [IsCommMonObj G'] (U : PreU I D A G) (U' : PreU (IsLocalRing.maximalIdeal V) D'.toPre A' G') (U₀ : Unif (IsLocalRing.maximalIdeal V) D' A' G') (F : G'.left ⟶ G.left) (C : Cmp φ U U' F), Under U' U₀.toUnifPre → ThetaNZ G U.P.L.L → ∃ (psi : _) (h : _) (Dd : DegData R I) (hD : IsPullDeg φ (withPsi D psi h) D'.toPre), Dd.toPre = withPsi D psi h ∧ hD.e.hom.left ≫ pullback.fst _ _ = C.β ∧ HEq hD.w C.v ∧ hD.xe = C.xe := by
+  intro h₁ h₂ hE R _ _ _ I hA V _ _ _ hV φ hφ hI D D' A A' G _ _ G' _ _ U U' U₀ F C hU hθ
+  obtain ⟨hR, -, -, hP, -⟩ := hA
+  have := hV.1
+  have hV' : AdmBase V (IsLocalRing.maximalIdeal V) := ⟨inferInstance, inferInstance, inferInstance, hV.2.1⟩
+  have hm : IsLocalRing.maximalIdeal V ≠ ⊤ := (IsLocalRing.maximalIdeal.isMaximal V).ne_top
+  have hIm : I.map φ ≤ IsLocalRing.maximalIdeal V := Ideal.map_le_iff_le_comap.2 hI.ge
+  obtain ⟨hσ₁, hσ₂⟩ := GlobalTheory.T.fibrewiseNonzeroSection_prod_and_baseChange R V I _ φ D D'.toPre A G A' G' U U' F C
+  obtain ⟨σ, hσ⟩ := hσ₁ hθ
+  obtain ⟨f, hf, -⟩ := CompleteBaseExpansion.main h₁ h₂ hE R I hR hP.ne_top D A G U 1 σ
+  obtain ⟨σ', f', hf', hσσ, hff⟩ := ExpCmp.expT_cmp R V I _ φ hIm D D'.toPre A A' G G' U U' F C 1 σ f hf
+  have hcmp : SecCmp D D'.toPre C.β C.v C.xe f f' := hff
+  have hrel' := GlobalTheory.T.psiRel_of_expT' h₁ h₂ V _ hV' D' A' G' U' U₀ hU σ' f' hf'
+  have hne' : ∀ α, ∃ j, (f' α).f j ≠ 0 := by
+    refine GlobalTheory.T.forall_term_ne_zero_of_psiRelation V D'.toPre f' hrel' ?_
+    obtain ⟨T, y, z, J, α, hJ, -, -, hu⟩ := GlobalTheory.T.exists_expansionTerm_unit_closedFibre V _ hm D'.toPre A' G' U' 1 σ' f' hf' (hσ₂ 1 σ σ' hσσ hσ)
+    refine ⟨α, ?_⟩
+    by_contra h0
+    push Not at h0
+    rw [ThetaScalar.sval_eq_zero _ h0 _ z hJ] at hu
+    exact not_isUnit_zero hu
+  obtain ⟨psi, h, hrel⟩ := exists_psi_psiRel h₁ h₂ R D f (ne_zero_of_secCmp C.pbB.1.w hcmp hne')
+  let E : DegPre R := withPsi D psi h
+  have hrelE : PsiRel E (𝟙_ _) f := hrel
+  have hrig : RigCmp φ E D'.toPre C.β C.v := GlobalTheory.T.rigidification_comparison_uniformisation R V I _ φ hm hIm D D'.toPre A G A' G' U U' F C
+  obtain ⟨gam, hgam⟩ := exists_generic_map hφ
+  have hpsi : PsiCmp E D'.toPre C.β C.v C.xe gam :=
+    GlobalTheory.T.psiCmp_of_secCmp' R V φ E D'.toPre C.β C.v C.xe C.pbB C.v_gen C.c_pr hrig f f' hcmp hrelE hrel' (hne' 0) gam hgam
+  have hev : E.PsiEven :=
+    GlobalTheory.T.psiEven_descend_baseChange h₁.globalFns R V φ E D'.toPre C.β C.v C.xe C.pbB C.v_gen C.c_pr gam hgam hpsi D'.psi_even
+  have hbi : E.TauBimult :=
+    GlobalTheory.T.tauBimult_of_baseChange' h₁.globalFns R V φ E D'.toPre C.β C.v C.xe C.pbB C.v_gen C.c_pr hrig gam hgam hpsi D'.tau_bimult
+  obtain ⟨hD, hD₁, hD₂, hD₃⟩ :=
+    GlobalTheory.T.exists_isPullDeg_of_comparison R V φ E D'.toPre C.β C.v C.xe C.pbB C.v_gen C.c_pr hrig gam hgam hpsi hbi
+  obtain ⟨ga, a, hS⟩ := exists_psiScal R E
+  obtain ⟨th, hth, hmul⟩ := GlobalTheory.T.exists_thetaSection_nonzeroFibres_localRing h₂.secTwist R D
+  obtain ⟨q, hq⟩ := hmul (f 0)
+  choose b hb using fun χ : D.X => GlobalTheory.T.exists_twistedSection_thetaTranslate_coef R D th hmul χ (ga χ) (hS χ).1 (f χ)
+  have hab : ∀ χ, algebraMap R (FractionRing R) q * (a χ).val = algebraMap R (FractionRing R) (b χ) := fun χ =>
+    GlobalTheory.T.psiScalar_eq_expansionCoef_ratio R E ga a f th hS hrelE hth χ q (b χ) hq (hb χ)
+  have hbI : ∀ χ : D.X, χ ≠ 0 → b χ ∈ I := fun χ hχ => by
+    obtain ⟨x, rfl⟩ := C.xe.surjective χ
+    obtain ⟨m, hm₁, hm₂⟩ := GlobalTheory.T.psiScalar_mem_of_psi_mem_ideal R V φ E D'.toPre C.β C.v C.xe C.pbB C.v_gen C.c_pr gam hgam hpsi ga a hS x _
+      (D'.psi_pos x fun h0 => hχ (by rw [h0, map_zero])) _ q (hab _)
+    refine hI.le (Ideal.mem_comap.2 ?_)
+    exact (congrArg (· ∈ IsLocalRing.maximalIdeal V) hm₂).mpr (Ideal.mul_mem_left _ _ hm₁)
+  have hqu : IsUnit q := by
+    obtain ⟨T, y, z, J, α, hJ, hz, h0, hu⟩ := GlobalTheory.T.exists_expansionTerm_unit_closedFibre R I hP.ne_top D A G U 1 σ f hf hσ
+    by_cases hα : α = 0
+    · subst hα
+      rw [hq _ _ z J hJ, show (lift (toUnit T) y).left ≫ (𝟙_ _ ⊗ D.P.A).hom = T.hom from Over.w _] at hu
+      by_contra hn
+      exact cst_not_isUnit T.hom z hz hn (isUnit_of_mul_isUnit_left hu)
+    · rw [hb α T y z J hJ, h0 _ (hbI α hα), MulZeroClass.zero_mul] at hu
+      exact absurd hu not_isUnit_zero
+  obtain ⟨q, rfl⟩ := hqu
+  have hin : ∀ (χ : D.X) (J : Ideal R), b χ ∈ J → E.PsiIn χ J := fun χ J hJ =>
+    (PsiScalIn.main_local E ga a hS χ J).2 ⟨(q⁻¹).val * b χ, J.mul_mem_left _ hJ, by
+      rw [map_mul]
+      refine (congrArg (_ * ·) (hab χ).symm).trans ?_
+      rw [← _root_.mul_assoc, ← map_mul, Units.inv_mul, map_one, _root_.one_mul]⟩
+  refine ⟨psi, h, ⟨E, hev, hbi, fun χ hχ => hin χ I (hbI χ hχ), fun n => ?_⟩, hD, rfl, hD₁, hD₂, hD₃⟩
+  obtain ⟨s, hs⟩ := GlobalTheory.T.expansionCoef_mem_adic_pow R I hP.ne_top D A G U σ f th hf hth n
+  refine s.finite_toSet.subset fun χ hχ => ?_
+  by_contra hn
+  exact hχ (hin χ _ (Ideal.pow_le_pow_right (Nat.le_succ n) (hs χ hn _ _ (hb χ))))
+
+end GlobalTheory.PsiRing
+end
+end
+
+section
+
+open CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj AlgebraicGeometry
+open scoped CategoryTheory.Obj
+open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Geo.Tor
+open GlobalTheory.SS
+
+theorem _root_.GlobalTheory.T.frobenius_counts_integral_torsion_specialFibre : ∀ (W R Ω : Type) [CommRing W] [CommRing R] [IsDomain R] [IsLocalRing R] [Field Ω] [Algebra W R] [Algebra R Ω] [Algebra W Ω] [IsScalarTower W R Ω], Function.Injective (algebraMap R Ω) → IsAlgClosed (IsLocalRing.ResidueField R) → ∀ (p r l : ℕ), p.Prime → CharP (IsLocalRing.ResidueField R) p → 1 ≤ r → l.Prime → IsUnit (l : R) → (∀ c : IsLocalRing.ResidueField R, ∃ m, 1 ≤ m ∧ c ^ ((p ^ r) ^ m) = c) → ∀ ψ : Ω →+* Ω, (∀ w : W, ψ (algebraMap W Ω w) = algebraMap W Ω w) → (∀ x : R, ∃ y : R, algebraMap R Ω y = ψ (algebraMap R Ω x) ∧ y - x ^ (p ^ r) ∈ IsLocalRing.maximalIdeal R) → ∀ (G : Over (Sp W)) [GrpObj G], SmConn G → ∀ g : ℕ, SmoothOfRelativeDimension g G.hom → ∀ L : LB ((Over.pullback (spMap ((IsLocalRing.residue R).comp (algebraMap W R)))).obj G).left, AmpleCub ((Over.pullback (spMap ((IsLocalRing.residue R).comp (algebraMap W R)))).obj G) L → ∀ (M : Type) [CommGroup M] (θ : M ≃* (Over.mk (spMap (algebraMap W Ω)) ⟶ G)) (Ψ : MulAut M), (∀ x, (θ (Ψ x)).left = spMap ψ ≫ (θ x).left) → ∃ (t a m C : ℕ) (Q : Polynomial ℤ) (H U : Subgroup M), 1 ≤ m ∧ (∀ x, x ∈ H ↔ ∃ s : Sp R ⟶ G.left, s ≫ G.hom = spMap (algebraMap W R) ∧ spMap (algebraMap R Ω) ≫ s = (θ x).left) ∧ (∀ n, Nat.card {x : H // x ^ l ^ n = 1} ≤ C * l ^ (n * (t + 2 * a)) ∧ Nat.card {x : U // x ^ l ^ n = 1} ≤ C * l ^ (n * t)) ∧ (∀ β : ℂ, Polynomial.aeval β Q = 0 → ‖β‖ < (((p ^ r) ^ m : ℕ) : ℝ)) ∧ (∀ n, ∀ x ∈ U, x ^ l ^ n = 1 → (Ψ ^ m) x = x ^ ((p ^ r) ^ m)) ∧ (∀ n, ∀ x ∈ H, x ^ l ^ n = 1 → ∏ j ∈ Finset.range (Q.natDegree + 1), ((Ψ ^ m : MulAut M)^[j] x) ^ Q.coeff j ∈ U) ∧ (g ≤ t + a → Nonempty (TorusExtension ((Over.pullback (spMap ((IsLocalRing.residue R).comp (algebraMap W R)))).obj G))) := by
+  first | exact @GlobalTheory.SS.frobenius_on_integral_torsion | exact GlobalTheory.SS.frobenius_on_integral_torsion | (intros; apply GlobalTheory.SS.frobenius_on_integral_torsion <;> assumption)
+end
+
+section
+
+open CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj AlgebraicGeometry
+open scoped CategoryTheory.Obj
+open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Geo.Tor
+open GlobalTheory.SS
+
+namespace GlobalTheory.SS
+
+
+open UnramifiedEndFlat in
+theorem flat_of_isDominant_grpHom (K : Type) [Field K] [IsAlgClosed K]
+    (G G' : Over (Sp K)) [GrpObj G] [GrpObj G'] [IrreducibleSpace G.left] [IsIntegral G'.left]
+    [LocallyOfFiniteType G.hom] [LocallyOfFiniteType G'.hom] (φ : G ⟶ G') [IsMonHom φ]
+    [QuasiCompact φ.left] [IsDominant φ.left] : Flat φ.left := by
+  have := LocallyOfFiniteType.jacobsonSpace G.hom
+  have : IsLocallyNoetherian G'.left := LocallyOfFiniteType.isLocallyNoetherian G'.hom
+  have : LocallyOfFiniteType (φ.left ≫ G'.hom) := by rw [Over.w φ]; infer_instance
+  have : LocallyOfFiniteType φ.left := locallyOfFiniteType_of_comp _ G'.hom
+  have hξ : φ.left (genericPoint G.left) = genericPoint G'.left := by
+    have h := (genericPoint_spec G.left).image φ.left.continuous
+    rw [Set.image_univ, φ.left.denseRange.closure_range] at h
+    exact h.eq (genericPoint_spec G'.left)
+  obtain ⟨W, hW, H⟩ := IntDiv.exists_open_flat φ.left hξ
+  obtain ⟨y, hy, hyc⟩ := nonempty_inter_closedPoints hW W.2.isLocallyClosed
+  refine flat_of_closedPoints _ fun x hx => ?_
+  let x' : 𝟙_ _ ⟶ G := Over.homMk _ ((pointEquivClosedPoint G.hom).symm ⟨x, hx⟩).2
+  let y' : 𝟙_ _ ⟶ G := Over.homMk _ ((pointEquivClosedPoint G.hom).symm ⟨y, hyc⟩).2
+  let α := GrpObj.mulRight (A := G) (y'⁻¹ * x')
+  let β := GrpObj.mulRight (A := G') ((y'⁻¹ * x') ≫ φ)
+  have hαβ : α.hom ≫ φ = φ ≫ β.hom := by
+    simp only [α, β]
+    generalize y'⁻¹ * x' = z
+    simp [comp_lift_assoc]
+  have hα : y' ≫ α.hom = x' := by
+    have : y' ≫ α.hom = y' * (y'⁻¹ * x') := by
+      simp [α, comp_lift_assoc, Hom.mul_def]
+    rw [this, mul_inv_cancel_left]
+  have hα' : α.hom.left y = x := by
+    have h := congr(($hα).left (IsLocalRing.closedPoint K))
+    rw [← pointOfClosedPoint_apply G.hom x hx (IsLocalRing.closedPoint K),
+      ← pointOfClosedPoint_apply G.hom y hyc (IsLocalRing.closedPoint K)]
+    exact h
+  have : IsIso α.hom.left := inferInstanceAs (IsIso ((Over.forget _).map α.hom))
+  have : IsIso β.hom.left := inferInstanceAs (IsIso ((Over.forget _).map β.hom))
+  have h1 : ((φ.left ≫ β.hom.left).stalkMap y).hom.Flat := by
+    rw [Scheme.Hom.stalkMap_comp]
+    exact (Flat.stalkMap β.hom.left _).comp (H y hy)
+  rw [← Over.comp_left, ← hαβ, Over.comp_left, Scheme.Hom.stalkMap_comp] at h1
+  rw [← hα']
+  exact (RingHom.Flat.respectsIso.cancel_right_isIso
+    (φ.left.stalkMap (α.hom.left y)) (α.hom.left.stalkMap y)).mp h1
+
+theorem flat_and_surjective_of_surjective_points : ∀ (k : Type) [Field k] [IsAlgClosed k] (G G' : Over (Sp k)) [GrpObj G] [GrpObj G'], SmConn G → SmConn G' → ∀ i : G ⟶ G', IsMonHom i → (∀ y : (𝟙_ (Over (Sp k)) ⟶ G'), ∃ x : (𝟙_ (Over (Sp k)) ⟶ G), x ≫ i = y) → Flat i.left ∧ Surjective i.left := by
+  intro k _ _ G G' _ _ ⟨_, _, _, _, _⟩ ⟨_, _, _, _, _⟩ i _ hi
+  have := grpObj_geometricallyIntegral_of_smooth _ G
+  have := grpObj_geometricallyIntegral_of_smooth _ G'
+  have : IsIntegral G.left := GeometricallyIntegral.isIntegral_of_subsingleton G.hom
+  have : IsIntegral G'.left := GeometricallyIntegral.isIntegral_of_subsingleton G'.hom
+  have : QuasiCompact (i.left ≫ G'.hom) := by rw [Over.w]; infer_instance
+  have : QuasiCompact i.left := .of_comp _ G'.hom
+  have : Surjective i.left := DivisiblePart.surjective_of_rationalPoints i hi
+  exact ⟨flat_of_isDominant_grpHom k G G' i, this⟩
+
+end GlobalTheory.SS
+end
+
+section
+
+open CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj AlgebraicGeometry
+open scoped CategoryTheory.Obj
+open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Geo.Tor
+open GlobalTheory.ZJ
+
+theorem _root_.GlobalTheory.T.weightedProjectiveCharts_split_generic_point : ∀ (R : Type) [CommRing R] [IsDomain R] [IsNoetherianRing R] (G : Over (Sp R)) [GrpObj G] [IsCommMonObj G] [Smooth G.hom] [IsSeparated G.hom] [QuasiCompact G.hom] (C : Charts G.left) (d : ℕ) (c : Fin d → C.Cl) (Sg : Set (Sp R)) [IsAffineHom (pullback.fst G.hom (Out.jK R))], Dense Sg → C.SplitOn c Sg → Charts.Split (H := ((Over.pullback (Out.jK R)).obj G)) (C.pull (pullback.fst G.hom (Out.jK R))) c := by
+  first | exact @GlobalTheory.ZJ.GenericSplit.split_generic | exact GlobalTheory.ZJ.GenericSplit.split_generic | (intros; apply GlobalTheory.ZJ.GenericSplit.split_generic <;> assumption)
+end
+
+section
+
+open CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj AlgebraicGeometry
+open scoped CategoryTheory.Obj
+open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Geo.Tor
+attribute [local instance] Over.cartesianMonoidalCategory
+open ReciprocityTheory.ChartRestriction.G.Out GlobalTheory.ZH Classical
+attribute [local instance] SplitExt.free SplitExt.finite MvPolynomial.gradedAlgebra
+
+theorem _root_.GlobalTheory.T.thetaParameter_of_thetaParameter_mul_degree : GlobalTheory.UT.LL → ∀ (o Ω : Type) [CommRing o] [Field Ω] [Algebra o Ω] [ArithBase o Ω] (S : ThetaSys o Ω) (ρ : S.Real) (p : ℕ) [Fact p.Prime] (y₀ : S.R →+* PadicAlgCl p) (u : ρ.UTest p y₀) (l : u.Lab) (N k : ℕ) (a : u.PtC) (g : GtPtF u.D.toPre (PadicAlgCl p)), 4 ≤ N → 1 ≤ k → u.ParAt (N * k) a g → u.ParAt N a g := by
+  first | exact @GlobalTheory.ParameterRoot.parAt_of_parAt_mul | exact GlobalTheory.ParameterRoot.parAt_of_parAt_mul | (intros; apply GlobalTheory.ParameterRoot.parAt_of_parAt_mul <;> assumption)
+end
+
+section
+
+open CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj AlgebraicGeometry
+open scoped CategoryTheory.Obj
+open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Geo.Tor
+attribute [local instance] Over.cartesianMonoidalCategory
+open ReciprocityTheory.ChartRestriction.G.Out GlobalTheory.ZH Classical
+attribute [local instance] SplitExt.free SplitExt.finite MvPolynomial.gradedAlgebra
+open GlobalTheory.UT GlobalTheory.ZH.ClassWeight
+
+theorem _root_.GlobalTheory.T.exists_generic_sections_from_integral_model : LL → ∀ (o Ω : Type) [CommRing o] [Field Ω] [Algebra o Ω] [ArithBase o Ω] (S : ThetaSys o Ω) (ρ : S.Real) (p : ℕ) [Fact p.Prime] (y₀ : S.R →+* PadicAlgCl p) (u : ρ.UTest p y₀) (k : ℕ) (J : Type) (σ : J → (u.H k).Sec) (f : J → ∀ α, u.D.toPre.SecB k α), (∀ i e, u.U.toUnifPre.ExpandsAt e k (σ i) (f i)) → (∀ i, ∃ s : Fam u.D.toPre (FractionRing u.V) k, FamOf u.D.toPre _ (f i) s) → ∀ w₀ : W0 u.U.toUnifPre, w₀.IsGen → ∃ (t : J → SecA u.A (PadicAlgCl p) k) (s : J → Fam u.D.toPre (PadicAlgCl p) k), (∀ i, u.U.toUnifPre.ExpandsF (PadicAlgCl p) k w₀ (t i) (s i)) ∧ (∀ i α, (∀ j, (f i α).f j = 0) → ∀ j, ((s i).s α).f j = 0) ∧ ∀ (a : u.PtC) (v : J → PadicAlgCl p), Crd (u.H k) σ (u.toG a) v → Crd (LPow u.A.A u.A.L (k : ℤ) (TFK (R := u.V) (PadicAlgCl p))) t (show Sp (PadicAlgCl p) ⟶ _ from (ptSecT u.A.A (a ≫ u.U.gen.hom)).left) v := by
+  first | exact @GlobalTheory.ZH.IntegralCarry.exists_carry | exact GlobalTheory.ZH.IntegralCarry.exists_carry | (intros; apply GlobalTheory.ZH.IntegralCarry.exists_carry <;> assumption)
+end
+
+section
+
+open CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj AlgebraicGeometry
+open scoped CategoryTheory.Obj
+open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Geo.Tor
+attribute [local instance] Over.cartesianMonoidalCategory
+open ReciprocityTheory.ChartRestriction.G.Out GlobalTheory.ZH Classical
+attribute [local instance] SplitExt.free SplitExt.finite MvPolynomial.gradedAlgebra
+
+theorem _root_.GlobalTheory.T.exists_adapted_basis_sections_mod_k : GlobalTheory.UT.LL → ∀ (o Ω : Type) [CommRing o] [Field Ω] [Algebra o Ω] [ArithBase o Ω] (S : ThetaSys o Ω) (ρ : S.Real) (p : ℕ) [Fact p.Prime] (y₀ : S.R →+* PadicAlgCl p) (u : ρ.UTest p y₀) (l : u.Lab) (k : ℕ), 1 ≤ k → ∀ (J : Type) [Fintype J], Fintype.card J = k ^ S.g → ∃ (σ : J → (u.H k).Sec) (cls : J → u.D.toPre.X) (f : J → ∀ α, u.D.toPre.SecB k α), u.Basis l k σ cls f := by
+  first | exact @GlobalTheory.AdaptedBasis.main | exact GlobalTheory.AdaptedBasis.main | (intros; apply GlobalTheory.AdaptedBasis.main <;> assumption)
+end
+
+section
+
+open CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj AlgebraicGeometry
+open scoped CategoryTheory.Obj
+open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Geo.Tor
+attribute [local instance] Over.cartesianMonoidalCategory
+open ReciprocityTheory.ChartRestriction.G.Out GlobalTheory.ZH Classical
+attribute [local instance] SplitExt.free SplitExt.finite MvPolynomial.gradedAlgebra
+
+theorem _root_.GlobalTheory.T.exists_integral_nthRoot_testModel_point : GlobalTheory.UT.LL → ∀ (o Ω : Type) [CommRing o] [Field Ω] [Algebra o Ω] [ArithBase o Ω] (S : ThetaSys o Ω) (ρ : S.Real) (p : ℕ) [Fact p.Prime] (y₀ : S.R →+* PadicAlgCl p) (u : ρ.UTest p y₀) (a : u.PtC) (k : ℕ), 1 ≤ k → u.Int a → ∃ a' : u.PtC, u.Int a' ∧ a' ^ k = a := by
+  first | exact @GlobalTheory.IntDiv.exists_integral_root | exact GlobalTheory.IntDiv.exists_integral_root | (intros; apply GlobalTheory.IntDiv.exists_integral_root <;> assumption)
+end

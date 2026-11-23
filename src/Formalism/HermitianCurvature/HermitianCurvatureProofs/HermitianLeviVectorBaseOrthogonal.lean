@@ -1,6 +1,6 @@
 module
 
-import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TailIntegrals.RankOneLeviComm
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TailIntegrals.Bundle008
 public import Formalism.HermitianCurvature.WeylElementCommutesLevelOne
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CmHalfIntegralGeneratorMemAlgebraicClosure
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CompactGroupHaarExists

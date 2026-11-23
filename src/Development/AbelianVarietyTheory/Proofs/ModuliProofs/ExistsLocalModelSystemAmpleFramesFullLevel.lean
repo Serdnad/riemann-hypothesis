@@ -2,13 +2,13 @@ module
 
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.HeckeKer
 public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.TopAmpExists
-public import Development.AbelianVarietyTheory.Definitions.Degenerations.HomExtSt
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.SecBaseChangeAnySt
+public import Development.AbelianVarietyTheory.Definitions.Degenerations.Bundle002
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.Bundle005
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.CoefficientFieldIntegersDedekindFractionField
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.CoprimeLevel
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsBaseModelSemiAbelianStatement
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsModelRaises
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.PrimeToPartLevelExistsUniqueMono
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle035
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle180
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle136
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle034
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -47,7 +47,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Std.Tactic.BVDecide.Normalize.BitVec
-import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.GoodClass
+import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.Bundle001
 
 @[expose] public section
 
@@ -97,3 +97,20 @@ theorem exists_system_ampFrames : GlobalTheory.LN.HomExtSt → Out.Laws → Out.
   exact ⟨⟨n, J, aux, hJ, T, B, ch, ch_ne, Y, hY⟩, fun i => ⟨k i, hamp i⟩⟩
 
 end GlobalTheory.SystemAmple
+
+end
+
+section
+
+@[expose] public section
+
+open AlgebraicGeometry CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj NumberField
+open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Geo.Tor
+open scoped CategoryTheory.Obj TensorProduct Pointwise
+open GlobalTheory.Models GlobalTheory.ZM
+
+theorem _root_.GlobalTheory.T.exists_localModelSystem_ampleFrames_fullLevel : GlobalTheory.LN.HomExtSt → Out.Laws → Out.Laws2 → Out.Laws3 → TopAmpExists → ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Host E) (D : Datum H) (Xo : ∀ l : Level H, Moduli D l), 1 ≤ D.p + D.q → ToroidalLevelCompatibility (H := H) (D := D) → ∃ S : System Xo, ∀ i, ∃ k : ℕ, Nonempty (GlobalTheory.LN.AmpFrames (S.T i).t.G (S.T i).t.PP.L ((S.n i ^ k) ^ 2)) := by
+  first | exact @GlobalTheory.SystemAmple.exists_system_ampFrames | exact GlobalTheory.SystemAmple.exists_system_ampFrames | (intros; apply GlobalTheory.SystemAmple.exists_system_ampFrames <;> assumption)
+
+end
+end

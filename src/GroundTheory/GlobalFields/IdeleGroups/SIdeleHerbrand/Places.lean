@@ -2,8 +2,7 @@ module
 
 public import GroundTheory.GlobalFields.IdeleGroups.LocalHerbrandInfinite
 public import GroundTheory.GlobalFields.IdeleGroups.LocalHerbrand
-public import GroundTheory.GlobalFields.IdeleGroups.SIdeleGroups.InfinitePlaces
-public import GroundTheory.GlobalFields.IdeleGroups.SIdeleGroups.IntegerUnits
+public import GroundTheory.GlobalFields.IdeleGroups.SIdeleGroups.Bundle001
 public import GroundTheory.GlobalFields.IdeleGroups.SIdeleHerbrand.Product
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

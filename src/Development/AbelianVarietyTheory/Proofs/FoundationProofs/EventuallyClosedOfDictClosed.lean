@@ -3,7 +3,7 @@ module
 public import Formalism.WeaklyAdmissibleFiltrations.Statement
 public import Mathlib.FieldTheory.Minpoly.Field
 public import Mathlib.RingTheory.SimpleRing.Principal
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.SecondTwistSmallIffExactlyAtAndFinClause
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle081
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -55,7 +55,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.JumpDictionary
+import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.Bundle005
 public import Formalism.SharpRestriction.ParConsts
 
 @[expose] public section

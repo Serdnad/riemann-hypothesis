@@ -1,0 +1,247 @@
+module
+
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle010
+public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.ValidForConstructedPointClassesEventuallyWorking
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle112
+public import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle067
+public import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle053
+public import Development.AbelianVarietyTheory.Definitions.HeightFunctions.FiniteDimensionalOfSz
+public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.Bundle016
+public import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle085
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle048
+public import Formalism.LocalToGlobal.ProjectiveLattices.CompHt
+public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.Bundle038
+public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.Bundle035
+import Development.AbelianVarietyTheory.Proofs.GenericRegularity.Bundle034
+import Development.AbelianVarietyTheory.Proofs.GenericRegularity.Bundle022
+public import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.ExistsDvdOfAlgebraic
+public import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.FractionToIntegralSectionSmulEq
+public import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.Bundle010
+public import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.Bundle035
+import Formalism.LocalToGlobal.ProjectiveLattices.CurveLocInst
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Basify
+import Mathlib.Tactic.ENatToNat
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle024
+import Development.AbelianVarietyTheory.Definitions.HeightFunctions.RunsAlong
+import Development.AbelianVarietyTheory.Definitions.UpperBounds.PhRec
+
+@[expose] public section
+
+section
+
+open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.WeightAlgebra Formalism.MainNotions.DIV.Cons Formalism.MainNotions.Gaps Formalism.MainNotions.Gaps.EtaleWeightGaps Formalism.L2.Pj Formalism.L2.Theta GlobalTheory.RunJoin GlobalTheory.FinalJoin GlobalTheory.FinalJoin2 GlobalTheory.AtMember GlobalTheory.EX GlobalTheory.EX.OB GlobalTheory.Mem GlobalTheory.Mem.Top GlobalTheory.Mem.Top.Bl GlobalTheory.Fc GlobalTheory.Plug
+attribute [local instance] Formalism.BasicNotions.Host.cmStar
+
+namespace GlobalTheory.Plug
+
+theorem hostArith_of_over {K : Ctx} {B : Pre} (h : K.Over B) : HostArith B.host := by
+  obtain ⟨sp, hT, hY, hA, hV, hz, rfl, -⟩ := h
+  exact ⟨K.ok.arith.1, K.ok.arith.2.1, K.ok.arith.2.2.1, (Pre.ofCh K.P K.Lv sp hT hY hA hV hz).level_split⟩
+
+theorem hostArith_bpt {K : Ctx} (β : BPt K) : HostArith β.D.host := hostArith_of_over β.c.isOver
+
+theorem eventually_hostSize_and_numAt : EvP fun _ K => ∀ β : BPt K, GlobalTheory.FieldSize.HostSz β.D.host β.O.L.sc.L ∧
+    ∀ C, FieldTies β.D C → NumAtL β.O.L K.s.x := by
+  refine EvP.of_ev ⟨1, one_pos, fun eps C8 he _ he52 _ => ⟨⟨0, fun _ => 0, fun _ => 0, fun _ => 0⟩, fun C hStd _ _ => ?_⟩⟩
+  obtain ⟨c1, hN⟩ := szRow_numAt eps he he52 C hStd
+  refine ⟨c1, fun cD hcD => ?_⟩
+  obtain ⟨c2, hN⟩ := hN cD hcD
+  refine ⟨c2, fun ch hch => ?_⟩
+  obtain ⟨x0, hN⟩ := hN ch hch
+  refine ⟨max x0 (max (C.T.CP ^ 20) ((10 : ℝ) ^ 60)), fun K h1 h2 h3 h4 hx β => ?_⟩
+  simp only [max_le_iff] at hx
+  obtain ⟨hy0, hyP, hy60⟩ := hx
+  have hsc : β.O.L.sc = K.s := β.sc
+  have hsx : β.O.L.sc.x = K.s.x := by rw [hsc]
+  have hse : β.O.L.sc.eps = eps := by rw [hsc, h4]
+  have hv : Val C cD ch β.O.L := by
+    rw [← h1, ← h2, ← h3]
+    exact β.p.pt_val β.val
+  obtain ⟨⟨N⟩, -, -⟩ := hN _ _ hse (hy0.trans hsx.ge) hv (hostArith_bpt β)
+  have hCP : N.parT.CP = C.T.CP := (List.cons.inj N.parT_K).1
+  have hg : ∀ j, Real.log (β.D.host.g j) ≤ 9 * β.O.L.sc.L + 1 := by
+    intro j
+    have hlo : 0 < ((β.D.host.g j : ℕ) : ℝ) := by
+      exact_mod_cast (β.D.host.g_prime j).pos
+    have := (Real.log_le_iff_le_exp hlo).2 (N.g_le j)
+    linarith
+  obtain ⟨hH, hS⟩ := GlobalTheory.FieldSize.hostSz_of_sizes β.D β.O.L N.params N.parT N.sizes hg (hy60.trans hsx.ge)
+  refine ⟨hH, fun Cf hT => ⟨β.O.ex.kap_def, ⟨N.params, N.parT, N.sizes, N.CnW_eq.trans hStd.1.2.2.2.2.2.2.2.1, hg, ?_, ?_,
+    hsx.ge⟩, hS (hT.small _ hH)⟩⟩
+  · rw [hCP]; exact hStd.2.2.2.2.2.2.2.2.2.2.2.2.2.1
+  · rw [hCP]
+    exact hyP.trans (hsx.ge.trans (x_le_zBase_of_pow_le_n β.O.L N.win.1.1))
+
+end GlobalTheory.Plug
+end
+
+section
+
+open NumberField IsDedekindDomain GlobalTheory.FieldSize
+open scoped IntermediateField
+
+theorem _root_.GlobalTheory.T.weberInvariantTorsionValues_subset_of_containsRayField : ∀ (K L : IntermediateField ℚ ℂ) [NumberField K] [NumberField L] [_root_.NumberField.IsTotallyComplex K] (h : K ≤ L), Module.finrank ℚ K = 2 → discr K < -4 → ∀ P : PeriodPair, (∀ z, z ∈ P.lattice ↔ ∃ a : 𝓞 K, ((a : K) : ℂ) = z) → ∀ n : ℕ, 3 ≤ n → GlobalTheory.IndefiniteRowSideFullHecke.RayFieldTheta.ContainsRayField (IntermediateField.inclusion h).toRingHom n → weberSet P n ⊆ L := by
+  first | exact @GlobalTheory.FieldSize.WeberIn.weberSet_subset | exact GlobalTheory.FieldSize.WeberIn.weberSet_subset | (intros; apply GlobalTheory.FieldSize.WeberIn.weberSet_subset <;> assumption)
+end
+
+section
+
+open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.WeightAlgebra Formalism.MainNotions.Gaps.EtaleWeightGaps Formalism.L2.Pj ReciprocityTheory.ChartRestriction.G.Geo.Tor GlobalTheory.BigRec
+
+namespace GlobalTheory.HeightDefinite.Basis
+
+open GlobalTheory.SectionBasis
+
+
+open ReciprocityTheory.ChartRestriction.G.T0 in
+
+
+theorem basis_descends_record {D : D7} {B : WeightFamilies.Prov D} {P : ModuliIntegralCharts.Prov D} {j : ℕ} (X : PJ D B P j)
+    (la : HeightOneSpectrum (𝓞 B.KO)) {ka wL wF : WeightFamilies.Wt D j} (G : GlobalFamilyData X ka wL wF) (hB : InBasis G la)
+    {ι : Type} [Fintype ι] (Ω : ι → Type) [∀ Z, Field (Ω Z)] [∀ Z, Algebra B.KO (Ω Z)]
+    (gF : ∀ Z, X.Forms →ₐ[B.KO] Ω Z) {Dd N : ℕ} (hD : Dd = WeightFamilies.dimY D j) (e : Fin G.N ≃ Fin (N + 1))
+    (j0 : ι → Fin (N + 1)) (v : ∀ Z, Fin G.N → Ω Z) (hvF : ∀ Z k, gF Z (X.inc wL (G.w k)) = v Z k)
+    (x : ∀ Z, Fin N → Ω Z) (hv : ∀ Z, v Z (e.symm (j0 Z)) ≠ 0)
+    (hx : ∀ Z k, x Z k = v Z (e.symm ((j0 Z).succAbove k)) / v Z (e.symm (j0 Z)))
+    (hind : ∀ Z, AlgebraicIndependent B.KO (sImg (D := Dd) (j0 Z) (x Z)))
+    (hfin : ∀ Z, FiniteDimensional (IntermediateField.adjoin B.KO (Set.range (sImg (D := Dd) (j0 Z) (x Z))))
+      (OmS (Ω Z) Dd N))
+    (g0 : B.Cusp j wF) (θ : Fin G.del → ∀ Z, Ω Z) (hθ : ∀ k Z, gF Z (X.inc wF (G.th' k)) = θ k Z)
+    (g : ∀ Z, Ω Z) (hgF : ∀ Z, gF Z (X.inc wF g0) = g Z) (hg : ∀ Z, g Z ≠ 0)
+    (E : letI : ∀ Z, Module (Kp X la G.N) (RZs X la G.N (Ω Z) (gF Z) G.w ⧸
+          Ideal.map (phiZ X la G.N (Ω Z) (gF Z) G.w) (Jid X la G.w)) := fun Z =>
+        ((Ideal.Quotient.mk (Ideal.map (phiZ X la G.N (Ω Z) (gF Z) G.w) (Jid X la G.w))).comp
+          (algebraMap (Kp X la G.N) (RZs X la G.N (Ω Z) (gF Z) G.w))).toModule
+      SectionSheafQuotient X la G.w wF ≃ₗ[Kp X la G.N] ∀ Z, RZs X la G.N (Ω Z) (gF Z) G.w ⧸
+                           Ideal.map (phiZ X la G.N (Ω Z) (gF Z) G.w) (Jid X la G.w))
+    (hE : ∀ (F : B.Cusp j wF) Z, E (resF G la F) Z *
+        Ideal.Quotient.mk (Ideal.map (phiZ X la G.N (Ω Z) (gF Z) G.w) (Jid X la G.w))
+          (lwZ X la G.N (Ω Z) (gF Z) G.w (algebraMap (Rp X la G.N) (Lw X la G.w) (emb X la G.N (X.inc wF g0)))) =
+        Ideal.Quotient.mk (Ideal.map (phiZ X la G.N (Ω Z) (gF Z) G.w) (Jid X la G.w))
+          (lwZ X la G.N (Ω Z) (gF Z) G.w (algebraMap (Rp X la G.N) (Lw X la G.w) (emb X la G.N (X.inc wF F))))) :
+    ∑ Z, Module.finrank (IntermediateField.adjoin B.KO (Set.range (sImg (D := Dd) (j0 Z) (x Z))))
+      (OmS (Ω Z) Dd N) = G.del ∧
+    (∀ p : Fin G.del → MvPolynomial (TVar Dd N) B.KO,
+      (∀ Z, ∑ k, sHom (j0 Z) (x Z) (p k) * algebraMap (Ω Z) (OmS (Ω Z) Dd N) (θ k Z / g Z) = 0) → ∀ k, p k = 0) ∧
+    (∀ y : ∀ Z, OmS (Ω Z) Dd N, ∃ q : MvPolynomial (TVar Dd N) B.KO, (∀ Z, sHom (j0 Z) (x Z) q ≠ 0) ∧
+      ∃ p : Fin G.del → MvPolynomial (TVar Dd N) B.KO, ∀ Z, sHom (j0 Z) (x Z) q * y Z =
+        ∑ k, sHom (j0 Z) (x Z) (p k) * algebraMap (Ω Z) (OmS (Ω Z) Dd N) (θ k Z / g Z)) := by
+  let iK : Algebra B.KO (Kp X la G.N) :=
+    ((algebraMap (X.Kl la) (Kp X la G.N)).comp (algebraMap B.KO (X.Kl la))).toAlgebra
+  have : IsScalarTower B.KO (X.Kl la) (Kp X la G.N) := IsScalarTower.of_algebraMap_eq' rfl
+  obtain ⟨h1, h2⟩ := coords_of_equiv _ (tL G la) hB.1 hB.2 E
+  refine basis_descends_loc (Kl := X.Kl la) hD e j0 v x hv hx hind hfin _ (GlobalTheory.CurveRecord.tv_indep X la G.N)
+    (fun Z i => rzMap X la G.N (Ω Z) (gF Z) (Formalism.MainNotions.Gaps.EtaleWeightGaps.sec X la G.w i))
+    (fun Z i => by rw [GlobalTheory.CurveRecord.rzMap_sec_eq]; simp only [hvF])
+    (fun Z => Ideal.map (phiZ X la G.N (Ω Z) (gF Z) G.w) (Jid X la G.w))
+    (fun Z => GlobalTheory.CurveRecord.map_Jid_eq X la G.N (Ω Z) (gF Z) G.w) _ (fun _ _ => rfl) θ g hg
+    (fun k Z => E (tL G la k) Z) (fun k Z => ?_) h1 h2
+  have := hE (G.th' k) Z
+  rw [lwZ_alg, lwZ_alg, rzMap_emb, rzMap_emb, hgF, hθ] at this
+  exact this
+
+
+open ReciprocityTheory.ChartRestriction.G.T0 in
+
+
+theorem chosenForms_basis_of_value_basis {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E} {Dw : Datum H}
+    {l : Level H} {Xo : Moduli Dw l} {c : Coeff l} [Fintype (Comp Xo c)]
+    (d : ReciprocityTheory.ChartRestriction.G.T0.Data c.F (Comp Xo c) (fun Z => Om Z) (WTZ E) (fun Z => AC Z)) {n : ℕ}
+    (θ : Fin n → ∀ Z : Comp Xo c, Om Z) (g : ∀ Z : Comp Xo c, Om Z) (hg : ∀ Z, g Z ≠ 0) (eδ : Fin d.del ≃ Fin n)
+    (h1 : ∀ p : Fin n → MvPolynomial (TVar d.D d.N) c.F,
+      (∀ Z, ∑ k, sHom (d.jc Z) (d.x Z) (p k) * algebraMap (Om Z) (OmS (Om Z) d.D d.N) (θ k Z / g Z) = 0) →
+        ∀ k, p k = 0)
+    (h2 : ∀ y : ∀ Z, OmS (Om Z) d.D d.N, ∃ q : MvPolynomial (TVar d.D d.N) c.F,
+      (∀ Z, sHom (d.jc Z) (d.x Z) q ≠ 0) ∧
+      ∃ p : Fin n → MvPolynomial (TVar d.D d.N) c.F, ∀ Z, sHom (d.jc Z) (d.x Z) q * y Z =
+        ∑ k, sHom (d.jc Z) (d.x Z) (p k) * algebraMap (Om Z) (OmS (Om Z) d.D d.N) (θ k Z / g Z))
+    (sel : Fin d.del → Fin d.np)
+    (hsel : ∀ i Z, d.thp (sel i) Z = AddMonoidAlgebra.single d.wF (θ (eδ i) Z)) : A4Selection d sel := by
+  refine ⟨fun Z => AddMonoidAlgebra.single d.wF (g Z), fun Z => ⟨mem_AG.2 ⟨_, rfl⟩, by simpa using hg Z⟩,
+    fun p hp k => ?_, fun y => ?_⟩
+  · have := h1 (fun k => p (eδ.symm k)) (fun Z => by
+      rw [← hp Z, ← eδ.sum_comp]
+      refine Finset.sum_congr rfl fun k _ => ?_
+      rw [hsel, _root_.GlobalTheory.BigRec.ratio_single _ _ _ (hg Z), eδ.symm_apply_apply]
+      rfl) (eδ k)
+    exact (congrArg p (eδ.symm_apply_apply k)).symm.trans this
+  · obtain ⟨q, hq, p, hp⟩ := h2 y
+    refine ⟨q, hq, fun k => p (eδ k), fun Z => (hp Z).trans ?_⟩
+    rw [← eδ.sum_comp]
+    refine Finset.sum_congr rfl fun k _ => ?_
+    rw [hsel, _root_.GlobalTheory.BigRec.ratio_single _ _ _ (hg Z)]
+    rfl
+
+
+
+
+theorem chosenForms_restrict_basis_functionField : ∀ (D : D7) (T : Top D) (h : LawsP T) (j : ℕ) (hj : InR D j) (hG : GenFrEx (T.Q.Xo j) T.Q.c) (ka wL wF : WeightFamilies.Wt D j) (G : GlobalFamilyData (recPlus h j hj) ka wL wF) (S : Scal (recB h.toLawsCore)) (g0 : (recB h.toLawsCore).Cusp j wF) (la : HeightOneSpectrum (𝓞 (recB h.toLawsCore).KO)) [Fintype (Comp (T.Q.Xo j) T.Q.c)] (d : ReciprocityTheory.ChartRestriction.G.T0.Data T.Q.c.F (Comp (T.Q.Xo j) T.Q.c) (fun Z => Om Z) (WTZ D.host.E) (fun Z => AC Z)) (e : Fin G.N ≃ Fin (d.N + 1)), d.D = WeightFamilies.dimY D j → (∀ k, d.w (e k) = valC hG (wtA wL) wL.n (G.w k).1) → (∀ Z, d.w (d.jc Z) Z ≠ 0) → CurveHyp h j hj hG ka wL wF G S g0 → InBasis G la → ∃ eδ : Fin d.del ≃ Fin G.del, ∀ sel : Fin d.del → Fin d.np, (∀ i, d.thp (sel i) = valC hG (wtA wF) wF.n (G.th' (eδ i)).1) → d.wF = wtZ (wtA wF) wF.n → A4Selection d sel := by
+  intro D T h j hj hG ka wL wF G S g0 la _ d e hD hw hb hH hB
+  have hT : GenFromTest (T.Q.Xo j) T.Q.c hG := fun Z => h.allTest j hj (Om Z) (genFr hG Z)
+  obtain ⟨hfg, htr⟩ := GlobalTheory.FlagDim.fnFG_fnTrdeg_record D T.Q h.pins.2.2.2 j hj
+  have hA1 := independent_differentials_ratios_cusp_forms_trdeg D T h j hj hG ka wL wF G d e hD hw hb hH.2.1.2
+  have hS := fun Z => GlobalTheory.genericSection_field (D := d.D) (d.jc Z) (d.x Z) (hfg Z) ((htr Z).trans (by rw [hD])) (hA1 Z)
+  have hg := GlobalTheory.CurveRecord.evC_ne_zero h j hj hG hT (GlobalTheory.Reg.genValInj_record D T h j hj hG)
+    (GlobalTheory.Reg.compSplit_record D T h j hj hG) G hH.2.1 g0 hH.2.2.2
+  obtain ⟨⟨E, hE⟩, -⟩ := GlobalTheory.SectionProduct.tieS D T h j hj hG ka wL wF G hT S g0 la hH hB
+  have hw' : ∀ i Z, d.w i Z = AddMonoidAlgebra.single (wtZ (wtA wL) wL.n) (evC hG Z (G.w (e.symm i)).1) := by
+    intro i Z
+    have := congrFun (hw (e.symm i)) Z
+    rwa [e.apply_symm_apply] at this
+  have hq : ∀ Z, evC hG Z (G.w (e.symm (d.jc Z))).1 ≠ 0 := by
+    intro Z h0
+    apply hb Z
+    rw [hw', h0]
+    simp
+  have hx : ∀ Z k, d.x Z k =
+      evC hG Z (G.w (e.symm ((d.jc Z).succAbove k))).1 / evC hG Z (G.w (e.symm (d.jc Z))).1 := by
+    intro Z k
+    unfold ReciprocityTheory.ChartRestriction.G.T0.Data.x
+    rw [hw', hw']
+    exact _root_.GlobalTheory.BigRec.ratio_single _ _ _ (hq Z)
+  obtain ⟨h0, h1, h2⟩ := basis_descends_record (recPlus h j hj) la G hB (fun Z : Comp (T.Q.Xo j) T.Q.c => Om Z)
+    (fun Z => formsEvR j hG hT Z) hD e d.jc (fun Z k => evC hG Z (G.w k).1)
+    (fun Z k => formsEvR_inc h j hj hG hT Z wL (G.w k)) d.x hq hx (fun Z => (hS Z).1) (fun Z => (hS Z).2.1) g0
+    (fun k Z => evC hG Z (G.th' k).1) (fun k Z => formsEvR_inc h j hj hG hT Z wF (G.th' k))
+    (fun Z => evC hG Z g0.1) (fun Z => formsEvR_inc h j hj hG hT Z wF g0) hg E hE
+  have hdel : d.del = G.del := h0
+  refine ⟨finCongr hdel, fun sel hsel hF => ?_⟩
+  exact chosenForms_basis_of_value_basis d (fun k Z => evC hG Z (G.th' k).1) (fun Z => evC hG Z g0.1) hg (finCongr hdel) h1 h2 sel
+    (fun i Z => by rw [hsel, hF]; rfl)
+
+end GlobalTheory.HeightDefinite.Basis
+end

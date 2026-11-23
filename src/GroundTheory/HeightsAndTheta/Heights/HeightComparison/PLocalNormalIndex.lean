@@ -1,9 +1,7 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.HeightLocalNormalIndex
-public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.PLocalQuotCard
-public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.PLocalQuotCentred
-public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.POrbitChartResidue
+public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.Bundle001
+public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.Bundle010
 public import GroundTheory.HeightsAndTheta.Heights.IntegralModels.FiniteIntegralClosureCharZero
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

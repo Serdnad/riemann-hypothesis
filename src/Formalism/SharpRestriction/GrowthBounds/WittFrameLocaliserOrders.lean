@@ -2,10 +2,10 @@ module
 
 public import Formalism.SharpRestriction.GrowthBounds.SourceCleaning
 public import Formalism.PolynomialDimension.FrameSum
-public import Formalism.PolynomialDimension.StatementNum
+public import Formalism.PolynomialDimension.Bundle001
 public import Formalism.GrowthSums.LemmaATwoFactList
 public import Formalism.PolynomialDimension.DetMulEqSumAdjugate
-public import Formalism.PolynomialDimension.FinalNum
+public import Formalism.PolynomialDimension.Bundle002
 public import Formalism.SubspaceCounting.ChoiceOfTopsRefined
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

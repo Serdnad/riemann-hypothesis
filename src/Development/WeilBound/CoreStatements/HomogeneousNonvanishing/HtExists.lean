@@ -1,12 +1,12 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.HasValues
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle002
 public import Mathlib.AlgebraicGeometry.Morphisms.Smooth
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.HtatBcPull
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle005
 public import Development.WeilBound.CoreStatements.HodgeTatePoints.HtatHens
 public import Development.WeilBound.CoreStatements.HodgeTatePoints.HtatHopfChar
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.HtatHopfEx
-import Development.WeilBound.CoreStatements.HomogeneousNonvanishing.BtExistsBc
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle042
+import Development.WeilBound.CoreStatements.HomogeneousNonvanishing.Bundle012
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

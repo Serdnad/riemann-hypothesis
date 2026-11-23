@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsMonHomOfMulComp
-public import Development.AbelianVarietyTheory.Proofs.ThetaFamilyOrigin.RosatiAdjOfPoints
-import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsMatrixRingAct
-import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.IsLocalRingQuotientPow
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2936
+public import Development.AbelianVarietyTheory.Proofs.ThetaFamilyOrigin.Bundle002
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle010
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle096
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -39,7 +39,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.PullGenLBIsGen
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle002
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.LBPull
 
 @[expose] public section

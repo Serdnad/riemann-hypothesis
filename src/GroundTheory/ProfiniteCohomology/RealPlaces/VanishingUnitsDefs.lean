@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.ProfiniteCohomology.RealPlaces.ConeMap
-public import GroundTheory.ProfiniteCohomology.RestrictedRamification.HighSUnits
+public import GroundTheory.ProfiniteCohomology.RestrictedRamification.Bundle012
 import GroundTheory.ProfiniteCohomology.CohomologyFunctoriality.Naturality
 import GroundTheory.ProfiniteCohomology.GaloisCohomology.Kummer
 import Mathlib.Algebra.Order.Floor.Extended

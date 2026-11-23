@@ -1,22 +1,22 @@
 module
 
 public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.MetricsProjectionFormulaNef
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterNamed
-public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.StatementsFlagGrassPush
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ExistsPermAppendSnoc
-public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.StatementsFlagGrassSteps
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagPointsIntegralProductFormulaStatement
-import GroundTheory.HeightsAndTheta.Heights.HeightKernels.Assembly
-import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.PFlagArithVar
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle010
+public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.Bundle012
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle093
+public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.Bundle011
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle184
+import GroundTheory.HeightsAndTheta.Heights.HeightKernels.Bundle041
+import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.Bundle017
 public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.PFlagGrassPush
 public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.PFlagImageGrass
-public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.PFsInvPow
+public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.Bundle014
 import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.PHFlProdLinear
-public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.PVandCount
+public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.Bundle013
 import GroundTheory.HeightsAndTheta.Heights.Intersections.PConsequences
-import GroundTheory.HeightsAndTheta.Heights.Intersections.PThmAExpand
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.ChangeOfModel
-import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.ExistsUnique
+import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle020
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle033
+import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle026
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -74,11 +74,11 @@ open GroundTheory.Heights₂.Heights GroundTheory.Heights₂.Heights.LowerBoundF
 section Multilinear
 
 variable {K : Type} [Fintype K] {ι : K → Type} [∀ k, Fintype (ι k)]
-  {I : Ideal (MRing ι) → (n : ℕ) → (Fin n → HermLine ι) → ℝ} {P : Ideal (MRing ι)} {n : ℕ}
+  {I : Ideal (MRing ι) → (n : ℕ) → (Fin n → _root_.ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) → ℝ} {P : Ideal (MRing ι)} {n : ℕ}
 
-theorem snoc_update_fsHerm (c : HermLine ι) (v : Fin n → K → ℤ) (j : Fin n) (d : K → ℤ) :
-    (Fin.snoc (α := fun _ => HermLine ι) (fun i => fsHerm ι (Function.update v j d i)) c) =
-      Function.update (Fin.snoc (α := fun _ => HermLine ι) (fun i => fsHerm ι (v i)) c) j.castSucc
+theorem snoc_update_fsHerm (c : _root_.ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) (v : Fin n → K → ℤ) (j : Fin n) (d : K → ℤ) :
+    (Fin.snoc (α := fun _ => _root_.ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) (fun i => fsHerm ι (Function.update v j d i)) c) =
+      Function.update (Fin.snoc (α := fun _ => _root_.ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) (fun i => fsHerm ι (v i)) c) j.castSucc
         (fsHerm ι d) := by
   rw [← Fin.snoc_update]
   congr 1
@@ -87,18 +87,18 @@ theorem snoc_update_fsHerm (c : HermLine ι) (v : Fin n → K → ℤ) (j : Fin 
   · simp
   · simp [Function.update_of_ne h]
 
-theorem isSmooth_snoc_fsHerm {c : HermLine ι} (hc : IsSmoothHerm c) (v : Fin n → K → ℤ)
+theorem isSmooth_snoc_fsHerm {c : _root_.ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι} (hc : IsSmoothHerm c) (v : Fin n → K → ℤ)
     (i : Fin (n + 1)) :
-    IsSmoothHerm ((Fin.snoc (α := fun _ => HermLine ι) (fun i => fsHerm ι (v i)) c) i) := by
+    IsSmoothHerm ((Fin.snoc (α := fun _ => _root_.ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) (fun i => fsHerm ι (v i)) c) i) := by
   induction i using Fin.lastCases with
   | last => rw [Fin.snoc_last]; exact hc
   | cast i => rw [Fin.snoc_castSucc]; exact FsInvPow.isSmoothHerm_fsHerm _
 
-theorem snoc_update_add (hI : IsIntersectionFamily I) (hP : IsArithVar P (n + 1)) {c : HermLine ι}
+theorem snoc_update_add (hI : IsIntersectionFamily I) (hP : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsArithVar P (n + 1)) {c : _root_.ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι}
     (hc : IsSmoothHerm c) (v : Fin n → K → ℤ) (j : Fin n) (a b : K → ℤ) :
-    I P (n + 1) (Fin.snoc (α := fun _ => HermLine ι) (fun i => fsHerm ι (Function.update v j (a + b) i)) c) =
-      I P (n + 1) (Fin.snoc (α := fun _ => HermLine ι) (fun i => fsHerm ι (Function.update v j a i)) c) +
-        I P (n + 1) (Fin.snoc (α := fun _ => HermLine ι) (fun i => fsHerm ι (Function.update v j b i)) c) := by
+    I P (n + 1) (Fin.snoc (α := fun _ => _root_.ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) (fun i => fsHerm ι (Function.update v j (a + b) i)) c) =
+      I P (n + 1) (Fin.snoc (α := fun _ => _root_.ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) (fun i => fsHerm ι (Function.update v j a i)) c) +
+        I P (n + 1) (Fin.snoc (α := fun _ => _root_.ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) (fun i => fsHerm ι (Function.update v j b i)) c) := by
   have hL := isSmooth_snoc_fsHerm hc v
   rw [snoc_update_fsHerm, snoc_update_fsHerm, snoc_update_fsHerm,
     Inter.fam_update_eq_snoc hI hP _ hL _ (FsInvPow.isSmoothHerm_fsHerm _),
@@ -106,9 +106,9 @@ theorem snoc_update_add (hI : IsIntersectionFamily I) (hP : IsArithVar P (n + 1)
     Inter.fam_update_eq_snoc hI hP _ hL _ (FsInvPow.isSmoothHerm_fsHerm _)]
   exact FlagHeightMultilinear.I_snoc_fsHerm_add hI hP _ (fun i => hL _) a b
 
-def snocMultilin (hI : IsIntersectionFamily I) (hP : IsArithVar P (n + 1)) {c : HermLine ι}
+def snocMultilin (hI : IsIntersectionFamily I) (hP : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsArithVar P (n + 1)) {c : _root_.ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι}
     (hc : IsSmoothHerm c) : MultilinearMap (RingHom.id ℤ) (fun _ : Fin n => K → ℤ) ℝ where
-  toFun v := I P (n + 1) (Fin.snoc (α := fun _ => HermLine ι) (fun i => fsHerm ι (v i)) c)
+  toFun v := I P (n + 1) (Fin.snoc (α := fun _ => _root_.ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) (fun i => fsHerm ι (v i)) c)
   map_update_add' := by
     intro inst v j a b
     have e : inst = instDecidableEqFin n := Subsingleton.elim _ _
@@ -119,11 +119,11 @@ def snocMultilin (hI : IsIntersectionFamily I) (hP : IsArithVar P (n + 1)) {c : 
     have e : inst = instDecidableEqFin n := Subsingleton.elim _ _
     subst e
     let g : (K → ℤ) →+ ℝ := AddMonoidHom.mk'
-      (fun a => I P (n + 1) (Fin.snoc (α := fun _ => HermLine ι) (fun i => fsHerm ι (Function.update v j a i)) c))
+      (fun a => I P (n + 1) (Fin.snoc (α := fun _ => _root_.ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) (fun i => fsHerm ι (Function.update v j a i)) c))
       (fun a b => snoc_update_add hI hP hc v j a b)
     exact map_zsmul g t a
 
-theorem snocMultilin_apply (hI : IsIntersectionFamily I) (hP : IsArithVar P (n + 1)) (v : Fin n → K → ℤ) :
+theorem snocMultilin_apply (hI : IsIntersectionFamily I) (hP : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsArithVar P (n + 1)) (v : Fin n → K → ℤ) :
     snocMultilin hI hP (isSmoothHerm_constLine (-Real.log ((2 : ℕ) : ℝ))) v =
       Real.log ((2 : ℕ) : ℝ) * ptsIntegral P (pot fun i => fsHerm ι (v i)) (fun _ => 1) :=
   (Inter.Conservation.proof K ι I hI P n (fun i => fsHerm ι (v i)) 2 hP
@@ -132,7 +132,7 @@ theorem snocMultilin_apply (hI : IsIntersectionFamily I) (hP : IsArithVar P (n +
 theorem log_two_ne : Real.log ((2 : ℕ) : ℝ) ≠ 0 :=
   (Real.log_pos (by norm_num)).ne'
 
-theorem pts_fsHerm_sum (hI : IsIntersectionFamily I) (hP : IsArithVar P (n + 1)) {α : Type} [Fintype α]
+theorem pts_fsHerm_sum (hI : IsIntersectionFamily I) (hP : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsArithVar P (n + 1)) {α : Type} [Fintype α]
     (ℓ : Fin n → α → ℤ) (x : α → K → ℤ) :
     ptsIntegral P (pot fun i => fsHerm ι (∑ p, ℓ i p • x p)) (fun _ => 1) =
       ∑ r : Fin n → α, (∏ i, (ℓ i (r i) : ℝ)) *
@@ -145,7 +145,7 @@ theorem pts_fsHerm_sum (hI : IsIntersectionFamily I) (hP : IsArithVar P (n + 1))
   simp only [RingHom.id_apply, zsmul_eq_mul, Int.cast_prod]
   ring
 
-theorem pts_neg_eq (hI : IsIntersectionFamily I) (hP : IsArithVar P (n + 1)) :
+theorem pts_neg_eq (hI : IsIntersectionFamily I) (hP : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsArithVar P (n + 1)) :
     ptsIntegral P (pot fun _ : Fin n => fsHerm ι fun _ => -1) (fun _ => 1) =
       (-1) ^ n * geomDeg P (fsMulti ι) n := by
   have hg : geomDeg P (fsMulti ι) n =
@@ -246,15 +246,15 @@ theorem flagGrassPush : GlobalTheory.CompanionTheory.Ar.PB.Inputs → Reciprocit
     GroundTheory.Heights₂.Heights.LowerBoundFree.FlagGrassPush.Statement := by
   intro hIn hSys II Ψ _ _ _ N j cf hII hN hj hjN
   have hcnt : dimN Ψ N j + vandCount Ψ N j = dimFl Ψ N := VandCount.proof Ψ N j (by omega)
-  have hAr0 : IsArithVar (PFl Ψ N) (dimFl Ψ N + 1) := FlagArithVar.proof Ψ N hN
-  have hArFl : IsArithVar (PFl Ψ N) (dimN Ψ N j + 1 + vandCount Ψ N j) := by
+  have hAr0 : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsArithVar (PFl Ψ N) (dimFl Ψ N + 1) := FlagArithVar.proof Ψ N hN
+  have hArFl : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsArithVar (PFl Ψ N) (dimN Ψ N j + 1 + vandCount Ψ N j) := by
     rwa [show dimFl Ψ N + 1 = dimN Ψ N j + 1 + vandCount Ψ N j by omega] at hAr0
-  have hArFl' : IsArithVar (PFl Ψ N) (dimN Ψ N j + vandCount Ψ N j + 1) := by
+  have hArFl' : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsArithVar (PFl Ψ N) (dimN Ψ N j + vandCount Ψ N j + 1) := by
     rwa [show dimN Ψ N j + 1 + vandCount Ψ N j = dimN Ψ N j + vandCount Ψ N j + 1 by omega] at hArFl
-  have hArGr : IsArithVar (grassIdeal (Fintype.card Ψ) j (N - j)) (dimN Ψ N j + 1) :=
+  have hArGr : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsArithVar (grassIdeal (Fintype.card Ψ) j (N - j)) (dimN Ψ N j + 1) :=
     GrassArithVar.full (Fintype.card Ψ) j (N - j) Fintype.card_pos
   have hIm := FlagImageGrass.proof Ψ N j hj hjN
-  have hArIm : IsArithVar (imageZ (grFlV Ψ N j hj hjN) (PFl Ψ N)) (dimN Ψ N j + 1) := by
+  have hArIm : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsArithVar (imageZ (grFlV Ψ N j hj hjN) (PFl Ψ N)) (dimN Ψ N j + 1) := by
     rw [hIm]
     exact hArGr
   have hb := isBlockMap_grFl (Ψ := Ψ) (N := N) (j := j) hj hjN

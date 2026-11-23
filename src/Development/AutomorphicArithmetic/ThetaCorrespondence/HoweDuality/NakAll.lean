@@ -1,10 +1,7 @@
 module
 
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.HoweDuality.FactorApply
-public import Development.AutomorphicArithmetic.ThetaCorrespondence.HoweDuality.Nak
-public import Development.AutomorphicArithmetic.ThetaCorrespondence.HoweDuality.PartStable
-public import Development.AutomorphicArithmetic.ThetaCorrespondence.HoweDuality.RadFin
-public import Development.AutomorphicArithmetic.ThetaCorrespondence.HoweDuality.SlotBasic
+public import Development.AutomorphicArithmetic.ThetaCorrespondence.HoweDuality.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

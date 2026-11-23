@@ -1,6 +1,6 @@
 module
 
-public import Formalism.SharpRestriction.LevelLetterCocycles.LatticeVariant
+public import Formalism.SharpRestriction.LevelLetterCocycles.Bundle010
 public import Formalism.SharpRestriction.LevelLetterCocycles.IntegralHeckeForms
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -46,8 +46,8 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import Formalism.CyclotomicNorms.StatementTW
-public import Formalism.PadicSubsetSums.CentralIdempotents.CentralIdempotentIntegral
+public import Formalism.CyclotomicNorms.Bundle001
+public import Formalism.PadicSubsetSums.CentralIdempotents.Bundle002
 
 @[expose] public section
 

@@ -2,20 +2,19 @@ module
 
 public import Formalism.SharpRestriction.LevelLetterCocycles.LatticeBoundsOfThreeParts
 public import Formalism.SharpRestriction.LevelLetterCocycles.WachCoordinates
-public import Formalism.SharpRestriction.LevelLetterCocycles.AnnihilatorGeneralOfRingCondition
-public import Formalism.SharpRestriction.LevelLetterCocycles.At0HomApply
+public import Formalism.SharpRestriction.LevelLetterCocycles.Bundle018
+public import Formalism.SharpRestriction.LevelLetterCocycles.Bundle031
 public import Formalism.SharpRestriction.LevelLetterCocycles.BaseChangePreservesUnitaryOf
-public import Formalism.SharpRestriction.LevelLetterCocycles.CompleteMax
+public import Formalism.SharpRestriction.LevelLetterCocycles.Bundle027
 public import Formalism.SharpRestriction.LevelLetterCocycles.DlOfQp
 public import Formalism.SharpRestriction.LevelLetterCocycles.FrobeniusPowerCongruenceOfAdmitted
 public import Formalism.SharpRestriction.LevelLetterCocycles.IsFracOL
 import Formalism.SharpRestriction.LevelLetterCocycles.JumpsInLetterOfEvenIndex
 import Formalism.SharpRestriction.LevelLetterCocycles.LocalizationQuotientSeparatedDvd
 public import Formalism.SharpRestriction.LevelLetterCocycles.QuotientImageDivisibility.IsAdicCompleteOfLe
-import Formalism.SharpRestriction.LevelLetterCocycles.QuotientImageDivisibility.SmulSDivMem
+import Formalism.SharpRestriction.LevelLetterCocycles.QuotientImageDivisibility.Bundle009
 public import Formalism.SharpRestriction.LevelLetterCocycles.RingClausesAtUniformizer
 public import Formalism.SharpRestriction.LevelLetterCocycles.RingHypothesesOfCrystalline
-public import Formalism.SharpRestriction.LevelLetterCocycles.TruncationClauseOfLatticeHypotheses
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -54,7 +53,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import Formalism.LocalRingCardinality.SpanPowerMembership.NDLocE
+public import Formalism.LocalRingCardinality.SpanPowerMembership.Bundle006
 
 @[expose] public section
 

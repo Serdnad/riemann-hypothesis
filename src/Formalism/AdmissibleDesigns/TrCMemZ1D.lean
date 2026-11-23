@@ -1,7 +1,7 @@
 module
 
 public import Formalism.AdmissibleDesigns.NonemptyPl
-public import Formalism.SharpRestriction.LevelLetterCocycles.GoodCongruenceDataOf
+public import Formalism.SharpRestriction.LevelLetterCocycles.Bundle010
 public import Formalism.WachLatticeTwists.RamifiedBlockRings.DistinctEigenvalueCornerPerturbation
 public import Formalism.WachLatticeTwists.ShapeRowIsomorphisms.Statement
 import Mathlib.Algebra.Order.Floor.Extended

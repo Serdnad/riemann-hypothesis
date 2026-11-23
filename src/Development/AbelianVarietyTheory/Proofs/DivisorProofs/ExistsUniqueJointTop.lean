@@ -7,8 +7,8 @@ public import Mathlib.Algebra.MvPolynomial.Monad
 public import Mathlib.Basic.Complex.Basic
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ColumnDegreeLe
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsEqMulProdMinors
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsJointIntEigenvectorOfStable
-import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.RowAddGenericRowAddTerm
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle002
+import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle001
 import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Sl2NonnegWeightOfHighestWeightVector
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.SumSmulMemOfSumZpowSmulMem
 import Mathlib.Algebra.Order.Floor.Extended

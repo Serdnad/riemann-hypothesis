@@ -1,6 +1,6 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.LamPolySmulRight
+public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.Bundle001
 public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.Tensor
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

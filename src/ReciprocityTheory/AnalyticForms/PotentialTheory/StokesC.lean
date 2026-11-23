@@ -48,9 +48,9 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.AnalyticForms.PotentialTheory.IntegrableOnTargetOfTsupport
-public import ReciprocityTheory.AnalyticForms.PotentialTheory.Partition
+public import ReciprocityTheory.AnalyticForms.PotentialTheory.Bundle004
 public import ReciprocityTheory.AnalyticForms.PotentialTheory.StokesA
-public import ReciprocityTheory.AnalyticForms.PotentialTheory.StokesB
+public import ReciprocityTheory.AnalyticForms.PotentialTheory.Bundle001
 public import Mathlib.Analysis.Calculus.ContDiff.Basic
 public import Mathlib.Analysis.Calculus.ContDiff.Comp
 public import Mathlib.Analysis.Calculus.ContDiff.Operations

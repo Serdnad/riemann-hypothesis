@@ -1,7 +1,7 @@
 module
 
 public import Development.WeilBound.CoreStatements.PublishedTheorems.JacquetShalikaRigidity.ColumnConjugationMeasure
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.CountingPairs
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle006
 public import GroundTheory.GlobalFields.TateThesis.AdeleScaling
 import GroundTheory.GlobalFields.TateThesis.IdeleMeasure
 import Mathlib.Algebra.Order.Floor.Extended

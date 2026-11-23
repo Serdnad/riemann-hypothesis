@@ -1,10 +1,9 @@
 module
 
 public import Formalism.LocalToGlobal.IndefiniteReal.LinksChar
-public import Formalism.LocalToGlobal.IndefiniteReal.WeilFull
-public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.TwoSplitIdem
-public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.StepVecThetaLem
-public import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.BaseSt
+public import Formalism.LocalToGlobal.IndefiniteReal.Bundle015
+public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.Bundle005
+public import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.Bundle003
 public import Formalism.LocalToGlobal.IndefiniteReal.PeterssonHilbertSpace
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

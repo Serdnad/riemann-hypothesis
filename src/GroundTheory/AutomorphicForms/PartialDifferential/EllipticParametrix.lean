@@ -3,7 +3,7 @@ module
 public import GroundTheory.AutomorphicForms.PartialDifferential.EllipticDiffOp
 public import GroundTheory.AutomorphicForms.PartialDifferential.EllipticLocalRegularity
 public import GroundTheory.AutomorphicForms.PartialDifferential.EllipticSmooth
-public import GroundTheory.AutomorphicForms.PartialDifferential.EllipticSolutions
+public import GroundTheory.AutomorphicForms.PartialDifferential.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

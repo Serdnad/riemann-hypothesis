@@ -1,0 +1,289 @@
+module
+
+public import Formalism.HermitianCurvature.RealInputsClosedAdmissibleSettings
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.BlockOfChoices
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.JfBetaAdjCOfLemmaBNorm
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.LevelFormSesquilinearFiniteClass
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.OpApplyZeroNear
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.PBGWave
+public import Formalism.HermitianCurvature.StatementHeads
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle178
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle115
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.LevelsOfBuiltSetting
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle128
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.RadialTransportPlus
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.SliceCompactSupportCoefficient
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.SumPairAtStarMul
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Algebra.Ring.IsFormallyReal
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.WittVector.IsPoly
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Topology.Sheaves.Init
+
+@[expose] public section
+
+section
+
+namespace Formalism.FourierDecayAlt.P.PBL
+
+open Formalism.FourierDecayAlt Formalism.QuantumDeterminants
+open scoped ComplexConjugate ComplexOrder
+
+noncomputable section
+
+section nice
+
+variable {k ρ : ℕ} {Wp Wq : Type} [NormedAddCommGroup Wp] [InnerProductSpace ℂ Wp] [NormedAddCommGroup Wq]
+  [InnerProductSpace ℂ Wq]
+
+def NV {S : Type} (Bs : B.RealPlaceData k ρ Wp Wq) (ε : ℝ) (x : Wd.Ix S → B.Mat k ρ → (Wq →L[ℂ] Wp)) : Prop :=
+  ∀ e, JC.NiceCoef Bs ε (x e)
+
+variable {S : Type} {Bs : B.RealPlaceData k ρ Wp Wq} {ε : ℝ}
+
+theorem nv_zero : NV (S := S) Bs ε 0 := fun _ => JCx2.mn_nice_zero
+
+theorem nv_add {x y : Wd.Ix S → B.Mat k ρ → (Wq →L[ℂ] Wp)} (hx : NV Bs ε x) (hy : NV Bs ε y) : NV Bs ε (x + y) :=
+  fun e => JCx2.mn_nice_add (hx e) (hy e)
+
+theorem nv_smul (c : ℂ) {x : Wd.Ix S → B.Mat k ρ → (Wq →L[ℂ] Wp)} (hx : NV Bs ε x) : NV Bs ε (c • x) :=
+  fun e => JCx2.mn_nice_smul c (hx e)
+
+theorem nice_mono {F : B.Mat k ρ → (Wq →L[ℂ] Wp)} {ε ε' : ℝ} (h : JC.NiceCoef Bs ε F) (h' : ε' ≤ ε) :
+    JC.NiceCoef Bs ε' F :=
+  ⟨h.1, h.2.1, fun g hg hne => h'.trans (h.2.2 g hg hne)⟩
+
+theorem nv_mono {x : Wd.Ix S → B.Mat k ρ → (Wq →L[ℂ] Wp)} {ε ε' : ℝ} (h : NV Bs ε x) (h' : ε' ≤ ε) : NV Bs ε' x :=
+  fun e => nice_mono (h e) h'
+
+theorem nice_of_cpt {F : B.Mat k ρ → (Wq →L[ℂ] Wp)} (h : KB.CptCoef Bs F) : ∃ ε, 0 < ε ∧ JC.NiceCoef Bs ε F := by
+  obtain ⟨hs, ⟨R, hR⟩, ⟨ε, hε, hG⟩⟩ := h
+  refine ⟨ε, hε, hs, fun A m => JFxG.cptInCC_G hs (PBE.isCompact_gN_le k ρ R) (fun g hg hgC => ?_) A m, hG⟩
+  by_contra h0
+  exact hgC (hR g hg h0)
+
+end nice
+
+section forms
+
+variable {Wp Wq : Type} [NormedAddCommGroup Wp] [InnerProductSpace ℂ Wp] [NormedAddCommGroup Wq]
+  [InnerProductSpace ℂ Wq] [FiniteDimensional ℂ Wp] [FiniteDimensional ℂ Wq] {P : M.Par}
+
+theorem nv_common {α S : Type} {k ρ : ℕ} {Bs : B.RealPlaceData k ρ Wp Wq} (Y : Finset α)
+    (u : α → Wd.Ix S → B.Mat k ρ → (Wq →L[ℂ] Wp)) (h : ∀ a ∈ Y, ∃ ε, 0 < ε ∧ NV Bs ε (u a)) :
+    ∃ ε, 0 < ε ∧ ∀ a ∈ Y, NV Bs ε (u a) := by
+  obtain ⟨ε, hε, hall⟩ := common_eps (ι := Y) (fun a ε => NV Bs ε (u a)) (fun a ε ε' h h0 h' => nv_mono h h')
+    (fun a => h a a.2)
+  exact ⟨ε, hε, fun a ha => hall ⟨a, ha⟩⟩
+
+theorem slv_nv (p : KB.Pl P Wp Wq) {F : B.Mat P.k P.r → (Wq →L[ℂ] Wp)} (hF : KB.CptCoef p.T.base F) (j : ℕ)
+    (hj : j ≤ P.r) (w : List C.Letter) (a : C.LPt) (ha : D.IsLocPt a j) :
+    ∃ ε, 0 < ε ∧ NV (p.T.bs j) ε (KB.slv p.T F j hj w a ha.2) := by
+  have h := fun e => nice_of_cpt (Formalism.FourierDecayAlt.P.slice_compact_support_coefficient Wp Wq P p F j hj w a ha hF e)
+  obtain ⟨ε, hε, hall⟩ := common_eps (fun e ε => JC.NiceCoef (p.T.bs j) ε (KB.slv p.T F j hj w a ha.2 e))
+    (fun e ε ε' h h0 h' => nice_mono h h') h
+  exact ⟨ε, hε, hall⟩
+
+theorem form_eq' (p : KB.Pl P Wp Wq) (j : ℕ) (hj : j ≤ P.r) (w : List C.Letter) :
+    p.form j hj w = D.formLev p.T (M.sgn P p.l0) ⟨j, by omega⟩ w := rfl
+
+theorem form_sl (p : KB.Pl P Wp Wq) (j : ℕ) (hj : j ≤ P.r) (w : List C.Letter) {ε : ℝ}
+    (x₁ x₂ y : Wd.Ix (Fin w.length) → B.Mat P.k (P.r - j) → (Wq →L[ℂ] Wp)) (c : ℂ)
+    (h₁ : NV (p.T.bs j) ε x₁) (h₂ : NV (p.T.bs j) ε x₂) (hy : NV (p.T.bs j) ε y) :
+    p.form j hj w (x₁ + c • x₂) y = p.form j hj w x₁ y + c * p.form j hj w x₂ y :=
+  PBG.form_sesq_left P p.T (M.sgn P p.l0) ⟨j, by omega⟩ w x₁ x₂ y c (PBG.decV_of_nice h₁) (PBG.decV_of_nice h₂)
+    (PBG.decV_of_nice hy)
+
+theorem form_sr (p : KB.Pl P Wp Wq) (j : ℕ) (hj : j ≤ P.r) (w : List C.Letter) {ε : ℝ}
+    (x y₁ y₂ : Wd.Ix (Fin w.length) → B.Mat P.k (P.r - j) → (Wq →L[ℂ] Wp)) (c : ℂ)
+    (hx : NV (p.T.bs j) ε x) (h₁ : NV (p.T.bs j) ε y₁) (h₂ : NV (p.T.bs j) ε y₂) :
+    p.form j hj w x (y₁ + c • y₂) = p.form j hj w x y₁ + conj c * p.form j hj w x y₂ :=
+  PBG.form_sesq_right P p.T (M.sgn P p.l0) ⟨j, by omega⟩ w x y₁ y₂ c (PBG.decV_of_nice hx) (PBG.decV_of_nice h₁)
+    (PBG.decV_of_nice h₂)
+
+end forms
+
+end
+
+end Formalism.FourierDecayAlt.P.PBL
+end
+
+section
+
+open Matrix MeasureTheory
+open scoped ComplexConjugate
+
+noncomputable section
+
+namespace Formalism.FourierDecayAlt.P.PBP
+
+open Formalism.REAL Formalism.QuantumDeterminants Formalism.FourierDecayAlt Formalism.FourierDecayAlt.Q Formalism.FourierDecayAlt.P5
+
+section smul
+
+variable {k r : ℕ} {z z' : Fin (2 * r + k + 1) → ℂ} {Wp Wq : Type} [NormedAddCommGroup Wp]
+  [InnerProductSpace ℂ Wp] [NormedAddCommGroup Wq] [InnerProductSpace ℂ Wq] [FiniteDimensional ℂ Wq]
+  {π : Mx k r → (Wp →L[ℂ] Wp)} {π' : Mx k r → (Wq →L[ℂ] Wq)} {S : Type} [Fintype S] [DecidableEq S]
+
+theorem act_smul' (M : Wd.SlopeTestRemainingChoices S (Pr (RadSp k r z z' π π'))) (x : Wd.Ix S → RadSp k r z z' π π') (a : ℂ) :
+    P5.act M (fun e => a • x e) = fun e => a • P5.act M x e := by
+  funext e
+  simp only [P5.act, map_smul, Finset.smul_sum]
+
+theorem rrform_smul (L : R.LevelData (Pr (RadSp k r z z' π π')) r) (st : Fr.Start (Pr (RadSp k r z z' π π')))
+    (μ : Measure (Mt k r)) (i : Fin (r + 1)) (w : List (Wd.Letter ℂ S)) (x y : Wd.Ix S → RadSp k r z z' π π')
+    (c : Fin r → ℂ) (a : ℂ) :
+    P5.RRform L st μ i w (fun e => a • x e) (fun e => a • y e) c = a * conj a * P5.RRform L st μ i w x y c := by
+  unfold P5.RRform
+  rw [act_smul']
+  unfold P5.form
+  rw [← integral_const_mul]
+  congr 1
+  funext c'
+  simp only [HerA.pairAt_smul_left, HerA.pairAt_smul_right, ← Finset.mul_sum]
+  ring
+
+end smul
+
+theorem isLocPt_snoc {h : C.LPt} {j : ℕ} (hh : D.IsLocPt h j) {t : ℂ} (ht : t ≠ 0) :
+    D.IsLocPt (h ++ [(1, t)]) (j + 1) := by
+  obtain ⟨h1, h2⟩ := hh
+  refine ⟨fun b hb => ?_, ?_⟩
+  · rcases List.mem_append.1 hb with hb | hb
+    · exact h1 b hb
+    · rw [List.mem_singleton] at hb
+      subst hb
+      exact ⟨le_rfl, ht⟩
+  · unfold D.ptSize at h2 ⊢
+    rw [List.map_append, List.sum_append, h2]
+    simp
+
+theorem levW_below (P : M.Par) (j : ℕ) (hj : j + 1 ≤ P.r) {t : ℂ} (ht : t ≠ 0) :
+    ‖t‖ ^ (-2 : ℤ) * (‖t‖ ^ (2 * (P.r - j) + P.k)) ^ 2 = KB.levW P (j + 1) t := by
+  have hj' : j + 1 ≠ P.r + 1 := by omega
+  unfold KB.levW
+  rw [if_neg hj']
+  have ht' : ‖t‖ ≠ 0 := norm_ne_zero_iff.2 ht
+  rw [← pow_mul, ← zpow_natCast, ← zpow_add₀ ht']
+  congr 1
+  unfold C.Mlev
+  push_cast [Nat.cast_sub (show j ≤ P.r by omega)]
+  ring
+
+end Formalism.FourierDecayAlt.P.PBP
+
+namespace Formalism.FourierDecayAlt.P
+
+open Formalism.REAL Formalism.QuantumDeterminants Formalism.FourierDecayAlt Formalism.FourierDecayAlt.Q Formalism.FourierDecayAlt.P5 Formalism.FourierDecayAlt.P.PBP
+
+theorem pb_radHead_of (hOne : PBO.FormOne) (hZN : PBO.ZetaNormExists) (hHP : HeadPic) : KB.RadHead := by
+  intro Wp Wq _ _ _ _ _ _ P p F j hj w h h' hh hh' X μ L st Φ Φ' hD hZ hF hw hΦ hΦ' t ht
+  let jF : Fin (P.r + 1) := ⟨j + 1, by omega⟩
+  have hPl := Formalism.FourierDecayAlt.P.JCTx5.isPlace_lev P p.T jF p.hP
+  obtain ⟨Xs⟩ := Formalism.FourierDecayAlt.P.actual_operators_exist _ _ _ _ _ _ _ hPl
+  obtain ⟨Ls, sts, h1, h2, h3, h4, h5, h6⟩ := Formalism.FourierDecayAlt.P.level_start_actual _ _ _ _ _ _ _ hPl Xs p.l0
+  obtain ⟨μs, hμs⟩ := hZN P.k (P.r - (j + 1)) Wp Wq (p.T.bs (j + 1))
+  have hDs : IsData (JC.parLev P jF) (p.T.bs jF).z (p.T.bs jF).z' (p.T.bs jF).π (p.T.bs jF).π' Xs μs Ls sts p.l0 :=
+    ⟨hPl, hμs.1, h1, h2, h3, h4, h5, h6⟩
+  obtain ⟨T, hT, hph⟩ :=
+    Formalism.FourierDecayAlt.P.radial_transport_plus Wp Wq P p j hj X μ L st Xs μs Ls sts hD hZ hDs hμs t ht
+  refine (hph (Fin w.length) (D.positionted w) Φ Φ' (fun _ => 1) 0).trans ?_
+  have hl := isLocPt_snoc hh ht
+  have hl' := isLocPt_snoc hh' ht
+
+  set x2 := KB.slv p.T F (j + 1) hj w (h ++ [(1, t)]) hl.2 with hx2def
+  set x2' := KB.slv p.T F (j + 1) hj w (h' ++ [(1, t)]) hl'.2 with hx2'def
+  have hc2 : ∀ e, KB.CptCoef (p.T.bs (j + 1)) (x2 e) := fun e =>
+    Formalism.FourierDecayAlt.P.slice_compact_support_coefficient Wp Wq P p F (j + 1) hj w _ hl hF e
+  have hc2' : ∀ e, KB.CptCoef (p.T.bs (j + 1)) (x2' e) := fun e =>
+    Formalism.FourierDecayAlt.P.slice_compact_support_coefficient Wp Wq P p F (j + 1) hj w _ hl' hF e
+  obtain ⟨ε₁, hε₁, hx⟩ := PBO.nice_common (p.T.bs (j + 1)) hc2
+  obtain ⟨ε₂, hε₂, hx'⟩ := PBO.nice_common (p.T.bs (j + 1)) hc2'
+  have hε : 0 < min ε₁ ε₂ := lt_min hε₁ hε₂
+  have mono : ∀ {ε' : ℝ} {G : B.Mat P.k (P.r - (j + 1)) → (Wq →L[ℂ] Wp)}, min ε₁ ε₂ ≤ ε' →
+      JC.NiceCoef (p.T.bs (j + 1)) ε' G → JC.NiceCoef (p.T.bs (j + 1)) (min ε₁ ε₂) G :=
+    fun hle hG => ⟨hG.1, hG.2.1, fun g hg h0 => le_trans hle (hG.2.2 g hg h0)⟩
+  have hxn : ∀ e, JC.NiceCoef (p.T.bs (j + 1)) (min ε₁ ε₂) (x2 e) := fun e => mono (min_le_left _ _) (hx e)
+  have hxn' : ∀ e, JC.NiceCoef (p.T.bs (j + 1)) (min ε₁ ε₂) (x2' e) := fun e => mono (min_le_right _ _) (hx' e)
+
+  set lam : ℝ := ‖t‖ ^ (2 * (P.r - j) + P.k) with hlam
+  have hlam0 : lam ≠ 0 := pow_ne_zero _ (norm_ne_zero_iff.2 ht)
+  have hlamC : ((lam : ℝ) : ℂ) ≠ 0 := Complex.ofReal_ne_zero.2 hlam0
+  let b0 : Fin (JC.parLev P j).r := ⟨0, by change 0 < P.r - j; omega⟩
+  let Φ2 := fun e => (((lam⁻¹ : ℝ)) : ℂ) • T (P5.act (P5.bTl L b0 (D.positionted w)) Φ e)
+  let Φ2' := fun e => (((lam⁻¹ : ℝ)) : ℂ) • T (P5.act (P5.bTl L b0 (D.positionted w)) Φ' e)
+  have hpic : ∀ (hh₀ : C.LPt) (hhh : D.IsLocPt hh₀ j) (Ψ : Wd.Ix (Fin w.length) →
+      Q.RadSp (JC.parLev P j).k (JC.parLev P j).r (p.T.bs j).z (p.T.bs j).z' (p.T.bs j).π (p.T.bs j).π'),
+      (∀ e, Top.IsRadOf (JC.parLev P j) (p.T.bs j) (Ψ e) (KB.slv p.T F j (by omega) w hh₀ hhh.2 e)) →
+      ∀ e, ∀ y ∈ Q.DomR (JC.parLev P jF).k (JC.parLev P jF).r (p.T.bs jF).z (p.T.bs jF).z',
+        Subtype.val ((((lam⁻¹ : ℝ)) : ℂ) • T (P5.act (P5.bTl L b0 (D.positionted w)) Ψ e)) y.1 y.2 =
+          Q.resG (JC.parLev P jF).k (JC.parLev P jF).r (Fin.last _)
+            (B.JF (p.T.bs jF) (KB.slv p.T F (j + 1) hj w (hh₀ ++ [(1, t)]) (isLocPt_snoc hhh ht).2 e)) y.1 y.2 := by
+    intro hh₀ hhh Ψ hΨ e y hy
+    have e1 := hT (P5.act (P5.bTl L b0 (D.positionted w)) Ψ e) y.1 y.2
+    have e2 := hHP Wp Wq P p F j hj w hh₀ hhh X μ L st Ψ hD hF hw hΨ t (isLocPt_snoc hhh ht) e y hy
+    have hcl : ∀ v : Wq →L[ℂ] Wp, ((lam⁻¹ : ℝ) : ℂ) • (((lam : ℝ) : ℂ) • v) = v := fun v => by
+      rw [smul_smul, ← Complex.ofReal_mul, inv_mul_cancel₀ hlam0, Complex.ofReal_one, one_smul]
+    exact (congrArg (fun v => ((lam⁻¹ : ℝ) : ℂ) • v) (e1.trans e2)).trans (hcl _)
+  have hΦ2 := hpic h hh Φ hΦ
+  have hΦ2' := hpic h' hh' Φ' hΦ'
+  have hOne' := hOne Wp Wq P p.T jF Xs μs Ls sts p.l0 hDs hμs w x2 x2' Φ2 Φ2' (min ε₁ ε₂) hε hxn hxn' hΦ2 hΦ2'
+  have hTΦ : (fun a => T (P5.act (P5.bTl L b0 (D.positionted w)) Φ a)) = fun a => ((lam : ℝ) : ℂ) • Φ2 a := by
+    funext a
+    simp only [Φ2, smul_smul, ← Complex.ofReal_mul, mul_inv_cancel₀ hlam0, Complex.ofReal_one, one_smul]
+  have hTΦ' : (fun a => T (P5.act (P5.bTl L b0 (D.positionted w)) Φ' a)) = fun a => ((lam : ℝ) : ℂ) • Φ2' a := by
+    funext a
+    simp only [Φ2', smul_smul, ← Complex.ofReal_mul, mul_inv_cancel₀ hlam0, Complex.ofReal_one, one_smul]
+  rw [hTΦ, hTΦ']
+  have hRR : p.RR F (j + 1) w (h ++ [(1, t)]) (h' ++ [(1, t)]) = D.formLev p.T (M.sgn P p.l0) jF w x2 x2' := by
+    unfold KB.Pl.RR D.RRplace
+    rw [dite_eq_left ⟨hl, hl'⟩, dite_eq_left hj]
+    rfl
+  have key : P5.RRform Ls sts μs 0 (D.positionted w) Φ2 Φ2' 0 = D.formLev p.T (M.sgn P p.l0) jF w x2 x2' := hOne'.symm
+  calc _ = ((‖t‖ ^ (-2 : ℤ) : ℝ) : ℂ) * ((lam : ℂ) * conj (lam : ℂ) * P5.RRform Ls sts μs 0 (D.positionted w) Φ2 Φ2' 0) :=
+        congrArg _ (rrform_smul Ls sts μs 0 (D.positionted w) Φ2 Φ2' 0 (lam : ℂ))
+    _ = ((‖t‖ ^ (-2 : ℤ) : ℝ) : ℂ) * ((lam : ℂ) * conj (lam : ℂ) * D.formLev p.T (M.sgn P p.l0) jF w x2 x2') := by
+        rw [key]
+    _ = _ := by
+        rw [hRR, ← levW_below P j hj ht, Complex.conj_ofReal, hlam]
+        push_cast
+        ring
+
+end Formalism.FourierDecayAlt.P
+end
+end

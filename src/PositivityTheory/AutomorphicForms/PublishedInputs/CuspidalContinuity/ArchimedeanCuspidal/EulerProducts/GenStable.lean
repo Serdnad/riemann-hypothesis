@@ -42,10 +42,10 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import GroundTheory.AutomorphicForms.AutomorphicFormSpaces.Archimedean
 import GroundTheory.AutomorphicForms.GL2.FiniteIdeleDecomp
-public import GroundTheory.AutomorphicForms.GL2.GodementSectionFactor
+public import GroundTheory.AutomorphicForms.GL2.Bundle003
 import GroundTheory.AutomorphicForms.LocallyProfinite
 import GroundTheory.GlobalFields.HerbrandQuotients.RationalForm
-import GroundTheory.LocalFields.FilteredSurj
+import GroundTheory.LocalFields.Bundle001
 public import PositivityTheory.AutomorphicForms.PublishedInputs.CuspidalContinuity.ArchimedeanCuspidal.AdFormOf
 
 @[expose] public section

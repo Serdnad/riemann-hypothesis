@@ -3,9 +3,9 @@ module
 public import Formalism.AdmissibleDesigns.FiniteClassesContinuousLattice
 public import Formalism.AdmissibleDesigns.SelfGood
 public import Formalism.AdmissibleDesigns.RankReductionIdempotentOne
-public import Formalism.SharpRestriction.LevelLetterCocycles.GoodCongruenceDataOf
+public import Formalism.SharpRestriction.LevelLetterCocycles.Bundle010
 public import Formalism.WachLatticeTwists.SplitLocalLifts.Cocycles1MapOfEquivariant
-public import Formalism.SharpRestriction.LevelLetterCocycles.JointConditionsZpowers.LiftingConditionOfWindows
+public import Formalism.SharpRestriction.LevelLetterCocycles.JointConditionsZpowers.Bundle004
 import Mathlib.Algebra.GroupWithZero.Submonoid.CancelMulZero
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

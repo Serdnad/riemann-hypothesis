@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.GlobalFields.TateThesis.AdeleMeasure
+public import GroundTheory.GlobalFields.TateThesis.Bundle006
 public import Development.WeilBound.CoreStatements.PublishedTheorems.SmoothVectorEstimates.WhittakerVanishingImpliesZero
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

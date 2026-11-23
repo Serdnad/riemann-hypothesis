@@ -2,7 +2,7 @@ module
 
 public import Mathlib.NumberTheory.NumberField.InfinitePlace.Embeddings
 public import Mathlib.RingTheory.DedekindDomain.AdicValuation.Valuation
-public import GroundTheory.PAdicHodge.SlopeCauchyBinet
+public import GroundTheory.PAdicHodge.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

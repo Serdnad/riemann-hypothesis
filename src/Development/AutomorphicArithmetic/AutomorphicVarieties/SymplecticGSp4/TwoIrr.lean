@@ -1,13 +1,13 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.EntryMem
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Bundle007
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.DiagCases
-import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.GeAlgTop
-import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.PtInSmul
+import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Bundle003
+import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Bundle016
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.PtLimit
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.PtScale
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.SpanZero
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.TriComb
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Bundle011
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Bundle012
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Bundle018
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -48,6 +48,9 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 
 @[expose] public section
+
+local instance (priority := 2000) ratFieldIsTorsionFreeForTwoIrr (Ω : Type) [Field Ω] [Algebra ℚ Ω] :
+    Module.IsTorsionFree ℚ Ω := DivisionSemiring.to_moduleIsTorsionFree
 
 open NumberField IsDedekindDomain Formalism.ConjugateSelfDual ReciprocityTheory.Gal IsLocalRing UpperTheory.V UpperTheory.V.Base UpperTheory.V.Alg UpperTheory.V.HV UpperTheory.V.GradeZeroInterpolatingElement
 

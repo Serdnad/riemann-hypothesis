@@ -1,7 +1,7 @@
 module
 
-public import Formalism.PeriodIntegrals.MinkowskiQ
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Minkowski
+public import Formalism.PeriodIntegrals.Bundle012
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

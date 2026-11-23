@@ -1,7 +1,7 @@
 module
 
 public import Formalism.FrobeniusOrbits.Statement
-public import Formalism.FrobeniusOrbits.FrobeniusOrbitsProofs.ConjReal
+public import Formalism.FrobeniusOrbits.FrobeniusOrbitsProofs.Bundle002
 public import Formalism.FrobeniusOrbits.FrobeniusOrbitsProofs.Galois
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

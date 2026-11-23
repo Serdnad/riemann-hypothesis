@@ -2,8 +2,8 @@ module
 
 public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Mathlib.NumberTheory.NumberField.CanonicalEmbedding.Basic
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ClassGroupCoprimeRepresentative
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.CountableIdealSummableAbsNormRpow
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle004
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle066
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsEntireMellinSmoothedDirichletSum
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.SmoothedIdealCharacterSumMainTermIdealClassRepre
 import Mathlib.Algebra.Order.Floor.Extended

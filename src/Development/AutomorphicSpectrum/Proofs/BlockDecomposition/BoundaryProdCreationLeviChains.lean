@@ -2,7 +2,7 @@ module
 
 public import CompanionTheory.RealGroups.DiscreteSeries.DiscreteSeriesClassification.DiscreteSeriesExhaustion.FarRegularity.LKTExists
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.TwLMulSelf
-public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.BoundaryCreationAnticommutator
+public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.Bundle033
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

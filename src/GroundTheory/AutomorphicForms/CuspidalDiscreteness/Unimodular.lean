@@ -2,7 +2,7 @@ module
 
 public import GroundTheory.AutomorphicForms.QuotientMeasure
 public import GroundTheory.AutomorphicForms.ReductionMahler
-public import GroundTheory.AutomorphicForms.ReductionMeasure
+public import GroundTheory.AutomorphicForms.Bundle012
 public import Mathlib.MeasureTheory.Group.ModularCharacter
 public import GroundTheory.AutomorphicForms.Reduction
 import Mathlib.Algebra.Order.Floor.Extended

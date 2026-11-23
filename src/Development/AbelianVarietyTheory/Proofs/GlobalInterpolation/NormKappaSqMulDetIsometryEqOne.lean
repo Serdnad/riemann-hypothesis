@@ -1,11 +1,9 @@
 module
 
 public import Formalism.LocalToGlobal.KernelLattices.LateralTheory
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ComplexPadicNormKappaSplitPrimeStatement
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ConjugateEmbeddingsInduceDifferentPrimesSplitStatement
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.QuadraticAtMostTwoPrimesOverStatement
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.RelativeDeterminantIsometryNormOneStatement
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ValuationOfGeneratorOfPowStatement
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle105
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle013
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle056
 import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.BaseEx
 public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.IsAdmissibleFlagPairOfUnitriangularLeftAutomorph
 import Mathlib.Algebra.Order.Floor.Extended
@@ -48,7 +46,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.LatIntZero
+import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.Bundle003
 
 @[expose] public section
 

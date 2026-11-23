@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.AnalyticForms.PlurisubharmonicFunctions.GreenOfPoincareLelongHyperplane
+public import ReciprocityTheory.AnalyticForms.PlurisubharmonicFunctions.Bundle001
 public import Mathlib.MeasureTheory.Function.LocallyIntegrable
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

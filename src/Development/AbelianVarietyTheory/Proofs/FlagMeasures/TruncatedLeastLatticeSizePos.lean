@@ -1,12 +1,12 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.LayerProd
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.LamXEquivariant
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.AutPointLatticeIntersectionSelfDualPropertiesStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.FgOfHtNeZero
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.NearTrivialPointwise
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.OrthogonalCanonicalFiltrationStepsAutPointStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.PackingGeometricMeanSeparated
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle007
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle145
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle158
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle126
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle206
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle009
 import Formalism.HarderNarasimhan.ShiftInvariance
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

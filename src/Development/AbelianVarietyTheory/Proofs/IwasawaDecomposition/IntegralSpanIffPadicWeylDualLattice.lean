@@ -1,9 +1,9 @@
 module
 
-public import Formalism.UnipotentAdelicQuotients.WeylLatDual
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.PolFunApply
+public import Formalism.UnipotentAdelicQuotients.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle004
 public import Formalism.LocalRingCardinality.SpanPowerMembership.EntPlNonempty
-public import Formalism.LocalToGlobal.HermitianForms.TiedStep
+public import Formalism.LocalToGlobal.HermitianForms.Bundle002
 public import Formalism.SharpRestriction.Divisibility.OrbitPlaces
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.LatAtLattice
 import Mathlib.Algebra.AffineMonoid.Basic

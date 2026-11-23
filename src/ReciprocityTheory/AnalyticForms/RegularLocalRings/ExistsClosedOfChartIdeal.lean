@@ -45,9 +45,9 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Algebra.MvPolynomial
-import ReciprocityTheory.AnalyticForms.RegularLocalRings.BijOnClosedPointsOfIsIso
+import ReciprocityTheory.AnalyticForms.RegularLocalRings.Bundle009
 import ReciprocityTheory.AnalyticForms.RegularLocalRings.ProjHypA
-import ReciprocityTheory.AnalyticForms.RegularLocalRings.SecHomSurjective
+import ReciprocityTheory.AnalyticForms.RegularLocalRings.Bundle008
 
 @[expose] public section
 

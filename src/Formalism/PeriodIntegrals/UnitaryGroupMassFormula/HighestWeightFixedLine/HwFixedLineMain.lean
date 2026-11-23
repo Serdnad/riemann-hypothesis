@@ -2,7 +2,7 @@ module
 
 public import Formalism.PeriodIntegrals.HwFixedLine
 import Formalism.GradedWeylDivisibility.DualWeylDominanceOf
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.HwIrred
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle033
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.GelfandTsetlinBranching.ExtremalFactsProofA
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

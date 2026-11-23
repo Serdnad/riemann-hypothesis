@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StFiniteMapOpen
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle014
 public import Mathlib.Algebra.Polynomial.Degree.Defs
 public import Mathlib.Algebra.Polynomial.Eval.Defs
 import Mathlib.Algebra.Order.Floor.Extended

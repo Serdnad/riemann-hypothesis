@@ -1,7 +1,7 @@
 module
 
 public import ReciprocityTheory.AnalyticForms.RegularLocalRings.StalkLoc
-public import ReciprocityTheory.AnalyticForms.RegularLocalRings.IsOpenAlt
+public import ReciprocityTheory.AnalyticForms.RegularLocalRings.Bundle007
 public import Mathlib.AlgebraicGeometry.Noetherian
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

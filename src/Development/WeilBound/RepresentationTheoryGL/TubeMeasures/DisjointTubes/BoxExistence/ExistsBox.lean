@@ -2,11 +2,11 @@ module
 
 public import Development.WeilBound.RepresentationTheoryGL.TubeMeasures.DisjointTubes.LowSt
 public import Development.WeilBound.RepresentationTheoryGL.TubeMeasures.DisjointTubes.TubeSt
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EqZeroOfNormLtOne
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsContinuousRealComponentHomUnitaryAdelic
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LevelMeasureFinitePartPreimage
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.UpqLocallyCompactGroup
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsCompactParahoricLevelAndContainsLifts
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle979
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1717
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1987
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle035
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle257
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -42,7 +42,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Development.AbelianVarietyTheory.Definitions.Divisors.AevalEqZeroOfMemConeIdeal
 import Development.AbelianVarietyTheory.Definitions.Divisors.NormNegCmConstantEqAtAllEmbeddings
 import Development.AbelianVarietyTheory.Definitions.Divisors.TupleReadBaseTupleEqFamily
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MeasAtOf
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2390
 
 @[expose] public section
 

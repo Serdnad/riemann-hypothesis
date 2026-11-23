@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.ProfiniteCohomology.PoincareDuality.Devissage
-import GroundTheory.ProfiniteCohomology.CupProducts.Projection
+import GroundTheory.ProfiniteCohomology.CupProducts.Bundle003
 import GroundTheory.ProfiniteCohomology.PoincareDuality.Induced
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

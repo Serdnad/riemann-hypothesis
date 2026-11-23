@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.AdIPowLe
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.DeltaAddSubMemPow
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsStablePrismHomComp
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.PrismHomMapIdealEq
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle024
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle585
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle578
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle586
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

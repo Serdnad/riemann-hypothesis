@@ -1,12 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.SplitDoublingNBlock
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle022
 public import Mathlib.Data.Fin.Tuple.Sort
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CoindEigenEqBotOfBlockCutCuspidalStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CoindEigenEqBotOfRootInUnipotentRadicalStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CoindEigenSortingPermEqLeviWhittakerStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsColReduced
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FinrankEigenCoindMackeyDoubleCosetsStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle826
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle813
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

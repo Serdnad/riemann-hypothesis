@@ -1,8 +1,8 @@
 module
 
 public import Formalism.LocalToGlobal.Divisibility.RowSideTie
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.SpanRangeMulVec
-public import Formalism.LocalToGlobal.IndefiniteReal.ConcretePkgSpec
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle200
+public import Formalism.LocalToGlobal.IndefiniteReal.Bundle023
 public import Formalism.LocalToGlobal.IndefiniteReal.CxLemmas
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,6 +1,6 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.IsInertiaInfiniteCyclotomic
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.Bundle018
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.OrdDual
 import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.OrdinaryDeformation
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.TriLift

@@ -1,22 +1,22 @@
 module
 
 public import Formalism.DoubleCosetMeasures.StatementZ
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsSBArgs
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1850
 public import Development.AbelianVarietyTheory.Definitions.Divisors.InvVolConjLevelOne
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsFinsetCosetRepsBoundedHalfPointsStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsIdempotentSumAuxiliaryPlaces
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1882
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1698
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FiniteUnfSupportOfNeOne
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FlatTensorDependsBelowAndSmallTranslationInvariaStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FlatTensorSupportBoundedByUniformizerPowStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FlatTensorVanishesUnlessLastRowBoundedStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HasCompactSupportFlatIntegrand
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IndicatorSmallCosetHalfIsSchwartzBruhatStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MemGlLatCongOfSmul
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MemMatLatSmulBlockLat
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1844
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1780
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1814
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle451
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2512
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1855
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle404
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.UnderMemAndPlaceAboveEqOfMem
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ValuationLeOneOfMem
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.PadicIsNonarchimedeanLocalField
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.NsmulProjectionXColumnsMemSelfDualLattice
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle632
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ParahoricLevelLiftsExist
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -90,20 +90,24 @@ theorem hasConductor_inv {ψ : AddChar k Circle} {c : kˣ} (h : HasConductor ψ 
 theorem isNatDatum_squareFlip {A A' Dd : Type} [Fintype A] [DecidableEq A] [Fintype A'] [DecidableEq A'] [Fintype Dd]
     [DecidableEq Dd] (μ : Measure (GL A' k)) [μ.IsHaarMeasure] (σ : A ⊕ A' ≃ Dd) {ψ : AddChar k Circle} (ν : kˣ →* ℂˣ)
     {ϖ : kˣ} {e : ℕ} (P : Finset Dd) (hϖ : IsUnif ϖ) (hψ : HasConductor ψ 1) (he : 1 ≤ e) (hν : CondLE ϖ e ν)
-    {Φ : Matrix A' Dd k → ℂ} (hΦ : IsNatDatum ϖ e Φ) : IsNatDatum ϖ e (squareFlip μ σ ψ ν ϖ e P Φ) := by
+    {Φ : Matrix A' Dd k → ℂ} (hΦ : IsNatDatum ϖ e Φ) : IsNatDatum ϖ e (_root_.GlobalTheory.SplitFlip.squareFlip μ σ ψ ν ϖ e P Φ) := by
   have h1 := (FourierDepth.fourier_exchange k A' Dd ψ ϖ e P hϖ hψ).1 Φ hΦ
   have h2 := @FrameDepth.hasDepth_phiA k _ _ _ _ _ _ A A' Dd _ _ _ _ _ _ μ (by assumption) σ ν ϖ e (blockUnits ϖ e P) _ hϖ he hν h1
-  have h3 : HasDepth ϖ e (blockLat ϖ e Pᶜ) (phiA μ σ ν ϖ e (blockLat ϖ e P) (fourierSum ψ ϖ e P Φ)) := by
+  have h3 : HasDepth ϖ e (blockLat ϖ e Pᶜ) (_root_.GlobalTheory.SplitFlip.phiA μ σ ν ϖ e (blockLat ϖ e P) (_root_.GlobalTheory.SplitFlip.fourierSum ψ ϖ e P Φ)) := by
     rw [← latA_blockLat]; exact h2
   exact (FourierDepth.fourier_exchange k A Dd ψ⁻¹ ϖ e Pᶜ hϖ (hasConductor_inv hψ)).2 _ h3
 
 theorem squareFlip_zero {A A' Dd : Type} [Fintype A] [DecidableEq A] [Fintype A'] [DecidableEq A'] [Fintype Dd]
     [DecidableEq Dd] (μ : Measure (GL A' k)) (σ : A ⊕ A' ≃ Dd) (ψ : AddChar k Circle) (ν : kˣ →* ℂˣ) (ϖ : kˣ) (e : ℕ)
-    (P : Finset Dd) : squareFlip μ σ ψ ν ϖ e P 0 = 0 := by
-  have h : phiA μ σ ν ϖ e (blockLat ϖ e P) (fourierSum ψ ϖ e P 0) = 0 := by
+    (P : Finset Dd) : _root_.GlobalTheory.SplitFlip.squareFlip μ σ ψ ν ϖ e P 0 = 0 := by
+  have h : _root_.GlobalTheory.SplitFlip.phiA μ σ ν ϖ e (blockLat ϖ e P) (_root_.GlobalTheory.SplitFlip.fourierSum ψ ϖ e P 0) = 0 := by
     funext X
-    simp [phiA, fFun, smallF]
-  rw [squareFlip, h, map_zero]
+    rw [map_zero]
+    simp [_root_.GlobalTheory.SplitFlip.phiA, _root_.GlobalTheory.SplitFlip.fFun,
+      _root_.GlobalTheory.SplitFlip.smallF]
+    exact fun _ _ _ => Or.inr (MeasureTheory.integral_zero (GL A' k) ℂ)
+  unfold _root_.GlobalTheory.SplitFlip.squareFlip
+  rw [h, map_zero]
 
 theorem isNatDatum_sliceB {ϖ : kˣ} {e : ℕ} {γ : List Edge} {T : G.Args → ℂ} (hT : G.IsTensor ϖ e γ T) {i j : ℕ}
     (h1 : Edge.theta i j ∈ γ) (h2 : Edge.ex i j ∈ γ) (x : G.Args) : IsNatDatum ϖ e (G.sliceB i j T x) := by
@@ -150,18 +154,21 @@ open scoped Pointwise
 variable {k : Type} [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchimedeanLocalField k]
   [MeasurableSpace k] [BorelSpace k] {G : Grid k}
 
+attribute [-instance] CompanionTheory.QL.instMeasGL Formalism.DoubleCosetMeasures.instMeasGL in
 theorem isTensor_flipTensor {ψ : AddChar k Circle} {ϖ : kˣ} {e : ℕ} (hϖ : IsUnif ϖ) (hψ : HasConductor ψ 1) (he : 1 ≤ e)
     {i j : ℕ} (hν : CondLE ϖ e (G.nu i j)) {J : G.Level} (hJ : IsOpen (J (i, j) : Set (GL (Fin (G.rank (i, j))) k)))
     (hK : J (i, j) ≤ KO k _) {γ : List Edge} (h1 : Edge.theta i j ∈ γ) (h2 : Edge.ex i j ∈ γ) {T : G.Args → ℂ}
     (hT : G.IsTensor ϖ e γ T) : G.IsTensor ϖ e (flipPath i j γ) (G.flipTensor .one ψ ϖ e i j J T) := by
   have hJ' := isOpen_map_invT hJ hK
-  haveI := isHaarMeasure_haarVol hJ'.1 hJ'.2
+  let μ := _root_.GlobalTheory.SplitFlip.haarVol ((J (i, j)).map _root_.GlobalTheory.SplitFlip.invT)
+  have hμ : μ.IsHaarMeasure := _root_.GlobalTheory.SplitFlip.isHaarMeasure_haarVol hJ'.1 hJ'.2
   have hne : Edge.theta i j ≠ Edge.ex i j := by simp
-  have hN : ∀ x, IsNatDatum ϖ e (squareFlip (haarVol ((J (i, j)).map invT)) (stdSplit (G.rank_square i j)) ψ (G.nu i j) ϖ e
+  have hN : ∀ x, IsNatDatum ϖ e (_root_.GlobalTheory.SplitFlip.squareFlip μ (_root_.GlobalTheory.SplitFlip.stdSplit (G.rank_square i j)) ψ (G.nu i j) ϖ e
       (Assignment.one.block _ _) (G.sliceB i j T x)) := fun x =>
-    isNatDatum_squareFlip _ _ _ _ hϖ hψ he hν (isNatDatum_sliceB hT h1 h2 x)
-  have hfl : ∀ x, G.flipTensor .one ψ ϖ e i j J T x = squareFlip (haarVol ((J (i, j)).map invT))
-      (stdSplit (G.rank_square i j)) ψ (G.nu i j) ϖ e (Assignment.one.block _ _) (G.sliceB i j T x) (G.joinA i j x) :=
+    @_root_.GlobalTheory.FunObj.isNatDatum_squareFlip k _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ μ hμ
+      _ _ _ _ _ _ hϖ hψ he hν _ (isNatDatum_sliceB hT h1 h2 x)
+  have hfl : ∀ x, G.flipTensor .one ψ ϖ e i j J T x = _root_.GlobalTheory.SplitFlip.squareFlip (_root_.GlobalTheory.SplitFlip.haarVol ((J (i, j)).map _root_.GlobalTheory.SplitFlip.invT))
+      (_root_.GlobalTheory.SplitFlip.stdSplit (G.rank_square i j)) ψ (G.nu i j) ϖ e (Assignment.one.block _ _) (G.sliceB i j T x) (G.joinA i j x) :=
     fun _ => rfl
   have m1 : Edge.ex i (j + 1) ∈ flipPath i j γ := List.mem_map.2 ⟨_, h1, by simp⟩
   have m2 : Edge.theta (i + 1) j ∈ flipPath i j γ := List.mem_map.2 ⟨_, h2, by simp⟩
@@ -198,8 +205,10 @@ theorem isTensor_flipTensor {ψ : AddChar k Circle} {ϖ : kˣ} {e : ℕ} (hϖ : 
       rw [mem_matLat_stdLat] at H ⊢
       intro r s
       simpa [Grid.joinA] using H s (Sum.inr r)
-    · rw [hs0 x b hb₀ hb1 hb2 hx, squareFlip_zero]
-      rfl
+    · rw [hs0 x b hb₀ hb1 hb2 hx]
+      exact congrFun (_root_.GlobalTheory.FunObj.squareFlip_zero μ
+        (_root_.GlobalTheory.SplitFlip.stdSplit (G.rank_square i j)) ψ (G.nu i j) ϖ e
+        (Assignment.one.block _ _)) (G.joinA i j x)
   · have e1 : G.sliceB i j T (x + z) = G.sliceB i j T x := funext fun Z => by
       have key : (Function.update (Function.update (x + z) (.theta i j) Z.toCols₁) (.ex i j) Z.toCols₂ᵀ : G.Args) =
           Function.update (Function.update x (.theta i j) Z.toCols₁) (.ex i j) Z.toCols₂ᵀ +

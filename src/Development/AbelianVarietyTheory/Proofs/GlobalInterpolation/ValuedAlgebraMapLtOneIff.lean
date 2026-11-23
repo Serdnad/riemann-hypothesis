@@ -1,11 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.SplittingProjection
-public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.OverPlaceIntegralForm
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsGlobalUniformizerResidueRepresentatives
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.SplitUnitaryGroupIso
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Stabstd
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Transport
+public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.Bundle009
+public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.Bundle008
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle031
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle004
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

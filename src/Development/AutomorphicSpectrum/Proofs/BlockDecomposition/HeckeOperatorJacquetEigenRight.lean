@@ -5,7 +5,7 @@ public import GroundTheory.AutomorphicForms.SmoothRep
 import Development.AbelianVarietyTheory.Definitions.Divisors.T2SpaceGeneralLinearGroup
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.PadicIsNonarchimedeanLocalField
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.TypeFunctionConstantTermVanishSplitPlace
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsOpenIsCompactPrincipal
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle104
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IwahoriBlockUpperLeviLower
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
@@ -148,6 +148,10 @@ theorem mem_Km_iff (N : ℕ) {m : ℕ} (hm : 1 ≤ m) (g : GL (Fin N) k) :
     rw [map_pow]
     exact pow_lt_one₀ zero_le' (val_unif_lt_one k) (by omega)
   have hcoe : ((Zls.unifU k : kˣ) : k) = ((Zls.unif k : 𝒪[k]) : k) := rfl
+  haveI : Nontrivial (𝒪[k] ⧸ Ideal.span {Zls.unif k ^ m}) :=
+    (Ideal.Quotient.nontrivial_iff (I := Ideal.span {Zls.unif k ^ m})).2 fun htop =>
+      (Zls.irreducible_unif (k := k)).not_isUnit
+        ((isUnit_pow_iff (by omega : m ≠ 0)).mp (Ideal.span_singleton_eq_top.mp htop))
   constructor
   · rintro ⟨h, hker, rfl⟩
     intro i j

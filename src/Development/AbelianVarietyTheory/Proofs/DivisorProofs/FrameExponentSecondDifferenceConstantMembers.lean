@@ -1,14 +1,14 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FrExp
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsRigTorsFrame
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3230
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3170
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsThetaFrameCubeConstantRootOfUnity
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FramedTorsionTorusExtensionRespectCubicalStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ThetaFamilyTermsEqUpToNormalisingThetaConst
-import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.AllUniformizationLawsHold
-import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.GtOntoDivisibleKernel
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3315
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3181
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle127
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle042
 import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.SectionValueAtTorsionPointEqSumTerms
-import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.TxFrameTranslate
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle125
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -48,7 +48,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ThetaCore
 import Std.Tactic.BVDecide.Normalize.Prop
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CoefTwistPull
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1519
 
 @[expose] public section
 

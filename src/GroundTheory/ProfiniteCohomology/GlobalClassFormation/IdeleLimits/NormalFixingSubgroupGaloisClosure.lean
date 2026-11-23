@@ -5,7 +5,7 @@ public import GroundTheory.ProfiniteCohomology.CohomologyFunctoriality
 public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.IdeleCohomology.ExistsSIdelesCohomologyEqZero
 public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.IdeleLimits.SmulOfEqOfMemFixingSubgroup
 import GroundTheory.GlobalFields.CyclotomicCharacters.Character
-public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.IdeleLimits.Invariants
+public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.IdeleLimits.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

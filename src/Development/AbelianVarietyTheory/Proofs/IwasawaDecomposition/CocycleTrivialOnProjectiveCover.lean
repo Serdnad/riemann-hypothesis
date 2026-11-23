@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.LineModel
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle041
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -36,7 +36,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsFrameCover
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle628
 
 @[expose] public section
 
@@ -143,7 +143,7 @@ theorem exists_form {O : Type} [CommRing O] {N : ℕ} {U : (PSpace O N).Opens} {
     rw [← Proj.basicOpen_eq_iSup_proj]
     exact hqr
   obtain ⟨i, hi⟩ := TopologicalSpace.Opens.mem_iSup.mp hqr'
-  obtain ⟨j, hj⟩ := exists_mem_chart O N q
+  obtain ⟨j, hj⟩ := _root_.GlobalTheory.ProjSpace.exists_mem_chart O N q
   have hle : Proj.basicOpen (grading O N) (GradedRing.proj (grading O N) i r) ≤ U := by
     refine le_trans ?_ hrU
     rw [Proj.basicOpen_eq_iSup_proj (grading O N) r]

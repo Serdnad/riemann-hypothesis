@@ -1,7 +1,7 @@
 module
 
-public import Formalism.LocalToGlobal.UnitaryNorms.IotaABijective
-public import Formalism.QuotientMetricDivisors.RatHermLcvTwist
+public import Formalism.LocalToGlobal.UnitaryNorms.Bundle002
+public import Formalism.QuotientMetricDivisors.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

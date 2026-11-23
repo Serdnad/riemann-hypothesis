@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.HermitianForms.TiedTwSym
+public import Formalism.LocalToGlobal.HermitianForms.Bundle010
 public import Formalism.SharpRestriction.GrowthBounds.ChartComparison.LocCore
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

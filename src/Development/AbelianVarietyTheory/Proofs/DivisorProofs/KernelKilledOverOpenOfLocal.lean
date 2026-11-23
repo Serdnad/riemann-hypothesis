@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.KerKilledOn
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2685
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -41,9 +41,9 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PlaceDivisors.SiegelPullbackTransfer.ExistsGenTransfer
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.PrecompleteBases.PsbLb
-import Development.AbelianVarietyTheory.Definitions.Divisors.NonemptyHomFixRepTrivial
-import Development.AbelianVarietyTheory.Definitions.Divisors.NotCompactOfMEqOne
-import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.SiegelToroidalIntegral
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle007
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle013
+import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.Bundle012
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.Biextensions.GenericFiberCubeInclusion
 
 @[expose] public section
@@ -98,6 +98,13 @@ theorem gen_pull3 {X Y Z Z' Y' : Scheme.{0}} (L : LB X) (a : Y ⟶ X) (b : Z ⟶
   rfl
 
 end GlobalTheory.KerKilledLocal
+
+section
+
+noncomputable local instance (priority := high) grpObjOpenPullback {S : Scheme.{0}} (U : S.Opens)
+    (G : Over S) [GrpObj G] : GrpObj ((Over.pullback U.ι).obj G) :=
+  letI : (Over.pullback U.ι).Monoidal := (Over.instBraidedPullback (f := U.ι)).toMonoidal
+  Functor.grpObjObj (F := Over.pullback U.ι)
 
 namespace GlobalTheory.KerKilledLocal
 
@@ -258,3 +265,5 @@ theorem kerKilledOn_of_local : ∀ (d : ℕ) (S' : Scheme.{0}) (G : Over S') [Gr
   exact step G d P (V t) W (hV t) T x hs
 
 end GlobalTheory.KerKilledLocal
+
+end

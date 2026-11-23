@@ -2,9 +2,8 @@ module
 
 public import Formalism.LocalToGlobal.TorsionIntegrality.UniformGaussModels.IsHypPair
 public import Formalism.LocalToGlobal.TorsionIntegrality.CMGoodModels.Statement
-public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.TrDual
-public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.BiextensionRelation
-public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.SecondLevelOfNorm
+public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.Bundle001
+public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

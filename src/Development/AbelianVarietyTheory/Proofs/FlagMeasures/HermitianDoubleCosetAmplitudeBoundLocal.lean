@@ -2,11 +2,11 @@ module
 
 public import Formalism.SharpRestriction.CuspSpanNormBounds.IsTermOver
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.ComplementReferenceCompactSubgroup
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.AmpSqLeHeightMulMass
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Equality
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.FramePairCoordinatesLocalHeightEqResidueCardStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HermitianLocalSumsEqConstMulCoordinateSumsStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.NonzeroDefectHeightPowerAbsorbsConstants
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle296
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle167
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle257
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle269
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle320
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.NotField
 import Development.AbelianVarietyTheory.Proofs.FlagMeasures.TermExponentsNonnegAndDefectGroupBound
 import Mathlib.Algebra.Order.Floor.Extended
@@ -54,7 +54,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Formalism.SharpRestriction.CuspSpanNormBounds.Point
+import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle001
 
 @[expose] public section
 

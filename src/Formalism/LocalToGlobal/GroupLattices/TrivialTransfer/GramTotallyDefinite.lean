@@ -1,10 +1,10 @@
 module
 
-public import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.ClsStab
-public import Formalism.LocalRingCardinality.DataLevelD
+public import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.Bundle007
+public import Formalism.LocalRingCardinality.Bundle003
 public import Formalism.LocalToGlobal.GroupLattices.TrivialTransfer.FiniteStabAtOfLocal
 public import Formalism.LocalToGlobal.GroupLattices.LevelCharts.FiniteClassSetOfFiniteIndex
-public import Formalism.LocalToGlobal.GroupLattices.LevelGatherings.GramDetIsUnit
+public import Formalism.LocalToGlobal.GroupLattices.LevelGatherings.Bundle003
 public import Formalism.LocalToGlobal.GroupLattices.TrivialTransfer.GenCoprime
 import Formalism.LocalToGlobal.GroupLattices.TrivialTransfer.OneAddPowOfSq
 import Mathlib.Algebra.Order.Floor.Extended

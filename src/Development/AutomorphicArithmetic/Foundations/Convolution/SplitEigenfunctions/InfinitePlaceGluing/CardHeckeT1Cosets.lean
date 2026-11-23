@@ -1,17 +1,17 @@
 module
 
-public import Development.AutomorphicArithmetic.Foundations.Convolution.SplitEigenfunctions.Entire
+public import Development.AutomorphicArithmetic.Foundations.Convolution.SplitEigenfunctions.Bundle001
 import Development.AbelianVarietyTheory.Definitions.Foundations.NormEulerPolySubOneLe
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CuspFormSqIntegrableAndIsDiscreteSplitCentreStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CuspidalLetterCentralExponentPropertiesStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CuspidalLetterRealExponentEqZeroIffIsUnitaryStatement
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsIdelicAbsValueCpowCharacterStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HeckeTjCosetsFiniteCardLe
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.NormHeckeEigenvalueLeCardCosetsStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsIsUnitaryTwistAbsPow
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2297
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2321
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1976
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1506
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1138
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1173
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle544
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsHasCentChar
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SatakeParameterGLStarEqInvOfUnitarisableStatement
-public import Development.WeilBound.RepresentationTheoryGL.ResidualSpectrum.SliceTensors.PSatHerm
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle192
+public import Development.WeilBound.RepresentationTheoryGL.ResidualSpectrum.SliceTensors.Bundle015
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Tjcosets
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -49,8 +49,8 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsUnitaryOfCharIff
-public import Development.AbelianVarietyTheory.Definitions.Divisors.IsSquareIntegrableAutomorphicSpace
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle005
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle043
 
 @[expose] public section
 
@@ -231,7 +231,7 @@ private theorem exists_norm {P : CuspSub E 2} (hu : P.IsUnitary) :
     refine h4.2.2.2.1.1 (h4.2.2.2.2 0 ?_)
     obtain ⟨φ, hφ, h0⟩ := (Submodule.ne_bot_iff _).1 P.ne_bot
     refine ⟨mulChi 2 χ φ, ⟨φ, hφ, rfl⟩, fun h => h0 ((mulChi 2 χ).map_eq_zero_iff.1 h), ?_⟩
-    have e1 : zc E 2 φ = cex (⟨2, P⟩ : Letter E) • φ := hcex φ hφ
+    have e1 : _root_.GlobalTheory.ResW.zc E 2 φ = cex (⟨2, P⟩ : Letter E) • φ := hcex φ hφ
     have e2 : cex (⟨2, P⟩ : Letter E) + ((2 : ℕ) : ℂ) * (Module.finrank ℚ E : ℂ) *
         (-(cex (⟨2, P⟩ : Letter E)) / (((2 : ℕ) : ℂ) * (Module.finrank ℚ E : ℂ))) = 0 := by
       have : (((2 : ℕ) : ℂ) * (Module.finrank ℚ E : ℂ)) ≠ 0 := by
@@ -239,7 +239,7 @@ private theorem exists_norm {P : CuspSub E 2} (hu : P.IsUnitary) :
         exact_mod_cast hd.ne'
       rw [mul_div_cancel₀ _ this]
       ring
-    change zc E 2 (mulChi 2 χ φ) = (0 : ℂ) • mulChi 2 χ φ
+    change _root_.GlobalTheory.ResW.zc E 2 (mulChi 2 χ φ) = (0 : ℂ) • mulChi 2 χ φ
     rw [hz, e1, ← add_smul, e2, zero_smul, map_zero, zero_smul]
   · have hq : 0 < Ideal.absNorm v.asIdeal := zero_lt_one.trans (NumberField.HeightOneSpectrum.one_lt_absNorm v)
     rw [(hv v).2, Complex.norm_natCast_cpow_of_pos hq, Complex.neg_re, hzre]

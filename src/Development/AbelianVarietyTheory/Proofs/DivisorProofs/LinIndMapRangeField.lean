@@ -3,9 +3,9 @@ module
 public import Development.AbelianVarietyTheory.Definitions.Divisors.HasBlockOfOccurs
 public import Formalism.GradedWeylDivisibility.DualWeylDominanceOf
 public import Formalism.GradedWeylDivisibility.FinalD
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LDlatLemmas
+import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle011
 public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.NablaLKBasis
-public import Formalism.PieriBlockIdeals.PieriColumnMinors.RealLocalDeltaNabla
+public import Formalism.PieriBlockIdeals.PieriColumnMinors.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

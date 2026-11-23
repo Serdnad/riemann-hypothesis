@@ -1,23 +1,23 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EmbLLMem
-public import Development.AbelianVarietyTheory.Statements.PlaceShiftStatements.DictAt
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EmbeddingsCurveFieldAboveFiniteNonempty
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FockVacEqJets
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2051
+public import Development.AbelianVarietyTheory.Statements.PlaceShiftStatements.Bundle004
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2221
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2521
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GaussianGrowthConjTorsionTranslatesVacuum
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HighestWeightBelow
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.NatWDualWtOfLe
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IntegralJAndAlgebraicData
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2010
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle277
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IntertwinerSelfDualVacuumIsVacuum
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.LatticeUnitNormSqNonneg
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.LineDerivListCompForm
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.TaylorCoeffConjugateSeries
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.TaylorConjugateTangentSpacePadZeroColumns
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle234
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.VacuumTranslateConjugateJetBound
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExistsMulOfApprox
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.BlockActionDiagonalCoefficientSpaceSmul
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ThetaJetMapWeightedTableScale
-public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.BlockShape
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle120
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle123
+public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -183,7 +183,7 @@ theorem taylor_fnConj_comb (D : D7) (hI : GlobalTheory.NormSum.Inp D) (cc : Idea
 
 open GlobalTheory.SignedHC in
 theorem abs_entry_le {D : D7} (large₂ : SizeData₂ D) (hs : GlobalTheory.IndefiniteRowSideFullHecke.LevelPlusSubgroup.SizeRows large₂) (i : ℕ) (τ : D.what₂.Tau) :
-    ∀ x ∈ entries (parV D 1 i D.R.m τ), |(x : ℝ)| ≤ 14 * large₂.sc.b := by
+    ∀ x ∈ _root_.GlobalTheory.SignedHC.entries (parV D 1 i D.R.m τ), |(x : ℝ)| ≤ 14 * large₂.sc.b := by
   obtain ⟨-, -, -, -, -, -, -, -, -, -, -, hgap, hbe, -⟩ := hs
   have hSc := large₂.Sc_pos
   have hsg : sLen D < gap D 1 := sLen_lt_gap D 1

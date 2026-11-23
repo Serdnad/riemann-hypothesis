@@ -1,7 +1,7 @@
 module
 
 public import Development.AbelianVarietyTheory.BlockTheory.ThetaLiftGeometry.PolynomialIntegralityJets
-public import Formalism.LocalRingCardinality.DataKerI
+public import Formalism.LocalRingCardinality.Bundle008
 public import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.IsDiscriminantTwelfthRootOfIdealLattice
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ExpTieAlg
 import Mathlib.Algebra.Order.Floor.Extended

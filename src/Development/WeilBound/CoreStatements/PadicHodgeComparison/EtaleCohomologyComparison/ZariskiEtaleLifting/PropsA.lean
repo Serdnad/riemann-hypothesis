@@ -3,12 +3,12 @@ module
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.ZariskiEtaleLifting.SubThickRees
 public import Mathlib.AlgebraicGeometry.Morphisms.Smooth
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CrystallineSiteZariskiCoveredByAtlas
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsActOfHom
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle163
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsEtaleLiftOfSurjective
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.PowDvdFactorialMul
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle302
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.PreimageOpenTopOfJacobsonSurjection
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SubMemSpanOfEtale
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SubThickOnto
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle105
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle116
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

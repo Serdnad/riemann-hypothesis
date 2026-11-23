@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalRingCardinality.RhoDetPrimeEqMuTildeMulChiPow
-public import Formalism.SharpRestriction.LevelLetterCocycles.GoodCongruenceDataOf
+public import Formalism.SharpRestriction.LevelLetterCocycles.Bundle010
 public import Formalism.WachLatticeTwists.RamifiedBlockRings.DistinctEigenvalueCornerPerturbation
 public import ReciprocityTheory.ReductiveGroups.TraceFormulas.LatDefs
 import Mathlib.Algebra.Order.Floor.Extended

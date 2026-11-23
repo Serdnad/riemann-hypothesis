@@ -1,10 +1,10 @@
 module
 
-public import Formalism.LocalToGlobal.CharacterGerms.RankMaximalOfNondegenerateOfUnitSeriesIntegral
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle006
 public import Formalism.LocalToGlobal.CharacterGerms.RowTiePGerm
 import Formalism.FormalGroupLog.FormalGroupLogProofs.ChainRule
 public import Formalism.LocalToGlobal.CharacterGerms.ConstantZeroDoubleMultiplicationPair
-public import Formalism.LocalToGlobal.CharacterGerms.RowTiePGmExLem
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

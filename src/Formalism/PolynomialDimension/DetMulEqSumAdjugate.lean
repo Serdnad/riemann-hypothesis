@@ -1,7 +1,7 @@
 module
 
 public import Formalism.PolynomialDimension.FrameSum
-public import Formalism.PolynomialDimension.MultinomialDepth.ExistsNonzeroExchangedMinorHolds
+public import Formalism.PolynomialDimension.MultinomialDepth.Bundle002
 public import Formalism.PolynomialDimension.MultinomialDepth.FrobeniusDetVanishingHolds
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

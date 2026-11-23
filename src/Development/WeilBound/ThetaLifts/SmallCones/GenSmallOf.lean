@@ -1,14 +1,13 @@
 module
 
-public import Development.WeilBound.ThetaLifts.SmallCones.SoDefs
+public import Development.WeilBound.ThetaLifts.SmallCones.Bundle003
 public import Development.WeilBound.ThetaLifts.CTKernel
-public import Development.WeilBound.ThetaLifts.SmallCones.HodgeTateFromSandwich
 public import Development.WeilBound.ThetaLifts.SmallCones.ConeAB
-import Development.WeilBound.ThetaLifts.SmallCones.ConeBasic
-import Development.WeilBound.ThetaLifts.SmallCones.ConeLawAB
+import Development.WeilBound.ThetaLifts.SmallCones.Bundle002
+import Development.WeilBound.ThetaLifts.SmallCones.Bundle009
 import Development.WeilBound.ThetaLifts.SmallCones.ExpAlg
-public import Development.WeilBound.ThetaLifts.SmallCones.GenAnisoOf
-public import Development.WeilBound.ThetaLifts.SmallCones.IsoActFree
+public import Development.WeilBound.ThetaLifts.SmallCones.Bundle004
+public import Development.WeilBound.ThetaLifts.SmallCones.Bundle006
 import Development.WeilBound.ThetaLifts.SmallCones.ThetaKernelGeneralIdentity
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

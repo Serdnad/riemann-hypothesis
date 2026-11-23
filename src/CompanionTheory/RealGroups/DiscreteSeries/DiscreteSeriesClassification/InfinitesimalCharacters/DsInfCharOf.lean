@@ -1,9 +1,9 @@
 module
 
-public import Formalism.PeriodIntegrals.DSInfCharCap
+public import Formalism.PeriodIntegrals.Bundle020
 public import Development.AbelianVarietyTheory.Statements.CuspFrameWeights.DiscreteSpectrumKFiniteDecomposition
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.SmoothVecUnitaryModule
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.CapelliOperatorOnUnitaryCoefficientEqDerived
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle294
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

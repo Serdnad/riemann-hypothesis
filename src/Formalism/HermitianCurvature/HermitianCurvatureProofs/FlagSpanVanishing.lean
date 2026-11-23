@@ -3,8 +3,8 @@ module
 public import Formalism.FormalDegreeBessel.FormalDegreeRatio.GBasic
 public import Formalism.HermitianCurvature.FiniteOrderIntersectionInSmooth
 public import Formalism.FormalDegreeBessel.FormalDegreeRatio.UnitaryWeylNormalHolds
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.HermitianFormFlagVector
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.MajorantEstimate
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle038
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle042
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -51,7 +51,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 public import Formalism.FormalDegreeBessel.FormalDegreeRatio.GroupFactorizationHolds
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.LinearChangeOfVariablesBis
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle051
 
 @[expose] public section
 

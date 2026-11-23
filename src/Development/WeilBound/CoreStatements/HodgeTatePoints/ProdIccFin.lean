@@ -1,6 +1,6 @@
 module
 
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.RcProj
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle029
 public import Mathlib.FieldTheory.IsAlgClosed.Basic
 public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.TeichmullerCharacterOrderGenerates
 public import Development.WeilBound.CoreStatements.HodgeTatePoints.HasLenOfEquiv
@@ -53,10 +53,10 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.DualLattices.EigenLengthProductStatementHolds
-public import ReciprocityTheory.DualLattices.ExistsSmulMemOfMemSpan
+public import ReciprocityTheory.DualLattices.Bundle021
+public import ReciprocityTheory.DualLattices.Bundle007
 import ReciprocityTheory.DualLattices.IsLocalOfIntegers
-public import ReciprocityTheory.DualLattices.MemOfSumSingleEqZero
+public import ReciprocityTheory.DualLattices.Bundle013
 import ReciprocityTheory.DualLattices.PowMemCarrier
 
 @[expose] public section

@@ -3,8 +3,8 @@ module
 public import Mathlib.Analysis.Calculus.ContDiff.Defs
 public import Mathlib.MeasureTheory.Integral.Bochner.Basic
 public import Mathlib.MeasureTheory.Measure.Haar.OfBasis
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.IntegralIteratedFDerivEqZero
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.NormIteratedFDerivWithinInvOneLe
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle002
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle003
 import Mathlib.Analysis.Calculus.ContDiff.Bounds
 import Mathlib.Analysis.InnerProductSpace.Calculus
 import Mathlib.MeasureTheory.Covering.Besicovitch

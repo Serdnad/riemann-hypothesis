@@ -1,8 +1,7 @@
 module
 
-public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.StatementG
-public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.HomotheticLatticeIntegralS2
-public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.FinalOfNRDense
+public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.Bundle004
+public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.Bundle005
 public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.KummerThetaLogarithms.NRCMOf
 public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.KummerThetaLogarithms.SecondLogDerivativeUnique
 import Mathlib.Algebra.Order.Floor.Extended

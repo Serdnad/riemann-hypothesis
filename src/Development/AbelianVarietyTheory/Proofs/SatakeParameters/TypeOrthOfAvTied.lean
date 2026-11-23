@@ -1,8 +1,8 @@
 module
 
-public import Formalism.LocalToGlobal.GaloisLevelStructure.TiedHecke
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.HeckeSplitOne
-public import Formalism.LocalToGlobal.GaloisLevelStructure.Checks
+public import Formalism.LocalToGlobal.GaloisLevelStructure.Bundle002
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle006
+public import Formalism.LocalToGlobal.GaloisLevelStructure.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -44,8 +44,8 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.Foundations.MatrixMeasurableSpace
 import Development.AbelianVarietyTheory.Definitions.Foundations.SmoothPartStable
-import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.ExistsReadingLaws
-import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.RankOneUnitary
+import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle008
+import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle007
 import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.LeviEmbMemNormalizerLower
 
 @[expose] public section

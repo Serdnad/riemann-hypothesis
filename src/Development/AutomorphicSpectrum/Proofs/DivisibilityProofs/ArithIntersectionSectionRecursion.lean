@@ -1,10 +1,10 @@
 module
 
 import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PSectionBounded
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterNamed
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle010
 public import Development.WeilBound.CoreStatements.HodgeTatePoints.GfForms
 public import Development.WeilBound.CoreStatements.FlagImmersions.IntersectionConstantMetricLine
-public import Development.WeilBound.CoreStatements.FlagImmersions.PointsIntegralSectionSnoc
+public import Development.WeilBound.CoreStatements.FlagImmersions.Bundle005
 public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.PDivCycleMul
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -50,7 +50,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterRedF
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle013
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AutomorphicSpectrum.Definitions.DivisibilityTowers.CompactGapsGE
 

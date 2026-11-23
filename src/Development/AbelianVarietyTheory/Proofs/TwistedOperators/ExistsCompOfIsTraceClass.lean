@@ -1,10 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.TraceKernelDecomposition
+public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.Bundle018
 import Aesop.Main
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IntegrableDescendOrbitSum
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.KernelLocallyFiniteContinuous
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.SetIntegralNormRmulLe
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle323
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle311
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -554,8 +553,8 @@ end Measure
 theorem traceIsDiagonal_Rop {G : Type} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
     [SecondCountableTopology G] [LocallyCompactSpace G] [T2Space G] [MeasurableSpace G] [BorelSpace G]
     {Γ : Subgroup G} [DiscreteTopology Γ] {μ : Measure G} [μ.IsHaarMeasure] [μ.IsMulRightInvariant]
-    [IsFiniteMeasure (quotMeasure Γ μ)] {f : G → ℂ} (hf : Continuous f) (hc : HasCompactSupport f)
-    (htr : IsTraceClass (Rop Γ μ f)) : TraceIsDiagonal (ν := quotMeasure Γ μ) (Rop Γ μ f) (kernelQ Γ f) := by
+    [IsFiniteMeasure (_root_.GlobalTheory.AutomorphicL2Unitary.quotMeasure Γ μ)] {f : G → ℂ} (hf : Continuous f) (hc : HasCompactSupport f)
+    (htr : IsTraceClass (Rop Γ μ f)) : TraceIsDiagonal (ν := _root_.GlobalTheory.AutomorphicL2Unitary.quotMeasure Γ μ) (Rop Γ μ f) (kernelQ Γ f) := by
   let _ : PseudoMetricSpace G := TopologicalSpace.pseudoMetrizableSpacePseudoMetric G
   have hint : Integrable f μ := hf.integrable_of_hasCompactSupport hc
   have hkq : ∀ p q : Quot Γ, kernelQ Γ f p q = kernel Γ f (sec Γ p) (sec Γ q) := by
@@ -565,8 +564,8 @@ theorem traceIsDiagonal_Rop {G : Type} [Group G] [TopologicalSpace G] [IsTopolog
     calc kernelQ Γ f p q = kernel Γ f p.out q.out := rfl
       _ = kernel Γ f (sec Γ p) q.out := (leftInv_kernel_left f q.out).eq_of_mk_eq e1
       _ = kernel Γ f (sec Γ p) (sec Γ q) := (leftInv_kernel_right f (sec Γ p)).eq_of_mk_eq e2
-  have hT : ∀ φ : Lp ℂ 2 (quotMeasure Γ μ), Rop Γ μ f φ =ᵐ[quotMeasure Γ μ]
-      fun x => ∫ y, (fun p : G × G => kernel Γ f p.1 p.2) (sec Γ x, sec Γ y) * φ y ∂(quotMeasure Γ μ) := by
+  have hT : ∀ φ : Lp ℂ 2 (_root_.GlobalTheory.AutomorphicL2Unitary.quotMeasure Γ μ), Rop Γ μ f φ =ᵐ[_root_.GlobalTheory.AutomorphicL2Unitary.quotMeasure Γ μ]
+      fun x => ∫ y, (fun p : G × G => kernel Γ f p.1 p.2) (sec Γ x, sec Γ y) * φ y ∂(_root_.GlobalTheory.AutomorphicL2Unitary.quotMeasure Γ μ) := by
     intro φ
     refine ae_quotMeasure_iff.2 ?_
     have h1 := (GlobalTheory.AutomorphicL2Pointwise.lift_Rop_eq_convR G Γ μ f hint φ).2
@@ -596,7 +595,7 @@ theorem traceIsDiagonal_Rop {G : Type} [Group G] [TopologicalSpace G] [IsTopolog
         exact ⟨by rintro ⟨q, h, rfl⟩; exact ⟨by simpa using h, sec_mem q⟩, fun h => ⟨_, h.1, sec_eq h.2 rfl⟩⟩
       rw [this]
       exact (measurable_mk hs).inter (measurableSet_stdDom Γ)
-  obtain ⟨hI, htrace⟩ := trace_eq_integral_diagonal (ν := quotMeasure Γ μ) hsec htr
+  obtain ⟨hI, htrace⟩ := trace_eq_integral_diagonal (ν := _root_.GlobalTheory.AutomorphicL2Unitary.quotMeasure Γ μ) hsec htr
     (GlobalTheory.AutomorphicL2KernelContinuous.continuous_kernel hf hc) hT
   have hfun : (fun x => kernelQ Γ f x x) = fun x => kernel Γ f (sec Γ x) (sec Γ x) := funext fun x => hkq x x
   unfold TraceIsDiagonal

@@ -1,8 +1,8 @@
 module
 
 public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.RestrictedBoundsWeakenFromEightToSeven
-public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.RestSumSpan
-public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.SumFinrankLeOfIndep
+public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.Bundle007
+public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.Bundle013
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

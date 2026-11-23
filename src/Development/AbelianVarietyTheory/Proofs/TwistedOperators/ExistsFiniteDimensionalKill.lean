@@ -1,10 +1,10 @@
 module
 
 public import Formalism.SharpRestriction.Divisibility.SchurIrreducible
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FockOperatorsLieRepresentationCommuteStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FockPolynomialsLocallyFiniteRationalWeightsStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsFiniteDimensionalForallMapMemStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsLinearMapTensorOfPairing
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle928
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle781
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle116
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle098
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

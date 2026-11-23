@@ -1,12 +1,11 @@
 module
 
-public import Formalism.LocalToGlobal.GlobalTheory.GL6.AdmissibleOfSplitAndRoundTrips
+public import Formalism.LocalToGlobal.GlobalTheory.GL6.Bundle001
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.EqOneOfCoprimeTorsionTwoPrimes
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.RamifiedRankEqFinrank
 public import Formalism.LocalToGlobal.Columns.PolyFnLemmas
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.CoordMapInjective
-public import Formalism.LocalToGlobal.GlobalTheory.GL6.DiamondCommDistinctPlaces
-public import Formalism.LocalToGlobal.GlobalTheory.GL6.ValuationClassTranslateMem
+public import Formalism.LocalToGlobal.GlobalTheory.GL6.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

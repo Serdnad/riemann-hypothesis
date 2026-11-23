@@ -1,10 +1,10 @@
 module
 
 public import CompanionTheory.RealGroups.UnitaryAdmissibility.ArchimedeanUnitaryDual.StDefinite
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.IsSquareOfValuedSubOneLt
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CmExtensionConjugationInvolutiveFixedField
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle003
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1378
 public import Development.AbelianVarietyTheory.Proofs.HermitianTraceForms.ExistsOrthogonalBasisDotProductApplyEq
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsLocalUnitaryGroupIsoConjIsometry
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle382
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -280,4 +280,18 @@ theorem stDefinite : StDefinite := by
 
 end GlobalTheory.CompanionTheory.DefiniteForm
 
+end
+
+end
+
+section
+
+@[expose] public section
+
+open CompanionTheory.Rg.Fl
+
+theorem _root_.GlobalTheory.T.DefinitenessStatement : StDefinite := by
+  first | exact @GlobalTheory.CompanionTheory.DefiniteForm.stDefinite | exact GlobalTheory.CompanionTheory.DefiniteForm.stDefinite | (intros; apply GlobalTheory.CompanionTheory.DefiniteForm.stDefinite <;> assumption)
+
+end
 end

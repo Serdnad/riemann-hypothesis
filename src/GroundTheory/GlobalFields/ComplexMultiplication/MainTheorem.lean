@@ -3,11 +3,11 @@ module
 public import GroundTheory.GlobalFields.ComplexMultiplication.AnalyticUniformization
 public import GroundTheory.GlobalFields.ComplexMultiplication.ClassGroupActionLattice
 public import GroundTheory.GlobalFields.ComplexMultiplication.IdeleActionQuotient
-public import GroundTheory.GlobalFields.ComplexMultiplication.ReductionMap
+public import GroundTheory.GlobalFields.ComplexMultiplication.Bundle006
 public import GroundTheory.GlobalFields.GlobalArtinMap.ArtinMap
 public import GroundTheory.GlobalFields.ComplexMultiplication.AnalyticUniformizationClassification
 import GroundTheory.GlobalFields.ComplexMultiplication.JInvariantHomothety
-public import GroundTheory.GlobalFields.ComplexMultiplication.MainTheoremLattice
+public import GroundTheory.GlobalFields.ComplexMultiplication.Bundle014
 public import GroundTheory.GlobalFields.ComplexMultiplication.MainTheoremLevel
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

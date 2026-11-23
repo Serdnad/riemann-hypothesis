@@ -1,12 +1,12 @@
 module
 
-public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.CuspidalGaloisUnramified
+public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.Bundle003
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsRhoPtOfSplitting
-public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.OneSubPhiOntoOfFilZero
+public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.Bundle011
 public import Formalism.SharpRestriction.LevelLetterCocycles.EmbeddingTypeJumps
-public import Formalism.SharpRestriction.LevelLetterCocycles.RestPt
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LNotMemGset
-public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.RestPtOfPtFam
+public import Formalism.SharpRestriction.LevelLetterCocycles.Bundle013
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle286
+public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.Bundle022
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

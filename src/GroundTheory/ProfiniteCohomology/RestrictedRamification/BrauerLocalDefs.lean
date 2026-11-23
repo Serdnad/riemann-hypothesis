@@ -3,7 +3,7 @@ module
 public import GroundTheory.ProfiniteCohomology.GaloisModules.Discrete
 public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.IdeleLimits.NormalFixingSubgroupGaloisClosure
 public import GroundTheory.ProfiniteCohomology.LocalClassFormation.FiniteVanishing.IntScalars
-public import GroundTheory.ProfiniteCohomology.RestrictedRamification.LocalMaps
+public import GroundTheory.ProfiniteCohomology.RestrictedRamification.Bundle003
 import GroundTheory.ProfiniteCohomology.RestrictedRamification.BrauerDefs
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -43,7 +43,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-public import GroundTheory.ProfiniteCohomology.LocalClassFormation.CupSymbolBridge
+public import GroundTheory.ProfiniteCohomology.LocalClassFormation.Bundle001
 
 @[expose] public section
 

@@ -3,8 +3,8 @@ module
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.LevelPlusSubgroup
 public import Development.AbelianVarietyTheory.Definitions.Divisors.KernelNormConstantSpec
 public import Formalism.LocalToGlobal.IndefiniteReal.LinksLemmas
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ParameterSizeConditionsNumericBounds
-public import Development.AutomorphicArithmetic.CyclotomicBounds.WildJets.ParBdGeneric
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2010
+public import Development.AutomorphicArithmetic.CyclotomicBounds.WildJets.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

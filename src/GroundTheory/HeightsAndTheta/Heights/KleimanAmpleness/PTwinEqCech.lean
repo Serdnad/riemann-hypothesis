@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.ImportsBisAltBis
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle011
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

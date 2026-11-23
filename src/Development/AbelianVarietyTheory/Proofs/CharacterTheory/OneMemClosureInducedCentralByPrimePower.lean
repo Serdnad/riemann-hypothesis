@@ -2,11 +2,11 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.CommutativeAlgebra.AbByPOfComm
 public import Mathlib.Basic.Complex.Basic
-public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.ExistsInducedIntPrimeToStatement
-public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.IndMulClassFunEqIndMulRestrict
-public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.OneMemOfMulMemOfForallPrimeNotDvd
-public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.OneMemVirtualCharactersOfIntegralCombinationStatement
-public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.VirtualCharactersMulComapConjIndLinearStatement
+public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.Bundle017
+public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.Bundle005
+public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.Bundle044
+public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.Bundle033
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

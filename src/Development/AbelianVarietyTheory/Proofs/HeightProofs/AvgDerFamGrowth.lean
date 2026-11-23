@@ -1,8 +1,8 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.NormDwLeSobNorm
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.NormSubLeOfDerivIcc
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.OneAddHsConjLe
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle222
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle328
 import Formalism.RealPlaceAnalysis.RealPlaceTaylor.CompactHaarRightInvariantInst
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

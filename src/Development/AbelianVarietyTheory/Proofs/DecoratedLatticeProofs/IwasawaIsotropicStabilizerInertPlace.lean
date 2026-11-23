@@ -1,22 +1,22 @@
 module
 
-public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.UnitaryLatticeOrthogonal
+public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.Bundle002
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.SphericalVolumeLift
 public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.RegularisedSiegelWeilFirstTerm
 public import Formalism.SatakeDualWeyl.StatementG
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsUnitaryIsometryIsotropicFrameLocalRingStatement
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.IsTameFinitePlaceHermitianAll
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle279
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle145
 import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.IwasawaDoubledHermitianSpaceNonsplitPlace
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsDualFamilyOfIsLattice
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsIsLatticeFrameIsMajorantFrame
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsUniqueIsConjAt
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.DisjointSpanPerpLat
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle022
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExistsOfFixedInt
-import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExistsSubConjNotMem
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle025
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.StabTransitiveOfLemmas
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.TendstoOneOfSummable
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle178
 import Formalism.LocalRingCardinality.ConjSqrtMinusD
-import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.IdemSum
+import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -58,7 +58,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.LatticeFrames.IntegrandSZero
-import Development.AbelianVarietyTheory.Definitions.LatticeFrames.PrinInf
+import Development.AbelianVarietyTheory.Definitions.LatticeFrames.Bundle016
 
 @[expose] public section
 

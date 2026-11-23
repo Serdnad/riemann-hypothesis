@@ -1,10 +1,10 @@
 module
 
 public import Mathlib
-public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsOverIff
-public import Development.AbelianVarietyTheory.Definitions.Divisors.ThetaSetupStructureMapComp
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle063
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle067
 public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.ExistsPolAVFiniteTypeSubring
-public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsToricRankOne
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle069
 
 @[expose] public section
 

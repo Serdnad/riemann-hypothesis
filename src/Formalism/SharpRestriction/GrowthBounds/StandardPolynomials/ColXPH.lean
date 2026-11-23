@@ -1,8 +1,7 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.ColsS
+public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.Bundle002
 public import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.CardEqChainSum
-public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.TCoreDef
 public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.ColXCnt
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

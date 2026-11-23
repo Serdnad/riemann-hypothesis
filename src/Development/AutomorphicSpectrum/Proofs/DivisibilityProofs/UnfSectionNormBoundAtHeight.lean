@@ -1,14 +1,14 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.HasBareNormDisc
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle012
 public import Development.AbelianVarietyTheory.Definitions.Foundations.ExistsFlatSecRankZero
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.IsotropicCoefficientSplitting
-public import Development.AbelianVarietyTheory.Definitions.Foundations.NotFlatExistsOfIsEmpty
-public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.MetricChangeOfFrame
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.IsCombAtIffIsDerivAt0
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.RelabelEmbeddingsGoodBijectiveConjCompat
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FramePointVectors
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsDerivAt0CompLinMap
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.Bundle007
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle014
+public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle083
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle046
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle028
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle157
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle252
 public import Development.WeilBound.CoreStatements.HomogeneousNonvanishing.LeadMinorSmulOne
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -45,8 +45,8 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.HolomorphicFamilies.SupAtUnit
-import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ExistsGenOfIsVBOne
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.HolomorphicFamilies.Bundle013
+import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle004
 
 @[expose] public section
 

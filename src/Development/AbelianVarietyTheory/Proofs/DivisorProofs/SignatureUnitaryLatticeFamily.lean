@@ -1,15 +1,15 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.InstMeasurableSpaceRealSU
-public import Development.AbelianVarietyTheory.Statements.PlaceShiftStatements.DefiniteBound
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle364
+public import Development.AbelianVarietyTheory.Statements.PlaceShiftStatements.Bundle001
 public import Mathlib.RingTheory.SimpleRing.Principal
-public import Development.AbelianVarietyTheory.Definitions.Divisors.TorusNoLeClassNoRankOne
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle005
 public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.ExistsIsFundamentalDomainAndQuotMeasureEq
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsRepsModKM
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsInvertibleUnitaryAdelicMatrixOfRationalUnitary
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LatticeCongruenceIffCompletion
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SelfDualLatticeRealCompletion
-public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.NotIsSRepsEmpty
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle257
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle254
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle841
+public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

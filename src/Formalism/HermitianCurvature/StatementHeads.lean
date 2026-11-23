@@ -1,7 +1,7 @@
 module
 
 public import Formalism.HermitianCurvature.StatementTL
-public import Formalism.HermitianCurvature.StatementJF
+public import Formalism.HermitianCurvature.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

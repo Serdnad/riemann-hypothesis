@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalToGlobal.KernelLattices.ColumnData.KerEntHyp
-public import Formalism.LocalToGlobal.KernelLattices.JetFieldLeKR
+public import Formalism.LocalToGlobal.KernelLattices.Bundle003
 import Formalism.GradedWeylDivisibility.FinalC
 public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.JetsRationalOfKernelRationality
 import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.PeriodLatticeFinitelyGenerated

@@ -1,12 +1,11 @@
 module
 
-public import Formalism.LocalToGlobal.KernelLattices.ColInst
+public import Formalism.LocalToGlobal.KernelLattices.Bundle002
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.TwistedStartColumnReading
 public import Development.AbelianVarietyTheory.BlockTheory.ThetaLiftGeometry.BadPrimesPeriodBound
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.DatumPeriodicMulLatticeFinal
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.DatumPeriodicMulLatticeInterior
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.DatumSupportDivLatticeFinal
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.DatumSupportDivLatticeInterior
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle105
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle104
 public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.ThDistC
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -51,7 +50,7 @@ noncomputable section
 
 namespace GlobalTheory.GO
 
-open NumberField IsDedekindDomain Formalism.L2.Col Formalism.BasicNotions Formalism.HermitianLatticesTheory Formalism.MainNotions Formalism.L2.DIV Formalism.L2.Forms Formalism.L2.Ker GlobalTheory.TopStep
+open NumberField IsDedekindDomain _root_.Formalism.L2.Col Formalism.BasicNotions Formalism.HermitianLatticesTheory Formalism.MainNotions Formalism.L2.DIV Formalism.L2.Forms Formalism.L2.Ker GlobalTheory.TopStep
 open GlobalTheory.IndefiniteRowSideFullHecke.BadPrimesPeriodBound (JetsRatDeg)
 
 section Dat
@@ -171,7 +170,7 @@ variable (i j : ℕ) (e : j = i + 1) (β : (twFam W Ch sel mu cst L u m2 b hY P 
 end Pt
 
 theorem twThPt_top (e : R.m = m2 + 1 + 1) (h : m2 + 1 = m2 + 1) (h' : R.m = R.m) (d : (ybCpl W sel mu cst L u m2 b hY).Pts)
-    (p' : TopPt R sel mu u) :
+    (p' : GlobalTheory.TopStep.TopPt R sel mu u) :
     twThPt (Ch := Ch) (P := P) (c := c) A (m2 + 1) R.m e (.cpl h) (.top h') d p' =
       A.thDat (Sall sel mu u) (cAof sel mu cst) (cBof sel mu cst u) d.1.1.deco.1.N p'.deco.1.N
         (XiTop Ch sel mu cst m2 d.1.1 d.1.2 p') := rfl

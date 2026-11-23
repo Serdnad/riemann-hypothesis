@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.HermitianColumns.ColsHerm
+public import Formalism.LocalToGlobal.HermitianColumns.Bundle005
 public import Formalism.LocalRingCardinality.RankBoundMonotoneInDimension
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

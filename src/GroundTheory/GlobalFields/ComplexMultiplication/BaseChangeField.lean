@@ -1,10 +1,10 @@
 module
 
 public import GroundTheory.GlobalFields.ComplexMultiplication.BaseChangeGalois
-public import GroundTheory.GlobalFields.ComplexMultiplication.AutCFixed
-public import GroundTheory.GlobalFields.ComplexMultiplication.BaseChangeDegree
+public import GroundTheory.GlobalFields.ComplexMultiplication.Bundle003
+public import GroundTheory.GlobalFields.ComplexMultiplication.Bundle008
 import GroundTheory.GlobalFields.ComplexMultiplication.BaseChangeDescent
-import GroundTheory.GlobalFields.ComplexMultiplication.DifferentialConstantField
+import GroundTheory.GlobalFields.ComplexMultiplication.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

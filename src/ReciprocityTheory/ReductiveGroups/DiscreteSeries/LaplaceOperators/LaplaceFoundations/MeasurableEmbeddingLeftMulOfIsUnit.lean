@@ -1,6 +1,6 @@
 module
 
-public import Formalism.FormalDegreeBessel.StatementBF
+public import Formalism.FormalDegreeBessel.Bundle001
 public import Mathlib.Analysis.InnerProductSpace.Adjoint
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

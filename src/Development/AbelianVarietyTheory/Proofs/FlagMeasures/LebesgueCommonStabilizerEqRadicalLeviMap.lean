@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.IsNormalFormStabilizerMeasure
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.UEmbMulPEl
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle010
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle150
 import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsotropicStabilizerRadicalStructure
 import Mathlib.Algebra.Order.Archimedean.Real.Hom
 import Mathlib.Algebra.Order.Floor.Extended
@@ -50,8 +50,8 @@ import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Separation.CompletelyRegular
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.FlagPairDefinitePartLattice
-import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.IsFundOne
-import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.NormalFormDualOrthogonalLast
+import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle011
+import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle007
 import Formalism.FlagUnipotentLattices.MemOfOrthogonalAnisotropic
 
 @[expose] public section

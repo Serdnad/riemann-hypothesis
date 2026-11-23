@@ -1,6 +1,6 @@
 module
 
-public import Formalism.SharpRestriction.GlobalSchurBounds.ShortIntervalPrimes
+public import Formalism.SharpRestriction.GlobalSchurBounds.Bundle001
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.SiegelKlingenDeligneRibet
 public import Formalism.LocalToGlobal.GlobalTheory.GL2.TotallyComplexOfNoReal
 import Mathlib.Algebra.Order.Floor.Extended

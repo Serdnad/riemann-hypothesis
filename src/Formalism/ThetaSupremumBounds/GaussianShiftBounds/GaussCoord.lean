@@ -1,8 +1,7 @@
 module
 
-public import Formalism.ThetaSupremumBounds.StatementA
-public import Formalism.ThetaSupremumBounds.GaussianShiftBounds.BlockIntegralOf
-public import Formalism.ThetaSupremumBounds.GaussianShiftBounds.HeightsoundOf
+public import Formalism.ThetaSupremumBounds.Bundle001
+public import Formalism.ThetaSupremumBounds.GaussianShiftBounds.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

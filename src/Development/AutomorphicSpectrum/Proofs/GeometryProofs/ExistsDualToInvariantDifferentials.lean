@@ -3,10 +3,10 @@ module
 public import Development.AutomorphicSpectrum.Statements.GeometryStatements.NonemptyEquivOfCardHom
 public import Mathlib.Tactic.ENatToNat
 public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.HopfOrderContainsCharacters
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.BtOrderIsHopfOrderNoetherianStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.BtOrderValueEval
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsUniqueBtOrderEmbeddingStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsUniqueTangentDualNumber
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle146
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle039
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle073
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle013
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.RelOfTorsion
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

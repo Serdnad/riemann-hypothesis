@@ -2,10 +2,10 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.PlaceAdaptation.AdaptStd
 public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.GermPointsNoConstantTermFirstZero
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.FormalGroupLawPointMaps
-public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.MvPowerSeriesSubstConstTermsLocalAlgHomSpec
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.Bundle012
+public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.Bundle035
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.FoldPermutation
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.FormalGroupCopies
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle017
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Uniformization.ExistsUniqueSamePt
+public import Development.AbelianVarietyTheory.Definitions.Uniformization.Bundle003
 public import Mathlib.Tactic.ENatToNat
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ChainVal
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExpFLinear
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle074
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle078
 public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ProportionalField
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

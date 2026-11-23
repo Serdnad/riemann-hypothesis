@@ -1,6 +1,6 @@
 module
 
-public import Formalism.SubspaceCounting.Statement
+public import Formalism.SubspaceCounting.Bundle001
 public import Mathlib.Data.Fintype.Pi
 public import Mathlib.Order.Lattice.Nat
 import Mathlib.Algebra.Order.Floor.Extended

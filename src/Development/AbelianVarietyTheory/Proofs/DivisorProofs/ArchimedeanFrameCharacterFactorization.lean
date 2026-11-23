@@ -1,13 +1,12 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsFockMap
-public import Development.AbelianVarietyTheory.Definitions.Divisors.DiscreteSeriesHermitianUnique
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EqZeroOfCayleyTwoIZpowEqOneForallStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsPolarDecompositionIndefiniteUnitaryStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IndefiniteUnitaryCharacterEqOneCayleyRotationStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IndefiniteUnitaryCharacterMaximalCompactDetPowStatement
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle055
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle746
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle743
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle745
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.UnitaryLieElementsGenerateOneParamLines
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsGrpDataMapHaar
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle275
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -94,7 +93,7 @@ theorem charUpq : ∀ (R S : ℕ) (χ : Mat R S → ℂ),
     ∃ n : ℤ, ∀ g : Mat R S, gᴴ * Jm R S * g = Jm R S → χ g = g.det ^ n := by
   intro R S χ hmul hc hne
   obtain ⟨x, y, hxy⟩ := GlobalTheory.T.indefiniteUnitaryCharacter_maximalCompact_det_pow R S χ hmul hc hne
-  have hJJ : Jm R S * Jm R S = 1 := jm_mul_self
+  have hJJ : Jm R S * Jm R S = 1 := _root_.GlobalTheory.RealLift.OneParam.jm_mul_self
   have h1 : χ 1 = 1 := by
     have e := hmul 1 1 (by simp) (by simp)
     rw [mul_one] at e
@@ -339,7 +338,7 @@ theorem deriv_char : GlobalTheory.FunPr.Hypotheses₂ →
   have inv_mul : ∀ h ∈ U, hinv h * h = 1 := fun h hh => by
     funext w
     rw [Pi.mul_apply, hhinv, Matrix.mul_assoc, Matrix.mul_assoc, ← Matrix.mul_assoc _ (Jm R S) (h w), hh w,
-      jm_mul_self, Pi.one_apply]
+      _root_.GlobalTheory.RealLift.OneParam.jm_mul_self, Pi.one_apply]
   have mul_inv : ∀ h ∈ U, h * hinv h = 1 := fun h hh => by
     funext w
     have := congrFun (inv_mul h hh) w

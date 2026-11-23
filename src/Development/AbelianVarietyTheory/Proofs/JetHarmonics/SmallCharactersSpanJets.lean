@@ -6,12 +6,12 @@ public import Mathlib.RingTheory.MvPolynomial.IrreducibleQuadratic
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.DivCalc
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.ProdExpPf
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.ThetaGen
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.WchartLePreimage
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsDivOfExpandsAt
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.IntegralFamilyOfStrictMin
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.KerJetAugEqSpanTorusUnionQuotient
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.SmallCombinationStrictMinMod
-import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.ExpandsAtSecIsMul
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.Bundle002
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle068
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle123
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle032
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle018
+import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.Bundle013
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ThickenedPointToTorusExtensionGenerator
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -64,7 +64,7 @@ import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.Cha
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.ChartPullbacks.UniversalCharts.UnivChartLoc
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FirstCohomology.SectionArithmetic
 import Std.Tactic.BVDecide.Normalize.Prop
-public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.ExistsSplitTorusPointsMulEquiv
+public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle009
 
 @[expose] public section
 
@@ -181,25 +181,25 @@ theorem eq_top_of_monomials {S A : Type} [CommRing S] [CommRing A] (f : S →+* 
 
 open Chart ChartBaseChange
 
-theorem finite_jet (R : Type) [CommRing R] [IsNoetherianRing R] (d n : ℕ) : Module.Finite R (JetR R (Fin d) n) :=
+theorem finite_jet (R : Type) [CommRing R] [IsNoetherianRing R] (d n : ℕ) : Module.Finite R (_root_.ReciprocityTheory.ChartRestriction.G.Chart.JetR R (Fin d) n) :=
   Module.finite_of_surjective_of_ker_le_nilradical (jetAug R (Fin d) n) (aug_surj _)
     (fun a ha => elt_nil _ (ker_jetAug_nil (R := R) (Fin d) n) a ha) (IsNoetherian.noetherian _)
 
-theorem mem_map_of_jetCoeff {R : Type} [CommRing R] (p : Ideal R) (d n : ℕ) {a : JetR R (Fin d) n}
-    (ha : jetCoeff R (R ⧸ p) (Fin d) n a = 0) : a ∈ p.map (algebraMap R (JetR R (Fin d) n)) := by
-  let π := Ideal.Quotient.mkₐ R (p.map (algebraMap R (JetR R (Fin d) n)))
+theorem mem_map_of_jetCoeff {R : Type} [CommRing R] (p : Ideal R) (d n : ℕ) {a : _root_.ReciprocityTheory.ChartRestriction.G.Chart.JetR R (Fin d) n}
+    (ha : jetCoeff R (R ⧸ p) (Fin d) n a = 0) : a ∈ p.map (algebraMap R (_root_.ReciprocityTheory.ChartRestriction.G.Chart.JetR R (Fin d) n)) := by
+  let π := Ideal.Quotient.mkₐ R (p.map (algebraMap R (_root_.ReciprocityTheory.ChartRestriction.G.Chart.JetR R (Fin d) n)))
   have hJ : ((RingHom.ker (jetAug R (Fin d) n)).map π) ^ (n + 1) = ⊥ := by
     rw [← Ideal.map_pow, ker_jetAug_pow, Ideal.map_bot]
-  let g := jetLift (R ⧸ p) _ hJ (fun j => π (zR n j)) (fun j => Ideal.mem_map_of_mem _ (zR_mem_ker n j))
+  let g := jetLift (R ⧸ p) _ hJ (fun j => π (_root_.ReciprocityTheory.ChartRestriction.G.Chart.zR n j)) (fun j => Ideal.mem_map_of_mem _ (zR_mem_ker n j))
   have e : (g.restrictScalars R).comp (jetCoeff R (R ⧸ p) (Fin d) n) = π := jet_ext fun j => by
-    show g (jetCoeff R (R ⧸ p) (Fin d) n (zR n j)) = _
+    show g (jetCoeff R (R ⧸ p) (Fin d) n (_root_.ReciprocityTheory.ChartRestriction.G.Chart.zR n j)) = _
     rw [jetCoeff_zR, jetLift_zR]
   have := AlgHom.congr_fun e a
   rw [AlgHom.comp_apply, ha, map_zero] at this
   exact Ideal.Quotient.eq_zero_iff_mem.1 this.symm
 
 theorem eq_top_of_jetCoeff {R : Type} [CommRing R] [IsLocalRing R] [IsNoetherianRing R] (p : Ideal R)
-    (hp : p ≤ maximalIdeal R) (d n : ℕ) (N : Submodule R (JetR R (Fin d) n))
+    (hp : p ≤ maximalIdeal R) (d n : ℕ) (N : Submodule R (_root_.ReciprocityTheory.ChartRestriction.G.Chart.JetR R (Fin d) n))
     (h : ∀ y, ∃ a ∈ N, jetCoeff R (R ⧸ p) (Fin d) n a = y) : N = ⊤ := by
   have := finite_jet R d n
   refine eq_top_iff.2 (Submodule.le_of_le_smul_of_le_jacobson_bot (I := p) Module.Finite.fg_top
@@ -289,15 +289,15 @@ open scoped CategoryTheory.Obj
 theorem ker_jetAug_eq (k : Type) [CommRing k] (hk : IsField k) (X : Type) [AddCommGroup X] (r : ℕ)
     (b : Module.Basis (Fin r) ℤ X) (G B : Over (Spec (CommRingCat.of k))) [GrpObj G] [GrpObj B] (q : G ⟶ B)
     (i : splitTorus (Spec (CommRingCat.of k)) X ⟶ G) (hq : IsMonHom q) (hi : IsMonHom i)
-    (hpb : IsPullback i (toUnit _) q η[B]) (d g n : ℕ) (x : ∀ m : ℕ, sp (R₀ := k) (JetR k (Fin d) m) ⟶ G)
-    (xB : ∀ m : ℕ, sp (R₀ := k) (JetR k (Fin g) m) ⟶ B) (hx : IsUnivChart G d x) (hxB : IsUnivChart B g xB)
-    (ψ : JetR k (Fin g) n →ₐ[k] JetR k (Fin d) n) (hψ : x n ≫ q = Chart.spMap ψ ≫ xB n) (T : Fin r → JetR k (Fin d) n)
+    (hpb : IsPullback i (toUnit _) q η[B]) (d g n : ℕ) (x : ∀ m : ℕ, sp (R₀ := k) (_root_.ReciprocityTheory.ChartRestriction.G.Chart.JetR k (Fin d) m) ⟶ G)
+    (xB : ∀ m : ℕ, sp (R₀ := k) (_root_.ReciprocityTheory.ChartRestriction.G.Chart.JetR k (Fin g) m) ⟶ B) (hx : IsUnivChart G d x) (hxB : IsUnivChart B g xB)
+    (ψ : _root_.ReciprocityTheory.ChartRestriction.G.Chart.JetR k (Fin g) n →ₐ[k] _root_.ReciprocityTheory.ChartRestriction.G.Chart.JetR k (Fin d) n) (hψ : x n ≫ q = Chart.spMap ψ ≫ xB n) (T : Fin r → _root_.ReciprocityTheory.ChartRestriction.G.Chart.JetR k (Fin d) n)
     (hT : ∀ j, jetAug k (Fin d) n (T j) = 0)
-    (h : ∀ (φ : JetR k (Fin d) n →ₐ[k] DualNumber k)
+    (h : ∀ (φ : _root_.ReciprocityTheory.ChartRestriction.G.Chart.JetR k (Fin d) n →ₐ[k] DualNumber k)
       (y : sp (R₀ := k) (DualNumber k) ⟶ splitTorus (Spec (CommRingCat.of k)) X), Chart.spMap φ ≫ x n = y ≫ i → ∀ j,
       (Scheme.ΓSpecIso (CommRingCat.of (DualNumber k))).inv.hom (1 + φ (T j)) =
         y.left.appTop.hom (charUnit (Spec (CommRingCat.of k)) X (b j)).val) :
-    RingHom.ker (jetAug k (Fin d) n) = Ideal.span (Set.range T ∪ Set.range fun l => ψ (zR n l)) := by
+    RingHom.ker (jetAug k (Fin d) n) = Ideal.span (Set.range T ∪ Set.range fun l => ψ (_root_.ReciprocityTheory.ChartRestriction.G.Chart.zR n l)) := by
   letI := hk.toField
   exact ker_jetAug_eq_span_torus_union_quotient k X r b G B q i hq hi hpb d g n x xB hx hxB ψ hψ T hT h
 
@@ -309,8 +309,8 @@ theorem ker_fst_sq (k : Type) [CommRing k] : RingHom.ker (TrivSqZeroExt.fstHom k
   rw [Ideal.mem_bot]
   ext <;> simp [h1, h2]
 
-theorem spMap_closedPoint_dual {k : Type} [CommRing k] (hk : IsField k) {d n : ℕ} [IsLocalRing (JetR k (Fin d) n)]
-    [IsLocalRing (DualNumber k)] (φ : JetR k (Fin d) n →ₐ[k] DualNumber k) :
+theorem spMap_closedPoint_dual {k : Type} [CommRing k] (hk : IsField k) {d n : ℕ} [IsLocalRing (_root_.ReciprocityTheory.ChartRestriction.G.Chart.JetR k (Fin d) n)]
+    [IsLocalRing (DualNumber k)] (φ : _root_.ReciprocityTheory.ChartRestriction.G.Chart.JetR k (Fin d) n →ₐ[k] DualNumber k) :
     Geo.Tor.spMap φ.toRingHom (closedPoint _) = closedPoint _ := by
   have ha : (TrivSqZeroExt.fstHom k k k).comp φ = jetAug k (Fin d) n := jet_ext fun l => by
     letI := hk.toField
@@ -331,17 +331,17 @@ variable {R : Type} [CommRing R] [IsDomain R] [IsLocalRing R] {I : Ideal R} {D :
   {G : Over (Spec (CommRingCat.of R))} [GrpObj G] [IsCommMonObj G] (U : UnifPre I D A G) (e : ℕ)
 
 theorem torus_jets (hk : IsField (R ⧸ I ^ (e + 1))) (c : D.toPre.P.A.left → D.toPre.P.L.ι)
-    (hc : ∀ x, x ∈ D.toPre.P.L.U (c x)) {d g : ℕ} (n : ℕ) (x : ∀ m : ℕ, sp (R₀ := R) (JetR R (Fin d) m) ⟶ G)
-    (hx : IsUnivChart G d x) (xB : ∀ m : ℕ, sp (R₀ := R) (JetR R (Fin g) m) ⟶ D.toPre.P.A)
+    (hc : ∀ x, x ∈ D.toPre.P.L.U (c x)) {d g : ℕ} (n : ℕ) (x : ∀ m : ℕ, sp (R₀ := R) (_root_.ReciprocityTheory.ChartRestriction.G.Chart.JetR R (Fin d) m) ⟶ G)
+    (hx : IsUnivChart G d x) (xB : ∀ m : ℕ, sp (R₀ := R) (_root_.ReciprocityTheory.ChartRestriction.G.Chart.JetR R (Fin g) m) ⟶ D.toPre.P.A)
     (hxB : IsUnivChart D.toPre.P.A g xB) {r : ℕ} (b : Module.Basis (Fin r) ℤ D.toPre.X)
-    [IsLocalRing (JetR (R ⧸ I ^ (e + 1)) (Fin d) n)] [IsLocalRing (JetR R (Fin g) n)] :
-    ∃ (p : Sp (JetR (R ⧸ I ^ (e + 1)) (Fin d) n) ⟶ (thickObj R I e G).left)
-      (f : JetR R (Fin g) n →+* JetR (R ⧸ I ^ (e + 1)) (Fin d) n) (v : D.toPre.X → (JetR (R ⧸ I ^ (e + 1)) (Fin d) n)ˣ),
+    [IsLocalRing (_root_.ReciprocityTheory.ChartRestriction.G.Chart.JetR (R ⧸ I ^ (e + 1)) (Fin d) n)] [IsLocalRing (_root_.ReciprocityTheory.ChartRestriction.G.Chart.JetR R (Fin g) n)] :
+    ∃ (p : Sp (_root_.ReciprocityTheory.ChartRestriction.G.Chart.JetR (R ⧸ I ^ (e + 1)) (Fin d) n) ⟶ (thickObj R I e G).left)
+      (f : _root_.ReciprocityTheory.ChartRestriction.G.Chart.JetR R (Fin g) n →+* _root_.ReciprocityTheory.ChartRestriction.G.Chart.JetR (R ⧸ I ^ (e + 1)) (Fin d) n) (v : D.toPre.X → (_root_.ReciprocityTheory.ChartRestriction.G.Chart.JetR (R ⧸ I ^ (e + 1)) (Fin d) n)ˣ),
       p ≫ fGl I G e = Geo.Tor.spMap (jetCoeff R (R ⧸ I ^ (e + 1)) (Fin d) n).toRingHom ≫ (x n).left ∧
       p ≫ pGl U e = Geo.Tor.spMap f ≫ (xB n).left ∧ Geo.Tor.spMap f (closedPoint _) = closedPoint _ ∧
       (∀ χ, (val (tG U e χ) p (closedPoint _) (fun ψ => c (ψ (closedPoint _)))).val =
         IntegralJets.germOf (closedPoint _) (v χ).val) ∧
-      ∀ N : AddSubgroup (JetR (R ⧸ I ^ (e + 1)) (Fin d) n),
+      ∀ N : AddSubgroup (_root_.ReciprocityTheory.ChartRestriction.G.Chart.JetR (R ⧸ I ^ (e + 1)) (Fin d) n),
         (∀ a : Fin r → ℕ, ∑ j, a j ≤ n → ∀ s, f s * v (∑ j, a j • b j) ∈ N) → N = ⊤ := by
   have hloc : IsLocalRing (R ⧸ I ^ (e + 1)) := by letI := hk.toField; infer_instance
   have hmk : IsLocalHom (algebraMap R (R ⧸ I ^ (e + 1))) := IsLocalHom.of_surjective _ Ideal.Quotient.mk_surjective
@@ -357,8 +357,8 @@ theorem torus_jets (hk : IsField (R ⧸ I ^ (e + 1))) (c : D.toPre.P.A.left → 
   have hq := (U.gt e).q_hom
   obtain ⟨ψ, ⟨hψa, hψ⟩, -⟩ := huB.2.2 _ (jetAug _ (Fin d) n) n (ker_jetAug_pow _ _) (x' n ≫ (U.gt e).q)
     (by rw [← Category.assoc, spMap_jetAug_alt hu n, MonObj.one_comp])
-  let p : Sp (JetR (R ⧸ I ^ (e + 1)) (Fin d) n) ⟶ (thickObj R I e G).left := (x' n).left
-  let fa : JetR R (Fin g) n →ₐ[R] JetR (R ⧸ I ^ (e + 1)) (Fin d) n :=
+  let p : Sp (_root_.ReciprocityTheory.ChartRestriction.G.Chart.JetR (R ⧸ I ^ (e + 1)) (Fin d) n) ⟶ (thickObj R I e G).left := (x' n).left
+  let fa : _root_.ReciprocityTheory.ChartRestriction.G.Chart.JetR R (Fin g) n →ₐ[R] _root_.ReciprocityTheory.ChartRestriction.G.Chart.JetR (R ⧸ I ^ (e + 1)) (Fin d) n :=
     (ψ.restrictScalars R).comp (jetCoeff R (R ⧸ I ^ (e + 1)) (Fin g) n)
   let f := fa.toRingHom
   have hp : p ≫ pGl U e = Geo.Tor.spMap f ≫ (xB n).left := by
@@ -368,8 +368,8 @@ theorem torus_jets (hk : IsField (R ⧸ I ^ (e + 1))) (c : D.toPre.P.A.left → 
   have hfa : ∀ s, jetAug _ (Fin d) n (f s) = algebraMap R _ (jetAug R (Fin g) n s) := fun s =>
     AlgHom.congr_fun (jet_ext (ψ₁ := ((jetAug _ (Fin d) n).restrictScalars R).comp fa)
       (ψ₂ := (Algebra.ofId R _).comp (jetAug R (Fin g) n)) fun j => by
-        show (jetAug _ (Fin d) n).comp ψ (jetCoeff R (R ⧸ I ^ (e + 1)) (Fin g) n (zR n j)) =
-          algebraMap R _ (jetAug R (Fin g) n (zR n j))
+        show (jetAug _ (Fin d) n).comp ψ (jetCoeff R (R ⧸ I ^ (e + 1)) (Fin g) n (_root_.ReciprocityTheory.ChartRestriction.G.Chart.zR n j)) =
+          algebraMap R _ (jetAug R (Fin g) n (_root_.ReciprocityTheory.ChartRestriction.G.Chart.zR n j))
         rw [hψa, jetCoeff_zR, jetAug_zR, jetAug_zR, map_zero]) s
   have hfl : IsLocalHom f := ⟨fun s hs => isUnit_of_aug _ (ker_jetAug_pow (R := R) (Fin g) n)
     (hmk.1 _ (hfa s ▸ hs.map (jetAug _ (Fin d) n)))⟩
@@ -380,9 +380,9 @@ theorem torus_jets (hk : IsField (R ⧸ I ^ (e + 1))) (c : D.toPre.P.A.left → 
     have := hv χ _ (𝟙 _) _ rfl
     rw [Category.id_comp] at this
     exact this.trans (IntegralJets.germOf_eq _ _).symm
-  have hmul : ∀ χ χ', ∃ u : (JetR R (Fin g) n)ˣ, (v (χ + χ')).val * f u = v χ * v χ' := by
+  have hmul : ∀ χ χ', ∃ u : (_root_.ReciprocityTheory.ChartRestriction.G.Chart.JetR R (Fin g) n)ˣ, (v (χ + χ')).val * f u = v χ * v χ' := by
     intro χ χ'
-    have hJ : Good (Z := Sp (JetR (R ⧸ I ^ (e + 1)) (Fin d) n)) D.toPre.P.L (closedPoint _)
+    have hJ : Good (Z := Sp (_root_.ReciprocityTheory.ChartRestriction.G.Chart.JetR (R ⧸ I ^ (e + 1)) (Fin d) n)) D.toPre.P.L (closedPoint _)
       (fun ψ => c (ψ (closedPoint _))) := fun ψ => hc _
     let m : D.toPre.P.A ⟶ G3 D.toPre.P.A :=
       lift (toUnit _ ≫ D.toPre.c χ) (lift (toUnit _ ≫ D.toPre.c χ') (𝟙 _))
@@ -403,7 +403,7 @@ theorem torus_jets (hk : IsField (R ⧸ I ^ (e + 1))) (c : D.toPre.P.A.left → 
   refine ⟨p, f, v, congrArg (·.left) (hx' n), hp, hfc, hv1, fun N hN => ?_⟩
   let aug := jetAug (R ⧸ I ^ (e + 1)) (Fin d) n
   let w : Fin r → (R ⧸ I ^ (e + 1))ˣ := fun j => Units.map aug.toRingHom.toMonoidHom (v (b j))
-  let T : Fin r → JetR (R ⧸ I ^ (e + 1)) (Fin d) n := fun j => algebraMap _ _ (w j)⁻¹.val * v (b j) - 1
+  let T : Fin r → _root_.ReciprocityTheory.ChartRestriction.G.Chart.JetR (R ⧸ I ^ (e + 1)) (Fin d) n := fun j => algebraMap _ _ (w j)⁻¹.val * v (b j) - 1
   have hconst : ∀ a : R ⧸ I ^ (e + 1), ∃ s, f s = algebraMap _ _ a := fun a => by
     obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective a
     exact ⟨algebraMap R _ a, fa.commutes a⟩
@@ -419,13 +419,13 @@ theorem torus_jets (hk : IsField (R ⧸ I ^ (e + 1))) (c : D.toPre.P.A.left → 
     · rintro _ (⟨j, rfl⟩ | ⟨l, rfl⟩)
       · obtain ⟨s, hs⟩ := hconst (w j)⁻¹.val
         exact Or.inr ⟨j, s, -1, by rw [hs, f.map_neg, f.map_one, ← sub_eq_add_neg]⟩
-      · exact Or.inl ⟨zR n l, congrArg ψ (jetCoeff_zR n l).symm⟩
+      · exact Or.inl ⟨_root_.ReciprocityTheory.ChartRestriction.G.Chart.zR n l, congrArg ψ (jetCoeff_zR n l).symm⟩
     · obtain ⟨u, hu⟩ := exists_unit_prod f v hmul b a
       rw [← hu, mul_comm (v _).val, ← _root_.mul_assoc, ← map_mul]
       exact hN a ha _
   intro φ y hy j
   have hD : IsLocalRing (DualNumber (R ⧸ I ^ (e + 1))) := isLocalRing_of_aug _ (ker_fst_sq _)
-  let φ₀ : JetR (R ⧸ I ^ (e + 1)) (Fin d) n →ₐ[R ⧸ I ^ (e + 1)] DualNumber (R ⧸ I ^ (e + 1)) :=
+  let φ₀ : _root_.ReciprocityTheory.ChartRestriction.G.Chart.JetR (R ⧸ I ^ (e + 1)) (Fin d) n →ₐ[R ⧸ I ^ (e + 1)] DualNumber (R ⧸ I ^ (e + 1)) :=
     (Algebra.ofId _ _).comp aug
   have h0 : Chart.spMap φ₀ ≫ x' n = 1 := JetGenerators.spMap_jetAug hu n
   have hJ : Good (Z := Sp (DualNumber (R ⧸ I ^ (e + 1)))) D.toPre.P.L (closedPoint _)
@@ -481,13 +481,13 @@ theorem expansion_single {R : Type} [CommRing R] [IsDomain R] {I : Ideal R} {D :
 theorem small_characters_span_jets : Laws → TwistBCSpanStatement → ∀ (V : Type) [CommRing V] [IsDomain V] [IsDiscreteValuationRing V] (ϖ : V), Irreducible ϖ → ∀ (D : DegData V (maximalIdeal V)) (A : PolAV (Spec (CommRingCat.of (FractionRing V)))) (G : Over (Spec (CommRingCat.of V))) [GrpObj G] [IsCommMonObj G] (U : Unif (maximalIdeal V) D A G) (Q : D.toPre.X → ℤ), QForm.IsQ D.toPre ϖ Q → ∀ (r : ℕ) (b : Module.Basis (Fin r) ℤ D.toPre.X) (Cc M₀ : ℝ), 0 ≤ Cc → 0 ≤ M₀ → (∀ j, (Q (b j) : ℝ) ≤ Cc) → (∀ j z, |(QForm.bOf D.toPre Q (b j) z : ℝ)| ≤ M₀ * Q z) → ∀ q n : ℕ, 4 * n + 4 ≤ q → (n : ℝ) * M₀ < q → ∀ (d : ℕ) (x : ∀ m : ℕ, Chart.sp (R₀ := V) (Chart.JetR V (Fin d) m) ⟶ G), Chart.IsUnivChart G d x → ∀ τ : LB.Gen (LB.LinComb U.LG.L (K := Fin 1) (fun _ => (x n).left ≫ 𝟙 G.left) (fun _ => (q : ℤ))), τ.IsGen → ∃ (l : ℕ) (σ : Fin l → H0 U.LG.L q) (f : Fin l → ∀ α, D.toPre.SecB q α) (χ : Fin l → D.toPre.X) (a : Fin l → Chart.JetR V (Fin d) n), (∀ i e, U.ExpandsAt e q (σ i) (f i)) ∧ (∀ i, ∃ Φ : Fam D.toPre (FractionRing V) q, (∀ α, GeneratorPullback.SecScal D.toPre.P.L (DegPre.famφ D.toPre (FractionRing V) α) (DegPre.famε q) (Φ.s α) (D.toPre.famφB α) (DegPre.famε q) (f i α) (DegPre.prB D.toPre (FractionRing V)).left 1)) ∧ (∀ i, (Q (χ i) : ℝ) ≤ (n : ℝ) ^ 2 * Cc) ∧ (∀ i α, (∀ z, α ≠ χ i + q • z) → ∀ j, (f i α).f j = 0) ∧ (∀ i, (∀ (z : (Chart.sp (R₀ := V) (Chart.JetR V (Fin d) n)).left) (J), Good U.LG.L z J → sval (σ i) (x n).left z J = gs (𝟙 _) z ⊤ ((Scheme.ΓSpecIso (CommRingCat.of (Chart.JetR V (Fin d) n))).inv.hom (a i)) * (val τ (𝟙 _) z J).val)) ∧ Submodule.span V (Set.range a) = ⊤ := by
   intro hL hTW V _ _ _ ϖ hϖ D A G _ _ U Q hQ r b Cc M₀ hC hM hb hB q n hq hn d x hx τ hτ
   classical
-  let admitted : JetR V (Fin d) n → Prop := fun a => ∃ (σ : H0 U.LG.L q) (f : ∀ α, D.toPre.SecB q α) (χ : D.toPre.X),
+  let admitted : _root_.ReciprocityTheory.ChartRestriction.G.Chart.JetR V (Fin d) n → Prop := fun a => ∃ (σ : H0 U.LG.L q) (f : ∀ α, D.toPre.SecB q α) (χ : D.toPre.X),
     (∀ e, U.ExpandsAt e q σ f) ∧ (∃ Φ : Fam D.toPre (FractionRing V) q, ∀ α, GeneratorPullback.SecScal D.toPre.P.L
       (DegPre.famφ D.toPre (FractionRing V) α) (DegPre.famε q) (Φ.s α) (D.toPre.famφB α) (DegPre.famε q) (f α)
       (DegPre.prB D.toPre (FractionRing V)).left 1) ∧ (Q χ : ℝ) ≤ (n : ℝ) ^ 2 * Cc ∧
     (∀ α, (∀ z, α ≠ χ + q • z) → ∀ j, (f α).f j = 0) ∧
-    ∀ (z : (sp (R₀ := V) (JetR V (Fin d) n)).left) (J), Good U.LG.L z J → sval σ (x n).left z J =
-      gs (𝟙 _) z ⊤ ((Scheme.ΓSpecIso (CommRingCat.of (JetR V (Fin d) n))).inv.hom a) * (val τ (𝟙 _) z J).val
+    ∀ (z : (sp (R₀ := V) (_root_.ReciprocityTheory.ChartRestriction.G.Chart.JetR V (Fin d) n)).left) (J), Good U.LG.L z J → sval σ (x n).left z J =
+      gs (𝟙 _) z ⊤ ((Scheme.ΓSpecIso (CommRingCat.of (_root_.ReciprocityTheory.ChartRestriction.G.Chart.JetR V (Fin d) n))).inv.hom a) * (val τ (𝟙 _) z J).val
   suffices h : Submodule.span V {a | admitted a} = ⊤ by
     have := finite_jet V d n
     obtain ⟨s, hs, e⟩ := (Submodule.fg_span_iff_fg_span_finset_subset _).1 (h ▸ Module.Finite.fg_top)
@@ -502,12 +502,12 @@ theorem small_characters_span_jets : Laws → TwistBCSpanStatement → ∀ (V : 
   have hloc : IsLocalRing (V ⧸ maximalIdeal V ^ (0 + 1)) := by letI := hk.toField; infer_instance
   have := D.toPre.P.isAb.smooth
   obtain ⟨g, xB, hxB⟩ := univChartLoc D.toPre.P.A
-  have hl1 : IsLocalRing (JetR (V ⧸ maximalIdeal V ^ (0 + 1)) (Fin d) n) := isLocalRing_of_aug _ (ker_jetAug_pow _ _)
-  have hl2 : IsLocalRing (JetR V (Fin g) n) := isLocalRing_of_aug _ (ker_jetAug_pow _ _)
+  have hl1 : IsLocalRing (_root_.ReciprocityTheory.ChartRestriction.G.Chart.JetR (V ⧸ maximalIdeal V ^ (0 + 1)) (Fin d) n) := isLocalRing_of_aug _ (ker_jetAug_pow _ _)
+  have hl2 : IsLocalRing (_root_.ReciprocityTheory.ChartRestriction.G.Chart.JetR V (Fin g) n) := isLocalRing_of_aug _ (ker_jetAug_pow _ _)
   choose c hc using fun y : D.toPre.P.A.left => Geo.Tor.exists_chart D.toPre.P.isLB y
   obtain ⟨p, f, v, hp1, hp2, hfc, hv, hN⟩ := torus_jets U.toUnifPre 0 hk c hc n x hx xB hxB b
   let ρ := jetCoeff V (V ⧸ maximalIdeal V ^ (0 + 1)) (Fin d) n
-  let z₀ : Sp (JetR (V ⧸ maximalIdeal V ^ (0 + 1)) (Fin d) n) := closedPoint _
+  let z₀ : Sp (_root_.ReciprocityTheory.ChartRestriction.G.Chart.JetR (V ⧸ maximalIdeal V ^ (0 + 1)) (Fin d) n) := closedPoint _
   have hJ : Good D.toPre.P.L z₀ (fun ψ => c (ψ z₀)) := fun ψ => hc _
   obtain ⟨J', hJ'⟩ := TorusCoord.exists_good' U.LG.isLB z₀
   let jL := J' ((Geo.Tor.spMap ρ.toRingHom ≫ (x n).left) ≫ 𝟙 _)
@@ -523,7 +523,7 @@ theorem small_characters_span_jets : Laws → TwistBCSpanStatement → ∀ (V : 
     obtain ⟨hQ1, hQ2⟩ := small_combination_strict_min_mod _ (QForm.bHom hϖ D hQ) Q (QForm.bOf_comm D)
       (QForm.two_Q_eq hϖ D hQ) (fun _ => QForm.Q_pos hϖ D hQ) r n q b Cc M₀ hC hM hb hB hn a ha
     generalize ∑ j, a j • b j = χ at hQ1 hQ2
-    obtain ⟨t, ht⟩ := exists_gen_of_local (V := JetR V (Fin g) n) D.toPre.P.L D.toPre.P.isLB
+    obtain ⟨t, ht⟩ := exists_gen_of_local (V := _root_.ReciprocityTheory.ChartRestriction.G.Chart.JetR V (Fin g) n) D.toPre.P.L D.toPre.P.isLB
       (fun i => (xB n).left ≫ D.toPre.famφB χ i) (DegPre.famε q)
     obtain ⟨u, hu⟩ := exists_val_local c hc (𝟙 _) t
     have hu1 := (congrArg (fun m => (val t m z₀ _).val) (Category.comp_id _).symm).trans
@@ -532,8 +532,8 @@ theorem small_characters_span_jets : Laws → TwistBCSpanStatement → ∀ (V : 
     obtain ⟨Φ, F, hF1, hF2, hF3, hF4⟩ := integralFamily_of_strictMin hL V ϖ hϖ D Q hQ q (by omega) χ β hQ2
     obtain ⟨σ, hσ⟩ := IntegralExpansion.main hL V D A G U q (by omega) Φ F hF1
     obtain ⟨y, hy⟩ := IntegralJets.exists_ratio U.LG.isLB σ (x n).left τ hτ
-    let y' : JetR V (Fin d) n := (Scheme.ΓSpecIso (CommRingCat.of (JetR V (Fin d) n))).hom.hom y
-    have hy' : (Scheme.ΓSpecIso (CommRingCat.of (JetR V (Fin d) n))).inv.hom y' = y := Iso.hom_inv_id_apply _ _
+    let y' : _root_.ReciprocityTheory.ChartRestriction.G.Chart.JetR V (Fin d) n := (Scheme.ΓSpecIso (CommRingCat.of (_root_.ReciprocityTheory.ChartRestriction.G.Chart.JetR V (Fin d) n))).hom.hom y
+    have hy' : (Scheme.ΓSpecIso (CommRingCat.of (_root_.ReciprocityTheory.ChartRestriction.G.Chart.JetR V (Fin d) n))).inv.hom y' = y := Iso.hom_inv_id_apply _ _
     refine ⟨y', ⟨σ, F, χ, hσ, ⟨Φ, hF1⟩, hQ1, hF3, fun z J h => hy'.symm ▸ hy z J h⟩, (bijective_germOf _).1 ?_⟩
     have e1 := expansion_single U.toUnifPre 0 q σ F (hσ 0)
       (Ideal.pow_mem_pow ((mem_maximalIdeal _).2 hϖ.not_isUnit) (0 + 1)) χ (fun α hα => by

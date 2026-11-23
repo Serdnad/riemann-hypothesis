@@ -1,7 +1,7 @@
 module
 
-public import ReciprocityTheory.AnalyticForms.AnalyticCharts.Osgood
-public import GroundTheory.HeightsAndTheta.Heights.Regularisation.StRiemannSlices
+public import ReciprocityTheory.AnalyticForms.AnalyticCharts.Bundle002
+public import GroundTheory.HeightsAndTheta.Heights.Regularisation.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

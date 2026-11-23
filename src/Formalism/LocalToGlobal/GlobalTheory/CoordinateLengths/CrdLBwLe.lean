@@ -1,8 +1,8 @@
 module
 
 public import Formalism.LocalToGlobal.GlobalTheory.CoordinateLengths.IsCrdExists
-import Formalism.LocalToGlobal.GlobalTheory.GL6.LatticeInclusionFamilyOf
-public import Formalism.LocalToGlobal.GlobalTheory.GL6.PBwLocGlob
+import Formalism.LocalToGlobal.GlobalTheory.GL6.Bundle003
+public import Formalism.LocalToGlobal.GlobalTheory.GL6.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

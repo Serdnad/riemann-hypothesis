@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsDualDualRep
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsPlaceOverMoveValCc
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TameInertiaElementActsByScalar
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle015
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle297
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle293
 public import Development.AutomorphicArithmetic.CyclotomicBounds.CyclotomicOrders.ExistsCycZPowNeOne
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

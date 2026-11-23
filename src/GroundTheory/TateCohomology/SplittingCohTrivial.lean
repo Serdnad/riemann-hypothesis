@@ -1,7 +1,6 @@
 module
 
-public import GroundTheory.TateCohomology.SplittingModule
-public import GroundTheory.TateCohomology.CohTrivial
+public import GroundTheory.TateCohomology.Bundle009
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

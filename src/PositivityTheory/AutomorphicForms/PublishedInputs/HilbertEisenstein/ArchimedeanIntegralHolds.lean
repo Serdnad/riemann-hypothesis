@@ -1,6 +1,6 @@
 module
 
-public import PositivityTheory.AutomorphicForms.PublishedInputs.HilbertEisenstein.ArchInt
+public import PositivityTheory.AutomorphicForms.PublishedInputs.HilbertEisenstein.Bundle008
 import Aesop.Main
 public import GroundTheory.GlobalFields.TateThesis.EulerFactorsArch
 import Mathlib.Algebra.Order.Floor.Extended

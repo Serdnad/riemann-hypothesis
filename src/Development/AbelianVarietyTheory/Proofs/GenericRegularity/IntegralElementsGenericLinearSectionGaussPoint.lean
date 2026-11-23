@@ -1,7 +1,7 @@
 module
 
-public import ReciprocityTheory.SemistableReduction.ComapInclusionIsLocalHom
-public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.AlgebraicIndependentResidueIffGauss
+public import ReciprocityTheory.SemistableReduction.Bundle002
+public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -47,7 +47,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.SemistableReduction.AlgAll
+public import ReciprocityTheory.SemistableReduction.Bundle019
 public import Mathlib.Algebra.BigOperators.Field
 
 @[expose] public section

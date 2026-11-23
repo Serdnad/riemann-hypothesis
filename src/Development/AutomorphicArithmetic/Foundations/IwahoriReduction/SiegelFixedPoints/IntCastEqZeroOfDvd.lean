@@ -4,8 +4,8 @@ public import Development.AutomorphicArithmetic.Foundations.IwahoriReduction.Sie
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.ResMapBijective
 public import Mathlib.RingTheory.AdicCompletion.Noetherian
 public import Development.AbelianVarietyTheory.Definitions.Foundations.ActWBOfInvariant
-public import Development.AbelianVarietyTheory.Definitions.Foundations.LiftSLMapMulInvMem
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ModularFunctionTowerIntegrality
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle013
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle192
 public import Development.AutomorphicArithmetic.Foundations.IwahoriReduction.SiegelFixedPoints.WcocEdge0
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

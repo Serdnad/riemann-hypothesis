@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.CupPair
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle005
 public import Mathlib.Basic.Complex.Basic
 public import Mathlib.RingTheory.Regular.RegularSequence
 import Mathlib.Algebra.Order.Floor.Extended

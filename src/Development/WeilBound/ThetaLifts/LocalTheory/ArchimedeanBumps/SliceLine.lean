@@ -1,11 +1,11 @@
 module
 
-public import Development.WeilBound.ThetaLifts.CartanFactorisation.CartanConj
+public import Development.WeilBound.ThetaLifts.CartanFactorisation.Bundle002
 public import Development.WeilBound.ThetaLifts.LeviDeterminants.MixedModels.PlaneGen
 public import Development.WeilBound.ThetaLifts.LocalTheory.ArchimedeanBumps.ArchSlice
 public import Development.WeilBound.ThetaLifts.SmallCones.ThetaUniq
-public import Development.WeilBound.ThetaLifts.CartanFactorisation.TensOfEval
-public import Development.WeilBound.ThetaLifts.LeviDeterminants.MixedModels.PlaneAd
+public import Development.WeilBound.ThetaLifts.CartanFactorisation.Bundle005
+public import Development.WeilBound.ThetaLifts.LeviDeterminants.MixedModels.Bundle001
 public import Development.WeilBound.ThetaLifts.LocalTheory.ArchimedeanBumps.TracePiReal
 public import Development.WeilBound.ThetaLifts.SmallCones.ExpAlg
 import Mathlib.Algebra.Order.Floor.Extended

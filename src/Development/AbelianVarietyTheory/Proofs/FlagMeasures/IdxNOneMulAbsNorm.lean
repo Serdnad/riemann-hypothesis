@@ -1,12 +1,12 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.ChartGen
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle003
 public import Formalism.SharpRestriction.CuspSpanNormBounds.CntPartners
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.DetFromBlocksSingle
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle110
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.DiscriminantOrderCommonFixedLatticeEmbeddedData
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsUniquePlace
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle256
 import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HermitianLatticeDiscriminantOrderNeZeroUnimodula
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsLatticeLatIn
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle182
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.MemOfPerpPerp
 import Formalism.HermitianLattices.HermitianLatticesProofs.DualBasic
 import Formalism.HermitianLattices.HermitianLatticesProofs.DualLattice
@@ -56,7 +56,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.RowMinor
+import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle012
 import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.CardFilterLowerHeckeRepsEqRelIndexPow
 
 @[expose] public section
@@ -219,7 +219,8 @@ theorem latDetH_pseudo [DecidableEq ι] (hK : IsCMUnram K) (h : V →ₗ⋆[K] V
       · intro H
         obtain ⟨y, rfl⟩ := ((Matrix.toLin' G).equivOfDetNeZero hd).surjective x
         exact ⟨y, (hm y).2 H, rfl⟩
-    have hl := (dualLattice (𝓞 K) K _ h' hs' hn' star_algebraMap_ringOfIntegers_mem_range P₀ hP₀l).1
+    have hl := (Formalism.HermitianLatticesTheory.dualLattice
+      (𝓞 K) K _ h' hs' hn' star_algebraMap_ringOfIntegers_mem_range P₀ hP₀l).1
     have := GlobalTheory.DegCnt.FixDisc.idx_gmap hl hl _ le_rfl (hg.le.trans fun x a =>
       (dualBasic_mem_dual _ _ _).2 fun y b => hP₀i.2 y b x a)
     rw [hg, idxN_eq_one.2 le_rfl] at this

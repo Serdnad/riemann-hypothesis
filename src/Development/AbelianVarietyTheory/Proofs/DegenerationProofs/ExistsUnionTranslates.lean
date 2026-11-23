@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Degenerations.OfDerivationFnOn
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsGlueFinitelyManyCompatibleSmoothModelsStatement
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsUniqueModelExtensionOfDefinedAtPointsStatement
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ModelGroupLawDefinedAtTranslateStatement
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.StrictModelTranslatesTwistCompatibleStatement
+public import Development.AbelianVarietyTheory.Definitions.Degenerations.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle027
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle026
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle033
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle031
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

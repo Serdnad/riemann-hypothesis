@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.RowMinor
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.OfRoots
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.DetFromBlocksSingle
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsUniquePlace
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle012
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle006
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle110
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle256
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.StandardBaseFlagComplementIntegralLattice
 import Mathlib.Algebra.AffineMonoid.Basic
 import Mathlib.Algebra.Order.Floor.Extended

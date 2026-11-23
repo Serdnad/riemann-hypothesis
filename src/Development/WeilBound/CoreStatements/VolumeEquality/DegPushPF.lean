@@ -2,15 +2,15 @@ module
 
 public import Development.WeilBound.CoreStatements.VolumeEquality.DegPushDefs
 public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.InstFintypeSumElim
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.DegreeGenericOfDegree
-public import Development.WeilBound.CoreStatements.VolumeEquality.DegPushPFa
-public import Development.WeilBound.CoreStatements.VolumeEquality.DegPushPFb
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle090
+public import Development.WeilBound.CoreStatements.VolumeEquality.Bundle007
+public import Development.WeilBound.CoreStatements.VolumeEquality.Bundle001
 public import Development.WeilBound.CoreStatements.VolumeEquality.DegPushPFc
-public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.AssemblyBridgeFull
-import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.Assembly
+public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Bundle049
+import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.Bundle014
 import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.PIntNumBaseChange
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PLiftBirationalNef
-public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.PFsInvPow
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle044
+public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.Bundle014
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -51,7 +51,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterDerived
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle012
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section
@@ -160,7 +160,7 @@ theorem geoPF : PtDim → GeoPF := by
   have : Nonempty K := ha.1
   have hA := arith_of_isPt hP
   have hgen : ∃ G : GenFibre inlV (mCoordIdeal (joinPt (fun x => algebraMap Ω₁ Ω (y x)) y')), ∀ (r : ℕ) (N : Fin r → K' → ℤ),
-      intNum G.Φ (fibreIdeal Sum.inl G) (fun j => fibreDeg Sum.inl (Sum.elim (0 : K → ℤ) (N j))) = inum Ω₁ y' N := by
+      intNum G.Φ (_root_.ReciprocityTheory.ChartRestriction.G.AI.I4.fibreIdeal Sum.inl G) (fun j => fibreDeg Sum.inl (Sum.elim (0 : K → ℤ) (N j))) = inum Ω₁ y' N := by
     let B := MvPolynomial K' Ω
     let Φ := FractionRing (MvPolynomial K Ω₁)
     let Φ' := FractionRing (MvPolynomial K B)
@@ -221,7 +221,7 @@ theorem geoPF : PtDim → GeoPF := by
       rw [← hbc]
       congr 1
       ext f
-      simp only [Ideal.mem_comap, fibreIdeal, RingHom.mem_ker, MvPolynomial.aeval_rename]
+      simp only [Ideal.mem_comap, _root_.ReciprocityTheory.ChartRestriction.G.AI.I4.fibreIdeal, RingHom.mem_ker, MvPolynomial.aeval_rename]
       rw [MvPolynomial.aeval_eq_eval₂Hom]
       congr! 3
       funext s

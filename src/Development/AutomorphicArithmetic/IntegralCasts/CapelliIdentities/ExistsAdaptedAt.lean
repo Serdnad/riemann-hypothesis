@@ -1,9 +1,9 @@
 module
 
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.IntEmbInjective
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.HermitianPositiveSymplectic
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.SignatureBlockDiagonal
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.TraceEqSumReCmType
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle020
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle032
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle033
 import Mathlib.Algebra.Order.Archimedean.Real.Hom
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

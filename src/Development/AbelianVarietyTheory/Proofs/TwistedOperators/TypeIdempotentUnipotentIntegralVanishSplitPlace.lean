@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.ConstantTermVanishing
+public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.Bundle018
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.StandardMaximalParabolic
 public import Formalism.DoubleCosetMeasures.Statement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsParabolicIsotropicFlagStabilizerSplitPlaceStatement
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.StdMaxParabolicRadicalLeBlockUnipotentRadical
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.TypeIdempotentConstantTermVanishStatement
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle534
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle201
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle227
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

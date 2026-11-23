@@ -1,7 +1,7 @@
 module
 
-public import Formalism.SharpRestriction.GlobalSchurBounds.ShortIntervalPrimes
-public import Formalism.GL3MeanSquares.SmoothedRemainderRealIntegralFormula
+public import Formalism.SharpRestriction.GlobalSchurBounds.Bundle001
+public import Formalism.GL3MeanSquares.Bundle002
 public import Formalism.GL3MeanSquares.HookFormulaTorsion.CharacterEstimateOfHypothesis
 public import Formalism.GL3MeanSquares.HookFormulaTorsion.PsiZeroIntegral
 public import Formalism.GL3MeanSquares.HookFormulaTorsion.SmoothedRemainderRealIntegralFormula

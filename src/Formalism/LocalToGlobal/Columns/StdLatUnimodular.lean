@@ -1,6 +1,6 @@
 module
 
-public import Formalism.HermitianLattices.NeighbourConstruct
+public import Formalism.HermitianLattices.Bundle001
 public import Formalism.LocalToGlobal.Columns.AbelianHostFieldConditions
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -3,12 +3,12 @@ module
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IntAFSmulMemLatOF
 public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.GoodLat
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsWeilRepresentationOfLatticeVacuaStatement
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HeisenbergCMRealLineAddNoPhase
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SpanHeisenbergTranslatesOfLatticeVacuaEqTopStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle701
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1201
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle361
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ThetaFunctionHeisenbergInvariant
 public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.LatRepA
-public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.LatRepB
+public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.Bundle005
 public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.LatRepC
 import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.SumFourEqTrace
 import Mathlib.Algebra.Order.Floor.Extended

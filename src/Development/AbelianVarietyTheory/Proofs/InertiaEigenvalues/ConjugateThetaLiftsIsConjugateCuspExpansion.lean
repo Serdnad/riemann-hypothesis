@@ -1,17 +1,17 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.ConjTupRefl
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ThExprUniqOfChartIndep2
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.NormalFam
-public import Formalism.LocalToGlobal.IndefiniteReal.FWTie
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsCuspFormClassSumNormalisedData
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ThetaOneMapBaseTupleOfCharacterisationExtremalStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ConjThetaClassSumEqRootOfUnityConjTupleStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ConjugateDefiniteFormsDescendNumberFieldStatement
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ConjugateTuplesConjugateResidueLevelsStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CuspFormReadingGaloisConjExpansionStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsNormalisedDataNormalCoefficientFieldStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.OneMapEveryNormalisedFamilyAtCoreConstantsStatement
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle023
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle010
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle016
+public import Formalism.LocalToGlobal.IndefiniteReal.Bundle026
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2551
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2654
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle957
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle742
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle651
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle833
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle950
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle987
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -48,7 +48,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
-public import Development.AbelianVarietyTheory.Definitions.ThetaValues.ExistsRootNotMem
+public import Development.AbelianVarietyTheory.Definitions.ThetaValues.Bundle001
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.OneMapOfOfExtends
 
 @[expose] public section

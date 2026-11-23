@@ -1,9 +1,8 @@
 module
 
-public import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProperCohomology.FormalDegree
+public import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProperCohomology.Bundle013
 public import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProperCohomology.ReesCech
-public import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProperCohomology.CechFamily
-public import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProperCohomology.ReesNatural
+public import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProperCohomology.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

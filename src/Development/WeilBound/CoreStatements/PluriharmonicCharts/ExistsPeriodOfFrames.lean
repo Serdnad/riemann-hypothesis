@@ -1,6 +1,6 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.OmHeightslockG
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle097
 public import Development.AbelianVarietyTheory.Proofs.ToricGeometry.ExistsContraction
 public import Development.WeilBound.CoreStatements.PluriharmonicCharts.IsOpenDet
 public import Development.WeilBound.CoreStatements.PluriharmonicCharts.ExistsPeriodMatrix

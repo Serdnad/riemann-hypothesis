@@ -3,7 +3,7 @@ module
 import Development.WeilBound.CoreStatements.GaussianSeminormBounds.RealSeminormFiltration.RLLines
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsFockMap
 public import Mathlib.RingTheory.PiTensorProduct
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ExistsBoundPolyMulExp
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle023
 public import Development.WeilBound.CoreStatements.GaussianSeminormBounds.RealSeminormFiltration.RLActs
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

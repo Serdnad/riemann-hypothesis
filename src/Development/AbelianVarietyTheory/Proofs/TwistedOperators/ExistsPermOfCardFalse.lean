@@ -5,10 +5,10 @@ public import Development.AbelianVarietyTheory.Definitions.Divisors.BasePlaceNot
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.NodeYPredEqChainVertexAtRowZeroLast
 public import Development.AbelianVarietyTheory.Definitions.Foundations.UnitarySixTwoHarishChandraParameter
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsFrameOfHasSignature
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.CardWeightSetGridEqGridRowSpaceRankStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.GridParamRegularCardMinusCountStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.GridParameterRegularCardEqRankFormulaStatement
-import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.SignatureConjugationInvariant
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle246
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle194
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle264
+import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -115,8 +115,8 @@ theorem exists_perm_of_card_false {n : ℕ} (ε ε' : Fin n → Bool)
 theorem exists_isEnum_of_regular {n : ℕ} {S : SPar} (hS : SignedHC.IsRegular S) (hc : S.card = n) :
     ∃ (lam : Fin n → ℝ) (ε : Fin n → Bool), IsEnum S lam ε ∧
       (Finset.univ.filter fun a => ε a = false).card = SignedHC.nMinus S := by
-  have hc' : (entries S).card = n := (SignedHC.IsRegular.card_entries hS).trans hc
-  have hinj : Function.Injective (descEnum (entries S) hc') := (strictAnti_descEnum _ hc').injective
+  have hc' : (GlobalTheory.SignedHC.entries S).card = n := (SignedHC.IsRegular.card_entries hS).trans hc
+  have hinj : Function.Injective (descEnum (GlobalTheory.SignedHC.entries S) hc') := (strictAnti_descEnum _ hc').injective
   have hS' : S = Finset.univ.image fun a => (descEnum _ hc' a, sign S (descEnum _ hc' a)) := by
     conv_lhs => rw [SignedHC.IsRegular.eq_ofSign hS, ← image_descEnum _ hc', ofSign, Finset.image_image]
     rfl

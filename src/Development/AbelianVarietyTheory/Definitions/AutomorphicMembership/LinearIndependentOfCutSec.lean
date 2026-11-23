@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsTangent
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle006
 public import ReciprocityTheory.GeometryOfNumbers.LatticeCovolumes.ConjSymm
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

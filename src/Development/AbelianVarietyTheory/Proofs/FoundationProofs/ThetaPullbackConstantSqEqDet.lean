@@ -1,25 +1,25 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.HalfPeriodThetaDifferentiableAndSignedTranslateI
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle250
 public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.IntMIffInt
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsPosHermFormV
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle210
 public import Formalism.SharpRestriction.GlobalSchurBounds.StandardLatticesGL3
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.AdmissibleCharactersExist
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.CoordsAlongOrthonormalRealSubfieldBasis
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsIntegerMapEqHalfOneAddSqrt
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsPeriodPairIdealCurveLattice
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.HeisenbergReproducingKernelSumSpec
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle316
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle225
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle226
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle228
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle243
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.InducedTypeThetaGenusOnePermutes
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IntegralDensEqZero
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IntegralHeisKerSumDiag
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsAddHaarMeasurePi
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.LatticeCovolumePosAndSelfDual
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.MeanSquareOrthoProductThetaEqProd
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.OddThetaFunctionExistenceUniqueness
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.OrthoProductThetaMemThetaSpaceOfLattice
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.PhDetMulIntegral
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle245
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle290
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle223
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle227
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle231
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle222
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle263
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ThetaSpaceSelfDualPairAtMostLine
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ThetaTranslationIntertwinerUnitary
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle303
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -387,6 +387,12 @@ theorem normSq_ne_zero (D : D7) (cc : Ideal (𝓞 D.host.K)) (δ : ℂ) (hC : Cr
   have hdisc := GlobalTheory.ThetaInter.discrete_of_selfDual hH hd hfg
   have : Countable A := countable_of_Lindelof_of_discrete
   obtain ⟨n, b, hb⟩ := GlobalTheory.ThetaInter.exists_basis hdisc hsp
+  haveI : (volume : Measure (VC D N N')).IsAddHaarMeasure :=
+    Formalism.L2.GlobalTheoryTheory.IntegralLatticeDensity.instHaarVC D N N'
+  haveI : VAddInvariantMeasure (VC D N N') (VC D N N') volume :=
+    Measure.IsAddLeftInvariant.vaddInvariantMeasure
+  have hvol : (volume : Measure (VC D N N')) ≠ 0 :=
+    Measure.measure_univ_pos.mp (isOpen_univ.measure_pos _ ⟨0, Set.mem_univ _⟩)
   have hFd := exists_bounded_domain volume b hb
   set f := GlobalTheory.ThetaInter.rho (GlobalTheory.ThetaInter.sesqOf D (tor0 D cc δ) N N') G with hf
   have hper : ∀ x ∈ A, ∀ z, f (z + x) = f z := fun x hx z =>
@@ -396,7 +402,7 @@ theorem normSq_ne_zero (D : D7) (cc : Ideal (𝓞 D.host.K)) (δ : ℂ) (hC : Cr
   change GlobalTheory.ThetaInter.mean volume A f ≠ 0
   rw [GlobalTheory.ThetaInter.mean_eq volume b hb hper, setAverage_eq, smul_eq_mul]
   have hbd := ZSpan.fundamentalDomain_isBounded b
-  refine mul_ne_zero (inv_ne_zero (ENNReal.toReal_pos (hFd.measure_ne_zero (NeZero.ne _))
+  refine mul_ne_zero (inv_ne_zero (ENNReal.toReal_pos (hFd.measure_ne_zero hvol)
     hbd.measure_lt_top.ne).ne') (ne_of_gt ?_)
   rw [setIntegral_pos_iff_support_of_nonneg_ae (Filter.Eventually.of_forall hnn)
     ((hcont.continuousOn.integrableOn_compact hbd.isCompact_closure).mono_set subset_closure), pos_iff_ne_zero]
@@ -505,6 +511,12 @@ theorem const_sq_of_det_ne_zero (D : D7) (cc : Ideal (𝓞 D.host.K)) (δ : ℂ)
   rw [inf_comm] at hsp
   obtain ⟨n, β, hβ⟩ := GlobalTheory.ThetaInter.exists_basis (A := A ⊓ A')
     (DiscreteTopology.of_subset hdisc (inf_le_left : A ⊓ A' ≤ A)) hsp
+  haveI : (volume : Measure (VC D N N')).IsAddHaarMeasure :=
+    Formalism.L2.GlobalTheoryTheory.IntegralLatticeDensity.instHaarVC D N N'
+  haveI : VAddInvariantMeasure (VC D N N') (VC D N N') volume :=
+    Measure.IsAddLeftInvariant.vaddInvariantMeasure
+  have hvol : (volume : Measure (VC D N N')) ≠ 0 :=
+    Measure.measure_univ_pos.mp (isOpen_univ.measure_pos _ ⟨0, Set.mem_univ _⟩)
   have hFd := exists_bounded_domain volume β hβ
   have hbd := ZSpan.fundamentalDomain_isBounded β
   have : Countable ↥(A ⊓ A') := (AddSubgroup.inclusion_injective (inf_le_left : A ⊓ A' ≤ A)).countable
@@ -527,7 +539,7 @@ theorem const_sq_of_det_ne_zero (D : D7) (cc : Ideal (𝓞 D.host.K)) (δ : ℂ)
     inv_pos.2 (Real.sqrt_pos.2 (Nat.cast_pos.2 (Nat.pos_of_ne_zero hn)))
   have hph := ph_const_mul_det volume (formV D T N N') hHp a hau (by rwa [hadet]) A (A ⊓ A') hfg inf_le_left hfi
     (fun y hy => (haA y).1 hy.2) (al D T) hsc (fun y _ => by simp only [al, hau]) _ hFd
-    (hFd.measure_ne_zero (NeZero.ne _)) hbd.measure_lt_top.ne θ
+    (hFd.measure_ne_zero hvol) hbd.measure_lt_top.ne θ
     (fun F hF hF' => hline F ⟨hF, hF'⟩ θ hθ hθne)
     (fun q : A' ⧸ A.addSubgroupOf A' => ((Quotient.out q : A') : VC D N N'))
     (fun q y hy => hint' _ (Quotient.out q : A').2 y hy.2) (QuotientAddGroup.mk 0)

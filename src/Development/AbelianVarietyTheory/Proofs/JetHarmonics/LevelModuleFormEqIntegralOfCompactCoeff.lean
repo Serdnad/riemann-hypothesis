@@ -1,23 +1,23 @@
 module
 
-public import Formalism.HermitianCurvature.HerGenC
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.IntegrableOfDecay4
+public import Formalism.HermitianCurvature.Bundle006
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle178
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.StandardPairingDecay
 public import Formalism.HermitianCurvature.StatementHeads
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.AeNeZeroComplex
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.ContinuousHsInner
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.HeadGermSmoothExtension
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.HermMulVecMulVec
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.InvariantOperatorUnderJacquet
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle185
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle243
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle030
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle115
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.LevelsOfBuiltSetting
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.MemLevelZeroOfMemGroup
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle179
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.ModuleFormEqRadialFormOne
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.OppositeWeylSubgroupClosed
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.PBFVnice
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.PBFVpic
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.PbRadHeadOf
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.QNFAsm
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.RadialExhaustion
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle186
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle187
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle128
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle247
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.RadialTransportPlus
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.RankOneEmbeddings
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.SliceCompactSupportCoefficient
@@ -596,7 +596,7 @@ theorem planeWave_top (hP : P5.ThmPActualCpt) (hHT : KB.HeadTop) (hOne : FormCon
       rw [Formalism.FourierDecayAlt.P.PBFV.first_minor_top_eq_zeta hr0]
     have hΨ := Formalism.FourierDecayAlt.P.PBFV.radPic_wave (p.T.bs jF) ε s w x hxn Φ hΦ _ (by omega) hm Wv Wv' hW
     have hform := hOne Wp Wq P p.T jF X μ L st p.l0 hD hμ hl1 hlk w _ _ _ _ (waveG_cptCoef _ s w x hcx) hcx' hΨ hΦ'
-    have hmeas : Measurable fun ζ => fsv s ζ * ψ ζ := (continuous_fsv s).measurable.mul hψm
+    have hmeas : Measurable fun ζ => fsv s ζ * ψ ζ := (P5.continuous_fsv s).measurable.mul hψm
     have hlaw := zetaNorm_integral hμ (fun ζ => fsv s ζ * ψ ζ) hmeas
     rw [hTz, hTz'] at hlaw
     calc ∫ c, fsv s c * φ c = ∫ ζ, (B2.zWeight P.k P.T P.T' ζ : ℂ) * (fsv s ζ * ψ ζ) := by

@@ -1,12 +1,12 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsMixedSectionStep
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsSmallSectionMixed
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsIntegralAgainstPositive
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsZCombExpand
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.StatementsArith
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle047
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle057
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle018
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle055
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle022
 public import Mathlib.RingTheory.RegularLocalRing.Defs
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PShiftNefBig
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle079
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PSmallSectionMixed
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PZCombLimit
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.NotLtLtOfMemMinimalPrimes
@@ -54,7 +54,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterDivSupp
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle015
 
 @[expose] public section
 

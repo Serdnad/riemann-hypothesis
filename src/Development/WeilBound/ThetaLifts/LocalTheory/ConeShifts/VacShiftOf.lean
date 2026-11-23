@@ -1,13 +1,13 @@
 module
 
 public import Development.WeilBound.ThetaLifts.EigenvalueEndgame.EigenKilling.ConeIntegralFactorisation
-public import Development.WeilBound.ThetaLifts.LocalTheory.ConeShifts.FinStmt
-public import Development.WeilBound.ThetaLifts.LocalTheory.ConeShifts.PureIte
+public import Development.WeilBound.ThetaLifts.LocalTheory.ConeShifts.Bundle001
+public import Development.WeilBound.ThetaLifts.LocalTheory.ConeShifts.Bundle003
 public import Development.WeilBound.ThetaLifts.LocalTheory.UnramifiedDeterminedBySpherical
 public import Development.WeilBound.ThetaLifts.LocalTheory.ConeShifts.ConeFactorisationOfCodimensionTwo
 public import Development.WeilBound.ThetaLifts.LocalTheory.ConeShifts.FinSpan
 public import Development.WeilBound.ThetaLifts.LocalTheory.ConeShifts.FubMain
-public import Development.WeilBound.ThetaLifts.LocalTheory.ConeShifts.IdealId0
+public import Development.WeilBound.ThetaLifts.LocalTheory.ConeShifts.Bundle002
 public import Development.WeilBound.ThetaLifts.LocalTheory.ConeShifts.KAtCompact
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

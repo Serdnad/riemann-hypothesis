@@ -1,7 +1,7 @@
 module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.GammaLaurentFactors.MatchIndOf
-public import GroundTheory.AutomorphicForms.GL2.GJFEDefs
+public import GroundTheory.AutomorphicForms.GL2.Bundle005
 import Formalism.DoubleCosetMeasures.Statement
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -46,6 +46,7 @@ open GroundTheory.Automorphic.GodementJacquet
 open scoped NNReal Classical ValuativeRel
 
 attribute [-instance] Formalism.DoubleCosetMeasures.instMeasGL
+attribute [-instance] GlobalTheory.CompanionTheory.QL.instMeasGL GlobalTheory.CompanionTheory.QL.instBorelGL
 
 namespace UpperTheory.V.Z.Gam
 

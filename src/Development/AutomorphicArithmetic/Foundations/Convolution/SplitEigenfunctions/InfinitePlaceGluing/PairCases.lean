@@ -1,8 +1,8 @@
 module
 
-public import Development.AutomorphicArithmetic.Foundations.Convolution.SplitEigenfunctions.Entire
+public import Development.AutomorphicArithmetic.Foundations.Convolution.SplitEigenfunctions.Bundle001
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.InvOneSubBound
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.PairCases
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle030
 public import GroundTheory.GlobalFields.AnalyticClassNumber.DirichletHecke
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -52,17 +52,17 @@ open UpperTheory.ConvolutionTheory.RankTwoDescent GroundTheory.Global
 
 namespace UpperTheory.ConvolutionTheory.RankTwoDescent.MultiplicativeMajorants
 
-private def Maj (f : PowerSeries ℂ) (A : ℝ) : Prop := ∀ k, ‖PowerSeries.coeff k f‖ ≤ A ^ k
+private def SeriesMajorant (f : PowerSeries ℂ) (A : ℝ) : Prop := ∀ k, ‖PowerSeries.coeff k f‖ ≤ A ^ k
 
-private theorem maj_one {A : ℝ} (hA : 1 ≤ A) : Maj 1 A := by
+private theorem maj_one {A : ℝ} (hA : 1 ≤ A) : SeriesMajorant 1 A := by
   intro k
   rw [PowerSeries.coeff_one]
   split_ifs with h
   · subst h; simp
   · simpa using pow_nonneg (by linarith : (0 : ℝ) ≤ A) k
 
-private theorem maj_mul {f g : PowerSeries ℂ} {A : ℝ} (hA : 0 ≤ A) (hf : Maj f A) (hg : Maj g A) :
-    Maj (f * g) (2 * A) := by
+private theorem maj_mul {f g : PowerSeries ℂ} {A : ℝ} (hA : 0 ≤ A) (hf : SeriesMajorant f A) (hg : SeriesMajorant g A) :
+    SeriesMajorant (f * g) (2 * A) := by
   intro k
   rw [PowerSeries.coeff_mul]
   calc ‖∑ p ∈ Finset.HasAntidiagonal.antidiagonal k, PowerSeries.coeff p.1 f * PowerSeries.coeff p.2 g‖
@@ -88,14 +88,14 @@ private theorem gs_mul (x : ℂ) : Gs x * (1 - PowerSeries.C x * PowerSeries.X) 
     rw [PowerSeries.coeff_succ_mul_X, PowerSeries.coeff_mul_C]
     simp [Gs, pow_succ, PowerSeries.coeff_one]
 
-private theorem gs_maj {x : ℂ} {R : ℝ} (h : ‖x‖ ≤ R) : Maj (Gs x) R := by
+private theorem gs_maj {x : ℂ} {R : ℝ} (h : ‖x‖ ≤ R) : SeriesMajorant (Gs x) R := by
   intro k
   simp only [Gs, PowerSeries.coeff_mk, norm_pow]
   exact pow_le_pow_left₀ (norm_nonneg _) h k
 
 private theorem inv4 {x₁ x₂ x₃ x₄ : ℂ} {R : ℝ} (h₁ : ‖x₁‖ ≤ R) (h₂ : ‖x₂‖ ≤ R) (h₃ : ‖x₃‖ ≤ R) (h₄ : ‖x₄‖ ≤ R) :
     ∃ S : PowerSeries ℂ, S * ((1 - PowerSeries.C x₁ * PowerSeries.X) * (1 - PowerSeries.C x₂ * PowerSeries.X) *
-      (1 - PowerSeries.C x₃ * PowerSeries.X) * (1 - PowerSeries.C x₄ * PowerSeries.X)) = 1 ∧ Maj S (4 * R) ∧
+      (1 - PowerSeries.C x₃ * PowerSeries.X) * (1 - PowerSeries.C x₄ * PowerSeries.X)) = 1 ∧ SeriesMajorant S (4 * R) ∧
       PowerSeries.coeff 0 S = 1 := by
   have hR : 0 ≤ R := (norm_nonneg _).trans h₁
   refine ⟨(Gs x₁ * Gs x₂) * (Gs x₃ * Gs x₄), ?_, ?_, ?_⟩
@@ -114,7 +114,7 @@ private theorem inv4 {x₁ x₂ x₃ x₄ : ℂ} {R : ℝ} (h₁ : ‖x₁‖ �
     simp [hG]
 
 private theorem arith (T : ℕ → PowerSeries ℂ) (h0 : ∀ p : ℕ, p.Prime → PowerSeries.coeff 0 (T p) = 1)
-    (hM : ∀ p : ℕ, p.Prime → Maj (T p) (4 * p)) :
+    (hM : ∀ p : ℕ, p.Prime → SeriesMajorant (T p) (4 * p)) :
     ∃ a : ℕ → ℂ, a 1 = 1 ∧ (∀ m n, m.Coprime n → a (m * n) = a m * a n) ∧
       (∀ p k : ℕ, p.Prime → a (p ^ k) = PowerSeries.coeff k (T p)) ∧ ∀ s : ℂ, 4 < s.re → LSeriesSummable a s := by
   let a : ℕ → ℂ := fun n => if n = 0 then 0 else n.factorization.prod fun p k => PowerSeries.coeff k (T p)
@@ -265,7 +265,7 @@ private theorem den_inv (hE : Module.finrank ℚ E = 2) {P : CuspSub E 2} {χ : 
     {Q : PowerSeries ℂ}
     (hs : ∀ (w : H.P E) (α β : ℂˣ), (CG.mk P).HasSat w {α, β} → ‖(α : ℂ)‖ ^ 2 ≤ normV w)
     (hc : ‖((χ.val v : ℂˣ) : ℂ)‖ = 1) (h : Den P χ v Q) :
-    ∃ S : PowerSeries ℂ, S * Q = 1 ∧ Maj S (4 * normV v) ∧ PowerSeries.coeff 0 S = 1 := by
+    ∃ S : PowerSeries ℂ, S * Q = 1 ∧ SeriesMajorant S (4 * normV v) ∧ PowerSeries.coeff 0 S = 1 := by
   have hs' : ∀ (w : H.P E) (α β : ℂˣ), (CG.mk P).HasSat w {α, β} → ‖(β : ℂ)‖ ^ 2 ≤ normV w :=
     fun w α β hh => hs w β α (by rwa [Multiset.pair_comm])
   have q1 : (1 : ℝ) ≤ normV v := by exact_mod_cast (nv_prime v).one_le
@@ -324,7 +324,7 @@ theorem UpperTheory.ConvolutionTheory.RankTwoDescent.asEx_of :
     have := (Classical.choose_spec (den_inv hE hs (hc' v) h.choose_spec)).1
     rw [← den_unique hE h.choose_spec hd]
     exact this
-  have tvM : ∀ v, Maj (Tv v) (4 * normV v) := by
+  have tvM : ∀ v, SeriesMajorant (Tv v) (4 * normV v) := by
     intro v
     have q1 : (1 : ℝ) ≤ 4 * normV v := by
       have : (1 : ℝ) ≤ normV v := by exact_mod_cast (nv_prime v).one_le
@@ -354,7 +354,7 @@ theorem UpperTheory.ConvolutionTheory.RankTwoDescent.asEx_of :
     · simp
     · exact tv0 _
     · simp
-  have hM : ∀ p : ℕ, p.Prime → Maj (T p) (4 * p) := by
+  have hM : ∀ p : ℕ, p.Prime → SeriesMajorant (T p) (4 * p) := by
     intro p pp
     have q1 : (1 : ℝ) ≤ 4 * p := by
       have : (1 : ℝ) ≤ p := by exact_mod_cast pp.one_le

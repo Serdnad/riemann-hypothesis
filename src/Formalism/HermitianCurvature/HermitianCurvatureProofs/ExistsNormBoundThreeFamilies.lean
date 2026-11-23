@@ -1,6 +1,6 @@
 module
 
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.GramLocSetCApp
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle222
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.RatioBound
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.BlockOfChoices
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.ComponentFamilySettingOfSettingBis

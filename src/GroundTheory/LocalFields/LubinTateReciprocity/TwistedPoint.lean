@@ -2,7 +2,7 @@ module
 
 public import GroundTheory.LocalFields.LubinTateReciprocity.RootEval
 public import GroundTheory.LocalFields.LubinTateTorsion
-public import GroundTheory.LocalFields.FormalGroups.FrobeniusTwist
+public import GroundTheory.LocalFields.FormalGroups.Bundle001
 public import GroundTheory.LocalFields.FormalGroups.OverUnramified
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

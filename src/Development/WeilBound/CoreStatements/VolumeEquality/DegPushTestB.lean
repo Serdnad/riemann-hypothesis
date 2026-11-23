@@ -1,11 +1,11 @@
 module
 
 public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Objects
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.IsIntersectionFamily
-public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.Assembly
-import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.PDivPrincipalDegree
-import GroundTheory.HeightsAndTheta.Heights.HeightComparison.IsMultiHomogIdealIff
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.ExistsLinearIndependentOfGenerates
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle004
+public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.Bundle014
+import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.Bundle005
+import GroundTheory.HeightsAndTheta.Heights.HeightComparison.Bundle003
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle090
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -44,7 +44,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsHilbert
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle003
 
 @[expose] public section
 

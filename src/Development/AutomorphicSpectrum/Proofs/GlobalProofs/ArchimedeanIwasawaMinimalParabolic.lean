@@ -38,9 +38,9 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.OfIsSmoothModerate
-import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.HarishChandraFinite
-import Development.AutomorphicSpectrum.Proofs.GlobalProofs.FiniteDimensionalOfSlices
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1916
+import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.Bundle011
+import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle069
 import Development.AutomorphicSpectrum.Proofs.GlobalProofs.MemFormsOnOfMemSpan
 
 @[expose] public section

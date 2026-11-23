@@ -2,7 +2,7 @@ module
 
 import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TensorRepresentations.DecompB
 public import Mathlib.Analysis.InnerProductSpace.PiL2
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.BochnerInequality.IsKUnitaryOfIsInfUnitary
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.BochnerInequality.Bundle001
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TensorRepresentations.HidaSetting
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

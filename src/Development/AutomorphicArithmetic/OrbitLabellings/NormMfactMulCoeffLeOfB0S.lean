@@ -1,12 +1,12 @@
 module
 
-public import Development.AutomorphicArithmetic.OrbitLabellings.ColDefs
+public import Development.AutomorphicArithmetic.OrbitLabellings.Bundle001
 public import Development.AutomorphicArithmetic.OrbitLabellings.BeSConstantCoeffEqZeroAndWtGe
-import Formalism.GaussJetBounds.GaussJetProofs.AsmRDotAddRight
+import Formalism.GaussJetBounds.GaussJetProofs.Bundle002
 import Formalism.GaussJetBounds.GaussJetProofs.LogarithmWeightComparison
 import Formalism.GaussJetBounds.GaussJetProofs.NormNatCastEqPowPadicValNat
 import Formalism.GaussJetBounds.GaussJetProofs.SubstitutionWeightBound
-import Formalism.IncomingBounds.FlowDegreeBounds.ProdRangeEqFactorialMulProdIco
+import Formalism.IncomingBounds.FlowDegreeBounds.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

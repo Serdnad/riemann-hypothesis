@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.IndefiniteReal.LinksW
+public import Formalism.LocalToGlobal.IndefiniteReal.Bundle023
 public import Formalism.LocalToGlobal.IndefiniteReal.BridgeLemmas
 public import Formalism.LocalToGlobal.IndefiniteReal.LinksStage
 public import Formalism.LocalToGlobal.Divisibility.ClassSumLemmas

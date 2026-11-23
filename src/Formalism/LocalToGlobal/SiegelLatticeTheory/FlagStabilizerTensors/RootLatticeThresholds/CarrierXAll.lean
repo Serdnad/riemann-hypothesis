@@ -1,32 +1,29 @@
 module
 
-public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.CarrierTTypes
-public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.GridsRichITc
-public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.PolynomialLeDecayThreshold
+public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.Bundle041
+public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.Bundle051
+public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.Bundle006
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.CarPinVt
-public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.CarrierXJointAt
+public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.Bundle056
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.IsAdmissibleSplittingCharPairMulTwist
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.BetaCutoffLimit
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.RealInputsBuiltClosedForm
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle096
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.TheoremPIntegralOfPlaces
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.ComponentFamilySettingOfSetting
-public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.CarrierInputExistsBuilt
-public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.CarrierTCoefCap
+public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.Bundle013
+public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.Bundle047
 public import Formalism.SharpRestriction.CuspSpanNormBounds.BruhatCellsKronecker.CfgTopFalseIff
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.ParametersUPrimeForULower
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.RestrictionIrrelevantDoubleLevelOperator
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.TLFinal
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.CasimirReductionTheory.OneParameterDerivatives.Admissible
-public import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.EnergyIntTor
-public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.CarPinVtLZero
-public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.CarPinVtPtSome
-public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.CarPinVtRZero
-public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.CarrierDataBuiltOfCompactTest
+public import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.Bundle040
+public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.Bundle049
+public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.Bundle015
+public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.Bundle046
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.CarrierPropGram
-public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.CarrierTParNums
-public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.CarrierXCap
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.CoefCCT
-import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.CoefDecay
+import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.Bundle060
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.SzHypOf
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.WeightDeterminantBlockEq
 import Formalism.SharpRestriction.CuspSpanNormBounds.NonemptyParameterModels.AmpTensorDSdNonemptyOfSubsingleton
@@ -399,9 +396,9 @@ open Formalism.L2.SG.Pf.Carrier.CarPinVt
 attribute [local instance] Formalism.BasicNotions.Host.cmStar instCM
 
 theorem cut_len {D : D7} {X : Formalism.L2.SG.HidaSetting.HidaSetting D} {u u' : D.what₂.Word} (I : CarrierIn X u u') (v : Fin I.nf) :
-    (sOf I).cutHi v - (sOf I).cutLo v = I.G.Del / 2 - 5 / 2 := by
+    (_root_.Formalism.L2.SG.Pf.Carrier.sOf I).cutHi v - (_root_.Formalism.L2.SG.Pf.Carrier.sOf I).cutLo v = I.G.Del / 2 - 5 / 2 := by
   unfold Formalism.FourierDecayAlt.C.HidaSetting.cutHi Formalism.FourierDecayAlt.C.HidaSetting.cutLo
-  have : ((sOf I).G.place ((sOf I).pl v)).Del = I.G.Del := rfl
+  have : ((_root_.Formalism.L2.SG.Pf.Carrier.sOf I).G.place ((_root_.Formalism.L2.SG.Pf.Carrier.sOf I).pl v)).Del = I.G.Del := rfl
   rw [this]; ring
 
 variable {D : D7} (X : Formalism.L2.SG.HidaSetting.HidaSetting D) {θ : ℝ} (C : Choice X θ)
@@ -446,7 +443,7 @@ theorem carrierDataBuilt_of_towers (Cb Cc C₆ : ℝ) (u u' : D.what₂.Word) (e
     (hA : Cc * ((D.R.rS : ℝ) + 1) ^ 4 *
       (((4 * Formalism.FourierDecayAlt.C.Kst * (D.R.rS + 1) : ℕ) : ℝ) * (2 * (D.R.rS : ℝ) + D.R.k + 1) ^ 2 +
         (2 * (D.R.rS : ℝ) + D.R.k + 1) ^ 3) ≤ A₀)
-    (hSB : Formalism.FourierDecayAlt.JCT.SliceBudget (sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)) A₀)
+    (hSB : Formalism.FourierDecayAlt.JCT.SliceBudget (_root_.Formalism.L2.SG.Pf.Carrier.sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)) A₀)
     (h : ℝ) (hgap : ∀ j, Formalism.QuantumDeterminants.GapAtLeast (epsSH D.R) (lamD D (e (plE D j))) h)
     (hok : Formalism.FourierDecayAlt.ThreeDimData.GapOK D.R.k D.R.rS h) (hA0 : 0 ≤ A₀) (hAh : A₀ ≤ h / 2)
     (hka : ∀ j, PI.UpqRep.IsKFinHpk (k := D.R.k) (r := D.R.rS)
@@ -455,17 +452,17 @@ theorem carrierDataBuilt_of_towers (Cb Cc C₆ : ℝ) (u u' : D.what₂.Word) (e
       (sigB X (C.Q (e (plE D j))) (C.Qi (e (plE D j))) (e (plE D j))) (b j))
     (hsm : ∀ j, Formalism.FourierDecayAlt.B.CkOn ⊤ (Formalism.FourierDecayAlt.B.GV D.R.k D.R.rS) (fcT X C e u u' a b ξ ξ' cc j))
     (hcap : CoefCap (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀))
-    (hJT : Formalism.FourierDecayAlt.D.IsBuilt (sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)) (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).T (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).fc (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).χ (nuE X C u' e i0') (m0E X C u u' e) (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).top A₀ →
-      JointTensorAt X u u' (sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)) (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).T (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).fc
+    (hJT : Formalism.FourierDecayAlt.D.IsBuilt (_root_.Formalism.L2.SG.Pf.Carrier.sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)) (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).T (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).fc (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).χ (nuE X C u' e i0') (m0E X C u u' e) (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).top A₀ →
+      JointTensorAt X u u' (_root_.Formalism.L2.SG.Pf.Carrier.sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)) (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).T (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).fc
       (nuE X C u' e i0') (m0E X C u u' e) (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).τ (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).eP (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).eQ sc i0 i0' νq) (hsc : 0 < sc)
-    (hPt : PtSome (sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)))
-    (hW : WtTie X (sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)) u u')
+    (hPt : PtSome (_root_.Formalism.L2.SG.Pf.Carrier.sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)))
+    (hW : WtTie X (_root_.Formalism.L2.SG.Pf.Carrier.sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)) u u')
     (hLz : LZero X u u' sc i0 i0' FdN FdN' νq)
-    (hRz : RZero X (sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)) u u' (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).T (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).fc (nuE X C u' e i0') (m0E X C u u' e))
-    (hE2 : Formalism.FourierDecayAlt.D.IsBuilt (sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)) (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).T (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).fc (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).χ (nuE X C u' e i0') (m0E X C u u' e) (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).top A₀ →
+    (hRz : RZero X (_root_.Formalism.L2.SG.Pf.Carrier.sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)) u u' (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).T (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).fc (nuE X C u' e i0') (m0E X C u u' e))
+    (hE2 : Formalism.FourierDecayAlt.D.IsBuilt (_root_.Formalism.L2.SG.Pf.Carrier.sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)) (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).T (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).fc (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).χ (nuE X C u' e i0') (m0E X C u u' e) (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).top A₀ →
       (∏ v, (Formalism.FourierDecayAlt.B.normSq ((ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).T v).base ((ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).fc v)).toReal /
-      Formalism.FourierDecayAlt.D.GamLev (sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)).G.k (sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)).G.r (Formalism.FourierDecayAlt.D.kapG (sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)).g (Formalism.FourierDecayAlt.S6.rd D.host.E))
-        (Formalism.FourierDecayAlt.D.deG (sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)).g (Formalism.FourierDecayAlt.S6.rd D.host.E)) 0) = jn)
+      Formalism.FourierDecayAlt.D.GamLev (_root_.Formalism.L2.SG.Pf.Carrier.sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)).G.k (_root_.Formalism.L2.SG.Pf.Carrier.sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)).G.r (Formalism.FourierDecayAlt.D.kapG (_root_.Formalism.L2.SG.Pf.Carrier.sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)).g (Formalism.FourierDecayAlt.S6.rd D.host.E))
+        (Formalism.FourierDecayAlt.D.deG (_root_.Formalism.L2.SG.Pf.Carrier.sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)).g (Formalism.FourierDecayAlt.S6.rd D.host.E)) 0) = jn)
     (hLe : Ce * ((D.R.k : ℝ) * ((4 * Formalism.FourierDecayAlt.C.Kst * (D.R.rS + 1) : ℕ) : ℝ) * ((D.R.rS : ℝ) + 1) ^ 2 + ((4 * Formalism.FourierDecayAlt.C.Kst * (D.R.rS + 1) : ℕ) : ℝ) ^ 2 * ((D.R.rS : ℝ) + 1) ^ 2 + ((4 * Formalism.FourierDecayAlt.C.Kst * (D.R.rS + 1) : ℕ) : ℝ) ^ 3) ≤
       (D.s.Del : ℝ) / 2 - 5 / 2)
     (hC6e : fourierDecayLevelZeroConst * ((D.R.k : ℝ) * ((4 * Formalism.FourierDecayAlt.C.Kst * (D.R.rS + 1) : ℕ) : ℝ) * ((D.R.rS : ℝ) + 1) ^ 2 + ((4 * Formalism.FourierDecayAlt.C.Kst * (D.R.rS + 1) : ℕ) : ℝ) ^ 2 * ((D.R.rS : ℝ) + 1) ^ 2) ≤ (D.s.Del : ℝ) / 2 - 5 / 2)
@@ -482,25 +479,25 @@ theorem carrierDataBuilt_of_towers (Cb Cc C₆ : ℝ) (u u' : D.what₂.Word) (e
       (fun _ => hok) hA0 (fun _ => hAh) hka hkb
   have hG := gridsOK_ITc X C u u' e he hv CA de de' l (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀ hlen hOk hl2
   have hR := gridsRich_ITc X C u u' e he hv CA de de' l (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀ hlen
-  have hL : Formalism.FourierDecayAlt.JCT.LongCut Cc (sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)) := fun v => le_of_le_of_eq hLc (cut_len (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀) v).symm
+  have hL : Formalism.FourierDecayAlt.JCT.LongCut Cc (_root_.Formalism.L2.SG.Pf.Carrier.sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)) := fun v => le_of_le_of_eq hLc (cut_len (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀) v).symm
   have hB := isBuiltPlace_of_compact_test X C Cb Cc u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc)
     cutStd i0' Θ TP A₀ hN' hty' hcc hcap hΘ hDD hOk hw hw' hl1 hl2 hne hG hR hL hCA hsm hA
-  have hcut : ∀ v, C₆ * ((D.R.k : ℝ) * (sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)).Ntop * ((D.R.rS : ℝ) + 1) ^ 2 +
-        ((sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)).Ntop : ℝ) ^ 2 * ((D.R.rS : ℝ) + 1) ^ 2) ≤
-      (sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)).cutHi v - (sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)).cutLo v := fun v => le_of_le_of_eq hC6 (cut_len (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀) v).symm
-  have hVJ := vJoint_of_tensorAt X u u' (sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)) (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).T (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).fc (nuE X C u' e i0') (m0E X C u u' e) (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).τ
+  have hcut : ∀ v, C₆ * ((D.R.k : ℝ) * (_root_.Formalism.L2.SG.Pf.Carrier.sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)).Ntop * ((D.R.rS : ℝ) + 1) ^ 2 +
+        ((_root_.Formalism.L2.SG.Pf.Carrier.sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)).Ntop : ℝ) ^ 2 * ((D.R.rS : ℝ) + 1) ^ 2) ≤
+      (_root_.Formalism.L2.SG.Pf.Carrier.sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)).cutHi v - (_root_.Formalism.L2.SG.Pf.Carrier.sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)).cutLo v := fun v => le_of_le_of_eq hC6 (cut_len (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀) v).symm
+  have hVJ := vJoint_of_tensorAt X u u' (_root_.Formalism.L2.SG.Pf.Carrier.sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)) (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).T (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).fc (nuE X C u' e i0') (m0E X C u u' e) (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).τ
     (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).eP (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).eQ sc hsc i0 i0' hi νq (hJT (isBuilt_of_builtPlace hB))
-  have hVt := vtTensor_of_steps X (sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)) u u' sc i0 i0' FdN FdN' νq (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).T (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).fc (nuE X C u' e i0')
+  have hVt := vtTensor_of_steps X (_root_.Formalism.L2.SG.Pf.Carrier.sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)) u u' sc i0 i0' FdN FdN' νq (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).T (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).fc (nuE X C u' e i0')
     (m0E X C u u' e) (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).τ (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).eP (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).eQ hVJ hPt hW hLz hRz
-  have hPG := propGram_of_vtTensor (sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)) _ _ _ _ _ _ A₀ (Formalism.L2.SG.Pf.CarrierSz.g_pos D).1
+  have hPG := propGram_of_vtTensor (_root_.Formalism.L2.SG.Pf.Carrier.sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)) _ _ _ _ _ _ A₀ (Formalism.L2.SG.Pf.CarrierSz.g_pos D).1
     (Formalism.L2.SG.Pf.CarrierSz.g_pos D).2 (isBuilt_of_builtPlace hB) _ hVt
-  have hLe' : Formalism.FourierDecayAlt.JCT.LongCut Ce (sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)) := fun v => le_of_le_of_eq hLe (cut_len (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀) v).symm
+  have hLe' : Formalism.FourierDecayAlt.JCT.LongCut Ce (_root_.Formalism.L2.SG.Pf.Carrier.sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)) := fun v => le_of_le_of_eq hLe (cut_len (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀) v).symm
   have hIBP := isBuiltPlace_carrierInT X C Ce u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc)
     cutStd (nuE X C u' e i0') (m0E X C u u' e) Θ TP A₀ hN' hty'
     (frames_carrierInT X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)
     hcc hcap hw hw' hl1 hl2 hne hG hLe' hCAe hsm hAe
-  have hC6e' : ∀ v, fourierDecayLevelZeroConst * (((sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)).G.k : ℝ) * (sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)).Ntop * (((sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)).G.r : ℝ) + 1) ^ 2 +
-      ((sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)).Ntop : ℝ) ^ 2 * (((sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)).G.r : ℝ) + 1) ^ 2) ≤ (sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)).cutHi v - (sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)).cutLo v :=
+  have hC6e' : ∀ v, fourierDecayLevelZeroConst * (((_root_.Formalism.L2.SG.Pf.Carrier.sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)).G.k : ℝ) * (_root_.Formalism.L2.SG.Pf.Carrier.sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)).Ntop * (((_root_.Formalism.L2.SG.Pf.Carrier.sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)).G.r : ℝ) + 1) ^ 2 +
+      ((_root_.Formalism.L2.SG.Pf.Carrier.sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)).Ntop : ℝ) ^ 2 * (((_root_.Formalism.L2.SG.Pf.Carrier.sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)).G.r : ℝ) + 1) ^ 2) ≤ (_root_.Formalism.L2.SG.Pf.Carrier.sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)).cutHi v - (_root_.Formalism.L2.SG.Pf.Carrier.sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)).cutLo v :=
     fun v => le_of_le_of_eq hC6e (cut_len (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀) v).symm
   have hcutsm : ∀ v ε, 0 < ε → Formalism.FourierDecayAlt.B.CkOn ⊤ (Formalism.FourierDecayAlt.B.GV D.R.k D.R.rS)
       (Formalism.FourierDecayAlt.D.cutF ((ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).T v).base (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).χ ((ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).fc v) ε) :=
@@ -510,13 +507,13 @@ theorem carrierDataBuilt_of_towers (Cb Cc C₆ : ℝ) (u u' : D.what₂.Word) (e
       (j : ∀ v : Fin (nfE D), Formalism.FourierDecayAlt.M.Ty (parE e u u' de de' v) →
         Formalism.FourierDecayAlt.MA.SmQ D.R.rS (parE e u u' de de' v).TT)
       (lam : ∀ v : Fin (nfE D), Fin (D.R.k + 2 * D.R.rS + 1) → ℝ) (Cm σ : Fin (nfE D) → ℝ),
-      (∀ v, Formalism.FourierDecayAlt.JC.IsModelPlace (sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)) (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).T (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).fc (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).χ v (L v) (j v) (lam v) cutStd (Cm v) (σ v)) →
-      (∏ v, Formalism.FourierDecayAlt.JCT.jvModel (sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)) j Cm v) = jn := by
+      (∀ v, Formalism.FourierDecayAlt.JC.IsModelPlace (_root_.Formalism.L2.SG.Pf.Carrier.sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)) (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).T (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).fc (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).χ v (L v) (j v) (lam v) cutStd (Cm v) (σ v)) →
+      (∏ v, Formalism.FourierDecayAlt.JCT.jvModel (_root_.Formalism.L2.SG.Pf.Carrier.sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)) j Cm v) = jn := by
     intro L j lam Cm σ hM
     have hLE := (Formalism.FourierDecayAlt.P.lemma_E_of_model Formalism.FourierDecayAlt.P.lemma_E_of_residue Formalism.FourierDecayAlt.P.level_zero_holds
-      Formalism.FourierDecayAlt.P.good_of_admissible Formalism.FourierDecayAlt.P.lemma_model).choose_spec.2 D.host.E _ _ (sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)) (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).T (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).fc
+      Formalism.FourierDecayAlt.P.good_of_admissible Formalism.FourierDecayAlt.P.lemma_model).choose_spec.2 D.host.E _ _ (_root_.Formalism.L2.SG.Pf.Carrier.sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)) (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).T (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).fc
       (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).χ (nuE X C u' e i0') (m0E X C u u' e) (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).top A₀ L j lam cutStd Cm σ hIBP.2.2.2.1 hcutsm hC6e' hM
-    have hjv := (Formalism.FourierDecayAlt.P.energy_of_built_setting Formalism.FourierDecayAlt.P.beta_cutoff_limit).choose_spec D.host.E _ _ (sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀))
+    have hjv := (Formalism.FourierDecayAlt.P.energy_of_built_setting Formalism.FourierDecayAlt.P.beta_cutoff_limit).choose_spec D.host.E _ _ (_root_.Formalism.L2.SG.Pf.Carrier.sOf (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀))
       (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).T (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).fc (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).χ (nuE X C u' e i0') (m0E X C u u' e) (ITc X C u u' e he hv CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).top A₀ _ hIBP hLE
     rw [← hE2 (isBuilt_of_builtPlace hB)]
     exact Finset.prod_congr rfl (fun v _ => hjv v)
@@ -728,10 +725,10 @@ theorem carrierDataBuilt_of_hyp (Cb : ℝ) (hLift : LiftAt3 Cb) (hCap : CapFromH
     (hE2 : ∀ (Θ : ∀ j : Fin (nfE D), Formalism.FourierDecayAlt.Top.TopLift D.R.k D.R.rS (X.Vloc u (tauE X e j)) (X.Vloc u' (tauE X e j)))
       (TP : ∀ j : Fin (nfE D), Formalism.FourierDecayAlt.Top.TypeProj (parE e u u' de de' j) (towersOf X C u u' e j).base.π
         (towersOf X C u u' e j).base.z (m0E X C u u' e j *ᵥ nuE X C u' e i0' j)) (A₀ : ℝ),
-      Formalism.FourierDecayAlt.D.IsBuilt (sOf (ITc X C u u' e he (host_v D) CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)) (ITc X C u u' e he (host_v D) CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).T (ITc X C u u' e he (host_v D) CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).fc (ITc X C u u' e he (host_v D) CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).χ (nuE X C u' e i0') (m0E X C u u' e) (ITc X C u u' e he (host_v D) CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).top A₀ →
+      Formalism.FourierDecayAlt.D.IsBuilt (_root_.Formalism.L2.SG.Pf.Carrier.sOf (ITc X C u u' e he (host_v D) CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)) (ITc X C u u' e he (host_v D) CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).T (ITc X C u u' e he (host_v D) CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).fc (ITc X C u u' e he (host_v D) CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).χ (nuE X C u' e i0') (m0E X C u u' e) (ITc X C u u' e he (host_v D) CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).top A₀ →
       (∏ v, (Formalism.FourierDecayAlt.B.normSq ((ITc X C u u' e he (host_v D) CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).T v).base ((ITc X C u u' e he (host_v D) CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀).fc v)).toReal /
-        Formalism.FourierDecayAlt.D.GamLev (sOf (ITc X C u u' e he (host_v D) CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)).G.k (sOf (ITc X C u u' e he (host_v D) CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)).G.r (Formalism.FourierDecayAlt.D.kapG (sOf (ITc X C u u' e he (host_v D) CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)).g (Formalism.FourierDecayAlt.S6.rd D.host.E))
-          (Formalism.FourierDecayAlt.D.deG (sOf (ITc X C u u' e he (host_v D) CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)).g (Formalism.FourierDecayAlt.S6.rd D.host.E)) 0) = jn) :
+        Formalism.FourierDecayAlt.D.GamLev (_root_.Formalism.L2.SG.Pf.Carrier.sOf (ITc X C u u' e he (host_v D) CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)).G.k (_root_.Formalism.L2.SG.Pf.Carrier.sOf (ITc X C u u' e he (host_v D) CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)).G.r (Formalism.FourierDecayAlt.D.kapG (_root_.Formalism.L2.SG.Pf.Carrier.sOf (ITc X C u u' e he (host_v D) CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)).g (Formalism.FourierDecayAlt.S6.rd D.host.E))
+          (Formalism.FourierDecayAlt.D.deG (_root_.Formalism.L2.SG.Pf.Carrier.sOf (ITc X C u u' e he (host_v D) CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP A₀)).g (Formalism.FourierDecayAlt.S6.rd D.host.E)) 0) = jn) :
     CarrierDataBound X u u' sc i0 i0' FdN FdN' νq jn CA (Formalism.L2.SG.SpectralTiesReal.gOf D e) de de' l C₆ Cc Cb := by
   obtain ⟨hka, hkb, hrest⟩ := hleaf
   have hsm := fun j => fcT_smooth X C e u u' a b ξ ξ' cc j (hkb j)
@@ -749,7 +746,7 @@ theorem carrierDataBuilt_of_hyp (Cb : ℝ) (hLift : LiftAt3 Cb) (hCap : CapFromH
   have thr : ∀ c : ℝ, |c| ≤ |Cc| + |Cd| + |Ce| →
       c * ((D.R.rS : ℝ) + 1) ^ 4 * (((4 * Formalism.FourierDecayAlt.C.Kst * (D.R.rS + 1) : ℕ) : ℝ) * (2 * (D.R.rS : ℝ) + D.R.k + 1) ^ 2 + (2 * (D.R.rS : ℝ) + D.R.k + 1) ^ 3) ≤ A₀ := by
     intro c hc
-    have h1 := poly_le_decayThreshold (sOf (ITc X C u u' e he (host_v D) CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ0 TP (decayThreshold (|Cc| + |Cd| + |Ce|) D.R.k D.R.rS))) (|Cc| + |Cd| + |Ce|)
+    have h1 := poly_le_decayThreshold (_root_.Formalism.L2.SG.Pf.Carrier.sOf (ITc X C u u' e he (host_v D) CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ0 TP (decayThreshold (|Cc| + |Cd| + |Ce|) D.R.k D.R.rS))) (|Cc| + |Cd| + |Ce|)
     have hP : 0 ≤ ((D.R.rS : ℝ) + 1) ^ 4 * (((4 * Formalism.FourierDecayAlt.C.Kst * (D.R.rS + 1) : ℕ) : ℝ) * (2 * (D.R.rS : ℝ) + D.R.k + 1) ^ 2 + (2 * (D.R.rS : ℝ) + D.R.k + 1) ^ 3) := by
       positivity
     have h2 : c * ((D.R.rS : ℝ) + 1) ^ 4 * (((4 * Formalism.FourierDecayAlt.C.Kst * (D.R.rS + 1) : ℕ) : ℝ) * (2 * (D.R.rS : ℝ) + D.R.k + 1) ^ 2 + (2 * (D.R.rS : ℝ) + D.R.k + 1) ^ 3) ≤
@@ -763,7 +760,7 @@ theorem carrierDataBuilt_of_hyp (Cb : ℝ) (hLift : LiftAt3 Cb) (hCap : CapFromH
     Formalism.L2.SG.Pf.CoefCCT.coefCC_carrierInTc C u u' e he (host_v D) CA de de' l (gridT e l) (grid1T e l) a b ξ ξ' cc cutStd
       (nuE X C u' e i0') (m0E X C u u' e) Θ0 TP A₀ (fun _ => h) (fun _ => Formalism.MainNotions.S.Inh.amp_isHCParam_lamD D _) hgap
       (fun _ => hok) hA0 (fun _ => hAh) hka hkb
-  have hLd' : Formalism.FourierDecayAlt.JCT.LongCut Cd (sOf (ITc X C u u' e he (host_v D) CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ0 TP (decayThreshold (|Cc| + |Cd| + |Ce|) D.R.k D.R.rS))) :=
+  have hLd' : Formalism.FourierDecayAlt.JCT.LongCut Cd (_root_.Formalism.L2.SG.Pf.Carrier.sOf (ITc X C u u' e he (host_v D) CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ0 TP (decayThreshold (|Cc| + |Cd| + |Ce|) D.R.k D.R.rS))) :=
     fun v => le_of_le_of_eq hLd (cut_len (ITc X C u u' e he (host_v D) CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ0 TP (decayThreshold (|Cc| + |Cd| + |Ce|) D.R.k D.R.rS)) v).symm
   have hBold := isBuiltPlace_carrierInT X C Cd u u' e he (host_v D) CA de de' l (gridT e l) (grid1T e l)
     (fcT X C e u u' a b ξ ξ' cc) cutStd (nuE X C u' e i0') (m0E X C u u' e) Θ0 TP A₀ hN hty
@@ -783,7 +780,7 @@ theorem carrierDataBuilt_of_hyp (Cb : ℝ) (hLift : LiftAt3 Cb) (hCap : CapFromH
   have hJT := fun hBuilt => jointTensor_compact_test X C u u' e he (host_v D) CA de de' l (gridT e l) (grid1T e l)
     (fcT X C e u u' a b ξ ξ' cc) cutStd i0 i0' hi Θ TP A₀ sc νq hNu hpin hsc hBuilt
   have hLz := lZero_of_choice X C u u' sc i0 i0' FdN FdN' νq
-  have hPt := ptSome_of (sOf (ITc X C u u' e he (host_v D) CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP (decayThreshold (|Cc| + |Cd| + |Ce|) D.R.k D.R.rS))) rfl
+  have hPt := ptSome_of (_root_.Formalism.L2.SG.Pf.Carrier.sOf (ITc X C u u' e he (host_v D) CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd i0' Θ TP (decayThreshold (|Cc| + |Cd| + |Ce|) D.R.k D.R.rS))) rfl
   have hRz := rZero_carrierInT X C u u' e he (host_v D) CA de de' l (gridT e l) (grid1T e l) (fcT X C e u u' a b ξ ξ' cc) cutStd
     (nuE X C u' e i0') (m0E X C u u' e) Θ TP A₀ sc i0 i0' hPRE
   exact carrierDataBuilt_of_towers X C Cb Cc C₆ u u' e he (host_v D) CA de de' l i0 i0' sc FdN FdN' νq jn a b ξ ξ' cc Θ TP A₀

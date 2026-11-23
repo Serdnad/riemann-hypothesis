@@ -2,10 +2,9 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.LamIdealOfNotPrimePow
 public import Mathlib.Analysis.Fourier.FiniteAbelian.Orthogonality
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExistsRayClassLFunctionRealZeroFarFromOneStatement
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.RayClassFamilyPsiWithExceptionalZeroStatement
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.RayClassLFunctionUniqueSimpleExceptionalZeroStatement
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.RayClassLFunctionZeroFreeRegionStatement
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle040
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle082
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle044
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

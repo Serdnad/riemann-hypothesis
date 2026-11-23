@@ -1,11 +1,11 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StHypersurfacePresentation
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle002
 public import Mathlib.FieldTheory.IntermediateField.Adjoin.Defs
 public import Mathlib.FieldTheory.Minpoly.Basic
 public import Mathlib.RingTheory.AlgebraicIndependent.Defs
 public import Mathlib.RingTheory.IntegralClosure.IntegrallyClosed
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PGenericPrimitive
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle021
 import Mathlib.Algebra.MvPolynomial.Division
 public import Mathlib.Algebra.MvPolynomial.Funext
 import Mathlib.Algebra.Order.Floor.Extended

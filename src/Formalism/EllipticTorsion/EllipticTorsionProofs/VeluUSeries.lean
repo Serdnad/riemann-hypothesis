@@ -1,6 +1,6 @@
 module
 
-public import Formalism.EllipticTorsion.VeluIntegralModel
+public import Formalism.EllipticTorsion.Bundle003
 public import Formalism.EllipticTorsion.EllipticTorsionProofs.FormalGroupPointsParamDef
 public import Formalism.EllipticTorsion.EllipticTorsionProofs.WPoint
 import Mathlib.Algebra.Order.Floor.Extended

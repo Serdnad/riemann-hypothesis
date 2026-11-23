@@ -1,8 +1,8 @@
 module
 
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SchurDeterminants.SchurYOffClr
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.AevalMulOfIsHomogeneous
-public import GroundTheory.HeightsAndTheta.Heights.RemainderTerms.PSchSchurHomogeneous
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle067
+public import GroundTheory.HeightsAndTheta.Heights.RemainderTerms.Bundle014
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

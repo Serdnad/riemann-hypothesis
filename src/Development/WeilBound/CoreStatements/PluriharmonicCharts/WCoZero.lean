@@ -1,8 +1,8 @@
 module
 
-public import Development.WeilBound.CoreStatements.PluriharmonicCharts.PullDegSome
-public import Development.WeilBound.CoreStatements.PluriharmonicCharts.XCWLine
-public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.GeometricAbelianConnected
+public import Development.WeilBound.CoreStatements.PluriharmonicCharts.Bundle011
+public import Development.WeilBound.CoreStatements.PluriharmonicCharts.Bundle019
+public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.Bundle002
 import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagModelBaseProjectionPoints
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.LogPeriodStatement
 import Development.WeilBound.CoreStatements.PluriharmonicCharts.XCWArith

@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.LocalDualIndex
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExistsSubConjNotMem
+public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.Bundle004
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle025
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.IsFieldAdicCompletionTensorOfInert
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.NotIsFieldAdicCompletionTensorOfSplit
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.QuadraticUnramifiedIffInertOrSplit
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle036
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle008
 import Mathlib.Algebra.AffineMonoid.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -59,7 +59,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Mathlib.Topology.UniformSpace.Uniformizable
-import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.DisjointSpanPerpLat
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle022
 
 @[expose] public section
 

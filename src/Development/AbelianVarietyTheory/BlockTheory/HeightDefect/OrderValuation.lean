@@ -1,7 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.ProjectiveLattices.PtFree
-public import Formalism.LocalToGlobal.ProjectiveLattices.CuspFree
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle014
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

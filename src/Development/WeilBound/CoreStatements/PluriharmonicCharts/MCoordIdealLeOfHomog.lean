@@ -2,11 +2,11 @@ module
 
 public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.GenericBlockMatrixIsBlockDiag
 public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.PairRelationOfScaledRatio
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArithmeticIntersection.MultihomogeneousIdeals.IsFieldIntersection
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArithmeticIntersection.MultihomogeneousIdeals.Bundle001
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagModelBaseProjectionPoints
 import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PCoordConeArithVar
 import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.CoordinateIdeals.MemMCoordIdealOfAevalEqZero
-import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.FrameDefinitions.Values
+import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.FrameDefinitions.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -121,7 +121,8 @@ theorem mem_iff_of_homog {y : (Σ k, ι k) → Φ} {f : MRing ι} {d : K → ℕ
   ⟨aeval_eq_zero_of_mem, mem_mCoordIdeal_of_aeval_eq_zero y hf⟩
 
 theorem mCoordIdeal_le_of_homog {y : (Σ k, ι k) → Φ} {J : Ideal (MRing ι)}
-    (h : ∀ f d, IsMultiHomog f d → aeval y f = 0 → f ∈ J) : mCoordIdeal y ≤ J := by
+    (h : ∀ f d, ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog f d →
+      aeval y f = 0 → f ∈ J) : mCoordIdeal y ≤ J := by
   obtain ⟨S, hS, e⟩ := CoordinateConeArithVar.isMultiHomogIdeal y
   have hS' : ∀ f ∈ S, f ∈ mCoordIdeal y := fun f hf => by rw [e]; exact Ideal.subset_span hf
   rw [e, Ideal.span_le]
@@ -176,15 +177,24 @@ theorem HasVal.mul {s t : Φ} {v w : L} (hv : HasVal y z s v) (hw : HasVal y z t
 theorem HasVal.add {s t : Φ} {v w : L} (hv : HasVal y z s v) (hw : HasVal y z t w) : HasVal y z (s + t) (v + w) := by
   obtain ⟨d, g, h, hg, hh, h0, e, ev⟩ := hv
   obtain ⟨d', g', h', hg', hh', h0', e', ev'⟩ := hw
-  refine ⟨d + d', g * h' + g' * h, h * h', isMultiHomog_add (isMultiHomog_mul hg hh') ?_, isMultiHomog_mul hh hh',
-    ?_, ?_, ?_⟩
-  · rw [add_comm]; exact isMultiHomog_mul hg' hh
+  have hcomm : ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog (g' * h) (d + d') := by
+    rw [add_comm]
+    exact LowerBoundFree.isMultiHomog_mul hg' hh
+  refine ⟨d + d', g * h' + g' * h, h * h',
+    LowerBoundFree.isMultiHomog_add (LowerBoundFree.isMultiHomog_mul hg hh') hcomm,
+    LowerBoundFree.isMultiHomog_mul hh hh', ?_, ?_, ?_⟩
   · rw [map_mul]; exact mul_ne_zero h0 h0'
-  · rw [map_add (f := _), map_mul, map_mul, map_mul, e, e']; ring
-  · rw [map_add (f := _), map_mul, map_mul, map_mul, ev, ev']; ring
+  · simp only [map_add, map_mul, e, e']
+    ring
+  · simp only [map_add, map_mul, ev, ev']
+    ring
 
-theorem hasVal_intCast (n : ℤ) : HasVal y z (n : Φ) (n : L) :=
-  ⟨0, C n, 1, isMultiHomog_C_zero n, isMultiHomog_one, by simp, by simp, by simp⟩
+theorem hasVal_intCast (n : ℤ) : HasVal y z (n : Φ) (n : L) := by
+  refine ⟨0, C n, 1, LowerBoundFree.isMultiHomog_C_zero (ι := ι) n,
+    LowerBoundFree.isMultiHomog_one (ι := ι), ?_, ?_, ?_⟩
+  · exact (map_one (aeval z)).trans_ne one_ne_zero
+  · simp only [aeval_C, algebraMap_int_eq, map_one, mul_one] <;> rfl
+  · simp only [aeval_C, algebraMap_int_eq, map_one, mul_one] <;> rfl
 
 theorem hasVal_zero : HasVal y z 0 0 := by simpa using hasVal_intCast (y := y) (z := z) 0
 

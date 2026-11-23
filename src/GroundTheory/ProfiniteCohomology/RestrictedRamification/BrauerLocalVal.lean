@@ -6,7 +6,7 @@ public import GroundTheory.ProfiniteCohomology.RestrictedRamification.DivisorMod
 public import GroundTheory.ProfiniteCohomology.RestrictedRamification.MulDistribMulActionGalUnitsFiniteSubfield
 public import GroundTheory.ProfiniteCohomology.RestrictedRamification.BrauerDefs
 import GroundTheory.ProfiniteCohomology.CupProducts.Cocycles
-import GroundTheory.ProfiniteCohomology.Factor
+import GroundTheory.ProfiniteCohomology.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

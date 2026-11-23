@@ -1,11 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.PwIsoIsGen
+public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle016
 public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.BasisPowerSectionsLocalBaseChange
 public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.ExistsIsGrpPullbackPow
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.ExistsNormalisingUnitSimilitudeOrigin
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.IndepOnEmpty
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.SimilitudeIsoThetaProductBaseChange
+public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle013
+public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle038
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

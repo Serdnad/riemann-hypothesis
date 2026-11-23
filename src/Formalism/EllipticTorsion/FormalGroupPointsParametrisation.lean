@@ -1,6 +1,6 @@
 module
 
-public import Formalism.EllipticTorsion.FormalGroupPointsTorsionFree
+public import Formalism.EllipticTorsion.Bundle003
 public import Formalism.EllipticTorsion.WChordSeries
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

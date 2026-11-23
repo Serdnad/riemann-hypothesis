@@ -1,6 +1,6 @@
 module
 
-public import Formalism.MirabolicMackeyTheory.LocalConditionsWeighted
+public import Formalism.MirabolicMackeyTheory.Bundle002
 public import Formalism.MirabolicMackeyTheory.MirabolicIsMackey
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

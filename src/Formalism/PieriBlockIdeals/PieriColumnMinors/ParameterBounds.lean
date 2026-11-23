@@ -1,10 +1,9 @@
 module
 
 public import Formalism.PieriBlockIdeals.MertensReciprocalElementary
-public import Formalism.RankGapBounds.LargePrimeFactor
-public import Formalism.PieriBlockIdeals.PieriColumnMinors.LocalComponentGL
-public import Formalism.PieriBlockIdeals.PieriColumnMinors.LogarithmEquivalence
-public import Formalism.PieriBlockIdeals.PieriColumnMinors.SharperSizeNeedsMleKFalse
+public import Formalism.RankGapBounds.Bundle001
+public import Formalism.PieriBlockIdeals.PieriColumnMinors.Bundle002
+public import Formalism.PieriBlockIdeals.PieriColumnMinors.Bundle001
 public import Formalism.RankGapBounds.RankGapProofs.CardLargePrimeFactorsLeOneHolds
 import Mathlib.Algebra.Order.Floor.Extended
 public import Mathlib.Algebra.Order.Floor.Semifield

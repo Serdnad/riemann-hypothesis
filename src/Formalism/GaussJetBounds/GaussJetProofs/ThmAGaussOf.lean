@@ -1,7 +1,7 @@
 module
 
-public import Formalism.GaussJetBounds.FrameJetEval
-public import Formalism.GaussJetBounds.GaussJetProofs.ConstantCoeffEvenDerivativeEqZero
+public import Formalism.GaussJetBounds.Bundle005
+public import Formalism.GaussJetBounds.GaussJetProofs.Bundle003
 public import Formalism.GaussJetBounds.GaussJetProofs.GField
 public import Formalism.GaussJetBounds.GaussJetProofs.Generic
 import Mathlib.Algebra.Order.Floor.Extended

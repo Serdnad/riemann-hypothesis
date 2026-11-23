@@ -1,8 +1,8 @@
 module
 
 public import Development.AutomorphicArithmetic.CommutativeAlgebra.EtaleCohomology.IsChart
-public import Development.AutomorphicArithmetic.CommutativeAlgebra.SpecializationTensorRingHomProperties
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ExistsPsi
+public import Development.AutomorphicArithmetic.CommutativeAlgebra.Bundle006
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle040
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

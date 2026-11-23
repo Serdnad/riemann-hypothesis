@@ -1,7 +1,7 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.BlockWithThresholds
-public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.CthMonomial
+public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.Bundle008
+public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

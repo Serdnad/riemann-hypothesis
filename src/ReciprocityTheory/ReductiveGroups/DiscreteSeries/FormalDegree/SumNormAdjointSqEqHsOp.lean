@@ -44,10 +44,10 @@ import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.CasimirCoefficients.KFacts
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.IntegrableOfContinuousCompact
 import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.KSchur
-import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.KinstSecondCountable
-import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.PBridge
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.Bundle004
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.Bundle009
 import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.PolarBasicA
-import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.SumInnerBasisSqEqAdjoint
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.Bundle011
 
 @[expose] public section
 

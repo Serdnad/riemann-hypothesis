@@ -4,9 +4,9 @@ public import Mathlib.AlgebraicGeometry.Morphisms.Finite
 public import Mathlib.AlgebraicGeometry.Noetherian
 public import Mathlib.CategoryTheory.Monoidal.Cartesian.Grp
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ConvPowSubNsmulMemAugIdealSq
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsNotMemSmulEqZeroOfSubmodule
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FundamentalSequenceContinuityAll
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle131
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle027
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle129
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

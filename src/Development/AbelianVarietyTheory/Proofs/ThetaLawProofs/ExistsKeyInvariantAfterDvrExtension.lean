@@ -1,17 +1,17 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.KeyFormula.IsSquareDeterminantComparison
+public import Development.AbelianVarietyTheory.Definitions.KeyFormula.Bundle001
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.GlobalSectionsRankAlgClosed
 public import Mathlib.RingTheory.Henselian
 public import Mathlib.RingTheory.RegularLocalRing.Defs
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsCompletionPointClosedPointMemOfSmooth
 public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.BasisPowerSectionsLocalBaseChange
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.DualNumberRingHomExt
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.ExistsCompleteDiscreteValuationRingWithResidues
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.ExistsInvariantOfSplitZerosTorsionStatement
+public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle027
+public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle006
+public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle053
 import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.ExistsKeyPBRing
 import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.MemNonzeroLocusVia
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.TransversalZerosLiftOfIsAdicCompleteStatement
+public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle029
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -56,7 +56,7 @@ import Mathlib.Tactic.ReduceModChar
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.BCTools
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.OneArc
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.ExistsRosatiGen
-import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.KeyViaIsPullback
+import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle038
 
 @[expose] public section
 
@@ -240,7 +240,7 @@ theorem etZ_descend {R R' : Type} [Field R] [Field R'] {x : KeyIn R} {x' : KeyIn
     refine f.injective (Eq.trans ?_ (e.trans (map_zero f).symm))
     exact ((congrArg (fun q => valT (T := R') q (x.P.L.U (ch a)) ((s i).f (ch a))) (hz' a)).trans
       (valT_spMap f (z a).left (hz₁ a) _)).symm
-  have hjac : ∀ a, jac x' s' (z' a) (ch' a) * (u a : R') ^ (x.P.g * n) = f (jac x s (z a) (ch a)) := fun a => by
+  have hjac : ∀ a, GlobalTheory.KeyKa.jac x' s' (z' a) (ch' a) * (u a : R') ^ (x.P.g * n) = f (GlobalTheory.KeyKa.jac x s (z a) (ch a)) := fun a => by
     have ent : ∀ i k : Fin x.P.g, f (TrivSqZeroExt.snd (valT (T := DualNumber R) ((toUnit (epsR R) ≫ z a) * x.v k).left
         (x.P.L.U (ch a)) ((s i).f (ch a)))) = (u a : R') ^ n * TrivSqZeroExt.snd (valT (T := DualNumber R')
           ((toUnit (epsR R') ≫ z' a) * x'.v (k.cast hg)).left (x'.P.L.U (ch' a)) ((s' (i.cast hg)).f (ch' a))) :=
@@ -258,7 +258,7 @@ theorem etZ_descend {R R' : Type} [Field R] [Field R'] {x : KeyIn R} {x' : KeyIn
       refine (snd_pow_mul _ _ _ ((fst_valT_translate (z' a) (x'.v _) (x'.basis.1 _) (hch' a) _).trans
         (hzero a _))).trans ?_
       exact congrArg (· ^ n * _) ((fst_valT_translate (z' a) (x'.v _) (x'.basis.1 _) (hW a) _).trans (hu a))
-    unfold jac
+    unfold GlobalTheory.KeyKa.jac
     rw [RingHom.map_det, ← Matrix.det_submatrix_equiv_self (finCongr hg), _root_.mul_comm, _root_.mul_comm x.P.g n,
       pow_mul]
     have hc : x.P.g = Fintype.card (Fin x.P.g) := (Fintype.card_fin _).symm

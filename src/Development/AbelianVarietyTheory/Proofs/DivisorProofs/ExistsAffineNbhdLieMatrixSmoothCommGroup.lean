@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MatActApply
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.LieBridgeA
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.EigLatBasis
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle547
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.Bundle013
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle008
 public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.ExistsAffineLieBasisBaseChange
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -43,7 +43,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.BcField
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.Bundle003
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.LieBridgeG
 
 @[expose] public section
@@ -202,7 +202,10 @@ theorem exists_frame {U : X0.Opens} (hU : IsAffineOpen U) {n : ℕ} (v₀ : Fin 
     (R' : Type) [CommRing R'] (f : Γ(X0, U) →+* R') :
     ∃ b : Fin n → TanM (spMap f ≫ hU.fromSpec) A, (∀ j, (tv (b j)).left = spMap (Chart.dualMapR f) ≫ v₀ j) ∧
       ∀ m, ∃! a : Fin n → R', m = ∑ i, a i • b i := by
-  have h := isGrpPullback_pullback A (spMap f ≫ hU.fromSpec)
+  let t := spMap f ≫ hU.fromSpec
+  letI : (Over.pullback t).Monoidal := (Over.instBraidedPullback (f := t)).toMonoidal
+  letI : GrpObj ((Over.pullback t).obj A) := Functor.grpObjObj (F := Over.pullback t)
+  have h := isGrpPullback_pullback A t
   obtain ⟨v', hleft, hvb⟩ := hv R' f _ _ h
   let b : Fin n → TanM (spMap f ≫ hU.fromSpec) A := fun i =>
     mkT (pushHom h (epsR R') (v' i)) ((isTangent_iff h _).1 (hvb.1 i))

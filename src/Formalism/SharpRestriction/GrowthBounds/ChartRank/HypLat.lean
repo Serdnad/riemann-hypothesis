@@ -1,7 +1,7 @@
 module
 
-public import Formalism.LocalToGlobal.HermitianForms.TiedTwGen
-public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.FiniteAdeleRingNontrivial
+public import Formalism.LocalToGlobal.HermitianForms.Bundle005
+public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.Bundle002
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.CsGlob
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

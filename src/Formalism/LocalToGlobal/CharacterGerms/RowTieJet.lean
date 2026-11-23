@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.CharacterGerms.MemVarsProdAll
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle004
 public import Mathlib.Algebra.MvPolynomial.Supported
 public import Mathlib.Order.CompletePartialOrder
 public import Mathlib.RingTheory.MvPowerSeries.Rename

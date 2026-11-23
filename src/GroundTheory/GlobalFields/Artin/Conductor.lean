@@ -42,7 +42,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-import GroundTheory.LocalFields.FilteredSurj
+import GroundTheory.LocalFields.Bundle001
 public import Mathlib.NumberTheory.LocalField.Basic
 
 @[expose] public section

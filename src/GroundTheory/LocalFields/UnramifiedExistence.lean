@@ -5,7 +5,7 @@ public import Mathlib.RingTheory.RamificationInertia.Ramification
 public import Mathlib.RingTheory.RegularLocalRing.Defs
 public import Mathlib.RingTheory.RootsOfUnity.PrimitiveRoots
 public import Mathlib.RingTheory.SimpleRing.Principal
-public import GroundTheory.LocalFields.FiniteExtension
+public import GroundTheory.LocalFields.Bundle001
 public import GroundTheory.LocalFields.UnitsPowers
 public import GroundTheory.LocalFields.UnramifiedGalois
 import Mathlib.Algebra.Order.Floor.Extended

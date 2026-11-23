@@ -1,8 +1,8 @@
 module
 
-public import Formalism.ThetaLogCoordinates.FockResolutionOnto.StatementD
+public import Formalism.ThetaLogCoordinates.FockResolutionOnto.Bundle001
 public import Formalism.MahlerMeasure.MahlerMeasureProofs.WeightSpaceDimensionMonotone
-public import Formalism.MahlerMeasure.StatementT
+public import Formalism.MahlerMeasure.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

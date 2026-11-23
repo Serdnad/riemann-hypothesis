@@ -4,11 +4,11 @@ public import Mathlib.Analysis.Matrix.MeasurableSpace
 public import Formalism.DoubleCosetMeasures.StatementZ
 public import Development.AbelianVarietyTheory.Definitions.Divisors.HilbertNinetyQuotientHomEqIff
 public import Development.AbelianVarietyTheory.Definitions.Divisors.RankEqCardIffExistsFrameMatrixFirstColumnBlock
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsLocPart
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.StandardPairLocalZetaMatchNeZeroStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.StandardPairMembersMemSchwartzBruhatStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1365
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2151
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1529
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsContinuousPadic
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ZetaIdentityPersistsRowColumnChangesStatement
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle471
 import Formalism.LocalRingCardinality.DataHost
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -53,7 +53,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsSplitChartSplitChart
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle319
 
 @[expose] public section
 
@@ -128,6 +128,7 @@ private theorem stdB_ne (ν : kˣ →* ℂˣ) (ϖ : kˣ) (c a a' : ℕ) : ∃ Y,
 
 end SlopeTestRemainingChoices
 
+attribute [local instance high] GlobalTheory.SplitWeil.matrixMeasurableSpace in
 theorem UpperTheory.exists_scaled_standardPairSections_of_maxCompact_translate :
     ∀ (k : Type) [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchimedeanLocalField k] [MeasurableSpace k] [BorelSpace k]
         (α β ν : kˣ →* ℂˣ) (ϖ : kˣ) (c m a a' : ℕ), GlobalTheory.SplitFlip.IsUnif ϖ → ν = α / β → 1 ≤ c → GlobalTheory.SplitFlip.CondLE ϖ c ν →
@@ -146,9 +147,14 @@ theorem UpperTheory.exists_scaled_standardPairSections_of_maxCompact_translate :
     rw [hν]
     ext x
     simp
-  obtain ⟨lam, hl, H⟩ := GlobalTheory.T.zetaIdentity_persists_row_column_changes k a a rfl (Fin a') (Fin a') (Fin (a + a')) (Fin (a + a')) (Equiv.refl _)
-    (Equiv.refl _) finSumFinEquiv finSumFinEquiv (GlobalTheory.SplitFlip.haarVol (GlobalTheory.SplitWeil.KO k (Fin a')))
-    (GlobalTheory.SplitFlip.haarVol (GlobalTheory.SplitWeil.KO k (Fin a'))) ϖ ν β gA gB cc hgA
+  letI : MeasurableSpace (GL (Fin a') k) := Units.instMeasurableSpace
+  letI : BorelSpace (GL (Fin a') k) := GlobalTheory.SplitFlip.borel_GL
+  have hμ : (GlobalTheory.SplitFlip.haarVol (GlobalTheory.SplitWeil.KO k (Fin a'))).IsHaarMeasure :=
+    GlobalTheory.SplitFlip.isHaarMeasure_haarVol_KO
+  obtain ⟨lam, hl, H⟩ := @GlobalTheory.T.zetaIdentity_persists_row_column_changes k _ _ _ _ _ _ a a rfl (Fin a') _ _ (Fin a') _ _ (Fin (a + a')) _ _ (Fin (a + a')) _ _
+    (Equiv.refl _) (Equiv.refl _) finSumFinEquiv finSumFinEquiv
+    (GlobalTheory.SplitFlip.haarVol (GlobalTheory.SplitWeil.KO k (Fin a'))) hμ
+    (GlobalTheory.SplitFlip.haarVol (GlobalTheory.SplitWeil.KO k (Fin a'))) hμ ϖ ν β gA gB cc hgA
   rw [hab] at H
   have H' := H _ _ hz
   refine ⟨lam, fun X => GlobalTheory.StdPairCone.stdA ν ϖ c a a' (gA.val * X * (GlobalTheory.SplitFlip.invT cc).val),

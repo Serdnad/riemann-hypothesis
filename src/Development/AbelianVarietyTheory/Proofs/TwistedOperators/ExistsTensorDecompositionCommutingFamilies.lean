@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.FiniteSupport
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.PiTensorSubmoduleEqTopOfAbsolutelyIrreducibleSta
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle309
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle152
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

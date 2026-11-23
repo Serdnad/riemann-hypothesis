@@ -1,7 +1,7 @@
 module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.ArchimedeanCompact.AutomorphicFormsLeSm
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.FoundBridge
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.Bundle004
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.ArchimedeanCompact.OneTmulMemCenter
 public import GroundTheory.AutomorphicForms.TensorProductTheorem.CuspidalRep
 import GroundTheory.AutomorphicForms.UnitaryAdmissible

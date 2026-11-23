@@ -1,6 +1,6 @@
 module
 
-public import Formalism.QuotientMetricDivisors.ClassSumDualGeF
+public import Formalism.QuotientMetricDivisors.Bundle006
 public import Formalism.HermitianLattices.HermitianLatticesProofs.DualBasic
 public import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.AuxStatement14
 import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.ValBasic

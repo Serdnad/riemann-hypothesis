@@ -2,17 +2,17 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.FrobOrderSpec
 public import Formalism.LocalToGlobal.GroupLattices.DownNaturalLevelZero
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.EvalRepsSurjective
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle069
 import Formalism.GradedWeylDivisibility.FinalD
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LClosedeqLemmas
-public import Formalism.LocalRingCardinality.SpanPowerMembership.NZLevB
-public import Formalism.LocalToGlobal.GlobalTheory.CoordinateLengths.DuCount
+public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle002
+public import Formalism.LocalRingCardinality.SpanPowerMembership.Bundle003
+public import Formalism.LocalToGlobal.GlobalTheory.CoordinateLengths.Bundle002
 import Formalism.LocalToGlobal.GlobalTheory.GL6.WeylLengthDiagonalUnitUniformiser
-public import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.ClsRec
+public import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.Bundle008
 public import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.DeterminantTwistRowActionMem
 public import Formalism.LocalToGlobal.GroupLattices.FockModels.Cartan
 import Formalism.LocalToGlobal.GroupLattices.FockModels.SwRowGenMonomial
-import Formalism.LocalToGlobal.GroupLattices.LevelGatherings.GramDetIsUnit
+import Formalism.LocalToGlobal.GroupLattices.LevelGatherings.Bundle003
 public import Formalism.LocalToGlobal.GroupLattices.TiedFamilies.SelfDualAtColLevel
 import Formalism.LocalToGlobal.GroupLattices.TrivialTransfer.GramTotallyDefinite
 public import Formalism.SharpRestriction.GrowthBounds.DualFockLinear.TestSideCounting
@@ -57,7 +57,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import Formalism.PolynomialDimension.WeylDim
+public import Formalism.PolynomialDimension.Bundle001
 
 @[expose] public section
 

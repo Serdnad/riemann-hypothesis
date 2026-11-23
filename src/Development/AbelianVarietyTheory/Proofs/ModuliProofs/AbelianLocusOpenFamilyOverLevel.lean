@@ -1,30 +1,28 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.TopAmpExists
-public import Development.AbelianVarietyTheory.Definitions.Degenerations.HomExtSt
+public import Development.AbelianVarietyTheory.Definitions.Degenerations.Bundle002
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.PushEquivSymmLeft
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.SecBaseChangeAnySt
-public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.RangeSubsetAbLocusOfIsProper
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.Bundle005
+public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle019
 public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.IsIsoOfIsFiniteOfUniqueLiftOfClassicalPoints
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.RangeAlgebraMapEqIInfDiscreteValuationSubring
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.AmpleDeterminantFramesPullbackOfIsAffineHomStatement
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle138
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.CmModelCoefficientSubringDedekindCompatibleEmbed
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsSabCancel
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.FullLevelObjectOfCoveringPullbacksStatement
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.FullLevelObjectPullbackExistsAndFullStatement
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.FullObjectOfGenericFibreDvrStatement
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.IsAbelianSchemeOfCommonGenericFibre
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.IsFiniteOfAmpleDeterminantFramesPullbackStatement
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.IsIsoNearNormalPointOfFiniteBirationalStatement
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.IsIsoStalkMapOfFlatOfSurjectiveOnStalks
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.IsProjOverBaseChangeOfProperQuasiProjectiveStatement
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.IsProperOfCompleteDVRLiftGenericStatement
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.IsReducedIsNormalSchemeIsLocallyNoetherianOfSmoo
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.KernelTrivialOfEveryPointCoveredStatement
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.PolPull
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.RelAmpleOfPolarisedAtEveryPointStatement
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.RelAmplePrincipalOfGenericFibreDvrStatement
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.TorsionLevelExtendsFromDenseOpenNormalStatement
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle046
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle146
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle173
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle078
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle040
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle008
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle132
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle076
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle009
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle167
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle103
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.RelAmpleOfPolarisedAtEveryPoint
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle185
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle056
 import Mathlib.Algebra.GroupWithZero.Submonoid.CancelMulZero
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -69,7 +67,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.AbProj
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle007
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.ChartPullbacks.CubePullbacks.CubePull
 
 @[expose] public section
@@ -363,7 +361,8 @@ theorem exists_finite_map : GlobalTheory.LN.HomExtSt → Out.Laws → Out.Laws2 
   have := F.red
   have := C.j_open
   have := C.j_dom
-  have hnU := isNormalScheme_of_open U.ι C.normal
+  have hnC := (_root_.GlobalTheory.isNormalScheme_iff_pred C.Z).mp C.normal
+  have hnU := isNormalScheme_of_open U.ι hnC
   have := isReduced_of_normal hnU
   obtain ⟨tU, ⟨mU⟩⟩ := exists_pull U.ι C.t
   have hpU : IsProper tU.G.hom := by
@@ -408,7 +407,7 @@ theorem exists_finite_map : GlobalTheory.LN.HomExtSt → Out.Laws → Out.Laws2 
   have : Flat (spMap (algebraMap ℤ (RZ H n N))) := by
     rw [Flat.SpecMap_iff]
     exact RingHom.flat_algebraMap_iff.mpr inferInstance
-  have hf : IsFinite u := isFinite_of_isProper h1 h2 C.s sM (C.s ≫ spMap (algebraMap ℤ (RZ H n N))) C.normal
+  have hf : IsFinite u := isFinite_of_isProper h1 h2 C.s sM (C.s ≫ spMap (algebraMap ℤ (RZ H n N))) hnC
     F.obj.proper F.obj.ample F.obj.ktriv (pow_pos hm 2) C.amp hu mU mM
   obtain ⟨hi, hd⟩ := isIso_restrict_of_section u C.W j hju
   refine ⟨u, tU, mU, mM, hu, hf, ⟨?_⟩, exists_isIso_restrict u _ fun x hx => ?_, fun j' hj' => ?_⟩

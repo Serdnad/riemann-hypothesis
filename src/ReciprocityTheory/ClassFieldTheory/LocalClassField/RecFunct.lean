@@ -50,10 +50,10 @@ import Mathlib.Topology.Sheaves.Init
 import ReciprocityTheory.ClassFieldTheory.LocalClassField.GalBasic
 public import ReciprocityTheory.ClassFieldTheory.LocalClassField.RecFunctA
 public import ReciprocityTheory.ClassFieldTheory.LocalClassField.RecPair
-import ReciprocityTheory.ClassFieldTheory.LocalClassField.RecPairA
-import ReciprocityTheory.GroupCohomology.DEqZeroOfMemB
+import ReciprocityTheory.ClassFieldTheory.LocalClassField.Bundle008
+import ReciprocityTheory.GroupCohomology.Bundle002
 public import ReciprocityTheory.GroupCohomology.InnerHolds
-import ReciprocityTheory.GroupCohomology.ResNormalHolds
+import ReciprocityTheory.GroupCohomology.Bundle006
 
 @[expose] public section
 

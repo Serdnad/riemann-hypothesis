@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Foundations.HTBasis
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.AevalProdEqZeroHodgeTateCyclotomicFrameStatement
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NormPrimitiveRootPrimePowSubOnePadicComplex
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle010
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle497
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle180
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NormZpowSubOneLeTer
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.PadicNormZpowSubOnePadicValInt
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TateDecompositionCompletedCyclotomicIntegersStatement
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle166
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle449
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

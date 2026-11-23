@@ -4,7 +4,7 @@ public import Formalism.LocalToGlobal.SiegelLatticeTheory.HaarTransversals.HidaS
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.HaarTransversals.RowsDef
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.SiegelMassRatios.ColsDim
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.HaarTransversals.PoincareSeriesSquareIntegrable
-public import Formalism.SharpRestriction.CuspSpanNormBounds.UnimodularSchurMeasures.RrgCountableField
+public import Formalism.SharpRestriction.CuspSpanNormBounds.UnimodularSchurMeasures.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

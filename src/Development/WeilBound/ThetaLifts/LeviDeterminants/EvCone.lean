@@ -1,9 +1,9 @@
 module
 
-public import Development.WeilBound.ThetaLifts.LeviDeterminants.EvStmt
+public import Development.WeilBound.ThetaLifts.LeviDeterminants.Bundle001
 public import Development.WeilBound.ThetaLifts.LeviDeterminants.EvAdel
-public import Development.WeilBound.ThetaLifts.LeviDeterminants.MixedModels.AdelicEstimatesHolds
-public import Development.WeilBound.ThetaLifts.LeviDeterminants.SchwartzDq
+public import Development.WeilBound.ThetaLifts.LeviDeterminants.MixedModels.Bundle006
+public import Development.WeilBound.ThetaLifts.LeviDeterminants.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

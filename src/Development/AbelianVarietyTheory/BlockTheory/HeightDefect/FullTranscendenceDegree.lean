@@ -1,8 +1,8 @@
 module
 
-public import Formalism.LocalToGlobal.ProjectiveLattices.LiftCurveSt
-public import Formalism.LocalToGlobal.ProjectiveLattices.IntAtExtExtAll
-public import Formalism.LocalToGlobal.ProjectiveLattices.IsGenFrGenFr
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle031
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle044
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle012
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

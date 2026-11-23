@@ -1,8 +1,8 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsBlockImageChi
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsBlockGraphImage
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PBlockImageTop
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle064
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle063
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle082
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PResChiIndex
 import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.ResSymGram
 import Mathlib.Algebra.Order.Floor.Extended
@@ -50,8 +50,8 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.ABridgeSt
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.ABridgeStA
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.Bundle008
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.Bundle006
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section

@@ -1,12 +1,12 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.IsPeriodHom
-public import Development.AbelianVarietyTheory.Definitions.Divisors.FstTszeSec
-public import Development.AbelianVarietyTheory.Definitions.Divisors.IsRatioCover
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle025
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle005
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle011
 public import Development.AbelianVarietyTheory.Proofs.ToricGeometry.TopLePreimageOfValAtNeZero
 public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.DifferentiableOnOfTendstoLocallyUniformlyOn
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.UniformisationPreimageValueRulesStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.UniformisedOneFormEvaluationRulesStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle885
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle884
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.AutomorphicForms.Induction
+public import GroundTheory.AutomorphicForms.Bundle008
 public import GroundTheory.AutomorphicForms.InductionJacquet
 public import GroundTheory.AutomorphicForms.InductionParabolicLocal
 import Mathlib.Algebra.Order.Floor.Extended

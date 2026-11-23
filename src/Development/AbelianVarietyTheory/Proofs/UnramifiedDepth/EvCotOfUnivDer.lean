@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.DualLattices.EvCotStatement
+public import ReciprocityTheory.DualLattices.Bundle024
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

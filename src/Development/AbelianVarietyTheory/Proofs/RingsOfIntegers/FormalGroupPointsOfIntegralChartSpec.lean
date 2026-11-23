@@ -2,12 +2,12 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.PlaceAdaptation.AdaptStd
 public import Development.AbelianVarietyTheory.Definitions.Jets.JetsOnCopiesCompatibleFrames
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsUniqueFixedPointOfAdicContraction
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle047
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.ExistsUniqueFactorCompletedStalkOfMap
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsUniversalJetCoordinatesPullback
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle073
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.UniversalStatement
-public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.MvPowerSeriesSubstConstTermsLocalAlgHomSpec
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ChartDataPf
+public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.Bundle035
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle008
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

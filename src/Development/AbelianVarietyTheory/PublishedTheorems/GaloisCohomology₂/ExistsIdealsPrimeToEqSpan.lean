@@ -2,9 +2,9 @@ module
 
 public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.RayPrincipalIdeals
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.ExistsUniqueHcharOfFiniteOrder
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FiniteIndexUnitIdlSup
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle090
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.DenseRangeUnits
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.UnitOpenAndCongrOpen
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle091
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -85,7 +85,9 @@ end GlobalTheory.Published
 
 namespace GlobalTheory.RayChar
 
-open Neutral.B1 ReciprocityTheory.Neutral.Bridge.HCFR Formalism.L2.Host GlobalTheory.HeckeGal GlobalTheory.Mem.Chr GlobalTheory.Mem.UnitIndex GlobalTheory.Idele WithZero
+open Neutral.B1 ReciprocityTheory.Neutral.Bridge.HCFR Formalism.L2.Host GlobalTheory.HeckeGal
+open GlobalTheory.Mem.Chr hiding Ideles diagUnits localIdele
+open GlobalTheory.Mem.UnitIndex GlobalTheory.Idele WithZero
 
 theorem exists_extend {Γ A : Type} [CommGroup Γ] [CommGroup A] (H D : Subgroup Γ)
     (hs : ∀ a, ∃ d ∈ D, d⁻¹ * a ∈ H) (h : H →* A) (hk : ∀ a : H, a.1 ∈ D → h a = 1) :
@@ -429,7 +431,9 @@ end GlobalTheory.RayChar
 
 namespace GlobalTheory.Published
 
-open Neutral.B1 ReciprocityTheory.Neutral.Bridge.HCFR Formalism.L2.Host GlobalTheory.HeckeGal GlobalTheory.Mem.Chr GlobalTheory.RayChar
+open Neutral.B1 ReciprocityTheory.Neutral.Bridge.HCFR Formalism.L2.Host GlobalTheory.HeckeGal
+open GlobalTheory.Mem.Chr hiding Ideles diagUnits localIdele
+open GlobalTheory.RayChar
 
 theorem GlobalArtinReciprocity.rayCharacterArtin (H : GlobalArtinReciprocity) : RayCharacterArtin := by
   intro F Ω _ _ _ _ _ 𝔪 hm A _ f hf
@@ -471,7 +475,8 @@ theorem GlobalArtinReciprocity.rayCharacterArtin (H : GlobalArtinReciprocity) : 
     exact ⟨x, J, hx1, hx2, hJ, by rw [e', hφ _ _ e]⟩
   · rintro ⟨x, J, hx1, hx2, hJ, rfl⟩
     have h0 := ne_zero_of_eq_span hJ
-    have hu : IsUnitAt v (atFin v (Units.mk0 (x : F) h0)) := valued_algebraMap_eq_one F v x hx1
+    have hu : IsUnitAt v (atFin v (Units.mk0 (x : F) h0)) :=
+      _root_.Neutral.B1.valued_algebraMap_eq_one F v x hx1
     obtain ⟨J', hJ', e'⟩ := map_local_unit hm h1 h2 hd hu h0 hx2 (by
       rw [show at' v x - ((atFin v (Units.mk0 (x : F) h0) : (v.adicCompletion F)ˣ) : v.adicCompletion F) = 0 from
         sub_self _, map_zero]

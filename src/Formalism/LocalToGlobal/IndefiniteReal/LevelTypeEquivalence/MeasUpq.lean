@@ -6,8 +6,8 @@ import Formalism.LocalRingCardinality.SpanPowerMembership.HaarDensityNeZero
 public import Formalism.LocalToGlobal.IndefiniteReal.HaarTransfer.MinfUniqueP
 public import Formalism.LocalToGlobal.IndefiniteReal.HaarTransfer.UnimodP
 public import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.MinfLev
-public import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.UnimodGA
-import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Upqcpt
+public import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.Bundle009
+import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

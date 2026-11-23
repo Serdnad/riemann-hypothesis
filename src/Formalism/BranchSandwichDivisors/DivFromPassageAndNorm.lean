@@ -1,9 +1,8 @@
 module
 
-public import Formalism.BranchSandwichDivisors.StatementL
-public import Formalism.BranchSandwichDivisors.StatementW
+public import Formalism.BranchSandwichDivisors.Bundle001
 public import Formalism.BranchSandwichDivisors.BranchIsometryProofs.BranchMap
-import Formalism.BranchSandwichDivisors.BranchIsometryProofs.Interlace
+import Formalism.BranchSandwichDivisors.BranchIsometryProofs.Bundle001
 public import Formalism.BranchSandwichDivisors.BranchIsometryProofs.MapScale
 public import Formalism.BranchSandwichDivisors.BranchIsometryProofs.Numeric
 public import Formalism.BranchSandwichDivisors.BranchIsometryProofs.OrthSum

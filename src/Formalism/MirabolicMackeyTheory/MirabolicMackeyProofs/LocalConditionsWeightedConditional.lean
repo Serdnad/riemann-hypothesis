@@ -1,6 +1,6 @@
 module
 
-public import Formalism.MirabolicMackeyTheory.StatementLoc
+public import Formalism.MirabolicMackeyTheory.Bundle002
 public import Formalism.MirabolicMackeyTheory.MirabolicMackeyProofs.GlobalBoundRefinements
 import Formalism.MirabolicMackeyTheory.MirabolicMackeyProofs.IdxRules
 import Mathlib.Algebra.Order.Floor.Extended

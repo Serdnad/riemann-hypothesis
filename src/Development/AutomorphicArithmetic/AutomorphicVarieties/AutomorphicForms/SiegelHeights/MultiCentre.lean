@@ -1,10 +1,10 @@
 module
 
-public import Formalism.RealPlaceAnalysis.StatementE
+public import Formalism.RealPlaceAnalysis.Bundle003
 public import Mathlib.RingTheory.TensorProduct.Basic
 public import Development.AutomorphicArithmetic.DivisorFrames.GelfandElementMemAdjoinCapelliCoeffs
 public import Development.AutomorphicArithmetic.DivisorFrames.MemAdjoinGelfandSupOfCommuteGlGenerators
-import Formalism.RealPlaceAnalysis.ThirdArithmeticHolds
+import Formalism.RealPlaceAnalysis.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

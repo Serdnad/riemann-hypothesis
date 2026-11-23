@@ -6,8 +6,8 @@ public import Development.AbelianVarietyTheory.Definitions.Divisors.IsHomogeneou
 public import Formalism.LocalToGlobal.IndefiniteReal.FWExist
 public import Formalism.LocalToGlobal.LatticeGeometry.InstAddCommSemigroupWt
 public import Formalism.LocalToGlobal.ProjectiveLattices.HalfOneAddSqrtNegIsIntegral
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.AMiEqAMinusQ
-import Development.AbelianVarietyTheory.Proofs.JetHarmonics.WeightExponentsEmbeddingsDegree
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle252
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle130
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -172,7 +172,7 @@ variable {H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host D.host.E}
 
 
 open Classical in
-def toWt (Dw : Datum H) (v : D.what₂.Tau → ℕ → ℤ) : Weight Dw :=
+def toWt (Dw : Datum H) (v : D.what₂.Tau → ℕ → ℤ) : GlobalTheory.AllWt.Weight Dw :=
   fun τ i => ∑ t, if τ.1 = DV.tauEmb D t then v t i else 0
 
 variable {Dw : Datum H}

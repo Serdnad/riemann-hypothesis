@@ -1,6 +1,6 @@
 module
 
-public import Formalism.RankGapBounds.MeanBoundSecondForm
+public import Formalism.RankGapBounds.Bundle001
 public import Formalism.SizeWindowBrackets.FirstPrimeNeSecondPrime
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -40,7 +40,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Formalism.SizeWindowBrackets.ErrorFormsWeakWindowsFalse
-import Formalism.SizeWindowBrackets.GrowthBoundGivesRiemannHypothesis
+import Formalism.SizeWindowBrackets.Bundle002
 import Formalism.SizeWindowBrackets.QuotientSlopeBoundsWith
 import Formalism.SizeWindowBrackets.SChain
 

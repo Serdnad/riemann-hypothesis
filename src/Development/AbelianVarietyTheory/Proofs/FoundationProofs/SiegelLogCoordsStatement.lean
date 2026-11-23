@@ -1,20 +1,20 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Foundations.ApplyEqOfMemAdjoin
-public import Development.AbelianVarietyTheory.Definitions.Foundations.Integral
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle009
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle003
 public import Mathlib.RingTheory.Flat.FaithfullyFlat.Basic
 public import Mathlib.RingTheory.Flat.TorsionFree
 public import Mathlib.RingTheory.Henselian
 public import Mathlib.RingTheory.RegularLocalRing.Defs
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.EvOfFintype
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.EvalSeriesAndDerivUniqueOfCoefficientsStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.EvalSeriesCongIffCoeffAndIsUnitStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsIsDlog
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsIntPrimeDivRootOfUnitySubOnePowStatement
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle096
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle116
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle140
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle032
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle095
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.LogCoordsUnitValueTwoVariableIntegralExpansion
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.MemTranslationInvariantSubfieldIffExponents
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.SiegelUnitAtScaledArgumentTwoVariableExpansionStatement
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.TowerLevelEmbeddingInjectiveRangeAdjoinRootsStatement
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle120
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle283
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle141
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -56,7 +56,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsAlgZpOfPow
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle098
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.KummerTowerQqPowLevelEqQ
 
 @[expose] public section

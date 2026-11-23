@@ -1,10 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CosetRefinement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HermitianLatticeTransportPreservesSelfDual
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RationalPoints
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RelIndexOfLeNsmul
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IdealPeriodLatticeOfCurveDatum
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1019
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1048
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1151
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle230
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.InducedTypeThetaGenusOnePermutes
 import Formalism.HermitianLattices.HermitianLatticesProofs.DualBasic
 import Mathlib.Algebra.Order.Floor.Extended

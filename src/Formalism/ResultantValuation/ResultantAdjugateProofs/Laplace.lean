@@ -1,6 +1,6 @@
 module
 
-public import Formalism.ResultantValuation.ResultantConjugate
+public import Formalism.ResultantValuation.Bundle001
 public import Mathlib.Data.ZMod.IntUnitsPower
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

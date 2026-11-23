@@ -2,7 +2,7 @@ module
 
 public import Formalism.LocalToGlobal.Columns.ChainTwOk
 import Formalism.LocalToGlobal.Columns.ChainOneOk
-public import Formalism.LocalToGlobal.Columns.ChainTwCst
+public import Formalism.LocalToGlobal.Columns.Bundle033
 public import Formalism.LocalToGlobal.Columns.ColumnsProofs.SymLevEnt
 public import Formalism.LocalToGlobal.Columns.FrameEntryAuxiliarySuperdiagonal
 public import Formalism.LocalToGlobal.Columns.ReducedMatrixExtensionEntry

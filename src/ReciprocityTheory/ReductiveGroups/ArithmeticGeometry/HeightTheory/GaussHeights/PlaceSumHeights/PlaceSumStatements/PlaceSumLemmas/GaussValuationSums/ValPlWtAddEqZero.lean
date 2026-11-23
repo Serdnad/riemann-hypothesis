@@ -53,7 +53,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Presheaf
-public import ReciprocityTheory.SemistableReduction.AlgAll
+public import ReciprocityTheory.SemistableReduction.Bundle019
 
 @[expose] public section
 

@@ -1,12 +1,12 @@
 module
 
 public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.EqZeroOfBrauerLocalApplyEqZero
-import GroundTheory.ProfiniteCohomology.Colimit
-public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.CupDecompositionGlobal
-public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.LocalDegrees
+import GroundTheory.ProfiniteCohomology.Bundle007
+public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.Bundle005
+public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.Bundle003
 public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.RealPlaces
 public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.Splitting
-import GroundTheory.ProfiniteCohomology.GlobalClassFormation.SymbolBridgeCyclotomic
+import GroundTheory.ProfiniteCohomology.GlobalClassFormation.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -46,7 +46,6 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 public import GroundTheory.GlobalFields.CyclotomicCharacters.Degree
-public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.LocalSymbol
 
 @[expose] public section
 

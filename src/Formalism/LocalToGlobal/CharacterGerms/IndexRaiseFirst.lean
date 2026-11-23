@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.CharacterGerms.ConstantZeroRestrictPoints
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle010
 public import Formalism.LocalToGlobal.CharacterGerms.MaximalOfValuationGeOne
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

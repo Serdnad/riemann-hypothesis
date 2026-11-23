@@ -1,8 +1,8 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.StatementsCurveDegreeVert
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle030
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.ArithVarZero
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.ExistsIsSheetFinZero
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle019
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.NotIsHorizontalOfDimOne
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -66,14 +66,14 @@ namespace CurveDegreeVert
 
 variable {K : Type} [Fintype K] {ι : K → Type} [∀ k, Fintype (ι k)]
 
-def fsLine (b : K → ℕ) : HermLine ι :=
-  HermLine.ofMetrics (fun k => fsMetric (ι := ι k)) (fun k => (b k : ℤ))
+def fsLine (b : K → ℕ) : _root_.ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι :=
+  _root_.ReciprocityTheory.ChartRestriction.G.Geo.HermLine.ofMetrics (fun k => fsMetric (ι := ι k)) (fun k => (b k : ℤ))
 
-theorem isSmoothHerm_fsLine (b : K → ℕ) : IsSmoothHerm (fsLine b : HermLine ι) := by
-  have hfun : (fsLine b : HermLine ι).h =
+theorem isSmoothHerm_fsLine (b : K → ℕ) : IsSmoothHerm (fsLine b : _root_.ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) := by
+  have hfun : (fsLine b : _root_.ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι).h =
       fun z => ∏ k, Real.sqrt (∑ i : ι k, ‖z ⟨k, i⟩‖ ^ 2) ^ b k := by
     funext z
-    simp only [fsLine, HermLine.ofMetrics, fsMetric, zpow_natCast, EuclideanSpace.norm_eq]
+    simp only [fsLine, _root_.ReciprocityTheory.ChartRestriction.G.Geo.HermLine.ofMetrics, fsMetric, zpow_natCast, EuclideanSpace.norm_eq]
   unfold IsSmoothHerm
   rw [hfun]
   refine contDiffOn_prod fun k _ => (ContDiffOn.sqrt ?_ fun z hz => ?_).pow (b k)
@@ -122,8 +122,8 @@ theorem sum_eq_of_transversal {P : Ideal (MRing ι)} {R R' : Finset ((Σ k, ι k
   · intro t ht
     exact hh _ _ (hRP t ht) (hR'u t (hRP t ht)).exists.choose_spec.2
 
-theorem logNorm_sameOrbit {A : HermLine ι} {s : MRing ι} {a : K → ℕ} (ha : ∀ k, A.a k = a k)
-    (hs : IsMultiHomog s a) {z z' : (Σ k, ι k) → ℂ} (h : SameOrbit z z') :
+theorem logNorm_sameOrbit {A : _root_.ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι} {s : MRing ι} {a : K → ℕ} (ha : ∀ k, A.a k = a k)
+    (hs : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog s a) {z z' : (Σ k, ι k) → ℂ} (h : SameOrbit z z') :
     logNorm A s z = logNorm A s z' := by
   obtain ⟨c, hc, rfl⟩ := h
   unfold logNorm
@@ -142,16 +142,16 @@ theorem proof : CurveDegreeVert.Statement := by
   intro K _ ι _ P A II c R b d hII hP hA hc hRP hRu hd
   have hI := hII K ι
   have hpr : P.IsPrime := hP.2.1.1
-  have hL : ∀ j, IsSmoothHerm ((Fin.elim0 : Fin 0 → HermLine ι) j) := fun j => j.elim0
-  have hsnoc : ∀ C : HermLine ι,
-      (Fin.snoc (Fin.elim0 : Fin 0 → HermLine ι) C : Fin (0 + 1) → HermLine ι) = fun _ => C :=
+  have hL : ∀ j, IsSmoothHerm ((Fin.elim0 : Fin 0 → _root_.ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) j) := fun j => j.elim0
+  have hsnoc : ∀ C : _root_.ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι,
+      (Fin.snoc (Fin.elim0 : Fin 0 → _root_.ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) C : Fin (0 + 1) → _root_.ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) = fun _ => C :=
     fun C => funext fun i => by rw [Fin.fin_one_eq_zero i]; rfl
   have hmono : ∀ e : K → ℕ, curveChartMono c e ∉ P := by
     intro e h
     rw [curveChartMono, hpr.prod_mem_iff] at h
     obtain ⟨k, _, hk⟩ := h
     exact hc k (hpr.mem_of_pow_mem _ hk)
-  set B : HermLine ι := fsLine b with hBdef
+  set B : _root_.ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι := fsLine b with hBdef
   have hB : IsSmoothHerm B := isSmoothHerm_fsLine b
   have hBa : ∀ k, B.a k = b k := fun k => rfl
   have hABa : ∀ k, (A.tensor B).a k = d k := fun k => by
@@ -163,7 +163,7 @@ theorem proof : CurveDegreeVert.Statement := by
 
   have hnz : ∀ z ∈ mcPts P, ∀ k, z ⟨k, c k⟩ ≠ 0 := by
     intro z hz k
-    have hs1 : IsSectionOn P (fsLine (fun _ => 1) : HermLine ι) (curveChartMono c fun _ => 1) :=
+    have hs1 : IsSectionOn P (fsLine (fun _ => 1) : _root_.ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) (curveChartMono c fun _ => 1) :=
       ⟨fun _ => 1, fun _ => rfl, isMultiHomog_curveChartMono c _, hmono _⟩
     have h1 := norm_ne_zero_iff.mpr (eval_ne_zero_of_dimOne arithVarZero hP hs1 hz)
     rw [norm_eval_curveChartMono] at h1
@@ -181,10 +181,10 @@ theorem proof : CurveDegreeVert.Statement := by
   rw [recR_eq, cycR_eq_vertR_of_dimOne arithVarZero _ hP hsb] at hRb
 
   obtain ⟨R', hR'P, hR'u, hsum⟩ := regularityPointsSum_holds.proof K ι P hP
-  have hφ : (fun (j : Fin 0) (z : (Σ k, ι k) → ℂ) => Real.log (((Fin.elim0 : Fin 0 → HermLine ι) j).h z)) =
+  have hφ : (fun (j : Fin 0) (z : (Σ k, ι k) → ℂ) => Real.log (((Fin.elim0 : Fin 0 → _root_.ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) j).h z)) =
       (Fin.elim0 : Fin 0 → ((Σ k, ι k) → ℂ) → ℝ) := funext fun j => j.elim0
-  have hint : ∀ (C : HermLine ι) (s : MRing ι) (e : K → ℕ), (∀ k, C.a k = e k) → IsMultiHomog s e →
-      arInt P s C (Fin.elim0 : Fin 0 → HermLine ι) = ∑ t ∈ R, logNorm C s t := by
+  have hint : ∀ (C : _root_.ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) (s : MRing ι) (e : K → ℕ), (∀ k, C.a k = e k) → _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog s e →
+      arInt P s C (Fin.elim0 : Fin 0 → _root_.ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) = ∑ t ∈ R, logNorm C s t := by
     intro C s e hCe hse
     have hinv : ∀ z z', z ∈ mcPts P → SameOrbit z z' → logNorm C s z = logNorm C s z' :=
       fun z z' _ h => logNorm_sameOrbit hCe hse h

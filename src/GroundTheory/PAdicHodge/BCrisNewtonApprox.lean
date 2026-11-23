@@ -2,7 +2,7 @@ module
 
 public import GroundTheory.PAdicHodge.BCrisNewtonNorm
 public import GroundTheory.PAdicHodge.ACrisBdR
-public import GroundTheory.PAdicHodge.ACrisBdRInj
+public import GroundTheory.PAdicHodge.Bundle009
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

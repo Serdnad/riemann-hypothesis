@@ -1,10 +1,10 @@
 module
 
 public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.IsPeriodOn
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsHodgeLine
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ExistsCoordsAtOfCoordTie
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsVBOnDualAndBidual
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LatRestrictComapSpan
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle010
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle003
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle031
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle030
 public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PCoordConeArithVar
 import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.CoordinateIdeals.MemMCoordIdealOfAevalEqZero
 import Mathlib.Algebra.Module.StablyFree.Basic

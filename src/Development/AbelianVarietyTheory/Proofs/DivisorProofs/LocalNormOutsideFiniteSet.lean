@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.GlobalFields.SemilocalAlgebras.Galois
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FixedUnitsFinitelyManyNorms
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle108
 import Mathlib.Algebra.AffineMonoid.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TrPairApply
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ArchActionReadingsCompatible
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsUniqueArchimedeanMatrixAdeleExtensionOfComStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RealScalarArchimedeanAdeleSmulMatrixRealPlaceStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1193
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1367
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1654
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1391
 import Mathlib.Algebra.Order.Archimedean.Real.Hom
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

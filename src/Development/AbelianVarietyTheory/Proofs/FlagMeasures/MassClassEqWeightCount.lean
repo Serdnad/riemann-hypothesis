@@ -1,24 +1,24 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.TermOverRelationUniqueness
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.CommonStabilizerStabilizersCommensurableVolume
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.FramePairCoordinatesLocalHeightEqResidueCard
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle097
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle246
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.FramePairCoordinatesTransportUnitaryMass
 import Development.AbelianVarietyTheory.Proofs.FlagMeasures.FramesCommonStabiliserEqPairingMatrixStabiliser
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HermitianDoubleCosetFrameClassProperties
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HermitianDoubleCosetTermBasicFacts
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HermitianFrameClassesTotalWeightLe
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle037
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle046
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle163
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HermitianFramesStabilizerActsOnTerms
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HermitianTotalMassLeGenericMass
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.MassOrbitClass
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle146
 import Development.AbelianVarietyTheory.Proofs.FlagMeasures.MemPerpSpan
 import Development.AbelianVarietyTheory.Proofs.FlagMeasures.NotField
 import Development.AbelianVarietyTheory.Proofs.FlagMeasures.SelfDualLatticeUnipotentTranslateStandard
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.SpanToLePerp
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle042
 import Development.AbelianVarietyTheory.Proofs.FlagMeasures.SpanToZero
 import Development.AbelianVarietyTheory.Proofs.FlagMeasures.TermInvariantsIndependentOfWitnesses
 import Development.AbelianVarietyTheory.Proofs.FlagMeasures.TermOverFrameCoordinates
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.TermsCorrespond
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle091
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -64,7 +64,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Formalism.SharpRestriction.CuspSpanNormBounds.Point
+import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle001
 
 @[expose] public section
 

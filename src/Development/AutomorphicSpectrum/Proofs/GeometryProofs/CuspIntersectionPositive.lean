@@ -1,16 +1,16 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.BdryChart
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle012
 public import Development.AutomorphicSpectrum.Statements.GeometryStatements.NineGeoU
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeIPOfFibreLatVec
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ComponentDataHodgeBoundStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ComponentDataIntersectionBoundStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.CuspVolumeMiddle
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle154
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle309
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle277
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle265
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsExcisionNbhdAway
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.PlurisubharmonicLocalStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ContinuousHermitianMatrixFamilyStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.LogDetEigenFramePlurisubharmonicStatement
-import GroundTheory.HeightsAndTheta.Heights.StabilizerCovolume.PhiISemipositive
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle089
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle043
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle145
+import GroundTheory.HeightsAndTheta.Heights.StabilizerCovolume.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -118,6 +118,7 @@ variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E} {D : Da
   [∀ τ, AddCommGroup (W τ)] [∀ τ, Module Ω (W τ)]
   {Dc : ComponentData II (CMType H) K J Ω W} {Hd : HodgeData Dc} {S₀ : Finset ℕ}
 
+attribute [-instance] GlobalTheory.CompHt.fintypePsi in
 theorem unit_factor (a : Fin Dc.nCharts) (t₀ : Fin (Fintype.card (CMType H) * Dc.j * (Dc.N - Dc.j)) → ℂ) (ht₀ : t₀ ∈ ball (0 : Fin (Fintype.card (CMType H) * Dc.j * (Dc.N - Dc.j)) → ℂ) 1)
     (d : MuFrameAt Hd ((Dc.chart a).γ t₀)) (hv0 : valAt Dc.y d.u ((Dc.chart a).γ t₀) ≠ 0) :
     ∃ r > (0 : ℝ), ∃ G : (Fin (Fintype.card (CMType H) * Dc.j * (Dc.N - Dc.j)) → ℂ) → ℂ, DifferentiableOn ℂ G (ball t₀ r) ∧
@@ -163,6 +164,7 @@ theorem unit_factor (a : Fin Dc.nCharts) (t₀ : Fin (Fintype.card (CMType H) * 
     simp only [F, norm_mul, norm_prod, norm_zpow, hval]
   rw [hn, hlog t (hV1 ht), Complex.add_re, Complex.ofReal_re]
 
+attribute [-instance] GlobalTheory.CompHt.fintypePsi in
 theorem point_formula (Or : CptOrigin Y S₀ Dc Hd) {z : Sp ℂ ⟶ Or.𝔐.X} {w : (Σ k, J k) → ℂ}
     (co : CoordsAt Or.𝔐.ξ Dc.y z w) (hI : Or.𝔐.Interior z) (hG : Top.Given) (d : MuFrameAt Hd w)
     {s : CMType H → Fin (Dc.N - Dc.j) → Or.𝔐.Li} (hs : Or.IsSmallPart d s)
@@ -198,6 +200,7 @@ theorem fibreLat_of_vec {X : Scheme.{0}} {t : SAB H X} {z : Sp ℂ ⟶ X} {g : �
   obtain ⟨A, i, φ, u, χ, h1, h2, h3, h4, h5, -⟩ := h
   exact ⟨A, i, φ, u, χ, h1, h2, h3, h4, h5, fun i => i.elim⟩
 
+attribute [-instance] GlobalTheory.CompHt.fintypePsi in
 theorem chart_formula (hG : Top.Given) (Or : CptOrigin Y S₀ Dc Hd) {U : ((Σ k, J k) → ℂ) → ℝ}
     (hU : Or.𝔐.IsCuspWeight Or.sm U) (a : Fin Dc.nCharts)
     (t₀ : Fin (Fintype.card (CMType H) * Dc.j * (Dc.N - Dc.j)) → ℂ) (ht₀ : t₀ ∈ ball (0 : Fin (Fintype.card (CMType H) * Dc.j * (Dc.N - Dc.j)) → ℂ) 1) :
@@ -251,6 +254,7 @@ theorem chart_formula (hG : Top.Given) (Or : CptOrigin Y S₀ Dc Hd) {U : ((Σ k
     simp only [C, aff]
     ring
 
+attribute [-instance] GlobalTheory.CompHt.fintypePsi in
 theorem near_all (hG : Top.Given) (Or : CptOrigin Y S₀ Dc Hd) {U : ((Σ k, J k) → ℂ) → ℝ}
     (hU : Or.𝔐.IsCuspWeight Or.sm U) (a : Fin Dc.nCharts) (t₀ : Fin (Fintype.card (CMType H) * Dc.j * (Dc.N - Dc.j)) → ℂ) (ht₀ : t₀ ∈ offBd Dc a) :
     (∃ V : Set (Fin (Fintype.card (CMType H) * Dc.j * (Dc.N - Dc.j)) → ℂ), IsOpen V ∧ t₀ ∈ V ∧ IsPsh V (fun t => phMu Hd ((Dc.chart a).γ t)) ∧
@@ -309,6 +313,7 @@ theorem near_all (hG : Top.Given) (Or : CptOrigin Y S₀ Dc Hd) {U : ((Σ k, J k
   ring
 
 
+attribute [-instance] GlobalTheory.CompHt.fintypePsi in
 theorem _root_.GlobalTheory.CompanionTheory.Relay.cusp_intersection_positive : Top.Given → ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] [IsAbelianGalois ℚ E] (H : Host E) (D : Datum H) (Xo : ∀ l : Tor.Level H, Moduli D l) (l : Tor.Level H) (c : Coeff l) (Y : Model (Xo l) c (algebraMap (𝓞 c.F) c.F)) (II : IntersectionSystem) (K : Type) [Fintype K] (J : K → Type) [∀ k, Fintype (J k)] (Ω : Type) [Field Ω] [Algebra ℚ Ω] (W : CMType H → Type) [∀ τ, AddCommGroup (W τ)] [∀ τ, Module Ω (W τ)] (Dc : ComponentData II (CMType H) K J Ω W) (Hd : HodgeData Dc) (S₀ : Finset ℕ) (Or : CptOrigin Y S₀ Dc Hd) (U : ((Σ k, J k) → ℂ) → ℝ), Or.𝔐.IsCuspWeight Or.sm U → ChartPsh Dc (phMu Hd) ∧ ChartCont Dc (phMu Hd) ∧ ChartPsh Dc (corrW Hd U) ∧ ChartCont Dc (corrW Hd U) := by
   intro hG E _ _ _ _ H D Xo l c Y II K _ J _ Ω _ _ W _ _ Dc Hd S₀ Or U hU
   refine ⟨fun a => GlobalTheory.T.plurisubharmonic_local _ _ _ (isOpen_offBd Dc a) fun t ht => ?_, fun a t ht => ?_,

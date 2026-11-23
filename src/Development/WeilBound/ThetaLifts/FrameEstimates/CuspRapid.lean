@@ -1,28 +1,21 @@
 module
 
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.IsSmoothModerateOfIsAutFunSm
-public import Development.WeilBound.ThetaLifts.CartanFactorisation.CartanConj
-public import Development.WeilBound.ThetaLifts.EigenvalueEndgame.OrthogonalDecomposition.SigThConst
-public import Development.WeilBound.ThetaLifts.FrameEstimates.TowerRallisLemma
-public import Development.WeilBound.ThetaLifts.FrameEstimates.BlockForm
+public import Development.WeilBound.ThetaLifts.CartanFactorisation.Bundle002
+public import Development.WeilBound.ThetaLifts.EigenvalueEndgame.OrthogonalDecomposition.Bundle001
+public import Development.WeilBound.ThetaLifts.FrameEstimates.Bundle002
+public import Development.WeilBound.ThetaLifts.FrameEstimates.Bundle003
 public import Development.WeilBound.ThetaLifts.FrameEstimates.CoefBd
 public import Development.WeilBound.ThetaLifts.FrameEstimates.CoefEq
-public import Development.WeilBound.ThetaLifts.FrameEstimates.CoefReal
 public import Development.WeilBound.ThetaLifts.FrameEstimates.CuspRapidOf
-public import Development.WeilBound.ThetaLifts.FrameEstimates.DomContinuous
-public import Development.WeilBound.ThetaLifts.FrameEstimates.FourierInj
-public import Development.WeilBound.ThetaLifts.FrameEstimates.GrpTop
-public import Development.WeilBound.ThetaLifts.FrameEstimates.IInvOfParts
+public import Development.WeilBound.ThetaLifts.FrameEstimates.Bundle010
+public import Development.WeilBound.ThetaLifts.FrameEstimates.Bundle011
+public import Development.WeilBound.ThetaLifts.FrameEstimates.Bundle006
+public import Development.WeilBound.ThetaLifts.FrameEstimates.Bundle014
 public import Development.WeilBound.ThetaLifts.FrameEstimates.InitialPairs.TriplePairHolds
-public import Development.WeilBound.ThetaLifts.FrameEstimates.IsCompactIntV
-public import Development.WeilBound.ThetaLifts.FrameEstimates.LinDer
-public import Development.WeilBound.ThetaLifts.FrameEstimates.LineEx
-public import Development.WeilBound.ThetaLifts.FrameEstimates.LineGen
-public import Development.WeilBound.ThetaLifts.FrameEstimates.OneMemLines
+public import Development.WeilBound.ThetaLifts.FrameEstimates.Bundle007
+public import Development.WeilBound.ThetaLifts.FrameEstimates.Bundle013
 public import Development.WeilBound.ThetaLifts.FrameEstimates.SchrAddPt
-public import Development.WeilBound.ThetaLifts.FrameEstimates.SigRapid
-public import Development.WeilBound.ThetaLifts.FrameEstimates.UMGLin
-public import Development.WeilBound.ThetaLifts.FrameEstimates.UMGSmooth
 public import Development.WeilBound.ThetaLifts.FrameEstimates.WeilConv
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,0 +1,150 @@
+module
+
+public import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.MarkedOrderReduction.Bundle003
+public import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.MarkedOrderReduction.MonomialSplittingFunctoriality
+public import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.MonomialCase.MonomialPrincipalizationBaseChange
+public import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.MarkedOrderReduction.TransformedComponentHypotheses
+public import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.MonomialCase.StrictTransformComponents
+public import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.MonomialCase.TransformedBoundaryComponents
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+
+@[expose] public section
+
+section
+
+universe u
+
+open CategoryTheory CategoryTheory.Limits AlgebraicGeometry
+
+noncomputable section
+
+namespace FunctorialResolution.EmbeddedResolution
+
+namespace MarkedPullbackSquare
+
+variable {T : MarkedIdealWithBoundary.{u}} {Y : Scheme.{u}} {g : Y ⟶ T.scheme}
+
+theorem smooth_verticalMap (S : MarkedPullbackSquare T g) [AlgebraicGeometry.Smooth g] :
+    AlgebraicGeometry.Smooth S.left :=
+  MorphismProperty.IsStableUnderBaseChange.of_isPullback
+    (P := @AlgebraicGeometry.Smooth) S.isPullback.flip ‹AlgebraicGeometry.Smooth g›
+
+theorem verticalMap_comp_lowerStructMap (S : MarkedPullbackSquare T g) (q : Y ⟶ Spec (CommRingCat.of T.base))
+    (hq : g ≫ T.structMap = q) :
+    S.left ≫ S.structMap = S.top ≫ q := by
+  rw [← S.bottom_structMap, ← hq, ← Category.assoc, S.isPullback.w, Category.assoc]
+
+theorem pullbackOverField_isAdmissible_of_sameNontrivialBoundary (hGeom : MonomialGeometryHypotheses.{u}) (S : MarkedPullbackSquare T g)
+    (k' : Type u) [Field k'] (q : Y ⟶ Spec (CommRingCat.of k'))
+    (E : List S.topScheme.IdealSheafData)
+    (hE : MarkedIdealWithBoundary.SameNontrivialBoundary (List.map (fun D => D.comap S.left) S.boundary) E)
+    (hV : (S.upperTriple k' q E).IsAdmissible) :
+    (S.lowerTriple.pullbackOverField S.topScheme k' (S.top ≫ q) S.left).IsAdmissible :=
+  hGeom.withBoundary_valid (S.upperTriple k' q E) hV
+    ((S.lowerTriple.pullbackOverField S.topScheme k' (S.top ≫ q) S.left).boundary) hE.symm
+
+theorem orderAt_comap_verticalMap_le_of_forall_orderAt_le (S : MarkedPullbackSquare T g) (hT : T.IsAdmissible)
+    (hg : OrderAtPullbackInvariant T g)
+    (hord : ∀ x : ↥S.baseScheme, orderAt S.ideal x ≤ (S.mult : ℕ∞)) (y : ↥S.topScheme) :
+    orderAt (S.ideal.comap S.left) y ≤ (S.mult : ℕ∞) :=
+  S.orderAt_comap_verticalMap_le hT hg S.ideal _ hord y
+
+end MarkedPullbackSquare
+
+theorem baseChangeCompatible_of_smooth (hG : PrincipalizationGeometryHypotheses.{u}) (τ : ComapIsoInvariance.{u}) (n : ℕ)
+    (F G : PrincipalizationAssignment.{u}) (hF : IsOrderReduction (fun d => d ≤ n) F G)
+    (T : MarkedIdealWithBoundary.{u}) (hT : T.IsAdmissible) (hdim : T.krullDimSucc ≤ n) {Y : Scheme.{u}}
+    (g : Y ⟶ T.scheme) [AlgebraicGeometry.Smooth g]
+    (q : Y ⟶ Spec (CommRingCat.of T.base)) (hq : g ≫ T.structMap = q) :
+    BaseChangeCompatible τ F n T g T.base q := by
+  have hgord : OrderAtPullbackInvariant T g := orderAtPullbackInvariant_of_smooth T hT g
+  refine ⟨?_, ?_, ?_, ?_, hgord⟩
+  · intro S hord E hE hV hdimS
+    have : AlgebraicGeometry.Smooth S.left := MarkedPullbackSquare.smooth_verticalMap S
+    exact hF.smooth_pullback S.lowerTriple S.valid (le_trans S.dim_le hdim) hord S.topScheme
+      (S.top ≫ q) S.left (MarkedPullbackSquare.verticalMap_comp_lowerStructMap S q hq) E hE hV hdimS
+      (fun y => MarkedPullbackSquare.orderAt_comap_verticalMap_le_of_forall_orderAt_le S hT hgord hord y)
+  · exact inferInstance
+  · intro S hmon E hE hmon'
+    have : AlgebraicGeometry.Smooth S.left := MarkedPullbackSquare.smooth_verticalMap S
+    exact monomialPrincipalization_isPullbackBlowupSequence_of_smooth hG.monomialInputs τ S.lowerTriple hmon
+      S.topScheme (S.top ≫ q) S.left (MarkedPullbackSquare.verticalMap_comp_lowerStructMap S q hq) E hE hmon'
+  · intro S E hE hV
+    have : AlgebraicGeometry.Smooth S.left := MarkedPullbackSquare.smooth_verticalMap S
+    exact hG.nonMonomialPart_comap_of_sameNontrivialBoundary S.lowerTriple S.valid S.topScheme
+      (S.top ≫ q) S.left (MarkedPullbackSquare.verticalMap_comp_lowerStructMap S q hq)
+      (MarkedPullbackSquare.pullbackOverField_isAdmissible_of_sameNontrivialBoundary hG.monomialInputs S T.base q E hE hV)
+      E hE hV
+
+end FunctorialResolution.EmbeddedResolution
+
+end
+end
+
+section
+
+universe u
+
+open CategoryTheory AlgebraicGeometry
+
+noncomputable section
+
+namespace FunctorialResolution.EmbeddedResolution
+
+theorem MonomialStrictTransformComponents.transformedComponentHypotheses :
+    MonomialStrictTransformComponents.TransformedComponentHypotheses.{u} := by
+  exact {
+    transformed_components := intersectionComponents_transformedBoundary_of_isBlowupAlongIdealSheaf
+    strictTransform_components := exists_eq_closure_of_isIrreducibleComponentOf_strictTransform }
+
+theorem principalizationGeometryHypotheses : PrincipalizationGeometryHypotheses.{u} := by
+  have h := StrictTransformCase.strictTransformHypotheses_of_residualHypotheses
+    (MonomialStrictTransformComponents.strictTransformHypotheses_of_transformedComponents
+      MonomialStrictTransformComponents.transformedComponentHypotheses)
+  have hOrder : OrderReductionHypotheses.{u} := {
+    controlledTransform_orderAt_le := orderAt_controlledTransform_le_of_orderAt_eq_on_center
+    strictTransform_components := h.strictTransform_components
+    monomial := h.monomial }
+  exact geometricHypotheses_of_orderReductionHypotheses hOrder
+
+end FunctorialResolution.EmbeddedResolution
+
+end
+end

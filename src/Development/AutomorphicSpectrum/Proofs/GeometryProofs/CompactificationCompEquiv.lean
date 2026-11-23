@@ -3,19 +3,19 @@ module
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.CInfGood
 public import Formalism.LocalToGlobal.ProjectiveLattices.CompHt
 public import Development.AbelianVarietyTheory.BlockTheory.ExistenceTori.DeltaDatumCombinedCoefficient
-public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.CountableFractionRingMvPolynomial
-public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.EvCEqZeroIffRdUEqZero
-public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.ExistsBijectiveKappa
-import Development.AbelianVarietyTheory.Proofs.GenericRegularity.KapFgTrdeg
+public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.Bundle040
+public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.Bundle048
+public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.Bundle049
+import Development.AbelianVarietyTheory.Proofs.GenericRegularity.Bundle014
 import Development.AbelianVarietyTheory.Proofs.GenericRegularity.MemRangeOfIsAlgebraicRatFun
 import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.IsDomainAndIsIntegrallyClosedAtPrimeOfSmoothOfCo
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsEquivComp
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsRingHomComplexCompEqOfCountable
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle528
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle010
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.CoefficientFieldAlgClosedInFunctionFieldsOfPerio
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.GeometricLiftsOfFrames
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.SectionsGenericIndicators
-import Formalism.LocalToGlobal.ProjectiveLattices.CompFin
-import Formalism.LocalToGlobal.ProjectiveLattices.FreeBridge
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle102
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle261
+import Formalism.LocalToGlobal.ProjectiveLattices.Bundle014
+import Formalism.LocalToGlobal.ProjectiveLattices.Bundle035
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -56,10 +56,10 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.GGConn
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.Bundle014
 public import Development.AbelianVarietyTheory.Definitions.Foundations.IsProbabilityMeasureMuPart
 public import Development.AbelianVarietyTheory.Definitions.ShimuraVarieties.IsOpenOfMemIrreducibleComponentsOfFinite
-import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.DefiniteFormStabilizerFiniteAwayFromP
+import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle002
 
 @[expose] public section
 
@@ -325,10 +325,10 @@ theorem comp_over : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : 
   obtain ⟨i1, -, i3, -, -, -⟩ := GlobalTheory.CompanionTheory.Ar.Rec.sections_generic_indicators E H Dw l Xo c r U h e hL
   have hone := hL.unTest σ hσ
   have hv0 : ∀ Z Z', Z' ≠ Z → ∀ x ∈ ((U σ).X (κ Z')).dom, rdU (U σ) (e Z) (κ Z') x = 0 :=
-    fun Z Z' hne x hx => (ht Z' 0 0 dom_zero (e Z) (hL.e_sec Z)).1 ((hL.e_val Z).2 Z' hne) x hx
+    fun Z Z' hne x hx => (ht Z' 0 0 CompOver.dom_zero (e Z) (hL.e_sec Z)).1 ((hL.e_val Z).2 Z' hne) x hx
   have hv1 : ∀ Z, ∀ x ∈ ((U σ).X (κ Z)).dom, rdU (U σ) (e Z) (κ Z) x = 1 := by
     intro Z x hx
-    have h0 := (ht Z 0 0 dom_zero (e Z - 1) (sub_mem (hL.e_sec Z) one_mem_weight_zero_sections)).1 (by
+    have h0 := (ht Z 0 0 CompOver.dom_zero (e Z - 1) (sub_mem (hL.e_sec Z) one_mem_weight_zero_sections)).1 (by
       show evA (genFr h Z) (hL.genT Z) (e Z - 1) = 0
       rw [map_sub, map_one]
       exact sub_eq_zero.2 (hL.e_val Z).1) x hx

@@ -1,8 +1,7 @@
 module
 
-import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.BaseLengthBound.EqZeroOfOrdTop
-public import Formalism.LocalToGlobal.ProjectiveLattices.LiftCurveSt
-public import Formalism.LocalToGlobal.ProjectiveLattices.SecPtRed
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.BaseLengthBound.Bundle002
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle031
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -63,7 +62,7 @@ lemma nval_neg' {T : CDVR} (e : ℕ) (x : T.Fr) : nval T.V e (-x) = nval T.V e x
 variable (hs : ∀ ζ, SecPt ζ (y ζ))
 
 def liftC (ζ : PtsG G la) : Lc (xplus X E hM) la G.w →+* (hs ζ).T.Fr :=
-  IsLocalization.Away.lift (sec (xplus X E hM) la G.w 0) (S := Lc (xplus X E hM) la G.w) (hs ζ).s0
+  IsLocalization.Away.lift (Formalism.MainNotions.Gaps.EtaleWeightGaps.sec (xplus X E hM) la G.w 0) (S := Lc (xplus X E hM) la G.w) (hs ζ).s0
 
 lemma liftC_alg (ζ : PtsG G la) (r : Rp (xplus X E hM) la G.N) :
     liftC hs ζ (algebraMap (Rp (xplus X E hM) la G.N) (Lc (xplus X E hM) la G.w) r) = (hs ζ).ev r :=

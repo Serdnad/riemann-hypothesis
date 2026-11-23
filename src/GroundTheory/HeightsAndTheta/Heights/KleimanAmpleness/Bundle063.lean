@@ -1,0 +1,320 @@
+module
+
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle052
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle046
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle007
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle045
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.ChartRingOverOneBlockComp
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle051
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.ChartRingOverOneBlockBase
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle061
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.RegularLocalRing.Defs
+import Mathlib.RingTheory.WittVector.IsPoly
+import Mathlib.Tactic.Basify
+import Mathlib.Tactic.ENatToNat
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.Polynomial.Basic
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Topology.Sheaves.Init
+
+@[expose] public section
+
+section
+
+set_option maxSynthPendingDepth 1
+
+namespace GroundTheory.Heights₂.Heights.Kleiman.SectionsOverLocalization
+
+open ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.KH (chartRingOver secOver GeneratesOver)
+
+namespace ModelChangeGen
+
+variable {F : Type} [Field F] {Ω : Type} [Field Ω] [Algebra F Ω]
+
+def fracRing (A : Subalgebra F Ω) (p : Ideal A) [hp : p.IsPrime] : Subring Ω where
+  carrier := {u | ∃ a b : A, b ∉ p ∧ u = (a : Ω) / b}
+  mul_mem' := by
+    rintro _ _ ⟨a, b, hb, rfl⟩ ⟨a', b', hb', rfl⟩
+    refine ⟨a * a', b * b', fun h => (hp.mem_or_mem h).elim hb hb', ?_⟩
+    simp only [MulMemClass.coe_mul]
+    rw [div_mul_div_comm]
+  one_mem' := ⟨1, 1, fun h => hp.ne_top ((Ideal.eq_top_iff_one _).mpr h), by simp⟩
+  add_mem' := by
+    rintro _ _ ⟨a, b, hb, rfl⟩ ⟨a', b', hb', rfl⟩
+    have h0 : ∀ d : A, d ∉ p → (d : Ω) ≠ 0 := fun d hd h =>
+      hd (by rw [show d = 0 from Subtype.ext h]; exact p.zero_mem)
+    refine ⟨a * b' + b * a', b * b', fun h => (hp.mem_or_mem h).elim hb hb', ?_⟩
+    simp only [AddMemClass.coe_add, MulMemClass.coe_mul]
+    rw [div_add_div _ _ (h0 b hb) (h0 b' hb')]
+  zero_mem' := ⟨0, 1, fun h => hp.ne_top ((Ideal.eq_top_iff_one _).mpr h), by simp⟩
+  neg_mem' := by
+    rintro _ ⟨a, b, hb, rfl⟩
+    exact ⟨-a, b, hb, by simp only [NegMemClass.coe_neg]; ring⟩
+
+theorem mem_locIn (A : Subalgebra F Ω) (p : Ideal A) [hp : p.IsPrime] (a : A) :
+    (a : Ω) ∈ IndefiniteRowSideFullHecke.Kleiman2.locIn A p :=
+  Subring.subset_closure ⟨a, 1, fun h => hp.ne_top ((Ideal.eq_top_iff_one _).mpr h), by simp⟩
+
+theorem inv_mem_locIn (A : Subalgebra F Ω) (p : Ideal A) (a : A) (ha : a ∉ p) :
+    (a : Ω)⁻¹ ∈ IndefiniteRowSideFullHecke.Kleiman2.locIn A p :=
+  Subring.subset_closure ⟨1, a, ha, by simp⟩
+
+theorem inv_not_mem_locIn (A : Subalgebra F Ω) (p : Ideal A) [hp : p.IsPrime] (a : A) (ha : a ∈ p)
+    (ha0 : (a : Ω) ≠ 0) : (a : Ω)⁻¹ ∉ IndefiniteRowSideFullHecke.Kleiman2.locIn A p := by
+  intro hmem
+  have hle : IndefiniteRowSideFullHecke.Kleiman2.locIn A p ≤ fracRing A p := Subring.closure_le.mpr fun u hu => hu
+  obtain ⟨a', b, hb, hab⟩ := hle hmem
+  have hb0 : (b : Ω) ≠ 0 := fun h => hb (by rw [show b = 0 from Subtype.ext h]; exact p.zero_mem)
+  have hba : b = a * a' := by
+    apply Subtype.ext
+    simp only [MulMemClass.coe_mul]
+    field_simp at hab
+    linear_combination hab
+  exact hb (hba ▸ p.mul_mem_right a' ha)
+
+theorem mem_chart_of_mem_secOver {K : Type} [Fintype K] {ι : K → Type} {y : (Σ k, ι k) → Ω} {δ : K → ℤ}
+    {s : Ω} (hs : s ∈ secOver F y δ) (c : ∀ k, ι k) (hc : ∀ k, y ⟨k, c k⟩ ≠ 0) :
+    s * ∏ k, y ⟨k, c k⟩ ^ (-δ k) ∈ chartRingOver F y c := by
+  simp only [secOver, Submodule.mem_iInf, Submodule.mem_comap, LinearMap.mulRight_apply] at hs
+  exact hs c hc
+
+theorem prod_twist {K : Type} [Fintype K] [DecidableEq K] {ι : K → Type} (y : (Σ k, ι k) → Ω)
+    (c : ∀ k, ι k) (hc : ∀ k, y ⟨k, c k⟩ ≠ 0) (β : K → ℤ) (k₀ : K) (m : ℕ) :
+    ∏ k, y ⟨k, c k⟩ ^ (-(β + (m : ℤ) • IndefiniteRowSideFullHecke.Kleiman2.baseDeg k₀) k) =
+      (∏ k, y ⟨k, c k⟩ ^ (-β k)) * (y ⟨k₀, c k₀⟩ ^ m)⁻¹ := by
+  have h1 : ∀ k, y ⟨k, c k⟩ ^ (-(β + (m : ℤ) • IndefiniteRowSideFullHecke.Kleiman2.baseDeg k₀) k) =
+      y ⟨k, c k⟩ ^ (-β k) * y ⟨k, c k⟩ ^ (-((m : ℤ) • IndefiniteRowSideFullHecke.Kleiman2.baseDeg k₀) k) := by
+    intro k
+    rw [← zpow_add₀ (hc k)]
+    congr 1
+    simp only [Pi.add_apply]
+    ring
+  rw [Finset.prod_congr rfl (fun k _ => h1 k), Finset.prod_mul_distrib]
+  congr 1
+  rw [Finset.prod_eq_single k₀]
+  · simp [IndefiniteRowSideFullHecke.Kleiman2.baseDeg, zpow_neg]
+  · intro k _ hk
+    simp [IndefiniteRowSideFullHecke.Kleiman2.baseDeg, hk]
+  · intro h
+    exact absurd (Finset.mem_univ k₀) h
+
+theorem exists_not_mem {A : Subalgebra F Ω} (p : Ideal A) [hp : p.IsPrime] {n : ℕ} (t : Fin n → Ω)
+    (ht : ∀ j, t j ∈ A) (u : Fin n → Ω) (hu : ∀ j, u j ∈ A) (hsum : ∑ j, u j * t j = 1) :
+    ∃ j, (⟨t j, ht j⟩ : A) ∉ p := by
+  by_contra hcon
+  simp only [not_exists, not_not] at hcon
+  have hmem : (∑ j, (⟨u j, hu j⟩ : A) * ⟨t j, ht j⟩) ∈ p :=
+    Ideal.sum_mem _ fun j _ => Ideal.mul_mem_left _ _ (hcon j)
+  have h1 : (∑ j, (⟨u j, hu j⟩ : A) * ⟨t j, ht j⟩) = 1 := by
+    apply Subtype.ext
+    simp only [AddSubmonoidClass.coe_finsetSum, MulMemClass.coe_mul, OneMemClass.coe_one]
+    exact hsum
+  exact hp.ne_top ((Ideal.eq_top_iff_one _).mpr (h1 ▸ hmem))
+
+theorem gen_of_gen {N : ℕ} {K : Type} [Fintype K] [DecidableEq K] {ι : K → Type}
+    {y : (Σ k, ι k) → Ω} {k₀ : K} {e : ι k₀ ≃ Fin (N + 1)}
+    {K' : Type} [Fintype K'] [DecidableEq K'] {ι' : K' → Type}
+    {y' : (Σ k, ι' k) → Ω} {k₀' : K'} {e' : ι' k₀' ≃ Fin (N + 1)}
+    (hpts : IndefiniteRowSideFullHecke.Kleiman2.modelPts F y' ⊆ IndefiniteRowSideFullHecke.Kleiman2.modelPts F y)
+    (hx : IndefiniteRowSideFullHecke.Kleiman2.blockVec y k₀ ∘ e.symm = IndefiniteRowSideFullHecke.Kleiman2.blockVec y' k₀' ∘ e'.symm)
+    {β : K → ℤ} {β' : K' → ℤ} (m : ℕ)
+    (hs : secOver F y' (β' + (m : ℤ) • IndefiniteRowSideFullHecke.Kleiman2.baseDeg k₀') ≤
+      secOver F y (β + (m : ℤ) • IndefiniteRowSideFullHecke.Kleiman2.baseDeg k₀))
+    (hgen' : IndefiniteRowSideFullHecke.Kleiman2.IsGenerated F y' (β' + (m : ℤ) • IndefiniteRowSideFullHecke.Kleiman2.baseDeg k₀'))
+    {n : ℕ} {h : Fin n → Ω} (hh : ∀ j, h j ∈ secOver F y β) (hh' : ∀ j, h j ∈ secOver F y' β')
+    (hg : GeneratesOver F y β h) : GeneratesOver F y' β' h := by
+  intro c' hc'
+  set g' := ∏ k, y' ⟨k, c' k⟩ ^ (-β' k) with hg'def
+  have ht : ∀ j, h j * g' ∈ chartRingOver F y' c' := fun j => mem_chart_of_mem_secOver (hh' j) c' hc'
+  let t : Fin n → chartRingOver F y' c' := fun j => ⟨h j * g', ht j⟩
+  by_cases htop : Ideal.span (Set.range t) = ⊤
+  · obtain ⟨u, hu⟩ := (Ideal.mem_span_range_iff_exists_fun).mp ((Ideal.eq_top_iff_one _).mp htop)
+    refine ⟨fun j => u j, fun j => (u j).2, ?_⟩
+    have := congrArg Subtype.val hu
+    simpa [t] using this
+  exfalso
+  obtain ⟨p', hp'max, hle⟩ := Ideal.exists_le_maximal _ htop
+  have hp' : p'.IsPrime := hp'max.isPrime
+  obtain ⟨c, hc, p, hp, hzeq⟩ := hpts ⟨c', hc', p', hp', rfl⟩
+
+  obtain ⟨r, sv, hsv, hsgen⟩ := hgen'
+  obtain ⟨v, hv, hvsum⟩ := hsgen c' hc'
+  simp only [prod_twist y' c' hc' β' k₀' m] at hvsum
+  have hsv' : ∀ l, sv l * (g' * (y' ⟨k₀', c' k₀'⟩ ^ m)⁻¹) ∈ chartRingOver F y' c' := fun l => by
+    have := mem_chart_of_mem_secOver (hsv l) c' hc'
+    rwa [prod_twist y' c' hc' β' k₀' m] at this
+  obtain ⟨l, hl⟩ := exists_not_mem p' _ hsv' v hv hvsum
+
+  set g := ∏ k, y ⟨k, c k⟩ ^ (-β k) with hgdef
+  obtain ⟨u, hu, husum⟩ := hg c hc
+  obtain ⟨j, hj⟩ := exists_not_mem p _ (fun j => mem_chart_of_mem_secOver (hh j) c hc) u hu husum
+  have hw : sv l * (g * (y ⟨k₀, c k₀⟩ ^ m)⁻¹) ∈ chartRingOver F y c := by
+    have := mem_chart_of_mem_secOver (hs (hsv l)) c hc
+    rwa [prod_twist y c hc β k₀ m] at this
+
+  have hxa : y ⟨k₀, c k₀⟩ = y' ⟨k₀', e'.symm (e (c k₀))⟩ := by
+    have := congrFun hx (e (c k₀))
+    simpa [IndefiniteRowSideFullHecke.Kleiman2.blockVec] using this
+  have hratio : y ⟨k₀, c k₀⟩ / y' ⟨k₀', c' k₀'⟩ ∈ chartRingOver F y' c' := by
+    rw [hxa]
+    exact Algebra.subset_adjoin ⟨⟨k₀', e'.symm (e (c k₀))⟩, rfl⟩
+
+  have hne : ∀ {A : Subalgebra F Ω} {q : Ideal A} (a : A), a ∉ q → (a : Ω) ≠ 0 := fun a ha h0 =>
+    ha (by rw [show a = 0 from Subtype.ext h0]; exact Submodule.zero_mem _)
+  have hjne := hne _ hj
+  have hlne := hne _ hl
+  have hg'ne : g' ≠ 0 := Finset.prod_ne_zero_iff.mpr fun k _ => zpow_ne_zero _ (hc' k)
+  have hgne : g ≠ 0 := Finset.prod_ne_zero_iff.mpr fun k _ => zpow_ne_zero _ (hc k)
+  have hxa0 : y ⟨k₀, c k₀⟩ ≠ 0 := hc k₀
+  have hxb0 : y' ⟨k₀', c' k₀'⟩ ≠ 0 := hc' k₀'
+  have hhj : h j ≠ 0 := fun h0 => hjne (by simp [h0])
+  have hsl : sv l ≠ 0 := fun h0 => hlne (by simp [h0])
+
+  have hmemp : t j ∈ p' := hle (Ideal.subset_span ⟨j, rfl⟩)
+  have hkey : (h j * g')⁻¹ =
+      (h j * g)⁻¹ * (sv l * (g * (y ⟨k₀, c k₀⟩ ^ m)⁻¹)) *
+        (sv l * (g' * (y' ⟨k₀', c' k₀'⟩ ^ m)⁻¹))⁻¹ * (y ⟨k₀, c k₀⟩ / y' ⟨k₀', c' k₀'⟩) ^ m := by
+    rw [div_pow]
+    field_simp
+  apply inv_not_mem_locIn _ p' (t j) hmemp (mul_ne_zero hhj hg'ne)
+  change (h j * g')⁻¹ ∈ _
+  rw [hkey]
+  refine mul_mem (mul_mem (mul_mem ?_ ?_) ?_) (pow_mem ?_ m)
+  · rw [hzeq]; exact inv_mem_locIn _ p _ hj
+  · rw [hzeq]; exact mem_locIn _ p ⟨_, hw⟩
+  · exact inv_mem_locIn _ p' _ hl
+  · exact mem_locIn _ p' ⟨_, hratio⟩
+
+end ModelChangeGen
+
+
+open ModelChangeGen in
+theorem ModelChangeGen.proof (hT : ModelTwistGenerated.Statement) : ModelChangeGen.Statement := by
+  intro F _ Ω _ _ N K _ _ ι _ y k₀ e K' _ _ ι' _ y' k₀' e' hy hy' hx β β' hs n h hh
+  have hpts := modelPts_eq_of_base F y k₀ e y' k₀' e' hy hy' hx
+  have h0 : secOver F y β = secOver F y' β' := by simpa using hs 0
+  have hh' : ∀ j, h j ∈ secOver F y' β' := fun j => h0 ▸ hh j
+  obtain ⟨c₀, hc₀⟩ := hT F K ι Ω y k₀ inferInstance hy β
+  obtain ⟨c₀', hc₀'⟩ := hT F K' ι' Ω y' k₀' inferInstance hy' β'
+  have hm := hc₀ (c₀.toNat : ℕ) (Int.self_le_toNat c₀)
+  have hm' := hc₀' (c₀'.toNat : ℕ) (Int.self_le_toNat c₀')
+  constructor
+  · exact gen_of_gen (e := e) (e' := e') hpts.ge hx c₀'.toNat (hs _).ge hm' hh hh'
+  · exact gen_of_gen (e := e') (e' := e) hpts.le hx.symm c₀.toNat (hs _).le hm hh' hh
+
+end GroundTheory.Heights₂.Heights.Kleiman.SectionsOverLocalization
+end
+
+section
+
+set_option maxSynthPendingDepth 1
+
+namespace GroundTheory.Heights₂.Heights.Kleiman.SectionsOverLocalization
+
+open MvPolynomial
+open ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.KH (mIdealOver chartRingOver secOver)
+
+theorem RealiseRestrict.proof (hG : ModelGenerated.Statement) (hS : SpanSecs.Statement)
+    (hR : ResidueMap.Statement) (hRG : ResidueGen.Statement) (hC : RestrictGen.Statement) :
+    RealiseRestrict.Statement := by
+  intro F _ K _ _ ι _ Ω _ _ y k₀ N e x hx hy Q β hQ K' _ _ y' hy' hI hxy
+  subst hx
+  obtain ⟨Q'', hQ''⟩ := BundleOfDeg.full F K ι K' y' k₀ N e hy' β
+  obtain ⟨ca, hca⟩ := Kleiman.Generated.full F Ω N (IndefiniteRowSideFullHecke.Kleiman2.blockVec y k₀ ∘ e.symm) Q
+  obtain ⟨cb, hcb⟩ := Kleiman.Generated.full F K' N (IndefiniteRowSideFullHecke.Kleiman2.blockVec y' k₀ ∘ e.symm) Q''
+  obtain ⟨cg, hcg⟩ := hG F K ι Ω y k₀ hy β
+  obtain ⟨c, hcA, hcB, hcG⟩ : ∃ c, ca ≤ c ∧ cb ≤ c ∧ cg ≤ c :=
+    ⟨max ca (max cb cg), by omega, by omega, by omega⟩
+  obtain ⟨R, σ, hfr, hblk, hch⟩ := hR F K ι Ω y K' y' hI
+  choose d₀ hd₀ using hy'.1
+  obtain ⟨ρ, hρ1, hρ2⟩ := hRG F K ι Ω y K' y' hI R σ hfr hch (β + c • IndefiniteRowSideFullHecke.Kleiman2.baseDeg k₀) (hcg c hcG) d₀ hd₀
+
+  have hT : ∀ t : K', t ∈ secOver F y' (β + c • IndefiniteRowSideFullHecke.Kleiman2.baseDeg k₀) ↔
+      ∀ I : Kleiman.Chart (IndefiniteRowSideFullHecke.Kleiman2.blockVec y' k₀ ∘ e.symm),
+        t ∈ Submodule.span (Kleiman.chartRing F (IndefiniteRowSideFullHecke.Kleiman2.blockVec y' k₀ ∘ e.symm) I)
+          (ρ '' (secOver F y (β + c • IndefiniteRowSideFullHecke.Kleiman2.baseDeg k₀) : Set Ω)) := by
+    intro t
+    have h := hS F K ι K' y' k₀ N e _ rfl hy' (ρ '' (secOver F y (β + c • IndefiniteRowSideFullHecke.Kleiman2.baseDeg k₀) : Set Ω)) 0 t
+    simp only [PowRealises.twistMod_zero, mul_one, Submodule.mem_iInf, Submodule.restrictScalars_mem,
+      neg_zero, zpow_zero] at h
+    rw [h, PowRealises.mem_secOver]
+    refine forall_congr' fun cc => forall_congr' fun hc => ?_
+    rw [hρ2 cc hc, PowRealises.mem_span_inv_iff _
+      (Finset.prod_ne_zero_iff.mpr fun k _ => zpow_ne_zero _ (hc k))]
+  have hQgen : ∀ I, (Q.toSubSystem.twist (Kleiman.twistSys F (IndefiniteRowSideFullHecke.Kleiman2.blockVec y k₀ ∘ e.symm) c)).sub I =
+      Submodule.span (Kleiman.chartRing F (IndefiniteRowSideFullHecke.Kleiman2.blockVec y k₀ ∘ e.symm) I)
+        (secOver F y (β + c • IndefiniteRowSideFullHecke.Kleiman2.baseDeg k₀) : Set Ω) := fun I => by
+    rw [← hca c hcA I, hQ c]
+  have hQ''gen : ∀ I, (Q''.toSubSystem.twist (Kleiman.twistSys F (IndefiniteRowSideFullHecke.Kleiman2.blockVec y' k₀ ∘ e.symm) c)).sub I =
+      Submodule.span (Kleiman.chartRing F (IndefiniteRowSideFullHecke.Kleiman2.blockVec y' k₀ ∘ e.symm) I)
+        (ρ '' (secOver F y (β + c • IndefiniteRowSideFullHecke.Kleiman2.baseDeg k₀) : Set Ω)) := fun I => by
+    rw [← hcb c hcB I, hQ'' c]
+    apply le_antisymm
+    · rw [Submodule.span_le]
+      intro t ht
+      exact (hT t).mp ht I
+    · rw [Submodule.span_le]
+      intro t ht
+      exact Submodule.subset_span ((hT t).mpr fun J => Submodule.subset_span ht)
+
+  have hfx : ∀ (f g : Kleiman.Poly F N) (m : ℕ), f.IsHomogeneous m → g.IsHomogeneous m →
+      aeval (IndefiniteRowSideFullHecke.Kleiman2.blockVec y' k₀ ∘ e.symm) g ≠ 0 →
+      ∃ h : aeval (IndefiniteRowSideFullHecke.Kleiman2.blockVec y k₀ ∘ e.symm) f / aeval (IndefiniteRowSideFullHecke.Kleiman2.blockVec y k₀ ∘ e.symm) g ∈ R,
+        σ ⟨_, h⟩ = aeval (IndefiniteRowSideFullHecke.Kleiman2.blockVec y' k₀ ∘ e.symm) f /
+          aeval (IndefiniteRowSideFullHecke.Kleiman2.blockVec y' k₀ ∘ e.symm) g := by
+    intro f g m hf hg hg0
+    obtain ⟨h, hh⟩ := hblk k₀ (rename e.symm f) (rename e.symm g) m hf.rename_isHomogeneous
+      hg.rename_isHomogeneous (by rwa [aeval_rename])
+    have ea : aeval (IndefiniteRowSideFullHecke.Kleiman2.blockVec y k₀) (rename e.symm f) /
+        aeval (IndefiniteRowSideFullHecke.Kleiman2.blockVec y k₀) (rename e.symm g) =
+        aeval (IndefiniteRowSideFullHecke.Kleiman2.blockVec y k₀ ∘ e.symm) f / aeval (IndefiniteRowSideFullHecke.Kleiman2.blockVec y k₀ ∘ e.symm) g := by
+      rw [aeval_rename, aeval_rename]
+    refine ⟨ea ▸ h, ?_⟩
+    have hsub : (⟨_, ea ▸ h⟩ : R) = ⟨_, h⟩ := Subtype.ext ea.symm
+    rw [hsub, hh, aeval_rename, aeval_rename]
+  have hw' : (∏ k, y' ⟨k, d₀ k⟩ ^ (-(β + c • IndefiniteRowSideFullHecke.Kleiman2.baseDeg k₀) k)) ≠ 0 :=
+    Finset.prod_ne_zero_iff.mpr fun k _ => zpow_ne_zero _ (hd₀ k)
+  obtain ⟨r, hr⟩ := hC F N Ω (IndefiniteRowSideFullHecke.Kleiman2.blockVec y k₀ ∘ e.symm) K' (IndefiniteRowSideFullHecke.Kleiman2.blockVec y' k₀ ∘ e.symm) hxy
+    R σ hfx Q Q'' c (secOver F y (β + c • IndefiniteRowSideFullHecke.Kleiman2.baseDeg k₀) : Set Ω) ρ
+    (∏ k, y ⟨k, d₀ k⟩ ^ (-(β + c • IndefiniteRowSideFullHecke.Kleiman2.baseDeg k₀) k))
+    (∏ k, y' ⟨k, d₀ k⟩ ^ (-(β + c • IndefiniteRowSideFullHecke.Kleiman2.baseDeg k₀) k)) hw' hQgen hQ''gen hρ1
+  exact ⟨Q'', r, hr, hQ''⟩
+
+end GroundTheory.Heights₂.Heights.Kleiman.SectionsOverLocalization
+end

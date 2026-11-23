@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FlagCellFrameChangeTriangular
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EqSpMapEv
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EvRFrMapOfIsReduced
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.MemSpanOfPluckerProportional
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2596
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2611
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2118
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle646
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

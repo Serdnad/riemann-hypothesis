@@ -1,20 +1,19 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.PerCEmb
-public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.Fischer
-public import Formalism.LocalToGlobal.IndefiniteReal.DatumVec
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle047
+public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.Bundle002
+public import Formalism.LocalToGlobal.IndefiniteReal.Bundle013
 public import Formalism.LocalToGlobal.ProjectiveLattices.HalfOneAddSqrtNegIsIntegral
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.EqZeroOfLintegralEqZero
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.StdCharFinitePartRationalEqExpTrace
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CplxOfFrame
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle078
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1624
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HermCColMulVec
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HxOfIsONFr
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PsiHalfSymplecticOrthonormalFrameStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ThAHeisEntireLinearInjective
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1741
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1753
 public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.AnnihilationCreationPeriodCoordinates
-public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.FockPolynomialVectorOriginEqPolyDeriv
-import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.FoldrHolDEqIteratedFDeriv
-import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.HermitianFormAtFrameLaws
+public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle051
+import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle003
+import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle036
 import Formalism.LocalRingCardinality.ConjSqrtMinusD
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -297,7 +296,7 @@ theorem pureTensorO_zero_eq_thP : ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ) 
   have hsm := I2.contDiff_of_diff hΘ
   have main : ∀ Q : MvPolynomial (FVar D W.rank V.rank) ℂ,
       pureTensorO ψ θ V W (fun _ => 1) s (fun _ => 1) BW G Q 0 =
-        polyDeriv (MvPolynomial.aeval (fun v => MvPolynomial.C (c v) * MvPolynomial.X (vr.symm v)) Q)
+        _root_.ReciprocityTheory.ChartRestriction.G.I2.polyDeriv (MvPolynomial.aeval (fun v => MvPolynomial.C (c v) * MvPolynomial.X (vr.symm v)) Q)
           (letterDir X hq idx) Θ 0 := by
     intro Q
     induction Q using MvPolynomial.induction_on' with

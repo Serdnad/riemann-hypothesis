@@ -1,9 +1,9 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SmoothConjugateInverseMem
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle524
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.DualIsConjByOne
-import Development.AbelianVarietyTheory.Proofs.JetHarmonics.GlRelNegTAndQdet
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ChartStarInvT
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle036
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle483
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

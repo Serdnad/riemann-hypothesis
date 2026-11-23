@@ -1,17 +1,16 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.AvgVanish
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ContinuousMatMir
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.PolyBall
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle317
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle098
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle107
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.DerivativeTwistedIso
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsMemTwKerPolyBall
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsRepsSumEqZero
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsSmoothSmInd
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LocallyConstantCompactSupportUnipotent
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle124
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle122
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle367
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MirabolicDoubleCosetDecomposition
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ProjectionToTwistedEigenfunctionSupport
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SmoothIntegralLinear
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ThetaOpenMirabolic
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle318
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle316
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle132
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -309,8 +308,8 @@ theorem sigX_uEl (c : Fin (i + 1) → k) :
   have e3 : (mtw τ (((t + 1 : ℕ) : ℝ) / 2)).ρ (pgProj k (i + 1) (t + 1) ⟨uEl k i t c 0, uEl_mem_HPG i t c⟩).1 a =
       τ.ρ (GlobalTheory.CompanionTheory.BZPhiPhi.unipM k i (Multiplicative.ofAdd c)) a := by
     rw [e2]
-    show twist τ.ρ (dpowM _ _) _ a = _
-    rw [twist_apply, GlobalTheory.CompanionTheory.LeibOrd.DerivTw.dpowM_uin _ ⟨_, GlobalTheory.CompanionTheory.BZPhiPhi.unipM_mem_MirUin k i _⟩]
+    show _root_.GlobalTheory.SmGL.twist τ.ρ (dpowM _ _) _ a = _
+    rw [_root_.GlobalTheory.SmGL.twist_apply, GlobalTheory.CompanionTheory.LeibOrd.DerivTw.dpowM_uin _ ⟨_, GlobalTheory.CompanionTheory.BZPhiPhi.unipM_mem_MirUin k i _⟩]
     simp
   have e4 : (σ.tw (-((i + 1 + 1 : ℕ) : ℝ) / 2)).ρ (pgProj k (i + 1) (t + 1) ⟨uEl k i t c 0, uEl_mem_HPG i t c⟩).2 b = b := by
     rw [e2]

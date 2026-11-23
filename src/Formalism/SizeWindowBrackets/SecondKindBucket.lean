@@ -1,6 +1,6 @@
 module
 
-public import Formalism.RankGapBounds.RandomSubsetCounterexample
+public import Formalism.RankGapBounds.Bundle001
 public import Mathlib.Analysis.SpecialFunctions.Log.Base
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

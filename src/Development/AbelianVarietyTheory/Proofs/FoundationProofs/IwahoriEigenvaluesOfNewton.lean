@@ -1,7 +1,7 @@
 module
 
 public import Formalism.JacquetSubsetSums.JacquetSubsetSum
-public import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.IwahoriSubgroup
+public import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.Bundle001
 public import Mathlib.RingTheory.AdicCompletion.Basic
 public import Development.AbelianVarietyTheory.Counterexamples.DegenerateExamples.PremisesModel
 import Mathlib.Algebra.Order.Floor.Extended

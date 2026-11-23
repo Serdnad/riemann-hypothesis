@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.AutomorphicForms.GL2.GJFEDefs
+public import GroundTheory.AutomorphicForms.GL2.Bundle005
 public import GroundTheory.AutomorphicForms.MeasuresGL
 public import Mathlib.Order.CompletePartialOrder
 import GroundTheory.AutomorphicForms.GL2.ExistsEqPowMulOfValuationLe

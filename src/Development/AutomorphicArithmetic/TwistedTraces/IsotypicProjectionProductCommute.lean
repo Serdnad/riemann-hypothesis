@@ -2,9 +2,8 @@ module
 
 public import Development.AutomorphicArithmetic.Foundations.Convolution.PowerSumTraces.CuspidalMultiplicityOneTotallyComplex
 public import Development.AutomorphicArithmetic.Foundations.Convolution.PowerSumTraces.SfDefs
-public import Development.AutomorphicArithmetic.TwistedTraces.FixedProjectionApplyEquivariantEq
-public import Development.AutomorphicArithmetic.TwistedTraces.FixedProjectionInvariantAndCommutingReps
-public import Development.AutomorphicArithmetic.TwistedTraces.ListOfFnProdEqMulUpdateOneOfPairwiseCommute
+public import Development.AutomorphicArithmetic.TwistedTraces.Bundle005
+public import Development.AutomorphicArithmetic.TwistedTraces.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -41,8 +40,8 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.IwahoriDoubleCosets
-import Development.AutomorphicArithmetic.IntegralCasts.IsOpenStabOfMemNhds
+import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.Bundle004
+import Development.AutomorphicArithmetic.IntegralCasts.Bundle001
 import Formalism.SharpRestriction.LevelLetterCocycles.DataNLoc
 
 @[expose] public section

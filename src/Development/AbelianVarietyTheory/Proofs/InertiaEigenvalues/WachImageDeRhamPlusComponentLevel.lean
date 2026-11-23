@@ -1,13 +1,13 @@
 module
 
 public import Formalism.LocalRingCardinality.RhoDetPrimeEqMuTildeMulChiPow
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.NotFullBot
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CoeAlgebraMapOC
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsInvFilD
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.MapMulLeft
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.MemRangeOfIsIntegral
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle005
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle268
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle411
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle484
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle427
 import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WachInclusionXQFrobenius
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.BdRFiltrationLaws
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle141
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

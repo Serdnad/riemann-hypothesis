@@ -2,13 +2,13 @@ module
 
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.HalfIndexLattices.IsLatRepL
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.HalfIndexLattices.SplitStab
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsWeilRepresentationOfLatticeVacuaStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SpanHeisenbergTranslatesOfLatticeVacuaEqTopStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle701
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle361
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.HalfIndexLattices.InertOfKept
 public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.LatRep
 import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.LatRepA
 import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.LatRepBS
-import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.LatRepB_A
+import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.Bundle001
 import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.LatRepC
 import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.SumFourEqTrace
 import Mathlib.Algebra.Order.Floor.Extended

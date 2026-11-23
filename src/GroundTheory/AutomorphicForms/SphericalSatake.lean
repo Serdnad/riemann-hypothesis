@@ -1,8 +1,8 @@
 module
 
 public import GroundTheory.AutomorphicForms.SphericalPrincipal
-public import GroundTheory.AutomorphicForms.SphericalLaurent
-import GroundTheory.AutomorphicForms.HaarCosets
+public import GroundTheory.AutomorphicForms.Bundle002
+import GroundTheory.AutomorphicForms.Bundle008
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -96,18 +96,18 @@ theorem exists_diagGL_eq_torusPow_mul (d : Fin n → Fˣ) :
   ext
   simp [he i, Units.val_zpow_eq_zpow_val, Units.coe_map]
 
-def diagUnits {b : GL (Fin n) F} (hb : b ∈ borel F n) : Fin n → Fˣ :=
+def diagUnits {b : GL (Fin n) F} (hb : b ∈ Iwasawa.borel F n) : Fin n → Fˣ :=
   fun i => Units.mk0 (b i i) (apply_self_ne_zero_of_mem_borel F n hb i)
 
-theorem mul_inv_diagUnits_mem_unipotent {b : GL (Fin n) F} (hb : b ∈ borel F n) :
+theorem mul_inv_diagUnits_mem_unipotent {b : GL (Fin n) F} (hb : b ∈ Iwasawa.borel F n) :
     b * (diagGL F n (diagUnits hb))⁻¹ ∈ unipotent F n := by
-  have hDinv : (diagGL F n (diagUnits hb))⁻¹ ∈ borel F n :=
-    (borel F n).inv_mem (diagGL_mem_borel F n _)
-  refine ⟨(borel F n).mul_mem hb hDinv, fun i => ?_⟩
+  have hDinv : (diagGL F n (diagUnits hb))⁻¹ ∈ Iwasawa.borel F n :=
+    (Iwasawa.borel F n).inv_mem (diagGL_mem_borel F n _)
+  refine ⟨(Iwasawa.borel F n).mul_mem hb hDinv, fun i => ?_⟩
   rw [mul_apply_self_of_mem_borel F n hb hDinv, ← map_inv, coe_diagGL, diagonal_apply_eq]
   simp [diagUnits, apply_self_ne_zero_of_mem_borel F n hb i]
 
-theorem iwasawaExponent_mul_of_mem_borel {b : GL (Fin n) F} (hb : b ∈ borel F n)
+theorem iwasawaExponent_mul_of_mem_borel {b : GL (Fin n) F} (hb : b ∈ Iwasawa.borel F n)
     (g : GL (Fin n) F) :
     iwasawaExponent F n (b * g) = iwasawaExponent F n b + iwasawaExponent F n g := by
   obtain ⟨l, e, hde⟩ := exists_diagGL_eq_torusPow_mul (diagUnits hb)
@@ -143,7 +143,7 @@ def unramifiedChar (w : Fin n → ℂˣ) : levi F n (id : Fin n → Fin n) →* 
   toFun t := monomialChar (iwasawaExponent F n t) w * invSqrtModular F n id (leviIncl t)
   map_one' := by simp [iwasawaExponent_one]
   map_mul' t t' := by
-    have ht : (t : GL (Fin n) F) ∈ borel F n := levi_le_blockUpper t.2
+    have ht : (t : GL (Fin n) F) ∈ Iwasawa.borel F n := levi_le_blockUpper t.2
     simp only [Subgroup.coe_mul, iwasawaExponent_mul_of_mem_borel ht, monomialChar_add, map_mul]
     ring
 
@@ -166,7 +166,7 @@ theorem isUnramified_unramifiedChar (w : Fin n → ℂˣ) : IsUnramified (unrami
 theorem iwasawaExponent_leviProj (b : blockUpper F n (id : Fin n → Fin n)) :
     iwasawaExponent F n ((leviProj F n id b : levi F n (id : Fin n → Fin n)) : GL (Fin n) F) =
       iwasawaExponent F n (b : GL (Fin n) F) := by
-  have hb : (b : GL (Fin n) F) ∈ borel F n := b.2
+  have hb : (b : GL (Fin n) F) ∈ Iwasawa.borel F n := b.2
   have hD : ((leviProj F n id b : levi F n (id : Fin n → Fin n)) : GL (Fin n) F) =
       diagGL F n (diagUnits hb) := by
     refine Units.ext (Matrix.ext fun i j => ?_)

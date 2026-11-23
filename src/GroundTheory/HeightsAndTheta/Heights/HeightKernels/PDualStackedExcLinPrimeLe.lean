@@ -1,7 +1,7 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.StatementsDualStackedExcResidue
-public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.StatementsDualCotangentKer
+public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.Bundle037
+public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.Bundle023
 public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PDualStackedExcGeoFirst
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -41,7 +41,7 @@ import Mathlib.Topology.Algebra.InfiniteSum.Nonarchimedean
 import Mathlib.Topology.Connected.Separation
 import Mathlib.Topology.MetricSpace.Ultra.TotallySeparated
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsGenLab
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle821
 
 @[expose] public section
 

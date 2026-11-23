@@ -2,7 +2,7 @@ module
 
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.CasimirReductionTheory.OneParameterDerivatives.AdmissibleCasimirScalars.CompactDerivativesBounded
 public import Formalism.SharpRestriction.CuspSpanNormBounds.LowestKTypeMultiplicity
-public import Formalism.SharpRestriction.CuspSpanNormBounds.ExpansionFromLemmaB
+public import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle019
 public import Formalism.SharpRestriction.CuspSpanNormBounds.BridgeCSchur
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

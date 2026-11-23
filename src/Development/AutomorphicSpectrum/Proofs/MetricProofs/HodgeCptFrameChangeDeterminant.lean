@@ -1,9 +1,9 @@
 module
 
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ColFlags
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.DetT
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.CoordsJoinBlocksStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FrameCoeffsRegularInChart
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle047
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle155
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle047
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -38,11 +38,11 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.IsComplRatCompl
 import Formalism.LocalToGlobal.GroupLattices.PendingLemmas.WittFractionToCpAlgebraMap
-import Formalism.LocalToGlobal.InertKernelTheory.SecondKernelEntrywiseLastLevel
-public import Formalism.LocalToGlobal.PairingIndexBounds.OrthogonalChartLevels.GramLevelZeroEqReindex
-public import Formalism.SharpRestriction.GrowthBounds.ChartComparison
+import Formalism.LocalToGlobal.InertKernelTheory.Bundle009
+public import Formalism.LocalToGlobal.PairingIndexBounds.OrthogonalChartLevels.Bundle001
+public import Formalism.SharpRestriction.GrowthBounds.Bundle012
 import Formalism.SharpRestriction.GrowthBounds.ChartComparison.NrmAMemAdForms
-import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.CoeffProdRename
+import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle001
 
 @[expose] public section
 

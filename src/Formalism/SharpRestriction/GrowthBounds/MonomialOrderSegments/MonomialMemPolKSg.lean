@@ -1,9 +1,9 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.MonomialOrderSegments.DigitPartMonomial
+public import Formalism.SharpRestriction.GrowthBounds.MonomialOrderSegments.Bundle003
 public import Formalism.SharpRestriction.GrowthBounds.MonomialOrderSegments.SecondEmbeddingInjective
-public import Formalism.SharpRestriction.GrowthBounds.MonomialOrderSegments.IntegralMonomial
-public import Formalism.SharpRestriction.GrowthBounds.MonomialOrderSegments.SubstitutionXFirstEmbedding
+public import Formalism.SharpRestriction.GrowthBounds.MonomialOrderSegments.Bundle002
+public import Formalism.SharpRestriction.GrowthBounds.MonomialOrderSegments.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

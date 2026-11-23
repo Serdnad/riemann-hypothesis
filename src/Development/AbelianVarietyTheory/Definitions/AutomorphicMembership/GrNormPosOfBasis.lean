@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.DegFrame
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle039
 public import Development.AbelianVarietyTheory.Statements.HeightBoundStatement.HTBoundSt
 public import Development.AbelianVarietyTheory.Definitions.Divisors.NonemptyValExtOfOverLa
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TangentVectorsUniversalBasis
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IntOIsLocalRing
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LatDRSubsetLatHT
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle813
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle626
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle625
 import Mathlib.Algebra.GroupWithZero.Submonoid.CancelMulZero
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,8 +1,8 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CyclotomicExistsIff
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CompOneAddPowMul
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ZpowSmulMem
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle048
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle126
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

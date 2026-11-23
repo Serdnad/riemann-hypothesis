@@ -3,12 +3,12 @@ module
 public import Formalism.SharpRestriction.CuspSpanNormBounds.GlobAut
 public import Formalism.SharpRestriction.GlobalSchurBounds.StandardLattice
 public import Mathlib.Algebra.AffineMonoid.Basic
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.AddCharTrivialIntegralFiniteAdeleMul
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.EventuallyFinEqOne
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.StdCharFinitePartRationalEqExpTrace
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle067
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle072
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle078
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.SumPlacesEqTrace
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FiniteAdeleStrongApproximationModNat
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.IsOpenNsmulAdelicCompletionOfVectorSet
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle009
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle023
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -53,8 +53,8 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 public import Mathlib.Topology.Homotopy.Lifting
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.DefClassNum
-import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.GaugeUnfold
+import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle008
+import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle010
 import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.LayerProd
 
 @[expose] public section

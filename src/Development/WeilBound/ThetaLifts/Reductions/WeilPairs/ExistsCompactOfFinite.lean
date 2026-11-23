@@ -1,16 +1,15 @@
 module
 
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsNsmulFix
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AdelicSymplecticTraceFormAlternatingSwap
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ContinuousPlaceAt
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EqZeroOfTraceMul
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsCompactShellNsmul
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1591
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1267
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1584
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2104
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1278
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsHalfAbstract
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RationalMatricesDiscreteCocompactAdelicMatrixSpa
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SplitPlaceThetaFunctionVacuumConjugatePlace
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1639
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ThetaFunctionHeisenbergInvariant
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.LcscAdelicUnitaryGroup
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle018
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

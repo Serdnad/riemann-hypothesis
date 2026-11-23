@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.GlobalFields.HerbrandQuotients.SUnitsPerm
-public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.CoprimeTwist
+public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.Bundle005
 public import GroundTheory.ProfiniteCohomology.PoincareDuality.NsmulEqZeroOfNonemptyAddEquiv
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended

@@ -2,8 +2,8 @@ module
 
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.KTypeExtension
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.NormDwLeSobNorm
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ContinuousWordTranslate
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsKFinDRep
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1151
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle222
 import Formalism.RealPlaceAnalysis.RealPlaceTaylor.IndefiniteUnitaryPreservesForm
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

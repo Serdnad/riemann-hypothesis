@@ -2,7 +2,7 @@ module
 
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.FBIdJet
 public import Formalism.LocalToGlobal.ProjectiveLattices.ThGerm
-import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermDJet
+import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle013
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.JetSubstPSTrunc
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -2,15 +2,15 @@ module
 
 import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ModelDominatedOfMapToBaseModel
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.HeckeKer
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.GtBaseChangeSt
-public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.AuxiliaryInertOddPrime
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.SecBaseChangeAnySt
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.Bundle003
+public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.Bundle002
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.Bundle005
 public import Development.AbelianVarietyTheory.Definitions.ThetaMetrics.MemNonzeroLocusIffPowFn
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.IsReducedIsNormalSchemeIsLocallyNoetherianOfSmoo
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.LevelDescentCoefficientField
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.LevelMapFiniteEtaleSurjective
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.MapToUniversalObjectUnique
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.OpenImmersionCompStructureEqGeneric
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle009
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle054
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle044
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle123
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle034
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -55,7 +55,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.AbProj
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle007
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.OneArc
 import Std.Tactic.BVDecide.Normalize.Prop
 
@@ -280,6 +280,8 @@ theorem exists_map_top (L₁ : Out.Laws) (L₂ : Out.Laws2) (L₃ : Out.Laws3) {
     rw [← Category.assoc (ofModel Y).m.φ, hmh, Category.assoc, B.q_φ,
       ← Category.assoc (Y.oF.etaA x ^ (l.A / N)).left, hl2, Category.assoc]
 
+set_option maxHeartbeats 800000 in
+set_option synthInstance.maxHeartbeats 200000 in
 theorem exists_finite_map : Out.Laws → Out.Laws2 → Out.Laws3 → ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Host E) (D : Datum H) (Xo : ∀ l : Level H, Moduli D l) (n N : ℕ) (T : Top Xo n N), ToroidalLevelCompatibility (H := H) (D := D) → ∀ (l₀ : Level H) (B : BaseModel T l₀) (l : Level H) (c : Coeff l) (O : Type) [CommRing O] (β : O →+* c.F) (Y : Model (Xo l) c β) (b : RZ H n N →+* O) (U : Y.X.Opens), 0 < n → (∃ e, N ∣ n ^ e) → l₀.Dvd l → N ∣ l.A → (n * l₀.M : O) ∈ Set.range (Units.val : Oˣ → O) → IsDedFrac β → IsInc (RZ H n N).subtype (c.F.val.toRingHom.comp β) b → Raises B Y → (U : Set Y.X) = abLocus Y.t.G → ∃ (f : U.toScheme ⟶ T.MM) (hf : f ≫ T.sM = (U.ι ≫ Y.s) ≫ spMap b) (tU : SAB H U.toScheme) (m₁ : SABMap tU Y.t U.ι) (m₂ : SABMap tU T.tM f), IsFinite (pullback.lift f _ hf) ∧ ∀ (x : D.La) (j' : (Xo l).XF c ⟶ U.toScheme) (y : (Xo l).XF c ⟶ tU.G.left), j' ≫ U.ι = Y.j → y ≫ m₁.φ = (Y.oF.etaA x ^ (l.A / N)).left ≫ Y.m.φ → y ≫ m₂.φ = j' ≫ f ≫ (T.lev x).left := by
   intro L₁ L₂ L₃ E _ _ _ H D Xo n N T hN l₀ B l c O _ β Y b U _ _ hd hNA _ hβ hb hR hU
   obtain ⟨g, hg, mu, r', hfin, hj, hlevel⟩ := exists_map_top L₁ L₂ L₃ hN B Y b hd hNA hβ hb hR

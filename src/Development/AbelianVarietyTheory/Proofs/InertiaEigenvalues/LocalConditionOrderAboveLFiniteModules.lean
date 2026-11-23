@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.VecPairApply
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.BkOnLeMapOfSurjectiveStatement
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LocalConditionAboveLCoeffMapFunctorial
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle367
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle407
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle323
 import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SelmerFunctorLeftExactTorsionCoefficients
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

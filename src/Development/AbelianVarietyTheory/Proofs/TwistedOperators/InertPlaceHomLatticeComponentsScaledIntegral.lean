@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.MemIntMat
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle277
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.MemHomLatticeIffIntegralMatrixSplitChart
 import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsUniqueIdeleOfLinearEquivQuotientLocal
 import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.FinTensMemLatO
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsIsHeckeOpFullDualLab
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1084
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsUniqueIsConjAt
 import Formalism.HermitianLattices.HermitianLatticesProofs.DualBasic
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Levelaf
@@ -49,10 +49,10 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.Divisors.EqOfHasValueAtInfinite
-import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.RealLowestKTypeCoeffSquareIntegrable
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.InnerProductFormula
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ConstMemBddAut
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle010
+import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.Bundle004
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1610
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle162
 import Formalism.LocalToGlobal.IndefiniteReal.LinksDefs
 
 @[expose] public section

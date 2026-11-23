@@ -1,11 +1,11 @@
 module
 
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.EigenLatticeVectorBundle
-public import Development.WeilBound.CoreStatements.FlagImmersions.FibSandwich
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ProjectiveLinePlaceTrivialOnConstants
+public import Development.WeilBound.CoreStatements.FlagImmersions.Bundle013
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle007
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsExcisionNbhdAway
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.GhModel
-import Development.WeilBound.CoreStatements.HodgeTatePoints.GhModelGeo
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle044
+import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle042
 import Mathlib.Algebra.AffineMonoid.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

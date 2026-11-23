@@ -3,9 +3,8 @@ module
 public import Mathlib.FieldTheory.IsAlgClosed.Basic
 public import Mathlib.RingTheory.DedekindDomain.Basic
 public import Mathlib.RingTheory.PowerSeries.Basic
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ImportsBis
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.PowLeSpanPowSup
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Target
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle016
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

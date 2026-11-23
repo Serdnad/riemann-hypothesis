@@ -1,14 +1,13 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsFFCurve
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.LocalComponentsSurjective
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsUniqueCentreLocalHomStatement
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle015
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle006
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle030
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsExcisionNbhdAway
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsUnitIffUnitAt
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.PrimeChartExistsUniquePointStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.RegAtIffChartLocalizationStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ValuativeLiftExistsUniqueStatement
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.OfMem
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle023
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle029
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle052
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

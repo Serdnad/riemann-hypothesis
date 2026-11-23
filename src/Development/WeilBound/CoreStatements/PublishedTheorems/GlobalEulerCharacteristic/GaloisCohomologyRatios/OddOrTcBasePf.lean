@@ -43,7 +43,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-public import GroundTheory.ProfiniteCohomology.GlobalEulerCharacteristic.StabilizersDefs
+public import GroundTheory.ProfiniteCohomology.GlobalEulerCharacteristic.Bundle002
 
 @[expose] public section
 

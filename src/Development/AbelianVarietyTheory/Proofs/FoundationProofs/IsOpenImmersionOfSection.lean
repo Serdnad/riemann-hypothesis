@@ -2,8 +2,8 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.Foundations.IsProbabilityMeasureMuPart
 public import Formalism.LocalToGlobal.ProjectiveLattices.CompHt
-public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.AbelianSchemeLawsUnconditional
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsNumberFieldPoint
+public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle024
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle412
 import Formalism.LocalToGlobal.ProjectiveLattices.LocFrLoc
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

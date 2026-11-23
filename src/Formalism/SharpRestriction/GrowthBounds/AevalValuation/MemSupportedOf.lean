@@ -1,13 +1,13 @@
 module
 
 public import Formalism.SharpRestriction.GrowthBounds.AevalValuation.PlDefs
-public import Formalism.SharpRestriction.GrowthBounds.PlaneCoefficients.RestPlOf
+public import Formalism.SharpRestriction.GrowthBounds.PlaneCoefficients.Bundle006
 public import Formalism.SharpRestriction.GrowthBounds.DiagonalSupport.FrMemLetters
-public import Formalism.SharpRestriction.GrowthBounds.DiagonalSupport.PosULeIff
+public import Formalism.SharpRestriction.GrowthBounds.DiagonalSupport.Bundle007
 public import Formalism.SharpRestriction.GrowthBounds.DiagonalSupport.ValuationOneEqZero
 public import Formalism.SharpRestriction.GrowthBounds.PlaneCoefficients.ProdRangeZmod
-public import Formalism.SharpRestriction.GrowthBounds.PlaneCoefficients.RenameMemSupported
-import Formalism.SharpRestriction.GrowthBounds.PolynomialLevels.FrRevInj
+public import Formalism.SharpRestriction.GrowthBounds.PlaneCoefficients.Bundle007
+import Formalism.SharpRestriction.GrowthBounds.PolynomialLevels.Bundle001
 import Formalism.SharpRestriction.GrowthBounds.RootWeights.DerivativeValuationBounds
 import Formalism.SharpRestriction.GrowthBounds.ValuationLowestDegreeMapFractionField
 import Mathlib.Algebra.Order.Floor.Extended

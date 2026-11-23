@@ -1,9 +1,9 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.AutomorphicFormHyp
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.WeightChange
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.Bundle010
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.Bundle001
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.AlgebraMapIntertwiningMapBijectiveOfIsSmooth
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.LcscAdelicUnitaryGroup
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle018
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.HolomorphicIrreducibility.UopSum
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.GlintPrincRelIndexNeZero
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Tjcosets
@@ -55,6 +55,7 @@ open NumberField IsDedekindDomain Neutral.B1 Formalism.L2.Host Formalism.Conjuga
 open GlobalTheory.CuspRep GlobalTheory.HeckeGal GlobalTheory.GalOfCusp UpperTheory.V.Af UpperTheory.V.Base
 open scoped Matrix
 namespace UpperTheory.V.Sd
+attribute [-instance] UpperTheory.V.Pr.IsCD.toIsDomain UpperTheory.V.Pr.IsCD.toIsDiscreteValuationRing UpperTheory.V.Pr.IsCD.complete in
 private theorem fixed_coinv {A V : Type} [CommGroup A] [AddCommGroup V] [Module ℂ V] (ν : Representation ℂ A V)
     (h : ∀ a y, ∃ n : ℕ, n ≠ 0 ∧ ν (a ^ n) y = y) (x : V)
     (hx : x ∈ Submodule.span ℂ {z | ∃ a y, z = ν a y - y}) (hf : ∀ a, ν a x = x) : x = 0 := by
@@ -255,6 +256,7 @@ private theorem not_mem_ker (O : Subring K) (π : Kˣ) (hπ : (π : K) ∈ O) (h
   refine ⟨n, hn, ?_⟩
   rw [← e]
   simp [ν, uni, e]
+attribute [-instance] UpperTheory.V.Pr.IsCD.toIsDomain UpperTheory.V.Pr.IsCD.toIsDiscreteValuationRing UpperTheory.V.Pr.IsCD.complete in
 private theorem gen (O : Subring K) (hO : ∀ x : K, x ∈ O ∨ x⁻¹ ∈ O) (π : Kˣ) (hπ : (π : K) ∈ O)
     (hπ' : ∀ x : K, ∃ m : ℕ, (π : K) ^ m * x ∈ O) (U : Kˣ → Prop) (hdec : ∀ a : Kˣ, ∃ (n : ℤ) (u : Kˣ), U u ∧ a = u * π ^ n)
     (ρ : Representation ℂ (GL (Fin 2) K) V) (hirr : ρ.IsIrreducible)

@@ -1,6 +1,6 @@
 module
 
-public import Formalism.SharpRestriction.GlobalSchurBounds.IntegralityOfRationalityLocal
+public import Formalism.SharpRestriction.GlobalSchurBounds.Bundle006
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.IntegralityAtPrimeLattices.AwayCore
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.IntegralityAtPrimeLattices.IntegralityAtFormsOfAway
 import Mathlib.Algebra.Order.Floor.Extended

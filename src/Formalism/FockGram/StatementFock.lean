@@ -1,6 +1,6 @@
 module
 
-public import Formalism.SmithDeterminants.StatementGram
+public import Formalism.SmithDeterminants.Bundle001
 public import Mathlib.Algebra.MvPolynomial.Basic
 public import Mathlib.Algebra.Star.Basic
 import Mathlib.Algebra.Order.Floor.Extended

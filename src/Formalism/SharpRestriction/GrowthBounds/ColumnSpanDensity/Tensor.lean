@@ -1,7 +1,7 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.FactorsLEOfIndex
-public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.FinrankTensor
+public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.Bundle003
+public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.Bundle004
 public import Formalism.SharpRestriction.GrowthBounds.LatticeSystems
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

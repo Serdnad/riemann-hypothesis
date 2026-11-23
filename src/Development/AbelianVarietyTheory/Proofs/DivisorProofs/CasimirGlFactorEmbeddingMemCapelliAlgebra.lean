@@ -1,7 +1,7 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.ContinuousConjFin
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TraceMemOfQdetMem
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1396
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.CasimirScalarOfCapelliDeterminantEigenvalue
 import Development.AbelianVarietyTheory.Proofs.JetHarmonics.QdetTopThreeOrders
 import Mathlib.Algebra.Order.Floor.Extended
@@ -43,9 +43,9 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.Divisors.CentralNilGL
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle024
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CasKOp
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EqZeroOfMemWeakIn
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1298
 
 @[expose] public section
 

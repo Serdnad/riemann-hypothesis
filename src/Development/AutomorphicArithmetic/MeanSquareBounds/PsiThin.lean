@@ -1,7 +1,7 @@
 module
 
 public import Development.AutomorphicArithmetic.MeanSquareBounds.PrimeSetTwoBounds
-public import Formalism.PeriodIntegrals.ExplicitFormula
+public import Formalism.PeriodIntegrals.Bundle002
 public import Formalism.LandauZeroFreeBounds.NoZeroComplex
 public import Formalism.PeriodIntegrals.ExplicitFormulaCounts.ExplicitFormula
 import Mathlib.Algebra.Order.Floor.Extended
@@ -45,7 +45,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Formalism.GL3MeanSquares.GenusMeanAsymptotics.JacobiCharacterSums.MeanSquareHypWIff
+import Formalism.GL3MeanSquares.GenusMeanAsymptotics.JacobiCharacterSums.Bundle006
 
 @[expose] public section
 

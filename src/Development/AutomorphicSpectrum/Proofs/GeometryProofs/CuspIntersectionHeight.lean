@@ -1,19 +1,19 @@
 module
 
 public import Development.AutomorphicSpectrum.Statements.GeometryStatements.NineGeoU
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.AbelianPartIntegralLatticeStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.AbelianPartIntegralPointAltBis
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.AbelianPartLatticeEigenCompatStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.CompactDatumIntersectionStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ComponentDataAbelianPartBoundStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.CoordValuationBoundLocal
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GluedLatticeFromLocalMatricesStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IntersectionDatumDegreeSumStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IntersectionSystemWeightRightStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LocalRatioProductFormula
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.TensorLatticeCoordDegreeStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ValAtComplexEmbedding
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ValAtIffValueAtStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle233
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle180
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle158
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle298
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle157
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle095
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle243
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle304
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle279
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle103
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle222
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle094
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle120
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -55,7 +55,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LocRatio
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle086
 
 @[expose] public section
 
@@ -81,7 +81,7 @@ theorem val_descend (ξ : Sp Ω ⟶ X) (zL : Sp L ⟶ X) (e : L →+* ℂ) {a : 
   obtain ⟨h', s, hs, rfl⟩ := h
   have h'' : genPt ξ ⤳ centre zL := hc ▸ h'
   have hv : ValAt ξ zL a (Scheme.stalkClosedPointTo zL |>.hom (X.presheaf.stalkSpecializes (specializes_of_eq hc) s)) :=
-    ⟨h'', _, (genMap_stalkSpecializes ξ hc h' h'' s).trans hs, rfl⟩
+    ⟨h'', _, (_root_.GlobalTheory.CompanionTheory.Ar.RootHt.PullVal.genMap_stalkSpecializes ξ hc h' h'' s).trans hs, rfl⟩
   exact ⟨_, hv, CxVal.unique (valAt_of_field_map ξ zL _ e rfl hv) ⟨h', s, hs, rfl⟩⟩
 
 theorem coords_field_map (ξ : Sp Ω ⟶ X) {K : Type} {J : K → Type} {y : (Σ k, J k) → Ω} {zL : Sp L ⟶ X}
@@ -106,6 +106,7 @@ end Field
 
 section Datum
 
+attribute [-instance] GlobalTheory.CompHt.fintypePsi in
 theorem datum (hG : Top.Given) (E : Type) [Field E] [NumberField E] [IsCMField E] [IsAbelianGalois ℚ E] (H : Host E)
     (D : Datum H) (Xo : ∀ l : Tor.Level H, Moduli D l) (l : Tor.Level H) (c : Coeff l)
     (Y : Model (Xo l) c (algebraMap (𝓞 c.F) c.F)) (II : IntersectionSystem) (K : Type) [Fintype K] (J : K → Type)
@@ -197,6 +198,7 @@ end GlobalTheory.CompanionTheory.Ar.Cusp.PtHt
 
 namespace GlobalTheory.CompanionTheory.Ar.Cusp.PtHt
 
+attribute [-instance] GlobalTheory.CompHt.fintypePsi in
 theorem g_height : Top.Given → ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] [IsAbelianGalois ℚ E] (H : Host E) (D : Datum H) (Xo : ∀ l : Tor.Level H, Moduli D l) (l : Tor.Level H) (c : Coeff l) (Y : Model (Xo l) c (algebraMap (𝓞 c.F) c.F)) (II : IntersectionSystem) (K : Type) [Fintype K] (J : K → Type) [∀ k, Fintype (J k)] (Ω : Type) [Field Ω] [Algebra ℚ Ω] (W : CMType H → Type) [∀ τ, AddCommGroup (W τ)] [∀ τ, Module Ω (W τ)] (Dc : ComponentData II (CMType H) K J Ω W) (Hd : HodgeData Dc) (S₀ : Finset ℕ) (Or : CptOrigin Y S₀ Dc Hd) (B : ℕ) (L : Type) [Field L] [NumberField L] (z : Sp (𝓞 L) ⟶ Or.𝔐.X) (P : AbPart Or.𝔐.t (spMap (algebraMap (𝓞 L) L) ≫ z)) (V : Type) [AddCommGroup V] [Module L V] [Module (𝓞 L) V] [IsScalarTower (𝓞 L) L V] (MV : LieModel P.tK.G (𝟙 (Sp L)) V) (A : LinPt E L (CMType H) V) (w : (Σ k, J k) → L) (r k : ℕ) (v : Fin r → V) (q : CMType H → Fin k → A.Λ), Or.Good → CoordsAt Or.𝔐.ξ Dc.y (spMap (algebraMap (𝓞 L) L) ≫ z) w → Or.𝔐.IsLinPtOf z P MV A → IsOFamily A.ρ A.I v → (∀ τ, A.IsAdapted (Or.sm τ) v (q τ) ∧ ∀ i, (q τ i : V) ∈ A.eig (Or.sm τ)) → ∃ x : (L →+* ℂ) → ℝ, (∀ e : L →+* ℂ, Or.PhiWeight (spMap e ≫ spMap (algebraMap (𝓞 L) L) ≫ z) (fun p => e (w p)) (x e)) ∧ Ht.ptHt (fun k => (muTwDeg Hd B k : ℝ)) (twW (D := Dc) B fun _ => 0) L w + (∑ e : L →+* ℂ, x e) / Module.finrank ℚ L = -A.phiDeg Or.sm (fun τ => Or.𝔐.FibLat (Or.𝔐.VS (S₀ ∪ Dc.SB B) (Or.sm τ)) z P MV) v q := by
   intro hG E _ _ _ _ H D Xo l c Y II K _ J _ Ω _ _ W _ _ Dc Hd S₀ Or B L _ _ z P V _ _ _ _ MV A w r k v q hGood hw hLP hO hAd
   classical

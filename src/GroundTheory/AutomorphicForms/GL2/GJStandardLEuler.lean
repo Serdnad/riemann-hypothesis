@@ -3,7 +3,7 @@ module
 public import GroundTheory.AutomorphicForms.GL2.GJStandardLDefs
 public import GroundTheory.AutomorphicForms.GL2.GJGlobalDefs
 public import GroundTheory.AutomorphicForms.GL2.GJUnramified
-public import GroundTheory.AutomorphicForms.GL2.GodementSectionFactor
+public import GroundTheory.AutomorphicForms.GL2.Bundle003
 public import GroundTheory.GlobalFields.Adele.Topology
 import GroundTheory.AutomorphicForms.GL2.ExistsEqPowMulOfValuationLe
 import GroundTheory.AutomorphicForms.GL2.GJFEInducedLevi

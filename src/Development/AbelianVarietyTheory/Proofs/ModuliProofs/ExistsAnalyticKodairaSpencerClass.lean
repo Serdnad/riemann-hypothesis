@@ -1,10 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.IsSymm
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.CauchyRiemannIffDifferentiableOnComplex
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsLocalDerivationAlongFibreOfSmoothStatement
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsUniqueUniformisingVectorVerticalTangentStatement
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.HolomorphicPeriodicCocycleCoboundary
+public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.Bundle003
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle008
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle068
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle042
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.LocDerRegularCoeff
 import Development.AbelianVarietyTheory.Proofs.ToricGeometry.TopLePreimageOfValAtNeZero
 import Mathlib.Algebra.Order.Floor.Extended

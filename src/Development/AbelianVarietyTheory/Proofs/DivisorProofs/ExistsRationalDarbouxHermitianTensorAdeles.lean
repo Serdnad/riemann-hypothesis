@@ -174,6 +174,8 @@ private theorem hTens_single (σ : E →ₐ[F] E) (JA : Matrix α α E) (JB : Ma
 theorem bijective_sympBil [CharZero F] (σ : E →ₐ[F] E) (hσ : ∀ x, σ (σ x) = x) {JA : Matrix α α E}
     {JB : Matrix β β E} (hA : JA.det ≠ 0) (hB : JB.det ≠ 0) : Function.Bijective (sympBil σ (-1) JA JB) := by
   classical
+  let eMat : (α → β → E) ≃ₗ[F] Matrix α β E := Matrix.ofLinearEquiv F
+  letI : FiniteDimensional F (Matrix α β E) := Module.Finite.of_surjective eMat.toLinearMap eMat.surjective
   have hx0 : ∀ x : Matrix α β E, (∀ y, symp σ (-1) JA JB x y = 0) → x = 0 := by
     intro x hx
     have hN : JAᵀ * x * JB = 0 := by
@@ -251,6 +253,8 @@ theorem exists_darboux [CharZero F] [Invertible (2 : R)] (h2 : finrank F E = 2) 
       ∀ x : Matrix α β E, ∃ y z : α × β → F, co.e (x.map (Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.inclR (F := F) R)) =
         (fun k => algebraMap F R (y k), fun k => algebraMap F R (z k)) := by
   classical
+  let eMat : (α → β → E) ≃ₗ[F] Matrix α β E := Matrix.ofLinearEquiv F
+  letI : FiniteDimensional F (Matrix α β E) := Module.Finite.of_surjective eMat.toLinearMap eMat.surjective
   have halt := isAlt_sympBil σ hσ hA hB
   have hbij := bijective_sympBil σ hσ hA' hB'
   have hrank : Module.finrank F (Matrix α β E) = 2 * Fintype.card (α × β) := by

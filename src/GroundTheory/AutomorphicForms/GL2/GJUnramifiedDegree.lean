@@ -8,7 +8,7 @@ import GroundTheory.AutomorphicForms.GL2.GJInducedCoeff
 import GroundTheory.AutomorphicForms.GL2.GJInducedZeta
 import GroundTheory.AutomorphicForms.GL2.GJZetaCore
 import GroundTheory.AutomorphicForms.JacquetAdmissible
-import GroundTheory.AutomorphicForms.SmoothRepContragredient
+import GroundTheory.AutomorphicForms.Bundle008
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

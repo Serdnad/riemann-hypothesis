@@ -1,24 +1,24 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IdxEqRelIndex
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle235
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.OddnessConditionHolds
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.CharacterAtInertComponent
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ConstOfEquivariant
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.DetRationalMatrixTwoSidedMulEqProdEmbeddings
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsNormOneScalarAvoidingMatrixEigenvalues
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle331
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle328
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle234
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle220
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsSplitPart
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.FrameEmbeddingUniqueFixed
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle264
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.OmEqPullOfVacuum
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ProdSqNormEmbT
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.RationalMatrixMulThetaLattices
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.RationalPointsIntegralPointsMembership
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.RelIndexImageOneSubComplexLinearEquiv
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.RelIndexNeZeroOfMoves
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle249
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle284
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle216
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle310
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle278
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ThetaLatticeIndex
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ThetaPullbackFirstGroupRationalPointEqSmul
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ThetaSpanRationalTranslatesVacuum
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle321
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.WeilRepresentationVacuumSignInertPlaces
-public import Formalism.SharpRestriction.Divisibility.BoundaryLocalData
+public import Formalism.SharpRestriction.Divisibility.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -124,7 +124,7 @@ variable {e : AE D} (h1 : e * e = e) (h2 : sgA D e = e)
 
 include h3 in
 theorem chi_inert {n : ℕ} (χ : HeckeU D n) {y : 𝓞 D.host.E} (hy : y ≠ 0) (hy' : (y : D.host.E) ≠ 0) :
-    ((χ.f (Units.map (cut (1 - e) (compl_idem h1)) (prin hy')) : ℂˣ) : ℂ) = sN y ^ n := by
+    ((χ.f (Units.map (_root_.GlobalTheory.VacuumScalar.cut (1 - e) (compl_idem h1)) (prin hy')) : ℂˣ) : ℂ) = sN y ^ n := by
   refine GlobalTheory.InertValue.character_at_inert_component D n χ y _ hy fun q hq => ⟨fun hi => ?_, fun hi => ?_⟩
   · convert zeroAt_mul D hq ((h3 q hq).1 hi) (1 - inc D y) using 1
     change (1 - e) * inc D y + (1 - (1 - e)) * 1 - _ = _
@@ -137,14 +137,14 @@ theorem chi_inert {n : ℕ} (χ : HeckeU D n) {y : 𝓞 D.host.E} (hy : y ≠ 0)
 include h3 in
 theorem chi_split {n : ℕ} (χ : HeckeU D n) {y : D.host.E} (hy : y ≠ 0) {y₁ c : 𝓞 D.host.E} (a1 : y₁ ≠ 0)
     (a2 : c ≠ 0) (h : y * c = y₁) :
-    ((χ.f (Units.map (cut e h1) (prin hy)) : ℂˣ) : ℂ) =
+    ((χ.f (Units.map (_root_.GlobalTheory.VacuumScalar.cut e h1) (prin hy)) : ℂˣ) : ℂ) =
       (sN y₁ * sN c) ^ n * ∏ τ, (embT D τ y / (‖embT D τ y‖ : ℂ)) ^ (-(χ.n τ)) := by
   have b1 : (y₁ : D.host.E) ≠ 0 := by simpa using a1
   have b2 : (c : D.host.E) ≠ 0 := by simpa using a2
   have hp : prin hy * prin b2 = prin b1 := Units.ext (by
     change inc D y * inc D c = inc D y₁
     rw [← map_mul, h])
-  have hsplit : prin hy = Units.map (cut e h1) (prin hy) * Units.map (cut (1 - e) (compl_idem h1)) (prin hy) :=
+  have hsplit : prin hy = Units.map (_root_.GlobalTheory.VacuumScalar.cut e h1) (prin hy) * Units.map (_root_.GlobalTheory.VacuumScalar.cut (1 - e) (compl_idem h1)) (prin hy) :=
     Units.ext (cut_mul_cut e h1 ((prin hy : (AE D)ˣ) : AE D)).1.symm
   have c1 := chi_inert h1 h3 χ a1 b1
   rw [← hp, map_mul, map_mul, Units.val_mul, chi_inert h1 h3 χ a2 b2] at c1
@@ -153,15 +153,15 @@ theorem chi_split {n : ℕ} (χ : HeckeU D n) {y : D.host.E} (hy : y ≠ 0) {y�
   have s1 : sN y₁ ^ n * sN y₁ ^ n = 1 := by rw [← mul_pow, sN, sgn_mul_self, one_pow]
   simp only [zpow_neg, Finset.prod_inv_distrib]
   rw [← eq_inv_of_mul_eq_one_left ha, mul_pow]
-  linear_combination (-(sN y₁ ^ n) * ((χ.f (Units.map (cut e h1) (prin hy)) : ℂˣ) : ℂ)) * c1 -
-    ((χ.f (Units.map (cut e h1) (prin hy)) : ℂˣ) : ℂ) * s1
+  linear_combination (-(sN y₁ ^ n) * ((χ.f (Units.map (_root_.GlobalTheory.VacuumScalar.cut e h1) (prin hy)) : ℂˣ) : ℂ)) * c1 -
+    ((χ.f (Units.map (_root_.GlobalTheory.VacuumScalar.cut e h1) (prin hy)) : ℂˣ) : ℂ) * s1
 
 include h3 in
 theorem split_part (g : GA D N) {x : (AE D)ˣ}
     (hx : x = Matrix.GeneralLinearGroup.det (g : GL (Fin N) (AE D)) * sgU D x) :
-    (∀ q : ℕ, q.Prime → InertQ D q → ZeroAt D q (((Units.map (cut e h1) x : (AE D)ˣ) : AE D) - 1)) ∧
-      Units.map (cut e h1) x = Matrix.GeneralLinearGroup.det ((cutG e h1 h2 g : GA D N) : GL (Fin N) (AE D)) *
-        sgU D (Units.map (cut e h1) x) := by
+    (∀ q : ℕ, q.Prime → InertQ D q → ZeroAt D q (((Units.map (_root_.GlobalTheory.VacuumScalar.cut e h1) x : (AE D)ˣ) : AE D) - 1)) ∧
+      Units.map (_root_.GlobalTheory.VacuumScalar.cut e h1) x = Matrix.GeneralLinearGroup.det ((cutG e h1 h2 g : GA D N) : GL (Fin N) (AE D)) *
+        sgU D (Units.map (_root_.GlobalTheory.VacuumScalar.cut e h1) x) := by
   set d : AE D := ((Matrix.GeneralLinearGroup.det (g : GL (Fin N) (AE D)) : (AE D)ˣ) : AE D) with hdef
   have hxv : (x : AE D) = d * sgA D x := congrArg Units.val hx
   refine ⟨fun q hq hi => ?_, Units.ext ?_⟩
@@ -181,7 +181,7 @@ theorem vac (hc : Crv D cc δ) (hN : Even (N * N')) {e0 : VC D N N' → ℂ}
     (hx' : x' = Matrix.GeneralLinearGroup.det (g' : GL (Fin N') (AE D)) * sgU D x')
     (hL : Moves D (g : GL (Fin N) (AE D)) L) (hL' : Moves D (g' : GL (Fin N') (AE D)) L') :
     W.Om g g' e0 = (sgn D (idx D L') ^ N * sgn D (idx D L) ^ N' *
-      (((W.chV.f (Units.map (cut e h1) x') : ℂˣ) : ℂ) ^ W.ep * ((W.chV'.f (Units.map (cut e h1) x) : ℂˣ) : ℂ) ^ W.ep')) •
+      (((W.chV.f (Units.map (_root_.GlobalTheory.VacuumScalar.cut e h1) x') : ℂˣ) : ℂ) ^ W.ep * ((W.chV'.f (Units.map (_root_.GlobalTheory.VacuumScalar.cut e h1) x) : ℂˣ) : ℂ) ^ W.ep')) •
       Iop D (tor0 D cc δ) (La0 D (tor0 D cc δ) N N') (La D (tor0 D cc δ) L L') e0 := by
   obtain ⟨b1, b2⟩ := split_part h1 h2 h3 g hx
   obtain ⟨c1, c2⟩ := split_part h1 h2 h3 g' hx'
@@ -317,7 +317,7 @@ theorem const (hc : Crv D cc δ) {A₁ : AddSubgroup (VC D N N')} (k1 : KLat D (
     (hth : th ∈ Th D (tor0 D cc δ) (stdL D N) (stdL D N')) :
     (fun z => th (u.symm z)) = (sgn D i ^ k * ((sN y₁ * sN c) ^ k * ∏ τ, ((‖embT D τ w‖ : ℂ) / embT D τ w) ^ k)) •
       Iop D (tor0 D cc δ) (La0 D (tor0 D cc δ) N N') A₁ th := by
-  have k0 : KLat D (tor0 D cc δ) (La0 D (tor0 D cc δ) N N') := klat _ (moves_one D N) (moves_one D N')
+  have k0 : KLat D (tor0 D cc δ) (La0 D (tor0 D cc δ) N N') := _root_.GlobalTheory.RatRow.klat _ (_root_.GlobalTheory.VacuumScalar.moves_one D N) (_root_.GlobalTheory.VacuumScalar.moves_one D N')
   have hd0 : LinearMap.det (LinearMap.id - (u.symm : VC D N N' →ₗ[ℂ] VC D N N')) ≠ 0 := by
     rw [hd]; exact Finset.prod_ne_zero_iff.2 fun τ _ => pow_ne_zero _ ((map_ne_zero _).2 hw)
   have h2 := (GlobalTheory.ThetaCovIndex.relIndex_one_sub D cc δ hc N N' _ _ k0 k1 u hu hA hd0 hm).2
@@ -357,10 +357,10 @@ theorem col (hc : Crv D cc δ) (hN : Even (N * N')) {e0 : VC D N N' → ℂ}
     rw [mul_assoc, ← Matrix.det_mul, mul_sub, h1, mul_one, hd, conj_conj, ← neg_sub γ 1, Matrix.det_neg,
       Fintype.card_fin])
   obtain ⟨y₁, c, a1, a2, a3⟩ := present hy
-  obtain ⟨i0, i1⟩ := (GlobalTheory.ThetaLatIndex.theta_lattice_index D cc δ hc N N').1 L (sd_of_moves hL)
-  have key := const hc (klat _ (moves_one D N) hL) u
+  obtain ⟨i0, i1⟩ := (GlobalTheory.ThetaLatIndex.theta_lattice_index D cc δ hc N N').1 L (_root_.GlobalTheory.VacuumScalar.sd_of_moves hL)
+  have key := const hc (_root_.GlobalTheory.RatRow.klat _ (_root_.GlobalTheory.VacuumScalar.moves_one D N) hL) u
     (fun z w => by rw [hu, hu, Hf_mulV, mulV_mulV, h2, adj_one, mul_one, mulV_one])
-    (fun x => by rw [st3 1 γA 1 γ _ _ (isRat_one D N) hr (moves_one D N) hL x, adj_one, hu]) hd0
+    (fun x => by rw [st3 1 γA 1 γ _ _ (isRat_one D N) hr (_root_.GlobalTheory.VacuumScalar.moves_one D N) hL x, adj_one, hu]) hd0
     (by rw [hsub, GlobalTheory.TwoSidedDet.det_mulV]; simp)
     (by
       obtain ⟨m, hm, hm'⟩ := st2 (1 - adj D γ)⁻¹ 1
@@ -378,7 +378,7 @@ theorem col (hc : Crv D cc δ) (hN : Even (N * N')) {e0 : VC D N N' → ℂ}
     (scal_comm γ 1) i1 i0 (ev_idx i0) a1 a2 a3 hy3 he
   have hp : pull D (tor0 D cc δ) 1 γ e0 = _ := (pull_eq D cc δ 1 γ e0).trans key
   obtain ⟨e, e1, e2, e3⟩ := exists_idem D
-  rw [vac e1 e2 e3 hc hN he W (one_eq N) (prin_eq hr hy hy1) (moves_one D N) hL, hp, chi_split e1 e3 _ hy a1 a2 a3,
+  rw [vac e1 e2 e3 hc hN he W (one_eq N) (prin_eq hr hy hy1) (_root_.GlobalTheory.VacuumScalar.moves_one D N) hL, hp, chi_split e1 e3 _ hy a1 a2 a3,
     scalar_id (phase_ne hy) (sq_phase hy hy1) ha (sN_sq _ _ _) W.ep_pm.1, hy2, idx_std, sgn_one]
   funext z
   simp only [map_one, Units.val_one, one_zpow, one_pow, mul_one, Pi.smul_apply, smul_eq_mul, zpow_natCast]
@@ -405,10 +405,10 @@ theorem row (hc : Crv D cc δ) (hN : Even (N * N')) {e0 : VC D N N' → ℂ}
         ← neg_sub γ 1, Matrix.det_neg, Fintype.card_fin])
   simp only [embT_conj, Complex.norm_conj] at hy2 hy3
   obtain ⟨y₁, c, a1, a2, a3⟩ := present hy
-  obtain ⟨i0, i1⟩ := (GlobalTheory.ThetaLatIndex.theta_lattice_index D cc δ hc N N').2 L (sd_of_moves hL)
-  have key := const hc (klat _ hL (moves_one D N')) u
+  obtain ⟨i0, i1⟩ := (GlobalTheory.ThetaLatIndex.theta_lattice_index D cc δ hc N N').2 L (_root_.GlobalTheory.VacuumScalar.sd_of_moves hL)
+  have key := const hc (_root_.GlobalTheory.RatRow.klat _ hL (_root_.GlobalTheory.VacuumScalar.moves_one D N')) u
     (hf_unitary _ (by rw [adj_one, Matrix.one_mul]) (by rw [adj_adj, hu']))
-    (hmov γA 1 γ 1 L _ hr (isRat_one D N') hL (moves_one D N')) hdet
+    (hmov γA 1 γ 1 L _ hr (isRat_one D N') hL (_root_.GlobalTheory.VacuumScalar.moves_one D N')) hdet
     (by rw [hid, GlobalTheory.TwoSidedDet.det_mulV]; simp)
     (by
       obtain ⟨m₁, h₁, g₁⟩ := hden 1 (1 - γ)⁻¹
@@ -434,7 +434,7 @@ theorem row (hc : Crv D cc δ) (hN : Even (N * N')) {e0 : VC D N N' → ℂ}
     refine Finset.prod_congr rfl fun τ _ => ?_
     rw [← inv_pow, inv_div, phase_conj ((map_ne_zero _).2 hdet)]
   obtain ⟨e, e1, e2, e3⟩ := exists_idem D
-  rw [vac e1 e2 e3 hc hN he W (prin_eq hr hy hy1) (one_eq N') hL (moves_one D N'), hp, chi_split e1 e3 _ hy a1 a2 a3,
+  rw [vac e1 e2 e3 hc hN he W (prin_eq hr hy hy1) (one_eq N') hL (_root_.GlobalTheory.VacuumScalar.moves_one D N'), hp, chi_split e1 e3 _ hy a1 a2 a3,
     scalar_id (k := -(N' : ℤ)) (phase_ne hy) (sq_phase hy hy1) (fun τ => by rw [ha τ]; ring) (sN_sq _ _ _) W.ep_pm.2,
     hy4, idx_std, sgn_one]
   funext z

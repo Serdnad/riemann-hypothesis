@@ -2,16 +2,16 @@ module
 
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsFockMap
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.IsSmoothModerateOfIsAutFunSm
-public import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.FinSplit
-public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.RightOnto
-public import Development.WeilBound.ThetaLifts.CartanFactorisation.CartanConj
-public import Development.WeilBound.ThetaLifts.LatticeBasics.HypothesesS
+public import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.Bundle002
+public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.Bundle001
+public import Development.WeilBound.ThetaLifts.CartanFactorisation.Bundle002
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle012
 public import Development.WeilBound.ThetaLifts.LocalTheory.UnramifiedDeterminedBySpherical
-public import Development.WeilBound.ThetaLifts.SphericalLattices.HoweInert
-public import Development.WeilBound.ThetaLifts.TowerModels.PlaneHerm
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.HeckeLEntireAndNonzeroAtOneHolds
+public import Development.WeilBound.ThetaLifts.SphericalLattices.Bundle006
+public import Development.WeilBound.ThetaLifts.TowerModels.Bundle003
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle158
 public import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.LinearAct
-public import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.SiegelTransport
+public import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.Bundle004
 public import Development.WeilBound.CoreStatements.GaussianSeminormBounds.RealSeminormFiltration.EvIHalfTrace
 public import Development.WeilBound.CoreStatements.GaussianSeminormBounds.RealSeminormFiltration.KRealAsm
 public import Development.WeilBound.CoreStatements.GaussianSeminormBounds.RealSeminormFiltration.RLLieH
@@ -22,55 +22,52 @@ public import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.
 public import Development.WeilBound.ThetaLifts.AgreeOfLeaves
 public import Development.WeilBound.ThetaLifts.CartanFactorisation.ArchimedeanEvaluationVector
 public import Development.WeilBound.ThetaLifts.CartanFactorisation.Cartan
-public import Development.WeilBound.ThetaLifts.CartanFactorisation.ExistsEnlarge
+public import Development.WeilBound.ThetaLifts.CartanFactorisation.Bundle008
 public import Development.WeilBound.ThetaLifts.CartanFactorisation.FockSecondActionMatrixUnitEq
-public import Development.WeilBound.ThetaLifts.CartanFactorisation.InjPure
 public import Development.WeilBound.ThetaLifts.CartanFactorisation.PolCountFinal
 import Development.WeilBound.ThetaLifts.CartanFactorisation.Unimod
 import Development.WeilBound.ThetaLifts.EigenvalueEndgame.EigenKilling.PolRange
-public import Development.WeilBound.ThetaLifts.FrameEstimates.BlockForm
-public import Development.WeilBound.ThetaLifts.FrameEstimates.FundamentalDomainFiniteVolume
-public import Development.WeilBound.ThetaLifts.FrameEstimates.GrpTop
+public import Development.WeilBound.ThetaLifts.FrameEstimates.Bundle003
+public import Development.WeilBound.ThetaLifts.FrameEstimates.Bundle006
 public import Development.WeilBound.ThetaLifts.FrameEstimates.InitialPairs.TriplePairHolds
-public import Development.WeilBound.ThetaLifts.FrameEstimates.IsCompactIntV
-public import Development.WeilBound.ThetaLifts.FrameEstimates.LatCpt
+public import Development.WeilBound.ThetaLifts.FrameEstimates.Bundle002
+public import Development.WeilBound.ThetaLifts.FrameEstimates.Bundle005
 public import Development.WeilBound.ThetaLifts.FrameEstimates.SiegelAll
 public import Development.WeilBound.ThetaLifts.FrameEstimates.WeilConv
 public import Development.WeilBound.ThetaLifts.LatticeBasics.BadFin
-public import Development.WeilBound.ThetaLifts.LatticeBasics.BotAsm
-public import Development.WeilBound.ThetaLifts.LatticeBasics.BoxSec
-public import Development.WeilBound.ThetaLifts.LatticeBasics.CartanBound2
-public import Development.WeilBound.ThetaLifts.LatticeBasics.ConvOfCpt
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle017
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle019
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle020
 public import Development.WeilBound.ThetaLifts.LatticeBasics.EisCont
-public import Development.WeilBound.ThetaLifts.LatticeBasics.EulerHalf
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle009
 public import Development.WeilBound.ThetaLifts.LatticeBasics.ExistsIsGauss
-public import Development.WeilBound.ThetaLifts.LatticeBasics.FinLevel
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle018
 public import Development.WeilBound.ThetaLifts.LatticeBasics.FrameConj
-public import Development.WeilBound.ThetaLifts.LatticeBasics.HgtInt
-import Development.WeilBound.ThetaLifts.LatticeBasics.LeviEx
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle024
+import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle006
 import Development.WeilBound.ThetaLifts.LatticeBasics.LocMeas
 public import Development.WeilBound.ThetaLifts.LatticeBasics.LocUnrInert
 public import Development.WeilBound.ThetaLifts.LatticeBasics.LocUnrSplit
-import Development.WeilBound.ThetaLifts.LatticeBasics.NonZero
+import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle008
 public import Development.WeilBound.ThetaLifts.LatticeBasics.NormZeta
-public import Development.WeilBound.ThetaLifts.LatticeBasics.PolDense
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle016
 import Development.WeilBound.ThetaLifts.LatticeBasics.RatEquiv
-import Development.WeilBound.ThetaLifts.LatticeBasics.RealInv
-public import Development.WeilBound.ThetaLifts.LeviDeterminants.ActsEx
-public import Development.WeilBound.ThetaLifts.LeviDeterminants.MixedModels.MCPure
-public import Development.WeilBound.ThetaLifts.LeviDeterminants.MixedModels.MixWClosed
+import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle015
+public import Development.WeilBound.ThetaLifts.LeviDeterminants.Bundle006
+public import Development.WeilBound.ThetaLifts.LeviDeterminants.MixedModels.Bundle004
+public import Development.WeilBound.ThetaLifts.LeviDeterminants.MixedModels.Bundle007
 public import Development.WeilBound.ThetaLifts.LeviDeterminants.MixedModels.MixXClosed
-public import Development.WeilBound.ThetaLifts.LeviDeterminants.ThetaBasic
+public import Development.WeilBound.ThetaLifts.LeviDeterminants.Bundle009
 public import Development.WeilBound.ThetaLifts.LeviDeterminants.ThetaEvaluationZeroCone
 public import Development.WeilBound.ThetaLifts.LocalTheory.ArchimedeanBumps.ArchHeisOf
 public import Development.WeilBound.ThetaLifts.LocalTheory.ArchimedeanBumps.BumpAFin
 public import Development.WeilBound.ThetaLifts.LocalTheory.ArchimedeanBumps.SlicePol
 import Development.WeilBound.ThetaLifts.LocalTheory.ArchimedeanBumps.TracePiReal
 public import Development.WeilBound.ThetaLifts.LocalTheory.ConeShifts.FubMain
-public import Development.WeilBound.ThetaLifts.LocalTheory.ConeShifts.IdealId0
+public import Development.WeilBound.ThetaLifts.LocalTheory.ConeShifts.Bundle002
 import Development.WeilBound.ThetaLifts.LocalTheory.ConeShifts.PresOfHat
 public import Development.WeilBound.ThetaLifts.LocalTheory.ConeShifts.VacShiftOf
-public import Development.WeilBound.ThetaLifts.LocalTheory.HypOf
+public import Development.WeilBound.ThetaLifts.LocalTheory.Bundle003
 public import Development.WeilBound.ThetaLifts.LocalTheory.LocAOf
 public import Development.WeilBound.ThetaLifts.LocalTheory.LocBOf
 public import Development.WeilBound.ThetaLifts.LocalTheory.StandardValuations.ExistsVol
@@ -81,30 +78,27 @@ public import Development.WeilBound.ThetaLifts.LocalTheory.UnramifiedCohomology.
 public import Development.WeilBound.ThetaLifts.Reductions.JoinTriOf
 public import Development.WeilBound.ThetaLifts.Reductions.TopPolarZero.PolZero
 public import Development.WeilBound.ThetaLifts.Reductions.WeightConstants.ConstOfGood
-public import Development.WeilBound.ThetaLifts.SmallCones.IwaExOf
-public import Development.WeilBound.ThetaLifts.SmallCones.KFinDataOf
-public import Development.WeilBound.ThetaLifts.SmallCones.Leaves
-public import Development.WeilBound.ThetaLifts.SmallCones.LinExOf
+public import Development.WeilBound.ThetaLifts.SmallCones.Bundle013
+public import Development.WeilBound.ThetaLifts.SmallCones.Bundle012
+public import Development.WeilBound.ThetaLifts.SmallCones.Bundle004
+public import Development.WeilBound.ThetaLifts.SmallCones.Bundle011
 public import Development.WeilBound.ThetaLifts.SmallCones.MixABOf
 public import Development.WeilBound.ThetaLifts.SmallCones.NormLeSum
-public import Development.WeilBound.ThetaLifts.SmallCones.SchInt
+public import Development.WeilBound.ThetaLifts.SmallCones.Bundle002
 public import Development.WeilBound.ThetaLifts.SmallCones.SliceSummable
 import Development.WeilBound.ThetaLifts.SmallCones.SoStab
-public import Development.WeilBound.ThetaLifts.SmallCones.SoZeroAOf
-public import Development.WeilBound.ThetaLifts.SmallCones.SplitInv
-public import Development.WeilBound.ThetaLifts.SmallCones.SplitLatMap
-public import Development.WeilBound.ThetaLifts.SmallCones.StabDec
+public import Development.WeilBound.ThetaLifts.SmallCones.Bundle008
 public import Development.WeilBound.ThetaLifts.SmallCones.ThetaExp
 import Development.WeilBound.ThetaLifts.SmallCones.UnipEx
 public import Development.WeilBound.ThetaLifts.SphericalLattices.SphericalClosure.EndCore
 public import Development.WeilBound.ThetaLifts.SphericalLattices.ThetaKillsCuspFormsSpherical
-import Development.WeilBound.ThetaLifts.SphericalLattices.ThetaSubSup
+import Development.WeilBound.ThetaLifts.SphericalLattices.Bundle011
 import Development.WeilBound.ThetaLifts.TowerModels.LeviEx
 import Development.WeilBound.ThetaLifts.TowerModels.ModelEx
 import Development.WeilBound.ThetaLifts.TowerModels.PlaneSkew
 import Development.WeilBound.ThetaLifts.TowerModels.StabEx
 import Development.WeilBound.ThetaLifts.TowerModels.TowerCodimensionTwo
-import Development.WeilBound.ThetaLifts.TowerModels.TowerCodimensionTwoOf
+import Development.WeilBound.ThetaLifts.TowerModels.Bundle004
 import Development.WeilBound.ThetaLifts.WeilDomination.DomWeilOf
 public import Development.WeilBound.ThetaLifts.WeilDomination.ExistsUnitChrWNe
 import Development.WeilBound.ThetaLifts.WeilDomination.MatchEx
@@ -146,11 +140,10 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.LmOfLinBar
 public import Development.WeilBound.ThetaLifts.CTKernel
-public import Development.WeilBound.ThetaLifts.FrameEstimates.HodgeTateFromSandwich
-public import Development.WeilBound.ThetaLifts.LatticeBasics.LocUnr
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle013
 public import Development.WeilBound.ThetaLifts.LocalTheory.AdmissiblePureTensorSchwartz
 public import Development.WeilBound.ThetaLifts.LocalTheory.ConeShifts.ContinuousFc
-public import Development.WeilBound.ThetaLifts.SmallCones.HodgeTateFromSandwich
+public import Development.WeilBound.ThetaLifts.SmallCones.Bundle003
 
 @[expose] public section
 

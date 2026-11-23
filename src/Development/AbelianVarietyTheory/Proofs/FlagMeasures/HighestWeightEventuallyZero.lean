@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.ActSingleNeZero
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle007
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.PosPartUnitaryMul
 public import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.DerivExpEntry
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsDerivPhiConj
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle169
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.PsiEntriesCentreEigenfunctionsDiscreteSeries
 import Formalism.RealPlaceAnalysis.FinalF
 import Formalism.RealPlaceAnalysis.RealPlaceTaylor.CompactHaarRightInvariantInst

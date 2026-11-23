@@ -1,7 +1,7 @@
 module
 
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutJfSSymDefs
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutJfSmoothCut
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle024
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle045
 import Formalism.FormalDegreeBessel.FinalG
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.RegularisedPairingViaPhase
 import Mathlib.Algebra.Order.Floor.Extended

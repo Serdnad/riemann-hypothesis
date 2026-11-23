@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.ProfiniteCohomology.InflationRestriction.Transgression
-import GroundTheory.ProfiniteCohomology.FilteredHomology
+import GroundTheory.ProfiniteCohomology.Bundle001
 import GroundTheory.ProfiniteCohomology.InflationRestriction.DegreeOne
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

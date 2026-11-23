@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CentralizerAlgO
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle642
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HarrisTaylorOrderFaithfulLattice
-import GroundTheory.Brauer.DoubleCentralizer
+import GroundTheory.Brauer.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

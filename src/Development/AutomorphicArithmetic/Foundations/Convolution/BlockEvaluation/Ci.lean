@@ -2,13 +2,11 @@ module
 
 public import Development.AutomorphicArithmetic.Foundations.Convolution.ASmooth
 public import Development.AutomorphicArithmetic.Foundations.Convolution.BlockEvaluation.CprsMulRight
-public import Development.AutomorphicArithmetic.Foundations.Convolution.BlockEvaluation.EvalPowE
-public import Development.AutomorphicArithmetic.Foundations.Convolution.BlockEvaluation.ExpForm
-public import Development.AutomorphicArithmetic.Foundations.Convolution.BlockEvaluation.FixFAnti
+public import Development.AutomorphicArithmetic.Foundations.Convolution.BlockEvaluation.Bundle001
+public import Development.AutomorphicArithmetic.Foundations.Convolution.BlockEvaluation.Bundle002
 public import Development.AutomorphicArithmetic.Foundations.Convolution.BlockEvaluation.HomogMonomial
 public import Development.AutomorphicArithmetic.Foundations.Convolution.BlockEvaluation.KillEx
 public import Development.AutomorphicArithmetic.Foundations.Convolution.BlockEvaluation.OneSide
-public import Development.AutomorphicArithmetic.Foundations.Convolution.BlockEvaluation.SepPoly
 public import Development.AutomorphicArithmetic.Foundations.Convolution.BlockEvaluation.TrOnBot
 public import Development.AutomorphicArithmetic.Foundations.Convolution.BlockEvaluation.TruncSpecAlt
 public import Development.AutomorphicArithmetic.Foundations.Convolution.BlockHeckeSlices.Imports
@@ -17,7 +15,7 @@ public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSp
 import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.KernelTransforms.EvExSub
 public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.TwInt
 public import Development.AutomorphicArithmetic.Foundations.Convolution.PowerSumTraces.CuspTrBand
-public import Development.AutomorphicArithmetic.Foundations.Convolution.PowerSumTraces.DecayTraceClass
+public import Development.AutomorphicArithmetic.Foundations.Convolution.PowerSumTraces.Bundle002
 import Development.AutomorphicArithmetic.Foundations.Convolution.PowerSumTraces.PolyBdAll
 public import Development.AutomorphicArithmetic.Foundations.Convolution.PowerSumTraces.SmoothDecay
 import Mathlib.Algebra.Order.Floor.Extended

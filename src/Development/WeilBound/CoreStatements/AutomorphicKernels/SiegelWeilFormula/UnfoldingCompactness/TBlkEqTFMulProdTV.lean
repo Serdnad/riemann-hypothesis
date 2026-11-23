@@ -1,7 +1,7 @@
 module
 
-public import Development.WeilBound.ThetaLifts.LatticeBasics.UnfoldB
-public import Development.WeilBound.ThetaLifts.LatticeBasics.HypothesesE
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle011
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle008
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.ExistsHeightLeTwoMulQuotHeight
 import Development.WeilBound.CoreStatements.AutomorphicKernels.EisensteinSeriesG2.AdelicHomeomorphisms.IsTopologicalGroupG2
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.EisensteinSeriesG2.CompactStandardSubgroup.KCptPf

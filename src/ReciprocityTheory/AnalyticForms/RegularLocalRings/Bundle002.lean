@@ -1,0 +1,250 @@
+module
+
+public import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
+public import Mathlib.RingTheory.MvPolynomial.IrreducibleQuadratic
+public import Mathlib.RingTheory.Unramified.Basic
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Coalgebra.IsFrobenius
+import Mathlib.RingTheory.Henselian
+import Mathlib.RingTheory.HopfAlgebra.Basic
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.RegularLocalRing.Defs
+import Mathlib.RingTheory.SimpleRing.Principal
+import Mathlib.RingTheory.WittVector.IsPoly
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Linter.HaveILetI
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.TypeStar
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Topology.Sheaves.Init
+public import Mathlib.LinearAlgebra.Basis.Basic
+public import Mathlib.LinearAlgebra.Basis.VectorSpace
+public import Mathlib.LinearAlgebra.Dimension.StrongRankCondition
+public import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
+public import Mathlib.Algebra.CharP.Algebra
+public import Mathlib.FieldTheory.IntermediateField.Adjoin.Defs
+public import Mathlib.FieldTheory.Perfect
+public import Mathlib.RingTheory.AlgebraicIndependent.Adjoin
+public import Mathlib.RingTheory.AlgebraicIndependent.TranscendenceBasis
+public import Mathlib.RingTheory.Flat.Basic
+public import Mathlib.RingTheory.Unramified.Field
+
+@[expose] public section
+
+section
+
+namespace ReciprocityTheory.AnForm.R
+
+open MvPolynomial
+
+theorem gs_exists_rows_det_ne_zero {K : Type*} [Field K] {t r : ℕ} (M : Matrix (Fin t) (Fin r) K)
+    (hM : ∀ c : Fin r → K, M.mulVec c = 0 → c = 0) :
+    ∃ a : Fin r → Fin t, (M.submatrix a id).det ≠ 0 := by
+  classical
+
+  have hspan : Submodule.span K (Set.range fun i => M i) = ⊤ := by
+    by_contra hne
+    obtain ⟨f, hf0, hf⟩ := Submodule.exists_le_ker_of_lt_top _ (lt_top_iff_ne_top.2 hne)
+    have hfx : ∀ x : Fin r → K, f x = ∑ k, x k * f (Pi.single k 1) := by
+      intro x
+      conv_lhs => rw [← (Pi.basisFun K (Fin r)).sum_repr x]
+
+      simp [map_sum, smul_eq_mul]
+    have hc : M.mulVec (fun k => f (Pi.single k 1)) = 0 := by
+      funext i
+      have hi : M i ∈ LinearMap.ker f := hf (Submodule.subset_span ⟨i, rfl⟩)
+      rw [LinearMap.mem_ker, hfx] at hi
+      exact hi
+    have hc0 := hM _ hc
+    apply hf0
+    apply (Pi.basisFun K (Fin r)).ext
+    intro k
+    have hk := congrFun hc0 k
+    simpa using hk
+
+  obtain ⟨κ, a, ha, hsp, hli⟩ := exists_linearIndependent' K (fun i => M i)
+  have hsp' : Submodule.span K (Set.range ((fun i => M i) ∘ a)) = ⊤ := hsp.trans hspan
+  haveI : Finite κ := Finite.of_injective a ha
+  haveI : Fintype κ := Fintype.ofFinite κ
+  let B := Module.Basis.mk hli hsp'.ge
+  have hcard : Fintype.card κ = r := by
+    have h := Module.finrank_eq_card_basis B
+    simpa using h.symm
+  let e : Fin r ≃ κ := (Fintype.equivFinOfCardEq hcard).symm
+  refine ⟨a ∘ e, ?_⟩
+  have hli2 : LinearIndependent K (Matrix.row (M.submatrix (a ∘ e) id)) :=
+    hli.comp e e.injective
+  rw [Matrix.linearIndependent_rows_iff_isUnit, Matrix.isUnit_iff_isUnit_det,
+    isUnit_iff_ne_zero] at hli2
+  exact hli2
+
+end ReciprocityTheory.AnForm.R
+end
+
+section
+
+namespace ReciprocityTheory.AnForm.R.BaseChangeC
+
+open MvPolynomial TensorProduct
+
+section FracTensor
+
+variable (ι : Type) (F : Type) [Field F] [Algebra ℚ F] [Algebra (MvPolynomial ι ℚ) F]
+  [IsScalarTower ℚ (MvPolynomial ι ℚ) F] [IsFractionRing (MvPolynomial ι ℚ) F]
+  (C : Type) [Field C] [Algebra ℚ C]
+
+theorem fracTensor_exists_den (z : F ⊗[ℚ] C) :
+    ∃ s ∈ nonZeroDivisors (MvPolynomial ι ℚ), ∃ w : MvPolynomial ι ℚ ⊗[ℚ] C,
+      (algebraMap (MvPolynomial ι ℚ) F s ⊗ₜ[ℚ] (1 : C)) * z =
+        Algebra.TensorProduct.map (IsScalarTower.toAlgHom ℚ (MvPolynomial ι ℚ) F)
+          (AlgHom.id ℚ C) w := by
+  induction z using TensorProduct.induction_on with
+  | zero => exact ⟨1, one_mem _, 0, by simp⟩
+  | tmul a c =>
+    obtain ⟨⟨x, s⟩, hs⟩ := IsLocalization.surj (nonZeroDivisors (MvPolynomial ι ℚ)) a
+    refine ⟨(s : MvPolynomial ι ℚ), s.2, x ⊗ₜ[ℚ] c, ?_⟩
+    rw [Algebra.TensorProduct.tmul_mul_tmul, one_mul, Algebra.TensorProduct.map_tmul, mul_comm, hs]
+    rfl
+  | add z₁ z₂ h₁ h₂ =>
+    obtain ⟨s₁, hs₁, w₁, e₁⟩ := h₁
+    obtain ⟨s₂, hs₂, w₂, e₂⟩ := h₂
+    refine ⟨s₁ * s₂, mul_mem hs₁ hs₂,
+      (s₂ ⊗ₜ[ℚ] (1 : C)) * w₁ + (s₁ ⊗ₜ[ℚ] (1 : C)) * w₂, ?_⟩
+    have hΦ : ∀ t : MvPolynomial ι ℚ,
+        Algebra.TensorProduct.map (IsScalarTower.toAlgHom ℚ (MvPolynomial ι ℚ) F) (AlgHom.id ℚ C)
+          (t ⊗ₜ[ℚ] (1 : C)) = algebraMap (MvPolynomial ι ℚ) F t ⊗ₜ[ℚ] (1 : C) := fun t => by
+      rw [Algebra.TensorProduct.map_tmul]; rfl
+    have hsplit : (algebraMap (MvPolynomial ι ℚ) F s₁ * algebraMap (MvPolynomial ι ℚ) F s₂) ⊗ₜ[ℚ] (1 : C) =
+        (algebraMap (MvPolynomial ι ℚ) F s₁ ⊗ₜ[ℚ] (1 : C)) *
+          (algebraMap (MvPolynomial ι ℚ) F s₂ ⊗ₜ[ℚ] (1 : C)) := by
+      rw [Algebra.TensorProduct.tmul_mul_tmul, mul_one]
+    simp only [map_add (f := _), map_mul, hΦ]
+    rw [← e₁, ← e₂, hsplit]
+    ring
+
+include ι in
+theorem isDomain_tensor_of_isFractionRing : IsDomain (F ⊗[ℚ] C) := by
+  have h1 : Function.Injective (IsScalarTower.toAlgHom ℚ (MvPolynomial ι ℚ) F) :=
+    IsFractionRing.injective (MvPolynomial ι ℚ) F
+  have hinj : Function.Injective
+      (Algebra.TensorProduct.map (IsScalarTower.toAlgHom ℚ (MvPolynomial ι ℚ) F) (AlgHom.id ℚ C)) :=
+    Module.Flat.rTensor_preserves_injective_linearMap (M := C)
+      (IsScalarTower.toAlgHom ℚ (MvPolynomial ι ℚ) F).toLinearMap h1
+  let e : MvPolynomial ι ℚ ⊗[ℚ] C ≃+* MvPolynomial ι C :=
+    (Algebra.TensorProduct.comm ℚ (MvPolynomial ι ℚ) C).toRingEquiv.trans
+      (MvPolynomial.algebraTensorAlgEquiv (σ := ι) ℚ C).toRingEquiv
+  haveI hD : IsDomain (MvPolynomial ι ℚ ⊗[ℚ] C) := Function.Injective.isDomain e e.injective
+  haveI : Nontrivial (F ⊗[ℚ] C) := hinj.nontrivial
+  have hu : ∀ s ∈ nonZeroDivisors (MvPolynomial ι ℚ),
+      IsUnit (algebraMap (MvPolynomial ι ℚ) F s ⊗ₜ[ℚ] (1 : C)) := by
+    intro s hs
+    have h0 : algebraMap (MvPolynomial ι ℚ) F s ≠ 0 :=
+      IsFractionRing.to_map_ne_zero_of_mem_nonZeroDivisors hs
+    exact (isUnit_iff_ne_zero.mpr h0).map
+      (Algebra.TensorProduct.includeLeftRingHom (R := ℚ) (A := F) (B := C))
+  haveI nzd : NoZeroDivisors (F ⊗[ℚ] C) := by
+    constructor
+    intro a b hab
+    obtain ⟨s₁, hs₁, w₁, e₁⟩ := fracTensor_exists_den ι F C a
+    obtain ⟨s₂, hs₂, w₂, e₂⟩ := fracTensor_exists_den ι F C b
+    have hw : Algebra.TensorProduct.map (IsScalarTower.toAlgHom ℚ (MvPolynomial ι ℚ) F)
+        (AlgHom.id ℚ C) (w₁ * w₂) = 0 := by
+      rw [map_mul, ← e₁, ← e₂]
+      calc _ = (algebraMap (MvPolynomial ι ℚ) F s₁ ⊗ₜ[ℚ] (1 : C)) *
+            (algebraMap (MvPolynomial ι ℚ) F s₂ ⊗ₜ[ℚ] (1 : C)) * (a * b) := by ring
+        _ = 0 := by rw [hab, mul_zero]
+    have hw0 : w₁ * w₂ = 0 := hinj (by rw [hw, map_zero])
+    rcases mul_eq_zero.mp hw0 with h | h
+    · left
+      have h' : (algebraMap (MvPolynomial ι ℚ) F s₁ ⊗ₜ[ℚ] (1 : C)) * a = 0 := by
+        rw [e₁, h, map_zero]
+      exact ((hu s₁ hs₁).mul_right_eq_zero).mp h'
+    · right
+      have h' : (algebraMap (MvPolynomial ι ℚ) F s₂ ⊗ₜ[ℚ] (1 : C)) * b = 0 := by
+        rw [e₂, h, map_zero]
+      exact ((hu s₂ hs₂).mul_right_eq_zero).mp h'
+  exact NoZeroDivisors.to_isDomain _
+
+end FracTensor
+
+section Red
+
+attribute [-instance] DivisionRing.toRatAlgebra
+
+theorem isReduced_tensor_domain (F K D : Type) [Field F] [Field K] [Algebra F K]
+    [Algebra.FormallyUnramified F K] [Algebra.EssFiniteType F K] [CommRing D] [IsDomain D]
+    [Algebra F D] : IsReduced (K ⊗[F] D) := by
+  let M := FractionRing D
+  have hinj : Function.Injective (Algebra.TensorProduct.map (AlgHom.id F K)
+      (IsScalarTower.toAlgHom F D M)) :=
+    Module.Flat.lTensor_preserves_injective_linearMap _ (IsFractionRing.injective _ _)
+  have : IsReduced (K ⊗[F] M) := by
+    have := Algebra.FormallyUnramified.isReduced_of_field M (M ⊗[F] K)
+    exact isReduced_of_injective (Algebra.TensorProduct.comm F K M).toRingEquiv.toRingHom
+      (Algebra.TensorProduct.comm F K M).injective
+  exact isReduced_of_injective (Algebra.TensorProduct.map (AlgHom.id F K)
+      (IsScalarTower.toAlgHom F D M)).toRingHom hinj
+
+theorem isReduced_tensor_of_essFiniteType (K : Type) [Field K] [Algebra ℚ K]
+    [Algebra.EssFiniteType ℚ K] (C : Type) [Field C] [Algebra ℚ C] : IsReduced (K ⊗[ℚ] C) := by
+  obtain ⟨s, hs⟩ := exists_isTranscendenceBasis ℚ K
+  set F0 := IntermediateField.adjoin ℚ (Set.range ((↑) : s → K))
+  have : Algebra.IsAlgebraic F0 K := hs.isAlgebraic_field
+  have : PerfectField F0 :=
+    @PerfectField.ofCharZero F0 _ (charZero_of_injective_algebraMap (algebraMap ℚ F0).injective)
+  have : Algebra.IsSeparable F0 K := Algebra.IsAlgebraic.isSeparable_of_perfectField
+  have : Algebra.FormallyUnramified F0 K := Algebra.FormallyUnramified.of_isSeparable F0 K
+  have : Algebra.EssFiniteType F0 K := Algebra.EssFiniteType.of_comp ℚ F0 K
+  let e := hs.1.aevalEquivField
+  letI : Algebra (MvPolynomial s ℚ) F0 :=
+    (e.toRingEquiv.toRingHom.comp (algebraMap (MvPolynomial s ℚ) (FractionRing (MvPolynomial s ℚ)))).toAlgebra
+  have := IsScalarTower.of_algebraMap_eq' (R := ℚ) (S := MvPolynomial s ℚ) (A := F0)
+    (Subsingleton.elim _ _)
+  let e' : FractionRing (MvPolynomial s ℚ) ≃ₐ[MvPolynomial s ℚ] F0 :=
+    { e.toRingEquiv with commutes' := fun _ => rfl }
+  have : IsFractionRing (MvPolynomial s ℚ) F0 :=
+    IsLocalization.isLocalization_of_algEquiv (nonZeroDivisors (MvPolynomial s ℚ)) e'
+  have : IsDomain (F0 ⊗[ℚ] C) := isDomain_tensor_of_isFractionRing s F0 C
+  have : IsReduced (K ⊗[F0] (F0 ⊗[ℚ] C)) := isReduced_tensor_domain F0 K (F0 ⊗[ℚ] C)
+  exact isReduced_of_injective
+    (Algebra.TensorProduct.cancelBaseChange ℚ F0 K K C).symm.toRingEquiv.toRingHom
+    (Algebra.TensorProduct.cancelBaseChange ℚ F0 K K C).symm.injective
+
+end Red
+
+end ReciprocityTheory.AnForm.R.BaseChangeC
+end

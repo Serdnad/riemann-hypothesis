@@ -3,7 +3,7 @@ module
 public import GroundTheory.GlobalFields.SecondInequality.Statement
 public import GroundTheory.GlobalFields.FirstInequalityStatement
 public import GroundTheory.GlobalFields.IdeleGroups.LocalNorms
-public import GroundTheory.GlobalFields.KummerTheory.Splitting
+public import GroundTheory.GlobalFields.KummerTheory.Bundle001
 public import Mathlib.Order.CompletePartialOrder
 import GroundTheory.GlobalFields.CompletionAtPlace.Integers
 public import GroundTheory.GlobalFields.IdeleGroups.LocalNormGroups

@@ -1,17 +1,17 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LatAtVAtStable
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SwapNegApply
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsLocIsoRefl
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ContinuousAtPlace
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EqSmulOfCommuteHeisenbergLinearModelSchwartzBruh
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsAtCoord
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HeisSliceT
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ImportsRestExtra
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LocalIdempotentCharacterValue
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SchrodingerPreservesSchwartzBruhat
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SliceTransformSchwartzBijective
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.StandardAdelicCharacterNontrivialAtPlaces
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1874
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle265
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle386
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1199
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle402
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1995
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2125
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1290
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1906
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1903
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1362
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1905
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

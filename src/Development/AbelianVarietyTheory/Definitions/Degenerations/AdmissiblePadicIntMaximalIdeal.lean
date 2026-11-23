@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Uniformization.WCompat
+public import Development.AbelianVarietyTheory.Definitions.Uniformization.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -64,7 +64,10 @@ def PolAt {S : Scheme.{0}} (t : SAB H S) {K : Type} [Field K] (x : Sp K ⟶ S) :
     KTriv ((Over.pullback x).obj t.G) (t.PP.L.pull (pullback.fst t.G.hom x))
 
 def SplitOver {R : Type} [CommRing R] (G : Over (Sp R)) [GrpObj G] (I : Ideal R) : Prop :=
-  ∃ S : SplitExt (Sp (R ⧸ I)), S.IsGt ((Over.pullback (spMap (Ideal.Quotient.mk I))).obj G)
+  let f := spMap (Ideal.Quotient.mk I)
+  letI : (Over.pullback f).Monoidal := (Over.instBraidedPullback (f := f)).toMonoidal
+  letI : GrpObj ((Over.pullback f).obj G) := Functor.grpObjObj (F := Over.pullback f)
+  ∃ S : SplitExt (Sp (R ⧸ I)), S.IsGt ((Over.pullback f).obj G)
 
 def ThetaNZ {S : Scheme.{0}} (G : Over S) (L : LB G.left) : Prop :=
   ∃ θ : L.Sec, ∀ y : S, ∃ (g : G.left) (i : L.ι), G.hom g = y ∧ g ∈ G.left.basicOpen (θ.f i)

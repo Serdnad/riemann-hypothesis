@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.GroupLattices.PendingLemmas.DelEquiv
+public import Formalism.LocalToGlobal.GroupLattices.PendingLemmas.Bundle001
 public import Formalism.LocalToGlobal.GroupLattices.PendingLemmas.WittFractionAlgebraCp
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,13 +1,13 @@
 module
 
-public import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.ContinuousSplitInv
+public import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.Bundle008
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsArchEquivEq
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.UnitaryConjugation
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HasArchimedeanCharExponentsConjOfHasInfExp
-import Development.AbelianVarietyTheory.Proofs.HeightProofs.AdelicUnitaryRealPointsStructureRealPlaces
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContinuousOneP
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.MemMultTOfEquivariant
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsLieAlgebraExpEqOfCommuteCartanInvolutionStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1873
+import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle048
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle350
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle347
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle192
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -51,7 +51,7 @@ import Development.AbelianVarietyTheory.Definitions.Foundations.IsIwasawaOfIsCom
 import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.HermitianOrthogonalExtensionData
 import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.IsVacFOfIsVacVec
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.BlkGLMem
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ThetaEqB
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle333
 
 @[expose] public section
 

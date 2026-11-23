@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.BetaLUniq
+public import Formalism.PeriodIntegrals.Bundle027
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.BetaUniqueness.BetaLUniqOfAnisoEigen
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.BetaUniqueness.EigenvalueLastLineOne
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.BetaUniqueness.WAniso

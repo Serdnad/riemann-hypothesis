@@ -2,10 +2,10 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsAffCoverSpec
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.TcoMem
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.BoundaryChartHodgeMatrix
-public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.FormallyUnramifiedOfIsReduced
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle594
+public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.Bundle001
 public import Development.AutomorphicArithmetic.Foundations.EtaleClopenDescent.IsIntegralRBIff
-import Development.AutomorphicArithmetic.Foundations.EtaleClopenDescent.IsSeparatedOfProj
+import Development.AutomorphicArithmetic.Foundations.EtaleClopenDescent.Bundle012
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

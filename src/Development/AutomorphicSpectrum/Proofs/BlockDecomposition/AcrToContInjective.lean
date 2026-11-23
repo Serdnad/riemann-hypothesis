@@ -1,9 +1,9 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ContinuousAlgebraUniversalPropertyStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ContinuousFunctionsPeriodRingSeparationStatement
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsLocallyConstantToZModPow
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.PeriodRingBaseChangeFromUniversalStatement
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle562
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle466
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle104
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle434
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

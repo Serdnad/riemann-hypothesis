@@ -1,14 +1,14 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.AdelicLattices.FactPrimes
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsTransition
+public import Development.AutomorphicSpectrum.Definitions.AdelicLattices.Bundle001
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle014
 public import Mathlib.Algebra.AffineMonoid.Basic
-public import Development.AutomorphicSpectrum.Proofs.AdelicProofs.PadicLogIdealMaxElementStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.GramDeterminantLogDifferentStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.PadicIntegralIffDenominatorStatement
-import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.UltrametricDetNormLeStatement
-public import Development.WeilBound.CoreStatements.SesquilinearFractions.GramDetNeZeroLocalBasisCofinite
-import Development.WeilBound.CoreStatements.SesquilinearFractions.SesqSesquilinearSkewHermitian
+public import Development.AutomorphicSpectrum.Proofs.AdelicProofs.Bundle006
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle061
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle022
+import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle013
+public import Development.WeilBound.CoreStatements.SesquilinearFractions.Bundle008
+import Development.WeilBound.CoreStatements.SesquilinearFractions.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

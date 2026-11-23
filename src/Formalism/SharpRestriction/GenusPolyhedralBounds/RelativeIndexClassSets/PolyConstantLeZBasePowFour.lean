@@ -1,9 +1,8 @@
 module
 
 public import Formalism.SharpRestriction.Divisibility.WeightAlgebra
-public import Development.AutomorphicArithmetic.CyclotomicBounds.RamifiedDiscriminants.CondLam
-public import Development.AutomorphicArithmetic.CyclotomicBounds.RamifiedDiscriminants.FourMulQLeCondN
-public import Development.AutomorphicArithmetic.CyclotomicBounds.RamifiedDiscriminants.TwoFmLeRdE
+public import Development.AutomorphicArithmetic.CyclotomicBounds.RamifiedDiscriminants.Bundle003
+public import Development.AutomorphicArithmetic.CyclotomicBounds.RamifiedDiscriminants.Bundle001
 import Formalism.FrobeniusOrbits.FrobeniusOrbitsProofs.EqZeroOfNegEq
 public import Formalism.LocalRingCardinality.CoeNeZeroOfNotMem
 import Mathlib.Algebra.Order.Floor.Extended

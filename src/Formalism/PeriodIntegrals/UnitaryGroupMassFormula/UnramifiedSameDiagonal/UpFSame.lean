@@ -3,7 +3,7 @@ module
 public import Formalism.LocalToGlobal.GroupLattices.DownNaturalLevelZero
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.DiagonalSlopes.LocalUnitaryOfMatchingZero
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.DiagonalSlopes.NaturalTranslateAdelicFunction
-import Formalism.LocalToGlobal.GlobalTheory.GL6.PRLocW
+import Formalism.LocalToGlobal.GlobalTheory.GL6.Bundle004
 public import Formalism.LocalToGlobal.GlobalTheory.UnramifiedDiagonal.DiaFun
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CrossDiagonalMatching.Common
 import Mathlib.Algebra.Order.Floor.Extended

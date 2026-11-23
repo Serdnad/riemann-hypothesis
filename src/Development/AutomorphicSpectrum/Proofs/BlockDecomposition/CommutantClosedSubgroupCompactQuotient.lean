@@ -1,10 +1,10 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.RatVInjective
-public import GroundTheory.AutomorphicForms.AnisotropicUnitaryCompact
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ModerateGrowthOfHasCompactSupport
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CvecSurjective
-public import GroundTheory.AutomorphicForms.AnisotropicOrbit
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle669
+public import GroundTheory.AutomorphicForms.Bundle015
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle324
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle675
+public import GroundTheory.AutomorphicForms.Bundle017
 public import GroundTheory.HeightsAndTheta.Heights.FiniteCovolume.Objects
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

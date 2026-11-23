@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LabelsCharOne
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TypeCharacterConjugateInverse
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.BlockParabolicUnitriangularSubgroupsGLnPrimeFiel
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle865
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1091
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle113
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

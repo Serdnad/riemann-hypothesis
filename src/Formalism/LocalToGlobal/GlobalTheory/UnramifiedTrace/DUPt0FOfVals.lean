@@ -2,7 +2,7 @@ module
 
 public import Formalism.LocalToGlobal.GlobalTheory.UnramifiedTrace.DUAllOfParts
 public import Formalism.LocalToGlobal.GlobalTheory.UnramifiedDiagonal.HeckeRamifiedZeroOfMatchingsAndDu
-import Formalism.LocalToGlobal.GlobalTheory.GL6.PDnDil
+import Formalism.LocalToGlobal.GlobalTheory.GL6.Bundle004
 import Formalism.LocalToGlobal.GlobalTheory.GL6.PRLocV
 public import Formalism.LocalToGlobal.GlobalTheory.UnramifiedTrace.DuFormulaOfFibreCount
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CrossDiagonalMatching.DnkLkLocP

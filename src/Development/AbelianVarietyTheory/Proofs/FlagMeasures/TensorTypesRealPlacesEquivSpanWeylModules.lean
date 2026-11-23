@@ -3,9 +3,11 @@ module
 public import Formalism.SharpRestriction.CuspSpanNormBounds.RelevantZeroGramTerms
 public import Formalism.LocalToGlobal.HermitianForms.IsLocBasis
 public import Formalism.LocalToGlobal.Divisibility.CoefMod
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsConjLinearIsometryCompactUnitaryTypeWeylMoStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsConjLinearOfGramEqStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.NormalizedFockFormPureTensorPropertiesStatement
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle309
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle088
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle087
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle089
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle264
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

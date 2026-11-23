@@ -2,11 +2,11 @@ module
 
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutJABddSSn
 public import Formalism.FormalDegreeBessel.FormalDegreeRatio.UnitaryWeylNormalHolds
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.BigCellInversePair
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.BigCellZetaMinors
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle045
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle083
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutEnBetaFrame
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutEnFibMem
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutEnTrSmooth
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle084
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle086
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

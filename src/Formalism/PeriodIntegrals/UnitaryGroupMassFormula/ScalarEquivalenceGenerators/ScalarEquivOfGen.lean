@@ -39,7 +39,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.TermDef
-import Formalism.PeriodIntegrals.ScalPairs
+import Formalism.PeriodIntegrals.Bundle031
 
 @[expose] public section
 

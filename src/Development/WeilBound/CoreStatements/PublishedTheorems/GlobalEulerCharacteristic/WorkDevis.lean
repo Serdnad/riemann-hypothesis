@@ -1,6 +1,6 @@
 module
 
-public import Development.WeilBound.CoreStatements.PublishedTheorems.GlobalEulerCharacteristic.RatioOneKilled
+public import Development.WeilBound.CoreStatements.PublishedTheorems.GlobalEulerCharacteristic.Bundle001
 public import Development.WeilBound.CoreStatements.PublishedTheorems.GlobalEulerCharacteristic.Reduce
 import GroundTheory.ProfiniteCohomology.GlobalEulerCharacteristic.DefsForms
 import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.MainCoind

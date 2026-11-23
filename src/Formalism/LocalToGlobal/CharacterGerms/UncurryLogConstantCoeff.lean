@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalToGlobal.CharacterGerms.GeneralGermZero
-public import Formalism.LocalToGlobal.CharacterGerms.RowTieSelf
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle023
 import Formalism.LocalToGlobal.CharacterGerms.AbstractGermZeroCondition
 import Formalism.LocalToGlobal.CharacterGerms.CoeffSingleSubstOfLowDegree
 import Mathlib.Algebra.Order.Floor.Extended

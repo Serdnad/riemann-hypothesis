@@ -1,10 +1,9 @@
 module
 
 public import GroundTheory.HeightsAndTheta.Heights.ChowForms.Statements
-public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.ComapMaximalIdealParDVR
-public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.StatementsGenSecKer
+public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.Bundle009
 public import GroundTheory.ArithmeticGeometry.AbelianVarieties.JacobianSmoothness.RingKrullDimLeRingKrullDimQuotientAddOne
-public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.PDimStrictDrop
+public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Bundle015
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

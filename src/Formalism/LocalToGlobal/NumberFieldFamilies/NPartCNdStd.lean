@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.NumberFieldFamilies.NPartCNdTie
+public import Formalism.LocalToGlobal.NumberFieldFamilies.Bundle002
 public import Formalism.LocalToGlobal.NormalizedHeckeFactors.CoverEta
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

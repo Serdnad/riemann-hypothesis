@@ -1,7 +1,7 @@
 module
 
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ExistsVanBdOfMemExtVanZ
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.OffZero
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle264
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -2,32 +2,27 @@ module
 
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.FourierJacobiAverage
 public import Mathlib.CategoryTheory.Category.Basic
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ColEInvMulAffPt
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ContinuousCharactersLocallyConstantNonarchLocalFStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExDownExUpAndExUpExDown
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsHeisenbergSubgroupFourierJacobiCommutatorStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsSchwartzBruhatConvolutionLocalFieldPowerStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsSchwartzBruhatSupportedNhdsIntegralOneStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsSumSmulOfLocallyConstantCompactSupportStatement
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsWeakIntegralOfIsLocallyConstantOfIsCompact
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.FourierJacobiUnipotentEqProdRootExchangeStatement
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle041
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle160
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle062
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle045
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle047
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle060
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle037
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle058
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IntegrableOfMemSB
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsUnimodularBlockUpperTriangularSymmetricLevelsStatement
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.LinearChangeOfVariablesLocalFieldMatrix
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.MemFourierJacobiSubgroupIffParabolicMulColumnStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.MemRootExchangeParabolicAndFourierJacobiIffEntriStatement
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle040
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle134
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle066
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.OrbitLocallyConstant
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.QuotIntFJUniqueStatement
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle136
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.QuotientIntegralParabolicUnfolding
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.QuotientIntegralWhittakerTwist
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RootExchangeHeisenbergVariableSignStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RootExchangeOperatorWeilRowUnipotentStatement
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle068
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle053
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RootExchangeSupportAndFourierRelation
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RootExchangeUnipotentSubgroupSuccDecomposition
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SchwartzFourierTransformPiSurjectiveSchwartzBruhStatement
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle042
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.UnipotentRadicalBasic
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.WeilFormulaRootExchangeParabolicIntersection
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.WeilFormulaRootExchangeParabolicQuotientStatement
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -277,7 +272,7 @@ theorem exponents : Exponents k := by
   have h2 : ρ < c := by omega
   have := hν.1
   have main : ∀ s e : ℝ, s + e + 1 = 0 → IsFJInv η s π σ fj → ∀ (g : GL n k) φ v,
-      b (twist η π g φ) (σ (embX c g) v) =
+      b (GlobalTheory.IndefiniteRowSideFullHecke.FourierJacobiAverage.twist η π g φ) (σ (embX c g) v) =
         ((nabs k (Matrix.GeneralLinearGroup.det g) ^ e : ℝ) : ℂ) * b φ v := by
     intro s e hse hinv g φ v
     obtain ⟨Ψ, a, a1⟩ := GlobalTheory.T.exists_schwartzBruhat_supported_nhds_integral_one k n ν _ (stab_nhds (ρ := ρ) hσ v)
@@ -320,7 +315,7 @@ theorem exponents : Exponents k := by
       conv_rhs => rw [← h']
       simp only [← Module.End.mul_apply, ← map_mul, ← mul_assoc, mul_inv_cancel, one_mul]
   refine ⟨main, fun hinv => ?_⟩
-  have hp : IsPos ψ (ρ + 1) (twist η π) σ b :=
+  have hp : IsPos ψ (ρ + 1) (GlobalTheory.IndefiniteRowSideFullHecke.FourierJacobiAverage.twist η π) σ b :=
     ⟨hb.1, main _ _ (by rw [hc]; push_cast; ring) hinv⟩
   refine ⟨hp, fun b₀ h => ?_⟩
   obtain ⟨b', e, hb'⟩ := ((Exchange.exchange_isPos k n c ρ h1 h2 ψ hψ hψ1 ν A σ hσ).2.2 P _ b).2 hp
@@ -342,11 +337,15 @@ theorem localSign : LocalSign k := by
     omega
   · have := hν.1
     exact ⟨fun μ _ => (GlobalTheory.T.rootExchange_heisenbergVariable_sign k n n' c ρ h1 h2).2 ψ ν hψ μ,
-      fun μX μG _ _ => GlobalTheory.T.weil_formula_rootExchange_parabolic_quotient k n c ρ h1 h2 ν μX μG⟩
+      fun μX μG hX _ =>
+        @GlobalTheory.T.weil_formula_rootExchange_parabolic_quotient k _ _ _ _ _ _ n _ _ c ρ h1 h2
+          ν hν.1 μX hX μG⟩
 
 theorem target : Target k := by
   intro n n' _ _ _ _ c ρ h1 hc ψ ν hψ hψ1 hν μ hμ μX μG hX hG P A P' A' _ _ _ _ _ _ _ _ π σ π' σ' _ hσ _ _
     ϑ θ _ hθ fj b b' _ hb hp _ φ F
+  letI : μX.IsHaarMeasure := hX
+  letI : μG.IsHaarMeasure := hG
   have h2 : ρ < c := by omega
   have := hν.1
   have := secondCountable k
@@ -372,7 +371,8 @@ theorem target : Target k := by
       rfl
     obtain ⟨z₀, hz₀⟩ := exists_isQuotInt_unfolding k n n' c (ρ + 1) (by omega) h2 ψ hψ hψ1 ν μ hμ' μX μG A σ hσ
       P P' π π' θ hθ b hp φ F Φ (rInt ψ ν μ (ρ + 1) σ θ b φ F Φ.1) fun h Ψ hΨ => by rw [rInt, ← hΨ, app_coe]
-    have W := GlobalTheory.T.weil_formula_rootExchange_parabolic_quotient k n c ρ h1 h2 ν μX μG (rInt ψ ν μ (ρ + 1) σ θ b φ F Φ.1)
+    have W := @GlobalTheory.T.weil_formula_rootExchange_parabolic_quotient k _ _ _ _ _ _ n _ _ c ρ h1 h2
+      ν hν.1 μX hX μG (rInt ψ ν μ (ρ + 1) σ θ b φ F Φ.1)
     have val : ∀ h w, HasTensorVal (fun Ψ Φ₀ => fj (θ φ Ψ) (σ h F) Φ₀) (fl ψ ν μ ρ (om μ 1 h Φ.1)) w ↔
         w = ∫ β : n → k, b (app (θ φ) fun x₀ => fl ψ ν μ ρ (om μ 1 h Φ.1) x₀ β) (σ (colE c (ρ + 1) β) (σ h F))
           ∂(Measure.pi fun _ => ν) := by
@@ -411,7 +411,9 @@ theorem target : Target k := by
               ∂(Measure.pi fun _ => ν)) z := by
       intro z
       simp only [e]
-      exact ⟨fun hz => (W z hz).2, fun hz => GlobalTheory.T.eq_of_isQuotIntFJ_of_isQuotIntFJ k n c ρ h1 h2 ν μX μG _ _ _ (W z₀ hz₀).2 hz ▸ hz₀⟩
+      exact ⟨fun hz => (W z hz).2, fun hz =>
+        @GlobalTheory.T.eq_of_isQuotIntFJ_of_isQuotIntFJ k _ _ _ _ _ _ n _ _ c ρ h1 h2
+          ν hν.1 μX hX μG hG _ _ _ (W z₀ hz₀).2 hz ▸ hz₀⟩
     refine ⟨fun h => ?_, fun z => ⟨i1 z, (i1 z).trans ⟨fun hz => ⟨_, fun h => (val h _).2 rfl, hz⟩, ?_⟩⟩⟩
     · simp only [e]
       exact (W z₀ hz₀).1 h

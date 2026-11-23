@@ -1,15 +1,13 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.LatticeDataThicknessBound
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.EqOfNotApartOfNotSplit
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ProductOfLocalLevelsUnitaryIsOpenIsCompactIsLeve
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.AutFormFixedByIntegralPointsAlmostAllPlacesStatement
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.DefiniteUnitaryIntegralBelowPlaceCompactOpenStatement
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsLevelAwayAdapted
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsOpenSubgroupCharacterKernel
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsVectorFixedByProductLocalLevelsStatement
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.FixedOfFixedByLocalLevelsStatement
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.IsLevelAwayDefiniteUnitaryLevelFromLocalLevelsStatement
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle020
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle220
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1742
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle234
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle235
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle256
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle214
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle336
 import GroundTheory.LocalFields.PadicLogSeries
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -46,7 +44,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AbelianVarietyTheory.Definitions.Divisors.IsIntegralOpW
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle051
 
 @[expose] public section
 

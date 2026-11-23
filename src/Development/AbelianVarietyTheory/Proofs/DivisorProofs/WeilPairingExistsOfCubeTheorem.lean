@@ -1,12 +1,12 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HasLatticesComplete
-public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.CubeTheorem
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1172
+public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.Bundle010
 public import Development.AbelianVarietyTheory.Definitions.Uniformization.PointEqOfSubsingleton
-public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.GlobalFnsHolds
+public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle012
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.WeilIsValueEq
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.CubWeilOneLeft
-public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.ExistsUniquePairsToTower
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle060
+public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.Bundle011
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

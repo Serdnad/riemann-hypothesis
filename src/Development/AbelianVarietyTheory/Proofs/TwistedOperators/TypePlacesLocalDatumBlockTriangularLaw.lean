@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.IndefiniteReal.DatumVec
+public import Formalism.LocalToGlobal.IndefiniteReal.Bundle013
 public import Formalism.LocalToGlobal.IndefiniteReal.SubgroupCharExtensionOneApply
 import Formalism.LocalToGlobal.Columns.RowForms
 import Mathlib.Algebra.Order.Floor.Extended
@@ -39,8 +39,8 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.Divisors.IsUnitaryOnTheta
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.TameOnOne
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle030
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle150
 import Formalism.LocalToGlobal.IndefiniteReal.LinksDefs
 
 @[expose] public section

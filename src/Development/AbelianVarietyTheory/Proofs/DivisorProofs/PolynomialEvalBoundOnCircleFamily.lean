@@ -3,7 +3,7 @@ module
 public import Mathlib.Algebra.MvPolynomial.Eval
 public import Mathlib.Analysis.Complex.Norm
 public import Mathlib.RingTheory.Finiteness.Defs
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsRootMapMinpolyIffExistsRingHomExtensionStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle308
 import Mathlib.Algebra.MvPolynomial.Division
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -36,8 +36,8 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AbelianVarietyTheory.Definitions.Divisors.DiagHermitianTrivialOfSumFourSquares
-import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.ApartAllEmpty
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle046
+import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle019
 import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.PAdicHensel.PadicUnitNorm
 
 @[expose] public section

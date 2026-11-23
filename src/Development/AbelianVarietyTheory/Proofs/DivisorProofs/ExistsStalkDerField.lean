@@ -2,11 +2,11 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.HasDefect
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.DivCalc
-import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.InvariantFunctionsDescend
+import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle005
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AbelianPartConst
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.SmoothRayQuotient
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsGlobalLocDerOfIsCob
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.LogDerivativePrincipalPolarisationIndependent
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle497
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle095
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle089
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

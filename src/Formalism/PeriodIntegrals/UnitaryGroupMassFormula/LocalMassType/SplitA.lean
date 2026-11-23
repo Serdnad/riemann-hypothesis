@@ -1,8 +1,8 @@
 module
 
-import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ValuationLocalVolumes.HRSmulERight
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ValuationLocalVolumes.Bundle006
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalMassType.UnitaryLocalMassIdentity
-public import Formalism.PeriodIntegrals.SplitIntLoc
+public import Formalism.PeriodIntegrals.Bundle010
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalMassOrder.SelfDualMeasureSFinite
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -158,21 +158,21 @@ theorem finrank_tens (h : Module.finrank F E = 2) :
 theorem finDim_tens : FiniteDimensional (Fv F v) (Fv F v ⊗[F] E) :=
   Module.Finite.of_basis (Algebra.TensorProduct.basis (Fv F v) (Module.finBasis F E))
 
-theorem sigR_sc (c : Fv F v) : sigR (Fv F v) σ (sc (E := E) v c) = sc (E := E) v c := by
-  simp [sigR, sc]
+theorem sigR_sc (c : Fv F v) : _root_.Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.sigR (Fv F v) σ (sc (E := E) v c) = sc (E := E) v c := by
+  simp [_root_.Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.sigR, sc]
 
-theorem sigR_inclR (y : E) : sigR (Fv F v) σ (inclR (F := F) (Fv F v) y) = inclR (F := F) (Fv F v) (σ y) := by
-  simp [sigR, inclR]
+theorem sigR_inclR (y : E) : _root_.Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.sigR (Fv F v) σ (inclR (F := F) (Fv F v) y) = inclR (F := F) (Fv F v) (σ y) := by
+  simp [_root_.Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.sigR, inclR]
 
 theorem sigR_smul (c : Fv F v) (x : Fv F v ⊗[F] E) :
-    sigR (Fv F v) σ (c • x) = c • sigR (Fv F v) σ x := by
+    _root_.Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.sigR (Fv F v) σ (c • x) = c • _root_.Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.sigR (Fv F v) σ x := by
   rw [← PI.LocMassTypU.sc_mul_eq_smul, map_mul, sigR_sc, PI.LocMassTypU.sc_mul_eq_smul]
 
 theorem sigR_sigR (hσ : ∀ y, σ (σ y) = y) (x : Fv F v ⊗[F] E) :
-    sigR (Fv F v) σ (sigR (Fv F v) σ x) = x := by
+    _root_.Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.sigR (Fv F v) σ (_root_.Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.sigR (Fv F v) σ x) = x := by
   induction x using TensorProduct.induction_on with
   | zero => simp
-  | tmul c y => simp [sigR, hσ]
+  | tmul c y => simp [_root_.Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.sigR, hσ]
   | add x y hx hy => rw [map_add (f := _), map_add (f := _), hx, hy]
 
 theorem inclR_injective : Function.Injective (inclR (F := F) (Fv F v) : E → Fv F v ⊗[F] E) :=

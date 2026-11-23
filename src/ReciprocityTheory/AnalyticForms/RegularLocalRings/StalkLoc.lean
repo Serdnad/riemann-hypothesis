@@ -1,7 +1,7 @@
 module
 
-public import ReciprocityTheory.AnalyticForms.RegularLocalRings.JacChart
-public import ReciprocityTheory.AnalyticForms.RegularLocalRings.FinalTheorems
+public import ReciprocityTheory.AnalyticForms.RegularLocalRings.Bundle005
+public import ReciprocityTheory.AnalyticForms.RegularLocalRings.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -44,7 +44,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-public import ReciprocityTheory.AnalyticForms.RegularLocalRings.StalkLocA
+public import ReciprocityTheory.AnalyticForms.RegularLocalRings.Bundle006
 public import ReciprocityTheory.AnalyticForms.RegularLocalRings.StalkLocB
 
 @[expose] public section

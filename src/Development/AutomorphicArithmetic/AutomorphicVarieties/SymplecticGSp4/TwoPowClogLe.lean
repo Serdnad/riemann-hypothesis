@@ -1,10 +1,10 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.Counts
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.CmDatumCharTwoAdicOrderBounds
-import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.CompCond
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.Bundle003
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.Bundle010
+import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.Bundle007
 import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.HostIndex
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.PZeroLe
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -49,7 +49,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.ResMapBijective
-import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.MapRepApply
+import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Bundle001
 
 @[expose] public section
 

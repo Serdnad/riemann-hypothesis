@@ -1,6 +1,6 @@
 module
 
-public import Formalism.MahlerMeasure.GoodCount
+public import Formalism.MahlerMeasure.Bundle002
 public import Formalism.PolynomialDimension.MultinomialDepth.PartnerM
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

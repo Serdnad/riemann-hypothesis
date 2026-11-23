@@ -2,7 +2,7 @@ module
 
 public import Formalism.HermitianCurvature.StatementFr
 public import Mathlib.CategoryTheory.Category.Basic
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.FrameOfAdmissibleWord
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle025
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.HilbertRowConditions.ColumnsFunctionAtSubspaces
+public import Formalism.LocalToGlobal.HilbertRowConditions.Bundle002
 import Formalism.HermitianLattices.HermitianLatticesProofs.LocBasic
 public import Formalism.LocalToGlobal.Divisibility.ProjLemmas
 public import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.SecondStepGluing
@@ -40,7 +40,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 public import Formalism.LocalToGlobal.ClassRec
-public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.STiesR
+public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.Bundle003
 
 @[expose] public section
 

@@ -1,10 +1,10 @@
 module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.RbUVal
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.QuadraticExtensions.OrbIndex
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.QuadraticExtensions.SupIndex
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.QuadraticExtensions.Bundle003
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.QuadraticExtensions.Bundle004
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.RealPlaceConjugation.DecIdx
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.RealPlaceConjugation.NcardPlacesDividingLeOfOrbitBound
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.RealPlaceConjugation.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

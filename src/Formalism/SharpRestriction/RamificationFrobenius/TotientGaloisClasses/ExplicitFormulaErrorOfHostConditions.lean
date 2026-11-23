@@ -1,7 +1,7 @@
 module
 
-public import Formalism.SharpRestriction.RamificationFrobenius.TotientGaloisClasses.Analytic
-public import Formalism.StatementOC
+public import Formalism.SharpRestriction.RamificationFrobenius.TotientGaloisClasses.Bundle002
+public import Formalism.Bundle001
 public import Mathlib.NumberTheory.DirichletCharacter.Orthogonality
 public import Mathlib.RingTheory.SimpleRing.Principal
 import Mathlib.Algebra.Order.Floor.Extended

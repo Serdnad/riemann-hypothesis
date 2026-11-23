@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RowShiftEq
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle626
 import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ApplyAddInfRat
-import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.SqNormIntegralFundamentalDomainEqL2NormSq
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsIsThetaAtOfVac
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsUnitVacuumStandardLatticesDefinitePair
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.WeilFinitePointPreservesFockVacuum
+import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle075
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2180
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2487
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle506
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

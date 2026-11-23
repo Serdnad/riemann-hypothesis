@@ -1,7 +1,7 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.ValLastX
-public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.EvalAtOneExtremalMul
+public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

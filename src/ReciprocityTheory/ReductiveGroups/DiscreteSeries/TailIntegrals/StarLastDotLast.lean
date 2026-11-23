@@ -1,7 +1,7 @@
 module
 
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TailIntegrals.GoodRowsProjectorApplyEqSum
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TailIntegrals.Phi2
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TailIntegrals.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

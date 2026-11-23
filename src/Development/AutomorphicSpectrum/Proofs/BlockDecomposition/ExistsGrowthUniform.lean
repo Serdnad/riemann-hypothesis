@@ -3,8 +3,8 @@ module
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.ExpoConjOfIsCsd
 public import GroundTheory.AutomorphicForms.AutomorphicFormSpaces.Archimedean
 public import GroundTheory.AutomorphicForms.ReductionSiegel
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsAdelicGLHomeomorphInfiniteFinite
-public import GroundTheory.GlobalFields.TateThesis.GlobalZetaInfinite
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle229
+public import GroundTheory.GlobalFields.TateThesis.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

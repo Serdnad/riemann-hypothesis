@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.PoitouTateNormalised
-public import Development.WeilBound.CoreStatements.PublishedTheorems.PoitouTateDuality.PtfsNineAdd
-public import Development.WeilBound.CoreStatements.PublishedTheorems.PoitouTateDuality.FinalPtfsDataEx
+public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.Bundle003
+public import Development.WeilBound.CoreStatements.PublishedTheorems.PoitouTateDuality.Bundle002
+public import Development.WeilBound.CoreStatements.PublishedTheorems.PoitouTateDuality.Bundle008
 public import Development.WeilBound.CoreStatements.PublishedTheorems.PoitouTateDuality.PoitouTateNineTerm.NineAddCore
 public import Development.WeilBound.CoreStatements.PublishedTheorems.PoitouTateDuality.PoitouTateNormalisedOfNine
 import Mathlib.Algebra.Order.Floor.Extended

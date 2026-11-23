@@ -1,6 +1,6 @@
 module
 
-public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.HodgeBundleWeights.FlatDegreeHypotheses
+public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.HodgeBundleWeights.Bundle002
 public import Development.WeilBound.CoreStatements.ComplexPeriods.FlatDegreeResidues.FlatSlim
 public import Development.WeilBound.CoreStatements.ResolutionCharZero.PlugResK
 import Mathlib.Algebra.Order.Floor.Extended

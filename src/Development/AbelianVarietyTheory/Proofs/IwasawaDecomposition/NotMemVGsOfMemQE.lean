@@ -1,35 +1,25 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsAdmissibleIntegralBasisChangeOne
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExistsNormalFormLattice
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.LatticeNormalFormCoordinates
-import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.LocalUnfoldingIntegrandBoundedSchwartz
-import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.NormalFormAtPrime
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ParahoricLeIntegralGl
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle180
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle071
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle077
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle061
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle069
 import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.UnfoldingAffineSpaceMemIffIntrinsic
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.UnfoldingBoundedIntegral
-import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.UnipotentRadicalsActAffineUnfoldingSpaces
-import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.WeightedBoxSumAtPrimeEqOfBoundedSchwartz
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.AdmissibleRepresentativesFiniteLevelCosetsStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.AffineEigenvalueEqOneOfBoxSumNeZeroStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsLevelGroupModTypePrimeStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HasLatticeNormalFormOfBetweenStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LatticeNormalFormModuloUnipotentSemidirectStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LatticeNormalFormViaMatrixStatement
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle075
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle076
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle193
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle192
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle191
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle183
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LevQFiniteIndexAndRoot
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LevelCharacterStepZeroTypePrimeStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LevelGroupReductionStepZeroTypePrimeStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LevelStepZeroAtTwistPrimeFullStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.NormOneDetEqOneStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ProjConjLevelLeIntegralGLAtTypePrimeStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.RowTypeMulOnLevelAtTwistPrimeStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.RowTypeMulOnSymmetricLevelAtTypePrimeStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.RowTypeOneAddPrimeSmulEqOneStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.StepDatumBoundedAtTypePrimeStatement
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle189
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle194
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle195
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle328
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.TameHeckeCharLocalEqInvTypeCharacter
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.UnfoldingCharArgMulLeftUnipotentStatement
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.AbsNormEqOfSplitFactor
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.IntAtNatCast
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle129
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle097
 import Development.AbelianVarietyTheory.Proofs.SatakeParameters.LastTwoStepsGuarded
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.PhiMapsAndOmegaLaw
 import Mathlib.Algebra.Order.Floor.Extended
@@ -78,7 +68,7 @@ noncomputable section
 
 namespace GlobalTheory.Mem.Col2.IdxEx
 
-open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.HermitianLatticesTheory Formalism.L2.Col Formalism.L2.DIV GlobalTheory.QNormal
+open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.HermitianLatticesTheory _root_.Formalism.L2.Col Formalism.L2.DIV GlobalTheory.QNormal
 open GlobalTheory.IndefiniteRowSideFullHecke.SourceLatticeInvariance (DegOneUnram)
 open GlobalTheory.IndefiniteRowSideFullHecke.SandwichNormalForm (NF)
 open GlobalTheory.Proof.NormalFormAtPrime
@@ -651,7 +641,7 @@ end GlobalTheory.Mem.Col2.IdxEx
 
 namespace GlobalTheory.Mem.Col2
 
-open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.L2.Col Formalism.L2.DIV
+open NumberField IsDedekindDomain Formalism.BasicNotions _root_.Formalism.L2.Col Formalism.L2.DIV
 
 theorem exists_chIdx {X : Fields} {Pr : Primes X} {R : Ranks} (hX : X.Ok) (hPr : Pr.Ok) (Ch : Chars X Pr R.m)
     (sel : HeightOneSpectrum (𝓞 X.F) → HeightOneSpectrum (𝓞 X.E)) (hsel : IsSel X sel) {S : Set ℕ} (hS : ∀ i, Pr.g i ∈ S)

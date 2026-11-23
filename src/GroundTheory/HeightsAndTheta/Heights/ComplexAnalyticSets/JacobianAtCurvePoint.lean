@@ -1,8 +1,8 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StNormalModelPlace
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle064
 public import GroundTheory.ArithmeticGeometry.AbelianVarieties.JacobianSmoothness.SmoothOfRegular
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.GradientAtPoint
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

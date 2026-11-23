@@ -2,7 +2,7 @@ module
 
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HermFlagPairingCramerOfLeadingCoeffs
 import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsLocalizedModuleSubtype
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.MemOfForall
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle142
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

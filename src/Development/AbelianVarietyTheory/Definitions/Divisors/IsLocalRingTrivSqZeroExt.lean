@@ -3,15 +3,14 @@ module
 public import Development.AbelianVarietyTheory.Definitions.Foundations.IsProbabilityMeasureMuPart
 public import Development.AbelianVarietyTheory.Definitions.ExistenceOfLattices.UnivFrame
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.LawsFieldsSeparately
-public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.ChartCoverFOfSecBaseChange
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.FrameChangeComposeInvertBaseChangeTriangular
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsFactorOpenImmersion
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsFramedPointBaseChangeAlgebraMapStatement
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsOpenChartFramedPointTestRingStatement
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsUniqueFrameChangeByMatrices
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsUniversalFrameTestRingStatement
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FrameChangeExistsUniqueOfSamePoint
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FramedPointBaseChangeUniqueReflIff
+public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle081
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle026
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle025
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle070
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle074
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle044
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle072
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle040
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -139,7 +138,7 @@ theorem evR_frBor [IsLocalRing S] {e : Ix Dw → ℤ} {f : Rul Xo c} (hf : f ∈
     evR Xo c f y' = ((∏ i, t i ^ e i : Sˣ) : S) * evR Xo c f y := by
   obtain ⟨p, A, j, y₀, π, X, s, u, a, a', hj, hu, ha, ha'⟩ := exists_chart y y' h.1
   obtain ⟨B, uB, uB', tB, q, q', hq, hq', hB, hU⟩ :=
-    univFrame_borelPairs GlobalTheory.lawsFieldsSeparately.2.1 E H Dw l Xo c p A j y₀ π X s u hj hu
+    _root_.GlobalTheory.FrameEval.univFrame_borelPairs GlobalTheory.lawsFieldsSeparately.2.1 E H Dw l Xo c p A j y₀ π X s u hj hu
   obtain ⟨b, e1, e2, e3⟩ := hU S a a' y y' t ha ha' h
   have k : FrMap b uB y := frMap_of_comp hq ha fun x => DFunLike.congr_fun e1 x
   have k' : FrMap b uB' y' := frMap_of_comp hq' ha' fun x => DFunLike.congr_fun e2 x

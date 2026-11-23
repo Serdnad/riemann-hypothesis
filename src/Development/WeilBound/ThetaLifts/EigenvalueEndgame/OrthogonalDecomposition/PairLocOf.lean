@@ -1,15 +1,15 @@
 module
 
-public import Development.WeilBound.ThetaLifts.CartanFactorisation.CartanConj
+public import Development.WeilBound.ThetaLifts.CartanFactorisation.Bundle002
 public import Development.WeilBound.ThetaLifts.EigenvalueEndgame.OrthogonalDecomposition.ActsOfReads
-public import Development.WeilBound.ThetaLifts.EigenvalueEndgame.OrthogonalDecomposition.HodgeTateFromSandwich
+public import Development.WeilBound.ThetaLifts.EigenvalueEndgame.OrthogonalDecomposition.Bundle001
 public import Development.WeilBound.ThetaLifts.FrameEstimates.SquareIntegrableWeilRange
 public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.IndicatorMem
-public import Development.WeilBound.ThetaLifts.CartanFactorisation.IntegrableOnRight
+public import Development.WeilBound.ThetaLifts.CartanFactorisation.Bundle001
 public import Development.WeilBound.ThetaLifts.EigenvalueEndgame.OrthogonalDecomposition.QhtUnbdd
 import Development.WeilBound.ThetaLifts.EigenvalueEndgame.OrthogonalDecomposition.RapidBound
-public import Development.WeilBound.ThetaLifts.LatticeBasics.ThConstLoc
-import Formalism.LocalToGlobal.IndefiniteReal.PHeisFC
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle008
+import Formalism.LocalToGlobal.IndefiniteReal.Bundle014
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

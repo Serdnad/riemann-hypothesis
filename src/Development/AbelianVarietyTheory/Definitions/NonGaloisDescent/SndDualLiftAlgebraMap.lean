@@ -3,7 +3,7 @@ module
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.NormPowLeNormFactorial
 public import Mathlib.Algebra.TrivSqZeroExt.Basic
 public import Mathlib.RingTheory.AdicCompletion.Algebra
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.DerivationMemPow
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle044
 public import Mathlib.Algebra.DualNumber
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

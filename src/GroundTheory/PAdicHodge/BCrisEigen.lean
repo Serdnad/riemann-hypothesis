@@ -1,11 +1,10 @@
 module
 
-public import GroundTheory.PAdicHodge.BCrisEigenChar
+public import GroundTheory.PAdicHodge.Bundle013
 public import GroundTheory.PAdicHodge.BCrisPlusInvariants
 public import GroundTheory.PAdicHodge.BCrisRegular
-public import GroundTheory.PAdicHodge.BCrisEigenMaps
+public import GroundTheory.PAdicHodge.Bundle017
 import GroundTheory.PAdicHodge.BdRTGalois
-public import GroundTheory.PAdicHodge.GalSmulAlgebraMapPadicPlus
 import Mathlib.Algebra.Lie.OfAssociative
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -2,16 +2,16 @@ module
 
 public import Formalism.SharpRestriction.GlobalSchurBounds.TaylorLogMetric
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsRationalUnitaryDeterminantMapRationalUnitary
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.OrdFNonnegOfIsInteger
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsProdUnifMulUnitIdl
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle091
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle090
 public import Formalism.LocalToGlobal.HermitianColumns.InLocalDiscriminantKernel
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsUniqueIdeleOfLinearEquivQuotientLocal
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsFiniteAdeleBaseChangeEquiv
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.MemKDSupUnitIdlIff
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.OrdSubDetSubSelfDual
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.SpanValuationLe
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.UnderEqIffConjPl
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsPowEqSpanNormOne
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle174
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle099
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle017
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle092
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle170
 import Formalism.LocalRingCardinality.RankBoundMonotoneInDimension
 import Formalism.LocalToGlobal.CMDeterminantIdeals.CMIdealValuations.ProdMulLeDetIdeal
 import Mathlib.Algebra.Order.Floor.Extended
@@ -109,12 +109,12 @@ theorem ordSub_coe {I : FractionalIdeal (𝓞 L)⁰ L} (hI : I ≠ 0) (w : Heigh
     ordSub w (I : Submodule (𝓞 L) L) = FractionalIdeal.count L w I := by
   obtain ⟨y, hy, e⟩ := GlobalTheory.Idele.exists_mem_valuation_eq hI w
   have hy0 : y ≠ 0 := fun h => by rw [h, map_zero] at e; exact exp_ne_zero e.symm
-  refine IsLeast.csInf_eq ⟨⟨Units.mk0 y hy0, hy, by simp [ordF, e]⟩, ?_⟩
+  refine IsLeast.csInf_eq ⟨⟨Units.mk0 y hy0, hy, by simp [_root_.Formalism.L2.Host.ordF, e]⟩, ?_⟩
   rintro n ⟨k, hk, rfl⟩
   have h0 : w.valuation L (k : L) ≠ 0 := by simp
   have := (GlobalTheory.Idele.mem_iff_valuation_le hI _).1 hk w
   rw [← exp_log h0, exp_le_exp] at this
-  unfold ordF
+  unfold _root_.Formalism.L2.Host.ordF
   omega
 
 theorem coe_eq_of_pow {𝔞 𝔟 : Submodule (𝓞 L) L} (hb : 𝔞 * 𝔟 = 1) {I : FractionalIdeal (𝓞 L)⁰ L} (hI : I ≠ 0) {z : L}
@@ -415,9 +415,9 @@ theorem val_conj (w : HeightOneSpectrum (𝓞 H.E)) (x : H.E) : w.valuation H.E 
 theorem bar_bar (w : HeightOneSpectrum (𝓞 H.E)) : bar H (bar H w) = w :=
   ((existsUnique_conjPl H.conj.toRingEquiv (bar H w)).choose_spec.2 w fun x => val_conj H w x).symm
 
-def expo (a : Ideles H.E) (w : HeightOneSpectrum (𝓞 H.E)) : ℤ := log (valAt (bar H w) a) - log (valAt w a)
+def expo (a : _root_.Neutral.B1.Ideles H.E) (w : HeightOneSpectrum (𝓞 H.E)) : ℤ := log (valAt (bar H w) a) - log (valAt w a)
 
-theorem expo_finite (a : Ideles H.E) : {w | expo H a w ≠ 0}.Finite := by
+theorem expo_finite (a : _root_.Neutral.B1.Ideles H.E) : {w | expo H a w ≠ 0}.Finite := by
   have h := finite_valAt_ne_one a
   refine (h.union (h.image (bar H))).subset fun w hw => ?_
   by_contra hn
@@ -427,14 +427,14 @@ theorem expo_finite (a : Ideles H.E) : {w | expo H a w ≠ 0}.Finite := by
     exact hn.2 ⟨bar H w, h3, bar_bar H w⟩
   exact hw (by simp [expo, hn.1, h2])
 
-theorem expo_mul (a b : Ideles H.E) (w : HeightOneSpectrum (𝓞 H.E)) : expo H (a * b) w = expo H a w + expo H b w := by
+theorem expo_mul (a b : _root_.Neutral.B1.Ideles H.E) (w : HeightOneSpectrum (𝓞 H.E)) : expo H (a * b) w = expo H a w + expo H b w := by
   simp only [expo, map_mul, log_mul (valAt_ne_zero _ _) (valAt_ne_zero _ _)]
   ring
 
-theorem expo_bar (a : Ideles H.E) (w : HeightOneSpectrum (𝓞 H.E)) : expo H a (bar H w) = -expo H a w := by
+theorem expo_bar (a : _root_.Neutral.B1.Ideles H.E) (w : HeightOneSpectrum (𝓞 H.E)) : expo H a (bar H w) = -expo H a w := by
   simp [expo, bar_bar]
 
-def normIdeal : Ideles H.E →* FractionalIdeal (𝓞 H.E)⁰ H.E where
+def normIdeal : _root_.Neutral.B1.Ideles H.E →* FractionalIdeal (𝓞 H.E)⁰ H.E where
   toFun a := idealExp (expo H a)
   map_one' := GlobalTheory.Idele.eq_of_count_eq (idealExp_ne_zero _) one_ne_zero fun w => by
     rw [count_idealExp (expo_finite H _), FractionalIdeal.count_one]
@@ -444,12 +444,12 @@ def normIdeal : Ideles H.E →* FractionalIdeal (𝓞 H.E)⁰ H.E where
       rw [FractionalIdeal.count_mul _ w (idealExp_ne_zero _) (idealExp_ne_zero _), count_idealExp (expo_finite H _),
         count_idealExp (expo_finite H _), count_idealExp (expo_finite H _), expo_mul]
 
-theorem normIdeal_ne_zero (a : Ideles H.E) : normIdeal H a ≠ 0 := idealExp_ne_zero _
+theorem normIdeal_ne_zero (a : _root_.Neutral.B1.Ideles H.E) : normIdeal H a ≠ 0 := idealExp_ne_zero _
 
-theorem count_normIdeal (a : Ideles H.E) (w : HeightOneSpectrum (𝓞 H.E)) :
+theorem count_normIdeal (a : _root_.Neutral.B1.Ideles H.E) (w : HeightOneSpectrum (𝓞 H.E)) :
     FractionalIdeal.count H.E w (normIdeal H a) = expo H a w := count_idealExp (expo_finite H a) w
 
-theorem normIdeal_eq_one_iff (a : Ideles H.E) : normIdeal H a = 1 ↔ a ∈ KD H ⊔ unitIdl H.E := by
+theorem normIdeal_eq_one_iff (a : _root_.Neutral.B1.Ideles H.E) : normIdeal H a = 1 ↔ a ∈ KD H ⊔ unitIdl H.E := by
   rw [mem_KD_sup_unitIdl_iff]
   constructor
   · intro h w w' hw
@@ -470,10 +470,10 @@ def classIdeal : DtT H ⧸ UOT H →* FractionalIdeal (𝓞 H.E)⁰ H.E :=
       rintro _ ⟨a, ha, rfl⟩
       exact (normIdeal_eq_one_iff H a).2 (Subgroup.mem_sup_right ha))
 
-theorem classIdeal_mk (a : Ideles H.E) :
+theorem classIdeal_mk (a : _root_.Neutral.B1.Ideles H.E) :
     classIdeal H (QuotientGroup.mk (QuotientGroup.mk a)) = normIdeal H a := rfl
 
-theorem exists_mk_mk (x : DtT H ⧸ UOT H) : ∃ a : Ideles H.E, x = QuotientGroup.mk (QuotientGroup.mk a) := by
+theorem exists_mk_mk (x : DtT H ⧸ UOT H) : ∃ a : _root_.Neutral.B1.Ideles H.E, x = QuotientGroup.mk (QuotientGroup.mk a) := by
   obtain ⟨t, rfl⟩ := QuotientGroup.mk_surjective x
   obtain ⟨a, rfl⟩ := QuotientGroup.mk_surjective t
   exact ⟨a, rfl⟩
@@ -486,18 +486,34 @@ theorem classIdeal_injective : Function.Injective (classIdeal H) := by
 
 theorem expo_pos_part {n : HeightOneSpectrum (𝓞 H.E) → ℤ} (hf : {w | n w ≠ 0}.Finite) (hn : ∀ w, n (bar H w) = -n w)
     (w : HeightOneSpectrum (𝓞 H.E)) :
-    expo H (∏ᶠ w : HeightOneSpectrum (𝓞 H.E), localIdele H.E w (atFin w (unif w)) ^ (n w).toNat) w = n w := by
+    expo H (∏ᶠ w : HeightOneSpectrum (𝓞 H.E), _root_.Neutral.B1.localIdele H.E w (_root_.Formalism.L2.Host.atFin w (_root_.Formalism.L2.Host.unif w)) ^ (n w).toNat) w = n w := by
   classical
-  have e : (∏ᶠ w : HeightOneSpectrum (𝓞 H.E), localIdele H.E w (atFin w (unif w)) ^ (n w).toNat) =
-      ∏ w ∈ hf.toFinset, localIdele H.E w (atFin w (unif w)) ^ ((n w).toNat : ℤ) := by
+  have e : (∏ᶠ w : HeightOneSpectrum (𝓞 H.E), _root_.Neutral.B1.localIdele H.E w (_root_.Formalism.L2.Host.atFin w (_root_.Formalism.L2.Host.unif w)) ^ (n w).toNat) =
+      ∏ w ∈ hf.toFinset, _root_.Neutral.B1.localIdele H.E w (_root_.Formalism.L2.Host.atFin w (_root_.Formalism.L2.Host.unif w)) ^ ((n w).toNat : ℤ) := by
     simp only [zpow_natCast]
     refine finprod_eq_prod_of_mulSupport_subset _ fun v hv => ?_
     rw [Set.Finite.coe_toFinset]
     intro h0
     exact hv (by simp [h0])
-  have h1 : ∀ v, log (valAt v (∏ w ∈ hf.toFinset, localIdele H.E w (atFin w (unif w)) ^ ((n w).toNat : ℤ))) =
+  have h1 : ∀ v, log (valAt v (∏ w ∈ hf.toFinset, _root_.Neutral.B1.localIdele H.E w (_root_.Formalism.L2.Host.atFin w (_root_.Formalism.L2.Host.unif w)) ^ ((n w).toNat : ℤ))) =
       -((n v).toNat : ℤ) := fun v => by
-    rw [valAt_prod, log_exp]
+    rw [map_prod]
+    let x (P : HeightOneSpectrum (𝓞 H.E)) :=
+      _root_.Formalism.L2.Host.atFin P (_root_.Formalism.L2.Host.unif P)
+    have hne (P : HeightOneSpectrum (𝓞 H.E)) (hP : P ≠ v) :
+        valAt v (_root_.Neutral.B1.localIdele H.E P (x P) ^ ((n P).toNat : ℤ)) = 1 := by
+      rw [map_zpow, valAt_apply, (_root_.Neutral.B1.localIdele_isSupportedAt H.E P (x P)).2 v hP.symm,
+        map_one, one_zpow]
+    have hprod : (∏ P ∈ hf.toFinset,
+        valAt v (_root_.Neutral.B1.localIdele H.E P (x P) ^ ((n P).toNat : ℤ))) =
+        exp (-(if v ∈ hf.toFinset then ((n v).toNat : ℤ) else 0)) := by
+      split_ifs with hv
+      · rw [Finset.prod_eq_single_of_mem v hv (fun P _ hP => hne P hP), map_zpow, valAt_apply,
+          _root_.Neutral.B1.localIdele_snd_self, _root_.Formalism.L2.Host.unif_spec, ← exp_zsmul]
+        simp
+      · rw [Finset.prod_eq_one (fun P hP => hne P (fun e => hv (e ▸ hP)))]
+        simp
+    rw [hprod, log_exp]
     split_ifs with h
     · rfl
     · have : n v = 0 := by simpa using h
@@ -533,7 +549,7 @@ theorem normOne_iff (𝔞 : Submodule (𝓞 H.E) H.E) :
       rw [val_bar, ey, exp_le_exp] at h3
       omega
     refine ⟨QuotientGroup.mk (QuotientGroup.mk (∏ᶠ w : HeightOneSpectrum (𝓞 H.E),
-      localIdele H.E w (atFin w (unif w)) ^ (FractionalIdeal.count H.E w I).toNat)), ?_⟩
+      _root_.Neutral.B1.localIdele H.E w (_root_.Formalism.L2.Host.atFin w (_root_.Formalism.L2.Host.unif w)) ^ (FractionalIdeal.count H.E w I).toNat)), ?_⟩
     rw [classIdeal_mk, GlobalTheory.Idele.eq_of_count_eq (normIdeal_ne_zero H _) hI fun w => by
       rw [count_normIdeal, expo_pos_part H (Filter.eventually_cofinite.1 (FractionalIdeal.finite_factors I)) hn]]
     rfl
@@ -558,7 +574,7 @@ theorem classIdeal_e1T : letI := H.cmStar
   have hz : (z : H.E) ≠ 0 := fun h => k.ne_zero (by rw [← hk, h, zero_mul])
   rw [← GlobalTheory.Mem.Col2.isRationalUnitaryDeterminantMap_rationalUnitary H k z hk, classIdeal_mk]
   refine GlobalTheory.Idele.eq_of_count_eq (normIdeal_ne_zero H _) (FractionalIdeal.spanSingleton_ne_zero_iff.2 hz) fun w => ?_
-  have hv : ∀ v : HeightOneSpectrum (𝓞 H.E), valAt v (diagUnits H.E k) = v.valuation H.E (k : H.E) := fun v =>
+  have hv : ∀ v : HeightOneSpectrum (𝓞 H.E), valAt v (_root_.Neutral.B1.diagUnits H.E k) = v.valuation H.E (k : H.E) := fun v =>
     GlobalTheory.Idele.valued_algebraMap v (k : H.E)
   have h1 := congrArg (fun x => log (w.valuation H.E x)) hk
   simp only [map_mul, val_conj] at h1

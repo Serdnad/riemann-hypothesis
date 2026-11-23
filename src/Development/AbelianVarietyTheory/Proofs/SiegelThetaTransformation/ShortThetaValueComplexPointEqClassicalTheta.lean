@@ -1,24 +1,23 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.IsBaseClassLevelAdapted
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ThExprUniqOfChartIndep2
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle010
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.Taylor
 public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.DifferentiableOnOfTendstoLocallyUniformlyOn
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.CardToMultisetEqDegree
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsTranslationSectionsUniversalObject
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.FramedPointBaseChangeLaws
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ShortThetaValueExistsUniqueNaturalOfLaws
-public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.AnalyticFibreIsotropicPointsInjectiveRootsStatement
-public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.ExistsEvenRepsTensorLatticeAndSumStatement
-public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.FockHxDifferentiable
-import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.HMatMulVecPerCrd
-public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.HarmonicConnectionValueEqPolynomialDerivativeStatement
-import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.HermitianFormAtFrameLaws
-import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.RationalSchwartzBruhatAlgebraIntegralLinear
-public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.SectionsReadAsTranslatesAtScaledPointStatement
-public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.ThetaSeriesTestFunctionHolomorphicWeight
-import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.WeilActionPreservesThetaAndInnerProduct
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.AllUniformizationLawsHold
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle051
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle014
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle076
+public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle047
+public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle045
+public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle031
+import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle028
+public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle051
+import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle036
+import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle007
+public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle050
+import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle038
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle127
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -62,7 +61,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.HolomorphicFamilies.CmHostUnitAddConjEqOne
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.HolomorphicFamilies.Bundle005
 
 @[expose] public section
 
@@ -110,17 +109,20 @@ theorem polyDeriv_rename {θ : W → ℂ} {x : W} (hθ : ContDiffAt ℂ ω θ x)
 
 end Deriv
 
+private theorem isHomogeneous_row_sum {T k : Type} [Fintype T] [Field k] {m : T → ℕ} {n : ℕ} {a : T → ℕ → ℕ}
+    {P : MvPolynomial (Letter T m n) k} (h : RowDeg m n k a P) : P.IsHomogeneous (∑ σ, ∑ i : Fin (m σ), a σ i) := by
+  intro d hd
+  have := h d (MvPolynomial.mem_support_iff.2 hd)
+  have e : Finsupp.weight (1 : Letter T m n → ℕ) d = d.degree := by
+    rw [Finsupp.degree_eq_weight_one]; rfl
+  rw [e, Finsupp.degree_eq_sum, Fintype.sum_sigma]
+  refine Finset.sum_congr rfl fun σ _ => ?_
+  rw [Fintype.sum_prod_type]
+  exact Finset.sum_congr rfl fun i _ => this σ i
+
 theorem isHomogeneous_of_rowDeg {T k : Type} [Fintype T] [Field k] {m : T → ℕ} {n : ℕ} {a : T → ℕ → ℕ}
     {P : MvPolynomial (Letter T m n) k} (h : RowDeg m n k a P) : P.IsHomogeneous P.totalDegree := by
-  have h1 : P.IsHomogeneous (∑ σ, ∑ i : Fin (m σ), a σ i) := by
-    intro d hd
-    have := h d (MvPolynomial.mem_support_iff.2 hd)
-    have e : Finsupp.weight (1 : Letter T m n → ℕ) d = d.degree := by
-      rw [Finsupp.degree_eq_weight_one]; rfl
-    rw [e, Finsupp.degree_eq_sum, Fintype.sum_sigma]
-    refine Finset.sum_congr rfl fun σ _ => ?_
-    rw [Fintype.sum_prod_type]
-    exact Finset.sum_congr rfl fun i _ => this σ i
+  have h1 := isHomogeneous_row_sum h
   by_cases h0 : P = 0
   · rw [h0]; exact MvPolynomial.isHomogeneous_zero _ _ _
   · rw [h1.totalDegree h0]; exact h1
@@ -296,15 +298,20 @@ theorem GlobalTheory.Dict.shortValAt_eq_thP : Formalism.MainNotions.ModuliIntegr
     have := isSB_smul (((⟨Λ⟩ : GenLat E n).zCard N (Dw.p + Dw.q) : ℕ) : ℂ)⁻¹
       (hsum' ▸ isSB_sum Finset.univ _ fun i => (hh (u i) v hv.1).1)
     rwa [inv_smul_smul₀ hz'] at this
-  have hhom := (isHomogeneous_of_rowDeg hP.2.2).map (algebraMap c.F ℂ)
+  have hhom := (isHomogeneous_row_sum hP.2.2).map (algebraMap c.F ℂ)
   have hg : IsSB (∑ q, algebraMap c.F ℂ (wq q) • heisG X bas (Y q) (projA X bas (H.w0 : E) (tens Λ L) v)) :=
     isSB_sum _ _ fun q => isSB_smul _ (hh _ _ hp).1
   simp only [hval]
   rw [finsum_eq_sum_of_fintype, sum_polyDeriv idx hs hn hx hhom _ _ Y u hv.1 hp hsum', thP, gphi,
     finsum_eq_sum_of_fintype, polyDeriv_rename ((SCV.analyticOnNhd_of_differentiable
       (ThetaHol.differentiable_thA idx hs hg hx) Set.univ 0 trivial).contDiffAt) _ eL.injective]
-  have hNc : (N : ℂ) ^ P.totalDegree ≠ 0 := pow_ne_zero _ (Nat.cast_ne_zero.2 hodd.pos.ne')
+  let deg := ∑ τ, ∑ i : Fin (Dw.mult τ), a (τ, i)
+  have hNc : (N : ℂ) ^ deg ≠ 0 := pow_ne_zero _ (Nat.cast_ne_zero.2 hodd.pos.ne')
   simp only [map_mul, map_inv₀, map_pow, map_natCast]
-  have key (a b c d t s : ℂ) : a * b * c * ((N : ℂ) ^ P.totalDegree)⁻¹ * ((N : ℂ) ^ P.totalDegree * d * t * s) =
+  have key (a b c d t s : ℂ) : a * b * c * ((N : ℂ) ^ deg)⁻¹ * ((N : ℂ) ^ deg * d * t * s) =
       a * b * c * d * t * s := by field_simp
+  by_cases hzero : P = 0
+  · simp only [hzero, map_zero, I2.polyDeriv, MvPolynomial.support_zero, Finset.sum_empty, mul_zero]
+    exact mul_zero _
+  rw [(isHomogeneous_row_sum hP.2.2).totalDegree hzero]
   exact key _ _ _ _ _ _

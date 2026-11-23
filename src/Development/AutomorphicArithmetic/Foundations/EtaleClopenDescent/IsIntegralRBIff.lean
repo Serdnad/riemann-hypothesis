@@ -1,10 +1,10 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsAffCoverSpec
-public import Development.AbelianVarietyTheory.Definitions.Divisors.DlogRatioVolumeFormNeZero
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.FiniteEtaleFunctionFieldIntegralClosureDifferentStatement
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.SmoothSectionsInFunctionField
-public import Development.AutomorphicArithmetic.Foundations.EtaleClopenDescent.IsSeparatedOfProj
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle008
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle250
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle246
+public import Development.AutomorphicArithmetic.Foundations.EtaleClopenDescent.Bundle012
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

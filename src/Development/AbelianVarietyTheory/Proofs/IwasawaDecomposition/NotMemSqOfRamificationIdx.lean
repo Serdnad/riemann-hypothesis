@@ -2,10 +2,10 @@ module
 
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ValuationPowSubPowLt
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.CmQuadraticFormEqAlternatingForm
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.AbsNormPrimeIffInertiaDegEqOneAndFiniteRamified
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HostCmEmbeddingProperties
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ResCharConj
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ToMapSurj
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle014
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle163
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle384
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle385
 import Formalism.LocalToGlobal.UnitaryNorms.CharUniq
 import Mathlib.Algebra.AffineMonoid.Basic
 import Mathlib.Algebra.Order.Floor.Extended
@@ -129,9 +129,9 @@ theorem not_mem_sq_of_ramificationIdx {E : Type} [Field E] [NumberField E] {l : 
 
 theorem isPsi_of_isHeckeOf {R : Ranks} {H : Formalism.BasicNotions.Host R} {Ω : Type} [Field Ω] [Algebra H.E Ω] [IsAlgClosure H.E Ω]
     {cc : Ω ≃+* Ω} (hcc : IsCMConjOm H.E Ω cc) {art : Ideles H.E →* Gab H.E Ω} (ha : IsGlobalArtin art)
-    {r : G H.E Ω →* ℂˣ} {χ : HChar H.E} (h : IsHeckeOf art r χ) {l k : ℕ} (hl : l.Prime) {Q : Finset (PlE H)} {S : Set ℕ}
+    {r : _root_.Formalism.ConjugateSelfDual.G H.E Ω →* ℂˣ} {χ : HChar H.E} (h : IsHeckeOf art r χ) {l k : ℕ} (hl : l.Prime) {Q : Finset (PlE H)} {S : Set ℕ}
     (hanti : AntiHom cc r) (hord : ∀ g, r g ^ l ^ k = 1) (hram : RamExactly r (↑Q : Set (PlE H)))
-    (hdec : ∀ v ∈ placesOver H.E l, ∀ A : ValuationSubring Ω, IsPlaceOver A v → ∀ σ ∈ Dec (F := H.E) A, r σ = 1)
+    (hdec : ∀ v ∈ placesOver H.E l, ∀ A : ValuationSubring Ω, _root_.Formalism.ConjugateSelfDual.IsPlaceOver A v → ∀ σ ∈ _root_.ReciprocityTheory.Gal.Dec (F := H.E) A, r σ = 1)
     (hQ : ∀ P ∈ Q, IsSplitPl H P ∧ P.asIdeal.inertiaDeg ℤ = 1 ∧ eWL H.E P = 1)
     (hS : ∀ P ∈ Q, ∀ p ∈ S, p.Prime → P ∉ placesOver H.E p) :
     IsPsi (H := H) l Q χ ∧ χ.OrderDvd (l ^ k) ∧ Chr.IsTwist H S χ := by
@@ -179,15 +179,15 @@ def rootIsoAt (D : D7) (i : D.ntw.Tw) (k : ℕ) : RootIso D i k :=
   haveI : NeZero (D.ntw.l i ^ k) := ⟨pow_ne_zero _ (D.ntw.lPrime i).out.ne_zero⟩
   rootIso (D.ntw.zk_prim i k)
 
-theorem pick_mem (h : BlochKatoReduction.Gen.PsiOk i A Q k ψ) (g : G D.host.E D.nd.Om) :
+theorem pick_mem (h : BlochKatoReduction.Gen.PsiOk i A Q k ψ) (g : _root_.Formalism.ConjugateSelfDual.G D.host.E D.nd.Om) :
     ψ.comp (D.ntw.art i Q) g ∈ rootsOfUnity (D.ntw.l i ^ k) (D.ntw.Ok i k) :=
   (Subgroup.zpowers_le.2 (Units.ext (D.ntw.zk_prim i k).pow_eq_one)) (h.2.2.2.2.2.1 g)
 
-def pickGal (h : BlochKatoReduction.Gen.PsiOk i A Q k ψ) (ι : RootIso D i k) : G D.host.E D.nd.Om →* ℂˣ :=
+def pickGal (h : BlochKatoReduction.Gen.PsiOk i A Q k ψ) (ι : RootIso D i k) : _root_.Formalism.ConjugateSelfDual.G D.host.E D.nd.Om →* ℂˣ :=
   cxChar ι (ψ.comp (D.ntw.art i Q)) (pick_mem h)
 
 theorem isOpen_ker_pickGal (h : BlochKatoReduction.Gen.PsiOk i A Q k ψ) (ι : RootIso D i k) :
-    IsOpen ((pickGal h ι).ker : Set (G D.host.E D.nd.Om)) := by
+    IsOpen ((pickGal h ι).ker : Set (_root_.Formalism.ConjugateSelfDual.G D.host.E D.nd.Om)) := by
   convert h.2.2.2.1 using 1
   ext g
   exact cxChar_eq_one _ _ _ g
@@ -197,12 +197,12 @@ def pickChar (ha : IsGlobalArtin art) (h : BlochKatoReduction.Gen.PsiOk i A Q k 
 
 def ReadsPick (art : Ideles D.host.E →* Gab D.host.E D.nd.Om) (i : D.ntw.Tw) (Q : Finset (PlE D.host)) (k : ℕ)
     (ψ : D.ntw.RCG i Q →* (D.ntw.Ok i k)ˣ) (ι : RootIso D i k) (χ : HChar D.host.E) : Prop :=
-  ∀ (x : Ideles D.host.E) (σ : G D.host.E D.nd.Om), art x = toAb D.host.E D.nd.Om σ →
+  ∀ (x : Ideles D.host.E) (σ : _root_.Formalism.ConjugateSelfDual.G D.host.E D.nd.Om), art x = toAb D.host.E D.nd.Om σ →
     ∃ u : rootsOfUnity (D.ntw.l i ^ k) (D.ntw.Ok i k), (u : (D.ntw.Ok i k)ˣ) = ψ (D.ntw.art i Q σ) ∧ χ.1 x = ι u
 
 def FrobPick (i : D.ntw.Tw) (Q : Finset (PlE D.host)) (k : ℕ)
     (ψ : D.ntw.RCG i Q →* (D.ntw.Ok i k)ˣ) (ι : RootIso D i k) (χ : HChar D.host.E) : Prop :=
-  ∀ v, v ∉ Q → ∀ A' : ValuationSubring D.nd.Om, IsPlaceOver A' v → ∀ σ : G D.host.E D.nd.Om,
+  ∀ v, v ∉ Q → ∀ A' : ValuationSubring D.nd.Om, _root_.Formalism.ConjugateSelfDual.IsPlaceOver A' v → ∀ σ : _root_.Formalism.ConjugateSelfDual.G D.host.E D.nd.Om,
     IsFrob (F := D.host.E) A' (normV v) σ →
     ∃ u : rootsOfUnity (D.ntw.l i ^ k) (D.ntw.Ok i k), (u : (D.ntw.Ok i k)ˣ) = ψ (D.ntw.art i Q σ) ∧
       χ.val v = ((ι u : rootsOfUnity (D.ntw.l i ^ k) ℂ) : ℂˣ)⁻¹

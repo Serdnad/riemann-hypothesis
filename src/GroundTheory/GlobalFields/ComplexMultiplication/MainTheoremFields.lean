@@ -4,8 +4,8 @@ public import GroundTheory.GlobalFields.SemilocalAlgebras.Galois
 public import GroundTheory.GlobalFields.TateThesis.DegreeOnePrimes
 public import Mathlib.AlgebraicGeometry.EllipticCurve.Affine.Point
 public import Mathlib.RingTheory.Frobenius
-public import GroundTheory.ArithmeticGeometry.AbelianVarieties.Supersingular
-public import GroundTheory.GlobalFields.ComplexMultiplication.AutCFixed
+public import GroundTheory.ArithmeticGeometry.AbelianVarieties.Bundle005
+public import GroundTheory.GlobalFields.ComplexMultiplication.Bundle003
 import GroundTheory.GlobalFields.ComplexMultiplication.ReductionRespectsAdd
 public import GroundTheory.GlobalFields.TateThesis.Chebotarev
 import GroundTheory.GlobalFields.TateThesis.DegreeOneDensity
@@ -51,8 +51,8 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-public import GroundTheory.GlobalFields.ComplexMultiplication.ReductionMap
-public import GroundTheory.GlobalFields.KummerTheory.Splitting
+public import GroundTheory.GlobalFields.ComplexMultiplication.Bundle006
+public import GroundTheory.GlobalFields.KummerTheory.Bundle001
 
 @[expose] public section
 

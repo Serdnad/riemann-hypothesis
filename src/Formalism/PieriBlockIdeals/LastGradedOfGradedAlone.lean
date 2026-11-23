@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PieriBlockIdeals.BranchingBoundLastGradedOneRow
+public import Formalism.PieriBlockIdeals.Bundle004
 public import Mathlib.LinearAlgebra.Matrix.Adjugate
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

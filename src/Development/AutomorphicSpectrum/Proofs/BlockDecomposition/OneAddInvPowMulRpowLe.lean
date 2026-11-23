@@ -1,10 +1,10 @@
 module
 
 public import Development.WeilBound.RepresentationTheoryGL.EisensteinSeries.SiegelEisensteinContinuation.IsEpCont
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ContinuousAdeleWeight
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle192
 public import GroundTheory.AutomorphicForms.GL2.AdelicFourier2TensorCosetIndicatorAlgebraMap
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ImportsExtra
-public import GroundTheory.GlobalFields.TateThesis.AdelePoissonUniform
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle028
+public import GroundTheory.GlobalFields.TateThesis.Bundle009
 import GroundTheory.GlobalFields.TateThesis.AdelicCharDual
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

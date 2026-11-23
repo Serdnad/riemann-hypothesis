@@ -3,8 +3,7 @@ module
 public import Development.AbelianVarietyTheory.Definitions.ArchimedeanThetaValues.ToMatrixTrFormBaseChange
 public import Development.AbelianVarietyTheory.Definitions.ArchimedeanThetaValues.SqrtNegDiscMemCoeffField
 public import Development.AbelianVarietyTheory.Definitions.ArchimedeanThetaValues.PsiWeightZeroLinearCombination
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.PullTopZFConstUnit
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ZeroFLeftExt
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle010
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

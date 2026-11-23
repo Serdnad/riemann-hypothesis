@@ -1,15 +1,15 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.LitAut
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.Bundle004
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.OrdinaryJacquetModules.CoreOrdAlt
-import Development.AbelianVarietyTheory.Definitions.Divisors.EqOfHasValueAtInfinite
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsTorusEigenformOfCompactTorusEigenvector
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.SphericalRepGLExistsSatakeParameters
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.JordanHolderMultiplicityNormalizedBorelJacquetUn
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle010
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle127
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle119
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle122
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.OrdinaryHeckeCharacters.GlBridge
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.OrdinaryHeckeCharacters.PropCker
-import Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.OrdinaryHeckeCharacters.PropCp
-import Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.OrdinaryHeckeCharacters.UOpMul
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.OrdinaryHeckeCharacters.Bundle004
+import Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.OrdinaryHeckeCharacters.Bundle001
+import Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.OrdinaryHeckeCharacters.Bundle003
 import GroundTheory.LocalFields.UnramifiedHensel
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -208,6 +208,9 @@ theorem UpperTheory.V.Z.Ord.ordinary_jacquet_of_literal_automorphy_n :
     let π0 : W →ₗ[ℂ] (↥(⊤ : Subrepresentation ρ).toSubmodule ⧸
         Submodule.comap (⊤ : Subrepresentation ρ).toSubmodule.subtype P.toSubmodule) :=
       (Submodule.mkQ _) ∘ₗ (LinearMap.codRestrict _ LinearMap.id fun v => Submodule.mem_top)
+    letI : Module.IsTorsionFree ℂ (↥(⊤ : Subrepresentation ρ).toSubmodule ⧸
+        Submodule.comap (⊤ : Subrepresentation ρ).toSubmodule.subtype P.toSubmodule) :=
+      DivisionSemiring.to_moduleIsTorsionFree
     have hπ0 : ∀ g v, π0 (ρ g v) = (μ g : ℂ) • π0 v := fun g v => by
       rw [← hμ]
       rfl

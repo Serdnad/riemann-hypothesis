@@ -1,19 +1,19 @@
 module
 
-public import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.ZelevinskyJacquet.ZelevinskyExhaustion.PropsExh
-public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.IrreducibleAdmissibleGL
+public import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.ZelevinskyJacquet.ZelevinskyExhaustion.Bundle001
+public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.Bundle002
 public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.HasFiniteLengthOfIsIrreducible
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IrreducibleAdmissible
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsBijectiveOfIsSubquotient
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle427
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle815
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsEquivProdIrrTw
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsIrreducibleSmoothQuotient
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsCuspidalOfJacquetMin
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle795
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle794
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsEquivPiExteriorTensorBlockLevi
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.InductionContragredient
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SubsingletonJacquetOfPerm
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ImportsRest
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.EvalMapLaw
-public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.JacquetModuleFiniteLength
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle066
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle032
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle290
+public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle019
 public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.ParabolicInductionFiniteLength
 import GroundTheory.LocalFields.PadicLogSeries
 import Mathlib.Algebra.Order.Floor.Extended
@@ -115,7 +115,7 @@ theorem isCuspidal_of_jacquet_min_left {n a b : ℕ} {V W W' : Type} [AddCommGro
     intro g h1 h2 v
     have hd : deltaHalf k (Two (Fin a) (Fin b)) (leviTwo k _ _ g) = 1 := by
       rw [deltaHalf_two, h1, h2]; simp
-    show jac (two (stdSum h)) π (leviTwo k _ _ g) _ = _
+    show _root_.GlobalTheory.SmGL.jac (two (stdSum h)) π (leviTwo k _ _ g) _ = _
     rw [jac_mk, hd]; simp
   have hN : ∀ u ∈ unipRad k (two (stdSum h)), ∀ v : V,
       (Submodule.Quotient.mk (π u v) : V ⧸ Kab) = Submodule.Quotient.mk v := by
@@ -222,7 +222,7 @@ theorem exists_quotient_jac₂ (hA : GlobalTheory.Published.IrreducibleAdmissibl
     exact Nat.find_min hP hca ⟨hc, d, h', not_subsingleton_iff_nontrivial.1 hns⟩
   generalize Nat.find hP = a at ha h hJ hmin
   have hBZ := bernsteinZelevinsky hA
-  have hfl : HasFiniteLength (jac (two (stdSum h)) π) :=
+  have hfl : HasFiniteLength (_root_.GlobalTheory.SmGL.jac (two (stdSum h)) π) :=
     (hBZ k).2.1 _ _ _ (two (stdSum h)) V π hs (hasFiniteLength_of_isIrreducible hi)
   obtain ⟨Y, _, _, τ, hτs, hτi, q, hq⟩ :=
     IrrQuot.exists_irreducible_smooth_quotient _ (isSmooth_jac (two (stdSum h)) hs) hfl hJ
@@ -233,7 +233,7 @@ theorem exists_quotient_jac₂ (hA : GlobalTheory.Published.IrreducibleAdmissibl
   let φ : (jac₂ (stdSum h) π).IntertwiningMap (extTensor (F false) (F true)) :=
     ⟨B.toLinearEquiv.toLinearMap ∘ₗ E.toLinearEquiv.toLinearMap ∘ₗ q.toLinearMap, fun g =>
       LinearMap.ext fun v => by
-        show B (E (q (jac (two (stdSum h)) π (leviTwo k _ _ g) v))) =
+        show B (E (q (_root_.GlobalTheory.SmGL.jac (two (stdSum h)) π (leviTwo k _ _ g) v))) =
           extTensor (F false) (F true) g (B (E (q v)))
         have e1 : E (τ (leviTwo k _ _ g) (q v)) = piTensor F (leviTwo k _ _ g) (E (q v)) :=
           E.toIntertwiningMap.isIntertwining _ _ _ _

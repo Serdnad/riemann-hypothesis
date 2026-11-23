@@ -4,12 +4,12 @@ public import Formalism.LocalToGlobal.InertKernelTheory.ThetaSeriesDataHypothese
 public import Formalism.LocalToGlobal.GroupLattices.PendingLemmas.InvarianceRepresentativesLaw
 public import Formalism.LocalToGlobal.GroupLattices.PendingLemmas.OrbitSumStabilizer
 public import Formalism.LocalToGlobal.InertKernelTheory.AdmissibleAllLevels
-public import Formalism.LocalToGlobal.InertKernelTheory.AdmissibleEleventhInert
+public import Formalism.LocalToGlobal.InertKernelTheory.Bundle014
 public import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.FirstKernelSmallOfFrameTwist
 public import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.SecondKernelCoupled
-import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.SecondKernelInstances
+import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.Bundle005
 public import Formalism.LocalToGlobal.PairingIndexBounds.RowActionCoefficients.LatticeShapeMiddleHolds
-public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.PositivityConditionHolds
+public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

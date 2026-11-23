@@ -45,7 +45,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.Corank
+import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.Bundle001
 
 @[expose] public section
 

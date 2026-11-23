@@ -1,7 +1,6 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.StatementsLiftGraphMetric
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.StatementsLiftGraphFactor
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle031
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -201,7 +200,7 @@ theorem proof (hF : LiftGraphFactor.Statement) : LiftGraphMetric.Statement := by
     simp only [U, Set.mem_setOf_eq, ne_eq, mul_eq_zero, not_or]
     exact forall_congr' fun k => exists_congr fun i => and_iff_right (hc k)
   let A : ReciprocityTheory.ChartRestriction.G.Geo.HermLine (addIdx ι r) :=
-    { a := unitDeg none
+    { a := _root_.ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.unitDeg none
       h := fun z => if z ∈ U then F z else 0
       pos := fun z hz => by
         simp only [if_pos (show z ∈ U from hz)]
@@ -219,9 +218,9 @@ theorem proof (hF : LiftGraphFactor.Statement) : LiftGraphMetric.Statement := by
             hΦh c' (basePart₂ z) hc' (hold z hz)
           have h3 : S (fun p => c p.1 * z p) = ‖c none‖ ^ 2 * S z := by
             simp only [S, norm_mul, mul_pow, Finset.mul_sum]
-          have hprod : ∏ k : Option K, ‖c k‖ ^ (unitDeg (none : Option K) k) = ‖c none‖ := by
+          have hprod : ∏ k : Option K, ‖c k‖ ^ (_root_.ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.unitDeg (none : Option K) k) = ‖c none‖ := by
             rw [Fintype.prod_option]
-            simp [unitDeg]
+            simp [_root_.ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.unitDeg]
           have hpow : (∏ k, ‖c' k‖ ^ N.a k) ^ a = ∏ k, ‖c' k‖ ^ ((a • N.a) k) := by
             rw [← Finset.prod_pow]
             refine Finset.prod_congr rfl fun k _ => ?_

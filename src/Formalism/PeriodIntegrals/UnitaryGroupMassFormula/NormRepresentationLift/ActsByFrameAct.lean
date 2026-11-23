@@ -2,7 +2,7 @@ module
 
 public import Formalism.SharpRestriction.CuspSpanNormBounds.IsPrimitiveSub
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.NormRepresentationLift.TvMapApply
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.NormRepresentationLift.ExistsMulEqOneAddSmulOfRowsGe
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.NormRepresentationLift.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

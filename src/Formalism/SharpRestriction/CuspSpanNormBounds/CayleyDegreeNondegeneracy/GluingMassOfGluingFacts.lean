@@ -3,8 +3,8 @@ module
 public import Formalism.SharpRestriction.CuspSpanNormBounds.CayleyDegreeNondegeneracy.GluingMassOfFibreStructure
 import Formalism.HermitianLattices.FinalNeighbourConstruct
 import Formalism.HermitianLattices.HermitianLatticesProofs.IsomAct
-public import Formalism.SharpRestriction.CuspSpanNormBounds.CayleyDegreeNondegeneracy.CardOrbitMulCardStabilizer
-import Formalism.ThetaLiftIndependence.ThetaOrbitSums.LatLiftIndep
+public import Formalism.SharpRestriction.CuspSpanNormBounds.CayleyDegreeNondegeneracy.Bundle001
+import Formalism.ThetaLiftIndependence.ThetaOrbitSums.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

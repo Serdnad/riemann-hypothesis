@@ -1,22 +1,21 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsCrisP
-public import Development.AbelianVarietyTheory.CrystallinePeriods.CrisLoc
+public import Development.AbelianVarietyTheory.CrystallinePeriods.Bundle001
 public import Development.AbelianVarietyTheory.CrystallinePeriods.CrisMapsLoc
 public import Development.AbelianVarietyTheory.CrystallinePeriods.RingBasics
 public import Development.AbelianVarietyTheory.CrystallinePeriods.RingIface
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Acris0TorsionFree
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.AcrisMembershipSpanIffStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.AcrisToBdRPlusInjectiveStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.AinfIsDomainAndAinfInvPInjective
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.BdRPlusIsDomainBdRIsFieldStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CanonicalAcrisToBdRPlusUniqueEquivariantApproxStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsCanonicalAcrisToBdRPlusStatement
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsCompatibleRootsOfUnityAndTiltPadic
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsInjectiveBcrisToBdRStatement
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FontaineThetaEqZeroIffFontaineXiElementDvd
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FontaineXiPowSaturatedQuotientCompleteStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.MemSpanPairPowSucc
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle086
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle105
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle134
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle084
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle133
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle125
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle082
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle143
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle081
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle106
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -303,7 +302,7 @@ namespace GlobalTheory.MemLoc.PhiInj
 
 variable (l : ℕ) [Fact l.Prime]
 
-theorem exists_eps : ∃ e : Per.Fl l, IsEps e := by
+theorem exists_eps : ∃ e : _root_.Formalism.Per.Fl l, IsEps e := by
   obtain ⟨ζ, ε, h0, -, h1, h⟩ := exists_zeta_eps l
   refine ⟨ε, ?_, ?_⟩
   · have := h 0
@@ -316,108 +315,108 @@ theorem exists_eps : ∃ e : Per.Fl l, IsEps e := by
     rw [← this, map_one]
     exact congrArg Subtype.val hh
 
-theorem φA_bijective : Function.Bijective (Per.φA l) := by
-  have h : (Per.φA l : Per.Ainf l → Per.Ainf l) = WittVector.map (frobenius (Per.Fl l) l) := by
+theorem φA_bijective : Function.Bijective (_root_.Formalism.Per.φA l) := by
+  have h : (_root_.Formalism.Per.φA l : _root_.Formalism.Per.Ainf l → _root_.Formalism.Per.Ainf l) = WittVector.map (frobenius (_root_.Formalism.Per.Fl l) l) := by
     funext w
     apply WittVector.ext
     intro n
     rw [GlobalTheory.RingIface.phiA_coeff, WittVector.map_coeff, frobenius_def]
   rw [h]
-  exact ⟨WittVector.map_injective _ (frobeniusEquiv (Per.Fl l) l).injective,
-    WittVector.map_surjective _ (frobeniusEquiv (Per.Fl l) l).surjective⟩
+  exact ⟨WittVector.map_injective _ (frobeniusEquiv (_root_.Formalism.Per.Fl l) l).injective,
+    WittVector.map_surjective _ (frobeniusEquiv (_root_.Formalism.Per.Fl l) l).surjective⟩
 
-theorem exists_teich (x : Per.Ainf l) : ∃ w u : Per.Ainf l, x = w + (l : Per.Ainf l) * u ∧ Per.φA l w = w ^ l := by
+theorem exists_teich (x : _root_.Formalism.Per.Ainf l) : ∃ w u : _root_.Formalism.Per.Ainf l, x = w + (l : _root_.Formalism.Per.Ainf l) * u ∧ _root_.Formalism.Per.φA l w = w ^ l := by
   have h0 := WittVector.dvd_sub_sum_teichmuller_iterateFrobeniusEquiv_coeff (p := l) x 0
   have hI : (Finset.Iic 0 : Finset ℕ) = {0} := by
     ext i
     simp
   rw [hI, Finset.sum_singleton] at h0
-  obtain ⟨u, hu⟩ : (l : Per.Ainf l) ∣ x - Per.tm (x.coeff 0) := by simpa using h0
-  refine ⟨Per.tm (x.coeff 0), u, by rw [← hu]; ring, ?_⟩
+  obtain ⟨u, hu⟩ : (l : _root_.Formalism.Per.Ainf l) ∣ x - _root_.Formalism.Per.tm (x.coeff 0) := by simpa using h0
+  refine ⟨_root_.Formalism.Per.tm (x.coeff 0), u, by rw [← hu]; ring, ?_⟩
   rw [GlobalTheory.RingIface.phiA_teich, map_pow]
 
-theorem acris0_le {e : Per.Fl l} (he : IsEps e) {q : Per.AinfP l} (hq : (l : Per.AinfP l) * q = 1)
-    (s : Per.Acris0 l) :
-    (s : Per.AinfP l) ∈ Algebra.adjoin (Per.Ainf l) {algebraMap (Per.Ainf l) (Per.AinfP l) (xi e) * q} := by
-  have H : Submodule.span (Per.Ainf l) {y : Per.AinfP l | ∃ n : ℕ,
-        ((n.factorial : ℕ) : Per.AinfP l) * y = algebraMap (Per.Ainf l) (Per.AinfP l) (xi e) ^ n} ≤
+theorem acris0_le {e : _root_.Formalism.Per.Fl l} (he : IsEps e) {q : _root_.Formalism.Per.AinfP l} (hq : (l : _root_.Formalism.Per.AinfP l) * q = 1)
+    (s : _root_.Formalism.Per.Acris0 l) :
+    (s : _root_.Formalism.Per.AinfP l) ∈ Algebra.adjoin (_root_.Formalism.Per.Ainf l) {algebraMap (_root_.Formalism.Per.Ainf l) (_root_.Formalism.Per.AinfP l) (xi e) * q} := by
+  have H : Submodule.span (_root_.Formalism.Per.Ainf l) {y : _root_.Formalism.Per.AinfP l | ∃ n : ℕ,
+        ((n.factorial : ℕ) : _root_.Formalism.Per.AinfP l) * y = algebraMap (_root_.Formalism.Per.Ainf l) (_root_.Formalism.Per.AinfP l) (xi e) ^ n} ≤
       Subalgebra.toSubmodule
-        (Algebra.adjoin (Per.Ainf l) {algebraMap (Per.Ainf l) (Per.AinfP l) (xi e) * q}) := by
+        (Algebra.adjoin (_root_.Formalism.Per.Ainf l) {algebraMap (_root_.Formalism.Per.Ainf l) (_root_.Formalism.Per.AinfP l) (xi e) * q}) := by
     refine Submodule.span_le.2 ?_
     rintro y ⟨n, hn⟩
     obtain ⟨c, hc⟩ := GlobalTheory.RingBasics.exists_pow_div_factorial l n
-    have h := congrArg (fun z => algebraMap (Per.Ainf l) (Per.AinfP l) (Per.zA l z)) hc
+    have h := congrArg (fun z => algebraMap (_root_.Formalism.Per.Ainf l) (_root_.Formalism.Per.AinfP l) (_root_.Formalism.Per.zA l z)) hc
     simp only [map_mul, map_natCast, map_pow] at h
-    have h' : ((n.factorial : ℕ) : Per.AinfP l) * algebraMap (Per.Ainf l) (Per.AinfP l) (Per.zA l c) =
-        (l : Per.AinfP l) ^ n := h
-    exact GlobalTheory.FrobInj.dividedPower_mem hq (xi e) 1 (Per.zA l c) n
+    have h' : ((n.factorial : ℕ) : _root_.Formalism.Per.AinfP l) * algebraMap (_root_.Formalism.Per.Ainf l) (_root_.Formalism.Per.AinfP l) (_root_.Formalism.Per.zA l c) =
+        (l : _root_.Formalism.Per.AinfP l) ^ n := h
+    exact GlobalTheory.FrobInj.dividedPower_mem hq (xi e) 1 (_root_.Formalism.Per.zA l c) n
       (GlobalTheory.RingBasics.isUnit_nat l n.factorial n.factorial_ne_zero) h' (by rw [mul_one]; exact hn)
   exact H ((GlobalTheory.T.acris_membership_span_iff l e he s).1 s.2)
 
-noncomputable def phi0 : Per.Acris0 l →+* Per.Acris0 l :=
-  (Per.extP (Per.φA l)).restrict _ _ (GlobalTheory.CrisMaps.frob_extends l).mem
+noncomputable def phi0 : _root_.Formalism.Per.Acris0 l →+* _root_.Formalism.Per.Acris0 l :=
+  (Per.extP (_root_.Formalism.Per.φA l)).restrict _ _ (GlobalTheory.CrisMaps.frob_extends l).mem
 
-theorem coe_phi0 (s : Per.Acris0 l) : (phi0 l s : Per.AinfP l) = Per.extP (Per.φA l) s := rfl
+theorem coe_phi0 (s : _root_.Formalism.Per.Acris0 l) : (phi0 l s : _root_.Formalism.Per.AinfP l) = Per.extP (_root_.Formalism.Per.φA l) s := rfl
 
-theorem phiA_of (s : Per.Acris0 l) : phiA l (algebraMap (Per.Acris0 l) (Per.Acris l) s) =
-    algebraMap (Per.Acris0 l) (Per.Acris l) (phi0 l s) :=
+theorem phiA_of (s : _root_.Formalism.Per.Acris0 l) : phiA l (algebraMap (_root_.Formalism.Per.Acris0 l) (_root_.Formalism.Per.Acris l) s) =
+    algebraMap (_root_.Formalism.Per.Acris0 l) (_root_.Formalism.Per.Acris l) (phi0 l s) :=
   (GlobalTheory.CrisMaps.phiA_extends l).env s
 
-theorem ev_alg (n : ℕ) (x : Per.AinfP l) :
-    Per.ev l n (algebraMap (Per.AinfP l) (Per.BdRp l) x) = Ideal.Quotient.mk _ x :=
+theorem ev_alg (n : ℕ) (x : _root_.Formalism.Per.AinfP l) :
+    Per.ev l n (algebraMap (_root_.Formalism.Per.AinfP l) (_root_.Formalism.Per.BdRp l) x) = Ideal.Quotient.mk _ x :=
   GlobalTheory.RingIface.ev_alg l n x
 
-theorem eq_zero_of_ev (y : Per.BdRp l) (h : ∀ n, Per.ev l n y = Per.ev l n 0) : y = 0 :=
+theorem eq_zero_of_ev (y : _root_.Formalism.Per.BdRp l) (h : ∀ n, Per.ev l n y = Per.ev l n 0) : y = 0 :=
   GlobalTheory.RingIface.ev_ext l y 0 h
 
-theorem mem_kerP (x : Per.Ainf l) (hx : Per.θ l x = 0) :
-    algebraMap (Per.Ainf l) (Per.AinfP l) x ∈ Per.kerP l :=
+theorem mem_kerP (x : _root_.Formalism.Per.Ainf l) (hx : Per.θ l x = 0) :
+    algebraMap (_root_.Formalism.Per.Ainf l) (_root_.Formalism.Per.AinfP l) x ∈ Per.kerP l :=
   GlobalTheory.RingIface.alg_mem_kerP l hx
 
-theorem φB_alg (x : Per.Acris l) : Per.φB l (algebraMap (Per.Acris l) (Per.Bcris l) x) =
-    algebraMap (Per.Acris l) (Per.Bcris l) (phiA l x) :=
+theorem φB_alg (x : _root_.Formalism.Per.Acris l) : _root_.Formalism.Per.φB l (algebraMap (_root_.Formalism.Per.Acris l) (_root_.Formalism.Per.Bcris l) x) =
+    algebraMap (_root_.Formalism.Per.Acris l) (_root_.Formalism.Per.Bcris l) (phiA l x) :=
   GlobalTheory.CrisMaps.φB_phiA l x
 
 section
 set_option allowUnsafeReducibility true in
-attribute [local irreducible] Per.Acris Per.Bcris
+attribute [local irreducible] _root_.Formalism.Per.Acris _root_.Formalism.Per.Bcris
 
-theorem approx_mem {e : Per.Fl l} (he : IsEps e) {q : Per.AinfP l} (hq : (l : Per.AinfP l) * q = 1)
-    (x : Per.Acris l) (hx : phiA l x = 0) (k : ℕ) (s : Per.Acris0 l) (z : Per.Acris l)
-    (hs : x = algebraMap (Per.Acris0 l) (Per.Acris l) s + (l : Per.Acris l) ^ k * z) :
-    ∃ m ∈ Algebra.adjoin (Per.Ainf l) {algebraMap (Per.Ainf l) (Per.AinfP l) (xi e) * q},
-      (s : Per.AinfP l) = (l : Per.AinfP l) ^ k * m := by
+theorem approx_mem {e : _root_.Formalism.Per.Fl l} (he : IsEps e) {q : _root_.Formalism.Per.AinfP l} (hq : (l : _root_.Formalism.Per.AinfP l) * q = 1)
+    (x : _root_.Formalism.Per.Acris l) (hx : phiA l x = 0) (k : ℕ) (s : _root_.Formalism.Per.Acris0 l) (z : _root_.Formalism.Per.Acris l)
+    (hs : x = algebraMap (_root_.Formalism.Per.Acris0 l) (_root_.Formalism.Per.Acris l) s + (l : _root_.Formalism.Per.Acris l) ^ k * z) :
+    ∃ m ∈ Algebra.adjoin (_root_.Formalism.Per.Ainf l) {algebraMap (_root_.Formalism.Per.Ainf l) (_root_.Formalism.Per.AinfP l) (xi e) * q},
+      (s : _root_.Formalism.Per.AinfP l) = (l : _root_.Formalism.Per.AinfP l) ^ k * m := by
   obtain ⟨hd, -, hinj⟩ := ainf_isDomain_and_injective l
   obtain ⟨-, -, hdense, hdvd⟩ := acris_basic l
   obtain ⟨w, u, hw, hφw⟩ := exists_teich l (xi e)
-  have hq' : algebraMap (Per.Ainf l) (Per.AinfP l) (l : Per.Ainf l) * q = 1 := by rwa [map_natCast]
-  have hp : ∀ a : Per.Ainf l, (l : Per.Ainf l) * a = 0 → a = 0 := by
+  have hq' : algebraMap (_root_.Formalism.Per.Ainf l) (_root_.Formalism.Per.AinfP l) (l : _root_.Formalism.Per.Ainf l) * q = 1 := by rwa [map_natCast]
+  have hp : ∀ a : _root_.Formalism.Per.Ainf l, (l : _root_.Formalism.Per.Ainf l) * a = 0 → a = 0 := by
     intro a ha
     apply hinj
-    have := congrArg (algebraMap (Per.Ainf l) (Per.AinfP l)) ha
+    have := congrArg (algebraMap (_root_.Formalism.Per.Ainf l) (_root_.Formalism.Per.AinfP l)) ha
     rw [map_mul, map_zero] at this
     rw [map_zero]
-    linear_combination q * this - algebraMap (Per.Ainf l) (Per.AinfP l) a * hq'
-  have hsat : ∀ a : Per.Ainf l, xi e ∣ (l : Per.Ainf l) * a → xi e ∣ a := by
+    linear_combination q * this - algebraMap (_root_.Formalism.Per.Ainf l) (_root_.Formalism.Per.AinfP l) a * hq'
+  have hsat : ∀ a : _root_.Formalism.Per.Ainf l, xi e ∣ (l : _root_.Formalism.Per.Ainf l) * a → xi e ∣ a := by
     simpa using (GlobalTheory.T.fontaineXi_pow_saturated_quotient_complete l e he 1).1
   have hx0 : xi e ≠ 0 := by
     intro h
     have h1 := (theta_eq_zero_iff_xi_dvd l e he (mu e)).1 (by
       rw [mu, map_sub, map_one, WittVector.fontaineTheta_teichmuller, he.1, sub_self])
     rw [h, zero_dvd_iff, mu, sub_eq_zero] at h1
-    have h2 : e = 1 := by simpa using congrArg (fun y : Per.Ainf l => y.coeff 0) h1
+    have h2 : e = 1 := by simpa using congrArg (fun y : _root_.Formalism.Per.Ainf l => y.coeff 0) h1
     apply he.2
     rw [h2, map_one, map_one]
-  have hreg : ∀ b : Per.Ainf l, (l : Per.Ainf l) ∣ w * b → (l : Per.Ainf l) ∣ b := by
+  have hreg : ∀ b : _root_.Formalism.Per.Ainf l, (l : _root_.Formalism.Per.Ainf l) ∣ w * b → (l : _root_.Formalism.Per.Ainf l) ∣ b := by
     rintro b ⟨c, hc⟩
     obtain ⟨d, hd⟩ := hsat (c + u * b) ⟨b, by linear_combination -hc - b * hw⟩
-    exact ⟨d, mul_left_cancel₀ hx0 (by linear_combination hc + b * hw + (l : Per.Ainf l) * hd)⟩
-  have hZ : algebraMap (Per.Ainf l) (Per.AinfP l) (xi e) * q =
-      algebraMap (Per.Ainf l) (Per.AinfP l) w * q + algebraMap (Per.Ainf l) (Per.AinfP l) u := by
+    exact ⟨d, mul_left_cancel₀ hx0 (by linear_combination hc + b * hw + (l : _root_.Formalism.Per.Ainf l) * hd)⟩
+  have hZ : algebraMap (_root_.Formalism.Per.Ainf l) (_root_.Formalism.Per.AinfP l) (xi e) * q =
+      algebraMap (_root_.Formalism.Per.Ainf l) (_root_.Formalism.Per.AinfP l) w * q + algebraMap (_root_.Formalism.Per.Ainf l) (_root_.Formalism.Per.AinfP l) u := by
     rw [hw, map_add (f := _), map_mul]
-    linear_combination algebraMap (Per.Ainf l) (Per.AinfP l) u * hq'
-  have hM : Algebra.adjoin (Per.Ainf l) {algebraMap (Per.Ainf l) (Per.AinfP l) (xi e) * q} =
-      Algebra.adjoin (Per.Ainf l) {algebraMap (Per.Ainf l) (Per.AinfP l) w * q} := by
+    linear_combination algebraMap (_root_.Formalism.Per.Ainf l) (_root_.Formalism.Per.AinfP l) u * hq'
+  have hM : Algebra.adjoin (_root_.Formalism.Per.Ainf l) {algebraMap (_root_.Formalism.Per.Ainf l) (_root_.Formalism.Per.AinfP l) (xi e) * q} =
+      Algebra.adjoin (_root_.Formalism.Per.Ainf l) {algebraMap (_root_.Formalism.Per.Ainf l) (_root_.Formalism.Per.AinfP l) w * q} := by
     refine le_antisymm (Algebra.adjoin_le ?_) (Algebra.adjoin_le ?_)
     · rintro _ rfl
       rw [hZ]
@@ -427,12 +426,12 @@ theorem approx_mem {e : Per.Fl l} (he : IsEps e) {q : Per.AinfP l} (hq : (l : Pe
       exact sub_mem (Algebra.subset_adjoin rfl) (Subalgebra.algebraMap_mem _ _)
   have hle := acris0_le l he hq
   rw [hM] at hle ⊢
-  have := GlobalTheory.FrobInj.pow_dvd_of_frob hq' hp hreg hinj l (Per.φA l) (φA_bijective l) (map_natCast _ _) hφw
-    (Per.extP (Per.φA l)) (GlobalTheory.RingBasics.awayMap_algebraMap₂ _) k s (hle s) (fun r => by
+  have := GlobalTheory.FrobInj.pow_dvd_of_frob hq' hp hreg hinj l (_root_.Formalism.Per.φA l) (φA_bijective l) (map_natCast _ _) hφw
+    (Per.extP (_root_.Formalism.Per.φA l)) (GlobalTheory.RingBasics.awayMap_algebraMap₂ _) k s (hle s) (fun r => by
       obtain ⟨s', z', rfl⟩ := hdense z r
-      have h1 : (l : Per.Acris l) ^ r ∣
-          algebraMap (Per.Acris0 l) (Per.Acris l) (phi0 l (s + (l : Per.Acris0 l) ^ k * s')) := by
-        refine ⟨-((l : Per.Acris l) ^ k * phiA l z'), ?_⟩
+      have h1 : (l : _root_.Formalism.Per.Acris l) ^ r ∣
+          algebraMap (_root_.Formalism.Per.Acris0 l) (_root_.Formalism.Per.Acris l) (phi0 l (s + (l : _root_.Formalism.Per.Acris0 l) ^ k * s')) := by
+        refine ⟨-((l : _root_.Formalism.Per.Acris l) ^ k * phiA l z'), ?_⟩
         rw [hs] at hx
         rw [← phiA_of]
         set_option synthInstance.maxHeartbeats 200000 in
@@ -449,7 +448,7 @@ theorem approx_mem {e : Per.Fl l} (he : IsEps e) {q : Per.AinfP l} (hq : (l : Pe
 theorem phiA_injective : Function.Injective (phiA l) := by
   obtain ⟨e, he⟩ := exists_eps l
   obtain ⟨q, hq⟩ := (GlobalTheory.RingBasics.isUnit_l l).exists_right_inv
-  have hq' : algebraMap (Per.Ainf l) (Per.AinfP l) (l : Per.Ainf l) * q = 1 := by rwa [map_natCast]
+  have hq' : algebraMap (_root_.Formalism.Per.Ainf l) (_root_.Formalism.Per.AinfP l) (l : _root_.Formalism.Per.Ainf l) * q = 1 := by rwa [map_natCast]
   obtain ⟨j, hj⟩ := GlobalTheory.T.exists_canonical_acris_to_bdRPlus l
   set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
   intro x hx
@@ -459,22 +458,22 @@ theorem phiA_injective : Function.Injective (phiA l) := by
   obtain ⟨s, z, hs⟩ := (acris_basic l).2.2.1 x (r + n)
   obtain ⟨m, hm, e1⟩ := approx_mem l he hq x hx (r + n) s z hs
   obtain ⟨a, y, e2⟩ := GlobalTheory.FrobInj.bounded_mod hq' (xi e) n m hm
-  refine ⟨s, (l : Per.Acris l) ^ n * z, -a, by rw [hs]; ring, ?_⟩
-  have e3 : ((l : Per.BdRp l) ^ r * aDp l (-a)) = algebraMap (Per.AinfP l) (Per.BdRp l)
-      ((l : Per.AinfP l) ^ r * algebraMap (Per.Ainf l) (Per.AinfP l) (-a)) := by
+  refine ⟨s, (l : _root_.Formalism.Per.Acris l) ^ n * z, -a, by rw [hs]; ring, ?_⟩
+  have e3 : ((l : _root_.Formalism.Per.BdRp l) ^ r * aDp l (-a)) = algebraMap (_root_.Formalism.Per.AinfP l) (_root_.Formalism.Per.BdRp l)
+      ((l : _root_.Formalism.Per.AinfP l) ^ r * algebraMap (_root_.Formalism.Per.Ainf l) (_root_.Formalism.Per.AinfP l) (-a)) := by
     rw [map_mul, map_pow, map_natCast]
     rfl
   rw [e3, zero_sub, ← map_neg, ev_alg, ev_alg, Ideal.Quotient.eq]
-  have e4 : -(s : Per.AinfP l) - (l : Per.AinfP l) ^ r * algebraMap (Per.Ainf l) (Per.AinfP l) (-a) =
-      algebraMap (Per.Ainf l) (Per.AinfP l) (xi e) ^ n * (-((l : Per.AinfP l) ^ r * y)) := by
+  have e4 : -(s : _root_.Formalism.Per.AinfP l) - (l : _root_.Formalism.Per.AinfP l) ^ r * algebraMap (_root_.Formalism.Per.Ainf l) (_root_.Formalism.Per.AinfP l) (-a) =
+      algebraMap (_root_.Formalism.Per.Ainf l) (_root_.Formalism.Per.AinfP l) (xi e) ^ n * (-((l : _root_.Formalism.Per.AinfP l) ^ r * y)) := by
     rw [map_natCast] at e2
     rw [e1, map_neg]
-    linear_combination -(l : Per.AinfP l) ^ r * e2
+    linear_combination -(l : _root_.Formalism.Per.AinfP l) ^ r * e2
   rw [e4]
   exact Ideal.mul_mem_right _ _ (Ideal.pow_mem_pow
     (mem_kerP l _ ((theta_eq_zero_iff_xi_dvd l e he _).2 dvd_rfl)) n)
 
-theorem algebraMap_acris_bcris_injective : Function.Injective (algebraMap (Per.Acris l) (Per.Bcris l)) := by
+theorem algebraMap_acris_bcris_injective : Function.Injective (algebraMap (_root_.Formalism.Per.Acris l) (_root_.Formalism.Per.Bcris l)) := by
   obtain ⟨j, hj⟩ := GlobalTheory.T.exists_canonical_acris_to_bdRPlus l
   obtain ⟨ι, hι, -⟩ := GlobalTheory.T.exists_injective_bcris_to_bdR l j hj
   intro x y h
@@ -482,13 +481,13 @@ theorem algebraMap_acris_bcris_injective : Function.Injective (algebraMap (Per.A
   apply (GlobalTheory.T.bdRPlus_isDomain_bdR_isField l).2.1
   rw [← hι, ← hι, h]
 
-theorem φB_inj : Function.Injective (Per.φB l) := by
+theorem φB_inj : Function.Injective (_root_.Formalism.Per.φB l) := by
   set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
   intro b hb
   obtain ⟨e, he, hne⟩ := GlobalTheory.CrisLoc.exists_root_ne_one l
   obtain ⟨n, x, h⟩ := GlobalTheory.CrisLoc.exists_mul_pow_eq l e he hne b
-  have h1 := congrArg (Per.φB l) h
-  rw [map_mul, hb, zero_mul, φB_alg, ← map_zero (algebraMap (Per.Acris l) (Per.Bcris l)),
+  have h1 := congrArg (_root_.Formalism.Per.φB l) h
+  rw [map_mul, hb, zero_mul, φB_alg, ← map_zero (algebraMap (_root_.Formalism.Per.Acris l) (_root_.Formalism.Per.Bcris l)),
     ← map_zero (phiA l)] at h1
   have h2 := phiA_injective l (algebraMap_acris_bcris_injective l h1)
   rw [← h2, map_zero] at h

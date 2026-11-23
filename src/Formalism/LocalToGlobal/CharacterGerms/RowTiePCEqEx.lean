@@ -1,12 +1,12 @@
 module
 
-import Formalism.LocalToGlobal.CharacterGerms.RowTiePOActLog
-public import Formalism.LocalToGlobal.CharacterGerms.RowTiePCEqDer
+import Formalism.LocalToGlobal.CharacterGerms.Bundle012
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle017
 public import Formalism.LocalToGlobal.CharacterGerms.RowTiePGerm
 import Formalism.FormalGroupLog.FormalGroupLogProofs.ChainRule
-public import Formalism.LocalToGlobal.CharacterGerms.RowTieCartAdd
-import Formalism.LocalToGlobal.CharacterGerms.RowTieCartFB
-public import Formalism.LocalToGlobal.CharacterGerms.RowTiePCEqSum2
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle009
+import Formalism.LocalToGlobal.CharacterGerms.Bundle008
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle018
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -147,7 +147,7 @@ theorem ex_add (Y : FBChart C V O dd) (j : Fin dd) :
       fin_cases k'
       rfl
     rw [e, show ev (n := 1) ![Y.ex] (Y.lg m) = comp1 Y.lg Y.ex m from rfl, Y.lg_ex,
-      show (pt C (n := 1) dd 0 m) = X ((0 : Fin 1), m) from rfl, ev_X (z0_1 _ (z0_pt k))]
+      show (pt C (n := 1) dd 0 m) = X ((0 : Fin 1), m) from rfl, PartialDerivEval.ev_X (z0_1 _ (z0_pt k))]
     rfl
   set P : Pt C 2 dd := fun j => ev (n := 2) ![comp1 Y.ex (pt C (n := 2) dd 0), comp1 Y.ex (pt C (n := 2) dd 1)]
     (Y.B.G.F j) with hP
@@ -173,13 +173,13 @@ theorem ex_add (Y : FBChart C V O dd) (j : Fin dd) :
       funext k' i
       fin_cases k'
       show ev (n := 2) _ (X (k, i) : PS C 2 dd) = _
-      rw [ev_X hAB]
+      rw [PartialDerivEval.ev_X hAB]
       fin_cases k <;> rfl
     rw [e2 0, e2 1, hlgk 0, hlgk 1]
   have hPS : ∀ j, P j = ev (n := 2) ![fun m => pt C (n := 2) dd 0 m + pt C dd 1 m] (Y.ex j) := by
     intro j
     have e1 : ev (n := 2) ![P] (comp1 Y.ex Y.lg j) = P j := by
-      rw [Y.ex_lg, show (pt C (n := 1) dd 0 j) = X ((0 : Fin 1), j) from rfl, ev_X hZP]
+      rw [Y.ex_lg, show (pt C (n := 1) dd 0 j) = X ((0 : Fin 1), j) from rfl, PartialDerivEval.ev_X hZP]
       rfl
     rw [← e1]
     unfold comp1
@@ -238,7 +238,7 @@ theorem exDer_holds {C : Type} [Field C] [CharZero C] {V : VF C} {O : Type} [Com
     intro k
     funext k' l
     fin_cases k'
-    exact ev_X hQ k l
+    exact PartialDerivEval.ev_X hQ k l
   have hL : ∀ i, ev (n := 1) (![pt C dd 0, 0] : Fin 2 → Pt C 1 dd) (pderiv (R := C) ((1 : Fin 2), i)
       (ev (n := 2) ![fun m => pt C (n := 2) dd 0 m + pt C dd 1 m] (Y.ex j))) = pderiv (R := C) ((0 : Fin 1), i) (Y.ex j) := by
     intro i
@@ -255,7 +255,7 @@ theorem exDer_holds {C : Type} [Field C] [CharZero C] {V : VF C} {O : Type} [Com
       funext k m
       fin_cases k
       show ev (n := 1) (![pt C dd 0, 0] : Fin 2 → Pt C 1 dd) ((X ((0 : Fin 2), m) : PS C 2 dd) + X ((1 : Fin 2), m)) = pt C dd 0 m
-      rw [ev_add hQ, ev_X hQ, ev_X hQ]
+      rw [ev_add hQ, PartialDerivEval.ev_X hQ, PartialDerivEval.ev_X hQ]
       show pt C dd 0 m + 0 = pt C dd 0 m
       rw [add_zero]
     rw [e, germEval_oneStandardPoint_self]
@@ -291,7 +291,7 @@ theorem exDer_holds {C : Type} [Field C] [CharZero C] {V : VF C} {O : Type} [Com
       congr 1
       funext k m
       fin_cases k
-      · exact (ev_X hZex 0 m).symm
+      · exact (PartialDerivEval.ev_X hZex 0 m).symm
       · exact (ev_zero hZex).symm
     · intro m _ hm
       rw [if_neg (Ne.symm hm), map_zero, mul_zero]
@@ -304,6 +304,6 @@ theorem exDer_holds {C : Type} [Field C] [CharZero C] {V : VF C} {O : Type} [Com
   unfold FBChart.dF
   rw [ev_sum hZex]
   refine Finset.sum_congr rfl fun i _ => ?_
-  rw [ev_mul hZex, ev_C, key i]
+  rw [ev_mul hZex, PartialDerivEval.ev_C, key i]
 
 end Formalism.L2.FormalSeriesBounds

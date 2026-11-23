@@ -1,8 +1,8 @@
 module
 
-public import Formalism.PeriodIntegrals.SymDist
-public import Formalism.PeriodIntegrals.ExpTri
-public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.ComplexificationHolds
+public import Formalism.PeriodIntegrals.Bundle013
+public import Formalism.PeriodIntegrals.Bundle003
+public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.Bundle001
 public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.IndefiniteUnitaryPreservesForm
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

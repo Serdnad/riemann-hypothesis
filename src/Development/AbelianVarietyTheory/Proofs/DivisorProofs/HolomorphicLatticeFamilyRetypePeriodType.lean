@@ -1,9 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.IsHolPeriods
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GramRePosDefAdjointPeriodStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HolomorphicFamilyConjConstantStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsSemisimpleRingOfPosFormAdjointClosedStatement
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle017
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle643
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle671
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

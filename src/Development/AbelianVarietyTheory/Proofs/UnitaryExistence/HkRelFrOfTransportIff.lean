@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.ProjectiveLattices.HeckeFr
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle013
 public import Development.AbelianVarietyTheory.BlockTheory.ExistenceTori.FibrePushforward
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.IsReducedAlgebraOfSmoothOfIsNoetherianRing
 import Mathlib.Algebra.Order.Floor.Extended

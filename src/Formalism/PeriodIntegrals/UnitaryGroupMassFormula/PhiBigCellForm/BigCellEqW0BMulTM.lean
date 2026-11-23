@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.LongWeylElementSquare
+public import Formalism.PeriodIntegrals.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

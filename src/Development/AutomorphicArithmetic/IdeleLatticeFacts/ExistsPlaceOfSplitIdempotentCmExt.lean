@@ -1,6 +1,6 @@
 module
 
-public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.AutEtaB
+public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.Bundle002
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ThetaFunctionHeisenbergInvariant
 public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.AutEtaA
 public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.AutEtaC

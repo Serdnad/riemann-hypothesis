@@ -1,14 +1,14 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.UnderTie
-public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.SplittingProjection
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.AdelicLatticeCompletionLocalGlobal
-import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.MemStabGLAdeleIff
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.MulVecMemLocLatIffOfFrame
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ImportsTer
-import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.CsApprox
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle025
+public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.Bundle009
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle069
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle048
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle061
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle006
+import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle011
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.CsGlob
-import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.CsSpan
+import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle014
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -4,7 +4,7 @@ public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSpl
 public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.ExCusp
 public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.ExTwist
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.CarryLift
-public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.FamParts
+public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.Bundle005
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.PowTwist
 import Development.WeilBound.RepresentationTheoryGL.JacquetShalikaBounds.AbsoluteRigidity.SatakeTwists.SatakeTwistHolds
 import Mathlib.Algebra.Order.Floor.Extended

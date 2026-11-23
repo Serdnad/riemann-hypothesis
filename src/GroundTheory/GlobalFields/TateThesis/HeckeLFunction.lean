@@ -3,7 +3,7 @@ module
 public import GroundTheory.GlobalFields.TateThesis.HeckeChar
 public import Mathlib.NumberTheory.LSeries.Convergence
 public import Mathlib.NumberTheory.NumberField.DedekindZeta
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.SummableAbsNormRpowInv
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle028
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

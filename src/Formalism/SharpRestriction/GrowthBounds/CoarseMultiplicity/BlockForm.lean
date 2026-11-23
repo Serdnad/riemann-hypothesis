@@ -1,12 +1,12 @@
 module
 
 public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.LeadingExponentHomogeneous
-public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.GTheta
-import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.IoBlockMonomial
+public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.Bundle011
+import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.Bundle006
 import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.MemIntPolOfCoeff
-public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.SatBlock
+public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.Bundle004
 public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.SymVarInlFst
-import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.TopOddNeEnd
+import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

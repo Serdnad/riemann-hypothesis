@@ -42,7 +42,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.Divisors.MatchingOfParts
 public import GroundTheory.GlobalFields.TateThesis.AdeleMeasurable
-public import GroundTheory.GlobalFields.TateThesis.AdeleMeasure
+public import GroundTheory.GlobalFields.TateThesis.Bundle006
 
 @[expose] public section
 

@@ -47,6 +47,10 @@ import Mathlib.Tactic.NormNum.RealSqrt
 
 @[expose] public section
 
+local instance (priority := 2000) ratFieldIsTorsionFreeForGlobalEulerCharRatOfNeTwo (Ω : Type)
+    [Field Ω] [CharZero Ω] : Module.IsTorsionFree ℚ Ω :=
+  DivisionSemiring.to_moduleIsTorsionFree
+
 open NumberField IsDedekindDomain Formalism.ConjugateSelfDual ReciprocityTheory.Gal Matrix IsLocalRing
 open UpperTheory.V UpperTheory.V.Base UpperTheory.V.HV UpperTheory.V.Alg UpperTheory.V.U3
 

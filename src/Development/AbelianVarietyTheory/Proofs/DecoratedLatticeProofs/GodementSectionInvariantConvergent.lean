@@ -40,7 +40,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.WittSmallGroupEmbeddingMemPointwiseStabilizerIso
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ValHalfInf
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle077
 
 @[expose] public section
 

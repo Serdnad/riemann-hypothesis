@@ -1,11 +1,11 @@
 module
 
 public import Formalism.LocalToGlobal.Divisibility.LiftLatInst
-public import Formalism.LocalToGlobal.Columns.UnipotentRightActionFunctionsW
+public import Formalism.LocalToGlobal.Columns.Bundle011
 public import Formalism.LocalToGlobal.Columns.RowFormsGood
-public import Formalism.LocalToGlobal.Columns.RowFormsRat
+public import Formalism.LocalToGlobal.Columns.Bundle033
 import Formalism.LocalToGlobal.Columns.ToHLatLemmas
-public import Formalism.LocalToGlobal.Columns.WmLemmas
+public import Formalism.LocalToGlobal.Columns.Bundle013
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

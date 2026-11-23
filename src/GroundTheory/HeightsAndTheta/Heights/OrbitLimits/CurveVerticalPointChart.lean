@@ -1,8 +1,8 @@
 module
 
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PSmallSectionsNonzero
-public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.StatementsVertRIndexSteps
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.AvoidRing
+public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.Bundle019
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,10 +1,10 @@
 module
 
-public import GroundTheory.AutomorphicForms.HermitianLocalForms
+public import GroundTheory.AutomorphicForms.Bundle010
 public import GroundTheory.AutomorphicForms.AdelicUnitaryGroups.Topology
 public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Mathlib.NumberTheory.NumberField.Completion.InfinitePlace
-public import GroundTheory.AutomorphicForms.HermitianBinaryValues
+public import GroundTheory.AutomorphicForms.Bundle009
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

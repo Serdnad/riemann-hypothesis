@@ -59,7 +59,7 @@ attribute [local instance] Formalism.BasicNotions.Host.cmStar
 variable {D : D7}
 
 theorem gS_ne : ((gS D : ℕ) : D.host.E) ≠ 0 := by
-  unfold gS; push_cast
+  unfold _root_.Formalism.MainNotions.S.Lat.gS; push_cast
   exact mul_ne_zero (by exact_mod_cast (D.host.g_prime 0).ne_zero) (by exact_mod_cast (D.host.g_prime 1).ne_zero)
 
 theorem qdPow_mem_iff (k : ℕ) (w : D.host.E) : w ∈ qdPow D k ↔ w / ((gS D : ℕ) : D.host.E) ∈ ddPow D k := by

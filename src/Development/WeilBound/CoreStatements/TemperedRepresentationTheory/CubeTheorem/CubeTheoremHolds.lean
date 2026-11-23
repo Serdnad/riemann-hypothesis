@@ -1,13 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.CubeTheorem
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CubeTheoremOfPerfectStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HasModelOfSpreadingStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsProperSpreadsOutStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LbSpreadsStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.PerfectOfModelsStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SchemeModelsSpreadStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SmoothSpreadsOutStatement
+public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.Bundle010
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle602
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle162
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle074
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle281
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle248
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

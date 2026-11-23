@@ -1,6 +1,6 @@
 module
 
-import Development.WeilBound.ThetaLifts.SmallCones.SchInt
+import Development.WeilBound.ThetaLifts.SmallCones.Bundle002
 public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Mathlib.Analysis.Distribution.SchwartzSpace.Basic
 import Mathlib.Algebra.Order.Floor.Extended

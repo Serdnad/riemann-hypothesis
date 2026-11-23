@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalToGlobal.Divisibility.HeckeCSDICommTrRep
-public import Formalism.LocalToGlobal.Columns.RowFormsSym
+public import Formalism.LocalToGlobal.Columns.Bundle010
 public import Formalism.LocalToGlobal.Divisibility.RecBridgeTied
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

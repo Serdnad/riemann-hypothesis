@@ -1,7 +1,7 @@
 module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.WignerHighestWeights.IsAlgIsoRefl
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.HasCohomology
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.Bundle001
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.WignerHighestWeights.AlgIsoLie
 import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.WignerHighestWeights.PairAlg
 import Mathlib.Algebra.Order.Floor.Extended

@@ -2,13 +2,13 @@ module
 
 public import Mathlib.NumberTheory.NumberField.InfinitePlace.TotallyRealComplex
 public import Mathlib.RingTheory.DedekindDomain.AdicValuation.Completion
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.CyclicKummerNormFixedHilbert90Statement
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle037
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsEqPowMulPthPowAdicCompletionUnit
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsIsKum
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsPlaceNotPowAdicCompletionStatement
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsRingHomAdicCompletionUnder
-import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsSupersetMemSUnits
-import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.HeightOneSpectrumPlacesOverFiniteSet
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle024
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle060
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle019
+import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle010
+import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle018
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -54,7 +54,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-public import Development.AbelianVarietyTheory.Definitions.AdelicHermitianForms.MemPowSub
+public import Development.AbelianVarietyTheory.Definitions.AdelicHermitianForms.Bundle002
 
 @[expose] public section
 

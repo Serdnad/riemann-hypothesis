@@ -3,7 +3,7 @@ module
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
 public import Mathlib.RepresentationTheory.Coinduced
 public import Mathlib.RepresentationTheory.Homological.GroupCohomology.Functoriality
-public import GroundTheory.TateCohomology.DimensionShift
+public import GroundTheory.TateCohomology.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

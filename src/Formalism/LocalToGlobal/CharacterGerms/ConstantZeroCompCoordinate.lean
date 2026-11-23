@@ -1,11 +1,11 @@
 module
 
-public import Formalism.LocalToGlobal.CharacterGerms.RankMaximalOfNondegenerateOfUnitSeriesIntegral
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle006
 public import Formalism.LocalToGlobal.CharacterGerms.RowTiePGerm
 import Formalism.FormalGroupLog.FormalGroupLogProofs.ChainRule
 public import Formalism.LocalToGlobal.CharacterGerms.ConstantZeroDoubleMultiplicationPair
 public import Formalism.LocalToGlobal.CharacterGerms.GermEvalOneStandardPointSelf
-public import Formalism.LocalToGlobal.CharacterGerms.RowTieCartAdd
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle009
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -139,7 +139,7 @@ theorem zl_expS (v : Fin dd → C) {f : PS C 2 dd} (hf : constantCoeff f = 0)
       FB.expS C f * pderiv (R := C) ((1 : Fin 2), j) f := by
     unfold FB.expS
     rw [Formalism.G.LogCR.pderiv_psubst hf, PowerSeries.derivative_exp]
-  rw [hd, ev_mul aux_statement_9,
+  rw [hd, PartialDerivEval.ev_mul aux_statement_9,
     FirstUnitSeriesIntegrality.expS_eq, FirstUnitSeriesIntegrality.ev_ex aux_statement_9 f hf,
     hf0, ex_zero, one_mul]
 
@@ -253,7 +253,7 @@ theorem zl_hAB (Y : FBChart C V O dd) {A B : Pt C 1 dd} (hA : ∀ i, constantCoe
     rw [ev_neg hZA, ev_sum hZA]
     congr 1
     refine Finset.sum_congr rfl fun i _ => ?_
-    rw [ev_mul hZA, ev_C, ev_ev hZ hZA]
+    rw [PartialDerivEval.ev_mul hZA, PartialDerivEval.ev_C, ev_ev hZ hZA]
     congr 2
     funext k j
     fin_cases k
@@ -282,7 +282,7 @@ theorem zl_hAB (Y : FBChart C V O dd) {A B : Pt C 1 dd} (hA : ∀ i, constantCoe
         rw [show PAB A B 0 k = comp1 A (pt C (n := 2) dd 0) k from rfl, d_A, mul_zero]
     rw [e0, zero_add, ev_sum aux_statement_9]
     refine Finset.sum_congr rfl fun k _ => ?_
-    rw [show PAB A B 1 k = comp1 B (pt C (n := 2) dd 1) k from rfl, d_B, ev_mul aux_statement_9, eval_pderiv_constant_linear,
+    rw [show PAB A B 1 k = comp1 B (pt C (n := 2) dd 1) k from rfl, d_B, PartialDerivEval.ev_mul aux_statement_9, eval_pderiv_constant_linear,
       ev_ev (zPAB hA hB) aux_statement_9, product_points_at_zero hB]
   simp only [h1, Finset.mul_sum]
   rw [Finset.sum_comm]

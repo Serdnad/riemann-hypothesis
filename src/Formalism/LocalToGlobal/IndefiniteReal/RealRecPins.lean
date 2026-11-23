@@ -1,8 +1,7 @@
 module
 
-public import Formalism.LocalToGlobal.IndefiniteReal.RealRec
-public import Formalism.LocalToGlobal.IndefiniteReal.RealPins
-public import Formalism.LocalToGlobal.IndefiniteReal.TensCastR
+public import Formalism.LocalToGlobal.IndefiniteReal.Bundle030
+public import Formalism.LocalToGlobal.IndefiniteReal.Bundle021
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

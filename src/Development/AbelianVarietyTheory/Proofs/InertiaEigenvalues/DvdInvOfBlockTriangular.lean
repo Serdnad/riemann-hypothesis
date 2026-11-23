@@ -3,7 +3,7 @@ module
 public import Mathlib.LinearAlgebra.Matrix.GeneralLinearGroup.Defs
 public import Mathlib.RingTheory.LocalRing.Defs
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IwahoriFactorisation
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.UdlApply
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle025
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

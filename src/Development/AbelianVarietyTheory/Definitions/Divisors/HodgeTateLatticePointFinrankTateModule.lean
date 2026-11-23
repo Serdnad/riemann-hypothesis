@@ -1,16 +1,15 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsUniqueIsWeilChar
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsPullbackDegPreStrictLineBundleIso
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsCoreOfIsAbelianScheme
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle097
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle070
 public import Development.AbelianVarietyTheory.Definitions.Divisors.LogAbsVpOfNormalised
 public import Mathlib.NumberTheory.Padics.Complex
-import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.PolBaseChangeOfRelAmpleLocal
-import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.IsAbelianSchemeAndExtendOfGenericHoms
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.BijectivePairTOfLev
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TateFreeOfCard
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.AllUniformizationLawsHold
-public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.ValuationCoeEqNorm
+import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle018
+import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle023
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2116
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle127
+public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

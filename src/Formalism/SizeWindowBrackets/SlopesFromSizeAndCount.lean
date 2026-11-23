@@ -1,10 +1,10 @@
 module
 
-public import Formalism.SizeWindowBrackets.Chain2aCoreNoAnalytic
+public import Formalism.SizeWindowBrackets.Bundle003
 public import Formalism.SizeWindowBrackets.SBrDiv
 public import Formalism.SizeWindowBrackets.ErrorFormsWeakWindowsFalse
-public import Formalism.HarderNarasimhan.StatementPl
-public import Formalism.SizeWindowBrackets.RealSlopeBoundsSplit
+public import Formalism.HarderNarasimhan.Bundle001
+public import Formalism.SizeWindowBrackets.Bundle001
 public import Formalism.ThickAverageLoss.PartnersToFactorsAt
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -44,10 +44,9 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Formalism.SizeWindowBrackets.FirstPrimeNeSecondPrime
-import Formalism.SizeWindowBrackets.GrowthBoundGivesRiemannHypothesis
+import Formalism.SizeWindowBrackets.Bundle002
 import Formalism.SizeWindowBrackets.QuotientSlopeBoundsWith
 import Formalism.SizeWindowBrackets.SChain
-import Formalism.SizeWindowBrackets.GaloisToProductIsIso
 
 @[expose] public section
 

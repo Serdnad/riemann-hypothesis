@@ -1,13 +1,13 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.BddGood
-public import Formalism.LocalToGlobal.ProjectiveLattices.ThClassPins
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle008
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle039
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsLocalRingTrivSqZeroExt
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.BddGoodOfBddAll
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CuspidalSectionBoundedNonzeroMultipleStatement
-public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.CdvrExtSt
-import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.IntegralFramedPointBaseChangeStable
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.IntegralFrameAfterExtIffAnd
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle009
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle985
+public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.Bundle041
+import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.Bundle059
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle102
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

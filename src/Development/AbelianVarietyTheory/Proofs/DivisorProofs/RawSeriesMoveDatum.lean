@@ -1,36 +1,34 @@
 module
 
-public import Formalism.LocalToGlobal.ProjectiveLattices.ThClass
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle035
 public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.IsStabForm
-public import Development.AbelianVarietyTheory.BlockTheory.JetGauges.ThetaSpanAdjoint
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ThExprUniqOfChartIndep2
+public import Development.AbelianVarietyTheory.BlockTheory.JetGauges.Bundle005
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle010
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.CardToMultisetEqDegree
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ShortThetaValueExistsUniqueNaturalOfLaws
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle076
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ThetaValueWeightTriangularFrame
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsMatrixDetNotMem
 public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.ChartIndependenceUnconditional
 public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.CmHostIdempotentTraceEqOne
 import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.DualHalfLevelMarkingExistsAndMatch
 public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.EqOfEqComplex
-public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.ExistsAnFibAllPoints
+public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle068
 import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.ExistsEvenRepsTensorLatticeAndSum
-import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.ExistsLiftOfProjective
-import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.FgOfSmulLe
-import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.FramedPointGeneratorIsThetaLevelOne
-import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.HMatMulVecPerCrd
-import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.HeisenbergVacuumProjectionRootOfUnityPhasesStatement
-import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.PolyDerivLetterPushforwardEqColumnActionStatement
+import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle044
+import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle042
+import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle047
+import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle028
+import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle049
+import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle036
 import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.ProdLevelOneThetaEqVacuumTheta
-import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.PushforwardPreservesHarmonicPolynomialsAndLattic
-import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.PushforwardPreservesHarmonicPolynomialsAndLatticStatement
-public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.RatioMemRange
+import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle059
+import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle061
+public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle062
 import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.ReadsExistsUniqueTheta
-import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.RootsLevelPointsSameVacuumTranslatesStatement
-import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.ShortThetaValueComplexPointEqClassicalThetaStatement
-import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.ThetaHeisenbergUnitaryColumnChange
-import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.ThetaSeriesTestFunctionHolomorphicWeight
+import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle032
+import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle045
 import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.ThetaVacuumUnitaryColumnChangeUnitFactor
-import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.AllUniformizationLawsHold
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle127
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -288,15 +286,24 @@ theorem rawSeries_move_datum : ∀ (E : Type) [Field E] [NumberField E] [IsCMFie
     exact Submodule.zero_mem _
   · have e : f = z • z⁻¹ • f := by
       funext p y
-      change f p y = z • z⁻¹ • f p y
-      rw [Algebra.smul_def, Algebra.smul_def, ← mul_assoc, ← map_mul, mul_inv_cancel₀ hz0, map_one, one_mul]
+      let alg : Algebra c.F p.R := Ideal.Quotient.algebra c.F (I := p.I)
+      change f p y = alg.toSMul.smul z (alg.toSMul.smul z⁻¹ (f p y))
+      symm
+      calc
+        _ = algebraMap c.F p.R z * alg.toSMul.smul z⁻¹ (f p y) := alg.smul_def' z _
+        _ = algebraMap c.F p.R z * (algebraMap c.F p.R z⁻¹ * f p y) :=
+          congrArg (algebraMap c.F p.R z * ·) (alg.smul_def' z⁻¹ (f p y))
+        _ = f p y := by rw [← mul_assoc, ← map_mul, mul_inv_cancel₀ hz0, map_one, one_mul]
     rw [e]
     refine Submodule.smul_mem _ _ (Submodule.subset_span ⟨Submodule.smul_mem _ _ hf, _, N', _, k1 hU,
       trivAt_act (triv bad (Dvd.intro_left _ rfl)) hT, hM', hN', k2 P hP, fun p y => ?_⟩)
     obtain ⟨v', hv', e⟩ := hz p.R y _ (hv p y)
     have e2 : (z⁻¹ • f) p y = v' := by
-      change z⁻¹ • f p y = v'
-      rw [e, Algebra.smul_def, ← mul_assoc, ← map_mul, inv_mul_cancel₀ hz0, map_one, one_mul]
+      let alg : Algebra c.F p.R := Ideal.Quotient.algebra c.F (I := p.I)
+      change alg.toSMul.smul z⁻¹ (f p y) = v'
+      calc
+        _ = algebraMap c.F p.R z⁻¹ * f p y := alg.smul_def' z⁻¹ _
+        _ = v' := by rw [e, ← mul_assoc, ← map_mul, inv_mul_cancel₀ hz0, map_one, one_mul]
     rw [e2]
     exact hv'
 

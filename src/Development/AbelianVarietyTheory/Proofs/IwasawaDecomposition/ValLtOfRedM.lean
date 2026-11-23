@@ -1,15 +1,15 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.LatAtLattice
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.AfsplitC
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.TrueColumnSpacesStandardInFrameCoords
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle008
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle339
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ValDetSubOneLt
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.SplitIntLoc
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle006
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Afsplit
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.GlintPrincRelIndexNeZero
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.LevelSubgroupFiniteAdelicStandard
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Levelvsplit
-import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Stabstd
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle007
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle004
+import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -280,7 +280,7 @@ end Gen
 
 section Small
 
-open Formalism.L2.Col Formalism.L2.DIV GlobalTheory.Mem.Chr
+open _root_.Formalism.L2.Col Formalism.L2.DIV GlobalTheory.Mem.Chr
 
 variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E]
   {σ : E →ₐ[F] E} {n : ℕ} {gp : Fin 2 → ℕ}
@@ -466,7 +466,7 @@ theorem act_one {E K : Type} [Field E] [NumberField E] [Field K] {n : ℕ} (S : 
 
 end Small
 
-open Formalism.MainNotions Formalism.L2.Col Formalism.L2.DIV Formalism.L2.Ker GlobalTheory.Mem GlobalTheory.Mem.Chr GlobalTheory.Mem.Col2.TC
+open Formalism.MainNotions _root_.Formalism.L2.Col Formalism.L2.DIV Formalism.L2.Ker GlobalTheory.Mem GlobalTheory.Mem.Chr GlobalTheory.Mem.Col2.TC
 
 attribute [local instance] GlobalTheory.Mem.Col2.starE Formalism.BasicNotions.Host.cmStar
 

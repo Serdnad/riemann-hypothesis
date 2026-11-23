@@ -1,8 +1,8 @@
 module
 
-public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.StatementGK
-public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.ThmSUniform
-public import Formalism.GaussJetBounds.GaussJetProofs.FJEval
+public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.Bundle004
+public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.Bundle003
+public import Formalism.GaussJetBounds.GaussJetProofs.Bundle004
 public import Formalism.GaussJetBounds.GaussJetProofs.GField
 public import Formalism.GaussJetBounds.GaussJetProofs.Labels
 public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.FrobeniusLiftNorms.EChain

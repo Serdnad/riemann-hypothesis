@@ -1,9 +1,9 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.RealPlaces.LocalDualityPlace
+public import GroundTheory.ProfiniteCohomology.RealPlaces.Bundle002
 public import Development.WeilBound.CoreStatements.PublishedTheorems.GlobalEulerCharacteristic.GaloisCohomologyRatios.ModuleFiniteHomRep
 public import GroundTheory.ProfiniteCohomology.GlobalEulerCharacteristic.Kummer
-import Development.WeilBound.CoreStatements.PublishedTheorems.GlobalEulerCharacteristic.GaloisCohomologyRatios.NormalOfGsOpenSubgroupNormal
+import Development.WeilBound.CoreStatements.PublishedTheorems.GlobalEulerCharacteristic.GaloisCohomologyRatios.Bundle001
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

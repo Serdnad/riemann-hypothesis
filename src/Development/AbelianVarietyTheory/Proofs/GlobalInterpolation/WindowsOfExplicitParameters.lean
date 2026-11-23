@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.PairRowIffQdRows
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExplicitRanksBasicBoundsLargeScaleStatement
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ScalePolynomialQuantitiesComparisonStatement
-public import Development.AutomorphicArithmetic.CyclotomicBounds.RootsOfUnity.HostTorsionOrderLe
+public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.Bundle006
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle081
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle050
+public import Development.AutomorphicArithmetic.CyclotomicBounds.RootsOfUnity.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

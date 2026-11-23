@@ -1,6 +1,6 @@
 module
 
-public import Formalism.GaussJetBounds.GenLogInverse
+public import Formalism.GaussJetBounds.Bundle003
 public import Formalism.GaussJetBounds.GaussJetProofs.LogarithmWeightComparison
 import Formalism.GaussJetBounds.GaussJetProofs.SubstitutionWeightBound
 public import Formalism.TorsionNormIteration.InverseIntegralClasses.NormNatCastOfNotDvd

@@ -1,9 +1,9 @@
 module
 
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsLatFamilyCongr
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsExtendLin
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeTateChartDualAction
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeTateChartDualActionStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle053
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle069
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle078
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeTateFreeCmTypeWeight
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

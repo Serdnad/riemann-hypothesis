@@ -3,8 +3,7 @@ module
 public import Mathlib.Analysis.SpecialFunctions.Elliptic.Weierstrass
 public import Mathlib.FieldTheory.IsAlgClosed.Basic
 public import Mathlib.RingTheory.Valuation.ValuationSubring
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.ExistsWeierstrassPMulOde
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.QuotientEqLinearPowCharOfDerivativeEqZero
+public import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle014
 public import Development.AbelianVarietyTheory.Proofs.HeightProofs.ThreeDistinctRoots
 public import Development.AbelianVarietyTheory.Proofs.HeightProofs.WeierstrassPTorsionIntegralAndDistinctMod
 import Mathlib.Algebra.AffineMonoid.UniqueSums

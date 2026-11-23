@@ -1,11 +1,11 @@
 module
 
 public import Development.WeilBound.ThetaLifts.LatticeBasics.ContinuousFlat
-public import Development.WeilBound.ThetaLifts.LatticeBasics.HodgeTateFromSandwich
-public import Development.WeilBound.ThetaLifts.LatticeBasics.BoxSecX
-public import Development.WeilBound.ThetaLifts.LatticeBasics.SchToPol
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle006
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle008
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle004
 import Development.WeilBound.ThetaLifts.LatticeBasics.FarRight
-public import Development.WeilBound.ThetaLifts.LatticeBasics.SWFull
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle010
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

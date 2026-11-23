@@ -1,7 +1,7 @@
 module
 
 public import Formalism.SharpRestriction.LevelLetterCocycles.SumRepresentations
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.AwayRepIsoLoc
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle272
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -42,7 +42,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.HeckeCharEqOfLAdicRealisation
+import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle009
 
 @[expose] public section
 

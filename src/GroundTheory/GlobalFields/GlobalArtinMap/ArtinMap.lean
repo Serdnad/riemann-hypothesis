@@ -1,8 +1,8 @@
 module
 
 public import GroundTheory.GlobalFields.ExistenceTheorem.ExistsIsAbelianGaloisRangeIdeleClassNormEqOfFini
-public import GroundTheory.GlobalFields.NormResidueSymbol.FunctorialLocal
-import GroundTheory.GlobalFields.NormResidueSymbol.RestrictNormalInfiniteLocalSymbol
+public import GroundTheory.GlobalFields.NormResidueSymbol.Bundle004
+import GroundTheory.GlobalFields.NormResidueSymbol.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

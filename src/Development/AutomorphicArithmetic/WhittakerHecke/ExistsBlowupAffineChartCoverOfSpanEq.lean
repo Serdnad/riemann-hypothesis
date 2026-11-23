@@ -2,9 +2,9 @@ module
 
 public import Development.ResolutionOfSingularities.Foundations.BlowupUniversalProperty
 public import Mathlib.Order.CompletePartialOrder
-public import Development.AutomorphicArithmetic.WhittakerHecke.SurjectiveEvalBlowupChartOfSpanEq
+public import Development.AutomorphicArithmetic.WhittakerHecke.Bundle002
 public import Development.ResolutionOfSingularities.Foundations.Blowup.AffineBlowupUniversal
-import Development.ResolutionOfSingularities.Foundations.Blowup.BlowupBasic
+import Development.ResolutionOfSingularities.Foundations.Blowup.Bundle001
 public import Development.ResolutionOfSingularities.Foundations.Blowup.BlowupExistence
 import Development.ResolutionOfSingularities.Foundations.Schemes.IdealSheafData
 import Mathlib.Algebra.Order.Floor.Extended
@@ -51,7 +51,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 public import Development.ResolutionOfSingularities.Foundations.Blowup.AffineBlowupCartier
 import GroundTheory.ArithmeticGeometry.SchemeCohomology.ConsCompSuccAboveZero
-import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProjSpace
+import GroundTheory.ArithmeticGeometry.SchemeCohomology.Bundle003
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsCompletedStrictHens
 
 @[expose] public section

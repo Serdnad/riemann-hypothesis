@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.IsCoreLat
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.PeriodIdealZpowCompletionAdeleConjIff
-import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.FactPrincipalDatum
+public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.Bundle005
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle400
+import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.Bundle002
 import Formalism.LocalToGlobal.ProjectiveLattices.HostInt
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

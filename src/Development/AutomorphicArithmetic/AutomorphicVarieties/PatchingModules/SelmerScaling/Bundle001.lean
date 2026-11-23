@@ -1,0 +1,161 @@
+module
+
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.PatchingModules.PairedDualFirstOrderDualMatrixSpace
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.WittVector.IsPoly
+import Mathlib.Tactic.Basify
+import Mathlib.Tactic.ENatToNat
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.Polynomial.Basic
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Topology.Sheaves.Init
+import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.Bundle004
+
+@[expose] public section
+
+section
+
+open IsLocalRing Matrix UpperTheory.V.Alg UpperTheory.V.W UpperTheory.V.AlgebraTools UpperTheory.V.Pa
+
+private theorem conjugate_diagonal_zero_of_parity {R : Type} [CommRing R] {n : ℕ} (p q : Fin n → Bool)
+    (w wi Z : Matrix (Fin n) (Fin n) R) (h1 : w * wi = 1) (h2 : wi * w = 1)
+    (hw : ∀ i j, p i ≠ q j → w i j = 0) (hZ : ∀ i j, p i = p j → Z i j = 0) (i : Fin n) :
+    (wi * Z * w) i i = 0 := by
+  classical
+  set P : Matrix (Fin n) (Fin n) R := Matrix.diagonal (fun k => if p k then (1 : R) else 0) with hP
+  set Q : Matrix (Fin n) (Fin n) R := Matrix.diagonal (fun k => if q k then (1 : R) else 0) with hQ
+  have hPw : P * w = w * Q := by
+    ext a b
+    rw [hP, hQ, Matrix.diagonal_mul, Matrix.mul_diagonal]
+    by_cases hab : p a = q b
+    · rw [hab, mul_comm]
+    · rw [hw a b hab]; simp
+  have hQwi : Q * wi = wi * P := by
+    calc Q * wi = (wi * w) * Q * wi := by rw [h2, Matrix.one_mul]
+      _ = wi * (w * Q) * wi := by rw [Matrix.mul_assoc wi w Q]
+      _ = wi * (P * w) * wi := by rw [hPw]
+      _ = wi * P * (w * wi) := by simp only [Matrix.mul_assoc]
+      _ = wi * P := by rw [h1, Matrix.mul_one]
+  have hwi : ∀ a b, p b ≠ q a → wi a b = 0 := by
+    intro a b hab
+    have e := congrFun (congrFun hQwi a) b
+    rw [hP, hQ, Matrix.diagonal_mul, Matrix.mul_diagonal] at e
+    cases hpa : p b <;> cases hqa : q a <;> simp_all
+  simp only [Matrix.mul_apply]
+  apply Finset.sum_eq_zero
+  intro k _
+  rw [Finset.sum_mul]
+  apply Finset.sum_eq_zero
+  intro j _
+  by_cases hj : p j = q i
+  · by_cases hk : p k = q i
+    · rw [hZ j k (hj.trans hk.symm)]; ring
+    · rw [hw k i hk]; ring
+  · rw [hwi i j hj]; ring
+
+theorem UpperTheory.V.Pa.oddDiag :
+    ∀ (l : ℕ) [Fact l.Prime] (L : Loc) (G G0 : Glob l L) (h : G.Hom G0) (n : ℕ) (x : NP G0.frame n), ∀ (R : Type) [CommRing R] [Algebra x.A R] (v : L.Vl), x.wX R v * x.wiX R v = 1 ∧ x.wiX R v * x.wX R v = 1 ∧ (∀ Z ∈ Od x.A R n x.a, ∀ i, (x.wiX R v * Z * x.wX R v) i i = 0) ∧ (∀ g, (∀ i j, j < i → (x.wiX R v * x.ρX R (G0.φ v g) * x.wX R v) i j = 0) ∧ ∀ i, (x.wiX R v * x.ρX R (G0.φ v g) * x.wX R v) i i = algebraMap x.A R (x.ψ v i g)) ∧ (∀ g g', x.ρX R (g * g') = x.ρX R g * x.ρX R g') ∧ x.ρX R 1 = 1 ∧ (∀ g, x.ρX R g ∈ Ev x.A R n x.a) ∧ ∀ g, (x.ρX R g)ᵀ * x.ρX R (G0.frame.conj g) = algebraMap x.A R ((G0.frame.eps ℤ_[l] x.A g ^ (1 - (n : ℤ)) : x.Aˣ) : x.A) • (1 : Matrix (Fin n) (Fin n) R) := by
+  intro l _ L G G0 h n x R _ _ v
+  have hmat : ∀ g, mat x.ρ g = ((x.ρ g : GL (Fin n) x.A) : Matrix (Fin n) (Fin n) x.A) := fun g => rfl
+  have hconj : ∀ g, x.wiX R v * x.ρX R g * x.wX R v =
+      ((((x.w v)⁻¹ * x.ρ g * x.w v : GL (Fin n) x.A)) : Matrix (Fin n) (Fin n) x.A).map (algebraMap x.A R) := by
+    intro g
+    simp only [NP.wX, NP.wiX, NP.ρX, hmat, Units.val_mul, Matrix.map_mul]
+  have hw1 : x.wX R v * x.wiX R v = 1 := by
+    simp only [NP.wX, NP.wiX]
+    rw [← Matrix.map_mul, Units.mul_inv, Matrix.map_one _ (map_zero _) (map_one _)]
+  have hw2 : x.wiX R v * x.wX R v = 1 := by
+    simp only [NP.wX, NP.wiX]
+    rw [← Matrix.map_mul, Units.inv_mul, Matrix.map_one _ (map_zero _) (map_one _)]
+  refine ⟨hw1, hw2, ?_, ?_, ?_, ?_, ?_, ?_⟩
+  · intro Z hZ i
+    refine conjugate_diagonal_zero_of_parity (fun k => decide ((k : ℕ) < x.a)) (x.ty v) _ _ Z hw1 hw2 ?_ ?_ i
+    · intro a b hab
+      simp only [NP.wX, Matrix.map_apply]
+      rw [x.w_blk v a b hab, map_zero]
+    · intro a b hab
+      have := (hZ a b).1 (by simpa using hab)
+      simpa using this
+  · intro g
+    have t := x.tri v g
+    refine ⟨fun i j hij => ?_, fun i => ?_⟩
+    · rw [hconj, Matrix.map_apply]
+      exact (congrArg (algebraMap x.A R) (t.1 i j hij)).trans (map_zero _)
+    · rw [hconj, Matrix.map_apply]
+      exact congrArg (algebraMap x.A R) (t.2 i)
+  · intro g g'
+    simp only [NP.ρX, map_mul, Matrix.map_mul]
+  · simp only [NP.ρX, map_one]
+    exact Matrix.map_one _ (map_zero _) (map_one _)
+  · intro g i j
+    have hb := x.blk g i j
+    refine ⟨fun _ => Submodule.mem_top, fun hn => ?_⟩
+    have h0 := hb.2 hn
+    rw [Submodule.mem_bot] at h0 ⊢
+    simp only [NP.ρX, Matrix.map_apply, h0, map_zero]
+  · intro g
+    have e := x.form g
+    have e2 := congrArg (fun M => M.map (algebraMap x.A R)) e
+    simp only [Units.val_one, Matrix.mul_one] at e2
+    simp only [NP.ρX, ← Matrix.transpose_map, ← Matrix.map_mul]
+    rw [e2]
+    ext i j
+    by_cases hij : i = j
+    · simp [Matrix.one_apply, GFrame.eps, hij]
+    · simp [Matrix.one_apply, GFrame.eps, hij]
+end
+
+section
+
+open IsLocalRing Matrix UpperTheory.V.Alg UpperTheory.V.W UpperTheory.V.AlgebraTools UpperTheory.V.Pa
+
+theorem UpperTheory.V.Pa.homBasic :
+    ∀ (l : ℕ) [Fact l.Prime] (L : Loc) (G G0 : Glob l L) (h : G.Hom G0), Function.Surjective h.p₀ ∧ Continuous h.p₀ ∧ (∀ g, h.p₀ (G.frame.conj g) = G0.frame.conj (h.p₀ g)) ∧ (∀ v g, h.p₀ (G.φ v g) = G0.φ v g) ∧ (∀ w, ∀ g ∈ G.frame.Iu w, h.p₀ g ∈ G0.frame.Iu w) ∧ ∀ (O R : Type) [CommRing O] [Algebra ℤ_[l] O] [CommRing R] [Algebra O R] (g : G.G₀), G0.frame.eps O R (h.p₀ g) = G.frame.eps O R g := by
+  intro l _ L G G0 h
+  refine ⟨fun g => ?_, (h.cont.comp continuous_subtype_val).subtype_mk _, fun g => Subtype.ext ?_,
+    fun v g => Subtype.ext (h.φ v g), ?_, fun O R _ _ _ _ g => ?_⟩
+  · obtain ⟨a, ha⟩ := h.surj g
+    exact ⟨⟨a, by rw [MonoidHom.mem_ker, ← h.η, ha]; exact g.2⟩, Subtype.ext ha⟩
+  · change h.p (G.c * g * G.c⁻¹) = G0.c * h.p g * G0.c⁻¹
+    rw [map_mul, map_mul, map_inv, h.c]
+  · rintro w _ ⟨j, hj, rfl⟩
+    exact ⟨j, hj, Subtype.ext (h.φu w j).symm⟩
+  · change Units.map _ (G0.ε (h.p g)) = Units.map _ (G.ε g)
+    rw [h.ε]
+end

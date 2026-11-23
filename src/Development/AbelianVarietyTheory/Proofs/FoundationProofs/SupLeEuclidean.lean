@@ -5,8 +5,8 @@ public import Formalism.SharpRestriction.GlobalSchurBounds.StandardLatticesGL3
 public import Mathlib.Analysis.SpecialFunctions.Elliptic.Weierstrass
 public import Mathlib.Topology.Separation.CompletelyRegular
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.DerivationDenominatorsAndHostFieldSizes
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsPeriodPairIdealCurveLattice
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IntegralLeOfDisjointTranslates
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle228
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle229
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ThetaSpaceSelfDualPairAtMostLine
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

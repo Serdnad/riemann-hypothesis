@@ -1,14 +1,13 @@
 module
 
-public import Formalism.RealPlaceAnalysis.InstMeasurableSpaceUJ
-public import Formalism.RealPlaceAnalysis.SmoothOnG
-public import Formalism.RealPlaceAnalysis.UJLocCompact
-public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.CartanInvolutionConjTransposeMul
-import Formalism.RealPlaceAnalysis.RealPlaceTaylor.ComplexificationHolds
+public import Formalism.RealPlaceAnalysis.Bundle004
+public import Formalism.RealPlaceAnalysis.Bundle002
+public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.Bundle004
+import Formalism.RealPlaceAnalysis.RealPlaceTaylor.Bundle001
 public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.ComplexifiedDerivativeCommutator
 public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.FrobeniusBoundOfMulNearOne
 import Formalism.RealPlaceAnalysis.RealPlaceTaylor.IndefiniteUnitaryPreservesForm
-import Formalism.RealPlaceAnalysis.RealPlaceTaylor.MemUnitaryGroupIffMulConjTranspose
+import Formalism.RealPlaceAnalysis.RealPlaceTaylor.Bundle002
 import Formalism.RealPlaceAnalysis.RealPlaceTaylor.ModularCharacterEqOneOnExpHermitian
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

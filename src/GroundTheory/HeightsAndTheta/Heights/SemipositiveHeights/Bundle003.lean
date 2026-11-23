@@ -1,0 +1,211 @@
+module
+
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle060
+public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Bundle049
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle090
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle071
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PSectionsDimZero
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle026
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle008
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.SimpleRing.Principal
+import Mathlib.Tactic.Basify
+import Mathlib.Tactic.ENatToNat
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Topology.Separation.CompletelyRegular
+import Mathlib.Topology.Sheaves.Init
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle001
+public import ReciprocityTheory.AnalyticForms.PotentialTheory.Bundle004
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterBridgeA
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle012
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle011
+
+@[expose] public section
+
+section
+
+set_option maxSynthPendingDepth 1
+
+namespace GroundTheory.Heights₂.Heights.ForSecondHalf
+
+open MvPolynomial ReciprocityTheory.ChartRestriction.G.Geo ReciprocityTheory.ChartRestriction.G.ArakelovGeometry ReciprocityTheory.ChartRestriction.G.AI.I1
+open GroundTheory.Heights₂.Heights.HilbertSamuel
+
+theorem SiuZB.proof (hK : KodairaGeneric.Statement) (hZ : SectionsDimZero.Statement) : KH.SiuZStatement := by
+  intro K _ ι _ Ω _ _ y D α I hI hV hB hNef hPos
+  classical
+
+  have hagree : ∀ (V : Ideal (MRingOver ℚ ι)) (n : ℕ) (L : Fin n → K → ℤ), IsProjVarF V n →
+      I V n L = NumbersDVR.intNum ℚ V L := by
+    obtain ⟨I₀, -, h₀⟩ := Targets.ExistsUnique.full ℚ ι
+    intro V n L hVn
+    rw [h₀ I hI V n L hVn, h₀ _ (NumbersDVR.IntNumIsFieldIntersection.full ℚ K ι) V n L hVn]
+  have hG : IsProjVarF (KH.genIdeal y) D := isProjVarF_map_of_isArithVar hV
+  have hdeg : 0 < genDeg (mCoordIdeal y) D α := by
+    have h := hagree _ D (fun _ => α) hG
+    rw [h] at hPos
+    exact hPos
+
+  obtain ⟨k, e, hk, he, hmem⟩ :
+      ∃ (k : ℕ) (e : Ω), 1 ≤ k ∧ e ≠ 0 ∧ e ∈ chartLatQ y ((k : ℤ) • α - 1) 1 := by
+    rcases Nat.eq_zero_or_pos D with rfl | hD
+    · have hr := hZ K ι Ω y ((1 : ℕ) • α - 1) 1 hV
+      have hg : genDeg (mCoordIdeal y) 0 ((1 : ℕ) • α - 1) = genDeg (mCoordIdeal y) 0 α := by
+        unfold genDeg
+        congr 1
+        funext j
+        exact j.elim0
+      rw [hg] at hr
+      have hpos : 0 < Module.finrank ℚ (chartLatQ y ((1 : ℕ) • α - 1) 1) := by
+        have : (0 : ℤ) < Module.finrank ℚ (chartLatQ y ((1 : ℕ) • α - 1) 1) := by rw [hr]; exact hdeg
+        exact_mod_cast this
+      have := Module.nontrivial_of_finrank_pos hpos
+      obtain ⟨⟨e, he⟩, hne⟩ := exists_ne (0 : chartLatQ y ((1 : ℕ) • α - 1) 1)
+      refine ⟨1, e, le_rfl, fun h => hne ?_, by simpa using he⟩
+      exact Subtype.ext h
+    · have hnef : NefOnGenericDeg (mCoordIdeal y) α := by
+        intro W hW hPW
+        have hWq : IsProjVarF (W.map (MvPolynomial.map (Int.castRingHom ℚ))) 1 :=
+          isProjVarF_map_of_isArithVar (D := 1) hW
+        have h := hNef _ hWq (Ideal.map_mono hPW)
+        rw [hagree _ 1 _ hWq] at h
+        unfold genDeg
+        convert h using 2
+        funext j
+        fin_cases j
+        rfl
+      exact hK K ι Ω y D α hD hV hB hnef hdeg
+
+  obtain ⟨n, hn, hns⟩ := ChartDenominator.proof K ι Ω y ((k : ℤ) • α - 1) 1 e hmem
+  have hn0 : (n : Ω) ≠ 0 := by exact_mod_cast (show n ≠ 0 by omega)
+  refine ⟨k, hk, (n : Ω) * e, ?_, mul_ne_zero hn0 he⟩
+  have hfun : (fun κ => (k : ℤ) * α κ - 1) = (k : ℤ) • α - 1 := by
+    funext κ
+    simp
+  rw [hfun]
+  exact hns
+
+theorem SiuZB.of_kodaira (hK : KodairaGeneric.Statement) : KH.SiuZStatement :=
+  SiuZB.proof hK SectionsDimZero.proof
+
+end GroundTheory.Heights₂.Heights.ForSecondHalf
+end
+
+section
+
+set_option maxSynthPendingDepth 1
+
+noncomputable section
+
+namespace GroundTheory.Heights₂.Heights.ForSecondHalf
+
+open MeasureTheory Set Filter Topology ReciprocityTheory.AnForm.M ReciprocityTheory.ChartRestriction.G.Geo
+
+section PushForward
+
+variable {e : ℕ} {X : Type} [TopologicalSpace X]
+
+theorem pushForward_integrable [CompactSpace X] [T2Space X] (A : FinHolAtlas e X)
+    (Φ : Fin e → LocPot X) (hΦ : ∀ i, IsPotential A (Φ i)) (q : X → Fin e → ℂ) (S : Set X)
+    (hS : ∀ j, volume ((A.chart j).target ∩ (A.chart j).symm ⁻¹' S) = 0)
+    (hq : ∀ x ∉ S, ∀ j, x ∈ (A.chart j).source →
+      AnalyticAt ℂ (q ∘ (A.chart j).symm) (A.chart j x) ∧
+        LinearMap.det (fderiv ℂ (q ∘ (A.chart j).symm) (A.chart j x) :
+          (Fin e → ℂ) →ₗ[ℂ] (Fin e → ℂ)) ≠ 0)
+    (hfin : ∀ y, (q ⁻¹' {y} \ S).Finite) (g : X → ℝ) (hg : MIntegrable A Φ g) :
+    Integrable (fun y => ∑ᶠ x ∈ q ⁻¹' {y} \ S, g x * pushDens A Φ q x) := by
+  classical
+  have hne : Nonempty (ChartPartition A) := existsPartition A
+  set Pt := hne.some with hPt
+  set hj : Fin A.n → (Fin e → ℂ) → ℝ := fun j u =>
+    Pt.χ j ((A.chart j).symm u) * g ((A.chart j).symm u) * locDens A Φ j u with hhj
+  set Qj : Fin A.n → (Fin e → ℂ) → (Fin e → ℂ) := fun j => q ∘ (A.chart j).symm with hQj
+  set N : Fin A.n → Set (Fin e → ℂ) :=
+    fun j => Qj j '' (goodT A q j ∩ (A.chart j).symm ⁻¹' S) with hNdef
+  have hN : ∀ j, volume (N j) = 0 := by
+    intro j
+    refine addHaar_image_eq_zero_of_differentiableOn_of_addHaar_eq_zero volume ?_ ?_
+    · intro u hu
+      exact (hu.1.2.1.differentiableAt.restrictScalars ℝ).differentiableWithinAt
+    · exact measure_mono_null (inter_subset_inter_left _ fun u (hu : u ∈ goodT A q j) => hu.1) (hS j)
+  have hfib : ∀ j, ∀ y ∉ N j, goodT A q j ∩ Qj j ⁻¹' {y} =
+      (A.chart j) '' ((A.chart j).source ∩ (q ⁻¹' {y} \ S)) :=
+    fun j y hy => goodT_fibre_eq A q S hq j hy
+  have hfinj : ∀ j, ∀ᵐ y, (goodT A q j ∩ Qj j ⁻¹' {y}).Finite := by
+    intro j
+    filter_upwards [measure_eq_zero_iff_ae_notMem.mp (hN j)] with y hy
+    rw [hfib j y hy]
+    exact ((hfin y).subset inter_subset_right).image _
+  have harea : ∀ j, Integrable (fibSum (goodT A q j) (Qj j) (hj j)) := fun j =>
+    (area_open (isOpen_goodT A q j) (fun u hu => hu.2)
+      ((integrableOn_chart A Pt Φ g hg j).mono_set fun u hu => hu.1) (hfinj j)).1
+  refine (integrable_finsetSum Finset.univ fun j _ => harea j).congr ?_
+  have hNall : ∀ᵐ y, ∀ j, y ∉ N j :=
+    ae_all_iff.mpr fun j => measure_eq_zero_iff_ae_notMem.mp (hN j)
+  filter_upwards [hNall] with y hy
+  have hterm : ∀ j, fibSum (goodT A q j) (Qj j) (hj j) y =
+      ∑ᶠ x ∈ q ⁻¹' {y} \ S, Pt.χ j x * (g x * pushDens A Φ q x) := by
+    intro j
+    unfold fibSum
+    rw [hfib j y (hy j), finsum_mem_image ((A.chart j).injOn.mono inter_subset_left)]
+    refine (finsum_mem_congr (g := fun x => Pt.χ j x * (g x * pushDens A Φ q x)) rfl
+      fun x hx => ?_).trans ?_
+    · exact fib_term A Φ hΦ q S hq Pt g j hx.1 hx.2.2
+    · refine finsum_mem_inter_support_eq' _ _ _ fun x hx => ?_
+      have hχ : Pt.χ j x ≠ 0 := left_ne_zero_of_mul hx
+      have hxs : x ∈ (A.chart j).source := Pt.tsupport_subset j (subset_tsupport _ hχ)
+      exact ⟨fun h => h.2, fun h => ⟨hxs, h⟩⟩
+  simp_rw [hterm]
+  rw [finsum_mem_eq_finite_toFinset_sum _ (hfin y)]
+  simp_rw [finsum_mem_eq_finite_toFinset_sum _ (hfin y)]
+  rw [Finset.sum_comm]
+  refine Finset.sum_congr rfl fun x _ => ?_
+  rw [← Finset.sum_mul, Pt.sum_eq_one x, one_mul]
+
+end PushForward
+
+theorem PtsIntegrable.of_resExists (hE : ResExistsStatement) : PtsIntegrableStatement := by
+  intro K _ ι _ P e Ψ L A s hP hΨ hL hA hs
+  obtain ⟨J, ⟨R⟩⟩ := exists_anLogRes hE hP
+  exact (pushForward_integrable R.A (fun j => potOf R (L j)) (fun j => potOf_isPotential R (L j) (hL j))
+    (brQ R Ψ) (brBad R Ψ) (brBad_null R Ψ hP hΨ) (brGood R Ψ) (brFib_finite R Ψ hP hΨ) _
+    (brIntegrable R L A s hP hL hA hs)).congr ((brFibreSum_ae R Ψ L A s hP hΨ hL hA hs).mono fun y hy => hy.symm)
+
+end GroundTheory.Heights₂.Heights.ForSecondHalf
+end
+end

@@ -5,9 +5,9 @@ public import Mathlib.RingTheory.LocalRing.ResidueField.Defs
 public import Mathlib.RingTheory.MvPowerSeries.Derivative
 public import Mathlib.RingTheory.MvPowerSeries.Substitution
 public import Mathlib.RingTheory.Trace.Defs
-public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.MvPowerSeriesEvalOfPowMem
-public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.ExistsTraceEqFormMulDiagonal
-public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.MvPowerSeriesSubstConstTermsLocalAlgHomSpec
+public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.Bundle004
+public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.Bundle002
+public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.Bundle035
 import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.CoeffEqZeroOfMemSpanPow
 import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.IsUnitDetOfProductMapNeZero
 import Mathlib.Algebra.Order.Floor.Extended

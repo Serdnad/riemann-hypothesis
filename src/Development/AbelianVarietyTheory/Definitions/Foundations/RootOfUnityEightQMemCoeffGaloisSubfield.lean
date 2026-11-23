@@ -1,11 +1,11 @@
 module
 
 public import Formalism.LocalRingCardinality.SpanPowerMembership.Places
-public import Formalism.CyclotomicNorms.StatementI
+public import Formalism.CyclotomicNorms.Bundle001
 public import Formalism.LocalRingCardinality.DataHost
-public import Formalism.LocalRingCardinality.DataSpaces
+public import Formalism.LocalRingCardinality.Bundle001
 public import Mathlib.NumberTheory.NumberField.ClassNumber
-public import Formalism.LocalRingCardinality.HostCls
+public import Formalism.LocalRingCardinality.Bundle002
 public import Formalism.LocalRingCardinality.RankBoundMonotoneInDimension
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

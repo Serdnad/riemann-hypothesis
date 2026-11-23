@@ -1,9 +1,9 @@
 module
 
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.WittExactSequences.ObFacts
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.AcrisLevelOneFactsStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.AcrisLevelSequenceFactsStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IntegralRingFactsStatement
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle358
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle213
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle214
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.SourceLatticeInvariance
+public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.Bundle010
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.ReferenceCharactersFactorTame
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ChartReadsAtClassGL
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.CongruentOneMemStepLevelLevelCharEqOne
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle494
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle245
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsMoveRight
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.LocalCharDetEqOneOfCongrOneModPow
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle112
 import Formalism.LocalRingCardinality.SpanPowerMembership.LocAtA
 import Formalism.LocalToGlobal.Columns.QthExistsBound
 import Mathlib.Algebra.Order.Floor.Extended
@@ -48,7 +48,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-import Development.AbelianVarietyTheory.Definitions.LatticeFrames.FiniteDimensionalMram
+import Development.AbelianVarietyTheory.Definitions.LatticeFrames.Bundle004
 import Development.AbelianVarietyTheory.Definitions.LatticeFrames.MidChart
 import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.WittSmallGroupEmbeddingMemPointwiseStabilizerIso
 import Formalism.LocalToGlobal.IndefiniteReal.LinksDefs
@@ -144,7 +144,7 @@ end Val
 
 section Approx
 
-open Formalism.L2.Col
+open _root_.Formalism.L2.Col
 
 variable {E : Type} [Field E] [NumberField E] (P : HeightOneSpectrum (𝓞 E)) {a b : ℕ}
 
@@ -172,7 +172,7 @@ end Approx
 
 section Local
 
-open Formalism.L2.Col
+open _root_.Formalism.L2.Col
 
 variable {E : Type} [Field E] [NumberField E] [StarRing E] {P : HeightOneSpectrum (𝓞 E)} {a b : ℕ}
 
@@ -258,7 +258,7 @@ end Local
 
 section Frames
 
-open Formalism.L2.Col Formalism.L2.DIV Formalism.BasicNotions Formalism.UG GlobalTheory.Mem.Col2
+open _root_.Formalism.L2.Col Formalism.L2.DIV Formalism.BasicNotions Formalism.UG GlobalTheory.Mem.Col2
 
 variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] [StarRing E] {hc : CMData F E} {a b : ℕ}
   {ST SG Q : Finset (HeightOneSpectrum (𝓞 E))}
@@ -379,7 +379,7 @@ end Frames
 
 section Chain
 
-open Formalism.BasicNotions Formalism.L2.DIV Formalism.L2.Col
+open Formalism.BasicNotions Formalism.L2.DIV _root_.Formalism.L2.Col
 
 theorem xiAt_inFr {X : Fields} {Pr : Primes X} {R : Ranks} {Ch : Chars X Pr R.m} {sel : HeightOneSpectrum (𝓞 X.F) → HeightOneSpectrum (𝓞 X.E)}
     {S : Set ℕ} {mu : Tup X.F X.E X.K S} {cst : LocCst X (rowSG Pr sel mu)} {L : ChIdx X Pr R (QE sel (mu : Chr X.F X.E X.K))} {G : ChGlob X R.m} {m2 : ℕ}

@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ValuationGdetKapAt
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsLocallyConstantAddChar
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle324
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle345
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.PadicIsNonarchimedeanLocalField
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IntegralCompBlocks
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SecondCountableLocal
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle051
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -43,7 +43,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.PairPtsClasses
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle287
 
 @[expose] public section
 

@@ -2,15 +2,15 @@ module
 
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.RadicalStalks.IsConst
 import Development.AbelianVarietyTheory.Definitions.Divisors.IsLocalRingTrivSqZeroExt
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AbelianSchemeFirstDeRhamStructure
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsFiniteFlatTorsionHarrisTaylorAbelian
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsIdemKernel
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FiniteGroupSchemeStalkLengthConstantStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FinrankFiberEqCardSectionsMulLengthStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GermSystemHeightFree
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HarrisTaylorLieConditionModHodgeFiltration
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3385
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3372
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1543
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle303
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle581
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle644
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3390
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HarrisTaylorRhoPartLieDeRhamQuotient
-import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ConnectedSpaceSpecOfIsLocalRing
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle041
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.RadicalStalks.ArtTangent
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.RadicalStalks.EpsMulSub
 import Mathlib.Algebra.Order.Floor.Extended
@@ -51,7 +51,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-public import Development.AbelianVarietyTheory.Definitions.Divisors.CompEqOneIffPush
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle017
 
 @[expose] public section
 

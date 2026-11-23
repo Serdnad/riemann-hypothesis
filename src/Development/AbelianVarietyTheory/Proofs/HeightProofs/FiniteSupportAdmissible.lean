@@ -52,7 +52,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.IsUnitOfValEqZero
-public import ReciprocityTheory.SemistableReduction.IntegralClosureRankAndResidueTrdegLe
+public import ReciprocityTheory.SemistableReduction.Bundle010
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section

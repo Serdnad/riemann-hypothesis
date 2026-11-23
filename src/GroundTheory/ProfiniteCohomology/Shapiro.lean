@@ -1,7 +1,7 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.ShapiroDefs
-public import GroundTheory.ProfiniteCohomology.CoinducedModules
+public import GroundTheory.ProfiniteCohomology.Bundle008
+public import GroundTheory.ProfiniteCohomology.Bundle005
 public import GroundTheory.ProfiniteCohomology.ContinuousCochains.LongExactSequence
 public import GroundTheory.ProfiniteCohomology.CohomologyFunctoriality.Naturality
 public import GroundTheory.ProfiniteCohomology.CohomologyFunctoriality.QuotientToInvariantsFunctorPreservesZeroMorphism

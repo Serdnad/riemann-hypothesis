@@ -46,7 +46,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Formalism.SharpRestriction.LevelLetterCocycles.EqZeroOfPowDvd
+import Formalism.SharpRestriction.LevelLetterCocycles.Bundle002
 public import Mathlib.RingTheory.PowerSeries.Inverse
 
 @[expose] public section

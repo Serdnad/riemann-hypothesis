@@ -1,11 +1,10 @@
 module
 
-public import GroundTheory.AutomorphicForms.ReductionSplitting
-public import GroundTheory.AutomorphicForms.ReductionMeasure
+public import GroundTheory.AutomorphicForms.Bundle017
+public import GroundTheory.AutomorphicForms.Bundle012
 public import GroundTheory.AutomorphicForms.QuotientMeasure
-public import GroundTheory.AutomorphicForms.NormDetDiagUnitsPosRealToUnits
+public import GroundTheory.AutomorphicForms.Bundle016
 import GroundTheory.AutomorphicForms.ReductionFinite
-public import GroundTheory.AutomorphicForms.ReductionLocalVolume
 import GroundTheory.GlobalFields.Adele.Topology
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

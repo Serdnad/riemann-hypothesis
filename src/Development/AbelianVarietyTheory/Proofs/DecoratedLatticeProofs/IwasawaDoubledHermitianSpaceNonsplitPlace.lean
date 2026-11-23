@@ -3,14 +3,14 @@ module
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.SphericalVolumeLift
 public import Formalism.SatakeDualWeyl.StatementG
 public import Mathlib.Data.Matrix.ColumnRowPartitioned
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsOfValILeOne
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle095
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsDualFamilyOfIsLattice
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsIsLatticeFrameIsMajorantFrame
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsUniqueIsConjAt
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.TendstoOneOfSummable
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle178
 import Formalism.LocalRingCardinality.ConjSqrtMinusD
-public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.ExistsNatSmulSingle
-import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.IdemSum
+public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.Bundle015
+import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

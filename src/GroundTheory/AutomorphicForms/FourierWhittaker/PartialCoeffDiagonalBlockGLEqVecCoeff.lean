@@ -5,7 +5,7 @@ public import GroundTheory.AutomorphicForms.AutomorphicFormSpaces.HasModerateGro
 public import GroundTheory.AutomorphicForms.FourierWhittaker.Series
 public import Mathlib.Tactic.Monotonicity.Lemmas
 public import Mathlib.Topology.Sheaves.Presheaf
-import GroundTheory.AutomorphicForms.ReductionMeasure
+import GroundTheory.AutomorphicForms.Bundle012
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

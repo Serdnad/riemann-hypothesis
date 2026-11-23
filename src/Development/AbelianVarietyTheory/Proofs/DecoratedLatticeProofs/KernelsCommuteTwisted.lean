@@ -1,7 +1,7 @@
 module
 
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.IndicatorFunctionIdentity
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IndicatorIdentity
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle054
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.PairOperatorStatement
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

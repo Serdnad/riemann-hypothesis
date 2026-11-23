@@ -1,11 +1,10 @@
 module
 
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.TendstoIntUv
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle041
 public import Formalism.HermitianCurvature.StatementNF
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.ExistsFderivChiBound
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.NormCDZPsiCLe
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle035
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.NormDiagonalEntryDilationGeneratorLeOne
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.PairAtTAdjCpt
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle122
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.SumPairAtStarMul
 import Mathlib.Algebra.Order.Archimedean.Real.Hom
 import Mathlib.Algebra.Order.Floor.Extended

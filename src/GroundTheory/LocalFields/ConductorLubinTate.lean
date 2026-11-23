@@ -4,11 +4,11 @@ public import GroundTheory.LocalFields.LubinTateTowerMaps
 public import GroundTheory.LocalFields.SeparableClosureValuation
 public import GroundTheory.LocalFields.HerbrandFunction
 public import GroundTheory.LocalFields.SeparableClosure
-public import GroundTheory.LocalFields.ConductorFormalGroup
+public import GroundTheory.LocalFields.Bundle010
 public import GroundTheory.LocalFields.Different
 import GroundTheory.LocalFields.Eisenstein
 public import GroundTheory.LocalFields.LubinTateLimitGalois
-public import GroundTheory.LocalFields.Monogenic
+public import GroundTheory.LocalFields.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

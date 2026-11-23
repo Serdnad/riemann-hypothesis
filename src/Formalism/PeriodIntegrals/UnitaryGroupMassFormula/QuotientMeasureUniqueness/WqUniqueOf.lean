@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.WeilQuotMeas
+public import Formalism.PeriodIntegrals.Bundle007
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.QuotientMeasureUniqueness.QmuWeight
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

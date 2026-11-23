@@ -1,0 +1,162 @@
+module
+
+public import Development.WeilBound.CoreStatements.CrystallinePeriodRings.InstCommRingBcris
+public import Formalism.LocalRingCardinality.AdicCompletionLocal.InstIsAdicCompleteOCSpanSingletonSetCast
+public import Formalism.SharpRestriction.LevelLetterCocycles.DataNLoc
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Topology.Sheaves.Init
+
+@[expose] public section
+
+section
+
+noncomputable section
+
+namespace Formalism.BasicNotions.CmpTie.Incl
+
+open GroundTheory.PAdicHodge
+
+variable {l : ℕ} [Fact l.Prime] {A B P D : Type} [CommRing A] [CommRing B] [CommRing P] [CommRing D]
+  [Algebra A B] [Algebra P D]
+
+def IsCrisDRA (ι : A →+* P) (f : B →+* D) : Prop :=
+  ∀ x : A, f (algebraMap A B x) = algebraMap P D (ι x)
+
+theorem isCrisDRA_iff (cA : A ≃+* ACris.ACris ℂ_[l] l) (cBc : B ≃+* Formalism.Per6.Bcris l) (cP : P ≃+* Formalism.Per6.BdRp l)
+    (cD : D ≃+* Formalism.Per6.BdR l) (ι : A →+* P)
+    (hB : ∀ x : A, cBc (algebraMap A B x) = Formalism.Per6.cB l (cA x))
+    (hD : ∀ y : P, cD (algebraMap P D y) = algebraMap (Formalism.Per6.BdRp l) (Formalism.Per6.BdR l) (cP y))
+    (hι : ∀ x : A, cP (ι x) = ACris.iota ℂ_[l] l (cA x)) (f : B →+* D) :
+    IsCrisDRA ι f ↔ Formalism.Per6.IsCrisDR l ((cD.toRingHom.comp f).comp cBc.symm.toRingHom) := by
+  constructor
+  · intro hf x6
+    obtain ⟨x, rfl⟩ := cA.surjective x6
+    have h1 : cBc.symm (Formalism.Per6.cB l (cA x)) = algebraMap A B x := by
+      rw [← hB x, RingEquiv.symm_apply_apply]
+    simp only [RingHom.comp_apply, RingEquiv.toRingHom_eq_coe, RingEquiv.coe_toRingHom]
+    rw [h1, hf x, hD, hι]
+  · intro hf x
+    apply cD.injective
+    have h2 := hf (cA x)
+    simp only [RingHom.comp_apply, RingEquiv.toRingHom_eq_coe, RingEquiv.coe_toRingHom] at h2
+    rw [← hB x, RingEquiv.symm_apply_apply] at h2
+    rw [h2, hD, hι]
+
+end Formalism.BasicNotions.CmpTie.Incl
+end
+end
+
+section
+
+noncomputable section
+
+namespace Formalism.BasicNotions.CmpTie
+
+open Formalism.BasicNotions Formalism.BasicNotions.Loc
+open scoped Formalism.Per
+
+variable (l : ℕ) [Fact l.Prime]
+
+def Compat (eB : Per.Bcris l ≃+* Per6.Bcris l) (eD : Per.BdR l ≃+* Per6.BdR l) (eP : Per.BdRp l ≃+* Per6.BdRp l) :
+    Prop :=
+    (∀ z : ℤ_[l], eB (Per.zB l z) = Per6.zB l z) ∧
+    (∀ z : ℤ_[l], eD (Per.zD l z) = Per6.zD l z) ∧
+    (∀ y : Per.BdRp l, eD (algebraMap (Per.BdRp l) (Per.BdR l) y) = algebraMap (Per6.BdRp l) (Per6.BdR l) (eP y)) ∧
+    (∀ y : Per.BdRp l, Per6.θD l (eP y) = Per.θD l y) ∧
+    (∀ (g : GQ l) (b : Per.Bcris l), eB (Per.σB g b) = Per6.σB g (eB b)) ∧
+    (∀ (g : GQ l) (x : Per.BdR l), eD (Per.σD g x) = Per6.σD g (eD x)) ∧
+    (∀ b : Per.Bcris l, eB (Per.φB l b) = Per6.φB l (eB b)) ∧
+    (∀ f : Per.Bcris l →+* Per.BdR l, Per.IsCrisDR l f ↔ Per6.IsCrisDR l ((eD.toRingHom.comp f).comp eB.symm.toRingHom)) ∧
+    (∀ (a : ℤ) (x : Per.BdR l), x ∈ Per.FilD l a ↔ eD x ∈ Per6.FilD l a) ∧
+    (∀ {P : LocPrime l} (AI : LocAinf l P) (y : Per.BdRp l), Per.IsLog l AI.ε y ↔ Per6.IsLog l AI.ε (eP y)) ∧
+    (∀ a : Ainf l, eB (Per.aB l a) = Per6.aB l a)
+
+def Cmp : Prop :=
+  ∃ (eB : Per.Bcris l ≃+* Per6.Bcris l) (eD : Per.BdR l ≃+* Per6.BdR l) (eP : Per.BdRp l ≃+* Per6.BdRp l),
+    Compat l eB eD eP
+
+variable {l} {eB : Per.Bcris l ≃+* Per6.Bcris l} {eD : Per.BdR l ≃+* Per6.BdR l} {eP : Per.BdRp l ≃+* Per6.BdRp l}
+
+theorem Compat.zB (h : Compat l eB eD eP) :
+    ∀ z : ℤ_[l], eB (Per.zB l z) = Per6.zB l z :=
+  h.1
+
+theorem Compat.zD (h : Compat l eB eD eP) :
+    ∀ z : ℤ_[l], eD (Per.zD l z) = Per6.zD l z :=
+  h.2.1
+
+theorem Compat.alg (h : Compat l eB eD eP) :
+    ∀ y : Per.BdRp l, eD (algebraMap (Per.BdRp l) (Per.BdR l) y) = algebraMap (Per6.BdRp l) (Per6.BdR l) (eP y) :=
+  h.2.2.1
+
+theorem Compat.θ (h : Compat l eB eD eP) :
+    ∀ y : Per.BdRp l, Per6.θD l (eP y) = Per.θD l y :=
+  h.2.2.2.1
+
+theorem Compat.σB (h : Compat l eB eD eP) :
+    ∀ (g : GQ l) (b : Per.Bcris l), eB (Per.σB g b) = Per6.σB g (eB b) :=
+  h.2.2.2.2.1
+
+theorem Compat.σD (h : Compat l eB eD eP) :
+    ∀ (g : GQ l) (x : Per.BdR l), eD (Per.σD g x) = Per6.σD g (eD x) :=
+  h.2.2.2.2.2.1
+
+theorem Compat.φB (h : Compat l eB eD eP) :
+    ∀ b : Per.Bcris l, eB (Per.φB l b) = Per6.φB l (eB b) :=
+  h.2.2.2.2.2.2.1
+
+theorem Compat.incl (h : Compat l eB eD eP) :
+    ∀ f : Per.Bcris l →+* Per.BdR l, Per.IsCrisDR l f ↔ Per6.IsCrisDR l ((eD.toRingHom.comp f).comp eB.symm.toRingHom) :=
+  h.2.2.2.2.2.2.2.1
+
+theorem Compat.fil (h : Compat l eB eD eP) :
+    ∀ (a : ℤ) (x : Per.BdR l), x ∈ Per.FilD l a ↔ eD x ∈ Per6.FilD l a :=
+  h.2.2.2.2.2.2.2.2.1
+
+theorem Compat.log (h : Compat l eB eD eP) :
+    ∀ {P : LocPrime l} (AI : LocAinf l P) (y : Per.BdRp l), Per.IsLog l AI.ε y ↔ Per6.IsLog l AI.ε (eP y) :=
+  h.2.2.2.2.2.2.2.2.2.1
+
+theorem Compat.aB (h : Compat l eB eD eP) :
+    ∀ a : Ainf l, eB (Per.aB l a) = Per6.aB l a :=
+  h.2.2.2.2.2.2.2.2.2.2
+
+end Formalism.BasicNotions.CmpTie
+end
+end

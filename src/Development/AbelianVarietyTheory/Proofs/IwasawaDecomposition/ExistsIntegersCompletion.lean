@@ -5,7 +5,7 @@ public import Mathlib.RingTheory.RegularLocalRing.Defs
 public import Mathlib.RingTheory.SimpleRing.Principal
 public import Mathlib.Topology.Algebra.Nonarchimedean.AdicTopology
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NormEqZpowOfMemMaxUnramifiedSubfield
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.NormPowSubPowLe
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle013
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ResEqIff
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -56,7 +56,7 @@ import Mathlib.Topology.Connected.Separation
 import Mathlib.Topology.MetricSpace.Ultra.TotallySeparated
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.GoodChi
+import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle008
 import Development.AbelianVarietyTheory.Definitions.Foundations.RootOfUnityEightQMemCoeffGaloisSubfield
 
 @[expose] public section
@@ -66,6 +66,8 @@ open Formalism.BasicNotions GlobalTheory.Mem GlobalTheory.MemN NumberField IsDed
 noncomputable section
 
 namespace GlobalTheory.BigInt
+
+attribute [local instance 10000] IsDiscreteValuationRing.toIsLocalRing of_isDiscreteValuationRing
 
 section General
 

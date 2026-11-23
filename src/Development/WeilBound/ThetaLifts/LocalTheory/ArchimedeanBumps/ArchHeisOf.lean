@@ -2,10 +2,10 @@ module
 
 public import Development.WeilBound.ThetaLifts.LocalTheory.ArchimedeanBumps.DictIrr
 public import Development.WeilBound.ThetaLifts.LocalTheory.ArchimedeanBumps.ArchSlice
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HasCompactSupportFinprodSchwartzBruhatFiniteAdel
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsLocallyConstantFinprodSchwartzBruhatFiniteAdel
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1769
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1770
 import Development.AutomorphicSpectrum.Proofs.MembershipProofs.ThetaDistributionNonzeroAdmissible
-public import Development.WeilBound.ThetaLifts.CartanFactorisation.TensOfEval
+public import Development.WeilBound.ThetaLifts.CartanFactorisation.Bundle005
 public import Development.WeilBound.ThetaLifts.LocalTheory.ArchimedeanBumps.TracePiReal
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

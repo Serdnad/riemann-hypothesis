@@ -1,9 +1,9 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.EvenCardOfNotLone
-import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsAdmissibleSupersetFinitePlaces
-import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsSupersetMemSUnits
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.AlmostNormFinDiag
+import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle011
+import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle010
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle069
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

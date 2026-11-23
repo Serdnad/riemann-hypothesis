@@ -108,7 +108,7 @@ theorem localMatrixFourier_sum (ψ : AddChar F Circle) (hψ : Continuous ψ) {ι
     funext X
     ring
   · intro p hp
-    have hc : Continuous fun X : Matrix (Fin n) (Fin n) F => (ψ (trace (X * Z)) : ℂ) :=
+    have hc : Continuous fun X : Matrix (Fin n) (Fin n) F => (ψ (Matrix.trace (X * Z)) : ℂ) :=
       (continuous_subtype_val.comp hψ).comp (continuous_id.matrix_mul continuous_const).matrix_trace
     exact (((hT p hp).1.continuous.const_smul (c p)).mul hc).integrable_of_hasCompactSupport
       (((hT p hp).2.smul_left (f := fun _ => c p)).mul_right)

@@ -2,7 +2,7 @@ module
 
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.IsSmoothModerateOfIsAutFunSm
 public import Development.WeilBound.ThetaLifts.FrameEstimates.SquareIntegrableWeilRange
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ModerateGrowthOfHasCompactSupport
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle324
 public import Development.WeilBound.ThetaLifts.FrameEstimates.LeHeightOfIsTorusElt
 public import Development.WeilBound.ThetaLifts.FrameEstimates.LintegralLeOfCover
 import Mathlib.Algebra.Order.Floor.Extended

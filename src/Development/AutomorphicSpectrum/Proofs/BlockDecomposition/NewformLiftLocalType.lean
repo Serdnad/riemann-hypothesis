@@ -2,7 +2,7 @@ module
 
 public import PositivityTheory.AutomorphicForms.PublishedInputs.CuspidalContinuity.ArchimedeanCuspidal.VerticalStrips.UnramifiedEulerProductIntegral
 public import GroundTheory.GlobalFields.CompletionAtPlace.Integers
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HeckeSum
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle288
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

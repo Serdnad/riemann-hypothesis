@@ -1,8 +1,8 @@
 module
 
-public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.ActsLinOfSplitLin
-public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.PlaceS
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.SmulMemLatO
+public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.Bundle003
+public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.Bundle005
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle064
 public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.FinPartDetAtInvInt
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -42,12 +42,12 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.Divisors.KerDatTuple
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle052
 import Development.AbelianVarietyTheory.Definitions.Foundations.ThetaSeriesTies
-import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.ConjTupRefl
+import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle023
 import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsSplitOfMemAdmissibleConjugatePairPlaces
 import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.UnivOfNotLinearIndependent
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.NabBaseChange
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2458
 import Formalism.LocalToGlobal.IndefiniteReal.ExistsChosenExtremalVector
 import Formalism.LocalToGlobal.IndefiniteReal.LinksDefs
 

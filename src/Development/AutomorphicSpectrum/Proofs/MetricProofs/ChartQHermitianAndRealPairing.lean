@@ -1,10 +1,10 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ExistsIsChart
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle080
 import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.ExistsAdaptedUnimodular
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.RiemannFormHermitianLatticeStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ExistsIntPreimageOfOrthogonalKernelStatement
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.ImLowerOnKernel
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle025
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle091
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

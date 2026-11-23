@@ -52,7 +52,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.FourierCoefficientDomain
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.Bundle013
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.LminorSubmatrixCastSucc
 import Std.Tactic.BVDecide.Normalize.Prop
 
@@ -324,8 +324,8 @@ theorem IsBalanced.dot_mulVec {M : Matrix (Fin g) (Fin g) ℂ} (hM : IsBalanced 
 theorem IsBalanced.polyDeriv_exp_mul {M : Matrix (Fin g) (Fin g) ℂ} (hM : IsBalanced X idx M)
     {n : ℕ} {P : Harm.Poly ℂ X.Ψ q0 X.p0 (Fin n)} (hP : Harm.IsHarmonic P) (c : ℂ)
     {G : (Fin n → Fin g → ℂ) → ℂ} (hG : AnalyticAt ℂ G 0) :
-    polyDeriv P (letterDir X hr idx) (fun z => cexp (∑ k, c * (z k ⬝ᵥ M *ᵥ z k)) * G z) 0 =
-      polyDeriv P (letterDir X hr idx) G 0 := by
+    _root_.ReciprocityTheory.ChartRestriction.G.I2.polyDeriv P (letterDir X hr idx) (fun z => cexp (∑ k, c * (z k ⬝ᵥ M *ᵥ z k)) * G z) 0 =
+      _root_.ReciprocityTheory.ChartRestriction.G.I2.polyDeriv P (letterDir X hr idx) G 0 := by
   refine GaussGauge.polyDeriv_exp_balanced_mul_dir hP (fun t a b => c *
     (M (idx.symm (rowOf X hr (t, .inl a))) (idx.symm (rowOf X hr (t, .inr b))) +
       M (idx.symm (rowOf X hr (t, .inr b))) (idx.symm (rowOf X hr (t, .inl a)))))
@@ -424,7 +424,7 @@ theorem isBalanced_sub_splitMat : IsBalanced X idx
 theorem thFr_eq_splitMat {q0 : ℕ} (hr : X.p0 + q0 = r) (n : ℕ) (a b : Fin n → Fin g → ℝ)
     {P : Harm.Poly ℂ X.Ψ q0 X.p0 (Fin n)} (hP : Harm.IsHarmonic P) :
     thFr X hr bas idx n a b P x = (hMat X bas idx x).det ^ (n / 2) *
-      polyDeriv P (letterDir X hr idx) (fun z => ∏ k,
+      _root_.ReciprocityTheory.ChartRestriction.G.I2.polyDeriv P (letterDir X hr idx) (fun z => ∏ k,
         cexp (Real.pi / 2 * (z k ⬝ᵥ splitMat X bas idx x *ᵥ z k)) *
           thetaChar (tauMat X bas idx x) (fun i => (a k i : ℂ)) (fun i => (b k i : ℂ))
             (hMat X bas idx x *ᵥ z k)) 0 := by

@@ -4,7 +4,7 @@ public import Formalism.HermitianCurvature.StatementSz
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.BetaBoundOnBoundary
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CmRingIdempotentUnitRatioIdentity
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.CorollaryAOfPropositionA
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.VandermondeRatioHarmonic
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

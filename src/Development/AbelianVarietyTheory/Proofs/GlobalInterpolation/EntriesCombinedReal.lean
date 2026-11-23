@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.HarishChandraFinite
+public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.Bundle011
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.ExistsNormLeHeightPow
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.SameDegreeZeroFormsSelf
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle014
 public import Formalism.LocalToGlobal.IndefiniteReal.LinksStage
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HcFiniteAndSchurMult
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle371
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -41,14 +41,14 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.EtaJUntw
-import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.PositionOfIntro
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.ThetaChr
+import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle024
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle032
 import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.SetUnipotentTranslate
 import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.ValidForConstructedPointClassesEventuallyWorking
-import Development.AutomorphicArithmetic.PrimeDiscriminants.Scales
+import Development.AutomorphicArithmetic.PrimeDiscriminants.Bundle003
 import Formalism.LocalToGlobal.HilbertRowConditions.IsHilbertCF
-import Formalism.LocalToGlobal.IndefiniteReal.AutomorphicEvaluation
-import Formalism.SharpRestriction.GlobalSchurBounds.TheoremThreeUnderScaleOfGeneral
+import Formalism.LocalToGlobal.IndefiniteReal.Bundle017
+import Formalism.SharpRestriction.GlobalSchurBounds.Bundle004
 
 @[expose] public section
 
@@ -78,7 +78,7 @@ theorem schurAll (hH : GlobalTheory.Published.HarishChandraFinite) (hC : GlobalT
 
 section IndefiniteRowSideFullHecke
 
-open Formalism.L2 Formalism.L2.DIV Formalism.L2.Indef Formalism.L2.Rows Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Cx Formalism.IndefR.Lev Formalism.IndefR.AutomorphicEvaluation
+open _root_.Formalism.L2 Formalism.L2.DIV Formalism.L2.Indef Formalism.L2.Rows Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Cx Formalism.IndefR.Lev Formalism.IndefR.AutomorphicEvaluation
   Formalism.L2.Theta Formalism.L2.SG.RowsJoinPinned GlobalTheory.Mem.R3 GlobalTheory.Mem.SRe
 
 variable {D : D7} {L : SizeData₂ D} {hT : GatTies D} {Gi : Formalism.MainNotions.G.Inst D L} {Gl : Formalism.MainNotions.G.LatInst D} {K : Formalism.MainNotions.G.Consts}
@@ -88,7 +88,7 @@ end IndefiniteRowSideFullHecke
 
 section Wit
 
-open Formalism.L2 Formalism.L2.DIV Formalism.L2.Indef Formalism.L2.Rows Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Cx Formalism.IndefR.Lev Formalism.IndefR.AutomorphicEvaluation
+open _root_.Formalism.L2 Formalism.L2.DIV Formalism.L2.Indef Formalism.L2.Rows Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Cx Formalism.IndefR.Lev Formalism.IndefR.AutomorphicEvaluation
   Formalism.L2.Theta Formalism.L2.SG.RowsJoinPinned GlobalTheory.Mem.SRe
 
 variable {hL : GlobalTheory.Published.LocalLanglandsGL} {p : Prm hL}

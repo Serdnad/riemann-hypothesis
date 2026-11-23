@@ -2,7 +2,7 @@ module
 
 public import Formalism.SharpRestriction.GlobalSchurBounds.TheoremThreeOfExplicitAndCompact
 public import Formalism.SharpRestriction.GlobalSchurBounds.ThickPlacesCorollaryOfAnyTranslate
-import Formalism.LogVandermondeBounds.LogVandermondeProofs.BlockDimensionIdentities
+import Formalism.LogVandermondeBounds.LogVandermondeProofs.Bundle001
 import Formalism.LogVandermondeBounds.LogVandermondeProofs.CardStabilizerVector
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

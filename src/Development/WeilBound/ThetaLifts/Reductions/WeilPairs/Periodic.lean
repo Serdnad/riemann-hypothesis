@@ -1,13 +1,13 @@
 module
 
 public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.Mfac
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LagrInt
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ReindexDblIncM
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RationalMatricesDiscreteCocompactAdelicMatrixSpaStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SetIntegralCompAut
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle369
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1460
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1376
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1199
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ThetaFunctionHeisenbergInvariant
-import Development.AbelianVarietyTheory.Proofs.HeightProofs.MeanSquareAddFundamentalDomainOfCocompact
-public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.SetIntegralAddRight
+import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle007
+public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -45,7 +45,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LagrIntRhoInv
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1533
 
 @[expose] public section
 

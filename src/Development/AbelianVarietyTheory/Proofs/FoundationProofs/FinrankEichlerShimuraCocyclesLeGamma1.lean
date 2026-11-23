@@ -1,12 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Foundations.IsDCReps
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.MemTwInv
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle002
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle034
 public import Mathlib.Algebra.Polynomial.Homogenize
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.FinrankCocycleExtensionLeOrderThreeRelationAddStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.FinrankCocyclesAddTwistedInvariantLeExtensionStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.FinrankOrderThreeRelationAddTwistedInvariantLeStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.FinrankTwistedLeftInvariantMulOfFreeActionStatement
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle103
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

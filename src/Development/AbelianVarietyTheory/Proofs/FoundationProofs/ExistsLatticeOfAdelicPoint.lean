@@ -2,13 +2,13 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.Foundations.NormSumPairRankZeroOfCurveCoordNorm
 public import Formalism.SatakeDualWeyl.DefsCS
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bridge
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle008
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.CsDual
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.CsEasy
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle013
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.CsGlob
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.CsGlobApprox
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.CsSpan
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.LevelSubgroupFiniteAdelicStandard
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle014
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle007
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Stabfin
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

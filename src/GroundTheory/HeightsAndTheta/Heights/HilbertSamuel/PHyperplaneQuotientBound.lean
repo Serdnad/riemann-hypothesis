@@ -1,11 +1,9 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsHyperplaneQuotientBound
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsHyperplaneRegularSection
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsDiagonalSectionDifference
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsSectionLatticeFinite
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PChartDenominator
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PHyperplaneSectionBound
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle060
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle028
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle071
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle070
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

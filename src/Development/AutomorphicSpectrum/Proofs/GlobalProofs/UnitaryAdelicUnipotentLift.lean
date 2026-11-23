@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsBlockEmb
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1911
 public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.LeviEqISupParts
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.BlockEmbNormalises
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2035
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

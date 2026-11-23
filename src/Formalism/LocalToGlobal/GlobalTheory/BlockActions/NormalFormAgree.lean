@@ -2,11 +2,11 @@ module
 
 public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.NfAllSmulReB
 public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.BlkFockLe
-public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.BrOneGFull
-public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.MapMemCSpanOfRat
+public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.Bundle009
+public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.Bundle011
 public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.NormOneOfPow
-public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.RestrictionSymmetric
-import Formalism.LocalToGlobal.HermitianForms.Interlace
+public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.Bundle007
+import Formalism.LocalToGlobal.HermitianForms.Bundle004
 import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.InterlaceDifferenceShiftInvariant
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

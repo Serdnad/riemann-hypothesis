@@ -1,7 +1,7 @@
 module
 
 public import Mathlib.FieldTheory.IsAlgClosed.Basic
-public import ReciprocityTheory.DualLattices.CotangentSurjective
+public import ReciprocityTheory.DualLattices.Bundle007
 public import ReciprocityTheory.DualLattices.DiscriminantColengthStatement
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -54,7 +54,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.DualLattices.ColengthSqBlockVandermonde
-public import ReciprocityTheory.DualLattices.HasLenCokerDet
+public import ReciprocityTheory.DualLattices.Bundle022
 public import ReciprocityTheory.DualLattices.LengthDegreeAbelianVariety
 import ReciprocityTheory.DualLattices.ProdDvdOfIso
 import Development.AbelianVarietyTheory.Definitions.TeichmullerDepth.IsEigBasisIff
@@ -67,8 +67,8 @@ import Mathlib.Topology.Sheaves.Presheaf
 import ReciprocityTheory.DualLattices.FormalChartAtZero
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.CocycleRightZeroThd
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.ChartPullbacks.UniversalCharts.LePreimageOfNil
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PlaceDivisors.StChartF
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.CubicalStructures.CubeSymmetricSwapFirst
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PlaceDivisors.Bundle001
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.CubicalStructures.Bundle001
 
 @[expose] public section
 

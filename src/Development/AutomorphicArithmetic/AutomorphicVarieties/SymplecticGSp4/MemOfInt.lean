@@ -1,16 +1,14 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.BlochKatoSelmerVanishes
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.Bundle004
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.DecompSigmaOrd
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CyclotomicInertiaSpan.IneSpan
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.GalEmbTop
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.Places
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.SplittingFieldIsoQuadratic
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.EptInt
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.FlagL
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.IrrIff
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.Bundle007
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.Bundle006
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.Bundle001
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Bundle016
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Bundle010
 import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.LMemMax
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.PtInSmul
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeGroups.Clifford
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -58,6 +56,8 @@ import Mathlib.Topology.MetricSpace.Ultra.TotallySeparated
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section
+
+attribute [local instance 2000] _root_.DivisionSemiring.to_moduleIsTorsionFree
 
 open NumberField IsDedekindDomain Formalism.ConjugateSelfDual ReciprocityTheory.Gal IsLocalRing UpperTheory.V UpperTheory.V.Base UpperTheory.V.Alg UpperTheory.V.HV UpperTheory.V.GradeZeroInterpolatingElement
 
@@ -117,7 +117,8 @@ private theorem ine_le (Ω : Type) [Field Ω] [CharZero Ω] [IsAlgClosure ℚ Ω
     refine A.valuation.map_add_lt ?_ ?_ <;> rw [map_mul]
     · exact lt_of_le_of_lt (mul_le_of_le_one_left' ((A.valuation_le_one_iff _).2 (intCast_mem A _))) hA
     · exact lt_of_le_of_lt (mul_le_of_le_one_left' ((A.valuation_le_one_iff _).2 (intCast_mem A _))) h3
-  simp at h5
+  rw [map_one] at h5
+  exact (lt_irrefl _) h5
 
 private theorem one_prime {Ω : Type} [Field Ω] (A : ValuationSubring Ω) {p l : ℕ} (h : p.Coprime l)
     (hv' : A.valuation (p : Ω) < 1) : ¬ A.valuation (l : Ω) < 1 := fun hv => by

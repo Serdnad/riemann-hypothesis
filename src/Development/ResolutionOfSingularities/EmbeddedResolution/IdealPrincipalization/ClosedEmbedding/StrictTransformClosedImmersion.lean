@@ -1,6 +1,6 @@
 module
 
-public import Development.ResolutionOfSingularities.EmbeddedResolution.IteratedBlowups.StrictTransformOffCenter
+public import Development.ResolutionOfSingularities.EmbeddedResolution.IteratedBlowups.Bundle002
 import Development.ResolutionOfSingularities.EmbeddedResolution.IteratedBlowups.StrictTransform
 import Development.ResolutionOfSingularities.Foundations.Schemes.SchemeMorphismProperties
 import Mathlib.Algebra.Order.Floor.Extended

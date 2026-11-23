@@ -1,9 +1,9 @@
 module
 
 public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.TameGeneratorWindow
-public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.PairRowIffQdRows
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExplicitRanksBasicBoundsLargeScale
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.HostBoundsTwoMulRpowLogSqLe
+public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.Bundle006
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle073
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle083
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

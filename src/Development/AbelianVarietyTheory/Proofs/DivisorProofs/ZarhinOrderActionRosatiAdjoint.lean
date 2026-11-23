@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.KappaOK
-public import Development.AbelianVarietyTheory.Definitions.Divisors.ToRingActOpOfRingAct
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TwoLeFinrankLa
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.AbelianSchemeIdPowFiniteEtaleSurjective
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2662
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle012
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2672
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle022
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

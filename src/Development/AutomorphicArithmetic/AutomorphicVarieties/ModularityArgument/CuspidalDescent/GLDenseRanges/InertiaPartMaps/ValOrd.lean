@@ -1,7 +1,7 @@
 module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.CuspidalDescent.GLDenseRanges.KirCusp
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsIwasawaDecompositionUpperUnitriangularInte
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle147
 import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.ResMapBijective
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.OrdinaryHeckeCharacters.IndexNeZero
 import Mathlib.Algebra.Order.Floor.Extended
@@ -50,9 +50,9 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.Definitions.Divisors.IsCuspSpaceBot
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle027
 import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.NonemptyEquivOfRangeEq
-import Development.DiscreteGroups.GlobalIrreducibility.LConvCut
+import Development.DiscreteGroups.GlobalIrreducibility.Bundle011
 
 @[expose] public section
 

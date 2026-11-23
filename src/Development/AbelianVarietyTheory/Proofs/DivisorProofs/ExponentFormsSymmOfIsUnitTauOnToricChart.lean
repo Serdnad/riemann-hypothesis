@@ -1,11 +1,11 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.RigidForFan
-public import Development.AbelianVarietyTheory.Definitions.Divisors.HasRigidChart
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle063
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsTauLattice
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsMonomialTauParamsSymm
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MonomialDegenerationUnitPartExists
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsValueAtEqUnitMul
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3080
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2649
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle232
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,6 +1,6 @@
 module
 
-public import Formalism.SharpRestriction.CuspSpanNormBounds.BlockEnds
+public import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle003
 public import Mathlib.RingTheory.Nilpotent.Exp
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

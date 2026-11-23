@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.IsFinSetSplitPlacesCoprimeConductor
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle012
 public import GroundTheory.GlobalFields.TateThesis.EulerFactorsArch
 public import GroundTheory.GlobalFields.TateThesis.HeckeLFunction
-public import GroundTheory.GlobalFields.TateThesis.EulerFactorsInverse
+public import GroundTheory.GlobalFields.TateThesis.Bundle008
 public import GroundTheory.GlobalFields.TateThesis.HeckeTheorem
 import GroundTheory.GlobalFields.TateThesis.HeckeTheoremTrivial
 public import GroundTheory.GlobalFields.TateThesis.Nonvanishing
@@ -54,7 +54,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 public import GroundTheory.GlobalFields.IdeleGroups.IdeleNorms
-public import GroundTheory.GlobalFields.TateThesis.EulerFactors
+public import GroundTheory.GlobalFields.TateThesis.Bundle009
 
 @[expose] public section
 

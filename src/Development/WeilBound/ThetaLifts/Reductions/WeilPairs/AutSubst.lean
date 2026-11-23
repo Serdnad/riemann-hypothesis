@@ -1,9 +1,9 @@
 module
 
-public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.AutDef
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsFdPosFin
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SchurLemmaHeisenbergCommutingThetaOperatorStatement
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.StandardTraceAddCharIsStandardCharOfAdmissibleCM
+public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.Bundle003
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2132
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2104
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1602
 public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.AutSubstA
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

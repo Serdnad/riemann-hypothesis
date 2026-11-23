@@ -42,8 +42,8 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.ProdSubLtEqFactorial
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.HighestWeights.Exists
-import ReciprocityTheory.ReductiveGroups.DiscreteSeries.HighestWeights.HcParamGapGeIndex
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.HighestWeights.Bundle005
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.HighestWeights.Bundle002
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.HighestWeights.Unique
 
 @[expose] public section

@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.HermLat
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsPowSmulMem
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle003
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle016
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsPrincipalIdealRingOfHenselian
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

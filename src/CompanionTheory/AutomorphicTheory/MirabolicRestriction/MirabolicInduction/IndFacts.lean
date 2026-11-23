@@ -1,8 +1,7 @@
 module
 
 public import Development.AbelianVarietyTheory.PublishedTheorems.PublishedFoundations.BlockTriangularOfSubOne
-public import CompanionTheory.AutomorphicTheory.MirabolicRestriction.MirabolicInduction.IndDim
-public import CompanionTheory.AutomorphicTheory.MirabolicRestriction.MirabolicInduction.IndIrr
+public import CompanionTheory.AutomorphicTheory.MirabolicRestriction.MirabolicInduction.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

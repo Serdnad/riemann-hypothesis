@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.HermitianForms.FormsTied
+public import Formalism.LocalToGlobal.HermitianForms.Bundle004
 public import Formalism.SharpRestriction.GlobalSchurBounds.ProductFirstZerothParts
 public import Formalism.LocalToGlobal.GroupLattices.TrivialTransfer.OneAddPowOfSq
 import Mathlib.Algebra.Order.Floor.Extended

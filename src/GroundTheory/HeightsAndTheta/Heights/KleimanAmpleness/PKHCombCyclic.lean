@@ -1,7 +1,6 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.KHCombCyclicSt
-public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.KHCombContractSt
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle025
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

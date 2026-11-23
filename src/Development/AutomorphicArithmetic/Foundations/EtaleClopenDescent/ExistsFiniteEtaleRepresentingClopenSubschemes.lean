@@ -2,10 +2,10 @@ module
 
 public import Mathlib.AlgebraicGeometry.Morphisms.Etale
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
-public import Development.AutomorphicArithmetic.CommutativeAlgebra.ClopRepFiniteEtaleOfConstantRank
+public import Development.AutomorphicArithmetic.CommutativeAlgebra.Bundle008
 public import Development.AutomorphicArithmetic.CommutativeAlgebra.ExistsClopRepOfClopRepOfRank
-public import Development.AutomorphicArithmetic.CommutativeAlgebra.ExistsClopRepOfRankOfLocallyNoetherian
-import Development.AutomorphicArithmetic.CommutativeAlgebra.ExistsClopRepPullback
+public import Development.AutomorphicArithmetic.CommutativeAlgebra.Bundle042
+import Development.AutomorphicArithmetic.CommutativeAlgebra.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -46,7 +46,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsTjCorrDiagModel
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle019
 
 @[expose] public section
 

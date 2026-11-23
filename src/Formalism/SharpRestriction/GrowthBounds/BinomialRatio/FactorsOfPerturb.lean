@@ -1,6 +1,6 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.ExtendedStatementOfParts
+public import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.Bundle004
 public import Formalism.SharpRestriction.GrowthBounds.RootWeights.ValuationNonnegIffIntegral
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

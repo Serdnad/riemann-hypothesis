@@ -1,9 +1,9 @@
 module
 
-public import Formalism.LocalToGlobal.CharacterGerms.FirstVanishingAt
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle033
 public import Formalism.LocalToGlobal.CharacterGerms.RowTiePStartSelf
 public import Formalism.LocalToGlobal.CharacterGerms.ConstantZeroDoubleMultiplicationPair
-import Formalism.LocalToGlobal.CharacterGerms.EndomorphismLimitIntegral
+import Formalism.LocalToGlobal.CharacterGerms.Bundle011
 public import Formalism.LocalToGlobal.CharacterGerms.MaximalOfValuationGeOne
 import Formalism.LocalToGlobal.CharacterGerms.RowTiePLSmallMain
 import Mathlib.Algebra.Order.Floor.Extended

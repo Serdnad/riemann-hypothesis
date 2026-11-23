@@ -1,12 +1,12 @@
 module
 
 public import Formalism.LocalToGlobal.IndefiniteForms.IndefiniteTree.ONPage
-public import Development.AbelianVarietyTheory.Definitions.Jets.CmQuadraticFormEqAlternatingForm
+public import Development.AbelianVarietyTheory.Definitions.Jets.Bundle005
 public import Development.AbelianVarietyTheory.Definitions.Jets.NotRunTiesZeroSteps
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.DegreeWeightKappaLePageBound
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.RunWeightsSum
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle136
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle122
 public import Development.AutomorphicArithmetic.CMTraceForms.CmDatumSmallPrimesLogBoundsOfParams
-public import Formalism.LocalRingCardinality.HostCls
+public import Formalism.LocalRingCardinality.Bundle002
 public import Formalism.SharpRestriction.RamificationFrobenius.TotientGaloisClasses.HostFacts
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

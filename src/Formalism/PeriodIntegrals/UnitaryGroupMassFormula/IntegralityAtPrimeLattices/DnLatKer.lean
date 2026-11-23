@@ -99,7 +99,7 @@ theorem cls_tLd (K : ClsTied u i hi) (c : (D.mem u).C.cls i) (y : Fin (D.R.N i) 
     simp [Formalism.L2.GlobalTheoryTheory.TraceIntegrality.Fr.vi, Nat.cast_smul_eq_nsmul]
   have hGm : ∀ w : Fin (D.R.N i) → TensorProduct D.host.F D.host.E (FiniteAdeleRing (𝓞 D.host.F) D.host.F),
       ((((D.mem u).A.T : ℕ) : D.host.E) • (1 : Matrix (Fin (D.R.N i)) (Fin (D.R.N i)) D.host.E)).map
-        (inclE (F := D.host.F) (FiniteAdeleRing (𝓞 D.host.F) D.host.F)) *ᵥ w = ((D.mem u).A.T) • w := by
+        (_root_.Formalism.UG.inclE (F := D.host.F) (FiniteAdeleRing (𝓞 D.host.F) D.host.F)) *ᵥ w = ((D.mem u).A.T) • w := by
     intro w
     ext k
     simp only [Matrix.mulVec, dotProduct, Matrix.map_apply, Matrix.smul_apply, Matrix.one_apply,

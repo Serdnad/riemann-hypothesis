@@ -3,10 +3,10 @@ module
 public import Development.AbelianVarietyTheory.Statements.PlaceShiftStatements.InfClassAt
 public import Mathlib.RingTheory.Coalgebra.IsFrobenius
 public import Development.AbelianVarietyTheory.Definitions.Foundations.OfInfProjInfMulOfFinProjFin
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RationalUnitaryConjSplitSupportedFiniteAdelicPoi
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1631
 import Formalism.LocalToGlobal.Columns.CoefficientsModP.FkMapInitMinor
 import Formalism.LocalToGlobal.Divisibility.CoefModLemmas
-import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.InclusionInjective
+import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -46,9 +46,9 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.PaddedLastEntry
+import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.Bundle012
 import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.TopPlaceLogTheta
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CosetRefinement
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1019
 public import Mathlib.Algebra.Order.Chebyshev
 
 @[expose] public section

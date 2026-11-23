@@ -2,11 +2,11 @@ module
 
 public import Formalism.LocalToGlobal.GlobalTheory.UnramifiedTrace.DUAllOfParts
 import Formalism.LocalToGlobal.GlobalTheory.GL6.BwAValIntegralNonneg
-public import Formalism.LocalToGlobal.GlobalTheory.GL6.PDnDil
+public import Formalism.LocalToGlobal.GlobalTheory.GL6.Bundle004
 import Formalism.LocalToGlobal.GlobalTheory.GL6.PRLocV
 public import Formalism.LocalToGlobal.GlobalTheory.UnramifiedDiagonal.DiaFun
 public import Formalism.LocalToGlobal.GlobalTheory.UnramifiedTrace.DUPt0FOfVals
-public import Formalism.LocalToGlobal.GlobalTheory.UnramifiedTrace.NatSmulInv
+public import Formalism.LocalToGlobal.GlobalTheory.UnramifiedTrace.Bundle003
 import Formalism.LocalToGlobal.GlobalTheory.UnramifiedTrace.TripMem
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CrossDiagonalMatching.Common
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CrossDiagonalMatching.DnkLkLocP
@@ -49,7 +49,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import Formalism.LocalToGlobal.GlobalTheory.UnramifiedTrace.MulLatSupSpan
+public import Formalism.LocalToGlobal.GlobalTheory.UnramifiedTrace.Bundle002
 
 @[expose] public section
 

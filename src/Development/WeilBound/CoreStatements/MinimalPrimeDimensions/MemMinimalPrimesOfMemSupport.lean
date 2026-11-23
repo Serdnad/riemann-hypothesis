@@ -1,19 +1,18 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.ConeBall
+public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle006
 public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Mathlib.RingTheory.RegularLocalRing.Defs
 public import Mathlib.RingTheory.SimpleRing.Principal
 public import Mathlib.Topology.Separation.CompletelyRegular
 public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Assembly
-import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.LocalMultRadical
-import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PBaseChangeAvoid
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PConeLogBound
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PConeMeetNull
-import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PRadicalBaseChange
-import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PZeroLocusDimH
+import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle005
+import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle011
+public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle010
+public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle016
+import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle004
 import GroundTheory.HeightsAndTheta.Heights.ChowForms.Assembly
-import GroundTheory.HeightsAndTheta.Heights.ChowForms.PConeDimOfChowForm
+import GroundTheory.HeightsAndTheta.Heights.ChowForms.Bundle007
 import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Assembly
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

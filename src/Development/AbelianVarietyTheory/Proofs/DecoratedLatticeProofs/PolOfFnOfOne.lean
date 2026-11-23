@@ -1,31 +1,31 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.KmapEq
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle115
 public import Formalism.LocalToGlobal.KernelLattices.ENatEq
-public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.IndexExponentDegree
+public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.Bundle011
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.SmulCompSmul
 public import Formalism.LocalToGlobal.KernelLattices.ColumnData
 public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.ThetaLocalEquivalence.AtZeroCompProdX
-public import Formalism.LocalToGlobal.KernelLattices.ThEquiv
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.AbsNormEqOfSplit
+public import Formalism.LocalToGlobal.KernelLattices.Bundle002
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle098
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.FirstCoupledKernelEquivariantCosets
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.IntAtOfLocTop
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle146
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.KmapOfOkOfVecP
-import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.NotDvdDifferent
-import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.RelIndexLocPNeZero
-import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.StepBoxIffStepSuppDeg
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle088
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle096
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle081
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ThetaStepDistributionEquivariantRational
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.XiEntryInvariant
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.BaseFieldsDefiniteLaws
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.BaseFieldsPrimesOk
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle277
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle290
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.GmapToAddSubgroup
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HostCmEmbeddingProperties
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LocalIdeleSndSelf
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.OrdFNonnegOfIsInteger
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle163
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle081
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle091
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.OrdSubConjEqNeg
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.UnderEqIffConjPl
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.FiniteDivLatticeQuotient
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ThetaSupportInDivLattice
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle092
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle098
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle114
 import Formalism.HermitianLattices.HermitianLatticesProofs.DualBasic
 import Formalism.LocalRingCardinality.RankBoundMonotoneInDimension
 public import Formalism.LocalToGlobal.KernelLattices.ColumnData.AmbOfENeSd
@@ -34,7 +34,7 @@ public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.KerEquiv
 public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.RkConj
 public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.RkVolLaHyp
 import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.ThetaLocalEquivalence.ThEquivPOf
-public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.ThetaLocalEquivalence.ThEquivPStepCIff
+public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.ThetaLocalEquivalence.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -164,7 +164,7 @@ end Chi
 
 section Ana
 
-open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.MainNotions Formalism.L2.Col Formalism.L2.DIV Formalism.L2.Ker GlobalTheory.Mem GlobalTheory.Mem.Chr GlobalTheory.Mem.Col2
+open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.MainNotions _root_.Formalism.L2.Col Formalism.L2.DIV Formalism.L2.Ker GlobalTheory.Mem GlobalTheory.Mem.Chr GlobalTheory.Mem.Col2
 attribute [local instance] GlobalTheory.Mem.Col2.starE
 
 def carOf (B : GlobalTheory.Mem.Base) : Car := ⟨B.R, B.host, ⟨B.R.Psi, by
@@ -294,7 +294,7 @@ end Ana
 
 section Frames
 
-open Formalism.BasicNotions Formalism.L2.Col Formalism.L2.DIV Formalism.L2.Forms Formalism.L2.Ker GlobalTheory.Mem.Col2 MvPolynomial
+open Formalism.BasicNotions _root_.Formalism.L2.Col Formalism.L2.DIV Formalism.L2.Forms Formalism.L2.Ker GlobalTheory.Mem.Col2 MvPolynomial
 
 variable {E K ι : Type} [Field E] [Field K] [Fintype ι] (emb : ι → E →+* K) (σ : K →+* ℂ)
 
@@ -395,7 +395,7 @@ end Frames
 
 section Theta
 
-open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.HermitianLatticesTheory Formalism.L2.Col Formalism.L2.DIV Formalism.L2.Ker
+open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.HermitianLatticesTheory _root_.Formalism.L2.Col Formalism.L2.DIV Formalism.L2.Ker
 
 variable {E : Type} [Field E] [NumberField E] [StarRing E] {ι : Type} [Fintype ι] {a b : ℕ} (emb : ι → E →+* ℂ) (δ : ℂ)
   (d : ℕ) (sc : ℝ) (AA : Submodule (𝓞 E) E) (SS : Finset (HeightOneSpectrum (𝓞 E))) (N : Submodule (𝓞 E) (Sp E a))
@@ -421,7 +421,7 @@ end Theta
 
 section Datum
 
-open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.HermitianLatticesTheory Formalism.L2.Col Formalism.L2.DIV Formalism.L2.Ker GlobalTheory.Mem.Col2 GlobalTheory.TopStep GlobalTheory.TopLaw
+open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.HermitianLatticesTheory _root_.Formalism.L2.Col Formalism.L2.DIV Formalism.L2.Ker GlobalTheory.Mem.Col2 GlobalTheory.TopStep GlobalTheory.TopLaw
 
 variable {X : Fields} {Pr : Primes X} {R : Ranks} {Ch : Chars X Pr R.m}
   {sel : HeightOneSpectrum (𝓞 X.F) → HeightOneSpectrum (𝓞 X.E)} {S : Set ℕ} {mu : Tup X.F X.E X.K S}
@@ -497,7 +497,7 @@ end Datum
 
 section Scalar
 
-open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.HermitianLatticesTheory Formalism.L2.Col Formalism.L2.DIV Formalism.L2.Ker
+open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.HermitianLatticesTheory _root_.Formalism.L2.Col Formalism.L2.DIV Formalism.L2.Ker
 
 variable {X : Fields} (A : Amb X) {a b : ℕ} {Sa SB : Finset (HeightOneSpectrum (𝓞 X.E))}
   {sel : HeightOneSpectrum (𝓞 X.F) → HeightOneSpectrum (𝓞 X.E)} {mU : HeightOneSpectrum (𝓞 X.E) → X.Kˣ} {mI sS sT : SB → X.E → X.K}
@@ -549,7 +549,7 @@ end Scalar
 
 section Main
 
-open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.HermitianLatticesTheory Formalism.L2.Col Formalism.L2.DIV Formalism.L2.Forms Formalism.L2.Ker GlobalTheory.Mem GlobalTheory.Mem.Col2 GlobalTheory.Mem.Col2.TC GlobalTheory.KerDia
+open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.HermitianLatticesTheory _root_.Formalism.L2.Col Formalism.L2.DIV Formalism.L2.Forms Formalism.L2.Ker GlobalTheory.Mem GlobalTheory.Mem.Col2 GlobalTheory.Mem.Col2.TC GlobalTheory.KerDia
 attribute [local instance] GlobalTheory.Mem.Col2.starE
 
 variable {B : GlobalTheory.Mem.Base} {X : PreX B.toPre} (I : TC B X) (l : I.Laws) (h : I.Ok) (u : B.Word) (a : I.ι) (i : ℕ)

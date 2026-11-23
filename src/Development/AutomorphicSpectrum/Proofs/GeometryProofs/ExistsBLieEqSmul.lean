@@ -4,14 +4,14 @@ public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ModelSm
 public import Mathlib.Algebra.AffineMonoid.Basic
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.HolomorphicFamilies.EigRamData
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsLocalRingTrivSqZeroExt
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AlCSurjectiveAndLinearIndependentBLie
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.BoundStatementHolds
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2213
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2596
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsMapToModel
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HodgeTateInclusionRaynaudExtensionAlgebraicPoint
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LinearIndependentEvLieOfLieTie
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2214
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TestValueEqConstMulReadingSecZ
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.WeilCharSurjectiveAndMapRangeAl
-import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.AllSixAbelianSchemeLawsHold
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2145
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle126
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -48,10 +48,9 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.HolomorphicFamilies.EigRamHelp
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.HolomorphicFamilies.Bundle011
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.HolomorphicFamilies.EigRamVal
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.HolomorphicFamilies.RamifiedEigenLiftsGeneral
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.DiscriminantEstimates.DiscriminantTheorems.TBIdemDen
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.DiscriminantEstimates.DiscriminantTheorems.Bundle001
 
 @[expose] public section
 
@@ -262,7 +261,7 @@ theorem sum_abs_exOf_le (u : GlobalTheory.AllWt.Weight Dw) :
     · have hi := lt_of_lt_of_eq i.2 (hm2 h)
       have e : exOf Dw u 0 (some ⟨τ, i⟩) = (wtOf Dw u 0).1 (τ, i) := rfl
       have key := wtOf_small u 0 ⟨conjEmb τ, conj_mem h⟩ i hi
-      simp only [conjEmb_conjEmb] at key
+      simp only [_root_.GlobalTheory.AllWt.conjEmb_conjEmb] at key
       rw [e, key]
       simp [φ, h, abs_neg]
   have hinj : Function.Injective φ := by
@@ -283,7 +282,7 @@ theorem sum_abs_exOf_le (u : GlobalTheory.AllWt.Weight Dw) :
       omega
     · simp only [φ, dif_neg h, dif_neg h'] at e
       have e1 : conjEmb τ = conjEmb τ' := congrArg (fun x : Psi H × Fin (Dw.p + Dw.q) => x.1.1) e
-      have e3 : τ = τ' := by rw [← conjEmb_conjEmb τ, e1, conjEmb_conjEmb]
+      have e3 : τ = τ' := by rw [← _root_.GlobalTheory.AllWt.conjEmb_conjEmb τ, e1, _root_.GlobalTheory.AllWt.conjEmb_conjEmb]
       subst e3
       have e2 : Dw.p + (Dw.q - 1 - i) = Dw.p + (Dw.q - 1 - i') :=
         congrArg (fun x : Psi H × Fin (Dw.p + Dw.q) => (x.2 : ℕ)) e

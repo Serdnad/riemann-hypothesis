@@ -2,9 +2,9 @@ module
 
 public import Development.AutomorphicArithmetic.ThickFrames.MarkedLow
 public import Formalism.SubspaceCounting.GoodOrbitIntervalTileCondition
-public import Development.AutomorphicArithmetic.ThickFrames.TailLe
+public import Development.AutomorphicArithmetic.ThickFrames.Bundle002
 public import Development.AutomorphicArithmetic.ThickFrames.TilesLe
-import Development.AutomorphicArithmetic.ThickFrames.expectationSpec
+import Development.AutomorphicArithmetic.ThickFrames.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

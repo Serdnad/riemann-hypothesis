@@ -1,0 +1,145 @@
+module
+
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle007
+public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle023
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsUnramifiedExtTorsionPointsGoodReduction
+import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.FormallyUnramifiedOfTangentMapInjective
+import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.IsIsoIffBijectiveOverAlgClosed
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle101
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsMulEquivOfIsGrpPullback
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsCompletedStrictHens
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.AbelianSchemeQuotients.IsAbelianScheme
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle041
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.AlgebraicGeometry.Modules.Sheaf
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Coalgebra.IsFrobenius
+import Mathlib.RingTheory.Henselian
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.RegularLocalRing.Defs
+import Mathlib.RingTheory.WittVector.IsPoly
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle010
+import Development.AbelianVarietyTheory.Definitions.Divisors.MapSmulOfIsHausdorff
+import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.TateUnramifiedOfTorsionUnramified
+import Development.AbelianVarietyTheory.PublishedTheorems.Landherr₂.DimEqZero
+import Development.AbelianVarietyTheory.PublishedTheorems.RelativeAmpleness.RelAmpleAndKTrivIff
+
+@[expose] public section
+
+section
+
+open CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj AlgebraicGeometry
+open scoped CategoryTheory.Obj CategoryTheory.MonObj Pointwise
+open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Geo.Tor
+open GlobalTheory.HTLat GlobalTheory.Published GlobalTheory.Published.AbVarRed IsLocalRing
+attribute [local instance] Over.cartesianMonoidalCategory
+
+noncomputable section
+
+namespace GlobalTheory.SepClosedTorsion
+
+def ptOverHomEquiv {K L : Type} [Field K] [Field L] [Algebra K L] (X : Over (Sp K)) :
+    (ptOver K L ⟶ X) ≃ {x : Sp L ⟶ X.left // x ≫ X.hom = spMap (algebraMap K L)} where
+  toFun y := ⟨y.left, Over.w y⟩
+  invFun x := Over.homMk x.1 x.2
+  left_inv y := Over.OverMorphism.ext rfl
+  right_inv x := rfl
+
+theorem isUnit_natCast_top {K : Type} [Field K] {m : ℕ} (hm : (m : K) ≠ 0) : IsUnit (m : Γ(Sp K, ⊤)) := by
+  simpa using (isUnit_iff_ne_zero.2 hm).map (Scheme.ΓSpecIso (CommRingCat.of K)).inv.hom
+
+theorem card_torsion_eq {K Ω Ω' : Type} [Field K] [Field Ω] [Field Ω'] [Algebra K Ω] [Algebra K Ω']
+    [IsSepClosed Ω] [IsSepClosed Ω'] (A : Over (Sp K)) [GrpObj A] (hA : IsAbelianScheme A) {m : ℕ}
+    (hm : (m : K) ≠ 0) :
+    Nat.card {x : ptOver K Ω ⟶ A // x ^ m = 1} = Nat.card {x : ptOver K Ω' ⟶ A // x ^ m = 1} := by
+  obtain ⟨-, hfin, het⟩ := GrpTangent.finiteEtale_mulN_torsion A (hG := hA) (isUnit_natCast_top hm)
+  rw [← Nat.card_congr (GlobalTheory.TorsionUnram.torsionEquiv A m _), ← Nat.card_congr (GlobalTheory.TorsionUnram.torsionEquiv A m _),
+    Nat.card_congr (ptOverHomEquiv _), Nat.card_congr (ptOverHomEquiv _)]
+  obtain ⟨z⟩ : Nonempty (Sp Ω) := inferInstance
+  obtain ⟨z'⟩ : Nonempty (Sp Ω') := inferInstance
+  rw [(FinEt.card_points_eq_finrank (torsion A m).hom (spMap (algebraMap K Ω)) z).2,
+    (FinEt.card_points_eq_finrank (torsion A m).hom (spMap (algebraMap K Ω')) z').2]
+  haveI : Subsingleton (Sp K) := inferInstanceAs (Subsingleton (PrimeSpectrum K))
+  rw [Subsingleton.elim (spMap (algebraMap K Ω) z) (spMap (algebraMap K Ω') z')]
+
+theorem card_torsion_algClosed {K L : Type} [Field K] [Field L] [IsAlgClosed L] [Algebra K L]
+    (A : Over (Sp K)) [GrpObj A] (hA : IsAbelianScheme A) {g : ℕ} (hg : SmoothOfRelativeDimension g A.hom)
+    {m : ℕ} (hm : (m : K) ≠ 0) :
+    Nat.card {x : ptOver K L ⟶ A // x ^ m = 1} = m ^ (2 * g) := by
+  let t : Sp L ⟶ Sp K := spMap (algebraMap K L)
+  letI : GrpObj ((Over.pullback t).obj A) := Functor.grpObjObj
+  have hgp : IsGrpPullback ((Over.pullback t).obj A) A t (pullback.fst A.hom t) := isGrpPullback_pullback A t
+  have hab : IsAbelianScheme ((Over.pullback t).obj A) := GlobalTheory.isAbelianScheme_pullback_obj t A hA
+  have hdim : SmoothOfRelativeDimension g ((Over.pullback t).obj A).hom :=
+    (smoothOfRelativeDimension_isStableUnderBaseChange _).of_isPullback hgp.1 hg
+  obtain ⟨e, -⟩ := GlobalTheory.exists_mulEquiv_of_isGrpPullback hgp (𝟙 (Sp L)) t (Category.id_comp t).symm
+  have hmL : (m : L) ≠ 0 := by
+    intro h
+    apply hm
+    apply (algebraMap K L).injective
+    simpa using h
+  rw [← GlobalTheory.UU.TorsionCount.card_torsion_points_unconditional L _ g m hab hdim hmL]
+  exact Nat.card_congr (Equiv.subtypeEquiv e.toEquiv fun x => by
+      change x ^ m = 1 ↔ e x ^ m = 1
+      rw [← map_pow, map_eq_one_iff e e.injective]).symm
+
+theorem card_torsion_sepClosed : ∀ (K Ω : Type) [Field K] [Field Ω] [Algebra K Ω] [IsSepClosed Ω] (A : Over (Sp K)) [GrpObj A], IsAbelianScheme A → ∀ g : ℕ, SmoothOfRelativeDimension g A.hom → ∀ m : ℕ, (m : K) ≠ 0 → Nat.card {x : ptOver K Ω ⟶ A // x ^ m = 1} = m ^ (2 * g) := by
+  intro K Ω _ _ _ _ A _ hA g hg m hm
+  rw [card_torsion_eq (Ω' := AlgebraicClosure Ω) A hA hm]
+  exact card_torsion_algClosed A hA hg hm
+
+end GlobalTheory.SepClosedTorsion
+end
+end
+
+section
+
+open CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj AlgebraicGeometry
+open scoped CategoryTheory.Obj CategoryTheory.MonObj Pointwise
+open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Geo.Tor
+open GlobalTheory.HTLat GlobalTheory.Published GlobalTheory.Published.AbVarRed IsLocalRing
+attribute [local instance] Over.cartesianMonoidalCategory
+
+namespace GlobalTheory.AbVarRelDim
+
+theorem exists_relDim : ∀ (K : Type) [Field K] (A : Over (Sp K)) [GrpObj A], IsAbelianScheme A → ∃ g : ℕ, SmoothOfRelativeDimension g A.hom := by
+  intro K _ A _ hA
+  exact GlobalTheory.AbelianDim.exists_relDim K A hA
+
+end GlobalTheory.AbVarRelDim
+end

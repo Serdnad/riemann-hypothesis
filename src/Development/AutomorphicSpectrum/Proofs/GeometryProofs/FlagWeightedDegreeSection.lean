@@ -1,16 +1,16 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsHodgeLine
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle010
 public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.AlternatingMapSumSmulEqDetSmul
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.CoordsAtSmul
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GenericFlagTrdegFormulaStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GenericTrdegEqDimensionStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GramMatrixTwoFrames
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeCptAwayFromPrimesStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle095
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle055
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle138
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle266
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle146
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeCptInteriorFlag
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeCptInteriorGenericStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.InteriorPointPolarisedStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.PairSumFrameAtPointStatement
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle132
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle189
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle267
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

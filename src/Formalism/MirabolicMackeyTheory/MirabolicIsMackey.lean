@@ -1,13 +1,11 @@
 module
 
-public import Formalism.MirabolicMackeyTheory.StatementT
-public import Formalism.MirabolicMackeyTheory.StatementL
-import Formalism.MirabolicMackeyTheory.MirabolicMackeyProofs.IdxPsiGood
+public import Formalism.MirabolicMackeyTheory.Bundle001
+import Formalism.MirabolicMackeyTheory.MirabolicMackeyProofs.Bundle002
 public import Formalism.MirabolicMackeyTheory.MirabolicMackeyProofs.IdxRules
 public import Formalism.MirabolicMackeyTheory.MirabolicMackeyProofs.LemmaGG
 import Formalism.MirabolicMackeyTheory.MirabolicMackeyProofs.Mirabolic
-public import Formalism.MirabolicMackeyTheory.MirabolicMackeyProofs.OnLocal
-import Formalism.MirabolicMackeyTheory.MirabolicMackeyProofs.RamBasic
+public import Formalism.MirabolicMackeyTheory.MirabolicMackeyProofs.Bundle001
 import Formalism.MirabolicMackeyTheory.MirabolicMackeyProofs.ThreeForms
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

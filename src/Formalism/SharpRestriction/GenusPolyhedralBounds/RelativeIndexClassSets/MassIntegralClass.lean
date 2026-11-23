@@ -39,7 +39,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Formalism.SharpRestriction.InertJacobiLevels.ExtraNum
+import Formalism.SharpRestriction.InertJacobiLevels.Bundle003
 public import Mathlib.Algebra.Field.Defs
 public import Mathlib.Algebra.Star.Basic
 public import Mathlib.Basic.Complex.Basic

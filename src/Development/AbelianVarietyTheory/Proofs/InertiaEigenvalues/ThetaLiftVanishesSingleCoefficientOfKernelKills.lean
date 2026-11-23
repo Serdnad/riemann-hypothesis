@@ -1,12 +1,12 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.ParamsEx
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle022
 public import Formalism.LocalToGlobal.IndefiniteReal.LinksStage
-public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.RealLowestKTypeCoeffSquareIntegrable
+public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.Bundle004
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.SetIntegralFundamentalDomainRightTranslateInvari
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.MemRangeSrcForm
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IntegrableOnDownwardThetaLiftIntegrandStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RealFockAction
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle707
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle150
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

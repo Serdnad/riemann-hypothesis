@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.GlobalFields.NormResidueSymbol.RationalLocal
+public import GroundTheory.GlobalFields.NormResidueSymbol.Bundle002
 public import GroundTheory.GlobalFields.NormResidueSymbol.RangeIdeleNormLeKerIdeleSymbol
 public import GroundTheory.GlobalFields.IdeleGroups.Rational
 public import Mathlib.NumberTheory.Cyclotomic.Basic

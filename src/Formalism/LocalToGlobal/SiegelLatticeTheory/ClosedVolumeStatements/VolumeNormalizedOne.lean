@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.SupportG
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.LocProdFormula
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle010
 public import Formalism.SharpRestriction.CuspSpanNormBounds.BruhatCellsKronecker.FamilySeparationBound
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

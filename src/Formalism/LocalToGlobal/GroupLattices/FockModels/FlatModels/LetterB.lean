@@ -4,9 +4,9 @@ import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutJDHatJDRInvEig
 public import Formalism.LocalToGlobal.GroupLattices.FockModels.FlatModels.Letter
 public import Formalism.SharpRestriction.GrowthBounds.ObjSeg
 public import Formalism.GradedWeylDivisibility.FinalD
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.ColLexInitMinor
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LBidetLemmas
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LBidetMinor
+public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle008
+import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle004
+import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

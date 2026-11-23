@@ -1,7 +1,7 @@
 module
 
 public import Mathlib.Data.Nat.Notation
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.HolomorphicIrreducibility.ShapeFacts
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.HolomorphicIrreducibility.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -37,8 +37,8 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import ReciprocityTheory.GaloisValuations.GlobalA
 public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.TrivialOnInertiaOfUnr
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.BlochKatoSelmerVanishes
-import Development.AutomorphicArithmetic.AutomorphicVarieties.PublishedTheorems.GelfandKazhdanReal
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.Bundle004
+import Development.AutomorphicArithmetic.AutomorphicVarieties.PublishedTheorems.Bundle001
 
 @[expose] public section
 
@@ -80,7 +80,7 @@ private theorem cong_mul {a b c d : (Qbar l)ˣ} (h : Cong a b) (h' : Cong c d) (
 
 variable {F Ω : Type} [Field F] [Field Ω] [Algebra F Ω]
 
-private theorem cyc_val (s : G F Ω) :
+private theorem cyc_val (s : _root_.Formalism.ConjugateSelfDual.G F Ω) :
     ((cycBar F Ω l s : (Qbar l)ˣ) : Qbar l) = algebraMap ℚ_[l] (Qbar l) ((cycZ F Ω l s : ℤ_[l]) : ℚ_[l]) := rfl
 
 end CongLemmas
@@ -101,7 +101,7 @@ private theorem cont_units {Γ R : Type} [Group Γ] [TopologicalSpace Γ] [IsTop
   simp only [← map_inv]
   exact h.comp continuous_inv
 
-private theorem cyc_ine [IsAlgClosure F Ω] {A : ValuationSubring Ω} (hA : ¬ A.valuation (l : Ω) < 1) {s : G F Ω}
+private theorem cyc_ine [IsAlgClosure F Ω] {A : ValuationSubring Ω} (hA : ¬ A.valuation (l : Ω) < 1) {s : _root_.Formalism.ConjugateSelfDual.G F Ω}
     (hs : s ∈ Ine (F := F) A) : cycBar F Ω l s = 1 := by
   have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed F
   have : CharZero Ω := charZero_of_injective_algebraMap (algebraMap F Ω).injective
@@ -133,8 +133,8 @@ private theorem cyc_ine [IsAlgClosure F Ω] {A : ValuationSubring Ω} (hA : ¬ A
   apply Units.ext
   rw [cyc_val, h']; simp
 
-private theorem ordAt_tw {n : ℕ} {r : G F Ω →* GL (Fin n) (Qbar l)} {m : Fin n → ℤ} {ψ : Fin n → G F Ω →* (Qbar l)ˣ}
-    {A : ValuationSubring Ω} (h : OrdAt r m ψ A) (δ : G F Ω →* (Qbar l)ˣ) (hn : ∀ s, ‖(δ s : Qbar l)‖ = 1) (a : ℤ)
+private theorem ordAt_tw {n : ℕ} {r : _root_.Formalism.ConjugateSelfDual.G F Ω →* GL (Fin n) (Qbar l)} {m : Fin n → ℤ} {ψ : Fin n → _root_.Formalism.ConjugateSelfDual.G F Ω →* (Qbar l)ˣ}
+    {A : ValuationSubring Ω} (h : OrdAt r m ψ A) (δ : _root_.Formalism.ConjugateSelfDual.G F Ω →* (Qbar l)ˣ) (hn : ∀ s, ‖(δ s : Qbar l)‖ = 1) (a : ℤ)
     (hδ : ∀ s ∈ Ine (F := F) A, δ s = cycBar F Ω l s ^ a) :
     OrdAt (tw r δ) (fun i => m i + a) (fun i => ψ i * δ) A := by
   obtain ⟨κ, h1, h2, h3⟩ := h

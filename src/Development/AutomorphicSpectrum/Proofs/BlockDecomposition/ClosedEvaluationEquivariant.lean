@@ -1,10 +1,10 @@
 module
 
 import Development.WeilBound.RepresentationTheoryGL.UnitaryDualProof.HermitianForms.UnitaryLattices.PositiveShells.ContinuousColElVal
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.AvgVanish
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle317
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.SchwartzBruhatMatrixTranslationModulationIrreduc
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LocallyConstantCompactSupportUnipotentStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SmoothIntegralLinear
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle379
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle316
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

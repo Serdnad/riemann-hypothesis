@@ -2,7 +2,7 @@ module
 
 public import Formalism.LocalToGlobal.GlobalTheory.CoordinateLengths.LenLen2OfCoord
 public import Formalism.LocalToGlobal.GroupLattices.DownNaturalLevelZero
-public import Formalism.LocalToGlobal.GlobalTheory.GL6.LatticeInclusionFamilyOf
+public import Formalism.LocalToGlobal.GlobalTheory.GL6.Bundle003
 import Formalism.LocalToGlobal.GlobalTheory.GL6.WeylLengthDiagonalUnitUniformiser
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

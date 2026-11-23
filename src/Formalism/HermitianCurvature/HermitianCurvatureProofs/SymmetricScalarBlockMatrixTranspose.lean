@@ -1,7 +1,7 @@
 module
 
 public import Formalism.HermitianCurvature.StatementU
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.MulDiagOfTriangular
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle018
 public import Formalism.FormalDegreeBessel.FinalG
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -2,7 +2,7 @@ module
 
 public import Formalism.HermitianCurvature.StatementTL
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.AdmissibleRecOfAdmissibleWord
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.FrameOfAdmissibleWord
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle025
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.L0ConstantPartCommute
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.MinusId
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.RuleGD

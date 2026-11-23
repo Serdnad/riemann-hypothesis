@@ -2,7 +2,7 @@ module
 
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ClsLinCombSingle
 public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.ExistsUniqueLbIsoPullEqOfCoheightLeOne
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.GlueLineBundles
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle104
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

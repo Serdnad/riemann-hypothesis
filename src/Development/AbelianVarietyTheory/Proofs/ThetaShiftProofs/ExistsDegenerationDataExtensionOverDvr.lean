@@ -1,7 +1,7 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.ArchimedeanThetaValues.ModelsAt
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsSabMapOfLbIso
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle083
 import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.NonemptyCubicalPull
 public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.SelfTorusExtensionCoordValuesEqOne
 import Mathlib.Algebra.Order.Floor.Extended
@@ -86,6 +86,9 @@ theorem exists_isPullDeg_of_val {i : R →+* R'} (hi : Function.Injective i) (D 
     (hψ : ∀ (x : D'.X) (z : (TK R').left) J J', Good D.P.L z J → Good D'.P.L z J' →
       val (D.psi (xe x)) (genMap hi) z J = (om w z J J' (D'.xK x))⁻¹ * val (D'.psi x) (𝟙 _) z J') :
     ∃ hD : IsPullDeg i D D', proj hD = Φ := by
+  letI : (Over.pullback (specOf i)).Monoidal :=
+    (Over.instBraidedPullback (f := specOf i)).toMonoidal
+  letI := Functor.grpObjObj (F := Over.pullback (specOf i)) (G := D.P.A)
   obtain ⟨e, e_hom, he⟩ := grpPullback_iso gp (isGrpPullback_pullback D.P.A (specOf i))
   subst he
   have hE : eSec D'.P.A ≫ e.hom.left ≫ pullback.fst D.P.A.hom (specOf i) = specOf i ≫ eSec D.P.A :=

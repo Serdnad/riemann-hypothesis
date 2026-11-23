@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.LatticeDataThicknessBound
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.MatchOfMatchOffTEmpty
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle020
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle019
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -76,11 +76,11 @@ def SeedWU2 (Ty : UnitaryAutomorphicTypeClass) (Gen : ℕ → ℕ → Multiset �
       (∀ z ∈ Z₀, UsPl d z ∧ ((l : ℕ) : 𝓞 E) ∉ z.asIdeal ∧ Apart z w₀ ∧ ApartAll S z) ∧
       ∀ U' : Submodule ℂ (UA E a → ℂ), AutOffT T U' → SameWtOff ι w₀ v' U U' → Wt E l a ι w₀ v' U U' →
       Ty E l a w₀ U' → SphOffU w₀ S U' → (∀ z ∈ Z₀, GenAtU Gen U' z) →
-      ∃ r : G E Ω →* GL (Fin a) (Qbar l), Continuous r ∧ IsSSRep r ∧
-        (∃ (V : Set (G E Ω)) (X : Finset (HeightOneSpectrum (𝓞 E))), IsOpen V ∧ Dense V ∧
+      ∃ r : _root_.Formalism.ConjugateSelfDual.G E Ω →* GL (Fin a) (Qbar l), Continuous r ∧ IsSSRep r ∧
+        (∃ (V : Set (_root_.Formalism.ConjugateSelfDual.G E Ω)) (X : Finset (HeightOneSpectrum (𝓞 E))), IsOpen V ∧ Dense V ∧
           ∀ w, w ∉ X → UsPl d w → ((l : ℕ) : 𝓞 E) ∉ w.asIdeal → ApartAll S w →
-            ∀ B, SatU U' w B → ∀ A : ValuationSubring Ω, IsPlaceOver A w →
-              (∀ s ∈ Ine (F := E) A, r s = 1) ∧ ∀ s : G E Ω, IsFrob A (normV w) s → s ∈ V →
+            ∀ B, SatU U' w B → ∀ A : ValuationSubring Ω, _root_.Formalism.ConjugateSelfDual.IsPlaceOver A w →
+              (∀ s ∈ Ine (F := E) A, r s = 1) ∧ ∀ s : _root_.Formalism.ConjugateSelfDual.G E Ω, IsFrob A (normV w) s → s ∈ V →
                 ((r s⁻¹ : GL (Fin a) (Qbar l)) : Matrix (Fin a) (Fin a) (Qbar l)).charpoly.map ι.toRingHom =
                   ((UpperTheory.V.Af.algSat a (normV w) B).map fun b => Polynomial.X - Polynomial.C b).prod) ∧
         (∀ w ∈ Y, UsPl d w → ((l : ℕ) : 𝓞 E) ∉ w.asIdeal → ApartAll S w →

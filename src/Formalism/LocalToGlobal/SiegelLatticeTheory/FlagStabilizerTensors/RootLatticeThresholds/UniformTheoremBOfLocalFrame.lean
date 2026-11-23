@@ -42,8 +42,8 @@ import Mathlib.Topology.Sheaves.Init
 public import Formalism.LocalRingCardinality.RhoDetPrimeEqMuTildeMulChiPow
 import Formalism.SharpRestriction.CuspSpanNormBounds.BesselShellMomentBounds
 import Formalism.SharpRestriction.CuspSpanNormBounds.LeadMinorK
-import Formalism.SharpRestriction.CuspSpanNormBounds.Point
-import Formalism.SharpRestriction.CuspSpanNormBounds.WeightedUniformRotatedOfExpansion
+import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle001
+import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle018
 
 @[expose] public section
 

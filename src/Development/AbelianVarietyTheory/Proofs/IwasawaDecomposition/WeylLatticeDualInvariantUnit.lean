@@ -1,11 +1,11 @@
 module
 
-public import Formalism.UnipotentAdelicQuotients.WeylLatDual
-public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.ClosedBallValuationSubringToSubring
+public import Formalism.UnipotentAdelicQuotients.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.Bundle002
 public import Formalism.GradedWeylDivisibility.StatementA
 public import Mathlib.Analysis.Normed.Field.Instances
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.WeylRowActionMemWeylLatticeSquare
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LClosedeqLemmas
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle079
+import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

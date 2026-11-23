@@ -6,8 +6,8 @@ public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.PadicIsNo
 public import Mathlib.Algebra.Module.Lattice.Full
 public import Mathlib.Analysis.CStarAlgebra.Classes
 import Aesop.Main
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.AddCharConductorAndHaarIntegersExist
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsClopenIsCompactMapsPair
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle043
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle039
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RootExchangeSupportAndFourierRelation
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

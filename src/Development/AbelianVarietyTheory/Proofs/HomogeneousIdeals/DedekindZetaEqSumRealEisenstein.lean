@@ -5,7 +5,7 @@ public import Mathlib.Analysis.SpecialFunctions.Elliptic.Weierstrass
 public import Mathlib.NumberTheory.Harmonic.EulerMascheroni
 public import Mathlib.NumberTheory.ModularForms.DedekindEta
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.ExistsBasisEmbedding
-public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.ExistsVariableChangeEqLatticeCurve
+public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.Bundle002
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.TendstoRealEisensteinSubPole
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

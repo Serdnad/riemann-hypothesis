@@ -2,7 +2,7 @@ module
 
 public import Development.ResolutionOfSingularities.EmbeddedResolution.ResolutionOfSingularities
 public import Development.ResolutionOfSingularities.Foundations.Schemes.IdealSheafData
-public import Development.ResolutionOfSingularities.Foundations.Schemes.SchemeCoproduct
+public import Development.ResolutionOfSingularities.Foundations.Schemes.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

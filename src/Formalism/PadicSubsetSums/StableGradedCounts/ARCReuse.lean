@@ -1,8 +1,8 @@
 module
 
-public import Formalism.PadicSubsetSums.CentralIdempotents.WindowSums
+public import Formalism.PadicSubsetSums.CentralIdempotents.Bundle001
 public import Formalism.EisensteinCokernelLengths.FactorialValuationBounds.LagrangeIdealSgProof
-public import Formalism.EisensteinCokernelLengths.FactorialValuationBounds.ToolsB
+public import Formalism.EisensteinCokernelLengths.FactorialValuationBounds.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

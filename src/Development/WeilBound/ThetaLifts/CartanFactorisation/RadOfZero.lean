@@ -44,7 +44,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Development.WeilBound.ThetaLifts.CartanFactorisation.SpanOrbitStab
+import Development.WeilBound.ThetaLifts.CartanFactorisation.Bundle001
 public import Mathlib.Analysis.InnerProductSpace.Defs
 
 @[expose] public section

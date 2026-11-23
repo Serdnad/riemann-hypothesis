@@ -1,19 +1,19 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.PadNatZero
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.AdelicUnitriangularMulMemUnipotentTimesIntegral
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsClopenKGLInvEntries
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LocalCutOperatorTransferAdelicWhittaker
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle885
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle495
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1139
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1112
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.WhitMulLocGLDiagPowOfFixed
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.AdelicDiagonalUniformizerCommuteOfOneOff
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.AdelicDiagonalUniformizerEqProdLocalDiagonal
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle591
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle504
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.AdelicIwasawaDecompositionOffFinset
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.EqZeroOfNotAntitoneInt
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsMulSupSFinGL
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IdelicAbsDetPowDiagonalUniformizerMul
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.RankinSelbergLocalTermEqSphericalWhittakerProduc
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SuperDiagBlockGL
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.UnfoldedIntegrandMeasurableInvariantBounded
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle496
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle515
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle578
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle526
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle911
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle895
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -53,7 +53,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-import Development.AbelianVarietyTheory.Definitions.Divisors.UnrOutside
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle036
 
 @[expose] public section
 

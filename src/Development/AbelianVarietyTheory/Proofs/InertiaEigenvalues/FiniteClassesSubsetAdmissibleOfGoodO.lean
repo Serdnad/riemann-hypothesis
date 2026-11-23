@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.ResBound
-public import Development.AbelianVarietyTheory.BlockTheory.NonGaloisCusps.CrystallineExtensions
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle009
+public import Development.AbelianVarietyTheory.BlockTheory.NonGaloisCusps.Bundle006
 public import Formalism.SharpRestriction.LevelLetterCocycles.LocCoh
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsSeriesOfExact
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FiniteLengthOfSmulEqZero
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FiniteQuotientPow
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle255
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

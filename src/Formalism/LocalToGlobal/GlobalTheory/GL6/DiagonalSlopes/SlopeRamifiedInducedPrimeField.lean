@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalToGlobal.Columns.SliceIntegralDeltaNeBot
-public import Formalism.LocalToGlobal.GlobalTheory.GL6.RamifiedLatticePropsOfModel
+public import Formalism.LocalToGlobal.GlobalTheory.GL6.Bundle002
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.DiagonalSlopes.GroupActionMulSingleEqDilation
 import Formalism.LocalToGlobal.GlobalTheory.HLatOpsP
 import Mathlib.Algebra.Order.Floor.Extended

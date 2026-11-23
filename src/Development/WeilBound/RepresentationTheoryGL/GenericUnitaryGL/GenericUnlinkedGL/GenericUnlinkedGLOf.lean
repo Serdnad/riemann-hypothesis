@@ -1,10 +1,10 @@
 module
 
 public import Development.WeilBound.RepresentationTheoryGL.GenericUnitaryGL.GenericUnlinkedGL.UnlinkedRealize
-public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.GenericUnlinkedGL
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.GeometricLemmaOfFiltrationStatement
-public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.BernsteinZelevinskyFinitenessStatement
-public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.HasSupportOfIsSubquotientProdIrr
+public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.Bundle008
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle560
+public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle051
+public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle067
 public import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.GeometricSplitting.Imports
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

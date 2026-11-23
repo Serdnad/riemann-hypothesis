@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.StabilizerCovolume.GaussCM
+public import GroundTheory.HeightsAndTheta.Heights.StabilizerCovolume.Bundle001
 public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.FrameDefinitions.EqZeroOfIsIsoSub
 public import Mathlib.NumberTheory.NumberField.Discriminant.Defs
 import Mathlib.Algebra.Order.Floor.Extended

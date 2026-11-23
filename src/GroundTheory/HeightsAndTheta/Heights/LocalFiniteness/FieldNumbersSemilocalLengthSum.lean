@@ -1,9 +1,9 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.StatementsSemilocalLengthSum
-public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.PFibreFinite
-public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.PFiniteAlgebraLengthSum
-public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.PSemilocalLengthSum
+public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.Bundle012
+public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.Bundle016
+public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.Bundle003
+public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.Bundle019
 public import GroundTheory.HeightsAndTheta.Heights.LocalFiniteness.FieldNumbersLocalIntegralClosureFinite
 public import GroundTheory.HeightsAndTheta.Heights.LocalFiniteness.FieldNumbersSemilocalMaxIdeals
 import GroundTheory.HeightsAndTheta.Heights.LocalFiniteness.HilbertSamuelIrreducibleBasicOpenConnected

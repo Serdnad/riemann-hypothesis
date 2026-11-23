@@ -2,7 +2,7 @@ module
 
 public import Development.AbelianVarietyTheory.PublishedTheorems.PublishedFoundations.BlockTriangularOfSubOne
 public import Development.AbelianVarietyTheory.Definitions.Foundations.SmoothPartStable
-public import Development.AbelianVarietyTheory.Definitions.Divisors.SplitDoublingNBlock
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle022
 public import Mathlib.LinearAlgebra.Matrix.Permutation
 public import Mathlib.LinearAlgebra.PiTensorProduct.Basic
 public import Mathlib.RepresentationTheory.FDRep

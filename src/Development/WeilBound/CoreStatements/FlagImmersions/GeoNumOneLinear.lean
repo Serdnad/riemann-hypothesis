@@ -1,17 +1,16 @@
 module
 
 public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.MetricsProjectionFormulaNef
-public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.HomFracDegZeroEqFunField
-public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.PContractRelDimLe
-public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.IsMultiHomogIdealIff
+public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.Bundle005
+public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.Bundle007
+public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.Bundle003
 import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsArith
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.IsMultiProjPrimeImageZ
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle039
 public import GroundTheory.HeightsAndTheta.Heights.LocalFiniteness.FieldNumbersProjectionFormulaDegree
-import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.ExistsUnique
-import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.GeoNum
+import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle026
 public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.PFnDegRelDeg
-import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.ProjContract
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.ProjDeg
+import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle021
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle022
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -56,7 +55,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.IsMultiHomogIdealChain
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.Bundle011
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section

@@ -1,8 +1,8 @@
 module
 
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.CIndVerb
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle018
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ExpOfPf
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.LinEigPf
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle030
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

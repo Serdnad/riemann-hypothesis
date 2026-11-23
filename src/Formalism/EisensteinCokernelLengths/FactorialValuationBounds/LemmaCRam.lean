@@ -1,9 +1,8 @@
 module
 
-public import Formalism.EisensteinCokernelLengths.RationalTailBound
-public import Formalism.EisensteinCokernelLengths.FactorialValuationBounds.GaussRam
-public import Formalism.GaussValuationBounds.GaussValueContraction.GaussBasic
-public import Formalism.GaussValuationBounds.GaussValueContraction.GaussMul
+public import Formalism.EisensteinCokernelLengths.Bundle001
+public import Formalism.EisensteinCokernelLengths.FactorialValuationBounds.Bundle001
+public import Formalism.GaussValuationBounds.GaussValueContraction.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

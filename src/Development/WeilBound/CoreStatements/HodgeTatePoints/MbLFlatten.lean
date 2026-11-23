@@ -2,10 +2,10 @@ module
 
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.GlueApplyOfNotInFibre
 public import Mathlib.LinearAlgebra.Determinant
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.MaBase
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.MaSerre
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.MbLCentre
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.MbLPulllocCentre
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle017
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle025
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle031
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle033
 public import Development.WeilBound.CoreStatements.HodgeTatePoints.McCramer
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

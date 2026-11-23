@@ -1,8 +1,8 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.NoCommonComponentCoordinatesPlane
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.StPtsPosPartProjIndep
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.StokesObjects
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle008
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle022
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle008
 public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.PtsSumMeasurableA
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -47,7 +47,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Separation.CompletelyRegular
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterFib
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle009
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterSheet
 
 @[expose] public section

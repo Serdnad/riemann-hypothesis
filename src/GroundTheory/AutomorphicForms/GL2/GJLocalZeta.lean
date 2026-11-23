@@ -7,8 +7,8 @@ public import Mathlib.Analysis.CStarAlgebra.Classes
 public import GroundTheory.AutomorphicForms.GL2.ExistsEqPowMulOfValuationLe
 public import GroundTheory.AutomorphicForms.GL2.GJZetaCore
 import GroundTheory.AutomorphicForms.MeasuresGL
-import GroundTheory.AutomorphicForms.SmoothRepContragredient
-import GroundTheory.AutomorphicForms.SmoothRepSchur
+import GroundTheory.AutomorphicForms.Bundle008
+import GroundTheory.AutomorphicForms.Bundle009
 import GroundTheory.LocalFields.SeparableClosureValuation
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended

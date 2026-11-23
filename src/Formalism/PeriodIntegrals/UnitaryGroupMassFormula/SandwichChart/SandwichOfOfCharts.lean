@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.SwSand
+public import Formalism.PeriodIntegrals.Bundle012
 public import Mathlib.Analysis.Matrix.Normed
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

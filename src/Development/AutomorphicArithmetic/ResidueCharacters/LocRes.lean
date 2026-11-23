@@ -3,7 +3,7 @@ module
 public import Formalism.SharpRestriction.LevelLetterCocycles.ElementDenominator
 public import Formalism.SharpRestriction.LevelLetterCocycles.DecompositionData
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FinrankCyclotomicExtAndCyclotomicCharSurjective
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsCrystallineCyclotomicLevelOfFinrankInvariants
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle418
 public import Formalism.SharpRestriction.LevelLetterCocycles.JointConditionsZpowers.BaseFont
 public import Formalism.SharpRestriction.LevelLetterCocycles.JsetEmb
 import Mathlib.Algebra.Order.Floor.Extended

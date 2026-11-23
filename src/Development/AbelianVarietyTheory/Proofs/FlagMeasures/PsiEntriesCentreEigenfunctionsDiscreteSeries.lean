@@ -2,11 +2,11 @@ module
 
 public import Development.AbelianVarietyTheory.Statements.CuspFrameWeights.DiscreteSpectrumKFiniteDecomposition
 public import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.PhiCentreEigenfunctionDiscreteSeriesStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.PsiEntriesRealAnalyticStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.PsiRestrictionHolomorphicNearOneStatement
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle169
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle212
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle233
 public import Formalism.RealPlaceAnalysis.QuotientSettingHolds
-import Formalism.RealPlaceAnalysis.RealPlaceTaylor.CartanInvolutionConjTransposeMul
+import Formalism.RealPlaceAnalysis.RealPlaceTaylor.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

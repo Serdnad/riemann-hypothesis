@@ -2,8 +2,8 @@ module
 
 public import Formalism.LocalRingCardinality.DataForced
 public import Formalism.LocalRingCardinality.RankBoundMonotoneInDimension
-public import Formalism.LocalToGlobal.Columns.CoefficientsModP
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.LpLower
+public import Formalism.LocalToGlobal.Columns.Bundle031
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

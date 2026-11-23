@@ -3,7 +3,7 @@ module
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.MeasurePreservingOfBall
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IntegralUnipotentMiddleRowMemHomLattice
 public import Development.AbelianVarietyTheory.Definitions.ThetaMetrics.IsAddFundamentalDomainLatticeDomain
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.CovolumeInverseDifferentPowMulLattice
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle189
 import Mathlib.Algebra.Order.Archimedean.Real.Hom
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -539,11 +539,11 @@ theorem inv_gS {c : ℝ} (hc : 0 < c) (w : InfinitePlace E) :
   simp [gS, Matrix.mul_apply, hc']
 
 theorem detNorm_gS {c : ℝ} (hc : 0 < c) :
-    detNorm E 1 (gS E c) = (c ^ (2 * Fintype.card (InfinitePlace E)))⁻¹ := by
-  simp [detNorm, gS, Matrix.det_fin_one, Finset.prod_const, Finset.card_univ, ← pow_mul, abs_of_pos hc, mul_comm]
+    GlobalTheory.FlagMeas.detNorm E 1 (gS E c) = (c ^ (2 * Fintype.card (InfinitePlace E)))⁻¹ := by
+  simp [GlobalTheory.FlagMeas.detNorm, gS, Matrix.det_fin_one, Finset.prod_const, Finset.card_univ, ← pow_mul, abs_of_pos hc, mul_comm]
 
 theorem detNorm_gC {m : ℕ} {C : InfinitePlace E → Matrix (Fin m) (Fin m) ℂ} (hC : ∀ w, IsUnit (C w).det) :
-    0 < detNorm E m (gC E C) := by
+    0 < GlobalTheory.FlagMeas.detNorm E m (gC E C) := by
   refine Finset.prod_pos fun w _ => pow_pos (norm_pos_iff.2 ?_) _
   have : (Matrix.of (gC E C w)) = (C w)⁻¹ := rfl
   rw [this, Matrix.det_nonsing_inv]
@@ -553,11 +553,11 @@ theorem covAt_line (hE : IsTotallyComplex E) {I : FractionalIdeal (𝓞 E)⁰ E}
     covAt E 1 (latAt E 1 (lineLat E I) (gS E c)) =
       (FractionalIdeal.absNorm I : ℝ) * Formalism.HermitianLatticesTheory.vInv E ^ Formalism.HermitianLatticesTheory.fDeg E *
         c ^ (2 * Fintype.card (InfinitePlace E)) := by
-  have hg : 0 < detNorm E 1 (gS E c) := by
+  have hg : 0 < GlobalTheory.FlagMeas.detNorm E 1 (gS E c) := by
     rw [detNorm_gS E hc]; positivity
   rw [covAt_latAt E hE (lineLat E I) 1 (fun _ => I) (by simp) (fun _ => hI) (fun y => ?_) (gS E c) hg]
   · have h1 : ∏ w : InfinitePlace E, ‖(((1 : Matrix (Fin 1) (Fin 1) E).map w.embedding) * Matrix.of (gS E c w)).det‖ ^ 2 =
-        detNorm E 1 (gS E c) := by
+        GlobalTheory.FlagMeas.detNorm E 1 (gS E c) := by
       refine Finset.prod_congr rfl fun w _ => ?_
       rw [Matrix.map_one _ (map_zero _) (map_one _), Matrix.one_mul]
     rw [h1, detNorm_gS E hc]
@@ -600,7 +600,7 @@ theorem exists_core (hE : IsTotallyComplex E) {m : ℕ} (Λ' : Submodule (𝓞 E
             ext i j; simp
           rw [e, Matrix.mul_smul, Matrix.smul_mul, ← h]
           rfl }
-  have hg : 0 < detNorm E 1 (gS E c) := by
+  have hg : 0 < GlobalTheory.FlagMeas.detNorm E 1 (gS E c) := by
     rw [detNorm_gS E hc]; positivity
   obtain ⟨hd, hz, hcov⟩ := homCovolume E hE 1 m (lineLat E I) Λ' (isFullLattice_lineLat E hI) hΛ' (gS E c) (gC E C)
     hg (detNorm_gC E hC) L₃ (fun z => Iff.rfl)

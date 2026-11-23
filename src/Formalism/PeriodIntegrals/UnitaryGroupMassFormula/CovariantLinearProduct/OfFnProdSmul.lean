@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.ContractionsCovariantIff
+public import Formalism.PeriodIntegrals.Bundle026
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,10 +1,10 @@
 module
 
 public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.HasCharSub
-public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.ConjQdet
-public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.LeviSubspaceInvariantUnderBlocksStatement
-public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.QuantumDeterminantAntiHomomorphismStatement
-public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.QuantumDeterminantBlockEigenvalueStatement
+public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.Bundle039
+public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.Bundle073
+public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.Bundle072
+public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.Bundle074
 public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.TensorQuotientQuantumDeterminantEigenStatement
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -57,7 +57,7 @@ open Finset
 
 namespace GlobalTheory.CompanionTheory.RgTransport
 
-open CompanionTheory.RgExh CompanionTheory.RgExh.Dec CompanionTheory.RgExh.Dec.J Formalism.REAL ReciprocityTheory.ChartRestriction.DS GlobalTheory.SmGL
+open _root_.CompanionTheory.RgExh CompanionTheory.RgExh.Dec CompanionTheory.RgExh.Dec.J Formalism.REAL ReciprocityTheory.ChartRestriction.DS GlobalTheory.SmGL
 
 variable {n : ℕ}
 

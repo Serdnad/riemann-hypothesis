@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CosetRefinement
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.LambdaCharMulInvEqOne
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1019
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle098
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

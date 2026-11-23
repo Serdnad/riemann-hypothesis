@@ -4,11 +4,11 @@ public import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.
 public import Development.WeilBound.RepresentationTheoryGL.GenericUnitaryGL.LeibnizOrders.ProdGPn
 public import Mathlib.Algebra.Order.PUnit
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.NonemptyEquivMultiProdOne
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsSmoothSmInd
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MirabolicPhiMinusExactStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MirabolicPsiMinusExactStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SmoothPhiMinusStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SmoothPsiMinusStatement
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle122
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle174
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle175
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle146
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle147
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

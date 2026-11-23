@@ -1,10 +1,10 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.GlobalEulerCharacteristic.ShapiroDefs
-public import GroundTheory.ProfiniteCohomology.EulerCharDefs
+public import GroundTheory.ProfiniteCohomology.GlobalEulerCharacteristic.Bundle001
+public import GroundTheory.ProfiniteCohomology.Bundle006
 public import Mathlib.GroupTheory.Index
 public import Mathlib.Topology.Algebra.ContinuousMonoidHom
-public import GroundTheory.ProfiniteCohomology.RestrictedRamification.BaseChangeModules
+public import GroundTheory.ProfiniteCohomology.RestrictedRamification.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

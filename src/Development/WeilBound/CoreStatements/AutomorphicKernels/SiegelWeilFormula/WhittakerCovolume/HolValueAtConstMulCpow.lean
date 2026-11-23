@@ -50,7 +50,7 @@ import Development.AbelianVarietyTheory.Definitions.Divisors.HilbertNinetyQuotie
 import Development.AbelianVarietyTheory.Definitions.Foundations.EventuallyNormFinLeOne
 import Development.AbelianVarietyTheory.Definitions.Foundations.NormEulerPolySubOneLe
 import Development.WeilBound.RepresentationTheoryGL.SiegelWeilProof.HolomorphicContinuation.IsSingTest
-import Development.WeilBound.ThetaLifts.LatticeBasics.Hypotheses2
+import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle004
 
 @[expose] public section
 

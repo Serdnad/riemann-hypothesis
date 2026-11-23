@@ -2,8 +2,8 @@ module
 
 public import Development.WeilBound.ThetaLifts.EigenvalueEndgame.PlaneRemovalConfiguration
 public import Development.WeilBound.ThetaLifts.SmallCones.ThetaKernelGeneralIdentity
-public import Development.WeilBound.ThetaLifts.CartanFactorisation.CartanConj
-public import Development.WeilBound.ThetaLifts.LocalTheory.IsArchimedeanLocalEquivariantMap
+public import Development.WeilBound.ThetaLifts.CartanFactorisation.Bundle002
+public import Development.WeilBound.ThetaLifts.LocalTheory.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,12 +1,12 @@
 module
 
-public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.ThetaKernels.GalTPDefs
-public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.ThetaKernels.ThkBaseHgtInt
-import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.ThetaKernels.ThkBaseUnfoldB
-public import Development.WeilBound.ThetaLifts.LatticeBasics.BotAsm
+public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.ThetaKernels.Bundle022
+public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.ThetaKernels.Bundle067
+import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.ThetaKernels.Bundle010
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle017
 import Development.WeilBound.ThetaLifts.LatticeBasics.FarRight
 public import Development.WeilBound.ThetaLifts.LatticeBasics.NormZeta
-public import GroundTheory.AutomorphicForms.GL2.InnerProductParamHolo
+public import GroundTheory.AutomorphicForms.GL2.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -228,7 +228,7 @@ theorem _root_.UpperTheory.TP.rallis_k : _root_.UpperTheory.TP.Tools_k → _root
     have ez : ∀ g, flat a₁ f s₀ z (e₁ (1, g)) * detInv χW g * pet M.μ M.dom (fun h => φ (h * g)) φ =
         c' * ((a₁ (e₁ (g⁻¹, 1)) : ℂ) ^ (z - s₀) * (coef om ν Φ g⁻¹ * star (mc M φ g⁻¹))) := fun g => by
       have h1 : star (mc M φ g⁻¹) = pet M.μ M.dom (fun h => φ (h * g)) φ := by rw [im, star_star]; rfl
-      rw [h1, flat, hap, mul_assoc (_ ^ _), idf]
+      rw [h1, GlobalTheory.ThK.Dbl.flat, hap, mul_assoc (_ ^ _), idf]
       ring
     rw [(far z hz).2.2 φ rp]
     simp only [ez]

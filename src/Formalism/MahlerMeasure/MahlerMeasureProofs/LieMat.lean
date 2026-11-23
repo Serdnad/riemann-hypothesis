@@ -1,6 +1,6 @@
 module
 
-public import Formalism.MahlerMeasure.LieRoots
+public import Formalism.MahlerMeasure.Bundle003
 public import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

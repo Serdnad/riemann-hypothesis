@@ -1,6 +1,6 @@
 module
 
-public import Formalism.WachLatticeTwists.LagrangeExtensionCocycles.StatementTop
+public import Formalism.WachLatticeTwists.LagrangeExtensionCocycles.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

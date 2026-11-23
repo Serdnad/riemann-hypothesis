@@ -1,12 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.RedSurjective
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsIsConnIsEtSplitting
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HomEqZeroOfIsConnOfIsEt
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.KatzEtDualOfIso
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RigidifiedExtensionPullbackAddAndPrimeSmulId
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SemilinearHomConnectedFactorThroughPartStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SemilinearHomEtaleFactorThroughPartStatement
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle023
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle914
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle449
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle917
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle577
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle565
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

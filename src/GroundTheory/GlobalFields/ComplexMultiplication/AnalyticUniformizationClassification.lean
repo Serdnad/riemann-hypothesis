@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.GlobalFields.ComplexMultiplication.AnalyticUniformization
-import GroundTheory.GlobalFields.ComplexMultiplication.AnalyticAlgebraicConverse
+import GroundTheory.GlobalFields.ComplexMultiplication.Bundle007
 import GroundTheory.GlobalFields.ComplexMultiplication.JInvariantSurjective
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

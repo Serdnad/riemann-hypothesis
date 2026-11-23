@@ -1,10 +1,10 @@
 module
 
-public import Formalism.LocalToGlobal.KernelLattices.TopLawQ
+public import Formalism.LocalToGlobal.KernelLattices.Bundle001
 public import Formalism.LocalToGlobal.Columns.ChainInst
-public import Formalism.LocalToGlobal.Columns.RowFormsSel
-public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.KerEquivFr
-public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.LocalProductMeasures.MqRowSGUnif
+public import Formalism.LocalToGlobal.Columns.Bundle011
+public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.Bundle001
+public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.LocalProductMeasures.Bundle001
 public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.MemGoodPrimesOfNoExceptional
 public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.PenultimateKernelDiamondInvariant
 import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.ThDistC

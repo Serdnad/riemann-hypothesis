@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalRingCardinality.DataKerI
+public import Formalism.LocalRingCardinality.Bundle008
 public import Formalism.SharpRestriction.GlobalSchurBounds.StandardLatticesGL3
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

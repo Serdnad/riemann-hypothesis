@@ -1,8 +1,8 @@
 module
 
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PNefAmpleFibre
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PSemiampleNef
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.GeoNum
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle010
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle026
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

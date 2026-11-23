@@ -1,15 +1,15 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PolUnitNeZero
-public import Development.AbelianVarietyTheory.Definitions.Divisors.ToRingActOpOfRingAct
-public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.SiegelToroidalIntegral
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle289
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle012
+public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.Bundle012
 import Development.AbelianVarietyTheory.Definitions.ShimuraVarieties.PowObjGeometricallyConnected
-import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.FlatAndSurjectiveOfIsFiniteAbelianEnd
-import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.ForallGeometricallyIntegralOfSmoothOfGeometrical
-import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.MulAFiniteFlatSurjectiveEtale
-public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.ExistsMonHomFactorOfFlatSurjective
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsFiniteAndFlatTorsion
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.IsFiniteAndFlatMulAbelianScheme
+import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle006
+import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle005
+import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle011
+public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle018
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1481
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle158
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -49,7 +49,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.ChartPullbacks.TangentLinearity.ConstPullback
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AbelianVarietyTheory.Definitions.Divisors.KerIdealCompOfSurjective
-import Development.AbelianVarietyTheory.Definitions.Divisors.NotCompactOfMEqOne
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle013
 import Development.AbelianVarietyTheory.Definitions.Divisors.ToSpanSingletonConstGenInjective
 
 @[expose] public section

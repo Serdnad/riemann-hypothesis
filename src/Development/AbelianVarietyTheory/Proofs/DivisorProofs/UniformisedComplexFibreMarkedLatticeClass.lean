@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.Uniformised
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DiagFormTwoSmulAndKerStatement
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.WeilPairingComplexValueUniqueStatement
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle018
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2282
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle787
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

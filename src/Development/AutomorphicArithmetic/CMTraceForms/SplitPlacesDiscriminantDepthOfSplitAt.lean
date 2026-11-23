@@ -3,7 +3,7 @@ module
 public import Development.AutomorphicArithmetic.CMTraceForms.Places
 public import Mathlib.NumberTheory.NumberField.Discriminant.Defs
 public import Development.AutomorphicArithmetic.CMTraceForms.DiscrCMDatumEqProdPlaces
-public import Development.AutomorphicArithmetic.CMTraceForms.ExistsPrimitiveOrthogonalIdempotentsSumEqOfNoeth
+public import Development.AutomorphicArithmetic.CMTraceForms.Bundle001
 public import Development.AutomorphicArithmetic.CMTraceForms.ExistsSplitIdempotentOfSplitAt
 public import Development.AutomorphicArithmetic.CMTraceForms.TraceFormDecompositionCMDatum
 import Mathlib.Algebra.Order.Floor.Extended

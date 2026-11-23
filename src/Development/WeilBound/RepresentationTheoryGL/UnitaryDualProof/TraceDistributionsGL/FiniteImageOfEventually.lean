@@ -2,7 +2,7 @@ module
 
 public import Development.WeilBound.RepresentationTheoryGL.UnitaryDualProof.TraceDistributionsGL.PhiIndep
 import Aesop.Main
-public import Development.WeilBound.RepresentationTheoryGL.UnitaryDualProof.TraceDistributionsGL.DetUpdateRowOneLast
+public import Development.WeilBound.RepresentationTheoryGL.UnitaryDualProof.TraceDistributionsGL.Bundle002
 import GroundTheory.AutomorphicForms.GLnLocal
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

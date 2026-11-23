@@ -43,7 +43,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Formalism.PeriodIntegrals.FlagGramNonneg
+import Formalism.PeriodIntegrals.Bundle006
 
 @[expose] public section
 

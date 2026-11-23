@@ -1,17 +1,17 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsTwIffCanonEq
-public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.LevChiEqOne
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ContinuousLocHom
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.OneSubIdemQMulSelf
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.AdAtToEAfOfIsIdemSum
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsGAtAllPlacesMul
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle027
+public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.Bundle018
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle374
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle229
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle318
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle351
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.IdempotentMulEntryEqZeroOfCutInverse
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.UnitaryClassRepresentativesBijective
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.UnitaryFiniteAdelicGroupSplitFinitePlaceSet
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsIsPtOfOfRat
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle118
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle493
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle474
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsMemberStepCharts
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LevOkTwists
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle329
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -48,10 +48,10 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Std.Tactic.BVDecide.Normalize.Prop
-public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.CxTiesOf
+public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.Bundle017
 import Development.AbelianVarietyTheory.Definitions.LatticeFrames.IsOneComb
 import Development.AbelianVarietyTheory.Definitions.LatticeFrames.IsOpenKerUnramMulTame
-public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.IsStdFr
+public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.Bundle027
 import Development.AbelianVarietyTheory.Definitions.LatticeFrames.MiStarOfMid
 
 @[expose] public section
@@ -202,7 +202,7 @@ end Level
 
 section Std
 
-open Formalism.L2.Col Formalism.L2.Ker Formalism.UG GlobalTheory.Mem.Chr GlobalTheory.Mem.Col2.TC GlobalTheory.Mem.Col2.MemChart
+open _root_.Formalism.L2.Col Formalism.L2.Ker Formalism.UG GlobalTheory.Mem.Chr GlobalTheory.Mem.Col2.TC GlobalTheory.Mem.Col2.MemChart
 
 variable {B : GlobalTheory.Mem.Base} {X : PreX B.toPre} (I : TC B X)
 

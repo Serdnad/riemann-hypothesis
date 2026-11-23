@@ -1,10 +1,9 @@
 module
 
-public import GroundTheory.GlobalFields.TateThesis.EulerFactorsInfinite
-public import GroundTheory.GlobalFields.TateThesis.Gaussian
+public import GroundTheory.GlobalFields.TateThesis.Bundle008
+public import GroundTheory.GlobalFields.TateThesis.Bundle002
 public import GroundTheory.GlobalFields.TateThesis.AdelicCharLocal
-public import GroundTheory.GlobalFields.TateThesis.EulerFactorsInverse
-public import GroundTheory.GlobalFields.TateThesis.GaussianComplexFourier
+public import GroundTheory.GlobalFields.TateThesis.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

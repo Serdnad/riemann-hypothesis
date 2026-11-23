@@ -1,10 +1,10 @@
 module
 
-public import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.VanishTranslates
+public import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.Bundle011
 public import Formalism.LocalToGlobal.IndefiniteReal.SchurOrthogonality
 public import Formalism.PeriodIntegrals.UpqRep
 public import Formalism.LocalToGlobal.IndefiniteReal.GvPairOfOrbitDerivCont
-public import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.ApproxId
+public import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

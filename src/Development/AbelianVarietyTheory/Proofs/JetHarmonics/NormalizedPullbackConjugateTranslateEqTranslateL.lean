@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Jets.ExistsSecTieFOfTies
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsUniqueIsTwistPull
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.IsLocallyNoetherian
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsTranslatedNormalisedPullbackSection
-import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.HasGenPull
+public import Development.AbelianVarietyTheory.Definitions.Jets.Bundle004
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle048
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle023
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle166
+import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.Bundle022
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -45,9 +45,9 @@ import Mathlib.Tactic.ReduceModChar
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.VtUniq
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.LBPull
 import Development.AbelianVarietyTheory.Definitions.Jets.JetsOnCopiesCompatibleFrames
-import Formalism.SharpRestriction.Divisibility.GeneratorPowers.CIndSt
-import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ExpBijectiveUniformisation
-import Formalism.SharpRestriction.Divisibility.GeneratorPowers.LemmaBStatement
+import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle007
+import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle013
+import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle017
 
 @[expose] public section
 

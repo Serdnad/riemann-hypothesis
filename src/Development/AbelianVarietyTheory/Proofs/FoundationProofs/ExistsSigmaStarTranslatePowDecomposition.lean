@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.SqThD
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle256
 public import Mathlib.Analysis.SpecialFunctions.Elliptic.Weierstrass
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.OddThetaFunctionExistenceUniqueness
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsAnalyticOfTendsto
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle231
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle016
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

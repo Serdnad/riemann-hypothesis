@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.DualLattices.CokernelLengthComparisonOf
+public import ReciprocityTheory.DualLattices.Bundle017
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -51,10 +51,10 @@ import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.DualLattices.IsLocalOfIntegers
 public import ReciprocityTheory.DualLattices.MatEquivApply
 import ReciprocityTheory.DualLattices.ProdDvdOfIso
-public import ReciprocityTheory.DualLattices.StdJForm
+public import ReciprocityTheory.DualLattices.Bundle016
 public import ReciprocityTheory.DualLattices.UnramifiedCokernelLowerBoundOf
 public import Mathlib.RingTheory.LocalRing.Module
-public import ReciprocityTheory.DualLattices.LenIdStatement
+public import ReciprocityTheory.DualLattices.Bundle018
 
 @[expose] public section
 

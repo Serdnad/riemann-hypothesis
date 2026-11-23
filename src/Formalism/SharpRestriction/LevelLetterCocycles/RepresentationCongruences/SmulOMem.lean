@@ -2,8 +2,8 @@ module
 
 public import Formalism.SharpRestriction.LevelLetterCocycles.RepresentationCongruences.GammaPi0EqPi0MulUnit
 public import Formalism.SharpRestriction.LevelLetterCocycles.FrobeniusPowUniformizerFactorisation
-public import Formalism.SharpRestriction.LevelLetterCocycles.RepresentationCongruences.Imports
-public import Formalism.SharpRestriction.LevelLetterCocycles.RepresentationCongruences.QALetterNe
+public import Formalism.SharpRestriction.LevelLetterCocycles.RepresentationCongruences.Bundle001
+public import Formalism.SharpRestriction.LevelLetterCocycles.RepresentationCongruences.Bundle012
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -47,7 +47,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-import Formalism.SharpRestriction.LevelLetterCocycles.AdmBoundsBOfAdm
+import Formalism.SharpRestriction.LevelLetterCocycles.Bundle013
 
 @[expose] public section
 

@@ -1,16 +1,16 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Cobdry
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.DualOm
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle010
 public import Formalism.LocalToGlobal.TorsionIntegrality.CMGoodModels.Statement
-public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.TrDual
+public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.Bundle001
 public import Formalism.SharpRestriction.AdmissibleParameterJoins.GandSp
 public import Formalism.SharpRestriction.Divisibility.ProductZerothFirstParts
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.DatumCurveIntegralUnitDiscModel
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExpMvNegLogMvMul
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle260
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsIntegralOrbitSeries
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.IntegralWOfMulEqOne
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.StandardSeriesBConditionsLargePrime
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle119
 import Formalism.GaussJetBounds.GaussJetProofs.Transfer
 public import Formalism.LocalToGlobal.GroupLattices.PendingLemmas.WittFractionToCpAlgebraMap
 import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.BiextensionHypothesesOfLevelOne
@@ -57,7 +57,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.BeData
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle012
 
 @[expose] public section
 

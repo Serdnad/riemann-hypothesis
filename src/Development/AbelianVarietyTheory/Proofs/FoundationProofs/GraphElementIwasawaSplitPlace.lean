@@ -1,7 +1,7 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Foundations.ExistsAHEqOfMemRatPts
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.HasIwasawaDecompositionDoubledSplitPlace
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle159
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -39,7 +39,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.GraphHeightLattice
+import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.Bundle009
 
 @[expose] public section
 
@@ -64,3 +64,19 @@ theorem graph_iwasawa_split : ∀ (F E : Type) [Field F] [NumberField F] [Field 
   exact GlobalTheory.Core.Rk.IwSplit.hasIwasawa_of_algHom h rfl hJ (isHermND_dblGram σ hJ) τ L hL _
 
 end GlobalTheory.GraphIwSplit
+
+end
+
+section
+
+@[expose] public section
+
+open scoped TensorProduct NNReal Matrix
+open NumberField IsDedekindDomain Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes GlobalTheory.AdelicU GlobalTheory.Doubling GlobalTheory.IndefiniteRowSideFullHecke.GraphHeightLattice
+open Formalism.UG (GLint)
+
+theorem _root_.GlobalTheory.T.graph_element_iwasawa_split_place : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) (h : IsCMExt F E σ) (n : ℕ) (J : Matrix (Fin n) (Fin n) E) (hJ : IsHermND σ J) (L : Submodule (𝓞 E) (Fin n → E)) [Submodule.IsFullLattice E L] (v : HeightOneSpectrum (𝓞 F)), IsSelfDualAt σ J L v → Nonempty (E →ₐ[F] Fv F v) → ∀ g : GLoc σ J v, ∃ p : siegelH (Fv F v) σ (dblGram finSumFinEquiv J), ∃ k ∈ KFin σ (dblGram finSumFinEquiv J) L v, ioH (Fv F v) σ rfl (g, 1) = (p : GLoc σ (dblGram finSumFinEquiv J) v) * k := by
+  first | exact @GlobalTheory.GraphIwSplit.graph_iwasawa_split | exact GlobalTheory.GraphIwSplit.graph_iwasawa_split | (intros; apply GlobalTheory.GraphIwSplit.graph_iwasawa_split <;> assumption)
+
+end
+end

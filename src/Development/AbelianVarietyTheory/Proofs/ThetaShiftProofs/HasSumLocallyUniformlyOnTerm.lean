@@ -3,7 +3,7 @@ module
 public import Development.AbelianVarietyTheory.Definitions.ArchimedeanThetaValues.DegeneratingToriPeriodMapEqBaseOfYEqZero
 public import Mathlib.Topology.Algebra.InfiniteSum.UniformOn
 public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.DifferentiableOnOfTendstoLocallyUniformlyOn
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.SummableExpNegSumAbs
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

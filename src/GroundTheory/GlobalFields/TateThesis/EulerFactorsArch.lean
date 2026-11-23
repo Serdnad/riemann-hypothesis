@@ -2,10 +2,10 @@ module
 
 public import GroundTheory.GlobalFields.TateThesis.HeckeChar
 public import GroundTheory.GlobalFields.TateThesis.IdeleMeasure
-public import GroundTheory.GlobalFields.TateThesis.GaussianComplex
+public import GroundTheory.GlobalFields.TateThesis.Bundle004
 public import Mathlib.Basic.Real.Sign
-public import GroundTheory.GlobalFields.TateThesis.ArchCharsUnitary
-import GroundTheory.GlobalFields.TateThesis.Gaussian
+public import GroundTheory.GlobalFields.TateThesis.Bundle005
+import GroundTheory.GlobalFields.TateThesis.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

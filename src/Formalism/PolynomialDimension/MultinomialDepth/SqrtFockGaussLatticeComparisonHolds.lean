@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PolynomialDimension.StatementHar
+public import Formalism.PolynomialDimension.Bundle001
 public import Mathlib.Data.Nat.Choose.Multinomial
 import Formalism.PolynomialDimension.MultinomialDepth.DiagLaplacianDivPowMemSqrtFockLattice
 import Formalism.PolynomialDimension.MultinomialDepth.HarmonicDecompositionHolds

@@ -1,19 +1,17 @@
 module
 
 public import Formalism.SharpRestriction.GlobalSchurBounds.StandardLattice
-public import Formalism.GL3MeanSquares.HookFormulaTorsion.HilbertSchmidtHalfBound
+public import Formalism.GL3MeanSquares.HookFormulaTorsion.Bundle001
 public import Formalism.HermitianLattices.HermitianLatticesProofs.MassTelescope
-public import Formalism.LogVandermondeBounds.LogRatioLowerBound
-public import Formalism.LogVandermondeBounds.LogRatioUpperBound
-public import Formalism.GL3MeanSquares.HookFormulaTorsion.DimensionMassJointBound
-public import Formalism.GL3MeanSquares.HookFormulaTorsion.FiniteEulerProductLeZeta
+public import Formalism.LogVandermondeBounds.Bundle001
+public import Formalism.GL3MeanSquares.HookFormulaTorsion.Bundle004
 public import Formalism.GL3MeanSquares.HookFormulaTorsion.GlobalBoundRefinements
 public import Formalism.HermitianLattices.FinalMass
 import Formalism.HermitianLattices.HermitianLatticesProofs.MassBasic
 public import Formalism.LocalRingCardinality.RankBoundMonotoneInDimension
 public import Formalism.LocalRingCardinality.SpanPowerMembership.Spaces
 import Formalism.LogVandermondeBounds.LogVandermondeProofs.CardStabilizerVector
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.InclusionInjective
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

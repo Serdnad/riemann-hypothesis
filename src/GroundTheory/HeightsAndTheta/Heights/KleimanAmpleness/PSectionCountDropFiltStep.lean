@@ -1,7 +1,7 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.SectionCountDropFiltStepSt
-public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.TwistAlg
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle022
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

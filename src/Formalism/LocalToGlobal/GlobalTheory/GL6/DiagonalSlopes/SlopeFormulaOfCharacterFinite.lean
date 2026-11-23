@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.DiagonalSlopes.SlopeRamifiedInducedPrimeField
-public import Formalism.LocalToGlobal.GlobalTheory.GL6.DiagonalSlopes.CharacterFiniteLevelZeroOfForms
+public import Formalism.LocalToGlobal.GlobalTheory.GL6.DiagonalSlopes.Bundle001
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.DiagonalSlopes.MetricDisjointSupportOrthogonal
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.DiagonalSlopes.PSplitT
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.DiagonalSlopes.PolynomialFunctionFrameTranslate

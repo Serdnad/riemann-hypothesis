@@ -1,11 +1,11 @@
 module
 
 public import GroundTheory.TateCohomology.TateLow
-public import GroundTheory.TateCohomology.SplittingModule
+public import GroundTheory.TateCohomology.Bundle009
 import GroundTheory.TateCohomology.InducedNorm
 public import GroundTheory.TateCohomology.SplittingCohTrivial
-public import GroundTheory.TateCohomology.TateDeltaZero
-import GroundTheory.TateCohomology.TateGroupIso
+public import GroundTheory.TateCohomology.Bundle007
+import GroundTheory.TateCohomology.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

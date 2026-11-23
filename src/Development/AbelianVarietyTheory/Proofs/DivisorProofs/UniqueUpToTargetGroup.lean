@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsTransp
-import Development.AbelianVarietyTheory.Counterexamples.JetSurvey.LatticeAndConstantUnique
-import Development.AbelianVarietyTheory.Counterexamples.ThetaValuation.UniformMultiplier
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2446
+import Development.AbelianVarietyTheory.Counterexamples.JetSurvey.Bundle006
+import Development.AbelianVarietyTheory.Counterexamples.ThetaValuation.Bundle001
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ContinuousRmulPair
 public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.FrameBorelGroupoidProperties
 import Mathlib.Algebra.Order.Floor.Extended
@@ -39,9 +39,9 @@ import Mathlib.Tactic.NormNum.NatSqrt
 import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsArchOne
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle059
 import Development.AbelianVarietyTheory.Definitions.Divisors.NormNegCmConstantEqAtAllEmbeddings
-import Development.AbelianVarietyTheory.Definitions.ThetaValues.Generic
+import Development.AbelianVarietyTheory.Definitions.ThetaValues.Bundle002
 
 @[expose] public section
 

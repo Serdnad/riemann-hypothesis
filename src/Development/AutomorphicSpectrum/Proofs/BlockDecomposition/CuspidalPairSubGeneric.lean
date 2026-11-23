@@ -1,27 +1,27 @@
 module
 
-public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.IrreducibleAdmissibleGL
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.TwoSegmentNongenericQuotient
+public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.Bundle002
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle648
 public import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.ZelevinskyJacquet.LSegJacquet
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.InductionFiniteLength
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle413
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.AlgebraMapIntertwiningMapBijectiveOfIsSmooth
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsBijectiveOfIsSubquotient
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsIrreducibleSmoothQuotient
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle815
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle795
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SupercuspidalSupportUniqueGL
 import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ParabolicInductionTensorProductHasFiniteLength
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.JhMultSubAddQuot
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ParIndJacPlacing
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.PiExteriorTensorSmoothIrreducibleIsIrreducibleStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CuspidalMultiplicityProductZero
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.JacquetMultiplicityCuspidalProductStatement
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.JacquetMultiplicityPos
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.JacquetMultiplicitySubquotientLe
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle500
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle661
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle705
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle654
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle344
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.JacquetSubLeftOfAdmissible
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ProductSingleNonzeroFactorEquiv
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SocleOfMultiplicityOne
-import Development.AutomorphicSpectrum.Proofs.GlobalProofs.BernsteinZelevinskyFiniteness
-import Development.AutomorphicSpectrum.Proofs.GlobalProofs.GeometricLemma
-import Development.AutomorphicSpectrum.Proofs.GlobalProofs.HasSupportOfIsSubquotientProdIrr
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle378
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle655
+import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle048
+import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle080
+import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle067
 import Development.AutomorphicSpectrum.Proofs.GlobalProofs.IsSubquotientCompMulSingle
 import GroundTheory.LocalFields.PadicLogSeries
 import Mathlib.Algebra.Order.Floor.Extended
@@ -66,7 +66,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.ExistsReadingLaws
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle008
 
 @[expose] public section
 
@@ -181,7 +181,7 @@ theorem exists_equiv_of_jm_ne_zero {l N : ℕ} (x y : Fin l → IrrGL (k := k)) 
   have h1 := (GlobalTheory.CompanionTheory.GeoLink.geometricLemma k).1.jhMult_eq (stdBlocks (fun a => (x a).1) hx)
     (stdBlocks (fun a => (y a).1) hy) (isSmooth_piTensor fun i => (x i).2.rep.smooth) f g hτ
   have h2 : jm y hy (prodIrr x hx) = jhMult (piTensor fun j => (y j).rep)
-      (jac (stdBlocks (fun a => (y a).1) hy) (parInd (stdBlocks (fun a => (x a).1) hx)
+      (_root_.GlobalTheory.SmGL.jac (stdBlocks (fun a => (y a).1) hy) (parInd (stdBlocks (fun a => (x a).1) hx)
         (piTensor fun i => (x i).rep))) := rfl
   rw [h2, h1] at h
   obtain ⟨b, -, hb⟩ := Finset.exists_ne_zero_of_sum_ne_zero h

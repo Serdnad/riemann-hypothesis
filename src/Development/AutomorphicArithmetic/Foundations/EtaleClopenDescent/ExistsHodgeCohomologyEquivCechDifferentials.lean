@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.SortSign
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle006
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.OmegaPullOmegaTraceOfSecTraceOne
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.KaehlerOneFormsToExtensionDeRhamMulSelf
-public import Development.AbelianVarietyTheory.Definitions.Divisors.DlogRatioVolumeFormNeZero
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle004
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle008
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsAffCoverSpec
-public import Development.AutomorphicArithmetic.CommutativeAlgebra.IsAffCoverProdCechOpen
+public import Development.AutomorphicArithmetic.CommutativeAlgebra.Bundle044
 public import Development.AutomorphicArithmetic.GenericGermInjectivity.GermInjRangePre
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

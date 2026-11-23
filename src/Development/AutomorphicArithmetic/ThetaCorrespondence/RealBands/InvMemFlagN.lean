@@ -2,7 +2,7 @@ module
 
 public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.ExistsStandardIndModule
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.RealBands.IsBand
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsotropicFlagUnipotentRadicalClosedSubgroupKeeps
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle119
 import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IwasawaDecompositionUnitaryIsotropicFlag
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.RealBands.Imports
 import Mathlib.Algebra.Order.Floor.Extended

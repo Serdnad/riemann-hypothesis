@@ -1,13 +1,13 @@
 module
 
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.UniformLevelMultiplicity
-public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.LevelLiftConditions
+public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.Bundle015
 public import Development.AbelianVarietyTheory.Definitions.ExistenceOfLattices.Hat1
 public import Formalism.LocalToGlobal.ProjectiveLattices.HalfOneAddSqrtNegIsIntegral
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RationalVectorMemIdealCompletedLatticeIffStatement
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.AdelicElementLatticeFullAndCompletion
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1547
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle082
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.CongruenceLatticeFractionalMultipleAgree
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsLevelSubgroup
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle076
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

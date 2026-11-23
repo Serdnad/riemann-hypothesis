@@ -2,16 +2,16 @@ module
 
 public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsIsoOfCompatibleAbelianThickenings
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsLineBundleGeneratorExtendingDensePart
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.SecBaseChangeAnySt
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.Bundle005
 import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.ExistsUniqueLbIsoPullEqOfCoheightLeOne
-public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.IsAbelianSchemeAndExtendOfGenericHoms
+public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle023
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.GeometricallyIntegralIffGeometricallyConnectedOf
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsDiscreteValuationRingStalkGeneric
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.IsSchemeTheoreticallyDominantSpecOfInjective
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.IsIsoStalkMapOfFlatOfSurjectiveOnStalks
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle008
 import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsIsoOfSectionRingEquiv
-import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.HomExtOfSecPullEq
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.IsAffineOpenNonzeroLocusOfUniversallyClosed
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle057
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle056
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -52,7 +52,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.BCTools
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.ExistsRosatiGen
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.FamMod
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.Bundle003
 
 @[expose] public section
 
@@ -428,6 +428,16 @@ theorem exists_hom_dvr
           ψ ≫ φ.left ≫ pullback.fst G'.hom j = pullback.fst _ _ ≫ F) ∧
       ∀ eV : Sp V ⟶ pullback G.hom l, eV ≫ pullback.fst G.hom l = l ≫ eSec G → eV ≫ pullback.snd G.hom l = 𝟙 _ →
         eV ≫ F = l ≫ eSec G' := by
+  letI : (Over.pullback l).Monoidal := (Over.instBraidedPullback (f := l)).toMonoidal
+  letI : (Over.pullback (jK V)).Monoidal := (Over.instBraidedPullback (f := (jK V))).toMonoidal
+  letI : GrpObj ((Over.pullback l).obj G) :=
+    Functor.grpObjObj (F := Over.pullback l)
+  letI : GrpObj ((Over.pullback l).obj G') :=
+    Functor.grpObjObj (F := Over.pullback l)
+  letI : GrpObj ((Over.pullback (jK V)).obj ((Over.pullback l).obj G)) :=
+    Functor.grpObjObj (F := Over.pullback (jK V))
+  letI : GrpObj ((Over.pullback (jK V)).obj ((Over.pullback l).obj G')) :=
+    Functor.grpObjObj (F := Over.pullback (jK V))
   obtain ⟨α, hα, hα'⟩ := grpPullback_iso
     ((isGrpPullback_pullback ((Over.pullback l).obj G) (jK V)).comp (isGrpPullback_pullback G l))
     (((isGrpPullback_pullback ((Over.pullback j).obj G) κ).comp

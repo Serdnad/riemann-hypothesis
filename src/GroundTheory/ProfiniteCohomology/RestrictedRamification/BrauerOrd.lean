@@ -1,14 +1,13 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.IdeleLimits
-public import GroundTheory.ProfiniteCohomology.RestrictedRamification.SPicDefs
+public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.Bundle001
+public import GroundTheory.ProfiniteCohomology.RestrictedRamification.Bundle001
 public import GroundTheory.ProfiniteCohomology.RestrictedRamification.SUnitsDefs
 import GroundTheory.ProfiniteCohomology.GlobalClassFormation.LocalLimits.LiesOver
 public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.Splitting
 import GroundTheory.ProfiniteCohomology.RestrictedRamification.BrauerDefs
 import GroundTheory.ProfiniteCohomology.RestrictedRamification.Ramification
 public import GroundTheory.ProfiniteCohomology.RestrictedRamification.SUnits
-public import GroundTheory.ProfiniteCohomology.RestrictedRamification.ValuationTransport
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

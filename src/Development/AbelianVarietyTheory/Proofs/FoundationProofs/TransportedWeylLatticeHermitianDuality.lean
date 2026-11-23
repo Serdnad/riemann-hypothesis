@@ -2,11 +2,11 @@ module
 
 public import Formalism.LocalToGlobal.Divisibility.CoefModLemmas
 public import Formalism.QuotientMetricDivisors.Statement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.DualLatticeIsLatticeAndHermitianDual
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.LatticeHasBasisAtEveryFinitePlace
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.StandardWeylLatticesFockDualStatement
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.StdWeylLatticesFgAndSpanCoeffSpace
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.TransportedLatticeLocalizationFreeLeCoefficientSStatement
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle339
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle204
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle248
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle220
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle269
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -86,11 +86,11 @@ theorem mem_localization_of_mem {V : Type} [AddCommGroup V] [Module (𝓞 K) V] 
 
 variable [StarRing K]
 
-theorem conj_not_mem (w : HeightOneSpectrum (𝓞 K)) {t : 𝓞 K} (ht : t ∈ (conjPl w).asIdeal.primeCompl) :
+theorem conj_not_mem (w : HeightOneSpectrum (𝓞 K)) {t : 𝓞 K} (ht : t ∈ (_root_.Formalism.DivisionValues.conjPl w).asIdeal.primeCompl) :
     cO K t ∈ w.asIdeal.primeCompl := by
   intro h
   apply ht
-  have h1 : cO K (cO K t) ∈ (conjPl w).asIdeal := Ideal.mem_map_of_mem (cO K) h
+  have h1 : cO K (cO K t) ∈ (_root_.Formalism.DivisionValues.conjPl w).asIdeal := Ideal.mem_map_of_mem (cO K) h
   have h2 : cO K (cO K t) = t := RingOfIntegers.ext (star_star (t : K))
   rwa [h2] at h1
 
@@ -105,7 +105,7 @@ theorem pair_smul_right (h : V →ₗ⋆[K] V →ₗ[K] K) (t : 𝓞 K) (y x : V
   rw [← algebraMap_smul K t x, map_smul, algebraMap_smul]
 
 theorem pair_locP (h : V →ₗ⋆[K] V →ₗ[K] K) (w : HeightOneSpectrum (𝓞 K)) (T : Submodule (𝓞 K) V) (x : V) :
-    (∀ y ∈ localization₂ (conjPl w).asIdeal T, h y x ∈ localization₂ w.asIdeal (1 : Submodule (𝓞 K) K)) ↔
+    (∀ y ∈ localization₂ (_root_.Formalism.DivisionValues.conjPl w).asIdeal T, h y x ∈ localization₂ w.asIdeal (1 : Submodule (𝓞 K) K)) ↔
       ∀ y ∈ T, h y x ∈ localization₂ w.asIdeal (1 : Submodule (𝓞 K) K) := by
   refine ⟨fun H y hy => H y (mem_localization_of_mem _ hy), ?_⟩
   rintro H y ⟨t, ht, hy⟩
@@ -139,7 +139,7 @@ theorem mem_localization_dual (h : V →ₗ⋆[K] V →ₗ[K] K) (w : HeightOneS
     (T D : Submodule (𝓞 K) V) (hT : T.FG)
     (hD : ∀ x ∈ U, x ∈ D ↔ ∀ y ∈ T, h y x ∈ (1 : Submodule (𝓞 K) K)) {x : V} (hx : x ∈ U) :
     x ∈ localization₂ w.asIdeal D ↔
-      ∀ y ∈ localization₂ (conjPl w).asIdeal T, h y x ∈ localization₂ w.asIdeal (1 : Submodule (𝓞 K) K) := by
+      ∀ y ∈ localization₂ (_root_.Formalism.DivisionValues.conjPl w).asIdeal T, h y x ∈ localization₂ w.asIdeal (1 : Submodule (𝓞 K) K) := by
   rw [pair_locP]
   have hU : ∀ s : 𝓞 K, s • x ∈ U := fun s => by
     rw [← algebraMap_smul K s x]
@@ -155,7 +155,7 @@ theorem mem_localization_dual (h : V →ₗ⋆[K] V →ₗ[K] K) (w : HeightOneS
 
 theorem pair_integral_iff (h : V →ₗ⋆[K] V →ₗ[K] K) (T : Submodule (𝓞 K) V) (x : V) :
     (∀ y ∈ T, h y x ∈ (1 : Submodule (𝓞 K) K)) ↔ ∀ w : HeightOneSpectrum (𝓞 K),
-      ∀ y ∈ localization₂ (conjPl w).asIdeal T, h y x ∈ localization₂ w.asIdeal (1 : Submodule (𝓞 K) K) := by
+      ∀ y ∈ localization₂ (_root_.Formalism.DivisionValues.conjPl w).asIdeal T, h y x ∈ localization₂ w.asIdeal (1 : Submodule (𝓞 K) K) := by
   simp only [pair_locP]
   exact ⟨fun H w y hy => mem_localization_of_mem w (H y hy), fun H y hy => mem_of_forall_locP _ _ fun w => H w y hy⟩
 
@@ -227,7 +227,7 @@ theorem mem_colLat_dual (G : Matrix (Fin n) (Fin n) K) (B B' : GL (Fin n) K)
     exact H _ (Submodule.subset_span ⟨j, rfl⟩)
 
 theorem isBasisAt_hdual (G : Matrix (Fin n) (Fin n) K) (M : Submodule (𝓞 K) (Fin n → K)) (hM : M.FG)
-    (w : HeightOneSpectrum (𝓞 K)) (B B' : GL (Fin n) K) (h : IsBasisAt (conjPl w) M B)
+    (w : HeightOneSpectrum (𝓞 K)) (B B' : GL (Fin n) K) (h : IsBasisAt (_root_.Formalism.DivisionValues.conjPl w) M B)
     (hB : (B : Matrix (Fin n) (Fin n) K)ᴴ * G * (B' : Matrix (Fin n) (Fin n) K) = 1) :
     IsBasisAt w (hdualFr G M) B' := by
   ext x
@@ -258,7 +258,7 @@ theorem dual_of_local (lam : ι → DomWeight n) (G : ι → Matrix (Fin n) (Fin
     (hP : ∀ F ∈ P, F ∈ VV K lam)
     (hloc : ∀ w : HeightOneSpectrum (𝓞 K), ∃ B B' : ι → GL (Fin n) K,
       (∀ τ, (B τ : Matrix (Fin n) (Fin n) K)ᴴ * G τ * (B' τ : Matrix (Fin n) (Fin n) K) = 1) ∧
-      localization₂ (conjPl w).asIdeal P = (localization₂ (conjPl w).asIdeal T).map ((actP lam B).restrictScalars (𝓞 K)) ∧
+      localization₂ (_root_.Formalism.DivisionValues.conjPl w).asIdeal P = (localization₂ (_root_.Formalism.DivisionValues.conjPl w).asIdeal T).map ((actP lam B).restrictScalars (𝓞 K)) ∧
       localization₂ w.asIdeal P' = (localization₂ w.asIdeal T').map ((actP lam B').restrictScalars (𝓞 K))) :
     Formalism.HermitianLatticesTheory.dual (pairK lam G) (P.comap ((VV K lam).subtype.restrictScalars (𝓞 K))) =
       P'.comap ((VV K lam).subtype.restrictScalars (𝓞 K)) := by
@@ -277,7 +277,7 @@ theorem dual_of_local (lam : ι → DomWeight n) (G : ι → Matrix (Fin n) (Fin
       rw [pairK_apply]
       exact H _ hy
   have h2 : ∀ w : HeightOneSpectrum (𝓞 K),
-      (∀ y ∈ localization₂ (conjPl w).asIdeal P, pairP lam G y x.1 ∈ localization₂ w.asIdeal (1 : Submodule (𝓞 K) K)) ↔
+      (∀ y ∈ localization₂ (_root_.Formalism.DivisionValues.conjPl w).asIdeal P, pairP lam G y x.1 ∈ localization₂ w.asIdeal (1 : Submodule (𝓞 K) K)) ↔
         x.1 ∈ localization₂ w.asIdeal P' := by
     intro w
     obtain ⟨B, B', hB, e1, e2⟩ := hloc w
@@ -320,9 +320,9 @@ theorem nabDelDual : NabDelDual := by
     (GlobalTheory.DualLat.dualFr_lattice_and_hdual.1 K n (G τ) (M τ) (hG τ) (hM τ)).2
   have hfr : ∀ w : HeightOneSpectrum (𝓞 K), ∃ B B' : ι → GL (Fin n) K,
       (∀ τ, (B τ : Matrix (Fin n) (Fin n) K)ᴴ * G τ * (B' τ : Matrix (Fin n) (Fin n) K) = 1) ∧
-      (∀ τ, IsBasisAt (conjPl w) (M τ) (B τ)) ∧ ∀ τ, IsBasisAt w (hdualFr (G τ) (M τ)) (B' τ) := by
+      (∀ τ, IsBasisAt (_root_.Formalism.DivisionValues.conjPl w) (M τ) (B τ)) ∧ ∀ τ, IsBasisAt w (hdualFr (G τ) (M τ)) (B' τ) := by
     intro w
-    choose B hB using fun τ => GlobalTheory.LatBasisAt.basisAtEx K n (M τ) (hM τ) (conjPl w)
+    choose B hB using fun τ => GlobalTheory.LatBasisAt.basisAtEx K n (M τ) (hM τ) (_root_.Formalism.DivisionValues.conjPl w)
     choose B' hB' using fun τ => exists_dual_frame (G τ) (hG τ) (B τ)
     exact ⟨B, B', hB', hB, fun τ =>
       isBasisAt_hdual (G τ) (M τ) (hM τ).fg w (B τ) (B' τ) (hB τ) (hB' τ)⟩

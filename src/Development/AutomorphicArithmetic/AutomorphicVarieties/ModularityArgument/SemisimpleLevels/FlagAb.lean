@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Brauer
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle034
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.Distinct
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.SemisimpleLevels.SsCalcP
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.SemisimpleLevels.Bundle002
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.CharDR
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.PstExact
 import Mathlib.Algebra.Order.Floor.Extended

@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.GroupCohomology.InfRes
+public import ReciprocityTheory.GroupCohomology.Bundle004
 public import ReciprocityTheory.GroupCohomology.TransgressionA
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -46,7 +46,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.GroupCohomology.DEqZeroOfMemB
+public import ReciprocityTheory.GroupCohomology.Bundle002
 
 @[expose] public section
 

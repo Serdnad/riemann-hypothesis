@@ -1,7 +1,7 @@
 module
 
 public import Formalism.SharpRestriction.GlobalSchurBounds.TheoremThreeOfExplicitAndCompact
-public import Formalism.GL3MeanSquares.HookFormulaTorsion.OneAddInvPowLeExpOne
+public import Formalism.GL3MeanSquares.HookFormulaTorsion.Bundle004
 import Formalism.LocalRingCardinality.RankBoundMonotoneInDimension
 public import Formalism.SharpRestriction.GlobalSchurBounds.ThickPlacesCorollaryOfAnyTranslate
 import Mathlib.Algebra.Order.Floor.Extended

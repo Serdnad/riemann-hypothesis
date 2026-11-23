@@ -1,12 +1,12 @@
 module
 
 import Development.AbelianVarietyTheory.Proofs.FlagMeasures.MeasurePreservingReindex
-public import Development.AbelianVarietyTheory.BlockTheory.SiegelWeilLocal.OrthonormalPlaceBasis
+public import Development.AbelianVarietyTheory.BlockTheory.SiegelWeilLocal.Bundle002
 public import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.AdelicUnitaryHaarBiInvariantStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.FiniteAdelicUnitaryCongruenceTopologyStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.InvariantExtensionIntegrableOnCompact
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.RightRegularRepUnitaryStronglyContinuousStatement
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle106
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle097
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle132
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle154
 import Formalism.RealPlaceAnalysis.RealPlaceTaylor.KoszulLowersPower
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

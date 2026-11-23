@@ -1,8 +1,8 @@
 module
 
 public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.LanglandsDataDualGL
-public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.StandardCosocleGL
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ImportsSideRest
+public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.Bundle008
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1045
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.LanglandsExhaustion.ExistsClassIsLSeg
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.LocalLanglandsExistence.MultiProdCompInvTranspose
 import Mathlib.Algebra.Order.Floor.Extended

@@ -1,8 +1,8 @@
 module
 
 public import Development.AutomorphicArithmetic.MeanSquareBounds.PrimeSetTwoBounds
-public import Formalism.GL3MeanSquares.SmoothedRemainderRealIntegralFormula
-public import Formalism.PeriodIntegrals.ExplicitFormula
+public import Formalism.GL3MeanSquares.Bundle002
+public import Formalism.PeriodIntegrals.Bundle002
 public import Formalism.GL3MeanSquares.HookFormulaTorsion.PsiZeroIntegral
 public import Formalism.GL3MeanSquares.HookFormulaTorsion.SmoothedRemainderRealIntegralFormula
 import Formalism.LandauZeroFreeBounds.SiegelWalfiszAPOfSiegelLower
@@ -53,7 +53,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Formalism.GL3MeanSquares.GenusMeanAsymptotics.JacobiCharacterSums.MeanSquareHypWIff
+import Formalism.GL3MeanSquares.GenusMeanAsymptotics.JacobiCharacterSums.Bundle006
 
 @[expose] public section
 

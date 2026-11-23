@@ -2,8 +2,8 @@ module
 
 public import Development.AutomorphicSpectrum.Definitions.DivisibilityTowers.HasBaseDegreeSetting
 public import Development.AutomorphicSpectrum.Statements.MetricStatements.AgreementIffGuarded
-public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.FlagIndices
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.TowerWeilInputsCombined
+public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.Bundle016
+public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle048
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

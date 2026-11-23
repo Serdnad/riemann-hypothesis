@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.GlobalEulerCharacteristic.StabilizersDefs
+public import GroundTheory.ProfiniteCohomology.GlobalEulerCharacteristic.Bundle002
 public import GroundTheory.GlobalFields.HerbrandQuotients.SUnitsPerm
 public import GroundTheory.ProfiniteCohomology.GlobalEulerCharacteristic.OrbitInvariants
 import Mathlib.Algebra.Order.Floor.Extended

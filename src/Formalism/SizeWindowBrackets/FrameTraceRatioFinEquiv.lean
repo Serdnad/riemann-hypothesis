@@ -1,9 +1,9 @@
 module
 
-public import Formalism.SizeWindowBrackets.TraceSquareAndDiagBounds
+public import Formalism.SizeWindowBrackets.Bundle001
 public import Formalism.SizeWindowBrackets.SlopeExcessBoundExponentZero
 public import Formalism.CorankShare.StatementFR
-public import Formalism.HarderNarasimhan.StatementPl
+public import Formalism.HarderNarasimhan.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

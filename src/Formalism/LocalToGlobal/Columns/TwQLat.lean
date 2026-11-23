@@ -1,13 +1,13 @@
 module
 
-public import Formalism.LocalToGlobal.Columns.TwQDCls
+public import Formalism.LocalToGlobal.Columns.Bundle021
 import Formalism.LocalToGlobal.Columns.CoefColLemmas
 public import Formalism.LocalToGlobal.Columns.HeckeSpCount
-public import Formalism.LocalToGlobal.Columns.MemLocPOfSmul
+public import Formalism.LocalToGlobal.Columns.Bundle029
 import Formalism.LocalToGlobal.Columns.RecLevelCls
-import Formalism.LocalToGlobal.Columns.TwQOrb
-import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.CsApprox
-import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.CsSpan
+import Formalism.LocalToGlobal.Columns.Bundle019
+import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle011
+import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle014
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

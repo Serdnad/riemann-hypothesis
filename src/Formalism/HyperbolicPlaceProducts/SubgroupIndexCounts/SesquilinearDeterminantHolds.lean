@@ -1,6 +1,6 @@
 module
 
-public import Formalism.HyperbolicPlaceProducts.Statement
+public import Formalism.HyperbolicPlaceProducts.Bundle001
 public import Formalism.GelfandTransference.HadamardGelfand.Hadamard
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

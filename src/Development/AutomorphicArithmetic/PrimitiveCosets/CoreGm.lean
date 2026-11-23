@@ -3,8 +3,7 @@ module
 public import Development.AutomorphicArithmetic.PrimitiveCosets.CoreAtH
 public import Development.AutomorphicArithmetic.DedekindLFunctions.LandauTheorems.ChCore
 public import Development.AutomorphicArithmetic.DedekindLFunctions.LandauTheorems.ChTop
-public import Development.AutomorphicArithmetic.PrimitiveCosets.GmAEq
-public import Development.AutomorphicArithmetic.PrimitiveCosets.SigALe
+public import Development.AutomorphicArithmetic.PrimitiveCosets.Bundle004
 public import Development.AutomorphicArithmetic.PrimitiveCosets.charsA
 public import Development.AutomorphicArithmetic.PrimitiveCosets.hostFactsS
 import Formalism.SizeWindowBrackets.ChainSlopeWindows.SubThreeMulLogTwoLe

@@ -1,6 +1,6 @@
 module
 
-public import CompanionTheory.AutomorphicTheory.PieriRules.ThetaBesselIsometries.IsDSOfIsDG
+public import CompanionTheory.AutomorphicTheory.PieriRules.ThetaBesselIsometries.Bundle001
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.ExceptionalGroupG2.TensorProductsG2.Transported
 public import CompanionTheory.AutomorphicTheory.PieriRules.HarishChandraFormalDegree
 public import CompanionTheory.AutomorphicTheory.RankOneEstimates.DecSender

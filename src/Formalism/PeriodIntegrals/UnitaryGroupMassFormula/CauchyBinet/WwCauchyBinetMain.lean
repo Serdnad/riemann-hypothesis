@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.WwCauchyBinet
+public import Formalism.PeriodIntegrals.Bundle001
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.IsometryDerivative.ExistsOePerm
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

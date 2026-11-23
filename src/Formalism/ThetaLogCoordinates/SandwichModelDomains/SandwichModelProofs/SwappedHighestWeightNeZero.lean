@@ -1,11 +1,11 @@
 module
 
 public import Formalism.ThetaLogCoordinates.SandwichModelDomains.SpreadSquare
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LHwrowLemmas
-public import Formalism.ThetaLogCoordinates.TraceIsometryWeights.HasLatBasis
+public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle004
+public import Formalism.ThetaLogCoordinates.TraceIsometryWeights.Bundle001
 public import Formalism.GradedWeylDivisibility.DualWeylDominanceOf
 public import Formalism.GradedWeylDivisibility.FinalB
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LClosedeqLemmas
+public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle002
 public import Formalism.PolynomialDimension.MultinomialDepth.MonoCount
 public import Formalism.ThetaLogCoordinates.TraceIsometryWeights.DischargeHeightBound
 public import Formalism.ThetaLogCoordinates.TraceIsometryWeights.FinalP

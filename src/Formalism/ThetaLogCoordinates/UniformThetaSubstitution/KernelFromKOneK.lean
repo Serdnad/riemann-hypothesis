@@ -1,6 +1,6 @@
 module
 
-public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.StatementGK
+public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.Bundle004
 public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.FrobeniusLiftNorms.EGaussK
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

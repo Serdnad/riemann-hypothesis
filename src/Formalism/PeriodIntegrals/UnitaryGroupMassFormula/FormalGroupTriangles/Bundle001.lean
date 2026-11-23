@@ -1,0 +1,347 @@
+module
+
+public import Formalism.PeriodIntegrals.Bundle002
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdditiveIntegralGroups.SubstMem
+public import Mathlib.Analysis.Normed.Field.Instances
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Linter.Style
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.TypeStar
+import Mathlib.Topology.Sheaves.Init
+
+@[expose] public section
+
+section
+
+noncomputable section
+
+namespace PI.FglTriFactor.Wk
+
+open PI.AddIntG.Wk (SerS mem_SerS mvsubst_mem_SerS)
+
+variable {p : ℕ} [Fact p.Prime]
+
+theorem psubst_comm {σ τ : Type*} {a : MvPowerSeries σ ℂ_[p]} (ha : MvPowerSeries.constantCoeff a = 0)
+    {b : σ → MvPowerSeries τ ℂ_[p]} (hb : MvPowerSeries.HasSubst b) (f : PowerSeries ℂ_[p]) :
+    MvPowerSeries.subst b (PowerSeries.subst a f) = PowerSeries.subst (MvPowerSeries.subst b a) f := by
+  have hA : MvPowerSeries.HasSubst (fun _ : Unit => a) :=
+    MvPowerSeries.hasSubst_of_constantCoeff_zero (fun _ => ha)
+  rw [PowerSeries.subst_def, PowerSeries.subst_def, MvPowerSeries.subst_comp_subst_apply hA hb]
+
+section Ops
+
+variable {l ex : PowerSeries ℂ_[p]} {σ τ : Type*}
+
+theorem cc_lg (hl : PowerSeries.constantCoeff l = 0) {a : MvPowerSeries σ ℂ_[p]}
+    (ha : MvPowerSeries.constantCoeff a = 0) : MvPowerSeries.constantCoeff (lg l a) = 0 :=
+  PowerSeries.constantCoeff_subst_eq_zero ha l hl
+
+theorem cc_pt (hex : PowerSeries.constantCoeff ex = 0) {a : MvPowerSeries σ ℂ_[p]}
+    (ha : MvPowerSeries.constantCoeff a = 0) : MvPowerSeries.constantCoeff (pt ex a) = 0 :=
+  PowerSeries.constantCoeff_subst_eq_zero ha ex hex
+
+theorem cc_add (hl : PowerSeries.constantCoeff l = 0) (hex : PowerSeries.constantCoeff ex = 0)
+    {a b : MvPowerSeries σ ℂ_[p]} (ha : MvPowerSeries.constantCoeff a = 0)
+    (hb : MvPowerSeries.constantCoeff b = 0) : MvPowerSeries.constantCoeff (add l ex a b) = 0 := by
+  have h : MvPowerSeries.constantCoeff (PI.FglTriFactor.lg l a + PI.FglTriFactor.lg l b) = 0 := by
+    rw [map_add (f := _), cc_lg hl ha, cc_lg hl hb, add_zero]
+  exact cc_pt hex h
+
+theorem subst_lg {b : σ → MvPowerSeries τ ℂ_[p]} (hb : MvPowerSeries.HasSubst b) {a : MvPowerSeries σ ℂ_[p]}
+    (ha : MvPowerSeries.constantCoeff a = 0) :
+    MvPowerSeries.subst b (lg l a) = lg l (MvPowerSeries.subst b a) :=
+  psubst_comm ha hb l
+
+theorem subst_pt {b : σ → MvPowerSeries τ ℂ_[p]} (hb : MvPowerSeries.HasSubst b) {a : MvPowerSeries σ ℂ_[p]}
+    (ha : MvPowerSeries.constantCoeff a = 0) :
+    MvPowerSeries.subst b (pt ex a) = pt ex (MvPowerSeries.subst b a) :=
+  psubst_comm ha hb ex
+
+theorem subst_add (hl : PowerSeries.constantCoeff l = 0) {b : σ → MvPowerSeries τ ℂ_[p]}
+    (hb : MvPowerSeries.HasSubst b) {x y : MvPowerSeries σ ℂ_[p]}
+    (hx : MvPowerSeries.constantCoeff x = 0) (hy : MvPowerSeries.constantCoeff y = 0) :
+    MvPowerSeries.subst b (add l ex x y) = add l ex (MvPowerSeries.subst b x) (MvPowerSeries.subst b y) := by
+  have h0 : MvPowerSeries.constantCoeff (PI.FglTriFactor.lg l x + PI.FglTriFactor.lg l y) = 0 := by
+    rw [map_add (f := _), cc_lg hl hx, cc_lg hl hy, add_zero]
+  unfold PI.FglTriFactor.add
+  rw [subst_pt hb h0, MvPowerSeries.subst_add hb, subst_lg hb hx, subst_lg hb hy]
+
+theorem subst_sub (hl : PowerSeries.constantCoeff l = 0) {b : σ → MvPowerSeries τ ℂ_[p]}
+    (hb : MvPowerSeries.HasSubst b) {x y : MvPowerSeries σ ℂ_[p]}
+    (hx : MvPowerSeries.constantCoeff x = 0) (hy : MvPowerSeries.constantCoeff y = 0) :
+    MvPowerSeries.subst b (sub l ex x y) = sub l ex (MvPowerSeries.subst b x) (MvPowerSeries.subst b y) := by
+  have h0 : MvPowerSeries.constantCoeff (PI.FglTriFactor.lg l x - PI.FglTriFactor.lg l y) = 0 := by
+    rw [map_sub, cc_lg hl hx, cc_lg hl hy, sub_zero]
+  unfold PI.FglTriFactor.sub
+  rw [subst_pt hb h0, MvPowerSeries.subst_sub hb, subst_lg hb hx, subst_lg hb hy]
+
+theorem lg_pt (hex0 : PowerSeries.constantCoeff ex = 0) (hinv : PowerSeries.subst ex l = PowerSeries.X)
+    {Y : MvPowerSeries σ ℂ_[p]} (hY : MvPowerSeries.constantCoeff Y = 0) : lg l (pt ex Y) = Y := by
+  have hY' : PowerSeries.HasSubst Y := PowerSeries.HasSubst.of_constantCoeff_zero hY
+  unfold PI.FglTriFactor.lg PI.FglTriFactor.pt
+  rw [← PowerSeries.subst_comp_subst_apply (PowerSeries.HasSubst.of_constantCoeff_zero' hex0) hY', hinv,
+    PowerSeries.subst_X hY']
+
+theorem pt_lg (hl0 : PowerSeries.constantCoeff l = 0) (hinv : PowerSeries.subst l ex = PowerSeries.X)
+    {x : MvPowerSeries σ ℂ_[p]} (hx : MvPowerSeries.constantCoeff x = 0) : pt ex (lg l x) = x := by
+  have hx' : PowerSeries.HasSubst x := PowerSeries.HasSubst.of_constantCoeff_zero hx
+  unfold PI.FglTriFactor.lg PI.FglTriFactor.pt
+  rw [← PowerSeries.subst_comp_subst_apply (PowerSeries.HasSubst.of_constantCoeff_zero' hl0) hx', hinv,
+    PowerSeries.subst_X hx']
+
+theorem pt_zero (hex0 : PowerSeries.constantCoeff ex = 0) : pt ex (0 : MvPowerSeries σ ℂ_[p]) = 0 :=
+  PowerSeries.subst_zero_of_constantCoeff_zero hex0
+
+theorem lg_zero (hl0 : PowerSeries.constantCoeff l = 0) : lg l (0 : MvPowerSeries σ ℂ_[p]) = 0 :=
+  PowerSeries.subst_zero_of_constantCoeff_zero hl0
+
+end Ops
+
+section Pair
+
+variable {τ : Type*}
+
+def pr (x y : MvPowerSeries τ ℂ_[p]) (f : MvPowerSeries (Fin 2) ℂ_[p]) : MvPowerSeries τ ℂ_[p] :=
+  MvPowerSeries.subst ![x, y] f
+
+private theorem forall_fin_two_vec_of_both {α : Type*} (P : α → Prop) {x y : α} (hx : P x) (hy : P y) :
+    ∀ i : Fin 2, P (![x, y] i) := by
+  intro i
+  fin_cases i
+  exacts [hx, hy]
+
+theorem hasSubst_pr {x y : MvPowerSeries τ ℂ_[p]} (hx : MvPowerSeries.constantCoeff x = 0)
+    (hy : MvPowerSeries.constantCoeff y = 0) : MvPowerSeries.HasSubst ![x, y] :=
+  MvPowerSeries.hasSubst_of_constantCoeff_zero
+    (forall_fin_two_vec_of_both (fun z => MvPowerSeries.constantCoeff z = 0) hx hy)
+
+theorem cc_pr {x y : MvPowerSeries τ ℂ_[p]} (hx : MvPowerSeries.constantCoeff x = 0)
+    (hy : MvPowerSeries.constantCoeff y = 0) {f : MvPowerSeries (Fin 2) ℂ_[p]}
+    (hf : MvPowerSeries.constantCoeff f = 0) : MvPowerSeries.constantCoeff (pr x y f) = 0 := by
+  show MvPowerSeries.constantCoeff (MvPowerSeries.subst ![x, y] f) = 0
+  exact MvPowerSeries.constantCoeff_subst_eq_zero (hasSubst_pr hx hy)
+    (forall_fin_two_vec_of_both (fun z => MvPowerSeries.constantCoeff z = 0) hx hy) hf
+
+theorem pr_comp {υ : Type*} {b : τ → MvPowerSeries υ ℂ_[p]} (hb : MvPowerSeries.HasSubst b)
+    {x y : MvPowerSeries τ ℂ_[p]} (hx : MvPowerSeries.constantCoeff x = 0)
+    (hy : MvPowerSeries.constantCoeff y = 0) (f : MvPowerSeries (Fin 2) ℂ_[p]) :
+    MvPowerSeries.subst b (pr x y f) = pr (MvPowerSeries.subst b x) (MvPowerSeries.subst b y) f := by
+  unfold pr
+  rw [MvPowerSeries.subst_comp_subst_apply (hasSubst_pr hx hy) hb]
+  congr 1
+  funext i
+  fin_cases i <;> rfl
+
+theorem pr_mem {S : Subring ℂ_[p]} {x y : MvPowerSeries τ ℂ_[p]} (hx : MvPowerSeries.constantCoeff x = 0)
+    (hy : MvPowerSeries.constantCoeff y = 0) (hxS : x ∈ SerS S τ) (hyS : y ∈ SerS S τ)
+    {f : MvPowerSeries (Fin 2) ℂ_[p]} (hf : f ∈ SerS S (Fin 2)) : pr x y f ∈ SerS S τ := by
+  show MvPowerSeries.subst ![x, y] f ∈ PI.AddIntG.Wk.SerS S τ
+  exact PI.AddIntG.Wk.mvsubst_mem_SerS S (forall_fin_two_vec_of_both (fun z => MvPowerSeries.constantCoeff z = 0) hx hy)
+    (forall_fin_two_vec_of_both (fun z => z ∈ PI.AddIntG.Wk.SerS S τ) hxS hyS) hf
+
+theorem cc_subst_eq {σ : Type*} {a : σ → MvPowerSeries τ ℂ_[p]} (hA : MvPowerSeries.HasSubst a)
+    (ha : ∀ i, MvPowerSeries.constantCoeff (a i) = 0) (f : MvPowerSeries σ ℂ_[p]) :
+    MvPowerSeries.constantCoeff (MvPowerSeries.subst a f) = MvPowerSeries.constantCoeff f := by
+  have hg : MvPowerSeries.constantCoeff (f - MvPowerSeries.C (MvPowerSeries.constantCoeff f)) = 0 := by
+    rw [map_sub, MvPowerSeries.constantCoeff_C, sub_self]
+  have h := MvPowerSeries.constantCoeff_subst_eq_zero hA ha hg
+  rw [MvPowerSeries.subst_sub hA, MvPowerSeries.subst_C, map_sub, MvPowerSeries.constantCoeff_C,
+    sub_eq_zero] at h
+  exact h
+
+theorem add_pr {l ex : PowerSeries ℂ_[p]} (hl : PowerSeries.constantCoeff l = 0)
+    {x y : MvPowerSeries τ ℂ_[p]} (hx : MvPowerSeries.constantCoeff x = 0)
+    (hy : MvPowerSeries.constantCoeff y = 0) :
+    add l ex x y = pr x y (add l ex (MvPowerSeries.X 0) (MvPowerSeries.X 1)) := by
+  have hb := hasSubst_pr hx hy
+  rw [pr, subst_add hl hb (MvPowerSeries.constantCoeff_X _) (MvPowerSeries.constantCoeff_X _),
+    MvPowerSeries.subst_X hb, MvPowerSeries.subst_X hb]
+  rfl
+
+theorem sub_pr {l ex : PowerSeries ℂ_[p]} (hl : PowerSeries.constantCoeff l = 0)
+    {x y : MvPowerSeries τ ℂ_[p]} (hx : MvPowerSeries.constantCoeff x = 0)
+    (hy : MvPowerSeries.constantCoeff y = 0) :
+    sub l ex x y = pr x y (sub l ex (MvPowerSeries.X 0) (MvPowerSeries.X 1)) := by
+  have hb := hasSubst_pr hx hy
+  rw [pr, subst_sub hl hb (MvPowerSeries.constantCoeff_X _) (MvPowerSeries.constantCoeff_X _),
+    MvPowerSeries.subst_X hb, MvPowerSeries.subst_X hb]
+  rfl
+
+end Pair
+
+end PI.FglTriFactor.Wk
+end
+end
+
+section
+
+noncomputable section
+
+namespace PI.FglTriFactor.Wk
+
+open PI.AddIntG.Wk (SerS mem_SerS mvsubst_mem_SerS)
+
+variable {K : Type*} [Field K] {σ : Type*} [Finite σ] [DecidableEq σ]
+
+def upd (k : σ) (t : MvPowerSeries σ K) : σ → MvPowerSeries σ K := Function.update MvPowerSeries.X k t
+
+theorem upd_const {k : σ} {t : MvPowerSeries σ K} (ht : MvPowerSeries.constantCoeff t = 0) (i : σ) :
+    MvPowerSeries.constantCoeff (upd k t i) = 0 := by
+  unfold upd
+  rcases eq_or_ne i k with rfl | h
+  · rw [Function.update_self]; exact ht
+  · rw [Function.update_of_ne h]; exact MvPowerSeries.constantCoeff_X i
+
+theorem hasSubst_upd (k : σ) {t : MvPowerSeries σ K} (ht : MvPowerSeries.constantCoeff t = 0) :
+    MvPowerSeries.HasSubst (upd k t) :=
+  MvPowerSeries.hasSubst_of_constantCoeff_zero (upd_const ht)
+
+theorem upd_self (k : σ) (t : MvPowerSeries σ K) : upd k t k = t :=
+  Function.update_self _ _ _
+
+theorem upd_ne {k i : σ} (t : MvPowerSeries σ K) (h : i ≠ k) : upd k t i = MvPowerSeries.X i :=
+  Function.update_of_ne h _ _
+
+theorem X_mem_SerS' (S : Subring K) (i : σ) : (MvPowerSeries.X i : MvPowerSeries σ K) ∈ SerS S σ := by
+  rw [PI.AddIntG.Wk.mem_SerS]
+  intro e
+  rw [MvPowerSeries.coeff_X]
+  split_ifs
+  · exact S.one_mem
+  · exact S.zero_mem
+
+theorem upd_mem {S : Subring K} (k : σ) {t : MvPowerSeries σ K} (ht : t ∈ SerS S σ) (i : σ) :
+    upd k t i ∈ SerS S σ := by
+  rcases eq_or_ne i k with rfl | h
+  · rw [upd_self]; exact ht
+  · rw [upd_ne t h]; exact X_mem_SerS' S i
+
+theorem prod_upd_zero (k : σ) (d : σ →₀ ℕ) :
+    (d.prod fun s e => (upd k (0 : MvPowerSeries σ K) s) ^ e) =
+      if d k = 0 then MvPowerSeries.monomial d 1 else 0 := by
+  by_cases h : d k = 0
+  · rw [if_pos h, MvPowerSeries.monomial_one_eq]
+    refine Finsupp.prod_congr fun s hs => ?_
+    have hsk : s ≠ k := by
+      rintro rfl
+      exact (Finsupp.mem_support_iff.1 hs) h
+    rw [upd_ne _ hsk]
+  · rw [if_neg h, Finsupp.prod]
+    refine Finset.prod_eq_zero (i := k) (Finsupp.mem_support_iff.2 h) ?_
+    try dsimp only
+    rw [upd_self, zero_pow h]
+
+theorem coeff_subst_upd_zero (k : σ) (f : MvPowerSeries σ K) (m : σ →₀ ℕ) (hm : m k = 0) :
+    MvPowerSeries.coeff m (MvPowerSeries.subst (upd k (0 : MvPowerSeries σ K)) f) = MvPowerSeries.coeff m f := by
+  have ha := hasSubst_upd k (t := (0 : MvPowerSeries σ K)) (map_zero _)
+  rw [MvPowerSeries.coeff_subst ha, finsum_eq_single _ m]
+  · try dsimp only
+    rw [prod_upd_zero, if_pos hm, MvPowerSeries.coeff_monomial_same, smul_eq_mul, mul_one]
+  · intro d hd
+    try dsimp only
+    rw [prod_upd_zero]
+    split_ifs
+    · rw [MvPowerSeries.coeff_monomial_ne (Ne.symm hd), smul_zero]
+    · rw [map_zero, smul_zero]
+
+theorem coeff_X_mul_shift (k : σ) (H : MvPowerSeries σ K) (e : σ →₀ ℕ) :
+    MvPowerSeries.coeff (e + Finsupp.single k 1) (MvPowerSeries.X k * H) = MvPowerSeries.coeff e H := by
+  rw [add_comm, MvPowerSeries.X_def, MvPowerSeries.coeff_add_monomial_mul, one_mul]
+
+private theorem subst_upd_subst_upd_eq_subst_upd_subst (k : σ) {t u : MvPowerSeries σ K}
+    (ht : MvPowerSeries.constantCoeff t = 0) (hu : MvPowerSeries.constantCoeff u = 0) (F : MvPowerSeries σ K) :
+    MvPowerSeries.subst (upd k u) (MvPowerSeries.subst (upd k t) F) =
+      MvPowerSeries.subst (upd k (MvPowerSeries.subst (upd k u) t)) F := by
+  rw [MvPowerSeries.subst_comp_subst_apply (hasSubst_upd k ht) (hasSubst_upd k hu)]
+  congr 1
+  funext i
+  try dsimp only
+  rcases eq_or_ne i k with rfl | h
+  · rw [upd_self, upd_self]
+  · rw [upd_ne t h, upd_ne _ h, MvPowerSeries.subst_X (hasSubst_upd k hu),
+      upd_ne u h]
+
+theorem fact_div {S : Subring K} {k : σ} {s G : MvPowerSeries σ K}
+    (hs0 : MvPowerSeries.constantCoeff s = 0) (hsS : s ∈ SerS S σ)
+    (hsk : ∀ t : MvPowerSeries σ K, MvPowerSeries.constantCoeff t = 0 → MvPowerSeries.subst (upd k t) s = s)
+    (hG : G ∈ SerS S σ) (hz : MvPowerSeries.subst (upd k s) G = 0) :
+    ∃ H ∈ SerS S σ, G = (MvPowerSeries.X k - s) * H := by
+  have hz0 : MvPowerSeries.constantCoeff (0 : MvPowerSeries σ K) = 0 := map_zero _
+  have hp0 : MvPowerSeries.constantCoeff (MvPowerSeries.X k + s : MvPowerSeries σ K) = 0 := by
+    rw [map_add (f := _), hs0, add_zero]; exact MvPowerSeries.constantCoeff_X k
+  have hm0 : MvPowerSeries.constantCoeff (MvPowerSeries.X k - s : MvPowerSeries σ K) = 0 := by
+    rw [map_sub, hs0, sub_zero]; exact MvPowerSeries.constantCoeff_X k
+  have hG' : MvPowerSeries.subst (upd k (MvPowerSeries.X k + s)) G ∈ PI.AddIntG.Wk.SerS S σ :=
+    PI.AddIntG.Wk.mvsubst_mem_SerS S (upd_const hp0)
+      (upd_mem k (add_mem (X_mem_SerS' S k) hsS)) hG
+  have e0 : MvPowerSeries.subst (upd k (0 : MvPowerSeries σ K)) (MvPowerSeries.X k + s) = s := by
+    rw [MvPowerSeries.subst_add (hasSubst_upd k hz0), MvPowerSeries.subst_X (hasSubst_upd k hz0),
+      upd_self, hsk 0 hz0, zero_add]
+  have hdvd : (MvPowerSeries.X k : MvPowerSeries σ K) ∣ MvPowerSeries.subst (upd k (MvPowerSeries.X k + s)) G := by
+    rw [MvPowerSeries.X_dvd_iff]
+    intro m hm
+    rw [← coeff_subst_upd_zero k _ m hm, subst_upd_subst_upd_eq_subst_upd_subst k hp0 hz0, e0, hz, map_zero]
+  obtain ⟨H', hH'⟩ := hdvd
+  have hH'S : H' ∈ PI.AddIntG.Wk.SerS S σ := by
+    rw [PI.AddIntG.Wk.mem_SerS]
+    intro e
+    rw [← coeff_X_mul_shift k H' e, ← hH']
+    exact (PI.AddIntG.Wk.mem_SerS S _).1 hG' _
+  refine ⟨MvPowerSeries.subst (upd k (MvPowerSeries.X k - s)) H',
+    PI.AddIntG.Wk.mvsubst_mem_SerS S (upd_const hm0)
+      (upd_mem k (sub_mem (X_mem_SerS' S k) hsS)) hH'S, ?_⟩
+  have e1 : MvPowerSeries.subst (upd k (MvPowerSeries.X k - s)) (MvPowerSeries.X k + s) = MvPowerSeries.X k := by
+    rw [MvPowerSeries.subst_add (hasSubst_upd k hm0), MvPowerSeries.subst_X (hasSubst_upd k hm0),
+      upd_self, hsk _ hm0, sub_add_cancel]
+  have e2 : upd k (MvPowerSeries.X k : MvPowerSeries σ K) = MvPowerSeries.X := by
+    funext i
+    rcases eq_or_ne i k with rfl | h
+    · exact upd_self _ _
+    · exact upd_ne _ h
+  calc G = MvPowerSeries.subst (MvPowerSeries.X : σ → MvPowerSeries σ K) G :=
+        (congrFun (MvPowerSeries.subst_self (σ := σ) (R := K)) G).symm
+    _ = MvPowerSeries.subst (upd k (MvPowerSeries.X k - s))
+          (MvPowerSeries.subst (upd k (MvPowerSeries.X k + s)) G) := by
+        rw [subst_upd_subst_upd_eq_subst_upd_subst k hp0 hm0, e1, e2]
+    _ = (MvPowerSeries.X k - s) * MvPowerSeries.subst (upd k (MvPowerSeries.X k - s)) H' := by
+        rw [hH', MvPowerSeries.subst_mul (hasSubst_upd k hm0), MvPowerSeries.subst_X (hasSubst_upd k hm0),
+          upd_self]
+
+end PI.FglTriFactor.Wk
+end
+end

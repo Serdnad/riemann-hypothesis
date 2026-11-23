@@ -1,9 +1,9 @@
 module
 
-public import Development.EtaleCohomology.TateTwists.ExistsEtaleKummerChernClassCochainOfDegreeValues
-public import Development.EtaleCohomology.TateTwists.EtalePrimitiveRootsExistLocally
-public import Development.EtaleCohomology.TateTwists.EtaleKummerTriangleExists
-public import Development.EtaleCohomology.TateTwists.EtaleSheafSectionsSeparatedAndGlue
+public import Development.EtaleCohomology.TateTwists.Bundle008
+public import Development.EtaleCohomology.TateTwists.Bundle004
+public import Development.EtaleCohomology.TateTwists.Bundle002
+public import Development.EtaleCohomology.TateTwists.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

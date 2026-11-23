@@ -1,14 +1,13 @@
 module
 
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.DilationDecomposition.LocDerBig
-public import Development.WeilBound.ThetaLifts.LatticeBasics.FdEqZero
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle010
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.IsSmoothModerateOfIsAutFunSm
 public import Development.WeilBound.RepresentationTheoryGL.EisensteinSeries.SiegelEisensteinContinuation.IsEpCont
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsSummableMajorantLatticeSumStatement
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle250
 public import Development.WeilBound.ThetaLifts.CartanFactorisation.Unimod
-public import Development.WeilBound.ThetaLifts.FrameEstimates.BlockForm
-public import Development.WeilBound.ThetaLifts.FrameEstimates.FundamentalDomainFiniteVolume
-public import Development.WeilBound.ThetaLifts.FrameEstimates.GrpTop
+public import Development.WeilBound.ThetaLifts.FrameEstimates.Bundle003
+public import Development.WeilBound.ThetaLifts.FrameEstimates.Bundle006
 public import Development.WeilBound.ThetaLifts.FrameEstimates.SiegelAll
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.DefClassNum
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.InvSubOneMem
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsRiemannianHaarOnSubgroupMapMulRightUnitary
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsotropicFlagLeviMaxCompactClosedSubgroups
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle008
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle131
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle120
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle139
 public import Formalism.RealPlaceAnalysis.FinalF
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

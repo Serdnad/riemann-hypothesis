@@ -2,8 +2,8 @@ module
 
 public import Mathlib.LinearAlgebra.Complex.FiniteDimensional
 public import Mathlib.Topology.Separation.CompletelyRegular
-public import ReciprocityTheory.L2DbarEstimates.IsLocalHomeomorph
-public import ReciprocityTheory.L2DbarEstimates.WeakHolomorphy.HoloWeakStatement
+public import ReciprocityTheory.L2DbarEstimates.Bundle001
+public import ReciprocityTheory.L2DbarEstimates.WeakHolomorphy.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -51,12 +51,12 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.L2DbarEstimates.WeakHolomorphy.ExtWeak
-import ReciprocityTheory.L2DbarEstimates.WeakHolomorphy.HoloWeak
-public import ReciprocityTheory.L2DbarEstimates.WeakHolomorphy.RegBall
+import ReciprocityTheory.L2DbarEstimates.WeakHolomorphy.Bundle004
+public import ReciprocityTheory.L2DbarEstimates.WeakHolomorphy.Bundle005
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.Definitions.Divisors.EtaleEmpty
-import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.L2ExtensionLogCanonical
-import ReciprocityTheory.L2DbarEstimates.PlurisubharmonicCharts.FlatCalcA
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle006
+import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.Bundle003
+import ReciprocityTheory.L2DbarEstimates.PlurisubharmonicCharts.Bundle003
 
 @[expose] public section
 

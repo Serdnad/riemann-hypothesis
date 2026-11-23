@@ -2,7 +2,7 @@ module
 
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ArchimedeanOrbitMeasures.PushInv
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ArchimedeanOrbitMeasures.PushLF
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ArchimedeanOrbitMeasures.PushSupp
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ArchimedeanOrbitMeasures.Bundle012
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -63,7 +63,7 @@ variable (R : Type) [CommRing R] [Algebra F R] [TopologicalSpace R] [IsTopologic
 theorem isClosed_HermRP (σ : E →ₐ[F] E) (n : ℕ) :
     IsClosed (HermR R σ n : Set (Matrix (Fin n) (Fin n) (R ⊗[F] E))) := by
   have : (HermR R σ n : Set (Matrix (Fin n) (Fin n) (R ⊗[F] E))) =
-      ⋂ a, ⋂ b, {S | sigR R σ (S b a) = S a b} := by
+      ⋂ a, ⋂ b, {S | _root_.Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.sigR R σ (S b a) = S a b} := by
     ext S; simp only [Set.mem_iInter, Set.mem_ofPred_eq, SetLike.mem_coe]; exact Iff.rfl
   rw [this]
   exact isClosed_iInter fun a => isClosed_iInter fun b =>
@@ -77,17 +77,17 @@ section Gram
 variable {F E : Type} [Field F] [Field E] [Algebra F E] (R : Type) [CommRing R] [Algebra F R]
 
 theorem sigR_invP (σ : E →ₐ[F] E) (hσ : ∀ x, σ (σ x) = x) (x : R ⊗[F] E) :
-    sigR R σ (sigR R σ x) = x := by
+    _root_.Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.sigR R σ (_root_.Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.sigR R σ x) = x := by
   induction x using TensorProduct.inductionOn with
-  | tmul r e => simp [sigR, hσ]
+  | tmul r e => simp [_root_.Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.sigR, hσ]
   | add x y hx hy => rw [map_add (f := _), map_add (f := _), hx, hy]
 
 theorem gramR_memP (σ : E →ₐ[F] E) (hσ : ∀ x, σ (σ x) = x) {M n : ℕ}
     (J : Matrix (Fin M) (Fin M) E) (hJ : ∀ i j, σ (J j i) = J i j)
     (X : Fin n → Fin M → R ⊗[F] E) : gramR R σ J X ∈ HermR R σ n := by
   intro a b
-  have hJR : ∀ i j, sigR R σ (JR R J i j) = JR R J j i := by
-    intro i j; simp [JR, inclR, sigR, hJ]
+  have hJR : ∀ i j, _root_.Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.sigR R σ (JR R J i j) = JR R J j i := by
+    intro i j; simp [JR, inclR, _root_.Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.sigR, hJ]
 
   simp only [gramR, hR, Formalism.UG.hform, map_sum, map_mul, sigR_invP R σ hσ, hJR]
   rw [Finset.sum_comm]

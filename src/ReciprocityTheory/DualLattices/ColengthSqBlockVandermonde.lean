@@ -49,7 +49,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import ReciprocityTheory.DualLattices.TensorSpan
+import ReciprocityTheory.DualLattices.Bundle002
 
 @[expose] public section
 

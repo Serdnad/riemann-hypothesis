@@ -53,12 +53,12 @@ variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algeb
 
 theorem zOf_repr {d : ℕ} (b : Module.Basis (Fin d) F E) (v : HeightOneSpectrum (𝓞 F))
     (w : Fin 1 × Fin d → v.adicCompletionIntegers F) (k : Fin d) :
-    (Algebra.TensorProduct.basis (Fv F v) b).repr (zOf b v w) k = (w (0, k) : Fv F v) := by
+    (Algebra.TensorProduct.basis (Fv F v) b).repr (PositivityTheory.SiegelWeilFormula.MOne.zOf b v w) k = (w (0, k) : Fv F v) := by
 
-  simp [zOf, map_sum, Finsupp.single_apply]
+  simp [PositivityTheory.SiegelWeilFormula.MOne.zOf, map_sum, Finsupp.single_apply]
 
 theorem zOf_mem' {d : ℕ} (b : Module.Basis (Fin d) F E) (v : HeightOneSpectrum (𝓞 F))
-    (w : Fin 1 × Fin d → v.adicCompletionIntegers F) : zOf b v w ∈ Rv b v := by
+    (w : Fin 1 × Fin d → v.adicCompletionIntegers F) : PositivityTheory.SiegelWeilFormula.MOne.zOf b v w ∈ Rv b v := by
   intro k
   rw [zOf_repr]
   exact (w (0, k)).2
@@ -82,7 +82,7 @@ theorem form_res (σ : E →ₐ[F] E) (hCM : IsCMExt F E σ) (J : Matrix (Fin 1)
     (w : Fin 1 × Fin d → v.adicCompletionIntegers F) (s : v.adicCompletionIntegers F) :
     Valued.v ((2 : Fv F v)⁻¹ * ((fun p => (w p : Fv F v)) ⬝ᵥ
         (B.map (algebraMap F (Fv F v)) *ᵥ fun p => (w p : Fv F v))) - s) < 1 ↔
-      ∃ y ∈ Rv b v, sigR (Fv F v) σ (zOf b v w) * inclR (Fv F v) (J 0 0) * zOf b v w -
+      ∃ y ∈ Rv b v, sigR (Fv F v) σ (PositivityTheory.SiegelWeilFormula.MOne.zOf b v w) * inclR (Fv F v) (J 0 0) * PositivityTheory.SiegelWeilFormula.MOne.zOf b v w -
         algebraMap (Fv F v) (Fv F v ⊗[F] E) s = algebraMap (Fv F v) (Fv F v ⊗[F] E) ϖ * y := by
   classical
   have hσσ : ∀ x, σ (σ x) = x := GlobalTheory.CompanionTheory.SW.SWIsom.sigma_sigma σ hCM
@@ -111,7 +111,7 @@ theorem form_res (σ : E →ₐ[F] E) (hCM : IsCMExt F E σ) (J : Matrix (Fin 1)
     intro u hu k
     rw [Algebra.algebraMap_eq_smul_one, map_smul, Finsupp.smul_apply, smul_eq_mul]
     exact Subring.mul_mem _ hu (hR1 k)
-  set z := zOf b v w with hz
+  set z := PositivityTheory.SiegelWeilFormula.MOne.zOf b v w with hz
   have hzR : z ∈ Rv b v := zOf_mem' b v w
   have hsig2 : ∀ x, sigR (Fv F v) σ (sigR (Fv F v) σ x) = x := by
     intro x

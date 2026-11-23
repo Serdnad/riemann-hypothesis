@@ -2,7 +2,7 @@ module
 
 public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.LeviEqISupParts
 public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.ExistsUnitOfComm
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CmDataIsCMExtAndGramIsHermND
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle219
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

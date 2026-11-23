@@ -1,10 +1,9 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.GroupStructureDefs
-public import GroundTheory.LocalFields.Ramification
+public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.Bundle001
+public import GroundTheory.LocalFields.Bundle004
 public import Mathlib.FieldTheory.Galois.Basic
-public import GroundTheory.LocalFields.RamificationStructure
-public import GroundTheory.LocalFields.UnramifiedRootsOfUnity
+public import GroundTheory.LocalFields.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

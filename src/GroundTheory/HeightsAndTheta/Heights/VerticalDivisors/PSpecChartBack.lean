@@ -2,7 +2,7 @@ module
 
 public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.PSpecChartIso
 public import Mathlib.RingTheory.RingHom.Flat
-import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.PSpecMax
+import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.Bundle012
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.OriginIdeal
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ClosureFiniteEtale
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TorsionFreeOver
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsMulMemIntegralClosureOverGenericFibreStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.InjectiveTraceGaloisData
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle126
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle280
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle122
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle418
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle172
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.GlobSet
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle018
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.PlacesOf
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.PatternUnitriangularStrongApproximation
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle077
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.UnitriangularChangeRationalFlagIffRationalUnipot
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.LocFacts
 import Mathlib.Algebra.AffineMonoid.Basic

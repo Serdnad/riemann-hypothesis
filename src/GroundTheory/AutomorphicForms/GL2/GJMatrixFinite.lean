@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.GlobalFields.TateThesis.SchwartzBruhatFinite
-import GroundTheory.AutomorphicForms.ReductionMeasure
+import GroundTheory.AutomorphicForms.Bundle012
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

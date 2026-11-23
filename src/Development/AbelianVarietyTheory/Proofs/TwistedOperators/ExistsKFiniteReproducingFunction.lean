@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.HarishChandraFinite
+public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.Bundle011
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.NormDwLeSobNorm
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsGivenStageEqOne
 import Mathlib.Algebra.Order.Floor.Extended
@@ -51,8 +51,8 @@ import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.ExistsH
 import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.ExistsMatchOver
 import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.SqNormIntegralFundamentalDomainEqL2NormSq
 import Development.AbelianVarietyTheory.Proofs.HeightProofs.TypeAtOfDiscreteSeries
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.HasCtpId
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RangeSndRel
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle525
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle468
 import Development.AbelianVarietyTheory.Statements.HeckeThetaIntegrals.FormulaAt
 
 @[expose] public section

@@ -1,6 +1,6 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.CuspidalTwists.TnOne
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.CuspidalTwists.Bundle001
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.Hypotheses2
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -48,58 +48,58 @@ open scoped Matrix
 namespace UpperTheory.V.Cu2
 
 structure KapDat {Ω : Type} [Field Ω] [CharZero Ω] [IsAlgClosure ℚ Ω] {l : ℕ} [Fact l.Prime] (ι : Qbar l ≃+* ℂ)
-    (K' : IntermediateField ℚ Ω) [NumberField K'] (m : ℕ) (κ : G K' Ω →* (Qbar l)ˣ) : Prop where
+    (K' : IntermediateField ℚ Ω) [NumberField K'] (m : ℕ) (κ : _root_.Formalism.ConjugateSelfDual.G K' Ω →* (Qbar l)ˣ) : Prop where
   pos : 1 ≤ m
   cont : Continuous κ
   alg : ∃ (art : Ideles K' →* Gab K' Ω) (Y : HChar K') (a : (K' →+* ℂ) → ℤ) (e : K' →+* ℂ), IsGlobalArtin art ∧ IsAlgPos Y a ∧
     IsLAdicOf art ι Y a κ ∧ a e = -(m : ℤ) ∧ a (ComplexEmbedding.conjugate e) = m
-  anti : ∀ t ∉ K'.fixingSubgroup, ∀ h h' : G K' Ω, resQ K' h' = t * resQ K' h * t⁻¹ → κ h * κ h' = 1
-  ver : ∀ t ∉ K'.fixingSubgroup, ∀ h : G K' Ω, resQ K' h = t * t → κ h = 1
+  anti : ∀ t ∉ K'.fixingSubgroup, ∀ h h' : _root_.Formalism.ConjugateSelfDual.G K' Ω, resQ K' h' = t * resQ K' h * t⁻¹ → κ h * κ h' = 1
+  ver : ∀ t ∉ K'.fixingSubgroup, ∀ h : _root_.Formalism.ConjugateSelfDual.G K' Ω, resQ K' h = t * t → κ h = 1
   red : ∀ h, Cong (κ h) 1
-  unr : ∀ A : ValuationSubring Ω, ¬ A.valuation (l : Ω) < 1 → ∀ h : G K' Ω, resQ K' h ∈ Ine (F := ℚ) A → κ h = 1
+  unr : ∀ A : ValuationSubring Ω, ¬ A.valuation (l : Ω) < 1 → ∀ h : _root_.Formalism.ConjugateSelfDual.G K' Ω, resQ K' h ∈ Ine (F := ℚ) A → κ h = 1
   ine : ∀ A : ValuationSubring Ω, A.valuation (l : Ω) < 1 →
-    (∀ h : G K' Ω, resQ K' h ∈ Ine (F := ℚ) A → κ h = cycBar K' Ω l h ^ (m : ℤ)) ∨
-      ∀ h : G K' Ω, resQ K' h ∈ Ine (F := ℚ) A → κ h = cycBar K' Ω l h ^ (-(m : ℤ))
+    (∀ h : _root_.Formalism.ConjugateSelfDual.G K' Ω, resQ K' h ∈ Ine (F := ℚ) A → κ h = cycBar K' Ω l h ^ (m : ℤ)) ∨
+      ∀ h : _root_.Formalism.ConjugateSelfDual.G K' Ω, resQ K' h ∈ Ine (F := ℚ) A → κ h = cycBar K' Ω l h ^ (-(m : ℤ))
 
 def TwistIne : Prop :=
   ∀ (Ω : Type) [Field Ω] [CharZero Ω] [IsAlgClosure ℚ Ω] (l : ℕ) [Fact l.Prime] (ι : Qbar l ≃+* ℂ)
     (K' : IntermediateField ℚ Ω) [NumberField K'], Module.finrank ℚ K' = 2 → IsTotallyComplex K' → ¬ (l : ℤ) ∣ discr K' →
-    (∀ A : ValuationSubring Ω, A.valuation (l : Ω) < 1 → Dec (F := ℚ) A ≤ K'.fixingSubgroup) →
-    ∀ (cc : G ℚ Ω) (κ₀ : G K' Ω →* (Qbar l)ˣ), IsTwist ι cc κ₀ → ∀ A : ValuationSubring Ω, A.valuation (l : Ω) < 1 →
+    (∀ A : ValuationSubring Ω, A.valuation (l : Ω) < 1 → _root_.ReciprocityTheory.Gal.Dec (F := ℚ) A ≤ K'.fixingSubgroup) →
+    ∀ (cc : _root_.Formalism.ConjugateSelfDual.G ℚ Ω) (κ₀ : _root_.Formalism.ConjugateSelfDual.G K' Ω →* (Qbar l)ˣ), IsTwist ι cc κ₀ → ∀ A : ValuationSubring Ω, A.valuation (l : Ω) < 1 →
       (∀ h ∈ Ine (F := K') A, κ₀ h = (cycBar K' Ω l h)⁻¹) ∨ ∀ h ∈ Ine (F := K') A, κ₀ h = 1
 
 def AlgType : Prop :=
   ∀ (K Ω : Type) [Field K] [NumberField K] [Field Ω] [Algebra K Ω] [IsAlgClosure K Ω] (l : ℕ) [Fact l.Prime] (ι : Qbar l ≃+* ℂ)
-    (art : Ideles K →* Gab K Ω) (Y : HChar K) (a : (K →+* ℂ) → ℤ) (κ : G K Ω →* (Qbar l)ˣ), IsGlobalArtin art → IsAlgPos Y a →
+    (art : Ideles K →* Gab K Ω) (Y : HChar K) (a : (K →+* ℂ) → ℤ) (κ : _root_.Formalism.ConjugateSelfDual.G K Ω →* (Qbar l)ˣ), IsGlobalArtin art → IsAlgPos Y a →
     IsLAdicOf art ι Y a κ → ∀ n j : ℕ, ∃ Y' : HChar K, IsAlgPos Y' (fun e => n * a e + j) ∧
       IsLAdicOf art ι Y' (fun e => n * a e + j) (κ ^ n * cycBar K Ω l ^ j)
 
 def KapEx : Prop :=
   Af.Hypotheses₂ → ∀ (Ω : Type) [Field Ω] [CharZero Ω] [IsAlgClosure ℚ Ω] (l : ℕ) [Fact l.Prime] (ι : Qbar l ≃+* ℂ)
     (K' : IntermediateField ℚ Ω) [NumberField K'], l ≠ 2 → Module.finrank ℚ K' = 2 → IsTotallyComplex K' → ¬ (l : ℤ) ∣ discr K' →
-    (∀ A : ValuationSubring Ω, A.valuation (l : Ω) < 1 → Dec (F := ℚ) A ≤ K'.fixingSubgroup) → (∃ cc : G ℚ Ω, Sd.IsCC cc) →
-    ∃ (m : ℕ) (κ : G K' Ω →* (Qbar l)ˣ), ∀ j : ℕ, 1 ≤ j → KapDat ι K' (m * j) (κ ^ j)
+    (∀ A : ValuationSubring Ω, A.valuation (l : Ω) < 1 → _root_.ReciprocityTheory.Gal.Dec (F := ℚ) A ≤ K'.fixingSubgroup) → (∃ cc : _root_.Formalism.ConjugateSelfDual.G ℚ Ω, Sd.IsCC cc) →
+    ∃ (m : ℕ) (κ : _root_.Formalism.ConjugateSelfDual.G K' Ω →* (Qbar l)ˣ), ∀ j : ℕ, 1 ≤ j → KapDat ι K' (m * j) (κ ^ j)
 
 def TauOf : Prop :=
   ∀ (Ω : Type) [Field Ω] [CharZero Ω] [IsAlgClosure ℚ Ω] (l : ℕ) [Fact l.Prime] (ι : Qbar l ≃+* ℂ)
     (K' : IntermediateField ℚ Ω) [NumberField K'], l ≠ 2 → Module.finrank ℚ K' = 2 →
-    (∀ A : ValuationSubring Ω, A.valuation (l : Ω) < 1 → Dec (F := ℚ) A ≤ K'.fixingSubgroup) →
-    ∀ g0 ∉ K'.fixingSubgroup, ∀ (m : ℕ) (κ : G K' Ω →* (Qbar l)ˣ), KapDat ι K' m κ →
+    (∀ A : ValuationSubring Ω, A.valuation (l : Ω) < 1 → _root_.ReciprocityTheory.Gal.Dec (F := ℚ) A ≤ K'.fixingSubgroup) →
+    ∀ g0 ∉ K'.fixingSubgroup, ∀ (m : ℕ) (κ : _root_.Formalism.ConjugateSelfDual.G K' Ω →* (Qbar l)ˣ), KapDat ι K' m κ →
     ∀ c₂ : Coef l, (∀ h, (κ h : Qbar l) ∈ c₂.O) → ∃ τ s, TauDat ι K' g0 m c₂ τ s κ
 
 structure IsInd {Ω : Type} [Field Ω] [CharZero Ω] [IsAlgClosure ℚ Ω] {l : ℕ} [Fact l.Prime] (K' : IntermediateField ℚ Ω)
-    (r : G K' Ω →* GL (Fin 2) (Qbar l)) (R : G ℚ Ω →* GL (Fin 4) (Qbar l)) : Prop where
-  on : ∀ t ∉ K'.fixingSubgroup, ∀ g g' : G K' Ω, resQ K' g' = t⁻¹ * resQ K' g * t →
+    (r : _root_.Formalism.ConjugateSelfDual.G K' Ω →* GL (Fin 2) (Qbar l)) (R : _root_.Formalism.ConjugateSelfDual.G ℚ Ω →* GL (Fin 4) (Qbar l)) : Prop where
+  on : ∀ t ∉ K'.fixingSubgroup, ∀ g g' : _root_.Formalism.ConjugateSelfDual.G K' Ω, resQ K' g' = t⁻¹ * resQ K' g * t →
     (R (resQ K' g) : Matrix (Fin 4) (Fin 4) (Qbar l)).charpoly =
       (r g : Matrix (Fin 2) (Fin 2) (Qbar l)).charpoly * (r g' : Matrix (Fin 2) (Fin 2) (Qbar l)).charpoly
-  off : ∀ t ∉ K'.fixingSubgroup, ∀ g : G K' Ω, resQ K' g = t * t →
+  off : ∀ t ∉ K'.fixingSubgroup, ∀ g : _root_.Formalism.ConjugateSelfDual.G K' Ω, resQ K' g = t * t →
     (R t : Matrix (Fin 4) (Fin 4) (Qbar l)).charpoly = (r g : Matrix (Fin 2) (Fin 2) (Qbar l)).charpoly.comp (X ^ 2)
-  ker : ∀ t ∉ K'.fixingSubgroup, ∀ g g' : G K' Ω, resQ K' g' = t⁻¹ * resQ K' g * t → r g = 1 → r g' = 1 → R (resQ K' g) = 1
+  ker : ∀ t ∉ K'.fixingSubgroup, ∀ g g' : _root_.Formalism.ConjugateSelfDual.G K' Ω, resQ K' g' = t⁻¹ * resQ K' g * t → r g = 1 → r g' = 1 → R (resQ K' g) = 1
 
 def TenInd : Prop :=
   ∀ (Ω : Type) [Field Ω] [CharZero Ω] [IsAlgClosure ℚ Ω] (l : ℕ) [Fact l.Prime] (ι : Qbar l ≃+* ℂ)
     (K' : IntermediateField ℚ Ω) [NumberField K'], Module.finrank ℚ K' = 2 →
-    ∀ (ρ : G ℚ Ω →* GL (Fin 2) (Qbar l)) (g0 : G ℚ Ω) (m : ℕ) (c₁ : Coef l) (κ : G K' Ω →* (Qbar l)ˣ) (ρ₁ τ : G ℚ Ω →* M2 c₁.O)
+    ∀ (ρ : _root_.Formalism.ConjugateSelfDual.G ℚ Ω →* GL (Fin 2) (Qbar l)) (g0 : _root_.Formalism.ConjugateSelfDual.G ℚ Ω) (m : ℕ) (c₁ : Coef l) (κ : _root_.Formalism.ConjugateSelfDual.G K' Ω →* (Qbar l)ˣ) (ρ₁ τ : _root_.Formalism.ConjugateSelfDual.G ℚ Ω →* M2 c₁.O)
       (s : ValuationSubring Ω → c₁.O), RepIso ρ (mapRep (algebraMap c₁.O (PadicAlgCl l)) ρ₁).toHomUnits →
       TauDat ι K' g0 m c₁ τ s κ → IsInd K' (Af.tw (ρ.comp (resQ K')) κ) (tenB ρ₁ τ)
 

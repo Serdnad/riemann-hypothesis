@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.GlobalFields.TateThesis.AdeleIdealMeasure
-public import GroundTheory.GlobalFields.TateThesis.TraceDualLattice
+public import GroundTheory.GlobalFields.TateThesis.Bundle005
 public import GroundTheory.GlobalFields.TateThesis.AdelicCharLocal
 public import GroundTheory.GlobalFields.TateThesis.AdelicCharDual
 import Mathlib.Algebra.Order.Floor.Extended

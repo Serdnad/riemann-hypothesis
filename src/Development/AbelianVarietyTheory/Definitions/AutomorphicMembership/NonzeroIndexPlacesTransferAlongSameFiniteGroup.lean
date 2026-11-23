@@ -1,8 +1,8 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.ReplacementValuesBaseLevelTypePartsEq
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.FieldValuesMemFixedField
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.OmPinsTr
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle023
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle018
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.GoodPartEq
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

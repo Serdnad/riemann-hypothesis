@@ -1,8 +1,8 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.RootOnFund
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.OpenImmersionCompStructureEqGeneric
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GenPtSpecializes
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle012
+public import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle024
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle063
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeCptInteriorGeneric
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

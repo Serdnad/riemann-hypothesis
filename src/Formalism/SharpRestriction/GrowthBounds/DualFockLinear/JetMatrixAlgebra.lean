@@ -1,19 +1,19 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.DualFockLinear.BaseMatrixAlgebra
+public import Formalism.SharpRestriction.GrowthBounds.DualFockLinear.Bundle014
 public import Formalism.LocalToGlobal.GroupLattices.FockModels.TestSideDef
 public import Formalism.LocalToGlobal.GroupLattices.FockModels.TestSideLat
 import Formalism.GradedWeylDivisibility.DualWeylDominanceOf
 import Formalism.GradedWeylDivisibility.FinalD
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LDlatLemmas
-import Formalism.LocalToGlobal.GroupLattices.FockModels.DualInclusionLattices
+import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle011
+import Formalism.LocalToGlobal.GroupLattices.FockModels.Bundle001
 import Formalism.LocalToGlobal.GroupLattices.FockModels.ElementaryDivisorBasis
 public import Formalism.LocalToGlobal.GroupLattices.FockModels.TestSide
 import Formalism.LocalToGlobal.GroupLattices.FockModels.TestSidePos
 import Formalism.LocalToGlobal.GroupLattices.FockModels.TestSideTen
 public import Formalism.LocalToGlobal.GroupLattices.FockModels.TransposeWords.TransposeWordsProofs.ProdBlockEmbMonomial
 public import Formalism.LocalToGlobal.GroupLattices.FockModels.TransposeWords.TransposeWordsProofs.WeylFormNondegenerateGlobal
-public import Formalism.SharpRestriction.GrowthBounds.DualFockLinear.FormCoreSKXOf
+public import Formalism.SharpRestriction.GrowthBounds.DualFockLinear.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

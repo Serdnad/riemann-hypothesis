@@ -3,7 +3,7 @@ module
 public import GroundTheory.LocalFields.FormalGroups.LubinTate
 public import GroundTheory.LocalFields.FormalGroups.Basics
 import Batteries.Tactic.PrintPrefix
-import GroundTheory.LocalFields.FormalGroups.Truncation
+import GroundTheory.LocalFields.FormalGroups.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

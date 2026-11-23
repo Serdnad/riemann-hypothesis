@@ -54,9 +54,9 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.CharacterValuation
+import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.Bundle011
 import Formalism.LocalToGlobal.KernelLattices.XiIndCClass
-import Formalism.SharpRestriction.CuspSpanNormBounds.Point
+import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle001
 
 @[expose] public section
 

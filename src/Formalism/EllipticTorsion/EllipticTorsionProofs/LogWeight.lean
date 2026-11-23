@@ -1,6 +1,6 @@
 module
 
-public import Formalism.EllipticTorsion.UnitCancel
+public import Formalism.EllipticTorsion.Bundle003
 public import Formalism.FormalGroupLog.FormalGroupLogProofs.ConstantCoeffSubstOfZero
 public import Formalism.FormalGroupLog.FormalGroupLogProofs.HomPsSubstMvSubst
 import Mathlib.Algebra.Order.Floor.Extended

@@ -1,10 +1,10 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.AdelicLattices.FactPrimes
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsHodgeGram
-public import Formalism.LocalToGlobal.ProjectiveLattices.IsCombAt
-public import Formalism.LocalToGlobal.ProjectiveLattices.OneLtAbsNormReal
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsEmbeddingPadicComplexInt
+public import Development.AutomorphicSpectrum.Definitions.AdelicLattices.Bundle001
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle009
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle011
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle002
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2193
 public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.ExistsAlgebraMapEqOfValVLeOne
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

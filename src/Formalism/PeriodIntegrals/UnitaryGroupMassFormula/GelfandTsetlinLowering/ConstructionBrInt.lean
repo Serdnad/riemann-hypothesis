@@ -1,7 +1,7 @@
 module
 
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.GelfandTsetlinLowering.ZScalarVanish
-public import Formalism.PeriodIntegrals.HwIrred
+public import Formalism.PeriodIntegrals.Bundle021
 public import Formalism.GradedWeylDivisibility.DualWeylDominanceOf
 public import Formalism.GradedWeylDivisibility.FinalB
 public import Formalism.GradedWeylDivisibility.FinalD

@@ -3,10 +3,10 @@ module
 public import Development.AbelianVarietyTheory.Definitions.Divisors.GridTestLatticeLargestSlopeBound
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.MemHatIffOfSelfDual
 public import Formalism.LocalToGlobal.GroupLattices.LevelCharts.FiniteClassSetOfFiniteIndex
-import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.CsApprox
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.CsEquiv
+import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle011
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle013
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.CsGlob
-import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.CsSpan
+import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle014
 import Formalism.SatakeDualWeyl.KpqSubgroupCompact
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

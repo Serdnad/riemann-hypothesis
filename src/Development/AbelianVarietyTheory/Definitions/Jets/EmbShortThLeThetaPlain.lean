@@ -1,11 +1,10 @@
 module
 
 public import Formalism.LocalToGlobal.IndefiniteForms.IndefiniteTree.ExampleSatisfiesConditionsAtFive
-public import Formalism.LocalToGlobal.ProjectiveLattices.LiftLaSpec
-public import Formalism.LocalToGlobal.ProjectiveLattices.ThClassPins
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle009
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle039
 public import Formalism.SharpRestriction.Divisibility.AbelianOpenPart.OEOsInjective
-public import Formalism.LocalToGlobal.ProjectiveLattices.HasDataCondition
-public import Formalism.LocalToGlobal.ProjectiveLattices.XcLat
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle037
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

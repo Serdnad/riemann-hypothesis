@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.AutomorphicForms.GL2.GJFEDefs
+public import GroundTheory.AutomorphicForms.GL2.Bundle005
 import GroundTheory.AutomorphicForms.GL2.ExistsEqPowMulOfValuationLe
 public import GroundTheory.AutomorphicForms.LeviStagesJacquet
 import Mathlib.Algebra.Order.Floor.Extended

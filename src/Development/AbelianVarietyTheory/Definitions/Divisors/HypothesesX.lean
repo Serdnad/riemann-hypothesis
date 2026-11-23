@@ -1,10 +1,10 @@
 module
 
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.ToroidalCompactificationBis
-public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.InterNumDetNonposSplitTorus
-public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.GreenCuspidalIff
+public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.Bundle012
+public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.Bundle004
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.PointSeparationPair
-public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.FubiniStudyChowHeight
+public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.Bundle013
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

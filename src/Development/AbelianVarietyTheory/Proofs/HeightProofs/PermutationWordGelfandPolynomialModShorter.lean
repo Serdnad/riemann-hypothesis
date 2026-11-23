@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.IsLieDataCircle
-public import Formalism.RealPlaceAnalysis.StatementA
+public import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle003
+public import Formalism.RealPlaceAnalysis.Bundle001
 public import Mathlib.RingTheory.MvPolynomial.IrreducibleQuadratic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

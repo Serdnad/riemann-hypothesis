@@ -1,11 +1,11 @@
 module
 
 public import Development.AbelianVarietyTheory.Statements.PlaceShiftStatements.NormSmall
-public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.ZetaValueIdeals
+public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.Bundle003
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsValCharTwist
 public import Development.AutomorphicArithmetic.CyclotomicBounds.RamifiedDiscriminants.FunDen
-import Formalism.LocalRingCardinality.HostCls
-public import Formalism.SharpRestriction.AdmissibleParameterJoins.SfromGLu
+import Formalism.LocalRingCardinality.Bundle002
+public import Formalism.SharpRestriction.AdmissibleParameterJoins.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,9 +1,9 @@
 module
 
-public import Formalism.SharpRestriction.CuspSpanNormBounds.FrobeniusCoefficientMemLp.AmpOrbOfAmpDD
+public import Formalism.SharpRestriction.CuspSpanNormBounds.FrobeniusCoefficientMemLp.Bundle002
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.BesselDecayBounds.DecayZeroRight.NormDec
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.ContinuousMulMt
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.FdegOfSchur
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle034
 public import Formalism.SharpRestriction.CuspSpanNormBounds.FrobeniusCoefficientMemLp.SigmaFiniteAmplitudes.FlipOneTwo
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

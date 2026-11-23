@@ -3,8 +3,8 @@ module
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsIntegralInvariantDerivationLog
 public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.FormalGroupLawLogarithm
 public import Formalism.LocalToGlobal.ProjectiveLattices.PlaceBelow
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DerivAt0EqSumOfSubset
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsExpEqOfSubstLg
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle271
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle066
 public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.ConstantCoeffInvariantOperatorAlongMatrix
 import Formalism.SharpRestriction.Divisibility.GeneratorPowers.FoldPermutation
 import Mathlib.Algebra.Order.Floor.Extended
@@ -46,7 +46,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.LogChain
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.Bundle009
 
 @[expose] public section
 

@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.MulVecMemLatMap
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.DiagMemCongruencePairs
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle001
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle003
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.IsMassConst
-public import Formalism.SharpRestriction.CuspSpanNormBounds.Point
+public import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -2,10 +2,10 @@ module
 
 public import GroundTheory.ProfiniteCohomology.PoitouTate.RealOdd
 public import GroundTheory.ProfiniteCohomology.RealPlaces.VanishingUnits
-import GroundTheory.ProfiniteCohomology.CupProducts.Projection
+import GroundTheory.ProfiniteCohomology.CupProducts.Bundle003
 import GroundTheory.ProfiniteCohomology.GlobalClassFormation.RealPlaces
 import GroundTheory.ProfiniteCohomology.GlobalClassFormation.SumInvariants
-import GroundTheory.ProfiniteCohomology.RealPlaces.LocalDualityPlace
+import GroundTheory.ProfiniteCohomology.RealPlaces.Bundle002
 import GroundTheory.ProfiniteCohomology.RestrictedRamification.BrauerSplit
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

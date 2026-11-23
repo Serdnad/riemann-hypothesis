@@ -1,9 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.InvTranspose
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MumfordTensorDataLatticeFactorProps
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MumfordTensorDataMatrixActionRingHomProperties
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TensorActionCompatibleWithDegeneration
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2930
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3058
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3057
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

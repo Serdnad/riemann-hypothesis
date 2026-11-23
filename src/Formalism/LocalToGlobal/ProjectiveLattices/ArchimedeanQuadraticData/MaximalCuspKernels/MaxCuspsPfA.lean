@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalToGlobal.ProjectiveLattices.IntegrableOnIntegrand
-public import Formalism.LocalToGlobal.ProjectiveLattices.RdOrbIntOfLatZ
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

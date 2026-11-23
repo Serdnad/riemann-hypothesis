@@ -1,11 +1,10 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.DualFockLinear.Closed
+public import Formalism.SharpRestriction.GrowthBounds.DualFockLinear.Bundle011
 public import Formalism.SharpRestriction.GrowthBounds.DualFockLinear.ScaleZeroIff
-public import Formalism.SharpRestriction.GrowthBounds.DualFockLinear.LogSizeBoundLe
+public import Formalism.SharpRestriction.GrowthBounds.DualFockLinear.Bundle015
 public import Formalism.SharpRestriction.GrowthBounds.DualFockLinear.OnePosDef
 public import Formalism.SharpRestriction.GrowthBounds.DualFockLinear.FirstWeightLeConductor
-public import Formalism.SharpRestriction.GrowthBounds.DualFockLinear.RestXiPOfNS
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

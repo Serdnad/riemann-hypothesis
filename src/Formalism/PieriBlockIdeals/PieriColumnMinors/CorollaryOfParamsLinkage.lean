@@ -1,7 +1,7 @@
 module
 
-public import Formalism.PieriBlockIdeals.StatementDown
-public import Formalism.PieriBlockIdeals.PieriColumnMinors.ColumnsPieriSkeleton
+public import Formalism.PieriBlockIdeals.Bundle006
+public import Formalism.PieriBlockIdeals.PieriColumnMinors.Bundle006
 public import Formalism.PieriBlockIdeals.PieriColumnMinors.IrreducibleGeneration
 public import Formalism.PieriBlockIdeals.PieriColumnMinors.RealOfSkeleton
 public import Formalism.PieriBlockIdeals.PieriColumnMinors.WeightBounds

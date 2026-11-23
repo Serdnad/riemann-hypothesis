@@ -1,9 +1,9 @@
 module
 
-public import Formalism.LocalToGlobal.ProjectiveLattices.UnFree
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle013
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.GlobalSectionsRankAlgClosed
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.TestPointValueEqConstMulReadingStatement
-public import Formalism.LocalToGlobal.ProjectiveLattices.ReadAlg
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle099
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle005
 import Formalism.LocalToGlobal.ProjectiveLattices.RulInst
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
@@ -56,11 +56,11 @@ namespace GlobalTheory
 
 
 set_option synthInstance.maxHeartbeats 200000 in
-theorem reading_linearIndependent_and_injective : Out.SecBaseChangeSt → ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E) (Dw : Datum H) (l : Level H) (Xo : Moduli Dw l) (c : Coeff l) (σ : c.F →+* ℂ) (r : ℕ) (U : Unf Xo c σ r), IsUnf U → ∀ (a : (E →+* ℂ) × ℕ → ℕ) (n : ℕ), (∀ (m : ℕ) (b : Fin m → Rul Xo c), (∀ i, b i ∈ sec Xo c a n) → LinearIndependent c.F b → LinearIndependent ℂ (fun i => rdU U (b i))) ∧ ∀ f ∈ sec Xo c a n, (∀ k, ∀ x ∈ (U.X k).dom, rdU U f k x = 0) → f = 0 := by
+theorem reading_linearIndependent_and_injective : Out.SecBaseChangeSt → ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E) (Dw : Datum H) (l : Level H) (Xo : Moduli Dw l) (c : Coeff l) (σ : c.F →+* ℂ) (r : ℕ) (U : _root_.Formalism.L2.PjFree.Unf Xo c σ r), _root_.Formalism.L2.PjFree.IsUnf U → ∀ (a : (E →+* ℂ) × ℕ → ℕ) (n : ℕ), (∀ (m : ℕ) (b : Fin m → Rul Xo c), (∀ i, b i ∈ sec Xo c a n) → LinearIndependent c.F b → LinearIndependent ℂ (fun i => _root_.Formalism.L2.PjFree.rdU U (b i))) ∧ ∀ f ∈ sec Xo c a n, (∀ k, ∀ x ∈ (U.X k).dom, _root_.Formalism.L2.PjFree.rdU U f k x = 0) → f = 0 := by
   intro hS E _ _ _ H Dw l Xo c σ r U hU a n
   have h : ∀ (p : TRing c.F) (y : FrPt Xo c p.R) (ψ : p.R →ₐ[c.F] CAt σ),
       ∃ (k : U.Comp) (x : (U.X k).dom) (u : ℂ), ∀ f ∈ sec Xo c a n,
-        cvalR σ (ψ (f p y)) = u * rdU U f k x.1 :=
+        cvalR σ (ψ (f p y)) = u * _root_.Formalism.L2.PjFree.rdU U f k x.1 :=
     fun p y ψ => GlobalTheory.T.test_point_value_eq_const_mul_reading hS E H Dw l Xo c σ r U hU a n p y ψ
   have : CharZero c.F := RingHom.charZero σ
   refine ⟨fun m b hb hli => ?_, fun f hf h0 => ?_⟩
@@ -72,7 +72,7 @@ theorem reading_linearIndependent_and_injective : Out.SecBaseChangeSt → ∀ (E
         funext p y
         have hpt := descend_cpts σ p (fun i => b i p y) w (fun ψ => by
           obtain ⟨k', x, u, hk⟩ := h p y ψ
-          have e1 : ∀ i, w i * cvalR σ (ψ (b i p y)) = u * (w i * rdU U (b i) k' x.1) := by
+          have e1 : ∀ i, w i * cvalR σ (ψ (b i p y)) = u * (w i * _root_.Formalism.L2.PjFree.rdU U (b i) k' x.1) := by
             intro i; rw [hk (b i) (hb i)]; ring
           have e2 := congrFun (congrFun hw k') x.1
           simp only [Finset.sum_apply, Pi.smul_apply, smul_eq_mul, Pi.zero_apply] at e2

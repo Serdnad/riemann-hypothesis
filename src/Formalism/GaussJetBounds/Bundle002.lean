@@ -1,0 +1,276 @@
+module
+
+public import Formalism.IncomingBounds.Bundle001
+public import Mathlib.Algebra.Field.ZMod
+public import Mathlib.Analysis.SpecialFunctions.Log.Base
+public import Mathlib.RingTheory.PowerSeries.Exp
+public import Mathlib.RingTheory.RootsOfUnity.PrimitiveRoots
+public import Mathlib.Topology.MetricSpace.Ultra.Basic
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Topology.Sheaves.Init
+
+@[expose] public section
+
+section
+
+noncomputable section
+open scoped BigOperators
+
+namespace Formalism.DworkPowerSeriesWeights
+
+open Formalism.IncomingBounds
+
+def rowRad {d : ℕ} {ι : Type} (l : ℕ) (sig eps : ZMod d → ℝ) (lt : ι → ZMod d) (isTop : ι → Bool)
+    (spec : ι → Option (ZMod d × ℤ)) (i : ι) : ℝ :=
+  if isTop i then eps (lt i) else
+    match spec i with
+    | some (s, j) =>
+        if 0 < j then max (sig (lt i)) (1 - (l : ℝ) ^ j.toNat * eps s)
+        else max (sig (lt i)) ((l : ℝ) ^ (-j).toNat)⁻¹
+    | none => sig (lt i)
+
+def ThmAAssembly : Prop :=
+  ∀ (l d : ℕ) [NeZero d], 3 ≤ l → 2 ≤ d → Even d →
+  ∀ (TT : Finset (ZMod d)) (nu1 nu2 size : ZMod d → ℕ), (∀ s, nu2 s ≤ nu1 s) →
+    (∀ s, nu1 s ≤ size s) →
+  ∀ sig : ZMod d → ℝ, IsOptDual l d (fun s => (Dl d TT nu1 size s : ℝ)) sig →
+  ∀ (ι : Type) [Fintype ι] (lt : ι → ZMod d) (isTop : ι → Bool) (spec : ι → Option (ZMod d × ℤ))
+    (κ : ι → ℕ),
+    (∀ i, isTop i = true → lt i ∈ TT ∧ spec i = none) →
+    (∀ s ∈ TT, (∑ i ∈ Finset.univ.filter (fun i => lt i = s ∧ isTop i = true), (κ i : ℝ)) =
+      (nu1 s : ℝ)) →
+    (∀ s, (∑ i ∈ Finset.univ.filter (fun i => lt i = s ∧ isTop i = false), (κ i : ℝ)) =
+      (Dl d TT nu1 size s : ℝ)) →
+    (∀ i s j, spec i = some (s, j) → s ∈ TT ∧ Odd j ∧ lt i = s + (j : ZMod d) ∧
+      (0 < j → l ^ j.toNat ≤ nu1 s) ∧ (j < 0 → l ^ (-j).toNat ≤ size (lt i))) →
+    (∀ (s : ZMod d) (j : ℤ), (∑ i ∈ Finset.univ.filter (fun i => spec i = some (s, j)), (κ i : ℝ)) ≤
+      (capL d TT nu1 nu2 (s + (j : ZMod d)) : ℝ)) →
+    ∃ eps : ZMod d → ℝ, (∀ s, 0 ≤ eps s) ∧
+      (∀ s ∈ TT, ∀ e : ℕ, dTop d TT s = (e : ℕ∞) → ((l : ℝ) ^ e)⁻¹ ≤ eps s) ∧
+      (∑ s ∈ TT, (topTerm l d TT nu1 nu2 s - gam l * (Wcap l d TT nu1 nu2 size s : ℝ))) +
+          Fnum l d (fun s => (Dl d TT nu1 size s : ℝ)) ≤
+        ∑ i, (κ i : ℝ) * (gam l - rowRad l sig eps lt isTop spec i)
+
+end Formalism.DworkPowerSeriesWeights
+end
+end
+
+section
+
+noncomputable section
+open scoped BigOperators
+
+universe u v
+
+namespace Formalism.DworkPowerSeriesWeights
+
+open Formalism.IncomingBounds
+
+section Weights
+
+variable {K : Type u} [NormedField K] {ι : Type v}
+
+def dot (n : ι →₀ ℕ) (r : ι → ℝ) : ℝ := n.sum fun i k => (k : ℝ) * r i
+
+def MonoWtGe (pi : ℝ) (r : ι → ℝ) (w : ℝ) (n : ι →₀ ℕ) (c : K) : Prop :=
+  ‖c‖ ≤ pi ^ (w - dot n r)
+
+def WtGe (pi : ℝ) (r : ι → ℝ) (w : ℝ) (f : MvPowerSeries ι K) : Prop :=
+  ∀ n : ι →₀ ℕ, MonoWtGe pi r w n (MvPowerSeries.coeff n f)
+
+def Integral (f : MvPowerSeries ι K) : Prop :=
+  ∀ n : ι →₀ ℕ, ‖MvPowerSeries.coeff n f‖ ≤ 1
+
+def mvExp [CharZero K] (f : MvPowerSeries ι K) : MvPowerSeries ι K :=
+  PowerSeries.subst f (PowerSeries.exp K)
+
+def mfact (κ : ι →₀ ℕ) : ℕ := κ.prod fun _ k => k.factorial
+
+end Weights
+
+section Letters
+
+variable {K : Type u} [Field K] {d : ℕ}
+
+def lw (l : ℕ) (s : ZMod d) : ℤ := (if s.val % 2 = 0 then 1 else -1) * (l : ℤ) ^ s.val
+
+def torus (l : ℕ) (ζ : K) : ZMod d → MvPowerSeries (ZMod d) K :=
+  fun s => MvPowerSeries.C (ζ ^ lw l s) * MvPowerSeries.X s
+
+def degE [NeZero d] (n : ZMod d →₀ ℕ) : ℕ := ∑ s : ZMod d, if s.val % 2 = 0 then n s else 0
+
+def degO [NeZero d] (n : ZMod d →₀ ℕ) : ℕ := ∑ s : ZMod d, if s.val % 2 = 0 then 0 else n s
+
+def NoLowBidegree [NeZero d] (be : MvPowerSeries (ZMod d) K) : Prop :=
+  ∀ n : ZMod d →₀ ℕ, MvPowerSeries.coeff n be ≠ 0 →
+    0 < degE n ∧ 0 < degO n ∧ ¬ (degE n = 1 ∧ degO n = 1)
+
+abbrev V2 (d : ℕ) := Bool × ZMod d
+
+def s0 (s : ZMod d) : MvPowerSeries (V2 d) K := MvPowerSeries.X (false, s)
+
+def s1 (s : ZMod d) : MvPowerSeries (V2 d) K :=
+  MvPowerSeries.X (false, s) + if s.val % 2 = 0 then MvPowerSeries.X (true, s) else 0
+
+def s2 (s : ZMod d) : MvPowerSeries (V2 d) K :=
+  if s.val % 2 = 0 then MvPowerSeries.X (true, s) else MvPowerSeries.X (false, s)
+
+def s1' (s : ZMod d) : MvPowerSeries (V2 d) K :=
+  MvPowerSeries.X (false, s) + if s.val % 2 = 0 then 0 else MvPowerSeries.X (true, s)
+
+def s2' (s : ZMod d) : MvPowerSeries (V2 d) K :=
+  if s.val % 2 = 0 then MvPowerSeries.X (false, s) else MvPowerSeries.X (true, s)
+
+def de1 (be : MvPowerSeries (ZMod d) K) : MvPowerSeries (V2 d) K :=
+  MvPowerSeries.subst s1 be - MvPowerSeries.subst s0 be - MvPowerSeries.subst s2 be
+
+def de2 (be : MvPowerSeries (ZMod d) K) : MvPowerSeries (V2 d) K :=
+  MvPowerSeries.subst s1' be - MvPowerSeries.subst s0 be - MvPowerSeries.subst s2' be
+
+def letterLog (l : ℕ) (x : V2 d) : MvPowerSeries (V2 d) K :=
+  fun n => ∑ e ∈ Finset.range (n.degree + 1),
+    if n = Finsupp.single (x.1, x.2 - 2 * (e : ZMod d)) ((l ^ 2) ^ e) then ((l : K) ^ e)⁻¹ else 0
+
+def IsBiPower (l : ℕ) (n : ZMod d →₀ ℕ) : Prop :=
+  ∃ (s s' : ZMod d) (α β : ℕ), s.val % 2 = 0 ∧ s'.val % 2 = 1 ∧ (α ≠ 0 ∨ β ≠ 0) ∧
+    s + (α : ZMod d) = s' + (β : ZMod d) ∧
+    n = Finsupp.single s (l ^ α) + Finsupp.single s' (l ^ β)
+
+end Letters
+
+def BHyp {K : Type u} [NormedField K] [CharZero K] (l d : ℕ) [NeZero d] (K0 : Subfield K)
+    (ζ : K) (be : MvPowerSeries (ZMod d) K) : Prop :=
+  (∀ n, MvPowerSeries.coeff n be ∈ K0) ∧
+  MvPowerSeries.subst (torus l ζ) be = be ∧
+  NoLowBidegree be ∧
+  (Integral (MvPowerSeries.subst (letterLog (K := K) l) (mvExp (de1 be))) ∧
+    MvPowerSeries.constantCoeff (MvPowerSeries.subst (letterLog (K := K) l) (mvExp (de1 be))) = 1) ∧
+  (Integral (MvPowerSeries.subst (letterLog (K := K) l) (mvExp (de2 be))) ∧
+    MvPowerSeries.constantCoeff (MvPowerSeries.subst (letterLog (K := K) l) (mvExp (de2 be))) = 1)
+
+def Unram {K : Type u} [NormedField K] (l : ℕ) (K0 : Subfield K) : Prop :=
+  ∀ a ∈ K0, a ≠ 0 → ∃ k : ℤ, ‖a‖ = ‖(l : K)‖ ^ k
+
+def LemmaS : Prop :=
+  ∀ (K : Type u) [NormedField K] [IsUltrametricDist K] [CharZero K] (l d : ℕ) [NeZero d],
+    l.Prime → Odd l → 2 ≤ d → Even d → ‖(l : K)‖ < 1 →
+    ∀ (K0 : Subfield K), Unram l K0 → ∀ ζ : K, IsPrimitiveRoot ζ (l ^ d - 1) →
+    ∀ be : MvPowerSeries (ZMod d) K, BHyp l d K0 ζ be →
+      WtGe ‖(l : K)‖ (fun _ => rho l) (1 / ((l : ℝ) - 1) - 1) be ∧
+      ∀ n, ¬ IsBiPower l n →
+        MonoWtGe ‖(l : K)‖ (fun _ => rho l) (1 / ((l : ℝ) - 1)) n (MvPowerSeries.coeff n be)
+
+def LemmaSt : Prop :=
+  ∀ (K : Type u) [NormedField K] [IsUltrametricDist K] [CharZero K] (l d : ℕ) [NeZero d],
+    l.Prime → ‖(l : K)‖ < 1 →
+    ∀ g : V2 d → MvPowerSeries (V2 d) K, (∀ x, MvPowerSeries.constantCoeff (g x) = 0) →
+      (∀ x, MvPowerSeries.subst g (letterLog (K := K) l x) = MvPowerSeries.X x) →
+      ∀ x, WtGe ‖(l : K)‖ (fun _ => rho l) (rho l) (g x)
+
+section Entries
+
+variable {K : Type u} [Field K] {d N0 N1 : ℕ}
+
+abbrev ZV (d N0 N1 : ℕ) := ZMod d × Fin N0 × Fin N1
+
+def entLog (l : ℕ) (x : ZV d N0 N1) : MvPowerSeries (ZV d N0 N1) K :=
+  fun n => ∑ e ∈ Finset.range (n.degree + 1),
+    if n = Finsupp.single (x.1 - 2 * (e : ZMod d), x.2.1, x.2.2) ((l ^ 2) ^ e) then
+      ((l : K) ^ e)⁻¹ else 0
+
+def linSub {ι : Type v} [Fintype ι] (M : ZV d N0 N1 → ι → K) (x : ZV d N0 N1) :
+    MvPowerSeries ι K :=
+  ∑ i, MvPowerSeries.C (M x i) * MvPowerSeries.X i
+
+def bSum {ι : Type v} [Fintype ι] (M : ZV d N0 N1 → ι → K) (be : MvPowerSeries (ZMod d) K) :
+    MvPowerSeries ι K :=
+  ∑ ab : Fin N0 × Fin N1, MvPowerSeries.subst (fun s => linSub M (s, ab.1, ab.2)) be
+
+def pureMon {ι : Type v} [DecidableEq ι] (l : ℕ) (i j : ι) (α β : ℕ) : ι →₀ ℕ :=
+  Finsupp.single i (l ^ α) + Finsupp.single j (l ^ β)
+
+end Entries
+
+def ThmARadii : Prop :=
+  ∀ (l d : ℕ) [NeZero d], 3 ≤ l → 2 ≤ d → Even d →
+    ∀ (TT : Finset (ZMod d)) (sig eps : ZMod d → ℝ), IsDualAll l d sig → (∀ s, 0 ≤ sig s) →
+      (∀ s, 0 ≤ eps s) → (∀ s ∈ TT, ∀ e : ℕ, dTop d TT s = (e : ℕ∞) → ((l : ℝ) ^ e)⁻¹ ≤ eps s) →
+      (∀ (s s' : ZMod d) (α β : ℕ) (τ τ' : ℝ), sig s ≤ τ → sig s' ≤ τ' → Odd (α + β) →
+          s + (α : ZMod d) = s' + (β : ZMod d) → 1 ≤ (l : ℝ) ^ α * τ + (l : ℝ) ^ β * τ') ∧
+      (∀ (s : ZMod d) (β j : ℕ) (τ : ℝ), 0 < j → 1 - (l : ℝ) ^ j * eps s ≤ τ →
+          1 ≤ (l : ℝ) ^ (β + j) * eps s + (l : ℝ) ^ β * τ) ∧
+      (∀ (s : ZMod d) (α j : ℕ) (τ : ℝ), 0 < j → ((l : ℝ) ^ j)⁻¹ ≤ τ →
+          1 ≤ (l : ℝ) ^ α * eps s + (l : ℝ) ^ (α + j) * τ) ∧
+      (∀ s ∈ TT, ∀ s' ∈ TT, ∀ α β : ℕ, Odd (α + β) →
+          s + (α : ZMod d) = s' + (β : ZMod d) → 1 ≤ (l : ℝ) ^ α * eps s + (l : ℝ) ^ β * eps s')
+
+def OneLetterRadius : Prop :=
+  ∀ l : ℕ, 3 ≤ l → (∀ α β : ℕ, Odd (α + β) → 1 ≤ ((l : ℝ) ^ α + (l : ℝ) ^ β) / ((l : ℝ) + 1)) ∧
+    gam l - 1 / ((l : ℝ) + 1) = rho l
+
+def oneLog {K : Type u} [Field K] {τ : Type v} [DecidableEq τ] (l : ℕ) (x : τ) : MvPowerSeries τ K :=
+  fun n => ∑ e ∈ Finset.range (n.degree + 1),
+    if n = Finsupp.single x ((l ^ 2) ^ e) then ((l : K) ^ e)⁻¹ else 0
+
+def OneLetterR : Prop :=
+  ∀ (K : Type u) [NormedField K] [IsUltrametricDist K] [CharZero K] (l N0 N1 : ℕ),
+    l.Prime → Odd l → ‖(l : K)‖ < 1 →
+    ∀ (K0 : Subfield K), Unram l K0 → ∀ ζ : K, IsPrimitiveRoot ζ (l ^ 2 - 1) →
+    ∀ be : MvPowerSeries (ZMod 2) K, BHyp l 2 K0 ζ be →
+    ∀ (ep : K), ‖ep‖ = 1 →
+    ∀ (ι : Type v) [Fintype ι] [DecidableEq ι] (M : Fin N0 × Fin N1 → ι → K),
+      (∀ x i, ‖M x i‖ ≤ 1) →
+    ∀ g : Fin N0 × Fin N1 → MvPowerSeries (Fin N0 × Fin N1) K,
+      (∀ x, MvPowerSeries.constantCoeff (g x) = 0) →
+      (∀ x, MvPowerSeries.subst g (oneLog (K := K) l x) = MvPowerSeries.X x) →
+    ∀ U : MvPowerSeries (Fin N0 × Fin N1) K, Integral U →
+    ∀ (sgn : K), (sgn = 1 ∨ sgn = -1) → ∀ κ : ι →₀ ℕ,
+      ‖((mfact κ : ℕ) : K) * MvPowerSeries.coeff κ
+          (MvPowerSeries.subst (fun x => ∑ i, MvPowerSeries.C (M x i) * MvPowerSeries.X i)
+              (MvPowerSeries.subst g U) *
+            mvExp ((sgn / 2) • ∑ x : Fin N0 × Fin N1, MvPowerSeries.subst
+              (fun s : ZMod 2 => (if s = 0 then (1 : K) else ep) •
+                ∑ i, MvPowerSeries.C (M x i) * MvPowerSeries.X i) be))‖ ≤
+        ‖(l : K)‖ ^ (rho l * (κ.degree : ℝ) -
+          (Fintype.card ι : ℝ) * (Real.logb l (κ.degree : ℝ) + 1))
+
+end Formalism.DworkPowerSeriesWeights
+end
+end

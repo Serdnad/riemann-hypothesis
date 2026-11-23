@@ -2,7 +2,7 @@ module
 
 public import Development.WeilBound.CoreStatements.PeriodRingComparison.CrystallinePeriodRings.GammaEqDpow
 public import Development.AutomorphicArithmetic.IntegralCasts.CrystallinePeriods.DeRham
-public import Development.AutomorphicArithmetic.IntegralCasts.CrystallinePeriods.DeRhamMap
+public import Development.AutomorphicArithmetic.IntegralCasts.CrystallinePeriods.Bundle001
 public import GroundTheory.PAdicHodge.ThetaBDeRhamPlusFieldCycloUnitBdRZpow
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

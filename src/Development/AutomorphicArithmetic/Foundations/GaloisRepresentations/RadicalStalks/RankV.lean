@@ -1,14 +1,14 @@
 module
 
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.RadicalStalks.IsConst
-public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.IsAbelianSchemeAndExtendOfGenericHoms
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AbelianSchemeSpecFieldSmoothOfRelativeDimensionStatement
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.BcObjIsAbelianScheme
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DeRhamVectorExtension
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsPDivGroupTower
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsRelativeFrobeniusGrpSchemeCharPStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsCorrFormPullTensorForm
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.KerEqRangeOfRangeEqKer
+public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle023
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle933
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle893
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3297
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2478
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1078
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1147
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1148
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

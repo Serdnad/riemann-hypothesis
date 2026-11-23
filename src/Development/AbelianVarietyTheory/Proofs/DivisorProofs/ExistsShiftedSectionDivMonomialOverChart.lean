@@ -2,9 +2,9 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.HasDefect
 public import Development.AbelianVarietyTheory.Definitions.Divisors.RigidForFan
-public import Development.AbelianVarietyTheory.Definitions.Divisors.HasRigidChart
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExponentFormsSymmOfIsUnitTauOnToricChartStatement
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.SecLinOfSecScal
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle063
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3176
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle021
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

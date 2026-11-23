@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FullRk
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle404
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.StandardMaximalParabolic
-import Development.AbelianVarietyTheory.Definitions.Foundations.SecondCountableAndT2LocalField
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IwasawaStdMaxParab
+import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle006
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle201
 import Formalism.DoubleCosetMeasures.StatementZ
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

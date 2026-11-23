@@ -1,10 +1,10 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.IsInertiaInfiniteCyclotomic
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeGroups.ConjStable
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.Bundle018
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeGroups.Bundle005
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.RtChart
-import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.RtConj
-import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.UnivEx
+import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.Bundle045
+import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.Bundle019
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

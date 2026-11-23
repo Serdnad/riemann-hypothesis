@@ -39,11 +39,11 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.EtaJUntw
-import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.NotBaseCondFalse
-import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.PositionOfIntro
+import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle022
+import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle024
 import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.SetUnipotentTranslate
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FunKilled
-import Development.AutomorphicArithmetic.PrimeDiscriminants.Scales
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle076
+import Development.AutomorphicArithmetic.PrimeDiscriminants.Bundle003
 import Formalism.LocalToGlobal.UnitaryNorms.IsUnitaryNormOf
 
 @[expose] public section

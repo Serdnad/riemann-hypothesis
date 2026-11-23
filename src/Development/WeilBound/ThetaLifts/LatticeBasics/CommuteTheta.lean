@@ -1,11 +1,11 @@
 module
 
-public import Development.WeilBound.ThetaLifts.LatticeBasics.HodgeTateFromSandwich
-public import Development.WeilBound.ThetaLifts.LocalTheory.IsArchimedeanLocalEquivariantMap
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle006
+public import Development.WeilBound.ThetaLifts.LocalTheory.Bundle001
 public import Development.WeilBound.ThetaLifts.LatticeBasics.EulerProd
-import Development.WeilBound.ThetaLifts.LatticeBasics.FdEqZero
-public import Development.WeilBound.ThetaLifts.LatticeBasics.UnfoldB
-public import Development.WeilBound.ThetaLifts.LocalTheory.ConeShifts.EvFinIdemSelf
+import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle010
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle011
+public import Development.WeilBound.ThetaLifts.LocalTheory.ConeShifts.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -49,7 +49,6 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import Development.WeilBound.ThetaLifts.LatticeBasics.EulerB
 
 @[expose] public section
 

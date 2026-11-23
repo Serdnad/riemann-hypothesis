@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PieriBlockIdeals.StatementLP
+public import Formalism.PieriBlockIdeals.Bundle005
 public import Mathlib.CategoryTheory.Category.Basic
 public import Formalism.PieriBlockIdeals.PieriColumnMinors.Symmetrization
 import Mathlib.Algebra.Order.Floor.Extended

@@ -4,7 +4,7 @@ public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.IntegralityAtPri
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.BwAValIntegralNonneg
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.FrobeniusNoKernelOfFrobeniusSimilitude
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.DiagonalSlopes.NaturalTranslateAdelicFunction
-public import Formalism.LocalToGlobal.GlobalTheory.GL6.LatticeInclusionFamilyOf
+public import Formalism.LocalToGlobal.GlobalTheory.GL6.Bundle003
 import Formalism.LocalToGlobal.GlobalTheory.GL6.PBwLocBases
 import Formalism.LocalToGlobal.GlobalTheory.GL6.PBwLocGen
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.PBwLocInd

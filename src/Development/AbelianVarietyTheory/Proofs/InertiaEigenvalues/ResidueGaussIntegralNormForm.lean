@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsTestRep
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle003
 public import Mathlib.Analysis.CStarAlgebra.Classes
 import Aesop.Main
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NonemptyMeasAndReps
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.QuadraticStarStructure
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle099
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.UnramifiedStandardAddCharConductorProperties
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -55,7 +55,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Compactness.Paracompact
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsStableGauss
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle100
 
 @[expose] public section
 

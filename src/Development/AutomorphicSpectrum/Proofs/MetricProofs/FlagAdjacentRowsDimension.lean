@@ -1,20 +1,16 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.PullbackPullback
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.BaseVectorPropertiesStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagAdjacentTwistedResolutionFifthStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagAdjacentTwistedResolutionFourthStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagAdjacentTwistedResolutionSeventhStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagAnalyticBadLocusNullStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagAnalyticPluckerColumnSwapStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagAnalyticProjectionBijectiveStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagAnalyticSpaceNonemptyStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagDimensionComplementEquivStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.IsClosedSectionBoundaryStatement
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle090
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle168
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle177
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle174
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle108
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle134
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle032
 import Development.AutomorphicSpectrum.Proofs.MetricProofs.LogResolutionFunctorialHolomorphic
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.LowerUnipotentFamilyAnalyticStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.LowerUnipotentOrbitEqualityStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.NullSetImageUnderHoloMapStatement
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle123
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle172
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle107
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -57,7 +53,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.BasePartFlagPt
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle097
 
 @[expose] public section
 
@@ -348,3 +344,20 @@ theorem fibre_charts : ∀ (K : Type) [Fintype K] (ι : K → Type) [∀ k, Fint
       exact this
 
 end GlobalTheory.CompanionTheory.Ar.PB.WSq.FC
+
+end
+end
+
+section
+
+@[expose] public section
+
+open MvPolynomial MeasureTheory Filter Topology Matrix ReciprocityTheory.AnForm ReciprocityTheory.AnForm.M ReciprocityTheory.AnForm.P ReciprocityTheory.ChartRestriction.G.Geo ReciprocityTheory.ChartRestriction.G.AI.I1 ReciprocityTheory.ChartRestriction.G.AI.I2 ReciprocityTheory.ChartRestriction.G.AI.I4 GlobalTheory.CompanionTheory.Ar.PB GroundTheory.Heights₂.Heights GroundTheory.Heights₂.Heights.LowerBoundFree
+open scoped ComplexOrder Classical
+open GlobalTheory.CompanionTheory.Ar.PB.WSq
+
+theorem _root_.GlobalTheory.T.flag_adjacent_rows_dimension : ∀ (K : Type) [Fintype K] (ι : K → Type) [∀ k, Fintype (ι k)] (Φ : Type) [Field Φ] (y : (Σ k, ι k) → Φ) (Ψ : Type) [Fintype Ψ] [DecidableEq Ψ] (N j : ℕ) (M : FlagModel y Ψ N j) (n d : ℕ) (BM : BaseMetric M n) (FA : FlagAn BM d) (τ : Ψ) (a b : Fin N) (k₀ : K) (ca cb : Fin N), (b : ℕ) = a + 1 → ((b : ℕ) < j ∨ j ≤ (a : ℕ)) → M.blk (τ, a) = some k₀ → (ca : ℕ) = lastCol N j a → (cb : ℕ) = ca + 1 → d + 1 = n + Fintype.card Ψ * (j.choose 2 + (N - j).choose 2) → ∀ (RW : AnLogRes (mCoordIdeal (M.wCo (τ, a) k₀ ca cb RatFunc.X)) ⊤ (d + 2)) (q : Fin 2 → RW.X → FA.S.X), (∀ i, HoloMap RW.A FA.S.A (q i)) → (∀ x x₀, FA.Re.π x₀ = q 0 x → SameOrbit (FA.Re.R.lift x₀ x₀) (fstPt k₀ (RW.lift x x))) → (∀ x x₀, FA.Re.π x₀ = q 1 x → SameOrbit (FA.Re.R.lift x₀ x₀) (sndPt k₀ (RW.lift x x))) → (Function.Injective fun w => (q 0 w, q 1 w)) → ∃ (U B : ℕ → Set (Fin d → ℂ)) (G : ℕ → (Fin d → ℂ) → Matrix (Fin 2) (Fin 2) ℂ) (ΦY : ℕ → (Fin (d + 1) → ℂ) → FA.S.X) (ΦW : ℕ → (Fin (d + 2) → ℂ) → RW.X), (∀ m, IsOpen (U m)) ∧ (∀ m, MeasurableSet (B m) ∧ B m ⊆ U m) ∧ IsParamCover FA.S.A (fun m => {z | Fin.tail z ∈ U m}) (fun m => {z | Fin.tail z ∈ B m}) ΦY ∧ IsParamCover RW.A (fun m => {z | Fin.tail (Fin.tail z) ∈ U m}) (fun m => {z | Fin.tail (Fin.tail z) ∈ B m}) ΦW ∧ (∀ m (z : Fin (d + 1) → ℂ), Fin.tail z ∈ U m → ΦY m z ∉ bdry FA.S.s) ∧ ∀ m, IsFibreChart FA τ a ca cb q (U m) (G m) (ΦY m) (ΦW m) := by
+  first | exact @GlobalTheory.CompanionTheory.Ar.PB.WSq.FC.fibre_charts | exact GlobalTheory.CompanionTheory.Ar.PB.WSq.FC.fibre_charts | (intros; apply GlobalTheory.CompanionTheory.Ar.PB.WSq.FC.fibre_charts <;> assumption)
+
+end
+end

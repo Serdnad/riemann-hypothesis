@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.ThetaSummability.TailSumEstimates.ConeDefs
+public import ReciprocityTheory.ThetaSummability.TailSumEstimates.Bundle001
 public import Mathlib.MeasureTheory.Integral.IntegrableOn
 public import Mathlib.MeasureTheory.Measure.Haar.OfBasis
 import Mathlib.Algebra.Order.Floor.Extended

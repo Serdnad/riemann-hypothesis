@@ -2,8 +2,8 @@ module
 
 public import Mathlib.NumberTheory.Padics.Complex
 public import Mathlib.Topology.Instances.Matrix
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsPadicAlgClRingEquivComplexCompEqOfCountabl
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.MkLeContinuumOfDenseRange
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle030
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle002
 import Mathlib.Algebra.AffineMonoid.UniqueSums
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

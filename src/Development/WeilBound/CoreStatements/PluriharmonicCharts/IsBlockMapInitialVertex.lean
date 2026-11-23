@@ -1,12 +1,12 @@
 module
 
 public import Development.WeilBound.CoreStatements.PluriharmonicCharts.MCoordIdealLeOfHomog
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagCoverTransferIdealEq
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.PullbackPullback
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle102
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle090
 public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PCoordConeArithVar
 import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagModelBaseProjectionPoints
-public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.PFnFieldTrdeg
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.PDiagFormDiv
+public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.Bundle011
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle025
 import GroundTheory.HeightsAndTheta.Heights.WeightedHomogeneous.Assembly
 import Mathlib.Algebra.AffineMonoid.UniqueSums
 import Mathlib.Algebra.Order.Floor.Extended

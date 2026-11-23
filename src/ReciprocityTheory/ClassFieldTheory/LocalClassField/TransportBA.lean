@@ -1,7 +1,7 @@
 module
 
-public import ReciprocityTheory.ClassFieldTheory.LocalClassField.TransportDefs
-public import ReciprocityTheory.ClassFieldTheory.LocalClassField.ValUnitsD
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.Bundle003
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.Bundle014
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -43,10 +43,10 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import ReciprocityTheory.ClassFieldTheory.LocalClassField.ValUnitsA
-import ReciprocityTheory.ClassFieldTheory.LocalClassField.ValUnitsB
-import ReciprocityTheory.ClassFieldTheory.LocalClassField.ValUnitsC
-public import ReciprocityTheory.ClassFieldTheory.LocalClassField.ValUnitsG
+import ReciprocityTheory.ClassFieldTheory.LocalClassField.Bundle008
+import ReciprocityTheory.ClassFieldTheory.LocalClassField.Bundle009
+import ReciprocityTheory.ClassFieldTheory.LocalClassField.Bundle013
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.Bundle016
 import ReciprocityTheory.NeutralLocalFields.LocalFieldComparison.LocalFieldAutomorphisms.Inertia
 public import ReciprocityTheory.NeutralLocalFields.LocalFieldComparison.LocalFieldAutomorphisms.ModelC
 import Std.Tactic.BVDecide.Normalize.Prop

@@ -1,9 +1,9 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsHeightIffOfDegreeEq
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ContinuousFirstCoords
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.BlockSphereMeanEqOfFrameNormEq
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GaussianFirstCoordsMeasurePreserving
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle058
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1126
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle166
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsImageHeightUnique
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsMultiHomogeneousRenameCastLE
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LinSubstLinSubst
@@ -50,7 +50,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Topology.Algebra.MvPolynomial
 import Mathlib.Topology.UniformSpace.Uniformizable
-import ReciprocityTheory.SemistableReduction.LagrangeIdealLiftsFact
+import ReciprocityTheory.SemistableReduction.Bundle014
 
 @[expose] public section
 

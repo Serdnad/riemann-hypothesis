@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.ExistsVariableChangeEqLatticeCurve
+public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.Bundle002
 public import Mathlib.FieldTheory.Galois.Abelian
 public import Mathlib.NumberTheory.NumberField.ClassNumber
 public import Mathlib.RingTheory.Frobenius

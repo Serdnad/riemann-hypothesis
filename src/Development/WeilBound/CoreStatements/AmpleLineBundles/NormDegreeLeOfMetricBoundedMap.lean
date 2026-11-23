@@ -4,7 +4,7 @@ public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.IsOrthFu
 public import GroundTheory.HeightsAndTheta.Heights.ArithDegree
 public import Development.WeilBound.CoreStatements.AmpleLineBundles.SpanLeOfMem
 import GroundTheory.HeightsAndTheta.Heights.HeightsOfSets.LinearIndependentSumElimOfExact
-public import GroundTheory.HeightsAndTheta.Heights.LatticeLemmas.PNormComparison
+public import GroundTheory.HeightsAndTheta.Heights.LatticeLemmas.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

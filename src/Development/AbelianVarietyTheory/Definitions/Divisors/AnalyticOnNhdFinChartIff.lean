@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsConjFsBasisOfUnitary
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1103
 public import Mathlib.Topology.OpenPartialHomeomorph.Constructions
 public import ReciprocityTheory.AnalyticForms.PotentialTheory.IsPotentialOfFun
 import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.DifferentiableOnOfTendstoLocallyUniformlyOn
@@ -49,7 +49,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 public import ReciprocityTheory.AnalyticForms.PlurisubharmonicFunctions.LintegralImageEqLintegralNormSqDetMul
-public import ReciprocityTheory.AnalyticForms.PotentialTheory.ContDiffAtOfIsPotential
+public import ReciprocityTheory.AnalyticForms.PotentialTheory.Bundle003
 public import ReciprocityTheory.AnalyticForms.PotentialTheory.LocDens
 public import ReciprocityTheory.AnalyticForms.PotentialTheory.PshShiftA
 public import ReciprocityTheory.L2DbarEstimates.PlurisubharmonicCharts.DerivDerivNonposOfIsLocalMax

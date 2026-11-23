@@ -1,8 +1,8 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.IsQuasiFam
-public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.WeilDatumExistence
-public import Formalism.LocalToGlobal.BesselHermitianTheta.LemmasChr
+public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.Bundle006
+public import Formalism.LocalToGlobal.BesselHermitianTheta.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

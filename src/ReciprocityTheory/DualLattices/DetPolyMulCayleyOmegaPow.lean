@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.DualLattices.FischerAdjointStatement
+public import ReciprocityTheory.DualLattices.Bundle001
 public import Mathlib.Tactic.Continuity
 import Mathlib.Algebra.AffineMonoid.Basic
 import Mathlib.Algebra.AffineMonoid.UniqueSums

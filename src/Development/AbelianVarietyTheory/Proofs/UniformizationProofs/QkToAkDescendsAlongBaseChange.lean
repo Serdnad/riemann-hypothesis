@@ -4,9 +4,9 @@ public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Exist
 public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.PowEqOneOfPush
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExpansionBijectiveOverFields
 public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExpandsGTransport
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.GmMulEqOfResMulEq
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle015
 public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.PhiRelTransport
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.QkToAkBaseChange
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle044
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -38,8 +38,8 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.BcField
-import Formalism.SharpRestriction.Divisibility.GeneratorPowers.CIndRaw
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.Bundle003
+import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle007
 
 @[expose] public section
 

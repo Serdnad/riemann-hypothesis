@@ -1,10 +1,10 @@
 module
 
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.DifferentialFormsCech.CoverRefinementHodge.CovRefine
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.OmegaPullId
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.CovOfLocal
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsSmoothCoordinateCover
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FunctorId
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle047
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle078
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle145
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle182
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

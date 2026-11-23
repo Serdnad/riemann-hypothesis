@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LatticeSlopes.Statement
-public import Formalism.LatticeSlopes.LatticeSlopesProofs.CovolEqGram
+public import Formalism.LatticeSlopes.LatticeSlopesProofs.Bundle001
 public import Formalism.LatticeSlopes.LatticeSlopesProofs.DiscreteTopologyOfLe
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

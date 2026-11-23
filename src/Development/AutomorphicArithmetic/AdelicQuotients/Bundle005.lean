@@ -1,0 +1,218 @@
+module
+
+public import Development.WeilBound.RepresentationTheoryGL.TwistedFactors.IntegralUnitBaseChange.InvTransposeGLInvTransposeGL
+public import Mathlib.NumberTheory.NumberField.Basic
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Henselian
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.RegularLocalRing.Defs
+import Mathlib.RingTheory.SimpleRing.Principal
+import Mathlib.Tactic.Basify
+import Mathlib.Tactic.ENatToNat
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.TypeStar
+import Mathlib.Topology.Sheaves.Init
+import Development.WeilBound.RepresentationTheoryGL.TwistedFactors.CuspDecayHeights.HeightLe
+import Development.WeilBound.RepresentationTheoryGL.TwistedFactors.SelmerRankBounds.IsNormAlong
+import GroundTheory.AutomorphicForms.CuspidalDiscreteness.AltSum
+import GroundTheory.AutomorphicForms.QuotientMeasure
+import GroundTheory.AutomorphicForms.Bundle003
+import GroundTheory.GlobalFields.Adele.BaseChange.FiniteMap
+import GroundTheory.GlobalFields.KummerTheory.LocalIndex
+import GroundTheory.GlobalFields.SemilocalAlgebras.Bundle001
+
+@[expose] public section
+
+section
+
+open NumberField IsDedekindDomain Polynomial
+open GroundTheory.Automorphic GroundTheory.Automorphic.Reduction GroundTheory.Global GroundTheory.Global.AdeleBaseChange
+open PositivityTheory.Rg.Tf.Core PositivityTheory.Rg.Tf.Loc PositivityTheory.Rg.Tf.Geo
+open scoped NumberField.AdeleRing
+
+section BlockTri
+
+variable {ι R : Type*} [Fintype ι] [DecidableEq ι] [CommRing R] (Q : ι → Prop) [DecidablePred Q]
+
+private def LowZero (M : Matrix ι ι R) : Prop := ∀ j, ¬ Q j → ∀ i, Q i → M j i = 0
+
+private theorem lowZero_mul {A B : Matrix ι ι R} (hA : LowZero Q A) (hB : LowZero Q B) :
+    LowZero Q (A * B) := by
+  intro j hj i hi
+  rw [Matrix.mul_apply]
+  refine Finset.sum_eq_zero fun k _ => ?_
+  by_cases hk : Q k
+  · rw [hA j hj k hk, zero_mul]
+  · rw [hB k hk i hi, mul_zero]
+
+private theorem toSq_mul {A B : Matrix ι ι R} (hB : LowZero Q B) :
+    (A * B).toSquareBlockProp Q = A.toSquareBlockProp Q * B.toSquareBlockProp Q := by
+  ext ⟨i, hi⟩ ⟨l, hl⟩
+  change (A * B) i l = ∑ k : {x // Q x}, A i k * B k l
+  rw [Matrix.mul_apply, ← Fintype.sum_subtype_add_sum_subtype Q]
+  have h0 : ∑ k : {x // ¬ Q x}, A i k * B k l = 0 :=
+    Finset.sum_eq_zero fun k _ => by rw [hB k k.2 l hl, mul_zero]
+  rw [h0, add_zero]
+
+private theorem charpoly_toSq_dvd {M : Matrix ι ι R} (hM : LowZero Q M) :
+    (M.toSquareBlockProp Q).charpoly ∣ M.charpoly := by
+  have hz : ∀ i, ¬ Q i → ∀ j, Q j → M.charmatrix i j = 0 := by
+    intro i hi j hj
+    have hij : i ≠ j := fun h => hi (h ▸ hj)
+    rw [Matrix.charmatrix_apply_ne M i j hij, hM i hi j hj]
+    simp
+  have hsq : (M.charmatrix).toSquareBlockProp Q = (M.toSquareBlockProp Q).charmatrix := by
+    ext1 ⟨i, hi⟩ ⟨j, hj⟩
+    by_cases hij : i = j
+    · subst hij
+      change M.charmatrix i i = (M.toSquareBlockProp Q).charmatrix ⟨i, hi⟩ ⟨i, hi⟩
+      rw [Matrix.charmatrix_apply_eq, Matrix.charmatrix_apply_eq]
+      rfl
+    · have hne : (⟨i, hi⟩ : {x // Q x}) ≠ ⟨j, hj⟩ := fun h => hij (congrArg Subtype.val h)
+      change M.charmatrix i j = (M.toSquareBlockProp Q).charmatrix ⟨i, hi⟩ ⟨j, hj⟩
+      rw [Matrix.charmatrix_apply_ne M i j hij, Matrix.charmatrix_apply_ne _ _ _ hne]
+      rfl
+  have h := Matrix.twoBlockTriangular_det (M.charmatrix) Q hz
+  rw [hsq] at h
+  exact ⟨_, h⟩
+
+end BlockTri
+
+theorem UpperTheory.exists_lower_entry_ne_zero_of_norm_charpoly_irreducible :
+    ∀ (F E : Type) [Field F] [Field E] [Algebra F E] [FiniteDimensional F E] [IsGalois F E] (σ : E ≃ₐ[F] E),
+          (∀ τ : E ≃ₐ[F] E, τ ∈ Subgroup.zpowers σ) → ∀ (n : ℕ) (δ : GL (Fin n) E) (p : F[X]), Irreducible p →
+          p.map (algebraMap F E) = ((normGL σ δ : GL (Fin n) E) : Matrix (Fin n) (Fin n) E).charpoly →
+          ∀ r : ℕ, 0 < r → r < n → ∃ i j : Fin n, (i : ℕ) < r ∧ r ≤ (j : ℕ) ∧ (δ : Matrix (Fin n) (Fin n) E) j i ≠ 0 := by
+  intro F E _ _ _ _ _ σ hgen n δ p hp hpc r hr0 hrn
+  by_contra hcon
+  push_neg at hcon
+  let Q : Fin n → Prop := fun i => (i : ℕ) < r
+  have hL : LowZero Q (δ : Matrix (Fin n) (Fin n) E) :=
+    fun j hj i hi => hcon i j hi (not_lt.mp hj)
+  have hdet : ((δ : Matrix (Fin n) (Fin n) E).toSquareBlockProp Q).det ≠ 0 := by
+    intro h0
+    have h := Matrix.twoBlockTriangular_det (δ : Matrix (Fin n) (Fin n) E) Q hL
+    rw [h0, zero_mul] at h
+    have hu : IsUnit (δ : Matrix (Fin n) (Fin n) E).det :=
+      (Matrix.isUnit_iff_isUnit_det _).mp δ.isUnit
+    exact hu.ne_zero h
+  let δ₁ : GL {i // Q i} E := Matrix.GeneralLinearGroup.mkOfDetNeZero _ hdet
+  have hδ₁ : (δ₁ : Matrix {i // Q i} {i // Q i} E) =
+      (δ : Matrix (Fin n) (Fin n) E).toSquareBlockProp Q := rfl
+  have key : ∀ m : ℕ,
+      LowZero Q ((twNorm (sigmaGL σ) m δ : GL (Fin n) E) : Matrix (Fin n) (Fin n) E) ∧
+      ((twNorm (sigmaGL σ) m δ : GL (Fin n) E) : Matrix (Fin n) (Fin n) E).toSquareBlockProp Q =
+        ((twNorm (sigmaGL σ) m δ₁ : GL {i // Q i} E) : Matrix {i // Q i} {i // Q i} E) := by
+    intro m
+    induction m with
+    | zero =>
+      constructor
+      · intro j hj i hi
+        have hij : j ≠ i := fun h => hj (h ▸ hi)
+        simp [hij]
+      · ext ⟨i, hi⟩ ⟨l, hl⟩
+        simp [Matrix.toSquareBlockProp, Matrix.one_apply]
+    | succ m ih =>
+      obtain ⟨ih1, ih2⟩ := ih
+      have hpow : ((((sigmaGL σ : Monoid.End (GL (Fin n) E)) ^ m) δ : GL (Fin n) E) :
+          Matrix (Fin n) (Fin n) E) = (δ : Matrix (Fin n) (Fin n) E).map (σ ^ m) := by
+        rw [← sigmaGL_pow, sigmaGL_val]
+      have hpow₁ : ((((sigmaGL σ : Monoid.End (GL {i // Q i} E)) ^ m) δ₁ : GL {i // Q i} E) :
+          Matrix {i // Q i} {i // Q i} E) =
+            (δ₁ : Matrix {i // Q i} {i // Q i} E).map (σ ^ m) := by
+        rw [← sigmaGL_pow, sigmaGL_val]
+      have hLm : LowZero Q ((δ : Matrix (Fin n) (Fin n) E).map (σ ^ m)) := by
+        intro j hj i hi
+        simp [hL j hj i hi]
+      rw [twNorm_succ, twNorm_succ, Units.val_mul, Units.val_mul, hpow, hpow₁]
+      refine ⟨lowZero_mul Q ih1 hLm, ?_⟩
+      rw [toSq_mul Q hLm, ih2, hδ₁]
+      rfl
+  have hdvd : ((normGL σ δ₁ : GL {i // Q i} E) : Matrix {i // Q i} {i // Q i} E).charpoly ∣
+      ((normGL σ δ : GL (Fin n) E) : Matrix (Fin n) (Fin n) E).charpoly := by
+    have h := charpoly_toSq_dvd Q (key (Module.finrank F E)).1
+    rw [(key (Module.finrank F E)).2] at h
+    exact h
+  obtain ⟨P₁, hP₁⟩ := charpoly_normGL_lifts σ hgen δ₁
+  have hdvd' : P₁ ∣ p := by
+    rw [← Polynomial.map_dvd_map' (algebraMap F E), hP₁, hpc]
+    exact hdvd
+  have hdegP : P₁.natDegree = Fintype.card {i // Q i} := by
+    rw [← Polynomial.natDegree_map (algebraMap F E) (p := P₁), hP₁, Matrix.charpoly_natDegree_eq_dim]
+  have hdegp : p.natDegree = n := by
+    rw [← Polynomial.natDegree_map (algebraMap F E) (p := p), hpc, Matrix.charpoly_natDegree_eq_dim,
+      Fintype.card_fin]
+  have hpos : 0 < Fintype.card {i // Q i} :=
+    Fintype.card_pos_iff.mpr ⟨⟨⟨0, by omega⟩, hr0⟩⟩
+  have hlt : Fintype.card {i // Q i} < n := by
+    have h := Fintype.card_subtype_lt (p := Q) (x := (⟨r, hrn⟩ : Fin n)) (by simp [Q])
+    simpa using h
+  rcases hp.dvd_iff.mp hdvd' with hu | ha
+  · have h0 := Polynomial.natDegree_eq_zero_of_isUnit hu
+    omega
+  · have h1 := Polynomial.natDegree_eq_of_degree_eq (Polynomial.degree_eq_degree_of_associated ha)
+    omega
+end
+
+section
+
+open MeasureTheory NumberField IsDedekindDomain Polynomial
+open GroundTheory.Automorphic GroundTheory.Automorphic.Reduction GroundTheory.Automorphic.RightCosetSpace GroundTheory.Global GroundTheory.Global.SemiLocal
+open GroundTheory.Global.AdeleBaseChange
+open PositivityTheory.Rg.Tf.Core PositivityTheory.Rg.Tf.Loc PositivityTheory.Rg.Tf.Geo
+open scoped ENNReal NumberField.AdeleRing TensorProduct
+
+theorem UpperTheory.charpoly_eq_of_norm_eq_of_twisted_conj :
+    ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] [IsGalois F E] (σ : E ≃ₐ[F] E),
+        (∀ τ : E ≃ₐ[F] E, τ ∈ Subgroup.zpowers σ) → ∀ n : ℕ, 0 < n → ∀ (δ δ' h : GL (Fin n) E) (γ γ' : GL (Fin n) F), normGL σ δ = incl γ → normGL σ δ' = incl γ' →
+        δ' = h⁻¹ * δ * sigmaGL σ h → (γ : Matrix (Fin n) (Fin n) F).charpoly = (γ' : Matrix (Fin n) (Fin n) F).charpoly := by
+  intro F E _ _ _ _ _ _ σ _ n _ δ δ' h γ γ' hγ hγ' hδ
+  have hℓ : σ ^ Module.finrank F E = 1 := by
+    rw [← IsGalois.card_aut_eq_finrank]; exact pow_card_eq_one'
+  have hθ : (sigmaGL σ : Monoid.End (GL (Fin n) E)) ^ Module.finrank F E = 1 := by
+    rw [← sigmaGL_pow, hℓ, sigmaGL_one]
+  have h1 : normGL σ δ' = h⁻¹ * normGL σ δ * h := by
+    rw [hδ]
+    exact twNorm_twConj_of_pow_eq_one (sigmaGL σ) hθ h δ
+  rw [hγ, hγ'] at h1
+  have hv : ∀ g : GL (Fin n) F, ((incl g : GL (Fin n) E) : Matrix (Fin n) (Fin n) E) =
+      (g : Matrix (Fin n) (Fin n) F).map (algebraMap F E) := fun _ => rfl
+  apply Polynomial.map_injective (algebraMap F E) (algebraMap F E).injective
+  rw [← Matrix.charpoly_map, ← Matrix.charpoly_map, ← hv, ← hv, h1, Units.val_mul, Units.val_mul,
+    Matrix.coe_units_inv, Matrix.charpoly_units_conj']
+end

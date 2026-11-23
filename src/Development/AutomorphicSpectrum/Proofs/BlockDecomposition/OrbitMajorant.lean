@@ -1,12 +1,12 @@
 module
 
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FockTranslateSchwartzMajorant
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.TraceConjTransposeMulSelf
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsClopenCompactNbhdZero
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle509
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle261
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.GaussianIsSchwartzFunction
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.HypsSatisfiable
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle525
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LintegralNormSqEqToL2
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.LatHatOpenAndContinuous
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle084
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

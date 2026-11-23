@@ -1,11 +1,10 @@
 module
 
 public import Development.AutomorphicArithmetic.LocalEmbeddings.StageGeoDefs
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsReading
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle332
 public import Development.AutomorphicArithmetic.DivisorFrames.ExistsLocalZetaDataRealizingStandardPair
-public import Development.AutomorphicArithmetic.DivisorFrames.ExistsThOEqOfIsLatVacThetaFun
-public import Development.AutomorphicArithmetic.DivisorFrames.ThetaLiftTripleLocalSplitPlaces
-public import Development.AutomorphicArithmetic.DivisorFrames.TripleDualCoordSplitPlacesOfIsPairIsLat
+public import Development.AutomorphicArithmetic.DivisorFrames.Bundle013
+public import Development.AutomorphicArithmetic.DivisorFrames.Bundle018
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

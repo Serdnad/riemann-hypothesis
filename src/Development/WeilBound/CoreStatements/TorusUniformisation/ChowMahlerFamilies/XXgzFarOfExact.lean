@@ -1,9 +1,9 @@
 module
 
-public import Development.AutomorphicSpectrum.PublishedTheorems.Algebra₂.FarguesExact
+public import Development.AutomorphicSpectrum.PublishedTheorems.Algebra₂.Bundle001
 public import Development.AutomorphicSpectrum.PublishedTheorems.Algebra₂.FarguesHodgeTate
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsHomogeneousCompIdeal
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeTateCokernelSharp
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle175
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -38,7 +38,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.DefiniteFormStabilizerFiniteAwayFromP
+import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle002
 import Formalism.LocalToGlobal.IndefiniteForms.IndefiniteTree.IndefiniteTreeX
 
 @[expose] public section

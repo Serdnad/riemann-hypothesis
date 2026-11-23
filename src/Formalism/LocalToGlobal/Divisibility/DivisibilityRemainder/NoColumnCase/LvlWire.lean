@@ -2,7 +2,7 @@ module
 
 public import Formalism.SharpRestriction.Divisibility.HookProducts.GaugeFormBoundOfUniformSize
 public import Formalism.SharpRestriction.Divisibility.SlopeExcess.HeightBoundOfComponentBounds
-public import Formalism.LocalToGlobal.ClassOfRecordOfChoice
+public import Formalism.LocalToGlobal.Bundle001
 public import Formalism.SharpRestriction.GlobalSchurBounds.LinkTied
 public import Formalism.LocalToGlobal.GlobalTheory.CoordinateLengths.SecondBranchAllMembers
 import Formalism.LocalToGlobal.GlobalTheory.PlacesMin

@@ -4,7 +4,7 @@ public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Potenti
 public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.FrameDefinitions.CpRegPhRegOfNonneg
 public import Development.WeilBound.CoreStatements.PlurisubharmonicCones.ContDiffAtLogH
 public import Development.WeilBound.CoreStatements.PlurisubharmonicCones.ContDiffAtSmoothOnProj
-import GroundTheory.HeightsAndTheta.Heights.Regularisation.GlueCharts
+import GroundTheory.HeightsAndTheta.Heights.Regularisation.Bundle006
 public import GroundTheory.HeightsAndTheta.Heights.Regularisation.PBoundedGlue
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -53,7 +53,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import ReciprocityTheory.AnalyticForms.PotentialTheory.PshShiftA
 import Development.AutomorphicSpectrum.Definitions.MetricPeriods.ExistsIntSmulIsAdicIntegralInTensorBasis
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.CubicalStructures.CubeSymmetricSwapFirst
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.CubicalStructures.Bundle001
 
 @[expose] public section
 

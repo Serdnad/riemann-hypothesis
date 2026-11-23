@@ -51,10 +51,10 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 public import ReciprocityTheory.GeometryOfNumbers.LatticeCovolumes.ArakelovDegreeEqDegreeOfFamily
-import ReciprocityTheory.GeometryOfNumbers.LatticeCovolumes.DegStA
-public import ReciprocityTheory.GeometryOfNumbers.LatticeCovolumes.InhabSt
+import ReciprocityTheory.GeometryOfNumbers.LatticeCovolumes.Bundle003
+public import ReciprocityTheory.GeometryOfNumbers.LatticeCovolumes.Bundle001
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.Rationality.QCoreGlobPf
-public import ReciprocityTheory.SemistableReduction.SemiDegCA
+public import ReciprocityTheory.SemistableReduction.Bundle004
 
 @[expose] public section
 

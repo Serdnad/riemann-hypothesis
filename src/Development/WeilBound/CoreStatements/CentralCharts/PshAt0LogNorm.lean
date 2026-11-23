@@ -1,6 +1,6 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ContDiffUncentre
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle100
 public import Development.WeilBound.CoreStatements.CentralCharts.PshAt0
 public import Development.WeilBound.CoreStatements.CentralCharts.ContDiffAtLogNorm
 public import Development.WeilBound.CoreStatements.CentralCharts.ContDiffAtLogdet

@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.JoinCastSucc
-public import ReciprocityTheory.SemistableReduction.MeasurePreservingSphereMap
-public import ReciprocityTheory.SemistableReduction.TorusMeanA
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle031
+public import ReciprocityTheory.SemistableReduction.Bundle006
+public import ReciprocityTheory.SemistableReduction.Bundle003
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IrreducibleOfIrreducibleMap
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GaussAbsProdLeOne
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsMultiHomogeneousProd
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle326
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1611
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LinSubstLinSubst
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -60,11 +60,10 @@ import Mathlib.Topology.Sheaves.Init
 import Mathlib.Topology.UniformSpace.Uniformizable
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.GaussAbsMulSupportFinite
 import ReciprocityTheory.SemistableReduction.AeBlockSphereEvalNeZero
-import ReciprocityTheory.SemistableReduction.GaussAbsMulOfMonomialOrder
-import ReciprocityTheory.SemistableReduction.LagrangeIdealLiftsFact
-import ReciprocityTheory.SemistableReduction.SphereTorusA
-import ReciprocityTheory.SemistableReduction.SphereTorusC
-import ReciprocityTheory.SemistableReduction.TorusL2CauchyInequality
+import ReciprocityTheory.SemistableReduction.Bundle008
+import ReciprocityTheory.SemistableReduction.Bundle014
+import ReciprocityTheory.SemistableReduction.Bundle007
+import ReciprocityTheory.SemistableReduction.Bundle027
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section

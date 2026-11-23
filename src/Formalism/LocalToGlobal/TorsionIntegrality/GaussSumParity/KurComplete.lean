@@ -1,7 +1,7 @@
 module
 
-public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.RingAFacts
-public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.StatementC
+public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.Bundle003
+public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.Bundle002
 public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.KummerThetaLogarithms.ExistsUnitFactorizationBounded
 public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.KummerThetaLogarithms.FrobeniusExtensionOnInclusion
 import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.KummerThetaLogarithms.IntegralPartAtVariable

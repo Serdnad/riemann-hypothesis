@@ -2,8 +2,8 @@ module
 
 public import Development.WeilBound.ThetaLifts.Reductions.SiegelHaar
 public import Formalism.SatakeDualWeyl.Statement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.AddEquivAddHaarCharEqOfIsOpenEmbeddingRestrictStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.AddEquivAddHaarCharProdCongrStatement
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle078
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle074
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

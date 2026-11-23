@@ -1,8 +1,8 @@
 module
 
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.NegOneSmulCancel
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ConeZigzagCompat
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Mk2EqZeroIffMemS
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle112
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle097
 import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.CechPairings.MapHComp
 import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.CechPairings.TotPairing
 import Mathlib.Algebra.Order.Floor.Extended

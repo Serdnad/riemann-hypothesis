@@ -1,9 +1,9 @@
 module
 
 public import Formalism.HermitianCurvature.StatementTL
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.AnisotropicColumnSums
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle073
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.BorderedDeterminants
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.DifferentialOperatorBracket
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle111
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.FrameCompletion
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

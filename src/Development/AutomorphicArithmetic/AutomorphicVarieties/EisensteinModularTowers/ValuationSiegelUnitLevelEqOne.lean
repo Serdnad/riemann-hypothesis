@@ -1,19 +1,18 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Foundations.EeProd
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle007
 public import Mathlib.RingTheory.Flat.FaithfullyFlat.Basic
 public import Mathlib.RingTheory.Flat.TorsionFree
 public import Mathlib.RingTheory.Henselian
 public import Mathlib.RingTheory.RegularLocalRing.Defs
-public import Development.AbelianVarietyTheory.Definitions.Foundations.SiegelNeZeroIff
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsIntegralModularTowerJCompGlTwoPosRat
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.OverAffineJLineComapSlGal
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.OverAffineJLineComapSlGalStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.SiegelFunctionHolomorphic
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.SiegelFunctionNeZero
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.SiegelUnitInTowerAnEqSiegelUnitOnComplexStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.SiegelUnitInTowerNeZeroStatement
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.SlTwoInvariantHolomorphicMemAdjoinJInvariantStatement
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle144
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle171
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle182
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle056
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle052
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle243
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle263
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle140
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

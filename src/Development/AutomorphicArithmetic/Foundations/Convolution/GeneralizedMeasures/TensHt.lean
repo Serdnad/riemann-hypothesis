@@ -1,9 +1,9 @@
 module
 
-public import Development.AutomorphicArithmetic.Foundations.Convolution.GeneralizedMeasures.HeckeFinAlt
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.AdelicNormDetLeHeightPow
-public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.KernelTransforms.TensApply
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.LocalHeightDeterminant
+public import Development.AutomorphicArithmetic.Foundations.Convolution.GeneralizedMeasures.Bundle001
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.Bundle002
+public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.KernelTransforms.Bundle003
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle026
 import GroundTheory.AutomorphicForms.CuspidalDiscreteness.CuspFormsHeight
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

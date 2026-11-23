@@ -1,14 +1,13 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.SumMulFG
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsThetaMeanSquareNorm
-public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.GlobalFnsHolds
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FiniteGroupSchemeSumExtensionStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LineBundlePullbackGeneratorStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.TheoremOfCubeSectionValueStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.TorsionValueLineBundleSectionStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.TorsionValueUniqueBaseChangeStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ValuesIdentityPowerRelationStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle154
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle013
+public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle012
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle218
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle174
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle217
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle220
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle175
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

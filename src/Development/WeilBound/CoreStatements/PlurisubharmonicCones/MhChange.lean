@@ -1,14 +1,14 @@
 module
 
-public import Development.WeilBound.CoreStatements.PlurisubharmonicCones.LevelFree
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ComplexPointsIffCentresStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ComponentDataHodgeFirstStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ComponentDataIntersectionBound
+public import Development.WeilBound.CoreStatements.PlurisubharmonicCones.Bundle009
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle092
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle147
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle275
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IntersectionSystemHodgeDegree
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.TensorWedgeDetChangeStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.UnitValueFrameDomainStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ValAtIffValueAtStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.VerticalHodgeMetricLogFormulaStatement
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle175
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle139
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle120
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle148
 import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.PVertFactorPos
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -121,6 +121,8 @@ end Q
 
 section Main
 
+attribute [-instance] GlobalTheory.CompHt.fintypePsi
+
 variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E} {D : Datum H} {l : Tor.Level H}
   {Xo : Moduli D l} {c : Coeff l} {Y : Model Xo c (algebraMap (𝓞 c.F) c.F)} {II : IntersectionSystem}
   {K : Type} [Fintype K] {J : K → Type} [∀ k, Fintype (J k)] {Ω : Type} [Field Ω] [Algebra ℚ Ω]
@@ -175,6 +177,7 @@ theorem mh_char0 {X : Scheme.{0}} {Ω : Type} [Field Ω] [CharZero Ω] {ξ : Sp 
   obtain ⟨_, x, hx, -⟩ := CxVal.inv h1 (Nat.cast_ne_zero.2 hp.ne_zero)
   exact not_not.2 ⟨Nat.cast_ne_zero.2 hp.ne_zero, natCast_mem _ _, x, hx⟩
 
+attribute [-instance] GlobalTheory.CompHt.fintypePsi in
 theorem muHodge : MuHodge := by
   intro hG E _ _ _ _ H D Xo l c Y II K _ J _ Ω _ _ W _ _ Dc Hd S₀ Or B bb s lam hs hΛ z w hw hi
   have h : genPt Or.𝔐.ξ ⤳ centre z := Or.𝔐.all _

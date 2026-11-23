@@ -1,7 +1,7 @@
 module
 
 import Formalism.SharpRestriction.RamificationFrobenius.TotientGaloisClasses.InertiaGaloisSymmetry.KcPair
-public import Formalism.GL3MeanSquares.OrbitPointsDistinct
+public import Formalism.GL3MeanSquares.Bundle004
 public import Formalism.FrobeniusOrbits.FrobeniusOrbitsProofs.Decomp
 public import Formalism.FrobeniusOrbits.FrobeniusOrbitsProofs.Principal
 import Formalism.FrobeniusOrbits.RealSubfieldLeCompositum

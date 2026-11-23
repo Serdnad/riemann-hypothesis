@@ -1,12 +1,12 @@
 module
 
-public import Development.AutomorphicSpectrum.Statements.GeometryStatements.KeyBadSt
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LeWchartOne
+public import Development.AutomorphicSpectrum.Statements.GeometryStatements.Bundle003
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle118
 public import Development.AbelianVarietyTheory.Definitions.KeyFormula.KeyRuleOneOfKeyFormula
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LocalisedModelUniformisationBaseChange
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.DualNumberRingHomExt
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.RulePow
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsIsLieBasisBaseChange
+public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle027
+public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle065
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle040
 public import Development.WeilBound.CoreStatements.HodgeTatePoints.LieMultComp
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -50,7 +50,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.BCTools
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.OneArc
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ThetaCore
-import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsThetaMeanSquareNorm
+import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle013
 import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.FrameDefinitions.PermFinTwoUniv
 
 @[expose] public section

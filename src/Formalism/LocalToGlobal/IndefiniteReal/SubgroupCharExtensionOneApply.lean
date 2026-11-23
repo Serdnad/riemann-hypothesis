@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.BesselHermitianTheta.MinfDensity
+public import Formalism.LocalToGlobal.BesselHermitianTheta.Bundle001
 public import Formalism.LocalToGlobal.Divisibility.DefGroup
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

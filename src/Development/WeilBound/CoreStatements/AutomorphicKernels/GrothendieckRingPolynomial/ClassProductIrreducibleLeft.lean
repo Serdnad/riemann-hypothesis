@@ -1,12 +1,12 @@
 module
 
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.GrothendieckRingPolynomial.ProdList
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.InductionFiniteLength
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle413
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsEquivProdIrrTw
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsIrreducibleSubquotientTwoBlockConstituents
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ParabolicProductHasFiniteLengthGL
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SegmentRepSplitIntertwiner
-public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.BernsteinZelevinskyFiniteness
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle505
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle662
+public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle048
 import GroundTheory.LocalFields.PadicLogSeries
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

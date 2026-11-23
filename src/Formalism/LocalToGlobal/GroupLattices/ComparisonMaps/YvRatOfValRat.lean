@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalRingCardinality.DataLatDefs
+public import Formalism.LocalRingCardinality.Bundle006
 public import Formalism.SharpRestriction.GrowthBounds.LatticeSystems
 public import Formalism.LocalToGlobal.GroupLattices.FockModels.OperatorsPreserveLattices
 import Mathlib.Algebra.Module.StablyFree.Basic

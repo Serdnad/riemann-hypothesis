@@ -1,7 +1,7 @@
 module
 
-public import Formalism.UnipotentAdelicQuotients.ClassNumberFinite
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TC
+public import Formalism.UnipotentAdelicQuotients.Bundle002
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle156
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

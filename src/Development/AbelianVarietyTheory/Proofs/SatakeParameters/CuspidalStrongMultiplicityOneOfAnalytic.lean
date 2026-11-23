@@ -1,10 +1,9 @@
 module
 
 public import Formalism.SharpRestriction.LevelLetterCocycles.SumRepresentations
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.InjPrimeTo
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.PointParOfTwist
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TwistInvOfCharLawsMultOne
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.SSAscent
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle009
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle267
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle008
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -45,8 +44,8 @@ import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AbelianVarietyTheory.Definitions.Foundations.MatrixMeasurableSpace
 import Development.AbelianVarietyTheory.Definitions.Foundations.SmoothPartStable
-import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.ExistsReadingLaws
-import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.RankOneUnitary
+import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle008
+import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle007
 import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.LeviEmbMemNormalizerLower
 
 @[expose] public section

@@ -1,14 +1,14 @@
 module
 
-public import Development.AbelianVarietyTheory.Statements.SemistableTorsion.UTorsSt
+public import Development.AbelianVarietyTheory.Statements.SemistableTorsion.Bundle001
 public import Development.AbelianVarietyTheory.Definitions.Uniformization.TXFrame
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.ExistsUniqueWeilIs
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.WeilIsAlternatingSkewNatural
 public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ThetaSysFFMemFinitePerpProj
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.WeilIsIffOfIsGrpPullbackComm
-import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.RelationsAreFunctions
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.GtOntoDivisibleKernel
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.TxFrameOfOne
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle081
+import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle015
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle042
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle031
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

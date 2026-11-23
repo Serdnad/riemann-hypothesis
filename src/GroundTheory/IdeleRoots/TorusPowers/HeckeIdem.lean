@@ -1,6 +1,6 @@
 module
 
-public import Formalism.UnipotentAdelicQuotients.ThmBInHecke
+public import Formalism.UnipotentAdelicQuotients.Bundle001
 public import GroundTheory.GlobalFields.Adele.BaseChange.AdeleEquiv
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,11 +1,11 @@
 module
 
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.HalfIndexLattices.SplitStab
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DifferentCoprimeAtGoodPlaces
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.FormallyUnramifiedRingOfIntegersIffDifferentIdea
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsGoodIndexNormalizationNegativeInert
-public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.LatRepB_A
-import Development.WeilBound.ThetaLifts.TowerModels.PlaneCodiff
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1925
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle014
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle247
+public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.Bundle001
+import Development.WeilBound.ThetaLifts.TowerModels.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

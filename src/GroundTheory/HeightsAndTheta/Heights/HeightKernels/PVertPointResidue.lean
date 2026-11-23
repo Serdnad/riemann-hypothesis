@@ -1,7 +1,7 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.StatementsVertRIndexSteps
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterDivSupp
+public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.Bundle019
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle015
 public import GroundTheory.HeightsAndTheta.Heights.HeightsOfSets.PCurveDivVertical
 public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.CoordinateIdeals.MemMCoordIdealOfAevalEqZero
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.NotIsUnitOfNumMem

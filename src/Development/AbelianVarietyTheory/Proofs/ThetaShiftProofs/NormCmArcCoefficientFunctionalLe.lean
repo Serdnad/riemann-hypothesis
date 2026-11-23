@@ -1,21 +1,22 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.ArchimedeanThetaValues.ModelsAt
-public import Formalism.LocalToGlobal.ProjectiveLattices.NormsFree
-public import Development.AbelianVarietyTheory.Counterexamples.ModuliSurvey.MemOfPowEqInt
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle016
+public import Development.AbelianVarietyTheory.Counterexamples.ModuliSurvey.Bundle004
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ArcDatumSectionValueCoeffEqFourierJacobi
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ArchBoundFlow
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.CmMetrisedLineLengthsEqSectionLieNormsStatement
-import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.DegenerationDataBaseChangesExistPid
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle034
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle056
+import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle024
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.EqZeroOfSumSq
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.IsTauCanonicalIffOfIsPullDegTauBimultStatement
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle038
 import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.LaurentCoeffSectionValueArcEqFourierJacobi
-import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.LaurentCoeffSectionValueArcEqFourierJacobiStatement
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.LetterSquaredLengthLeFlowHeightStatement
-import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.NonemptyUnifWitnessDataOfIsUnfStatement
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.NormalisedTrivialisationNormOneComplexReadingStatement
-import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.TorusExtExponentialDerivativeBijectiveTangentStatement
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.RelabelEmbeddingsGoodBijectiveConjCompat
+import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle064
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.HolomorphicArcAgreesAnalyticDictionary
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.LetterSquaredLengthLeFlowHeight
+import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle031
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle066
+import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle037
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle028
 public import Formalism.LocalToGlobal.CMDeterminantIdeals.CMIdealValuations.AbsNormSpanGalois
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
@@ -58,9 +59,9 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Topology.Algebra.MvPolynomial
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.RigidSys
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.FlowCoefficientBounds
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.QuadraticCoefficientForms
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle006
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.Bundle014
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.Bundle009
 
 @[expose] public section
 
@@ -287,7 +288,7 @@ theorem line_pos {K₁ : Type} [Field K₁] [NumberField K₁] [Algebra c.F K₁
     · rw [h]; exact (h1 _).1.2 em
     · rw [h]; exact (h2 _).1.2 em
 
-theorem norm_cfOf_le : Known → ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E) (Dw : Datum H) (l : Level H) (Xo : Moduli Dw l) (c : Coeff l) (K₁ : Type) [Field K₁] [NumberField K₁] [Algebra c.F K₁] (d : ArcDatum Xo c K₁) (n' : ℕ) (La c₁ : ℝ) (s : CMIn d.a d.e d.th d.jj n' La c₁) (em : K₁ →+* ℂ) (r : ℕ) (U : Unf Xo c (em.comp (algebraMap c.F K₁)) r) (xi S : ℝ) (a' : (E →+* ℂ) × ℕ → ℕ) (n : ℕ), Std d → 1 ≤ La → GoodEmb c (em.comp (algebraMap c.F K₁)) → IsUnf U → (∀ k (τ : E →+* ℂ), ‖τ (U.X k).ξ0‖ = xi) → Dom a' n → (∀ k, TransvIn (U.X k) l.M' (laU U a' n k)) → ∀ F ∈ sec Xo c a' n, 0 ≤ S → (∀ k, ∀ y ∈ (U.X k).dom, lieFac Dw xi a' * (U.X k).pnorm (laU U a' n k) (rdU U F k) y ≤ S) → ‖em (cfOf d.yF d.μ d.jj F)‖ * (s.valLine d.μ n).n em ≤ S * Real.exp (4 * Real.pi + GlobalTheory.ArcCM.archP E r La c₁ * ((absA Dw a' : ℝ) + (fdeg E : ℝ) * n)) := by
+theorem norm_cfOf_le : Known → ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E) (Dw : Datum H) (l : Level H) (Xo : Moduli Dw l) (c : Coeff l) (K₁ : Type) [Field K₁] [NumberField K₁] [Algebra c.F K₁] (d : ArcDatum Xo c K₁) (n' : ℕ) (La c₁ : ℝ) (s : CMIn d.a d.e d.th d.jj n' La c₁) (em : K₁ →+* ℂ) (r : ℕ) (U : _root_.Formalism.L2.PjFree.Unf Xo c (em.comp (algebraMap c.F K₁)) r) (xi S : ℝ) (a' : (E →+* ℂ) × ℕ → ℕ) (n : ℕ), Std d → 1 ≤ La → _root_.Formalism.L2.PjFree.GoodEmb c (em.comp (algebraMap c.F K₁)) → _root_.Formalism.L2.PjFree.IsUnf U → (∀ k (τ : E →+* ℂ), ‖τ (U.X k).ξ0‖ = xi) → Dom a' n → (∀ k, TransvIn (U.X k) l.M' (_root_.Formalism.L2.PjFree.laU U a' n k)) → ∀ F ∈ sec Xo c a' n, 0 ≤ S → (∀ k, ∀ y ∈ (U.X k).dom, Formalism.L2.PjFree.lieFac Dw xi a' * (U.X k).pnorm (_root_.Formalism.L2.PjFree.laU U a' n k) (rdU U F k) y ≤ S) → ‖em (cfOf d.yF d.μ d.jj F)‖ * (s.valLine d.μ n).n em ≤ S * Real.exp (4 * Real.pi + GlobalTheory.ArcCM.archP E r La c₁ * ((absA Dw a' : ℝ) + (fdeg E : ℝ) * n)) := by
   intro hK E _ _ _ H Dw l Xo c K₁ _ _ _ d n' La c₁ s em r U xi S a' n hstd hLa hgood hunf
     hxi hdom htv F hF hS0 hS
   obtain ⟨hover, ⟨y₀, hy₀, hc⟩, hpush⟩ := hstd
@@ -331,12 +332,12 @@ theorem norm_cfOf_le : Known → ∀ (E : Type) [Field E] [NumberField E] [IsCMF
   have hCT := hCle _ (((GlobalTheory.T.cm_metrised_line_lengths_eq_section_lie_norms hK E H Dw l c K₁ d.a d.e d.th d.jj n' La c₁ s em).2.2.2 _ p).1 th₁ hth₁)
   rw [sqrt_discr (U.X k)] at hCT
   obtain ⟨hT, hl⟩ := line_pos s em
-  have hL := lieFac_pos Dw xi a'
+  have hL := Formalism.L2.PjFree.lieFac_pos Dw xi a'
   have hM : 0 < max 1 c₁ := lt_max_of_lt_left zero_lt_one
   have hep : 0 < (max 1 c₁)⁻¹ := inv_pos.2 hM
-  have hS' : ∀ y ∈ (U.X k).dom, (U.X k).pnorm (laU U a' n k) (rdU U F k) y ≤ S / lieFac Dw xi a' := fun y hy =>
+  have hS' : ∀ y ∈ (U.X k).dom, (U.X k).pnorm (_root_.Formalism.L2.PjFree.laU U a' n k) (rdU U F k) y ≤ S / Formalism.L2.PjFree.lieFac Dw xi a' := fun y hy =>
     (le_div_iff₀' hL).2 (hS k y hy)
-  have hb : (U.X k).IsBddSec (laU U a' n k) (rdU U F k) := ⟨hunf.2.2.2.2.1 a' n hdom F hF k, _, hS'⟩
+  have hb : (U.X k).IsBddSec (_root_.Formalism.L2.PjFree.laU U a' n k) (rdU U F k) := ⟨hunf.2.2.2.2.1 a' n hdom F hF k, _, hS'⟩
   have htr : (max 1 c₁)⁻¹ * ∑ τ : (U.X k).Ψ, (τ.1 s.ν₀).re ≤ 1 := by
     have e1 := IsoTime.trace_cm (U.X k) s.ν₀
     have e2 := s.tr
@@ -392,7 +393,7 @@ theorem norm_cfOf_le : Known → ∀ (E : Type) [Field E] [NumberField E] [IsCMF
       rw [← herm_single Hm]
       exact (hH'.2.1 _ (by simp)).le)) hdiag)
     have hcau := FlowCoefficientBounds.fj_bound (U.X k) _ _ _ hS' hiso (fun τ => (τ.1 s.ν₀).re) hx''
-    have hnf := FlowCoefficientBounds.nfac_pos (U.X k) hx'' (laU U a' n k)
+    have hnf := FlowCoefficientBounds.nfac_pos (U.X k) hx'' (_root_.Formalism.L2.PjFree.laU U a' n k)
     have hid := congrArg norm (hFj F hF hb)
     rw [norm_mul, norm_mul, hfl _ _ hb] at hid
     have hexp : Real.exp (4 * Real.pi * ∑ τ : (U.X k).Ψ, (τ.1 s.ν₀).re * ((max 1 c₁)⁻¹ - (U.X k).tt ξ' fr.1 τ)) =

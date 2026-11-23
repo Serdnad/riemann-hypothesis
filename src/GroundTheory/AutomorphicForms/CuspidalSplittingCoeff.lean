@@ -1,8 +1,8 @@
 module
 
-public import GroundTheory.AutomorphicForms.CuspidalSplittingSums
-import GroundTheory.AutomorphicForms.SmoothRepContragredient
-import GroundTheory.AutomorphicForms.SmoothRepSchur
+public import GroundTheory.AutomorphicForms.Bundle017
+import GroundTheory.AutomorphicForms.Bundle008
+import GroundTheory.AutomorphicForms.Bundle009
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

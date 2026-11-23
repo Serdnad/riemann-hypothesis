@@ -1,12 +1,12 @@
 module
 
-public import Formalism.LocalToGlobal.CharacterGerms.RowTiePPTSelfEx
-public import Formalism.LocalToGlobal.CharacterGerms.RowTiePOActLog
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle037
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle012
 public import Formalism.LocalToGlobal.CharacterGerms.CoeffSubstEqSum
 import Formalism.LocalToGlobal.CharacterGerms.ConstMemTypeSetOfNonneg
-public import Formalism.LocalToGlobal.CharacterGerms.EndomorphismLimitIntegral
-import Formalism.LocalToGlobal.CharacterGerms.RowTieCartAdd
-import Formalism.LocalToGlobal.CharacterGerms.RowTieCartFB
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle011
+import Formalism.LocalToGlobal.CharacterGerms.Bundle009
+import Formalism.LocalToGlobal.CharacterGerms.Bundle008
 public import Formalism.LocalToGlobal.CharacterGerms.RowTiePAllStart
 public import Formalism.LocalToGlobal.CharacterGerms.RowTiePLSmallMain
 import Mathlib.Algebra.Order.Floor.Extended

@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalToGlobal.Columns.LevGCount
-public import Formalism.LocalToGlobal.Columns.ColForms
+public import Formalism.LocalToGlobal.Columns.Bundle007
 public import Formalism.LocalToGlobal.Divisibility.GoodPartHermitianSpec
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -5,7 +5,7 @@ public import GroundTheory.ProfiniteCohomology.RestrictedRamification.BaseChange
 public import GroundTheory.ProfiniteCohomology.RestrictedRamification.BrauerDefs
 public import Mathlib.RingTheory.PicardGroup
 public import ReciprocityTheory.GaloisValuations.Global
-public import Development.WeilBound.CoreStatements.PublishedTheorems.PoitouTateDuality.FinalPtfsFoundSideA
+public import Development.WeilBound.CoreStatements.PublishedTheorems.PoitouTateDuality.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

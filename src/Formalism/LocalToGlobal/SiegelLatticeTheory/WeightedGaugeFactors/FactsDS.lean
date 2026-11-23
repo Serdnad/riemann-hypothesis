@@ -2,7 +2,7 @@ module
 
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.HaarTransversals.UnitaryHaarProducts.SettingBlocks
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.CasimirReductionTheory.OneParameterDerivatives.BesselNVG
-public import Formalism.SharpRestriction.CuspSpanNormBounds.BridgeLitG
+public import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle017
 public import Formalism.SharpRestriction.CuspSpanNormBounds.DiscreteSeriesWeylDimension
 public import Formalism.HermitianCurvature.BesselNonvanishingReduction
 import Mathlib.Algebra.Order.Floor.Extended
@@ -40,8 +40,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.DiscreteSeriesExistence.DiscreteSeriesUniqueLargeGap
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.DiscreteSeriesExistence.FinalClosed
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.DiscreteSeriesExistence.Bundle012
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.CoefLoc
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.HighestWeights.HWExists
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.LaplaceOperators.BesselVectors.Closed

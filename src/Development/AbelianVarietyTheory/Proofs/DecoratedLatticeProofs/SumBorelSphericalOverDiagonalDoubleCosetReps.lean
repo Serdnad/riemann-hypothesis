@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.IsCoType
+public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.Bundle003
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.SatakeMat
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.HasBoundedSumsOne
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle038
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.TjcosetsFF
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.NormalizedAbsCharacterization
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle039
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.PowDvdOfHermMatEq
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Tjcosets
 import Mathlib.Algebra.Order.Floor.Extended

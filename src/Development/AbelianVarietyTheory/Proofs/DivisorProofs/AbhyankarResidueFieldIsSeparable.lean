@@ -1,12 +1,12 @@
 module
 
 public import Mathlib.RingTheory.RamificationInertia.Ramification
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DvrExistsUnitPowEqMulUniformizerStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.KummerAevalValuationDvrStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.KummerResidueMemAdjoinUnitStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LocalizationNormalizationRootAdjoinIsDVRStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.NormalisationMulEqAevalRootStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.UniformizerEqPowRamificationIdxMulUnitIntegralClStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle228
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle189
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle212
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle434
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle356
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle238
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -56,7 +56,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AlgebraMapIntegralClosureTensorEq
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle173
 
 @[expose] public section
 

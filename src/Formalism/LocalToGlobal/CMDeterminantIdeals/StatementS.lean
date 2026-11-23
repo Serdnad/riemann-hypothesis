@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.CMDeterminantIdeals.StatementG
+public import Formalism.LocalToGlobal.CMDeterminantIdeals.Bundle002
 public import Formalism.LocalToGlobal.CMDeterminantIdeals.DetIdeal
 public import Mathlib.RingTheory.DedekindDomain.AdicValuation.Valuation
 import Mathlib.Algebra.Order.Floor.Extended

@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.AutomorphicForms.DixmierMalliavinBasic
+public import GroundTheory.AutomorphicForms.Bundle004
 public import Mathlib.MeasureTheory.Integral.Bochner.Basic
 public import Mathlib.MeasureTheory.Measure.Haar.OfBasis
 public import GroundTheory.AutomorphicForms.DixmierMalliavinHaarCoord

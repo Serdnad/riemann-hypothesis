@@ -1,10 +1,10 @@
 module
 
 public import Development.AutomorphicArithmetic.Foundations.BaseChangeIdentities.RealTraceClifford.ClifMod
-public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.RealDescent.RealLeviDescent.NoSecondTypeWeight
+public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.RealDescent.RealLeviDescent.Bundle001
 public import Development.AutomorphicArithmetic.Foundations.BaseChangeIdentities.RealTraceClifford.CfBasic
-public import Development.AutomorphicArithmetic.Foundations.BaseChangeIdentities.RealTraceClifford.DominantRearrangementProperties
-public import Development.AutomorphicArithmetic.Foundations.BaseChangeIdentities.RealTraceClifford.SgSmul
+public import Development.AutomorphicArithmetic.Foundations.BaseChangeIdentities.RealTraceClifford.Bundle007
+public import Development.AutomorphicArithmetic.Foundations.BaseChangeIdentities.RealTraceClifford.Bundle005
 import Mathlib.Algebra.Group.UniqueProds.VectorSpace
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -88,7 +88,7 @@ private theorem cf_sum' {n : ℕ} {ι : Type} (s : Finset ι) (f : ι → FR n) 
 
 private theorem cf_ex {n : ℕ} (y x : Wt n) : cf (ex y) x = if y = x then 1 else 0 := by
   classical
-  simp [cf, ex, AddMonoidAlgebra.coeff_single, Finsupp.single_apply]
+  simp [_root_.UpperTheory.RealTr.cf, ex, AddMonoidAlgebra.coeff_single, Finsupp.single_apply]
 
 private theorem ex_sum {n : ℕ} {ι : Type} (s : Finset ι) (f : ι → Wt n) :
     ∏ i ∈ s, ex (f i) = ex (∑ i ∈ s, f i) := by

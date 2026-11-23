@@ -1,13 +1,12 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.UnderTie
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle025
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.SmulCompSmul
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.ChartBaseRepresentativePenultimateStep
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.FirstCoupledKernelEquivariantCosets
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.RowTypeOneAddPrimeSmulEqOne
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.BaseCosetRepIntegralAfterScalingAtBadPrime
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle189
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle302
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.CouplingCosetsRightTranslateInFramesTypePrime
-public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.KerEquivFr
+public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

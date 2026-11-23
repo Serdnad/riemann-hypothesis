@@ -1,8 +1,8 @@
 module
 
-import Formalism.SharpRestriction.GenusPolyhedralBounds.RelativeIndexClassSets.LocalFormOfWeakForm
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ETExSt
-public import Formalism.LocalToGlobal.ProjectiveLattices.HasDataCondition
+import Formalism.SharpRestriction.GenusPolyhedralBounds.RelativeIndexClassSets.Bundle005
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle024
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle037
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

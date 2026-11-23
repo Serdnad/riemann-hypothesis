@@ -1,9 +1,9 @@
 module
 
 public import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.TrDefs
-public import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.CutIrr
-public import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.JointNe
-public import GroundTheory.AutomorphicForms.CompactSelfAdjoint
+public import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.Bundle003
+public import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.Bundle005
+public import GroundTheory.AutomorphicForms.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

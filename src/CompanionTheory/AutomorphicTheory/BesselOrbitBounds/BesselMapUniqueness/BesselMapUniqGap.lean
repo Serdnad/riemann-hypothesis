@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.BesselMapUniq
+public import Formalism.PeriodIntegrals.Bundle019
 public import CompanionTheory.HarishChandraModules.BesselParameterIntegrals.SmoothCyclicVectors.IntegralMemOfIsClosed
 public import Mathlib.MeasureTheory.Measure.Haar.OfBasis
 import Mathlib.Algebra.Order.Floor.Extended

@@ -222,8 +222,17 @@ theorem norms_le : norms P (maximalRealSubfield E) ≤
   change toLocalFld P k c * involBase P k (toLocalFld P k c) = inclPlus P k (toLocalPlus P k n)
   rw [← e1, ← e2, ← map_mul, hc']
 
+local instance (priority := high) normSubgroupNormal : (norms P k).Normal where
+  conj_mem n hn g := by
+    have h : g * n = n * g := Units.ext (mul_comm _ _)
+    rwa [h, mul_assoc, mul_inv_cancel, mul_one]
+
+local instance (priority := high) normClassCommGroup : CommGroup (NormClass P k) :=
+  QuotientGroup.Quotient.commGroup (norms P k)
+
 def toLocal : NormClass P (maximalRealSubfield E) →* NormClass P k :=
-  QuotientGroup.map _ _ (Units.map (toLocalPlus P k).toMonoidHom) (norms_le P k)
+  QuotientGroup.map (norms P (maximalRealSubfield E)) (norms P k)
+    (Units.map (toLocalPlus P k).toMonoidHom) (norms_le P k)
 
 end Local
 

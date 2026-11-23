@@ -1,9 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.ContrFactor
-public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.AllPositions
+public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.Bundle002
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.PadicIsNonarchimedeanLocalField
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.FlatRowMapEqRootExchangeOperatorTranslateStatement
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle028
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

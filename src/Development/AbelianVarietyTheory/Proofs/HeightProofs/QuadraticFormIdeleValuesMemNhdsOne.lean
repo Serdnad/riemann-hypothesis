@@ -1,9 +1,8 @@
 module
 
 public import Mathlib.NumberTheory.NumberField.AdeleRing
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsSupersetMemSUnits
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.HigherUnitsLeSquaresHigherUnits
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.UnitNormFormAtOddPlace
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle010
+public import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle016
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -45,7 +44,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import Development.AbelianVarietyTheory.Definitions.AdelicHermitianForms.SqSubLeNormSub
+public import Development.AbelianVarietyTheory.Definitions.AdelicHermitianForms.Bundle001
 
 @[expose] public section
 
@@ -253,3 +252,18 @@ theorem norm_form_mem_nhds_one : ∀ (F : Type) [Field F] [NumberField F] (δ : 
     exact (hp v).1
 
 end GlobalTheory.QNorm
+
+end
+
+section
+
+@[expose] public section
+
+open NumberField IsDedekindDomain
+open scoped Topology
+
+theorem _root_.GlobalTheory.T.quadraticForm_ideleValues_mem_nhds_one : ∀ (F : Type) [Field F] [NumberField F] (δ : F), δ ≠ 0 → {a : (AdeleRing (𝓞 F) F)ˣ | ∃ x y : AdeleRing (𝓞 F) F, (a : AdeleRing (𝓞 F) F) = x ^ 2 - algebraMap F (AdeleRing (𝓞 F) F) δ * y ^ 2} ∈ 𝓝 (1 : (AdeleRing (𝓞 F) F)ˣ) := by
+  first | exact @GlobalTheory.QNorm.norm_form_mem_nhds_one | exact GlobalTheory.QNorm.norm_form_mem_nhds_one | (intros; apply GlobalTheory.QNorm.norm_form_mem_nhds_one <;> assumption)
+
+end
+end

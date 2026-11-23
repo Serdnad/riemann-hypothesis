@@ -41,7 +41,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.USt
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle026
 
 @[expose] public section
 

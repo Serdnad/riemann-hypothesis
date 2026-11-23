@@ -1,9 +1,9 @@
 module
 
 public import Formalism.SharpRestriction.GlobalSchurBounds.StandardLattice
-public import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.SplitColumnClasses
+public import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.Bundle004
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsIrreducible
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.NcardPrimesOverOfStabilizer
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle256
 public import Formalism.SharpRestriction.GlobalSchurBounds.ThickPlacesCorollaryOfAnyTranslate
 import Mathlib.Algebra.AffineMonoid.Basic
 import Mathlib.Algebra.Order.Floor.Extended

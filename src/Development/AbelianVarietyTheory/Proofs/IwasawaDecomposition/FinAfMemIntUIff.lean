@@ -1,9 +1,9 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.TrueColumnChoicesHeckeCharReferenceEqOne
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IdeleCharacterTrivialOnLocalUnits
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.TwistPowUnitsOfUnderEq
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.UnderEqOfMapEq
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle093
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle168
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle177
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -62,24 +62,24 @@ open Formalism.L2.DIV GlobalTheory.Mem.LocTriv
 
 variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E]
 
-theorem afIso_finAf_apply (a : Ideles E) (P : HeightOneSpectrum (𝓞 E)) :
+theorem afIso_finAf_apply (a : _root_.Neutral.B1.Ideles E) (P : HeightOneSpectrum (𝓞 E)) :
     afIso F E (finAf F E a : AfE F E) P = ev P (a : AdeleRing (𝓞 E) E) := by
   rw [afIso_finAf]
   rfl
 
 theorem mem_above {v : HeightOneSpectrum (𝓞 F)} {P : HeightOneSpectrum (𝓞 E)} :
-    P ∈ aboveF (L := E) F v ↔ P.under (𝓞 F) = v := by
-  unfold aboveF
+    P ∈ _root_.Formalism.L2.Host.aboveF (L := E) F v ↔ P.under (𝓞 F) = v := by
+  unfold _root_.Formalism.L2.Host.aboveF
   rw [Set.Finite.mem_toFinset]
   rfl
 
-theorem finAf_mem_intU_iff (a : Ideles E) : finAf F E a ∈ intU F E ↔ a ∈ unitIdl E := by
+theorem finAf_mem_intU_iff (a : _root_.Neutral.B1.Ideles E) : finAf F E a ∈ intU F E ↔ a ∈ unitIdl E := by
   unfold intU
   rw [Submonoid.mem_units_iff, ← map_inv]
   change (finAf F E a : AfE F E) ∈ RInt F E ∧ (finAf F E a⁻¹ : AfE F E) ∈ RInt F E ↔ _
   simp only [mem_rInt_iff, afIso_finAf]
   refine ⟨fun h P => le_antisymm (h.1 P) ?_, fun h => ⟨fun P => (h P).le, fun P => ((unitIdl E).inv_mem h P).le⟩⟩
-  have h1 : (a : AdeleRing (𝓞 E) E).2 P * ((a⁻¹ : Ideles E) : AdeleRing (𝓞 E) E).2 P = 1 :=
+  have h1 : (a : AdeleRing (𝓞 E) E).2 P * ((a⁻¹ : _root_.Neutral.B1.Ideles E) : AdeleRing (𝓞 E) E).2 P = 1 :=
     congrArg (fun z : AdeleRing (𝓞 E) E => z.2 P) a.mul_inv
   have h2 := congrArg (Valued.v : Valuation (P.adicCompletion E) _) h1
   rw [map_mul, map_one] at h2
@@ -87,26 +87,26 @@ theorem finAf_mem_intU_iff (a : Ideles E) : finAf F E a ∈ intU F E ↔ a ∈ u
   exact mul_le_of_le_one_right' (h.2 P)
 
 theorem local_mem_suppAt (P : HeightOneSpectrum (𝓞 E)) (x : (P.adicCompletion E)ˣ) :
-    finAf F E (localIdele E P x) ∈ suppAt E (P.under (𝓞 F)) := by
+    finAf F E (_root_.Neutral.B1.localIdele E P x) ∈ suppAt E (P.under (𝓞 F)) := by
   rw [mem_suppAt_iff]
   intro Q hQ
   rw [afIso_finAf_apply]
   exact ev_local_ne (fun e => hQ (by rw [e])) x
 
-theorem local_mem_unitIdl {P : HeightOneSpectrum (𝓞 E)} {x : (P.adicCompletion E)ˣ} (hx : IsUnitAt P x) :
-    localIdele E P x ∈ unitIdl E := fun Q => by
-  change Valued.v (ev Q (localIdele E P x : AdeleRing (𝓞 E) E)) = 1
+theorem local_mem_unitIdl {P : HeightOneSpectrum (𝓞 E)} {x : (P.adicCompletion E)ˣ} (hx : _root_.Formalism.L2.Host.IsUnitAt P x) :
+    _root_.Neutral.B1.localIdele E P x ∈ unitIdl E := fun Q => by
+  change Valued.v (ev Q (_root_.Neutral.B1.localIdele E P x : AdeleRing (𝓞 E) E)) = 1
   by_cases h : Q = P
   · subst h
     rw [ev_local_self]
     exact hx
   · rw [ev_local_ne h, map_one]
 
-theorem finAf_part {v : HeightOneSpectrum (𝓞 F)} {a : Ideles E} (ha : finAf F E a ∈ suppAt E v) :
-    finAf F E (part a (aboveF (L := E) F v)) = finAf F E a := by
+theorem finAf_part {v : HeightOneSpectrum (𝓞 F)} {a : _root_.Neutral.B1.Ideles E} (ha : finAf F E a ∈ suppAt E v) :
+    finAf F E (part a (_root_.Formalism.L2.Host.aboveF (L := E) F v)) = finAf F E a := by
   refine Units.ext ((afIso F E).injective (FiniteAdeleRing.ext _ fun P => ?_))
   rw [afIso_finAf_apply]
-  by_cases h : P ∈ aboveF (L := E) F v
+  by_cases h : P ∈ _root_.Formalism.L2.Host.aboveF (L := E) F v
   · rw [ev_part_mem a h, afIso_finAf_apply]
   · rw [ev_part_not_mem a h]
     exact ((mem_suppAt_iff F E v _).1 ha P fun e => h (mem_above.2 e)).symm
@@ -136,12 +136,12 @@ theorem exists_under_eq (v : HeightOneSpectrum (𝓞 F)) : ∃ P : HeightOneSpec
   obtain ⟨Q, hQ, hl⟩ := (Ideal.nonempty_primesOver v.asIdeal (S := 𝓞 E)).some
   exact ⟨⟨Q, hQ, Ideal.ne_bot_of_liesOver_of_ne_bot v.ne_bot Q⟩, HeightOneSpectrum.ext hl.over.symm⟩
 
-theorem local_mem_wildAt {P : HeightOneSpectrum (𝓞 E)} {x : (P.adicCompletion E)ˣ} (hx : IsUnitAt P x)
+theorem local_mem_wildAt {P : HeightOneSpectrum (𝓞 E)} {x : (P.adicCompletion E)ˣ} (hx : _root_.Formalism.L2.Host.IsUnitAt P x)
     (h1 : Valued.v ((x : P.adicCompletion E) - 1) ≤ WithZero.exp (-1 : ℤ)) :
-    finAf F E (localIdele E P x) ∈ wildAt E (P.under (𝓞 F)) := by
+    finAf F E (_root_.Neutral.B1.localIdele E P x) ∈ wildAt E (P.under (𝓞 F)) := by
   refine ⟨?_, local_mem_suppAt P x⟩
   have hu := (finAf_mem_intU_iff (F := F) _).2 (local_mem_unitIdl hx)
-  set y := finAf F E (localIdele E P x) with hy
+  set y := finAf F E (_root_.Neutral.B1.localIdele E P x) with hy
   have hu1 : (y : AfE F E) ∈ RInt F E := hu.1
   have hu2 : ((y⁻¹ : (AfE F E)ˣ) : AfE F E) ∈ RInt F E := hu.2
   refine ⟨⟨⟨_, hu1⟩, ⟨_, hu2⟩, Subtype.ext y.mul_inv, Subtype.ext y.inv_mul⟩, ?_, Units.ext rfl⟩
@@ -190,30 +190,30 @@ theorem afIso_one_tmul (a : FiniteAdeleRing (𝓞 F) F) (k : F) (P : HeightOneSp
   omega
 
 theorem finAf_locF_mem (v : HeightOneSpectrum (𝓞 F)) (k : Fˣ) :
-    finAf F E (locF F v k) ∈ (idF F E).range := by
-  refine ⟨Units.map (RingHom.snd (InfiniteAdeleRing F) (FiniteAdeleRing (𝓞 F) F)).toMonoidHom (localIdele F v (atFin v k)), Units.ext ((afIso F E).injective (FiniteAdeleRing.ext _ fun P => ?_))⟩
-  rw [afIso_finAf_apply, locF, Units.coe_prod, map_prod]
-  change afIso F E (1 ⊗ₜ[F] ((localIdele F v (atFin v k) : Ideles F) : AdeleRing (𝓞 F) F).2) P = _
-  by_cases h : P ∈ aboveF (L := E) F v
+    finAf F E (_root_.GlobalTheory.Mem.Chr.locF F v k) ∈ (idF F E).range := by
+  refine ⟨Units.map (RingHom.snd (InfiniteAdeleRing F) (FiniteAdeleRing (𝓞 F) F)).toMonoidHom (_root_.Neutral.B1.localIdele F v (_root_.Formalism.L2.Host.atFin v k)), Units.ext ((afIso F E).injective (FiniteAdeleRing.ext _ fun P => ?_))⟩
+  rw [afIso_finAf_apply, _root_.GlobalTheory.Mem.Chr.locF, Units.coe_prod, map_prod]
+  change afIso F E (1 ⊗ₜ[F] ((_root_.Neutral.B1.localIdele F v (_root_.Formalism.L2.Host.atFin v k) : _root_.Neutral.B1.Ideles F) : AdeleRing (𝓞 F) F).2) P = _
+  by_cases h : P ∈ _root_.Formalism.L2.Host.aboveF (L := E) F v
   · rw [Finset.prod_eq_single_of_mem P h (fun Q _ hQ => ev_local_ne hQ.symm _), ev_local_self]
     obtain rfl := mem_above.1 h
-    exact afIso_one_tmul _ (k : F) P (ev_local_self (P.under (𝓞 F)) (atFin _ k))
+    exact afIso_one_tmul _ (k : F) P (ev_local_self (P.under (𝓞 F)) (_root_.Formalism.L2.Host.atFin _ k))
   · rw [Finset.prod_eq_one fun Q hQ => ev_local_ne (fun e : P = Q => h (e ▸ hQ)) _,
-      afIso_one_tmul _ 1 P ((ev_local_ne (fun e => h (mem_above.2 e)) (atFin v k)).trans (map_one _).symm),
+      afIso_one_tmul _ 1 P ((ev_local_ne (fun e => h (mem_above.2 e)) (_root_.Formalism.L2.Host.atFin v k)).trans (map_one _).symm),
       map_one, map_one]
 
-variable {K : Type} [Field K] {σ : K →+* ℂ} {μ : Chr F E K} {ξ : HChar E}
+variable {K : Type} [Field K] {σ : K →+* ℂ} {μ : Chr F E K} {ξ : _root_.Formalism.L2.Host.HChar E}
 
-theorem pow_eq_one_iff (h : Reads σ μ ξ) (a : Ideles E) (n : ℕ) : ξ.1 a ^ n = 1 ↔ μ (finAf F E a) ^ n = 1 := by
+theorem pow_eq_one_iff (h : Reads σ μ ξ) (a : _root_.Neutral.B1.Ideles E) (n : ℕ) : ξ.1 a ^ n = 1 ↔ μ (finAf F E a) ^ n = 1 := by
   rw [Units.ext_iff, Units.ext_iff, Units.val_pow_eq_pow_val, Units.val_pow_eq_pow_val, h a, ← map_pow, Units.val_one,
     Units.val_one, map_eq_one_iff σ σ.injective]
 
-theorem eq_one_iff (h : Reads σ μ ξ) (a : Ideles E) : ξ.1 a = 1 ↔ μ (finAf F E a) = 1 := by
+theorem eq_one_iff (h : Reads σ μ ξ) (a : _root_.Neutral.B1.Ideles E) : ξ.1 a = 1 ↔ μ (finAf F E a) = 1 := by
   simpa using pow_eq_one_iff h a 1
 
 theorem inert_pow_iff (h : Reads σ μ ξ) (v : HeightOneSpectrum (𝓞 F)) (n : ℕ) :
     (∀ y ∈ inertAt E v, μ y ^ n = 1) ↔
-      ∀ P : HeightOneSpectrum (𝓞 E), P.under (𝓞 F) = v → ∀ x, IsUnitAt P x → ξ.loc P x ^ n = 1 := by
+      ∀ P : HeightOneSpectrum (𝓞 E), P.under (𝓞 F) = v → ∀ x, _root_.Formalism.L2.Host.IsUnitAt P x → ξ.loc P x ^ n = 1 := by
   constructor
   · rintro hy P rfl x hx
     exact (pow_eq_one_iff h _ n).2
@@ -228,7 +228,7 @@ theorem mem_qprime_iff (h : Reads σ μ ξ) (v : HeightOneSpectrum (𝓞 F)) :
   have h1 := inert_pow_iff h v 1
   simp only [pow_one] at h1
   refine (not_congr h1).trans ?_
-  simp only [not_forall, exists_prop, HChar.UnrAt]
+  simp only [not_forall, exists_prop, _root_.Formalism.L2.Host.HChar.UnrAt]
 
 theorem tameAt (h : Reads σ μ ξ) (hw : ∀ v : HeightOneSpectrum (𝓞 F), wildAt E v ≤ μ.ker)
     (P : HeightOneSpectrum (𝓞 E)) : ξ.TameAt P := fun x hx h1 =>
@@ -238,19 +238,19 @@ theorem trivOn (h : Reads σ μ ξ) (hF : (idF F E).range ≤ μ.ker) : ξ.TrivO
   constructor
   · intro v k
     have h1 := (eq_one_iff h _).2 (hF (finAf_locF_mem v k))
-    rw [locF, map_prod] at h1
-    rw [HChar.resFin, MonoidHom.finsetProd_apply]
+    rw [_root_.GlobalTheory.Mem.Chr.locF, map_prod] at h1
+    rw [_root_.Formalism.L2.Host.HChar.resFin, MonoidHom.finsetProd_apply]
     exact h1
   · intro w k
-    rw [HChar.resInf, MonoidHom.finsetProd_apply]
-    refine Finset.prod_eq_one fun w' _ => (eq_one_iff h (infIdele E w' (atInf w' (upF F k)))).2 ?_
-    have e : finAf F E (infIdele E w' (atInf w' (upF F k))) = 1 :=
+    rw [_root_.Formalism.L2.Host.HChar.resInf, MonoidHom.finsetProd_apply]
+    refine Finset.prod_eq_one fun w' _ => (eq_one_iff h (_root_.ReciprocityTheory.Neutral.Bridge.HCFR.infIdele E w' (_root_.Formalism.L2.Host.atInf w' (_root_.Formalism.L2.Host.upF F k)))).2 ?_
+    have e : finAf F E (_root_.ReciprocityTheory.Neutral.Bridge.HCFR.infIdele E w' (_root_.Formalism.L2.Host.atInf w' (_root_.Formalism.L2.Host.upF F k))) = 1 :=
       Units.ext ((afIso F E).injective (by rw [afIso_finAf, Units.val_one, map_one]; rfl))
     rw [e, map_one]
 
 end General
 
-theorem isTwist_of_reads : ∀ (R : Ranks) (H : Formalism.BasicNotions.Host R) (K : Type) [Field K] (σ : K →+* ℂ) (S : Set ℕ) (μ : Formalism.L2.DIV.Tup H.F H.E K S) (ξ : HChar H.E), Reads σ (μ.1 : Formalism.L2.DIV.Chr H.F H.E K) ξ → IsTwist H S ξ ∧ (∀ v : HeightOneSpectrum (𝓞 H.F), v ∈ Formalism.L2.DIV.Qprime (μ.1 : Formalism.L2.DIV.Chr H.F H.E K) ↔ ∃ P : HeightOneSpectrum (𝓞 H.E), P.under (𝓞 H.F) = v ∧ ¬ ξ.UnrAt P) ∧ ∀ p : ℕ, p.Prime → (Formalism.L2.DIV.IsBaseChar p (μ.1 : Formalism.L2.DIV.Chr H.F H.E K) ↔ IsDelta (H := H) p ξ) := by
+theorem isTwist_of_reads : ∀ (R : Ranks) (H : Formalism.BasicNotions.Host R) (K : Type) [Field K] (σ : K →+* ℂ) (S : Set ℕ) (μ : Formalism.L2.DIV.Tup H.F H.E K S) (ξ : _root_.Formalism.L2.Host.HChar H.E), Reads σ (μ.1 : Formalism.L2.DIV.Chr H.F H.E K) ξ → IsTwist H S ξ ∧ (∀ v : HeightOneSpectrum (𝓞 H.F), v ∈ Formalism.L2.DIV.Qprime (μ.1 : Formalism.L2.DIV.Chr H.F H.E K) ↔ ∃ P : HeightOneSpectrum (𝓞 H.E), P.under (𝓞 H.F) = v ∧ ¬ ξ.UnrAt P) ∧ ∀ p : ℕ, p.Prime → (Formalism.L2.DIV.IsBaseChar p (μ.1 : Formalism.L2.DIV.Chr H.F H.E K) ↔ _root_.Formalism.L2.Host.IsDelta (H := H) p ξ) := by
   intro R H K _ σ S μ ξ h
   obtain ⟨⟨⟨⟨-, hfin⟩, hF⟩, hw⟩, hg⟩ := μ.2
   have htw : IsTwist H S ξ := by

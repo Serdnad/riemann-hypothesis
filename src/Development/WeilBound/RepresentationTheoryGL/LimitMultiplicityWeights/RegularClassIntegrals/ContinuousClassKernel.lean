@@ -2,14 +2,14 @@ module
 
 public import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.RegularClassTraces.RegClassFin
 public import Development.WeilBound.ThetaLifts.Reductions.SiegelCore
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsIsoFrameFirstCols
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle626
 public import Development.AbelianVarietyTheory.Definitions.Foundations.T2SpaceAdeleRing
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.KernelLocallyFiniteContinuous
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ConeIntegralFiniteLargeExponentStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FiniteLatticePointsInSiegelSetBoundStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IntegrableDescendOfCover
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MemParabolicOfFlagPreservingStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.RegularSemisimpleConjugateUnipotentTranslateStatement
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle311
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle649
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle648
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle623
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle652
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle647
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SiegelCompactTranslateBound
 public import Development.WeilBound.RepresentationTheoryGL.LimitMultiplicityWeights.RegularClassIntegrals.DecayFinal
 public import Development.WeilBound.ThetaLifts.Reductions.SiegelOfCore
@@ -54,7 +54,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.Divisors.HasTypeVec
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle054
 import Development.AbelianVarietyTheory.Definitions.Foundations.InnerEqZeroOfNotUEquiv
 
 @[expose] public section

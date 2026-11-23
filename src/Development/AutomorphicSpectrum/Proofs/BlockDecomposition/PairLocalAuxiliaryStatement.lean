@@ -1,12 +1,11 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MemTwCentSwTw
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FiniteConjugacyExists
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FiniteRestrictionVanishing
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LocalComparisonInert
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle509
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle574
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle575
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.SplitPlaceUnitaryLocalPointsEquivGL
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MemKGLIffVal
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.G8FiniteAuxiliaryStatement
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1441
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle585
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

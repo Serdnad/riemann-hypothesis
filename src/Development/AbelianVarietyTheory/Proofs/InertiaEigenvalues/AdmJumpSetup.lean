@@ -3,7 +3,7 @@ module
 public import Formalism.SharpRestriction.LevelLetterCocycles.AdmissibleParameterJ
 public import Formalism.LocalRingCardinality.DataParams
 public import Formalism.SharpRestriction.LevelLetterCocycles.EmbeddingTypeJumps
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsLetterOfLocalEmbedding
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle123
 import Formalism.LocalRingCardinality.RankBoundMonotoneInDimension
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

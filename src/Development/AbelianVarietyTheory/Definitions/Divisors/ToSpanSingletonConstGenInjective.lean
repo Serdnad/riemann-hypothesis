@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.FibreRankCompOfSurjective
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle006
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
 public import Mathlib.RingTheory.WittVector.IsPoly
 public import Mathlib.Tactic.Polynomial.Basic

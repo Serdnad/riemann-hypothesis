@@ -3,11 +3,10 @@ module
 public import Development.WeilBound.CoreStatements.PluriharmonicCharts.IsBlockMapInitialVertex
 public import Mathlib.RingTheory.RegularLocalRing.Defs
 import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagModelBaseProjectionPoints
-import GroundTheory.HeightsAndTheta.Heights.HeightComparison.IsMultiHomogIdealIff
+import GroundTheory.HeightsAndTheta.Heights.HeightComparison.Bundle003
 import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.CoordinateIdeals.MemMCoordIdealOfAevalEqZero
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.PDiagDiv
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.PDiagOrd
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.PDiagOrdOne
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle008
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -179,11 +178,18 @@ theorem exists_rel {w : (Σ k, ι k) → Φ} {z : (Σ k, ι k) → L} (hz : IsPt
   · rw [map_mul]; exact mul_ne_zero h0 (aeval_monoX_ne hc _)
   · rw [map_mul, map_mul, e2, ← chartMono_mul hc he]; ring
   · have hd : IsMultiHomog (m * monoX c dh * g - n * monoX c dg * h) (d + dh + dg) := by
-      refine isMultiHomog_sub (isMultiHomog_mul (isMultiHomog_mul hm (isMultiHomog_monoX _ _)) hg) ?_
-      rw [add_right_comm]
-      exact isMultiHomog_mul (isMultiHomog_mul hn (isMultiHomog_monoX _ _)) hh
-    rw [mem_iff_of_homog hd]
-    simp only [map_sub, map_mul, e1, hq, ← chartMono_mul hcw he]
+      have hleft := _root_.GroundTheory.Heights₂.Heights.LowerBoundFree.isMultiHomog_mul (ι := ι)
+        (_root_.GroundTheory.Heights₂.Heights.LowerBoundFree.isMultiHomog_mul (ι := ι) hm (isMultiHomog_monoX c dh)) hg
+      have hright := _root_.GroundTheory.Heights₂.Heights.LowerBoundFree.isMultiHomog_mul (ι := ι)
+        (_root_.GroundTheory.Heights₂.Heights.LowerBoundFree.isMultiHomog_mul (ι := ι) hn (isMultiHomog_monoX c dg)) hh
+      rw [show d + dg + dh = d + dh + dg from add_right_comm d dg dh] at hright
+      exact _root_.GroundTheory.Heights₂.Heights.LowerBoundFree.isMultiHomog_sub (ι := ι) hleft hright
+    let ev : MRing ι →ₐ[ℤ] Φ := aeval w
+    rw [mem_iff_of_homog (y := w) hd]
+    change ev (m * monoX c dh * g - n * monoX c dg * h) = 0
+    rw [map_sub ev, map_mul ev (m * monoX c dh) g, map_mul ev (n * monoX c dg) h,
+      map_mul ev m (monoX c dh), map_mul ev n (monoX c dg), e1, hq,
+      ← chartMono_mul (c := c) (dg := dg) (dh := dh) hcw he]
     have := chartMono_ne hcw e
     field_simp
     ring
@@ -383,8 +389,8 @@ theorem sec_pen (h0 : ∀ k, ∃ i, y ⟨k, i⟩ ≠ 0)
   let dp : Option K → ℕ := fun o => (totDeg k₀ e o).toNat
   let dm : Option K → ℕ := fun o => (-totDeg k₀ e o).toNat
   have hpm : ∀ o, (dp o : ℤ) - dm o = totDeg k₀ e o := fun o => Int.toNat_sub_toNat_neg _
-  have hg := isMultiHomog_mul hn (isMultiHomog_monoX c dp)
-  have hh := isMultiHomog_mul hm (isMultiHomog_monoX c dm)
+  have hg := _root_.GroundTheory.Heights₂.Heights.LowerBoundFree.isMultiHomog_mul (ι := iW ι k₀) hn (isMultiHomog_monoX c dp)
+  have hh := _root_.GroundTheory.Heights₂.Heights.LowerBoundFree.isMultiHomog_mul (ι := iW ι k₀) hm (isMultiHomog_monoX c dm)
   have hdeg : ∀ o, ((d + dp) o : ℤ) - (d + dm) o = totDeg k₀ e o := fun o => by
     rw [← hpm]; simp
   have hhδ : aeval δ (m * monoX c dm) ≠ 0 := by rw [map_mul]; exact mul_ne_zero hm0 (aeval_monoX_ne hc _)
@@ -449,13 +455,19 @@ theorem sec_pen (h0 : ∀ k, ∃ i, y ⟨k, i⟩ ≠ 0)
       exact mul_ne_zero (mul_ne_zero hm0' (aeval_monoX_ne hc _)) hhδ this
     · have hd : IsMultiHomog (m' * monoX c (d + dp) * h * f - n' * monoX c a * monoX c (d + dm) * g)
           (d' + (d + dp) + (d + dm) + a) := by
-        refine isMultiHomog_sub (isMultiHomog_mul (isMultiHomog_mul
-          (isMultiHomog_mul hm' (isMultiHomog_monoX _ _)) hh) hf) ?_
-        rw [show d' + (d + dp) + (d + dm) + a = d' + a + (d + dm) + (d + dp) by ring]
-        exact isMultiHomog_mul (isMultiHomog_mul (isMultiHomog_mul hn' (isMultiHomog_monoX _ _))
-          (isMultiHomog_monoX _ _)) hg
+        have hleft := _root_.GroundTheory.Heights₂.Heights.LowerBoundFree.isMultiHomog_mul (ι := iW ι k₀)
+          (_root_.GroundTheory.Heights₂.Heights.LowerBoundFree.isMultiHomog_mul (ι := iW ι k₀)
+            (_root_.GroundTheory.Heights₂.Heights.LowerBoundFree.isMultiHomog_mul (ι := iW ι k₀) hm' (isMultiHomog_monoX c (d + dp))) hh) hf
+        have hright := _root_.GroundTheory.Heights₂.Heights.LowerBoundFree.isMultiHomog_mul (ι := iW ι k₀)
+          (_root_.GroundTheory.Heights₂.Heights.LowerBoundFree.isMultiHomog_mul (ι := iW ι k₀)
+            (_root_.GroundTheory.Heights₂.Heights.LowerBoundFree.isMultiHomog_mul (ι := iW ι k₀) hn' (isMultiHomog_monoX c a))
+            (isMultiHomog_monoX c (d + dm))) hg
+        have degrees : d' + a + (d + dm) + (d + dp) = d' + (d + dp) + (d + dm) + a := by
+          abel
+        rw [degrees] at hright
+        exact _root_.GroundTheory.Heights₂.Heights.LowerBoundFree.isMultiHomog_sub (ι := iW ι k₀) hleft hright
       have hP : m' * monoX c (d + dp) * h * f - n' * monoX c a * monoX c (d + dm) * g ∈ mCoordIdeal w := by
-        rw [mem_iff_of_homog hd]
+        rw [mem_iff_of_homog (y := w) hd]
         have h1 : aeval w f = aeval w (monoX c a) * (ρ * V) := by
           rw [← hρe, aeval_monoX, ← mul_assoc, ← Finset.prod_mul_distrib, Finset.prod_eq_one fun k _ => by
             rw [← mul_pow, mul_inv_cancel₀ (hcw k), one_pow], one_mul]
@@ -466,7 +478,7 @@ theorem sec_pen (h0 : ∀ k, ∃ i, y ⟨k, i⟩ ≠ 0)
         field_simp
         ring
       have e' : m' * monoX c (d + dp) * h * f = (m' * monoX c (d + dp) * h * f - n' * monoX c a * monoX c (d + dm) * g)
-          + n' * monoX c a * monoX c (d + dm) * g := by ring
+          + n' * monoX c a * monoX c (d + dm) * g := (sub_add_cancel _ _).symm
       rw [e']
       exact Ideal.add_mem _ (Ideal.mem_sup_left hP)
         (Ideal.mem_sup_right (Ideal.mul_mem_left _ _ (Ideal.mem_span_singleton_self g)))

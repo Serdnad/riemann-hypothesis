@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.DiscreteModules
+public import GroundTheory.ProfiniteCohomology.Bundle001
 public import Mathlib.CategoryTheory.ObjectProperty.EpiMono
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
 public import Mathlib.RepresentationTheory.Invariants

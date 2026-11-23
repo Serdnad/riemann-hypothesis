@@ -1,8 +1,8 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.NonemptyRayDataOfNeZero
-public import Development.AbelianVarietyTheory.Definitions.Foundations.RayPrimes
-public import Development.AbelianVarietyTheory.Definitions.Foundations.NormOneSevenOneTwo
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle001
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

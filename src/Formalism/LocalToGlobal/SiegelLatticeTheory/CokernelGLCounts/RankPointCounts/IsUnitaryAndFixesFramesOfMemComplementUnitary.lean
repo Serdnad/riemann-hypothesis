@@ -45,7 +45,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Formalism.SharpRestriction.CuspSpanNormBounds.BruhatCellsKronecker.CellDef
+import Formalism.SharpRestriction.CuspSpanNormBounds.BruhatCellsKronecker.Bundle001
 
 @[expose] public section
 

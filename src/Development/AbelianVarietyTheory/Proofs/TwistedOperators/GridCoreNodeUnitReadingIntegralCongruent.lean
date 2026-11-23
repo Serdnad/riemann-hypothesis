@@ -1,11 +1,11 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.OffQOfSizeRows
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.FinPartIdemSumMulInvMem
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.FrameMatrixWeilPairActionLeftInv
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle119
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle194
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MemHatMxHomLatIff
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ConjPrincipalFractionalIntegralIdempotentSum
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsIntegralInverseAtSplitPlacesOfUnitsStatement
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle227
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle560
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.MemHatIffOfSelfDual
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.MemHatLConjIIffHform
 import Formalism.LocalToGlobal.Divisibility.DefGroupLemmas
@@ -45,7 +45,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.IsCoreLat
+import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.Bundle005
 
 @[expose] public section
 

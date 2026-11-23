@@ -1,7 +1,7 @@
 module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.TraceFormula.GL4GeometricSide.InnerEq
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MemOfIrred
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle147
 import Mathlib.Algebra.Azumaya.Basic
 import Mathlib.Algebra.Central.End
 import Mathlib.Algebra.Module.StablyFree.Basic

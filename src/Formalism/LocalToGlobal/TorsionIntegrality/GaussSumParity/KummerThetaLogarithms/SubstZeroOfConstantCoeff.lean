@@ -1,8 +1,7 @@
 module
 
-public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.LetterShift
-public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.StatementA
-public import Formalism.GL3MeanSquares.HookFormulaTorsion.BimultiplicativeDivisibleTorsion
+public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.Bundle002
+public import Formalism.GL3MeanSquares.HookFormulaTorsion.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

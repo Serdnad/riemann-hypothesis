@@ -1,9 +1,8 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsMonomialShift
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsPerturbMonomial
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsUpperNormalisation
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.PThmAExpand
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle054
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle055
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle020
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -2,15 +2,15 @@ module
 
 public import CompanionTheory.RealGroups.DiscreteSeries.DiscreteSeriesClassification.DiscreteSeriesExhaustion.MatrixCoefficientDecay.HilbertSchmidtDecay.AbsoluteL2Bound
 public import CompanionTheory.RealGroups.DiscreteSeries.DiscreteSeriesClassification.DiscreteSeriesExhaustion.MatrixCoefficientDecay.InfinitesimalCharacterPaths.TensDecomp
-public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.ConjQdet
-public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.JacquetBasis
+public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.Bundle039
+public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.Bundle040
 public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.QuantumDeterminantCoefficientsExpansion
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CapelliDetBlockLeviCongrModUpperBlockIdeal
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CapelliDetBlockLeviCongrModUpperBlockIdealStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CapelliOperatorsCommute
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CapelliPolynomialCoefficientsIdeal
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle563
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle485
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle085
 public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.GlRelationsDerivativePreserved
-import Formalism.RealPlaceAnalysis.ThirdArithmeticHolds
+import Formalism.RealPlaceAnalysis.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -242,7 +242,7 @@ end Abstract
 
 section Grading
 
-open CompanionTheory.RgExh CompanionTheory.RgExh.Dec.J
+open _root_.CompanionTheory.RgExh _root_.CompanionTheory.RgExh.Dec.J
 open ReciprocityTheory.ChartRestriction.DS renaming actM → aM
 
 section Act

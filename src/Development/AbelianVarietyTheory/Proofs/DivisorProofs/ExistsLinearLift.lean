@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.InnerProductFormula
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsBoundUnitary
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1610
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1473
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsLinearSection
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FormOfClassSums
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1759
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ThetaIntegrandIntegrable
 import Formalism.LocalToGlobal.GlobalTheory.GL5.FamilyMassVolumeIdentityOfClassDecomp
 import Mathlib.Algebra.Order.Floor.Extended

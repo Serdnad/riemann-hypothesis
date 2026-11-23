@@ -2,10 +2,10 @@ module
 
 public import GroundTheory.ArithmeticGeometry.SchemeCohomology.CurveBase
 public import GroundTheory.FunctionField.PlaceDefs
-public import GroundTheory.ArithmeticGeometry.SchemeCohomology.WeilDivisor
+public import GroundTheory.ArithmeticGeometry.SchemeCohomology.Bundle001
 public import Mathlib.AlgebraicGeometry.Morphisms.Proper
-public import GroundTheory.ArithmeticGeometry.SchemeCohomology.WeilDivisorLocal
-public import GroundTheory.ArithmeticGeometry.SchemeCohomology.WeilDivisorSheaf
+public import GroundTheory.ArithmeticGeometry.SchemeCohomology.Bundle002
+public import GroundTheory.ArithmeticGeometry.SchemeCohomology.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

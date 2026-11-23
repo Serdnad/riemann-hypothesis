@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.PoitouTate.Deduction
+public import GroundTheory.ProfiniteCohomology.PoitouTate.Bundle001
 public import GroundTheory.ProfiniteCohomology.PoitouTate.ZmodToQZCompactCohomologyResMapOfLocalInv
 public import GroundTheory.ProfiniteCohomology.RestrictedRamification.BaseMain
 import Mathlib.Algebra.Order.Floor.Extended

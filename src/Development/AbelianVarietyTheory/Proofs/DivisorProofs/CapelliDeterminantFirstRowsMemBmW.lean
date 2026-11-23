@@ -1,8 +1,8 @@
 module
 
 public import Formalism.BranchSandwichDivisors.BranchIsometryProofs.BranchMap
-public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.ZetaPhiBranchOperator
-public import Development.AbelianVarietyTheory.Definitions.Foundations.GelfA
+public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.Bundle008
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle001
 public import Formalism.LocalToGlobal.Columns.FiniteSumNonzeroLargeDepth
 public import Development.AbelianVarietyTheory.Definitions.Foundations.TracePowApply
 import Formalism.GradedWeylDivisibility.DualWeylDominanceOf

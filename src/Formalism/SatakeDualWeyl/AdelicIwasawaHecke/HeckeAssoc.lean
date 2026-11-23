@@ -1,7 +1,7 @@
 module
 
 public import Formalism.SatakeDualWeyl.Statement
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.AssocFin
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

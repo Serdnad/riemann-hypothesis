@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.LocalValuationColumns
-import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.CanonGaugeNabValBaseChange
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsExpEqOfSubstLg
+public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.Bundle017
+import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.Bundle009
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle066
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

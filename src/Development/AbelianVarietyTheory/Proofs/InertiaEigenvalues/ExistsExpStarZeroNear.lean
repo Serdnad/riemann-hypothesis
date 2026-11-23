@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.ExpStar
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.DualExponentialExistsUniqueCyclotomicLevelStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.DualExponentialImageContainsLatticeStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NormDualExponentialLeOfAinfValuedStatement
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle010
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle531
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle741
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle532
 import Mathlib.Algebra.Order.Floor.Extended
 public import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

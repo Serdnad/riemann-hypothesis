@@ -1,0 +1,190 @@
+module
+
+public import Development.AbelianVarietyTheory.Definitions.Degenerations.Bundle001
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ValCalc
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.UniformisationConclusion
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.AlgebraicGeometry.Modules.Sheaf
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+
+@[expose] public section
+
+section
+
+open CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj AlgebraicGeometry
+open scoped CategoryTheory.Obj
+open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Geo.Tor
+
+noncomputable section
+namespace GlobalTheory.ZJ
+
+abbrev Nrm {X : Scheme.{0}} (L : LB X) : Type :=
+  ∀ (p : ℕ) [Fact p.Prime], (Sp (PadicAlgCl p) ⟶ X) → L.ι → ℝ
+
+def IntAt {X Y : Scheme.{0}} (a : X ⟶ Y) (W : Set Y) {p : ℕ} [Fact p.Prime] (x : Sp (PadicAlgCl p) ⟶ X) : Prop :=
+  ∃ b : Sp (OO p) ⟶ Y, gPt p ≫ b = x ≫ a ∧ b (cPt p) ∈ W
+
+structure IsNrm {X : Scheme.{0}} (L : LB X) (ν : Nrm L) : Prop where
+  pos : ∀ (p : ℕ) [Fact p.Prime] x j, 0 < ν p x j
+  trans : ∀ (p : ℕ) [Fact p.Prime] (x : Sp (PadicAlgCl p) ⟶ X) i j, Set.range x ⊆ L.U i → Set.range x ⊆ L.U j →
+    ‖valF x _ (L.g i j).val‖ * ν p x i = ν p x j
+  int : ∀ (p : ℕ) [Fact p.Prime] (b : Sp (OO p) ⟶ X) j, b (cPt p) ∈ L.U j → ν p (gPt p ≫ b) j = 1
+
+def NormOne {X Y : Scheme.{0}} {L : LB X} (ν : Nrm L) {K : Type} [Fintype K] {φ : K → (Y ⟶ X)} {ε : K → ℤ}
+    (t : LB.Gen (LB.LinComb L φ ε)) {p : ℕ} [Fact p.Prime] (x : Sp (PadicAlgCl p) ⟶ Y) : Prop :=
+  ∀ J : K → L.ι, Set.range x ⊆ LB.wchart L φ J → ‖valF x _ (t.s J).val‖ * ∏ k, ν p (x ≫ φ k) (J k) ^ ε k = 1
+namespace Core
+variable (C : Core)
+
+structure Theta where
+  L : RigLB C.A
+  cub : CubicalStr C.A L
+  θ : LB.Sec L.L
+  m : ℕ
+  m_unit : IsUnit (m : Γ(C.Z, ⊤))
+  O₁ : LB C.G.toScheme
+  isLB : O₁.IsLB
+  s : LB.Sec O₁
+  w : LB.Iso (L.L.pull (mulN C.A m).left) (O₁.pull C.a)
+  w_gen : w.IsGen
+  w_sec : ∀ (x : C.A.left) (i : O₁.ι) (j : L.L.ι), C.a x ∈ O₁.U i → (mulN C.A m).left x ∈ L.L.U j →
+    gs C.a x _ (s.f i) = gs (𝟙 _) x _ (w.s (fun _ => i, fun _ => j)).val * gs (mulN C.A m).left x _ (θ.f j)
+  s_ne : ∀ z : C.Z, IsClosed ({z} : Set C.Z) → ∃ x ∈ Out.nonzeroLocus s, C.GG.hom x = z
+variable {C}
+
+structure Theta.Ext (T : C.Theta) {p : ℕ} [Fact p.Prime] {y : Sp (OO p) ⟶ C.Z} (τ : C.Test y) where
+  L : RigLB τ.H
+  w : LB.Iso (T.L.L.pull τ.φ) (L.L.pull (pullback.fst τ.H.hom (Out.jK τ.V)))
+  w_gen : w.IsGen
+  θ : LB.Sec L.L
+  θ_eq : ∀ (x : ↑(pullback τ.H.hom (Out.jK τ.V))) (i : L.L.ι) (j : T.L.L.ι),
+    pullback.fst τ.H.hom (Out.jK τ.V) x ∈ L.L.U i → τ.φ x ∈ T.L.L.U j →
+    gs (pullback.fst τ.H.hom (Out.jK τ.V)) x _ (θ.f i) =
+      gs (𝟙 _) x _ (w.s (fun _ => i, fun _ => j)).val * gs τ.φ x _ (T.θ.f j)
+  θ_ne : ∃ x ∈ Out.nonzeroLocus θ, τ.H.hom x = IsLocalRing.closedPoint τ.V
+
+def Theta.Om (T : C.Theta) (L : C.Law) : Set C.G.toScheme :=
+  letI := L.grp; (mulN C.GG T.m).left '' {x : C.G.toScheme | x ∈ Out.nonzeroLocus T.s}
+
+def Theta.BTest (T : C.Theta) (L : C.Law) : Prop :=
+  ∀ (p : ℕ) [Fact p.Prime] (y : Sp (OO p) ⟶ C.Z) (τ : C.Test y) (E : T.Ext τ) (x : τ.H.left),
+    τ.H.hom x = IsLocalRing.closedPoint τ.V → (τ.f x ∈ T.Om L ↔ x ∈ Out.nonzeroLocus E.θ)
+
+def TorsSec (C : Core) (n : ℕ) : Prop :=
+  ∀ z : C.Z, IsClosed ({z} : Set C.Z) → ∃ N : C.Z.Opens, z ∈ N ∧
+    ∀ (p : ℕ) [Fact p.Prime] (y : Sp (OO p) ⟶ C.Z) (τ : C.Test y) (x : Sp (kb p) ⟶ N.toScheme)
+      (c : Over.mk (rPt p ≫ spMap τ.j) ⟶ τ.H), y (cPt p) = z → x ≫ N.ι = rPt p ≫ y → c ^ n = 1 →
+      ∃ h : N.toScheme ⟶ C.G.toScheme, h ≫ C.GG.hom = N.ι ∧ x ≫ h = c.left ≫ τ.f
+
+def Theta.Few (T : C.Theta) (n : ℕ) : Prop :=
+  ∀ (p : ℕ) [Fact p.Prime] (y : Sp (OO p) ⟶ C.Z) (τ : C.Test y) (E : T.Ext τ) (c : Over.mk (rPt p ≫ spMap τ.j) ⟶ τ.H),
+    6 * Nat.card {h : Over.mk (rPt p ≫ spMap τ.j) ⟶ τ.H // h ^ n = 1 ∧ ¬ ⊤ ≤ (c * h).left ⁻¹ᵁ Out.nonzeroLocus E.θ} <
+      Nat.card {h : Over.mk (rPt p ≫ spMap τ.j) ⟶ τ.H // h ^ n = 1}
+
+structure Theta.Norms (T : C.Theta) (Om : Set C.G.toScheme) (ν : Nrm T.L.L) : Prop where
+  isNrm : IsNrm T.L.L ν
+  rig : ∀ (p : ℕ) [Fact p.Prime] (x : Sp (PadicAlgCl p) ⟶ C.U.toScheme), IntAt C.U.ι Set.univ x → NormOne ν T.L.rig x
+  cube : ∀ (p : ℕ) [Fact p.Prime] (x : Sp (PadicAlgCl p) ⟶ (G3 C.A).left),
+    (∀ k, IntAt C.a Set.univ (x ≫ (x3 C.A k).left)) → NormOne (φ := thφ C.A (x3 C.A)) (ε := thε) ν T.cub.t x
+  theta : ∀ (p : ℕ) [Fact p.Prime] (y : Sp (PadicAlgCl p) ⟶ C.U.toScheme), ∃ δ : ℝ, 0 < δ ∧
+    ∀ (x : Sp (PadicAlgCl p) ⟶ C.A.left) (j : T.L.L.ι), x ≫ C.A.hom = y → Set.range x ⊆ T.L.L.U j →
+      IntAt C.a Set.univ x → ‖valF x _ (T.θ.f j)‖ * ν p x j ≤ δ ∧ (‖valF x _ (T.θ.f j)‖ * ν p x j = δ ↔ IntAt C.a Om x)
+
+def Law.CompanionTheory (L : C.Law) (Om : Set C.G.toScheme) : Prop :=
+  letI := L.grp
+  ∀ w : C.G.toScheme, IsClosed ({w} : Set C.G.toScheme) → ∃ (N : C.Z.Opens) (b c : Over.mk N.ι ⟶ C.GG),
+    ∃ (K : Type) (_ : Field K) (t : Sp K ⟶ N.toScheme) (x b' c' : Over.mk (t ≫ N.ι) ⟶ C.GG),
+      Set.range x.left = {w} ∧ b'.left = t ≫ b.left ∧ c'.left = t ≫ c.left ∧
+      ∀ v ∈ [b', c', b' * c', x * b', x * c', x * b' * c'], Set.range v.left ⊆ Om
+end Core
+end GlobalTheory.ZJ
+end
+end
+
+section
+
+open CategoryTheory CategoryTheory.Limits MonoidalCategory CartesianMonoidalCategory MonObj AlgebraicGeometry NumberField
+open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Out ReciprocityTheory.ChartRestriction.G.Geo.Tor
+open scoped CategoryTheory.Obj
+attribute [local instance] Over.cartesianMonoidalCategory
+
+noncomputable section
+namespace GlobalTheory.LN
+variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E}
+variable {D : Datum H} {l : Level H} {c : Coeff l} {O : Type} [CommRing O] {β : O →+* c.F}
+
+def HomExtSt : Prop := ∀ (T K : Type) [CommRing T] [IsDomain T] [IsDiscreteValuationRing T] [Field K] [Algebra T K]
+  [IsFractionRing T K] (G G' : Over (Sp T)) [GrpObj G] [GrpObj G'], IsSemiAbelian G → IsSemiAbelian G' →
+  ∀ f : (Over.pullback (spMap (algebraMap T K))).obj G ⟶ (Over.pullback (spMap (algebraMap T K))).obj G', IsMonHom f →
+    ∃! F : G ⟶ G', IsMonHom F ∧ (Over.pullback (spMap (algebraMap T K))).map F = f
+
+def Match {O' : Type} [CommRing O'] [IsDomain O'] {b : O →+* O'} (a : ArcIn D l β O' b) {R : Type} [CommRing R] [IsDomain R]
+    (f : O' →+* R) (u : R) (P : DegPre R) [Module (𝓞 E) P.X] (oP : letI := H.starRing; P.OAct (𝓞 E))
+    (φ : P.P.A.left ⟶ a.D₀.P.A.left) (he : eSec P.P.A ≫ φ = spMap f ≫ eSec a.D₀.P.A) (w : LB.Iso P.P.L (a.D₀.P.L.pull φ))
+    (e : a.D₀.X ≃ₗ[𝓞 E] P.X) : Prop :=
+  letI := H.starRing
+  IsGrpPullback P.P.A a.D₀.P.A (spMap f) φ ∧ w.IsGen ∧
+    LB.Gen.Maps (LB.linCombIso w (K := PUnit) (fun _ => eSec P.P.A) (fun _ => 1)) P.rig
+      (rigPullOf φ (spMap f) he a.D₀.P.L a.D₀.rig) ∧
+    (∀ x, (oP.onB.act x).left ≫ φ = φ ≫ (a.oa.onB.act x).left) ∧
+    (∀ y, (P.c (e y)).left ≫ φ = spMap f ≫ (a.D₀.c y).left) ∧
+    ∀ (F : Type) [Field F] [IsAlgClosed F] [Algebra (FractionRing R) F] [Algebra (FractionRing O') F] (uF : F),
+      (∀ x, algebraMap (FractionRing O') F (algebraMap O' _ x) = algebraMap (FractionRing R) F (algebraMap R _ (f x))) →
+      uF = algebraMap (FractionRing R) F (algebraMap R _ u) →
+      ∀ y, GenRel w (LB.pullGen _ _ _ (P.psi (e y)) (jFK (R := R) F))
+        (LB.pullGen _ _ _ (a.D₀.psi y) (jFK (R := O') F)) (uF ^ (a.be y y / 2))
+end GlobalTheory.LN
+end
+end
+
+section
+
+open CategoryTheory CategoryTheory.Limits MonoidalCategory CartesianMonoidalCategory MonObj AlgebraicGeometry NumberField
+open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Out ReciprocityTheory.ChartRestriction.G.Geo.Tor
+open scoped CategoryTheory.Obj
+attribute [local instance] Over.cartesianMonoidalCategory
+
+noncomputable section
+namespace GlobalTheory.LN
+
+def PelSt : Prop := ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Host E) (R : Type) [CommRing R] [IsDomain R]
+  [CharZero R] (I : Ideal R), AdmBase R I → ∀ (t : SAB H (Sp R)) (D : DegData R I) (A : PolAV (Sp (FractionRing R)))
+  (U : Unif I D A t.G), U.LG = t.PP → ∃ P : PELUnif I t, P.D = D ∧ P.A = A ∧ HEq P.U U ∧ P.TorsionIso
+end GlobalTheory.LN
+end
+end

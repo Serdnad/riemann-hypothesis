@@ -1,7 +1,7 @@
 module
 
 public import Development.WeilBound.CoreStatements.PluriharmonicCharts.IsOpenDet
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsHolPeriods
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle009
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.HolDifferentiableAt
 public import Development.WeilBound.CoreStatements.PluriharmonicCharts.ExistsPeriodOfFrames
 import Mathlib.Algebra.Order.Floor.Extended

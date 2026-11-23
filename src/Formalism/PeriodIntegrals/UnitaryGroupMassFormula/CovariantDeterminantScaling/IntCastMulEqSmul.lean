@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.ContractionsCovariantIff
+public import Formalism.PeriodIntegrals.Bundle026
 public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.GeneratorCommutatorQuantumDet
 public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.QuantumDetHighestWeightHolds
 public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.ShiftedGeneratorEqIteSmulAdd

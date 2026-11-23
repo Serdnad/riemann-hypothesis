@@ -1,6 +1,6 @@
 module
 
-public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.CyclicPowerClassOfExpEquiv
+public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.Bundle001
 public import Formalism.FormalGroupWitt.FormalGroupWittProofs.IntegralSubstVector
 import Formalism.GaussJetBounds.GaussJetProofs.SubstitutionWeightBound
 public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.FrobeniusLiftNorms.TopsChoicePartB

@@ -1,11 +1,10 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.StatementsDualGeomDegCharts
-public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.StatementsChartDensityIntegrable
-public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.DualProjApply
-public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PDualPtsOfPlane
-public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PDualPtsOnPlane
-public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PDualStdMassAt
+public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.Bundle022
+public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.Bundle009
+public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.Bundle023
+public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.Bundle026
+public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.Bundle028
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -51,7 +50,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterFS
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle004
 
 @[expose] public section
 
@@ -215,7 +214,7 @@ theorem atProj (hOn : DualPtsOnPlane.Statement) (hOf : DualPtsOfPlane.Statement)
   have hne : ∀ σ (y : Fin D → ℂ), A σ *ᵥ Fin.cons 1 y ≠ 0 := fun σ y h0 => by
     have h1 : Fin.cons 1 y = (0 : Fin (D + 1) → ℂ) := (hAbij σ).1 (h0.trans (Matrix.mulVec_zero _).symm)
     simpa using congrFun h1 0
-  have hfib : ∀ y : Fin D → ℂ, fibre (dualIdeal b) Ψ y =
+  have hfib : ∀ y : Fin D → ℂ, ReciprocityTheory.ChartRestriction.G.Geo.fibre (dualIdeal b) Ψ y =
       Set.range fun σ : K →+* ℂ => segre (ι := dualBlocks T) (dualPlanePt b σ (A σ *ᵥ Fin.cons 1 y)) := by
     intro y
     ext w
@@ -288,7 +287,7 @@ theorem atProj (hOn : DualPtsOnPlane.Statement) (hOf : DualPtsOfPlane.Statement)
       segre (ι := dualBlocks T) (dualPlanePt b σ (A σ *ᵥ Fin.cons 1 y)) :=
     fun y σ τ h => planePt_inj b hb (hne σ y) h
   refine ⟨A, hAbij, ?_⟩
-  have hsum : ∀ y : Fin D → ℂ, ∑ᶠ w ∈ fibre (dualIdeal b) Ψ y,
+  have hsum : ∀ y : Fin D → ℂ, ∑ᶠ w ∈ ReciprocityTheory.ChartRestriction.G.Geo.fibre (dualIdeal b) Ψ y,
       sheetDensity (dualIdeal b) Ψ (fun _ z => Real.log ((dualLine F b hb).h z)) (fun _ => 1) y w =
       ∑ σ : K →+* ℂ, maDensity (fun _ : Fin D => hermChartPot ((A σ)ᴴ * F.metric σ * A σ)) y := by
     intro y

@@ -2,31 +2,29 @@ module
 
 public import Formalism.SharpRestriction.GrowthBounds.PlaneCountTheoremWithConstants
 public import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.CoarseDegreeRatioConsecutive
-public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.TCNumDef
+public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.Bundle001
 public import Formalism.LocalToGlobal.GroupLattices.FockModels.Cartan
-public import Formalism.LocalToGlobal.GroupLattices.FockModels.DualInclusionLattices
+public import Formalism.LocalToGlobal.GroupLattices.FockModels.Bundle001
 import Formalism.LocalToGlobal.GroupLattices.FockModels.ElementaryDivisorBasis
 public import Formalism.LocalToGlobal.GroupLattices.FockModels.FlatModels.LetterWtAnti
 public import Formalism.LocalToGlobal.GroupLattices.FockModels.LoBlockActComp
 public import Formalism.LocalToGlobal.GroupLattices.FockModels.TestSideFinal
 public import Formalism.PeriodIntegrals.AdmissibleModel.WeylDim
-import Formalism.SharpRestriction.GrowthBounds.BinomialPolynomialIdentities
+import Formalism.SharpRestriction.GrowthBounds.Bundle009
 public import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.AiAddMulLeA0
-public import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.BlockFG
-public import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.BlockInj
+public import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.Bundle009
+public import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.Bundle007
 public import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.Bracket
-public import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.ChainDim
+public import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.Bundle006
 public import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.CoarseThresholdRatioConsecutive
 import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.FactorsOfPerturb
-public import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.FinrankTensor
+public import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.Bundle003
 import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.FirstCoefficientFacts
-public import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.KapCore
+public import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.Bundle004
 public import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.KeptBlocksOfSLine
-import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.LeAndHalfLeProdOneSubExpNegOfBounds
+import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.Bundle005
 import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.PairFacts
-public import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.RankOnDigitsCast
-public import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.SegLow
-public import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.StWeyl
+public import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.Bundle011
 import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.ThresholdLowerBounds
 import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.TotalDegreeEplus
 public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.BFFinal
@@ -34,20 +32,20 @@ public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.KeyMino
 public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.OPlusAtOf
 public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.PairedLiftAtOfIdentity
 import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.PolyUpperBoundDelta
-public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.PsiRes0Ne
-public import Formalism.SharpRestriction.GrowthBounds.FockGramWindow
-import Formalism.SharpRestriction.GrowthBounds.GLWeightTheory
-public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor
+public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.Bundle009
+public import Formalism.SharpRestriction.GrowthBounds.Bundle013
+import Formalism.SharpRestriction.GrowthBounds.Bundle007
+public import Formalism.SharpRestriction.GrowthBounds.Bundle012
 public import Formalism.SharpRestriction.GrowthBounds.InitialMinorTransposeMemHighestWeight
 import Formalism.SharpRestriction.GrowthBounds.PolBridge
 import Formalism.SharpRestriction.GrowthBounds.RootWeights.WeightConditionFromIntegralForm
-public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.ColTop
+public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.Bundle007
 public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.ColumnPolynomialCovectorZero
-public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.RestAssumptionsOfThreeInterfaces
+public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.Bundle008
 public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.RestSegCoreOfNum
 public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.TCGlue
 public import Formalism.SharpRestriction.GrowthBounds.TruncatedChains
-public import Formalism.SharpRestriction.GrowthBounds.WittIdentPI
+public import Formalism.SharpRestriction.GrowthBounds.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -87,8 +85,8 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 public import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.CardEqChainSum
 public import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.CoarseDegreesLargeOfStd
-public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.LiftSubstStart
-public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.Loc4DivOf
+public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.Bundle006
+public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.Bundle007
 
 @[expose] public section
 

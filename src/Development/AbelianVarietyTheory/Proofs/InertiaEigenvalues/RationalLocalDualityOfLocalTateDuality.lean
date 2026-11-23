@@ -2,11 +2,11 @@ module
 
 public import ReciprocityTheory.ReductiveGroups.TraceFormulas.LatDefs
 public import Formalism.GaloisCohomology.LocalTateDualityK
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.DualLatFiniteFree
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FinIsoDualLatticeOfLocalTateDualityStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IntegralLocalDualityOfLocalTateDualityStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.InvIsoOfLocalTateDualityStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SpanOfLocalCohomologyShape
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle136
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle285
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle511
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle646
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle234
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -180,7 +180,7 @@ theorem mem_range_j'_of_map_eq_zero (D : LatData O G VT VT') (y : H1 D.ρT')
   abel
 
 def swapLat (D : LatData O G VT VT') (hc : ContAction D.ρT)
-    (inv' : H2 (twist D.ε (Formalism.NG.KO O)) →ₗ[O] Formalism.NG.KO O) : LatData O G VT' VT where
+    (inv' : H2 (_root_.Formalism.RepresentationBoundsCohomology.LOC.twist D.ε (Formalism.NG.KO O)) →ₗ[O] Formalism.NG.KO O) : LatData O G VT' VT where
   ε := D.ε
   ρT := D.ρT'
   ρT' := D.ρT
@@ -194,11 +194,11 @@ def swapLat (D : LatData O G VT VT') (hc : ContAction D.ρT)
   invF := D.invF
 
 theorem pr_swapLat_q (D : LatData O G VT VT') (hc : ContAction D.ρT)
-    (inv' : H2 (twist D.ε (Formalism.NG.KO O)) →ₗ[O] Formalism.NG.KO O) (y : H1 D.ρT')
+    (inv' : H2 (_root_.Formalism.RepresentationBoundsCohomology.LOC.twist D.ε (Formalism.NG.KO O)) →ₗ[O] Formalism.NG.KO O) (y : H1 D.ρT')
     (t : H1 (swapLat D hc inv').ρTl') :
     (swapLat D hc inv').pr ((swapLat D hc inv').q y) t =
-      inv' (mapH2 (twist D.ε (FractionRing O)) (twist D.ε (Formalism.NG.KO O)) (toKO O) toKO_cont
-        (toKO_equiv D.ε) (cupProductH1H1 D.ρT' D.ρT (twist D.ε (FractionRing O)) D.bT.flip
+      inv' (mapH2 (_root_.Formalism.RepresentationBoundsCohomology.LOC.twist D.ε (FractionRing O)) (_root_.Formalism.RepresentationBoundsCohomology.LOC.twist D.ε (Formalism.NG.KO O)) (toKO O) toKO_cont
+        (toKO_equiv D.ε) (cupProductH1H1 D.ρT' D.ρT (_root_.Formalism.RepresentationBoundsCohomology.LOC.twist D.ε (FractionRing O)) D.bT.flip
           (D.contbT.comp continuous_swap) (fun g x f => D.eqT g f x) hc y
           ((swapLat D hc inv').j' t))) := by
   induction y using Submodule.Quotient.induction_on with
@@ -366,7 +366,7 @@ theorem ratIso_of_localTateDuality : Formalism.GaloisCohomology.LocalTateDuality
   have hq : ∀ z : H1 D.ρT', (∀ a, cupFG D a z = 0) →
       (swapLat D hD.contT inv'.toLinearMap).q z = 0 := fun z hz =>
     GlobalTheory.T.integral_localDuality_of_localTateDuality hLTD hK hO hF i hD' inv'.injective _ fun t => by
-      rw [pr_swapLat_q, cup_H1_flip_eq_zero D.ρT D.ρT' (twist D.ε (FractionRing O)) D.bT D.contbT
+      rw [pr_swapLat_q, cup_H1_flip_eq_zero D.ρT D.ρT' (_root_.Formalism.RepresentationBoundsCohomology.LOC.twist D.ε (FractionRing O)) D.bT D.contbT
         D.eqT (D.contbT.comp continuous_swap) (fun g x f => D.eqT g f x) hD.contT D.contT'
         ((swapLat D hD.contT inv'.toLinearMap).j' t) z (hz _), map_zero, map_zero]
   haveI : Module.Finite O (H1 D.ρTl') := GlobalTheory.T.finIso_dualLattice_of_localTateDuality hLTD hK hO i hD

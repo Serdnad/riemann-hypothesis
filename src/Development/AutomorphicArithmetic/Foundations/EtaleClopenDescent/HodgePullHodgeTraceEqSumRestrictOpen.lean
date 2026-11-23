@@ -3,7 +3,7 @@ module
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.OmegaPullOmegaTraceOfSecTraceOne
 public import Mathlib.Basic.Complex.Basic
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.FormResFormPullFormPull
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.HodgePullHodgePull
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle046
 public import Development.AutomorphicArithmetic.Foundations.EtaleClopenDescent.HodgeTraceEqSumClopenDecomposition
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -43,7 +43,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AbelianVarietyTheory.Definitions.Divisors.IsGaloisCover
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle029
 
 @[expose] public section
 

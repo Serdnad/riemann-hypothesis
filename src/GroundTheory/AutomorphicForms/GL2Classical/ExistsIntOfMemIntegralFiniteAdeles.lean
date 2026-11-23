@@ -1,7 +1,7 @@
 module
 
-public import GroundTheory.AutomorphicForms.StrongApproximationSLDoubleCoset
-import GroundTheory.GlobalFields.Adele.Discrete
+public import GroundTheory.AutomorphicForms.Bundle014
+import GroundTheory.GlobalFields.Adele.Bundle003
 public import GroundTheory.GlobalFields.IdeleGroups.Rational
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

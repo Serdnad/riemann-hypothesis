@@ -1,0 +1,204 @@
+module
+
+public import Formalism.LocalToGlobal.TorsionIntegrality.EisensteinTranslationProducts.Bundle002
+public import Formalism.LocalToGlobal.TorsionIntegrality.SecondCoefficientNorms.CurveEndoAll
+public import Formalism.LocalToGlobal.TorsionIntegrality.WeierstrassTwoTorsion.Bundle001
+public import Formalism.LocalToGlobal.TorsionIntegrality.EisensteinTranslationProducts.IsogenyFormulaInstance
+public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.Bundle002
+public import Formalism.LocalToGlobal.TorsionIntegrality.EisensteinTranslationProducts.Bundle004
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.WittVector.IsPoly
+import Mathlib.Tactic.Basify
+import Mathlib.Tactic.ENatToNat
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Linter.Style
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Topology.Sheaves.Init
+public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.FgAnTrans
+public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.Bundle023
+public import Formalism.LocalToGlobal.TorsionIntegrality.EisensteinTranslationProducts.EndoZInstance
+import Formalism.TorsionNormIteration.InvIntegralOfClass
+public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.Bundle016
+public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.Bundle024
+
+@[expose] public section
+
+section
+
+noncomputable section
+
+namespace ReciprocityTheory.ChartRestriction.L1
+
+open PowerSeries Formalism.G Formalism.LT Formalism.L2.Th1.CM
+open Formalism.L2.Th1
+
+theorem endo_curve (l : ℕ) [Fact l.Prime] (L : PeriodPair) (ι : ℂ ≃+* ℂ_[l]) (α : ℂ)
+    (S : Finset ℂ) (hα : α ≠ 0) (hst : F.MulStable L α) (hS : F.IsKerReps L α S) :
+    ∃ neg : S → S, C.IsEndoCurve (A.shortW (ι L.g₂) (ι L.g₃)) neg
+      (fun P : S => ι (L.weierstrassP (P : ℂ))) (fun P : S => ι (L.derivWeierstrassP (P : ℂ)) / 2)
+      (ι α) := by
+  obtain ⟨neg, hneg, hinv, -, hid⟩ := F.endoZInstance L α S hα hst hS
+  have hb2 : (A.shortW (ι L.g₂) (ι L.g₃)).b₂ = 0 := by
+    simp [A.shortW, WeierstrassCurve.b₂]
+  have hnegeq : ∀ P : S, (neg P : ℂ) = -(P : ℂ) + ((⟨_, hneg P⟩ : L.lattice) : ℂ) := by
+    intro P
+    simp
+  refine ⟨neg, ?_, hinv, ?_, ?_⟩
+  · intro P
+    have h := L.derivWeierstrassP_sq (P : ℂ) (hS.1 P P.2).2
+    have h' := congrArg ι h
+    simp only [map_pow, map_sub, map_mul, map_ofNat] at h'
+    rw [WeierstrassCurve.Affine.equation_iff]
+    simp only [A.shortW]
+    linear_combination (1 / 4 : ℂ_[l]) * h'
+  · intro P
+    constructor
+    · show ι (L.weierstrassP (neg P : ℂ)) = _
+      rw [hnegeq P, L.weierstrassP_add_coe, L.weierstrassP_neg]
+    · show ι (L.derivWeierstrassP (neg P : ℂ)) / 2 = _
+      rw [hnegeq P, L.derivWeierstrassP_add_coe, L.derivWeierstrassP_neg]
+      simp [WeierstrassCurve.Affine.negY, A.shortW, neg_div]
+  · have h := congrArg (PowerSeries.map (ι : ℂ →+* ℂ_[l])) hid
+    rw [wp_bridge]
+    simp only [C.wTr, hb2, zero_div, add_zero, map_zero]
+    simp only [← trans_bridge l L ι _ (hS.1 _ (Subtype.coe_prop _)).2]
+
+    simp only [map_mul, map_add (f := _), map_sum, map_sub, PowerSeries.map_C, map_pow] at h
+    have hr : PowerSeries.map (ι : ℂ →+* ℂ_[l]) (PowerSeries.rescale α (F.pSeries L))
+        = PowerSeries.rescale (ι α) (PowerSeries.map (ι : ℂ →+* ℂ_[l]) (F.pSeries L)) := by
+      ext n
+      simp [PowerSeries.coeff_rescale]
+    rw [hr] at h
+    simpa using h
+
+end ReciprocityTheory.ChartRestriction.L1
+end
+end
+
+section
+
+noncomputable section
+open scoped BigOperators Classical
+open Formalism.L2.Th1.CM Formalism.L2.Th1.F
+
+namespace ReciprocityTheory.ChartRestriction.L1
+
+theorem sqD_eq (d r : ℕ) :
+    (r : ℂ) + redSqD d = (((r : ℤ) - 1 : ℤ) : ℂ) + ((2 : ℤ) : ℂ) * omegaK d := by
+  unfold redSqD
+  push_cast
+  ring
+
+theorem sqD_normSq (d r : ℕ) : Complex.normSq ((r : ℂ) + redSqD d) = ((r ^ 2 + d : ℕ) : ℝ) := by
+  unfold redSqD omegaK
+  have h : (r : ℂ) + (2 * ((1 + Complex.I * ((Real.sqrt d : ℝ) : ℂ)) / 2) - 1)
+      = ⟨(r : ℝ), Real.sqrt d⟩ := by
+    apply Complex.ext <;> simp <;> ring
+  rw [h, Complex.normSq_mk, Real.mul_self_sqrt (Nat.cast_nonneg d)]
+  push_cast
+  ring
+
+theorem sqD_mulStable (d : ℕ) (L : PeriodPair) (hCM : HasCMBy d L) (r : ℕ) : MulStable L ((r : ℂ) + redSqD d) := by
+  rw [sqD_eq]
+  exact (hasCMByStable d L hCM _ _).1
+
+theorem kerProdAt_of_norm (d : ℕ) (L : PeriodPair) (hCM : HasCMBy d L) (l e r : ℕ) (hodd : Odd (r ^ 2 + d))
+    (hl : ¬ l ∣ r ^ 2 + d) (he : ¬ e ∣ r ^ 2 + d) (he' : ¬ e ∣ (r ^ 2 + d - 1) / 2) :
+    KerProdAt d L l e := by
+  have hN := sqD_normSq d r
+  have hs := sqD_mulStable d L hCM r
+  have hα : (r : ℂ) + redSqD d ≠ 0 := by
+    intro h0
+    rw [h0, map_zero] at hN
+    have h1 : r ^ 2 + d = 0 := by exact_mod_cast hN.symm
+    rw [h1] at hodd
+    exact absurd hodd (by decide)
+  obtain ⟨T, hT⟩ := halfReps_exist L _ hα hs _ hN hodd
+  have hcard : 2 * T.card + 1 = r ^ 2 + d := by
+    have h1 := hT.card hα hs
+    rw [hN] at h1
+    exact_mod_cast h1
+  have hcard' : T.card = (r ^ 2 + d - 1) / 2 := by omega
+  refine ⟨r ^ 2 + d, T, hl, he, by rw [hcard']; exact he', ?_, ?_⟩
+  · intro z hz
+    exact ⟨hT.notMem hz, ker_norm hs hN (hT.1 z hz).1⟩
+  · intro k h2 h3 hk
+    have hαk : (r : ℂ) + redSqD d ∈ k := by
+      unfold redSqD
+      exact k.add_mem (natCast_mem k r)
+        (k.sub_mem (k.mul_mem (by exact_mod_cast natCast_mem k 2) hk) k.one_mem)
+    have h4 := prod_mem_of_rootPoly k (xsOf L T) (kerPoly_mem L _ T hα hs hT k h2 h3 hαk)
+    unfold xsOf at h4
+    rwa [Finset.prod_image (fun a ha b hb hab => hT.injOn ha hb hab)] at h4
+
+theorem kerProd_prin (d : ℕ) (L : PeriodPair) (hd4 : d % 4 = 3) (hCM : HasCMBy d L) (l : ℕ) (hl : l.Prime)
+    (h5 : 5 ≤ l) (hld : ¬ l ∣ d) (e : ℕ) (he : e = 2 ∨ e = 3 ∧ ¬ 3 ∣ d) : KerProdAt d L l e := by
+  rcases he with rfl | ⟨rfl, h3⟩
+  · refine kerProdAt_of_norm d L hCM l 2 0 ?_ ?_ ?_ ?_
+    · rw [Nat.odd_iff]; omega
+    · simpa using hld
+    · omega
+    · omega
+  · have hmod : d % 3 = 1 ∨ d % 3 = 2 := by omega
+    rcases hmod with h1 | h2
+    · by_cases hl2 : l ∣ 2 ^ 2 + d
+      · have hl4 : ¬ l ∣ 4 ^ 2 + d := by
+          intro h
+          have h12 : l ∣ 12 := by
+            have := Nat.dvd_sub h hl2
+            have e12 : 4 ^ 2 + d - (2 ^ 2 + d) = 12 := by omega
+            rwa [e12] at this
+          have hle : l ≤ 12 := Nat.le_of_dvd (by norm_num) h12
+          interval_cases l <;> omega
+        refine kerProdAt_of_norm d L hCM l 3 4 ?_ hl4 ?_ ?_
+        · rw [Nat.odd_iff]; omega
+        · omega
+        · omega
+      · refine kerProdAt_of_norm d L hCM l 3 2 ?_ hl2 ?_ ?_
+        · rw [Nat.odd_iff]; omega
+        · omega
+        · omega
+    · refine kerProdAt_of_norm d L hCM l 3 0 ?_ ?_ ?_ ?_
+      · rw [Nat.odd_iff]; omega
+      · simpa using hld
+      · omega
+      · omega
+
+end ReciprocityTheory.ChartRestriction.L1
+end
+end

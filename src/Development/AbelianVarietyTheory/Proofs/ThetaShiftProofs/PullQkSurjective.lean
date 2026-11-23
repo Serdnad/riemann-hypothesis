@@ -2,7 +2,7 @@ module
 
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.TraceFormTwistIsoOfPullback
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExistsCommonField
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.RelationsAreFunctions
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle015
 import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.NonemptyCubicalPull
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

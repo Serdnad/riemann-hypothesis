@@ -1,12 +1,12 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.HeightFunctions.GrowthConstantBoundGcR
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.H2XNIffH2
-public import Formalism.LocalToGlobal.ProjectiveLattices.IntegralExtensionOfRegR1
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsInBasisSharesInContain
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.FinrankHost
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle053
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle030
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle085
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle058
 public import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.CuspReadingsSpanModelFormsShiftedWeightsStatement
-public import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.ThetaArchimedeanDataIndefiniteModelsStatement
+public import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.Bundle043
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

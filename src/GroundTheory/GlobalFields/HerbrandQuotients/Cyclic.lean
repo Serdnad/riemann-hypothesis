@@ -2,7 +2,7 @@ module
 
 public import GroundTheory.TateCohomology.HerbrandAbstract
 public import Mathlib.RepresentationTheory.Basic
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.CyclicSubtraction
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle063
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

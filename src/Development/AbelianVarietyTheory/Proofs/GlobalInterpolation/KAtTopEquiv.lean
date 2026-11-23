@@ -1,9 +1,9 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.KerIsTerm
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.HomConjEquivMemHomAt
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle104
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.SmulCompSmul
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.XiTopInvariant
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle127
 public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.ThDistC
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -48,7 +48,9 @@ noncomputable section
 
 namespace GlobalTheory.LvT.Built.TopEq
 
-open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.HermitianLatticesTheory Formalism.L2.Col Formalism.L2.DIV Formalism.L2.Ker GlobalTheory.Mem.Col2 GlobalTheory.LvT GlobalTheory.LvT.Built
+open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.HermitianLatticesTheory Formalism.L2.DIV Formalism.L2.Ker GlobalTheory.Mem.Col2 GlobalTheory.LvT GlobalTheory.LvT.Built
+open _root_.Formalism.L2.Col (ChGlob ChIdx ChPt ChTh Chars Fields FrmG IsSel LevFam LevQFam LocCst Primes QE Sall
+  Sp Wts cAof cBof colValF frmRho frsF kerOf rPsymF rowSG ybSet ybSet_gmap)
 
 variable {X : Fields} {Pr : Primes X} {R : Ranks} {W : Wts X Pr.Word R} {Ch : Chars X Pr R.m}
   {sel : HeightOneSpectrum (𝓞 X.F) → HeightOneSpectrum (𝓞 X.E)} {S : Set ℕ} {mu : Tup X.F X.E X.K S}

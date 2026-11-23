@@ -1,10 +1,10 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.ExistsOfLayers
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsGammaLayerPadicCoordinatesStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsUniqueCocycleStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsWeakTopologyWittTiltTensorStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FrobeniusSubOneWittTensorLatticeSurjectiveFixedStatement
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle405
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle180
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle334
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle444
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

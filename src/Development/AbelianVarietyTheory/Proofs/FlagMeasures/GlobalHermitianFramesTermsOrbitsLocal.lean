@@ -1,13 +1,13 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.GFrames
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.CoordinateLatticeUniqueTermAlmostAllPlacesStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsUniqueGlobalLatticeOfLocalLatticesStatement
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HermitianDoubleCosetTermBasicFacts
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsIntegralOfQuad
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.NumberFieldLatticeDeterminedByLocalLatticesStatement
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.RationalExtend
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.StrongApproxStabStatement
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle249
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle082
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle046
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle049
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle068
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle047
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle103
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

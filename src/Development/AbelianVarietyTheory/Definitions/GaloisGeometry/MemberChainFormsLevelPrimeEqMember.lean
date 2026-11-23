@@ -1,8 +1,8 @@
 module
 
 public import Formalism.SharpRestriction.GrowthBounds.BaseLevels.LevelsGEmpty
-public import Formalism.SharpRestriction.GrowthBounds.ChartComparison.OneChartLev
-public import Formalism.SharpRestriction.GrowthBounds.ChartedClasses.ClsChartedLabAt
+public import Formalism.SharpRestriction.GrowthBounds.ChartComparison.Bundle001
+public import Formalism.SharpRestriction.GrowthBounds.ChartedClasses.Bundle002
 public import Formalism.SharpRestriction.GrowthBounds.TwistedLevelAgreement.StepInTwK
 public import Formalism.LocalToGlobal.InertKernelTheory.ProjRSurj
 import Mathlib.Algebra.Order.Floor.Extended

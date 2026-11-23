@@ -1,18 +1,16 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.MatchingOfParts
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FibRepApply
-public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.ExistsFull
-import Development.AbelianVarietyTheory.Definitions.Foundations.SecondCountableAndT2LocalField
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsOpenNormalisedSubgroupSubset
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.LeviIntegralFacts
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SmIndCoinvariants
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FibreRepresentationSmoothStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.OmegaEquivInducedFibreStatement
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle122
+public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.Bundle002
+import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle006
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle039
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle062
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle071
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle155
 public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.ContinuousFinId
-public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.ExistsExtZ
 import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.LocConstChar
-public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.PfSplit
+public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.Bundle003
 public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.PfSurj
 public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.SoStatement
 import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.TopOfMap
@@ -110,9 +108,9 @@ theorem irr_gen_narrow (NB : Narrow) (n t : ℕ) {μ : kˣ →* ℂˣ} (hμ : Is
   have hρ : IsSmooth ρ := isSmooth_comp hτ _ ((continuous_apply false).prodMk (continuous_apply true))
   have hI : (parInd (two e) ρD).IsIrreducible := NB k n t 1 μ (by unfold IsSmoothChar; simp) hμ
     (fun _ => by simp) hu (Or.inr (Ne.symm hμ1))
-  let σ := (twist ρ (deltaHalf k (Two (Fin n) (Fin t)))).comp (leviProj k (two e))
+  let σ := (_root_.GlobalTheory.SmGL.twist ρ (deltaHalf k (Two (Fin n) (Fin t)))).comp (leviProj k (two e))
   have hσ : IsSmooth σ := isSmooth_comp (isSmooth_twist hρ (isSmoothChar_deltaHalf k)) _ hcont
-  let α : Representation.IntertwiningMap σ ((twist ρD (deltaHalf k (Two (Fin n) (Fin t)))).comp (leviProj k (two e))) :=
+  let α : Representation.IntertwiningMap σ ((_root_.GlobalTheory.SmGL.twist ρD (deltaHalf k (Two (Fin n) (Fin t)))).comp (leviProj k (two e))) :=
     compMap (twistMap q _) _
   let T : Γ → Representation.IntertwiningMap σ σ := fun γ =>
     compMap (twistMap (actFst τ γ) (deltaHalf k (Two (Fin n) (Fin t)))) (leviProj k (two e))

@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.HasDRepIffHasDerivAt
+public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.Bundle007
 public import Development.WeilBound.CoreStatements.PublishedTheorems.CasselmanWallach.CwOf
 public import Development.WeilBound.CoreStatements.PublishedTheorems.CasselmanWallach.EtaleCohomologyNegativeVanishingDegreeZero
 import Mathlib.Algebra.Order.Floor.Extended

@@ -1,6 +1,6 @@
 module
 
-public import CompanionTheory.AutomorphicTheory.BesselWaveGrids.InterlacingGrids.PairOKOfInterlace
+public import CompanionTheory.AutomorphicTheory.BesselWaveGrids.InterlacingGrids.Bundle001
 public import CompanionTheory.AutomorphicTheory.BesselWaveGrids.InterlacingGrids.Bracket
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -2,7 +2,7 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.LiftWeightComplexPointEqTwist
 public import Development.AbelianVarietyTheory.Definitions.Foundations.ThetaSeriesTies
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ClassPresBasic
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle108
 import Formalism.LocalToGlobal.Divisibility.ClassSumLemmas
 public import Formalism.LocalToGlobal.Divisibility.LiftLatLemmas
 import Formalism.LocalToGlobal.Divisibility.ProjLemmas

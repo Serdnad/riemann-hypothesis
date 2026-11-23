@@ -1,13 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.ComponentMassSum
+public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.Bundle014
 public import Formalism.LocalToGlobal.ProjectiveLattices.HalfOneAddSqrtNegIsIntegral
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.BlockDiagonalMulVecApply
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DegScale
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1140
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsSmulMemOfMemSpan
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HasGramComp
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.InnerRealizeEqZero
-import Formalism.LocalToGlobal.ProjectiveLattices.CompFin
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1751
+import Formalism.LocalToGlobal.ProjectiveLattices.Bundle014
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

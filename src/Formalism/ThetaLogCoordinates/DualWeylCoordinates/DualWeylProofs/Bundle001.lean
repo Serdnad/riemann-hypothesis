@@ -1,0 +1,350 @@
+module
+
+public import Formalism.ThetaLogCoordinates.DualWeylCoordinates.DefsMod
+public import Lemmata.GeneralBFactSecondTer.Imports
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.WittVector.IsPoly
+import Mathlib.Tactic.Basify
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Lemma
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.Polynomial.Basic
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Tactic.TypeStar
+import Mathlib.Topology.Sheaves.Init
+import Std.Tactic.BVDecide.Normalize.Prop
+
+@[expose] public section
+
+section
+
+noncomputable section
+
+open MvPolynomial Finset
+
+namespace Formalism.InvariantFactorPaths.ColumnFamilies
+
+@[to_additive]
+lemma qh_prod_castLE {M : Type*} [CommMonoid M] {s n : ℕ} (hs : s ≤ n) (F : Fin n → M)
+    (h : ∀ a : Fin n, s ≤ a.val → F a = 1) : ∏ a' : Fin s, F (Fin.castLE hs a') = ∏ a, F a := by
+  have h1 : ∏ a' : Fin s, F (Fin.castLE hs a') = ∏ a ∈ (univ : Finset (Fin s)).map (Fin.castLEEmb hs), F a := by
+    rw [Finset.prod_map]; rfl
+  rw [h1]
+  apply Finset.prod_subset (Finset.subset_univ _)
+  intro a _ ha
+  apply h
+  by_contra hlt
+  push Not at hlt
+  exact ha (Finset.mem_map.2 ⟨⟨a.val, hlt⟩, Finset.mem_univ _, by ext; rfl⟩)
+
+variable {n : ℕ} {R : Type} [CommRing R]
+
+lemma qh_evGLR_alg {R' : Type} [CommRing R'] [Algebra R R'] (g : GL (Fin n) R')
+    (P : MvPolynomial (Fin n × Fin n) R) :
+    evGLR g (algebraMap _ (GLCoord R n) P) =
+      MvPolynomial.eval₂Hom (algebraMap R R') (fun ab : Fin n × Fin n => g.val ab.1 ab.2) P := by
+  unfold evGLR
+  exact IsLocalization.Away.lift_eq _ _ _
+
+lemma qh_evGLR_algR {R' : Type} [CommRing R'] [Algebra R R'] (g : GL (Fin n) R') (r : R) :
+    evGLR g (algebraMap R (GLCoord R n) r) = algebraMap R R' r := by
+  rw [IsScalarTower.algebraMap_apply R (MvPolynomial (Fin n × Fin n) R) (GLCoord R n), qh_evGLR_alg]
+  simp
+
+lemma qh_diag_isUnit {R' : Type} [CommRing R'] (b : GL (Fin n) R')
+    (hb : ∀ a c : Fin n, a < c → b.val a c = 0) (a : Fin n) : IsUnit (b.val a a) := by
+  have h1 : b.val.det = ∏ i, b.val i i := Matrix.det_of_isLowerTriangular _ (fun i j hij => hb i j hij)
+  have h2 : IsUnit (∏ i, b.val i i) := h1 ▸ Matrix.isUnits_det_units b
+  exact (IsUnit.prod_univ_iff.1 h2) a
+
+lemma qh_zpow_split {G : Type*} [CommGroup G] (u : G) (z : ℤ) : u ^ z * u ^ (-z).toNat = u ^ z.toNat := by
+  rw [← zpow_natCast, ← zpow_natCast, ← zpow_add]
+  congr 1
+  have := Int.toNat_sub_toNat_neg z
+  omega
+
+lemma qh_mem_iff (mu : Fin n → ℤ) (f : GLCoord R n) :
+    f ∈ inducedSections R mu ↔ ∀ (R' : Type) [CommRing R'] [Algebra R R'] (b g : GL (Fin n) R') (u : Fin n → R'ˣ),
+      (∀ a c : Fin n, a < c → b.val a c = 0) → (∀ a, (u a : R') = b.val a a) →
+      evGLR (b * g) f = ((∏ a, u a ^ mu a : R'ˣ) : R') * evGLR g f := by
+  have key : ∀ (R' : Type) [CommRing R'] (u : Fin n → R'ˣ),
+      ((∏ a, u a ^ mu a : R'ˣ) : R') * ((∏ a, u a ^ (-(mu a)).toNat : R'ˣ) : R') =
+        ((∏ a, u a ^ (mu a).toNat : R'ˣ) : R') := by
+    intro R' _ u
+    rw [← Units.val_mul, ← Finset.prod_mul_distrib]
+    congr 2
+    funext a
+    exact qh_zpow_split _ _
+  constructor
+  · intro hf R' _ _ b g u hb hu
+    have h := hf R' b g hb
+    simp only [← hu] at h
+    have e1 : ∏ a, (u a : R') ^ (-(mu a)).toNat = ((∏ a, u a ^ (-(mu a)).toNat : R'ˣ) : R') := by
+      simp
+    have e2 : ∏ a, (u a : R') ^ (mu a).toNat = ((∏ a, u a ^ (mu a).toNat : R'ˣ) : R') := by
+      simp
+    rw [e1, e2, ← key R' u] at h
+    apply (Units.mul_left_inj (∏ a, u a ^ (-(mu a)).toNat : R'ˣ)).1
+    rw [h]; ring
+  · intro hf R' _ _ b g hb
+    have h := hf R' b g (fun a => (qh_diag_isUnit b hb a).unit) hb (fun a => rfl)
+    set u : Fin n → R'ˣ := fun a => (qh_diag_isUnit b hb a).unit with hu
+    have hu' : ∀ a, b.val a a = (u a : R') := fun a => rfl
+    simp only [hu']
+    have e1 : ∏ a, (u a : R') ^ (-(mu a)).toNat = ((∏ a, u a ^ (-(mu a)).toNat : R'ˣ) : R') := by
+      simp
+    have e2 : ∏ a, (u a : R') ^ (mu a).toNat = ((∏ a, u a ^ (mu a).toNat : R'ˣ) : R') := by
+      simp
+    rw [e1, e2, ← key R' u, h]; ring
+
+lemma qh_zero_mem (mu : Fin n → ℤ) : (0 : GLCoord R n) ∈ inducedSections R mu := by
+  intro R' _ _ b g _; simp
+
+lemma qh_add_mem {mu : Fin n → ℤ} {f f' : GLCoord R n} (hf : f ∈ inducedSections R mu) (hf' : f' ∈ inducedSections R mu) :
+    f + f' ∈ inducedSections R mu := by
+  intro R' _ _ b g hb
+  rw [map_add (f := _), map_add (f := _), add_mul, mul_add, hf R' b g hb, hf' R' b g hb]
+
+lemma qh_smul_mem {mu : Fin n → ℤ} (r : R) {f : GLCoord R n} (hf : f ∈ inducedSections R mu) :
+    r • f ∈ inducedSections R mu := by
+  intro R' _ _ b g hb
+  rw [Algebra.smul_def, map_mul, map_mul, qh_evGLR_algR, qh_evGLR_algR, mul_assoc, hf R' b g hb]
+  ring
+
+lemma qh_span_le {mu : Fin n → ℤ} {S : Set (GLCoord R n)} (hS : S ⊆ inducedSections R mu) :
+    (Submodule.span R S : Set (GLCoord R n)) ⊆ inducedSections R mu := by
+  intro x hx
+  induction hx using Submodule.span_induction with
+  | mem x h => exact hS h
+  | zero => exact qh_zero_mem mu
+  | add x y _ _ hx hy => exact qh_add_mem hx hy
+  | smul r x _ hx => exact qh_smul_mem r hx
+
+lemma qh_one_mem : (1 : GLCoord R n) ∈ inducedSections R (0 : Fin n → ℤ) := by
+  intro R' _ _ b g _; simp
+
+lemma qh_mul_mem {mu mu' : Fin n → ℤ} {f f' : GLCoord R n} (hf : f ∈ inducedSections R mu) (hf' : f' ∈ inducedSections R mu') :
+    f * f' ∈ inducedSections R (mu + mu') := by
+  rw [qh_mem_iff] at hf hf' ⊢
+  intro R' _ _ b g u hb hu
+  rw [map_mul, map_mul, hf R' b g u hb hu, hf' R' b g u hb hu]
+  simp only [Pi.add_apply, zpow_add, Finset.prod_mul_distrib, Units.val_mul]
+  ring
+
+lemma qh_prod_mem {ι : Type*} (s : Finset ι) (f : ι → GLCoord R n) (m : ι → Fin n → ℤ)
+    (h : ∀ i ∈ s, f i ∈ inducedSections R (m i)) : ∏ i ∈ s, f i ∈ inducedSections R (∑ i ∈ s, m i) := by
+  classical
+  induction s using Finset.induction_on with
+  | empty => simpa using qh_one_mem
+  | insert a s ha ih =>
+    rw [Finset.prod_insert ha, Finset.sum_insert ha]
+    exact qh_mul_mem (h a (Finset.mem_insert_self _ _)) (ih fun i hi => h i (Finset.mem_insert_of_mem hi))
+
+def qhDet (R : Type) [CommRing R] (n : ℕ) : (GLCoord R n)ˣ :=
+  (IsLocalization.Away.algebraMap_isUnit (genMat R n).det).unit
+
+lemma qhDet_val : ((qhDet R n : (GLCoord R n)ˣ) : GLCoord R n) = algebraMap _ _ (genMat R n).det := rfl
+
+lemma qh_evGLR_det {R' : Type} [CommRing R'] [Algebra R R'] (g : GL (Fin n) R') :
+    evGLR g ((qhDet R n : (GLCoord R n)ˣ) : GLCoord R n) = g.val.det := by
+  rw [qhDet_val, qh_evGLR_alg, RingHom.map_det, genMat_map_evalR]
+
+lemma qh_det_zpow_mem (z : ℤ) : (((qhDet R n) ^ z : (GLCoord R n)ˣ) : GLCoord R n) ∈ inducedSections R (fun _ : Fin n => z) := by
+  rw [qh_mem_iff]
+  intro R' _ _ b g u hb hu
+  have h1 : ∀ h : GL (Fin n) R', evGLR h (((qhDet R n) ^ z : (GLCoord R n)ˣ) : GLCoord R n) =
+      (((Units.map (evGLR h : GLCoord R n →+* R').toMonoidHom (qhDet R n)) ^ z : R'ˣ) : R') := by
+    intro h
+    rw [← map_zpow]; rfl
+  have h2 : Units.map (evGLR (b * g) : GLCoord R n →+* R').toMonoidHom (qhDet R n) =
+      (∏ a, u a) * Units.map (evGLR g : GLCoord R n →+* R').toMonoidHom (qhDet R n) := by
+    ext
+    simp only [Units.coe_map, Units.val_mul, RingHom.toMonoidHom_eq_coe, MonoidHom.coe_coe]
+    rw [qh_evGLR_det, qh_evGLR_det, Units.val_mul, Matrix.det_mul,
+      Matrix.det_of_isLowerTriangular _ (fun i j hij => hb i j hij)]
+    simp [hu]
+  rw [h1, h1, h2, mul_zpow, Finset.prod_zpow, Units.val_mul]
+
+def qhN (R : Type) [CommRing R] {n : ℕ} (s : ℕ) (hs : s ≤ n) (J : Fin s → Fin n) : GLCoord R n :=
+  algebraMap _ (GLCoord R n)
+    (Matrix.det (Matrix.of fun p q : Fin s => genMat R n (Fin.castLE hs p) (J q)))
+
+lemma qh_evGLR_N {R' : Type} [CommRing R'] [Algebra R R'] (g : GL (Fin n) R') (s : ℕ) (hs : s ≤ n)
+    (J : Fin s → Fin n) :
+    evGLR g (qhN R s hs J) = Matrix.det (Matrix.of fun p q : Fin s => g.val (Fin.castLE hs p) (J q)) := by
+  rw [qhN, qh_evGLR_alg, RingHom.map_det]
+  congr 1
+  ext p q
+  simp [genMat]
+
+lemma qh_N_mem (s : ℕ) (hs : s ≤ n) (J : Fin s → Fin n) :
+    qhN R s hs J ∈ inducedSections R (fun a : Fin n => if a.val < s then 1 else 0) := by
+  rw [qh_mem_iff]
+  intro R' _ _ b g u hb hu
+  rw [qh_evGLR_N, qh_evGLR_N]
+  have h1 : (Matrix.of fun p q : Fin s => (b * g).val (Fin.castLE hs p) (J q)) =
+      (Matrix.of fun p q : Fin s => b.val (Fin.castLE hs p) (Fin.castLE hs q)) *
+        (Matrix.of fun p q : Fin s => g.val (Fin.castLE hs p) (J q)) := by
+    ext p q
+    rw [Units.val_mul, Matrix.of_apply, Matrix.mul_apply, Matrix.mul_apply]
+    symm
+    apply qh_sum_castLE hs (fun a => b.val (Fin.castLE hs p) a * g.val a (J q))
+    intro a ha
+    rw [hb _ _ (by rw [Fin.lt_def]; simp; omega), zero_mul]
+  have h2 : (Matrix.of fun p q : Fin s => b.val (Fin.castLE hs p) (Fin.castLE hs q)).det =
+      ∏ p : Fin s, b.val (Fin.castLE hs p) (Fin.castLE hs p) :=
+    Matrix.det_of_isLowerTriangular _ (fun i j hij => hb _ _ (by rw [Fin.lt_def]; simpa using hij))
+  rw [h1, Matrix.det_mul, h2]
+  congr 1
+  simp only [← hu]
+  have h3 : ∀ a : Fin n, ((u a ^ (if a.val < s then (1 : ℤ) else 0) : R'ˣ) : R') =
+      if a.val < s then (u a : R') else 1 := by
+    intro a; split_ifs <;> simp
+  rw [Units.coe_prod]
+  simp only [h3]
+  rw [← qh_prod_castLE hs (fun a : Fin n => if a.val < s then (u a : R') else 1)
+    (fun a ha => if_neg (by omega))]
+  apply Finset.prod_congr rfl
+  intro p _
+  simp
+
+end Formalism.InvariantFactorPaths.ColumnFamilies
+end
+end
+
+section
+
+noncomputable section
+
+open MvPolynomial Finset
+
+namespace Formalism.InvariantFactorPaths.ColumnFamilies
+
+def qa_nu {n : ℕ} [NeZero n] (mu : Fin n → ℤ) : Fin n → ℕ := fun t => (mu t - mu (lastIdx n)).toNat
+
+def qa_row {n : ℕ} [NeZero n] {mu : Fin n → ℤ} (I : TIdx mu) (c : ↥(TCols mu)) : Fin (colH mu c) → Fin n :=
+  fun p => (I c).1.orderEmbOfFin (I c).2 p
+
+lemma qa_row_strictMono {n : ℕ} [NeZero n] {mu : Fin n → ℤ} (I : TIdx mu) (c : ↥(TCols mu)) :
+    StrictMono (qa_row I c) := ((I c).1.orderEmbOfFin (I c).2).strictMono
+
+def qa_exp {n : ℕ} [NeZero n] {mu : Fin n → ℤ} (I : TIdx mu) : Fin n × Fin n →₀ ℕ :=
+  ∑ c : ↥(TCols mu), ∑ p : Fin (colH mu c), Finsupp.single (qa_row I c p, Fin.castLE (colH_le mu c) p) 1
+
+lemma qa_lower_iff {n : ℕ} (Q : Fin n → Prop) [DecidablePred Q] (hQ : ∀ q q', q' ≤ q → Q q → Q q') (p : Fin n) :
+    Q p ↔ p.val < (univ.filter Q).card := by
+  first | exact Bl.general_b_fact_second_ter.goal1 .. | (apply Bl.general_b_fact_second_ter.goal1 <;> assumption) | (intros; apply Bl.general_b_fact_second_ter.goal1 <;> assumption)
+
+lemma qa_lt_colH {n : ℕ} {mu : Fin n → ℤ} (hmu : Dominant mu) (c : ℤ) (p : Fin n) :
+    p.val < colH mu c ↔ c ≤ mu p :=
+  (qa_lower_iff (fun m => c ≤ mu m) (fun _ _ hqq hq => hq.trans (hmu hqq)) p).symm
+
+lemma qa_emb_le_iff {n h : ℕ} (J : Finset (Fin n)) (hJ : J.card = h) (p : Fin h) (a : Fin n) :
+    J.orderEmbOfFin hJ p ≤ a ↔ p.val < (J.filter (· ≤ a)).card := by
+  have h1 : (J.filter (· ≤ a)).card = (univ.filter fun q : Fin h => J.orderEmbOfFin hJ q ≤ a).card := by
+    conv_lhs => rw [← Finset.map_orderEmbOfFin_univ J hJ]
+    rw [Finset.filter_map, Finset.card_map]
+    rfl
+  rw [h1]
+  exact qa_lower_iff (fun q : Fin h => J.orderEmbOfFin hJ q ≤ a)
+    (fun q q' hqq hq => ((J.orderEmbOfFin hJ).monotone hqq).trans hq) p
+
+def qa_cnt {n : ℕ} [NeZero n] {mu : Fin n → ℤ} (I : TIdx mu) (c : ↥(TCols mu)) (a : Fin n) : ℕ :=
+  ((I c).1.filter (· ≤ a)).card
+
+lemma qa_cnt_le {n : ℕ} [NeZero n] {mu : Fin n → ℤ} (I : TIdx mu) (c : ↥(TCols mu)) (a : Fin n) :
+    qa_cnt I c a ≤ colH mu c := (card_filter_le _ _).trans (I c).2.le
+
+lemma qa_row_le_iff {n : ℕ} [NeZero n] {mu : Fin n → ℤ} (I : TIdx mu) (c : ↥(TCols mu)) (q : Fin (colH mu c))
+    (a : Fin n) : qa_row I c q ≤ a ↔ q.val < qa_cnt I c a := qa_emb_le_iff (I c).1 (I c).2 q a
+
+lemma qa_exp_apply {n : ℕ} [NeZero n] {mu : Fin n → ℤ} (I : TIdx mu) (b p : Fin n) :
+    qa_exp I (b, p) = ∑ c : ↥(TCols mu), ∑ q : Fin (colH mu c),
+      if qa_row I c q = b ∧ q.val = p.val then 1 else 0 := by
+  simp only [qa_exp, Finsupp.coe_finsetSum, Finset.sum_apply, Finsupp.single_apply, Prod.mk.injEq, Fin.ext_iff,
+    Fin.val_castLE]
+
+lemma qa_cum {n : ℕ} [NeZero n] {mu : Fin n → ℤ} (I : TIdx mu) (a p : Fin n) :
+    ∑ b : Fin n with b ≤ a, qa_exp I (b, p) =
+      (univ.filter fun c : ↥(TCols mu) => p.val < qa_cnt I c a).card := by
+  simp only [qa_exp_apply]
+  rw [Finset.sum_comm, Finset.card_filter]
+  refine Finset.sum_congr rfl fun c _ => ?_
+  rw [Finset.sum_comm]
+  have h1 : ∀ q : Fin (colH mu c),
+      (∑ b : Fin n with b ≤ a, if qa_row I c q = b ∧ q.val = p.val then 1 else 0) =
+        if (q.val = p.val ∧ q.val < qa_cnt I c a) then 1 else 0 := by
+    intro q
+    rw [Finset.sum_filter, Finset.sum_eq_single (qa_row I c q)]
+    · have := qa_row_le_iff I c q a
+      by_cases h : qa_row I c q ≤ a
+      · simp [h, this.mp h]
+      · have h' : ¬ q.val < qa_cnt I c a := fun hh => h (this.mpr hh)
+        simp [h, h']
+    · intro b _ hb
+      simp [Ne.symm hb]
+    · simp
+  simp only [h1]
+  split_ifs with hp
+  · have hq : p.val < colH mu c := hp.trans_le (qa_cnt_le I c a)
+    rw [Finset.sum_eq_single ⟨p.val, hq⟩]
+    · simp [hp]
+    · intro q _ hq'
+      rw [if_neg]
+      rintro ⟨h2, _⟩
+      exact hq' (Fin.ext h2)
+    · simp
+  · apply Finset.sum_eq_zero
+    intro q _
+    rw [if_neg]
+    rintro ⟨h2, h3⟩
+    exact hp (h2 ▸ h3)
+
+lemma qa_card_sub {T : Finset ℤ} (P : ↥T → Prop) [DecidablePred P]
+    [DecidablePred fun d => ∃ h : d ∈ T, P ⟨d, h⟩] :
+    (univ.filter P).card = (T.filter fun d => ∃ h : d ∈ T, P ⟨d, h⟩).card := by
+  rw [← Finset.card_map (Function.Embedding.subtype _)]
+  congr 1
+  ext d
+  simp only [mem_map, mem_filter, mem_univ, true_and, Function.Embedding.coe_subtype, Subtype.exists,
+    exists_and_right, exists_eq_right]
+  constructor
+  · rintro ⟨h, hp⟩; exact ⟨h, h, hp⟩
+  · rintro ⟨_, h, hp⟩; exact ⟨h, hp⟩
+
+end Formalism.InvariantFactorPaths.ColumnFamilies
+end
+end

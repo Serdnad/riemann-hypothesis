@@ -1,28 +1,25 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CoeffGaloisTilt
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CoeffEqMkRootT
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsConcretePeriodDatumPadicFiniteExtensionStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsAddValuationNormalised
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle087
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle083
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle218
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle094
 public import Development.AbelianVarietyTheory.CrystallinePeriods.RingBasics
 public import Formalism.LocalRingCardinality.AdicCompletionLocal.LocTied
 import Development.AbelianVarietyTheory.CrystallinePeriods.RingIface
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.AcrisLogTeichmullerUniqueGaloisFrobeniusBdRStatement
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.AinfIsDomainAndAinfInvPInjective
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.AlgebraMapAinfInvPrimeBdRPlusInjectiveStatement
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.BdRFiltrationLawsStatement
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.BdRPlusFiltrationEqFontaineXiPowStatement
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.BdRPlusIsDomainBdRIsField
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.BdRPlusIsDomainBdRIsFieldStatement
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.BdRPlusSimpleRootsSectionUniqueEquivariantStatement
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FontaineThetaEqZeroIffFontaineXiElementDvd
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsPrimitiveTiltedRootOfUnityLocalPeriodRingsData
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LocalPeriodRingsDataUnramifiedLawsStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.NonemptyLocalPeriodRingsData
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle140
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle084
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle121
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle143
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle119
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle126
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle133
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle105
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle081
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle154
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle146
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.PeriodRingsGaloisActionLawsFrobeniusComm
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ResEqIff
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.RootOfUnityPrimeToTeichmullerLiftStatement
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ThetaBdRPlusSurjectiveKerUnitsEquivariant
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -66,7 +63,7 @@ import Mathlib.Topology.Sheaves.Init
 
 noncomputable section
 namespace GlobalTheory.MemLoc.PrimeEx
-open Formalism Formalism.BasicNotions Formalism.BasicNotions.Loc GlobalTheory.MemLoc
+open _root_.Formalism Formalism.BasicNotions Formalism.BasicNotions.Loc GlobalTheory.MemLoc
 open scoped Formalism.Per
 
 section General
@@ -317,7 +314,7 @@ def tied (C : Core l) : LocTied l (prime C) (ainf C) where
 end GlobalTheory.MemLoc.PrimeEx
 
 namespace GlobalTheory.MemLoc
-open Formalism Formalism.BasicNotions Formalism.BasicNotions.Loc
+open _root_.Formalism Formalism.BasicNotions Formalism.BasicNotions.Loc
 
 theorem exists_locPrime_tied : ∀ (l : ℕ) [Fact l.Prime],
     ∃ (P : LocPrime l) (AI : LocAinf l P), Nonempty (LocTied l P AI) := by

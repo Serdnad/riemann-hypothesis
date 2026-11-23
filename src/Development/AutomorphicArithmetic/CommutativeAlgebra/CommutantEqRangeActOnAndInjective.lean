@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.HasDivPlace
-public import Development.AutomorphicArithmetic.CommutativeAlgebra.ExistsSumBaseChangeOfCommuteBaseChange
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle058
+public import Development.AutomorphicArithmetic.CommutativeAlgebra.Bundle046
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -38,8 +38,8 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsDimEqOne
-import Development.AbelianVarietyTheory.Definitions.Divisors.IsHolPeriods
-import Development.AbelianVarietyTheory.Definitions.Divisors.PointsNonemptyUnitaryRankOne
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle017
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle045
 import Development.AutomorphicArithmetic.RealSpanData.RealData
 
 @[expose] public section

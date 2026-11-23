@@ -5,7 +5,7 @@ public import Development.WeilBound.RepresentationTheoryGL.TwistedFactors.Affine
 public import GroundTheory.AutomorphicForms.MultiplicityOne.OpenSubgroupRep
 public import GroundTheory.AutomorphicForms.MultiplicityOne.FiniteLevelGroups
 public import GroundTheory.AutomorphicForms.StrongApproximationSLDense
-public import GroundTheory.AutomorphicForms.HarishChandraCentre
+public import GroundTheory.AutomorphicForms.Bundle012
 public import GroundTheory.AutomorphicForms.AffineBruhat
 public import GroundTheory.AutomorphicForms.Cartan
 public import Mathlib.Algebra.MvPolynomial.Expand

@@ -1,7 +1,7 @@
 module
 
 public import Development.WeilBound.ThetaLifts.SphericalLattices.IndexComapOfCover
-public import Development.WeilBound.ThetaLifts.SphericalLattices.LocCommSt
+public import Development.WeilBound.ThetaLifts.SphericalLattices.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

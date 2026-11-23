@@ -5,7 +5,7 @@ public import Formalism.SizeWindowBrackets.SChain
 public import Development.AutomorphicArithmetic.DedekindLFunctions.LandauTheorems.ChBalance
 public import Formalism.SizeWindowBrackets.ChainSlopeWindows.LipschitzWeightAndMinimum
 public import Formalism.SizeWindowBrackets.ChainSlopeWindows.PChain
-public import Formalism.ThickAverageLoss.ThickAverageProofs.ThickAverage
+public import Formalism.ThickAverageLoss.ThickAverageProofs.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

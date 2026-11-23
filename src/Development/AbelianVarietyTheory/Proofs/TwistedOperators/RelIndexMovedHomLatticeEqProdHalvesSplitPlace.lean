@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.HalfLat
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle246
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ActOMemFinSub
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.MemHomLatticeIffIntegralMatrixSplitChart
 import Formalism.LocalToGlobal.BesselHermitianTheta.LemmasWeil
@@ -39,14 +39,14 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.Divisors.EqOfHasValueAtInfinite
-import Development.AbelianVarietyTheory.Definitions.Divisors.IsUnitaryOnTheta
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle010
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle030
 import Development.AbelianVarietyTheory.Definitions.Foundations.NormEulerPolySubOneLe
-import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.RealLowestKTypeCoeffSquareIntegrable
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.InnerProductFormula
+import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.Bundle004
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1610
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsIsSplitChartOfBasis
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsSplitChartSplitChart
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ConstMemBddAut
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle319
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle162
 import Formalism.LocalToGlobal.IndefiniteReal.LinksDefs
 
 @[expose] public section

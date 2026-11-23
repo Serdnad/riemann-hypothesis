@@ -1,0 +1,384 @@
+module
+
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle014
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArithmeticIntersection.MultihomogeneousIdeals.Bundle002
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle016
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle026
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.IsMultiHomogOfPullWeight
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle030
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle013
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArithmeticIntersection.MixedFieldContraction.ContractMixedFieldStatement
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle039
+import GroundTheory.HeightsAndTheta.Heights.Intersections.TableDegreeThreeBase
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.Order.CompletePartialOrder
+import Mathlib.RingTheory.Ideal.KrullsHeightTheorem
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.WittVector.IsPoly
+import Mathlib.RingTheory.RegularLocalRing.Defs
+import Mathlib.Tactic.Basify
+import Mathlib.Tactic.ENatToNat
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Linter.Style
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.TypeStar
+import Mathlib.Topology.Sheaves.Init
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.Bundle011
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle015
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterPCProof
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle013
+
+@[expose] public section
+
+section
+
+set_option maxSynthPendingDepth 1
+
+noncomputable section
+
+namespace GroundTheory.Heights₂.Heights.Inter
+
+open MvPolynomial ReciprocityTheory.ChartRestriction.G.Geo ReciprocityTheory.ChartRestriction.G.AI.I1 ReciprocityTheory.ChartRestriction.G.AI.I2 ReciprocityTheory.ChartRestriction.G.AI.I4 PointVertical
+
+theorem ArithmeticIntersectionVertical.proof
+    (hGeo : ∀ (K : Type) [Fintype K] (ι : K → Type) [∀ k, Fintype (ι k)], GeoNumStatement ι)
+    (hR4 : ∀ (F : Type) [Field F] (K : Type) [Fintype K] (ι : K → Type) [∀ k, Fintype (ι k)],
+      ExistsUniqueStatement F ι)
+    (hPC : ∀ (F : Type) [Field F] (K : Type) [Fintype K] (ι : K → Type) [∀ k, Fintype (ι k)]
+      (K' : Type) [Fintype K'] (ι' : K' → Type) [∀ k, Fintype (ι' k)], ProjContractStatement F ι ι')
+    (hPD : ∀ (F : Type) [Field F] (K : Type) [Fintype K] (ι : K → Type) [∀ k, Fintype (ι k)]
+      (K' : Type) [Fintype K'] (ι' : K' → Type) [∀ k, Fintype (ι' k)], ProjDegStatement F ι ι')
+    (hDeg : VerticalDegree.Statement) :
+    ArithmeticIntersectionVertical.Statement := by
+  intro K _ ι _ K' _ ι' _ κ v P' n a s α W' hv hP' hP hs hsP hW' hvert
+  classical
+
+  have hs' : IsSectionOn P' (HermLine.sqMetric (ι := ι') (Function.extend κ α 0)) (rename v s) :=
+    ⟨Function.extend κ α 0, fun _ => rfl, isMultiHomog_rename hv hs, hsP⟩
+  obtain ⟨hW'm, hpr, hW'd⟩ := (divSuppArith K' ι' P' n _ _ W' hP' hs' hW').2 hvert
+  set p := charOf W' with hpdef
+  have : Fact p.Prime := ⟨hpr⟩
+  have hpW' : ((p : ℕ) : MRing ι') ∈ W' := ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.natCast_mem_of_charOf W'
+  have hW'p : IsProjVarF (W'.map (red p)) n :=
+    ⟨isMultiProjPrime_red p hW'm hpW', by rw [ringKrullDim_red p hpW', hW'd]⟩
+
+  have hWm : IsMultiProjPrime (imageZ v W') := isMultiProjPrime_imageZ hv hW'm
+  have hpW : ((p : ℕ) : MRing ι) ∈ imageZ v W' := by
+    show rename v ((p : ℕ) : MRing ι) ∈ W'
+    simpa using hpW'
+  have hVm := isMultiProjPrime_red p hWm hpW
+
+  obtain ⟨I, hI, -⟩ := hR4 (ZMod p) K ι
+  obtain ⟨I', hI', -⟩ := hR4 (ZMod p) K' ι'
+  have hgeo' : geoNum n W' (fun j => pullDeg κ (a j)) = I' (W'.map (red p)) n (fun j => pullDeg κ (a j)) :=
+    hGeo K' ι' p I' hI' W' n _ hW'm hpW' hW'p
+  by_cases hmem : imageZ v W' ∈ divSupp (imageZ v P') s
+  ·
+    refine Or.inl ⟨hmem, fun G' J' hJ' => ?_⟩
+    have hsW : IsSectionOn (imageZ v P') (HermLine.sqMetric (ι := ι) α) s := ⟨α, fun _ => rfl, hs, hsP⟩
+    have hWvert : ¬ IsHorizontal (imageZ v W') := fun h => by
+      have h2 : ((p : ℕ) : ℤ) ∈ (imageZ v W').comap (C : ℤ →+* MRing ι) := by
+        rw [Ideal.mem_comap, map_natCast]
+        exact hpW
+      rw [h, Ideal.mem_bot] at h2
+      exact hpr.ne_zero (by exact_mod_cast h2)
+    obtain ⟨-, -, hWd⟩ := (divSuppArith K ι (imageZ v P') n _ _ _ hP hsW hmem).2 hWvert
+    have hWp : IsProjVarF ((imageZ v W').map (red p)) n := ⟨hVm, by rw [ringKrullDim_red p hpW, hWd]⟩
+    have hVi : IsProjVarF (imageVar (ZMod p) v (W'.map (red p))) n := by
+      rw [imageVar_red p v hpW']
+      exact hWp
+    obtain ⟨i', hi'⟩ : ∃ i' : ∀ k', ι' k', IsChart (W'.map (red p)) i' :=
+      ⟨fun k => (hW'p.1.2.2 k).choose, fun k => (hW'p.1.2.2 k).choose_spec⟩
+    rw [hgeo', hPD (ZMod p) K ι K' ι' I I' hI hI' κ v _ n a i' hv hW'p hVi hi', imageVar_red p v hpW',
+      ← hGeo K ι p I hI _ n a hWm hpW hWp, hDeg K ι K' ι' κ v p W' n i' hv hpW' hW'p hVi hi' G' J' hJ']
+  ·
+    refine Or.inr ⟨hmem, ?_⟩
+    have hsW' : rename v s ∈ W' := hW'.1.1.2 (Ideal.mem_sup_right (Ideal.mem_span_singleton_self _))
+    have hle : imageZ v P' ⊔ Ideal.span {s} ≤ imageZ v W' :=
+      sup_le (Ideal.comap_mono (le_sup_left.trans hW'.1.1.2))
+        (Ideal.span_le.2 (Set.singleton_subset_iff.2 hsW'))
+    have := hWm.1
+    obtain ⟨Q, hQ, hQW⟩ := Ideal.exists_minimalPrimes_le hle
+    have hQne : Q ≠ imageZ v W' := fun h => hmem ⟨h ▸ hQ, hWm.2.2⟩
+    obtain ⟨x, hxW, hxQ⟩ : ∃ x ∈ imageZ v W', x ∉ Q := by
+      by_contra hc
+      exact hQne (le_antisymm hQW fun y hy => by_contra fun h => hc ⟨y, hy, h⟩)
+    have := hQ.1.1
+    have := hP.2.1.1
+    have h1 := dim_quot_minimal_add_one (imageZ v P') Q s hsP hQ
+    rw [hP.2.2.2] at h1
+    have hQd : ringKrullDim (MRing ι ⧸ Q) = ((n + Fintype.card K : ℕ) : WithBot ℕ∞) :=
+      withBot_eq_of_add_one (by rw [h1, show n + 1 + Fintype.card K = n + Fintype.card K + 1 by omega])
+    have hdim := krullDim_quot_add_one_le hQW hxW hxQ
+    obtain ⟨D, hKD, hD⟩ := exists_dim_F p _ hVm
+    rw [← ringKrullDim_red p hpW, hD, hQd] at hdim
+    have hD' : D + 1 ≤ n + Fintype.card K := by exact_mod_cast hdim
+    have hVi : IsProjVarF (imageVar (ZMod p) v (W'.map (red p))) (D - Fintype.card K) := by
+      rw [imageVar_red p v hpW']
+      exact ⟨hVm, by rw [hD, Nat.sub_add_cancel hKD]⟩
+    rw [hgeo']
+    exact hPC (ZMod p) K ι K' ι' I' hI' κ v _ n (D - Fintype.card K) a hv hW'p hVi (by omega)
+
+end GroundTheory.Heights₂.Heights.Inter
+end
+end
+
+section
+
+set_option maxSynthPendingDepth 1
+
+noncomputable section
+
+namespace GroundTheory.Heights₂.Heights.Inter
+
+open MvPolynomial ReciprocityTheory.ChartRestriction.G.Geo ReciprocityTheory.ChartRestriction.G.AI.I1 ReciprocityTheory.ChartRestriction.G.AI.I4 PullbackElimination
+
+namespace CentreOverW
+
+variable {K : Type} [Fintype K] {ι : K → Type} [∀ k, Fintype (ι k)]
+  {K' : Type} [Fintype K'] {ι' : K' → Type} [∀ k, Fintype (ι' k)]
+
+
+omit [Fintype K] [∀ k, Fintype (ι k)] [Fintype K'] [∀ k, Fintype (ι' k)] in
+theorem imageZ_isRelevant {κ : K → K'} {v : (Σ k, ι k) → (Σ k', ι' k')} (hv : IsBlockMap κ v)
+    {y : Ideal (MRing ι')} (hy : IsRelevant y) : IsRelevant (imageZ v y) := by
+  intro k
+  obtain ⟨i', hi'⟩ := hy (κ k)
+  obtain ⟨⟨k0, i⟩, hp⟩ := hv.2.2.2 ⟨κ k, i'⟩ ⟨k, rfl⟩
+  have hk : k0 = k := hv.1 ((hv.2.2.1 ⟨k0, i⟩).symm.trans (congrArg Sigma.fst hp))
+  subst hk
+  refine ⟨i, fun h => hi' ?_⟩
+  have h' : rename v (X ⟨k0, i⟩ : MRing ι) ∈ y := h
+  rwa [rename_X, hp] at h'
+
+theorem imageZ_le {κ : K → K'} {v : (Σ k, ι k) → (Σ k', ι' k')} (hv : IsBlockMap κ v)
+    {P' : Ideal (MRing ι')} [P'.IsPrime] {W : Ideal (MRing ι)} (hQW : imageZ v P' ≤ W)
+    (R : ValuationSubring (FractionRing (MRing ι' ⧸ P')))
+    (hR : ∀ a ∈ locRing (imageZ v P') W, fracMapZ v P' a ∈ R) {y : Ideal (MRing ι')}
+    (hy : IsValCentre P' R y) : imageZ v y ≤ W := by
+  classical
+  obtain ⟨hyM, hP'y, hcen⟩ := hy
+  have := hyM.1
+  have := imageZ_isPrime_of_prime v P'
+  intro a ha
+  by_contra haW
+  obtain ⟨D, hDW⟩ : ∃ D : K' → ℕ, weightedHomogeneousComponent (pullWeight v) D a ∉ W := by
+    by_contra h
+    push Not at h
+    apply haW
+    rw [← sum_weightedHomogeneousComponent (w := pullWeight v) (φ := a),
+      finsum_eq_sum _ (weightedHomogeneousComponent_finsupp a)]
+    exact Ideal.sum_mem _ fun D _ => h D
+  set c := weightedHomogeneousComponent (pullWeight v) D a with hcdef
+  have hcy : rename v c ∈ y := by
+    rw [hcdef, rename_component]
+    exact LocRingPow.component_mem hyM.2.1 ha D
+  have hc : IsMultiHomog c (fun k => D (κ k)) :=
+    isMultiHomog_of_pullWeight hv (weightedHomogeneousComponent_isWeightedHomogeneous _ _)
+  obtain ⟨u, hu, huy⟩ := exists_form_notMem (imageZ_isRelevant hv hyM.2.2) (imageZ_isPrime_of_prime v y)
+    (fun k => D (κ k))
+  have hcQ : c ∉ imageZ v P' := fun h => hDW (hQW h)
+  have hcnz : Ideal.Quotient.mk (imageZ v P') c ∈ nonZeroDivisors (MRing ι ⧸ imageZ v P') :=
+    mem_nonZeroDivisors_of_ne_zero (by rwa [Ne, Ideal.Quotient.eq_zero_iff_mem])
+  have hmem := hR _ (Subring.subset_closure ⟨u, c, _, hcnz, hDW, hu, hc, rfl⟩)
+  rw [IsFractionRing.mk'_eq_div, map_div₀, fracMapZ_algebraMap, fracMapZ_algebraMap] at hmem
+  have h2 := ((hcen _ _ _ (rename_isMultiHomog hv hc) (rename_isMultiHomog hv hu) huy).2).mp hcy
+  have hne : ∀ g, g ∉ P' → algebraMap (MRing ι' ⧸ P') (FractionRing (MRing ι' ⧸ P'))
+      (Ideal.Quotient.mk P' g) ≠ 0 := fun g hg => by
+    rwa [Ne, IsFractionRing.to_map_eq_zero_iff, Ideal.Quotient.eq_zero_iff_mem]
+  have hc0 := hne (rename v c) (fun h => hcQ h)
+  have hu0 := hne (rename v u) (fun h => huy (hP'y h))
+  rw [ValuationSubring.mem_nonunits_iff] at h2
+  have h3 := (R.valuation_le_one_iff _).mpr hmem
+  have h4 := mul_lt_one_of_lt_of_le h2 h3
+  rw [← map_mul, div_mul_div_cancel₀ hu0, div_self hc0, map_one] at h4
+  exact lt_irrefl _ h4
+
+theorem eq_or_eq_of_mem_minimalPrimes {A : Type*} [CommRing A] [IsNoetherianRing A] {Q Y W : Ideal A}
+    [Q.IsPrime] [Y.IsPrime] {s : A} (hW : W ∈ (Q ⊔ Ideal.span {s}).minimalPrimes) (hQY : Q ≤ Y) (hYW : Y ≤ W) :
+    Y = Q ∨ Y = W := by
+  have := hW.1.1
+  have hQW : Q ≤ W := le_sup_left.trans hW.1.2
+  by_contra h
+  push Not at h
+  obtain ⟨h1, h2⟩ := h
+  have hH := Ideal.map_height_le_one_of_mem_minimalPrimes hW
+  have : (Y.map (Ideal.Quotient.mk Q)).IsPrime :=
+    Ideal.map_isPrime_of_surjective Ideal.Quotient.mk_surjective (Ideal.mk_ker.trans_le hQY)
+  have : (W.map (Ideal.Quotient.mk Q)).IsPrime :=
+    Ideal.map_isPrime_of_surjective Ideal.Quotient.mk_surjective (Ideal.mk_ker.trans_le hQW)
+  have : (⊥ : Ideal (A ⧸ Q)).IsPrime := Ideal.isPrime_bot
+  have hb : (⊥ : Ideal (A ⧸ Q)) < Y.map (Ideal.Quotient.mk Q) := by
+    refine bot_lt_iff_ne_bot.mpr fun e => h1 ?_
+    rw [← Ideal.comap_map_mk hQY, e, ← RingHom.ker_eq_comap_bot, Ideal.mk_ker]
+  have hYW' : Y.map (Ideal.Quotient.mk Q) < W.map (Ideal.Quotient.mk Q) := by
+    refine lt_of_le_of_ne (Ideal.map_mono hYW) fun e => h2 ?_
+    rw [← Ideal.comap_map_mk hQY, e, Ideal.comap_map_mk hQW]
+  have e1 := Ideal.height_add_one_le_of_lt_of_isPrime hb
+  have e2 := (Ideal.height_add_one_le_of_lt_of_isPrime hYW').trans hH
+  have e3 : (1 : ℕ∞) + 1 ≤ 1 := (add_le_add (le_add_self.trans e1) le_rfl).trans e2
+  exact absurd e3 (by decide)
+
+theorem eq_of_imageZ_eq {κ : K → K'} {v : (Σ k, ι k) → (Σ k', ι' k')} (hv : IsBlockMap κ v)
+    {P' : Ideal (MRing ι')} {n : ℕ} (hP' : IsArithVar P' (n + 1)) (hQ : IsArithVar (imageZ v P') (n + 1))
+    {y : Ideal (MRing ι')} (hy : IsMultiProjPrime y) (hPy : P' ≤ y) (h : imageZ v y = imageZ v P') : y = P' := by
+  classical
+  have := hy.1
+  by_contra hne
+  obtain ⟨f, hfy, hfP⟩ := SetLike.exists_of_lt (lt_of_le_of_ne hPy (Ne.symm hne))
+  obtain ⟨D, hD⟩ := LocRingPow.exists_component_not_mem hfP
+  set g := weightedHomogeneousComponent (LocRingPow.multiDegWeight ι') D f
+  have hgy : g ∈ y := LocRingPow.component_mem hy.2.1 hfy D
+  have hg : IsMultiHomog g D :=
+    LocRingPow.isMultiHomog_iff.mpr (weightedHomogeneousComponent_isWeightedHomogeneous _ _)
+  choose c hc using hy.2.2
+  obtain ⟨r, a, ha0, hsum⟩ := exists_elim hv hP' hQ hg hD c (fun k' h => hc k' (hPy h))
+  have hT : (∏ k', (X ⟨k', c k'⟩ : MRing ι') ^ D k') ^ r ∉ y := by
+    intro hm
+    obtain ⟨k', -, hk⟩ := hy.1.prod_mem_iff.mp (hy.1.mem_of_pow_mem _ hm)
+    exact hc k' (hy.1.mem_of_pow_mem _ hk)
+  have hsum' := hPy hsum
+  rw [Finset.sum_range_succ'] at hsum'
+  have hrest : ∑ i ∈ Finset.range r, rename v (a (i + 1)) *
+      (g ^ (i + 1) * (∏ k', (X ⟨k', c k'⟩ : MRing ι') ^ D k') ^ (r - (i + 1))) ∈ y :=
+    Ideal.sum_mem _ fun i _ => Ideal.mul_mem_left _ _
+      (Ideal.mul_mem_right _ _ (y.pow_mem_of_mem hgy _ (Nat.succ_pos i)))
+  have h0 := (Ideal.add_mem_iff_right _ hrest).mp hsum'
+  rw [pow_zero, one_mul, Nat.sub_zero] at h0
+  have ha : a 0 ∈ imageZ v y := (hy.1.mem_or_mem h0).resolve_right hT
+  rw [h] at ha
+  exact ha0 ha
+
+end CentreOverW
+
+def CentreOverW.Statement : Prop :=
+  ∀ (K : Type) [Fintype K] (ι : K → Type) [∀ k, Fintype (ι k)]
+    (K' : Type) [Fintype K'] (ι' : K' → Type) [∀ k, Fintype (ι' k)]
+    (κ : K → K') (v : (Σ k, ι k) → (Σ k', ι' k')) (P' : Ideal (MRing ι')) (n : ℕ) (s : MRing ι) (α : K → ℕ)
+    (W : Ideal (MRing ι)) (_hv : IsBlockMap κ v) (hP' : IsArithVar P' (n + 1)),
+    IsArithVar (imageZ v P') (n + 1) → IsMultiHomog s α → s ∉ imageZ v P' → W ∈ divSupp (imageZ v P') s →
+    haveI := hP'.2.1.1
+    ∀ R : ValuationSubring (FractionRing (MRing ι' ⧸ P')),
+      (∀ a ∈ locRing (imageZ v P') W, fracMapZ v P' a ∈ R) →
+      ∀ y : Ideal (MRing ι'), IsValCentre P' R y → y = P' ∨ y ∈ fibreOver v P' W
+
+theorem CentreOverW.proof : CentreOverW.Statement := by
+  intro K _ ι _ K' _ ι' _ κ v P' n s α W hv hP' hQ _ _ hW
+  have := hP'.2.1.1
+  intro R hR y hy
+  have hQW : imageZ v P' ≤ W := le_sup_left.trans hW.1.1.2
+  have hYW := CentreOverW.imageZ_le hv hQW R hR hy
+  have := hy.1.1
+  have := imageZ_isPrime_of_prime v P'
+  have := imageZ_isPrime_of_prime v y
+  rcases CentreOverW.eq_or_eq_of_mem_minimalPrimes hW.1 (Ideal.comap_mono hy.2.1) hYW with h | h
+  · exact Or.inl (CentreOverW.eq_of_imageZ_eq hv hP' hQ hy.1 hy.2.1 h)
+  · exact Or.inr ⟨hy.1, hy.2.1, h⟩
+
+end GroundTheory.Heights₂.Heights.Inter
+end
+end
+
+section
+
+set_option maxSynthPendingDepth 1
+
+noncomputable section
+
+namespace GroundTheory.Heights₂.Heights.Inter
+
+open MvPolynomial ReciprocityTheory.ChartRestriction.G.Geo ReciprocityTheory.ChartRestriction.G.AI.I1 ReciprocityTheory.ChartRestriction.G.AI.I4 PointVertical
+
+theorem SemilocResidueFibreDim.proof (hFD : FibreDivSupp.Statement) (hDim : FibreDimStatement)
+    (hAI : FibreDimensionZero.Statement) : SemilocResidueFibreDim.Statement := by
+  intro K _ ι _ K' _ ι' _ κ v P' n s α W hv hP' hZ hs hsP hW W' hW' G'
+  classical
+  have hsW : s ∈ W := hW.1.1.2 (Ideal.mem_sup_right (Ideal.mem_span_singleton_self s))
+  have hsW' : rename v s ∈ W' := by
+    have h : s ∈ imageZ v W' := hW'.2.2 ▸ hsW
+    exact h
+  have hD' : W' ∈ divSupp P' (rename v s) := ((hFD K ι K' ι' κ v P' n s α W hv hP' hZ hs hsP hW W').1 ⟨hW', hsW'⟩).1
+  have hsec' : IsSectionOn P' (HermLine.sqMetric (ι := ι') (Function.extend κ α 0)) (rename v s) :=
+    ⟨Function.extend κ α 0, fun _ => rfl, isMultiHomog_rename hv hs, hsP⟩
+  have hsec : IsSectionOn (imageZ v P') (HermLine.sqMetric (ι := ι) α) s := ⟨α, fun _ => rfl, hs, hsP⟩
+  have divSuppArith : DivSuppArithStatement := by
+    intro K _ ι _ P n A s W hP hs hW
+    obtain ⟨hK, ⟨hPp, hPh, -⟩, -, hPdim⟩ := hP
+    obtain ⟨a, -, hsa, hsP⟩ := hs
+    obtain ⟨hWmin, hWrel⟩ := hW
+    have hWp : W.IsPrime := hWmin.1.1
+    have hWmh : IsMultiHomogIdeal W := isMultiHomogIdeal_of_mem_minimalPrimes hPh hsa hWmin
+    have := hPp
+    have h1 := dim_quot_minimal_add_one P W s hsP hWmin
+    rw [hPdim] at h1
+    have hdim : ringKrullDim (MRing ι ⧸ W) = ((n + Fintype.card K : ℕ) : WithBot ℕ∞) :=
+      withBot_eq_of_add_one (by rw [h1, show n + 1 + Fintype.card K = n + Fintype.card K + 1 by omega])
+    exact ⟨fun hh => ⟨hK, ⟨hWp, hWmh, hWrel⟩, hh, hdim⟩,
+      fun hv => ⟨⟨hWp, hWmh, hWrel⟩, charOf_prime hWp hv, hdim⟩⟩
+  have hA' := divSuppArith K' ι' P' n _ _ W' hP' hsec' hD'
+  have hA := divSuppArith K ι (imageZ v P') n _ _ W hZ hsec hW
+  have hdW : ringKrullDim (MRing ι ⧸ W) = ((n + Fintype.card K : ℕ) : WithBot ℕ∞) := by
+    by_cases hh : IsHorizontal W
+    · exact (hA.1 hh).2.2.2
+    · exact (hA.2 hh).2.2
+  by_cases hh' : IsHorizontal W'
+  · have hh : IsHorizontal W := by
+      unfold IsHorizontal at hh' ⊢
+      rw [← hh', ← hW'.2.2]
+      ext z
+      simp [imageZ, Ideal.mem_comap]
+    have hW'a : IsArithVar W' (n + 0) := hA'.1 hh'
+    have hWa : IsArithVar (imageZ v W') n := hW'.2.2 ▸ hA.1 hh
+    exact hDim K ι K' ι' κ v W' n 0 G' hv hW'a hWa
+  · obtain ⟨hW'm, hpr, hdW'⟩ := hA'.2 hh'
+    set p := charOf W' with hpdef
+    have : Fact p.Prime := ⟨hpr⟩
+    have hpW' : ((p : ℕ) : MRing ι') ∈ W' := ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.natCast_mem_of_charOf W'
+    have hpW : ((p : ℕ) : MRing ι) ∈ W := by
+      rw [← hW'.2.2]
+      show rename v ((p : ℕ) : MRing ι) ∈ W'
+      simpa using hpW'
+    have hWm : IsMultiProjPrime W := hW'.2.2 ▸ isMultiProjPrime_imageZ hv hW'm
+    have hWp : IsProjVarF (W'.map (red p)) n :=
+      ⟨isMultiProjPrime_red p hW'm hpW', by rw [ringKrullDim_red p hpW', hdW']⟩
+    have hVi : IsProjVarF (imageVar (ZMod p) v (W'.map (red p))) n := by
+      rw [imageVar_red p v hpW', hW'.2.2]
+      exact ⟨isMultiProjPrime_red p hWm hpW, by rw [ringKrullDim_red p hpW, hdW]⟩
+    exact hAI K ι K' ι' κ v p W' n hv hpW' hWp hVi G'
+
+end GroundTheory.Heights₂.Heights.Inter
+end
+end

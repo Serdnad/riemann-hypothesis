@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Partners
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.FrameLats
-public import Formalism.FormalDegreeBessel.StatementBF
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle002
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle001
+public import Formalism.FormalDegreeBessel.Bundle001
 public import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.GenusMassVolumes
 import Mathlib.Algebra.AffineMonoid.Basic
 import Mathlib.Algebra.Order.Floor.Extended
@@ -52,7 +52,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Formalism.SharpRestriction.CuspSpanNormBounds.Point
+import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle001
 
 @[expose] public section
 

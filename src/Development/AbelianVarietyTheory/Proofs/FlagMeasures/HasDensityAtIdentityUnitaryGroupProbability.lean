@@ -1,13 +1,13 @@
 module
 
-public import Formalism.PeriodIntegrals.QuotInv
+public import Formalism.PeriodIntegrals.Bundle004
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.UpperOff
 public import Mathlib.Analysis.SpecialFunctions.Complex.Circle
 public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.IntegralConjInnerMulInnerOfIsEmptyEquiv
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsUniqueHaarDensityAtIdentityStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HaarUnitaryLastDiagonalEntryLawStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HaarVolumeThinTubeUnitaryProductAsymptoticStatement
-import Development.AbelianVarietyTheory.Proofs.JetHarmonics.MatGroupHaarUniqueFiniteCompactOpenPos
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle302
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle151
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle343
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle047
 import Mathlib.Algebra.Order.Archimedean.Real.Hom
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

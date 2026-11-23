@@ -1,7 +1,7 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsPullFSExtension
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsProjFrameBasePtFree
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle027
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle024
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.ArithModel
 public import Mathlib.Analysis.SpecialFunctions.SmoothTransition
 import Mathlib.Algebra.Order.Floor.Extended
@@ -51,7 +51,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 public import Mathlib.Topology.Algebra.MvPolynomial
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.CNormSt
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.Bundle007
 
 @[expose] public section
 

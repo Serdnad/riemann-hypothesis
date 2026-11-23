@@ -1,8 +1,8 @@
 module
 
-public import Formalism.HermitianLattices.StatementMass
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.UnimodularGenus.Development
-public import Formalism.HermitianLattices.HermitianLatticesProofs.LocDual
+public import Formalism.HermitianLattices.Bundle003
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.UnimodularGenus.Bundle001
+public import Formalism.HermitianLattices.HermitianLatticesProofs.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

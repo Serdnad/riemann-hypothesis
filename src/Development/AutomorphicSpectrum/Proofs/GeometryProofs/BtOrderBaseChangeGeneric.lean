@@ -1,13 +1,13 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.TranslateMemIndOrder
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ExistsUnitFormLocalizationEtaleNbhd
+public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.Bundle001
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle001
 public import Mathlib.RingTheory.IntegralClosure.IntegrallyClosed
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.HopfOrderScalarExtensionStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.BtOrderEmbeddingOpenImmersionStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.BtOrderEqOfHopfEmbeddingStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.BtOrderIsHopfOrderNoetherianStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsUniqueBtOrderEmbeddingStatement
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle048
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle170
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle092
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle146
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle073
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

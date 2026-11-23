@@ -1,7 +1,7 @@
 module
 
 public import Formalism.SharpRestriction.AdmissibleParameterJoins.SumLogPrimeFactorsLe
-public import Formalism.SharpRestriction.LevelLetterCocycles.TwGood
+public import Formalism.SharpRestriction.LevelLetterCocycles.Bundle016
 public import Formalism.SharpRestriction.ParamsHeightRankConstant
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

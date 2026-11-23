@@ -1,9 +1,9 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.HilbertNinetyQuotientHomEqIff
-public import GroundTheory.GlobalFields.Adele.Approximation
+public import GroundTheory.GlobalFields.Adele.Bundle002
 public import GroundTheory.AutomorphicForms.GL2.GJMatrixInfinite
-public import GroundTheory.GlobalFields.TateThesis.AdelePoissonUniform
+public import GroundTheory.GlobalFields.TateThesis.Bundle009
 import Mathlib.Algebra.Module.ZLattice.Summable
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -50,8 +50,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import GroundTheory.GlobalFields.Adele.Compact
-public import GroundTheory.GlobalFields.Adele.Discrete
+public import GroundTheory.GlobalFields.Adele.Bundle003
 public import Mathlib.Analysis.Calculus.BumpFunction.Basic
 
 @[expose] public section

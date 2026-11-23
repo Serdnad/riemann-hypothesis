@@ -1,9 +1,9 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.CupProducts.Pairing
+public import GroundTheory.ProfiniteCohomology.CupProducts.Bundle002
 public import GroundTheory.ProfiniteCohomology.ContinuousCochains.LongExactSequence
 import GroundTheory.ProfiniteCohomology.CupProducts.Cocycles
-public import GroundTheory.ProfiniteCohomology.CupProducts.ExistsCocycleMapFEqD
+public import GroundTheory.ProfiniteCohomology.CupProducts.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

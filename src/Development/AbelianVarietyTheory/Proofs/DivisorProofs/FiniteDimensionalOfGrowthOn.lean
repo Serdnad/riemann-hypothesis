@@ -1,8 +1,8 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.Multiplier
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ConeDegreeGrowthChowFormIntegralityStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SecZEqZeroOfGenVal
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2180
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2115
 import Development.AbelianVarietyTheory.Proofs.GenericRegularity.GenFrExAndGenFromTest
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -169,10 +169,10 @@ theorem finiteDimensional_of_growthOn {Z : Comp Xo c} {G : WTZ E} (hG : Even G.2
   rw [top_le_iff, Cardinal.toENat_eq_top]
   exact hr.trans h1
 
-theorem topDeg_nonneg (Z : Comp Xo c) {u : Weight Dw} (hu : ∀ τ, StrictAnti (u τ)) : 0 ≤ topDeg U Z u :=
+theorem topDeg_nonneg (Z : Comp Xo c) {u : _root_.GlobalTheory.AllWt.Weight Dw} (hu : ∀ τ, StrictAnti (u τ)) : 0 ≤ topDeg U Z u :=
   mul_nonneg (vZero_nonneg U Z) (Int.cast_pos.2 (vdm_pos hu)).le
 
-theorem growth_mul_eq (hP : Proport U) (Z : Comp Xo c) {u : Weight Dw} (hu : ∀ τ, StrictAnti (u τ)) {a : ℕ}
+theorem growth_mul_eq (hP : Proport U) (Z : Comp Xo c) {u : _root_.GlobalTheory.AllWt.Weight Dw} (hu : ∀ τ, StrictAnti (u τ)) {a : ℕ}
     (ha : 1 ≤ a) : growth (dimFlag Dw) (fun k => Cardinal.toENat (Module.rank c.F (cuspOn U Z ((a * k) • wtOf Dw u 0)))) =
       ENNReal.ofReal ((a : ℝ) ^ dimFlag Dw * topDeg U Z u) := by
   have h1 : ∀ τ, StrictAnti ((a • u) τ) := fun τ i j hij => by
@@ -187,16 +187,16 @@ theorem growth_mul_eq (hP : Proport U) (Z : Comp Xo c) {u : Weight Dw} (hu : ∀
   rw [← h4, ← h2, growthOn, h3]
   exact congrArg _ (funext fun k => by rw [mul_nsmul])
 
-theorem finiteDimensional_cuspOn (hP : Proport U) (Z : Comp Xo c) {u : Weight Dw} (hu : ∀ τ, StrictAnti (u τ)) :
+theorem finiteDimensional_cuspOn (hP : Proport U) (Z : Comp Xo c) {u : _root_.GlobalTheory.AllWt.Weight Dw} (hu : ∀ τ, StrictAnti (u τ)) :
     FiniteDimensional c.F (cuspOn U Z (wtOf Dw u 0)) :=
   finiteDimensional_of_growthOn (even_wtOf u 0) (by rw [hP Z u hu]; exact ENNReal.ofReal_ne_top)
 
-theorem growth_hilb_le (hP : Proport U) (Z : Comp Xo c) {u : Weight Dw} (hu : ∀ τ, StrictAnti (u τ)) {a : ℕ}
+theorem growth_hilb_le (hP : Proport U) (Z : Comp Xo c) {u : _root_.GlobalTheory.AllWt.Weight Dw} (hu : ∀ τ, StrictAnti (u τ)) {a : ℕ}
     (ha : 1 ≤ a) : growth (dimFlag Dw) (fun k => hilb (genPoint Z (cuspOn U Z (wtOf Dw u 0))) (a * k)) ≤
       ENNReal.ofReal ((a : ℝ) ^ dimFlag Dw * topDeg U Z u) :=
   (growth_mono _ fun _ hk => hilb_le (even_wtOf u 0) (Nat.mul_pos ha hk)).trans_eq (growth_mul_eq hP Z hu ha)
 
-theorem compDeg_le (hP : Proport U) (Z : Comp Xo c) {u : Weight Dw} (hu : ∀ τ, StrictAnti (u τ)) :
+theorem compDeg_le (hP : Proport U) (Z : Comp Xo c) {u : _root_.GlobalTheory.AllWt.Weight Dw} (hu : ∀ τ, StrictAnti (u τ)) :
     (compDeg U Z (wtOf Dw u 0) : ℝ) ≤ topDeg U Z u := by
   rcases (compDeg U Z (wtOf Dw u 0)).eq_zero_or_pos with h0 | h0
   · rw [h0, Nat.cast_zero]; exact topDeg_nonneg Z hu

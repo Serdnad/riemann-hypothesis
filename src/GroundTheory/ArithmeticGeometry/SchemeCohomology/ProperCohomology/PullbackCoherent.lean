@@ -1,7 +1,7 @@
 module
 
-public import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProjectiveCohomology.TwistingSheaf
-public import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProperCohomology.Support
+public import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProjectiveCohomology.Bundle001
+public import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProperCohomology.Bundle006
 public import Mathlib.AlgebraicGeometry.IdealSheaf.Subscheme
 public import GroundTheory.ArithmeticGeometry.EtaleCompletion.PullbackAffine
 public import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProperCohomology.Annihilator
@@ -46,7 +46,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
-public import GroundTheory.ArithmeticGeometry.EtaleCompletion.ModulesPullback
+public import GroundTheory.ArithmeticGeometry.EtaleCompletion.Bundle001
 
 @[expose] public section
 

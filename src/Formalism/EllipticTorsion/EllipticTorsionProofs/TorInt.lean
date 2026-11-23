@@ -1,7 +1,7 @@
 module
 
-import Formalism.EllipticTorsion.EllipticTorsionProofs.FormalGroupPointsSubgroupHolds
-public import Formalism.EllipticTorsion.FormalGroupPointsTorsionFree
+import Formalism.EllipticTorsion.EllipticTorsionProofs.Bundle004
+public import Formalism.EllipticTorsion.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -5,11 +5,11 @@ public import Development.AbelianVarietyTheory.Definitions.KeyFormula.KeyRuleOne
 public import Mathlib.Analysis.SpecialFunctions.Elliptic.Weierstrass
 public import Development.AbelianVarietyTheory.Definitions.AbelianSchemeLaws.ExistsUniqueEqConstMulEllTheta
 public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.ExistsConstOfSqMulTendstoZero
-public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.ExistsPeriodPairOfLatticeInLine
+public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle001
 public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.ExistsWeierstrassCoordinatesOnLine
-public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.ExistsVariableChangeEqLatticeCurve
+public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.Bundle002
 public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.DifferentiableAtDerivAtZero
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.ExistsKeyInIsoElliptic
+public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle008
 import Development.AbelianVarietyTheory.Proofs.ToricGeometry.TopLePreimageOfValAtNeZero
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -49,7 +49,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Development.AbelianVarietyTheory.Definitions.AbelianSchemeLaws.FirstCohomologyVanishesSpecOfIsLocalRing
-import Development.AbelianVarietyTheory.Definitions.KeyFormula.KaRuleK
+import Development.AbelianVarietyTheory.Definitions.KeyFormula.Bundle002
 
 @[expose] public section
 

@@ -1,8 +1,8 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.MeanDefs
-public import Formalism.PolynomialDimension.DigitClassCount
-public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.SgSegUnique
+public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.Bundle003
+public import Formalism.PolynomialDimension.Bundle002
+public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.Bundle010
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

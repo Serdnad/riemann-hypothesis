@@ -2,15 +2,15 @@ module
 
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ColFlags
 public import Mathlib.RingTheory.RegularLocalRing.Defs
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsChartOfLineBundle
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsVBOnDualAndBidual
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LatRestrictComapSpan
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle004
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle031
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle030
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.StalkSpecializesBijective
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.DetFacGMatEqOne
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ExistsLocalTwistTrivializationStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ExistsReversedTriangularFrameChangeStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ExistsTriangularRegularFrameChangeStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.HodgeCptBasesLinearIndependentSpan
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle125
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle120
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle006
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle133
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle127
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

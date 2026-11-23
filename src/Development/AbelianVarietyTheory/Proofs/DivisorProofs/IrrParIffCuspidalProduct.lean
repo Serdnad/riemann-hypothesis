@@ -1,8 +1,7 @@
 module
 
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FiniteDimensionalOfIrr
-public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.BlockProductIsomorphism
-public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.BlockEmbeddingFactors
+public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.Bundle009
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

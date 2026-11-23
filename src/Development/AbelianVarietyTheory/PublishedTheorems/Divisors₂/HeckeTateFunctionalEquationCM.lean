@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.CompletedLStripBounds
-public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.LocalDualIndex
+public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.Bundle007
+public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.Bundle004
 public import Mathlib.NumberTheory.NumberField.CMField
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsIsHeckeLOfHasInf
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.DualLatticeDifferentIndex
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExistsUniqueIsStandardAdeleCharUnramifiedCMBase
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle130
 import Mathlib.Algebra.AffineMonoid.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

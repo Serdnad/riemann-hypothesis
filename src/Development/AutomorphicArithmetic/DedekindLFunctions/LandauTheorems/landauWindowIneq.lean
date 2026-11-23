@@ -3,7 +3,7 @@ module
 public import Mathlib.MeasureTheory.Integral.Bochner.Basic
 public import Mathlib.MeasureTheory.Integral.IntegrableOn
 public import Mathlib.MeasureTheory.Measure.Haar.OfBasis
-public import Development.AutomorphicArithmetic.DedekindLFunctions.LandauTheorems.LandauKernelMax
+public import Development.AutomorphicArithmetic.DedekindLFunctions.LandauTheorems.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

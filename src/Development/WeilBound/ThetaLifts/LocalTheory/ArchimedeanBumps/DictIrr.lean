@@ -3,7 +3,7 @@ module
 public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Mathlib.Analysis.Distribution.SchwartzSpace.Basic
 public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.ThetaDistributionNonzeroAdmissible
-public import Development.WeilBound.ThetaLifts.LocalTheory.ArchimedeanBumps.ExistsDensity
+public import Development.WeilBound.ThetaLifts.LocalTheory.ArchimedeanBumps.Bundle001
 public import Development.WeilBound.ThetaLifts.SchwartzMoments.DenseC
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

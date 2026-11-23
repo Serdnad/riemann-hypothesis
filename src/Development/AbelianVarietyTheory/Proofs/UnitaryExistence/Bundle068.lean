@@ -1,0 +1,147 @@
+module
+
+public import Development.AbelianVarietyTheory.Definitions.ExistenceOfLattices.NormConst
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.Bundle005
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle011
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.GlobalSectionsRankAlgClosed
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle034
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle066
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle050
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle025
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.WittVector.IsPoly
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.Polynomial.Basic
+import Mathlib.Tactic.ReduceModChar
+public import Development.AbelianVarietyTheory.Definitions.ExistenceOfLattices.UnivFrame
+
+@[expose] public section
+
+section
+
+open NumberField ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Geo.Tor ReciprocityTheory.ChartRestriction.G.FD Formalism.L2.Pj Formalism.L2.PjFree
+open AlgebraicGeometry CategoryTheory Limits ReciprocityTheory.ChartRestriction.G.Semi GlobalTheory.Frames GlobalTheory.FrameUnif
+open scoped Matrix nonZeroDivisors
+
+theorem _root_.GlobalTheory.T.exists_normalisedFramedPoint_on_each_component : Out.SecTwistSt → ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E) (Dw : Datum H) (l : Level H) (Xo : Moduli Dw l) (c : Coeff l) (σ : c.F →+* ℂ) (g : ℕ) (e : Fin g ≃ Σ τ : E →+* ℂ, Fin (Dw.mult τ)) (F : FamilyUnif Xo (σ.comp (IntermediateField.inclusion c.le).toRingHom) (fun j => _root_.Formalism.L2.PjFree.relab c σ (e j).1)) (r : ℕ) (M : ModelsOf F r) (k : Fin F.n) (T : ThetaData e F M k), ∃ un, IsNormUn T un := by
+  first | exact @GlobalTheory.FrameUnif.exists_isNormUn | exact GlobalTheory.FrameUnif.exists_isNormUn | (intros; apply GlobalTheory.FrameUnif.exists_isNormUn <;> assumption)
+end
+
+section
+
+open AlgebraicGeometry CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj NumberField
+open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Geo.Tor Formalism.L2.Pj GlobalTheory.Frames
+
+namespace GlobalTheory.Frames.FramedBaseChange
+
+variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E} {Dw : Datum H} {l : Level H}
+  {Xo : Moduli Dw l} {c : Coeff l}
+
+theorem spMap_comp_spMap {R R' R'' : Type} [CommRing R] [CommRing R'] [CommRing R''] (f : R' →+* R'')
+    (g : R →+* R') : spMap f ≫ spMap g = spMap (f.comp g) := by
+  unfold spMap
+  rw [← Spec.map_comp]
+  rfl
+
+theorem dualMap_comp_alg {S T : Type} [CommRing S] [CommRing T] (ψ : S →+* T) :
+    (dualMap ψ).comp (algebraMap S (DualNumber S)) = (algebraMap T (DualNumber T)).comp ψ := by
+  ext s <;> simp [dualMap, TrivSqZeroExt.algebraMap_eq_inl]
+
+theorem fst_comp_dualMap {S T : Type} [CommRing S] [CommRing T] (ψ : S →+* T) :
+    (TrivSqZeroExt.fstHom T T T).toRingHom.comp (dualMap ψ) = ψ.comp (TrivSqZeroExt.fstHom S S S).toRingHom := by
+  ext s <;> simp [dualMap, TrivSqZeroExt.algebraMap_eq_inl]
+
+theorem dualMap_comp_epsMul {S T : Type} [CommRing S] [CommRing T] (ψ : S →+* T) (a : S) :
+    (dualMap ψ).comp (epsMul a) = (epsMul (ψ a)).comp (dualMap ψ) := by
+  ext s <;> simp [dualMap, epsMul, TrivSqZeroExt.algebraMap_eq_inl]
+
+theorem tan_bc {S T : Type} [CommRing S] [CommRing T] (ψ : S →+* T) {x : Sp S ⟶ Xo.X}
+    {v : Sp (DualNumber S) ⟶ Xo.univ.t.G.left} (hv : IsTanAt x v) :
+    IsTanAt (spMap ψ ≫ x) (spMap (dualMap ψ) ≫ v) := by
+  obtain ⟨h1, h2⟩ := hv
+  refine ⟨?_, ?_⟩
+  · rw [Category.assoc, h1, ← Category.assoc, spMap_comp_spMap, dualMap_comp_alg, ← spMap_comp_spMap,
+      Category.assoc]
+  · rw [← Category.assoc, spMap_comp_spMap, fst_comp_dualMap, ← spMap_comp_spMap, Category.assoc, h2]
+    have e : (Over.homMk (spMap ψ) rfl : Over.mk (spMap ψ ≫ x) ⟶ Over.mk x) ≫ (1 : Over.mk x ⟶ Xo.univ.t.G) = 1 := by
+      simp [Hom.one_def]
+    rw [← e, Over.comp_left]
+    rfl
+
+theorem eig_bc {S T : Type} [CommRing S] [Algebra c.F S] [CommRing T] [Algebra c.F T] (ψ : S →ₐ[c.F] T)
+    (τ : E →+* ℂ) {v : Sp (DualNumber S) ⟶ Xo.univ.t.G.left} (hv : IsEigAt c τ v) :
+    IsEigAt c τ (spMap (dualMap ψ.toRingHom) ≫ v) := by
+  intro a
+  rw [Category.assoc, hv a, ← Category.assoc, spMap_comp_spMap, dualMap_comp_epsMul, ← spMap_comp_spMap,
+    Category.assoc]
+  congr 3
+  exact ψ.commutes _
+
+theorem exists_frMap : Out.SecBaseChangeSt → ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Host E) (Dw : Datum H) (l : Level H) (Xo : Moduli Dw l) (c : Coeff l) (S : Type) [CommRing S] [Algebra c.F S] (T : Type) [CommRing T] [Algebra c.F T] (φ : S →ₐ[c.F] T) (y : FrPt Xo c S), ∃ z : FrPt Xo c T, FrMap φ y z := by
+  intro hB E _ _ _ H Dw l Xo c S _ _ T _ _ φ y
+  obtain ⟨s', hs', -⟩ := GlobalTheory.T.existsUnique_scaledBaseChange_fibreSection E H Dw l Xo S T φ.toRingHom 1 y.x (spMap φ.toRingHom ≫ y.x) rfl y.s
+  have hnz : SecNZ y.x y.s := GlobalTheory.T.fibreSectionNowhereZero_of_generates hB E H Dw l Xo S y.x y.s y.gen
+  have hnz' : SecNZ (spMap φ.toRingHom ≫ y.x) s' := fun p' =>
+    (GlobalTheory.Frames.secBC_nonvanishing_iff E H Dw l Xo S T φ.toRingHom y.x _ rfl y.s s' hs' p').2 (hnz _)
+  have hgen : SecGen (spMap φ.toRingHom ≫ y.x) s' := GlobalTheory.T.fibreSectionGenerates_of_nowhereZero hB E H Dw l Xo T _ s' hnz'
+  refine ⟨{ x := spMap φ.toRingHom ≫ y.x
+            x_over := ?_
+            u := fun τ i => spMap (dualMap φ.toRingHom) ≫ y.u τ i
+            tan := fun τ i => tan_bc φ.toRingHom (y.tan τ i)
+            eig := fun τ i => eig_bc φ τ (y.eig τ i)
+            basis := fun τ w hw he => GlobalTheory.T.framedPoint_eigenbasis_baseChange E H Dw l Xo c S T φ y τ w hw he
+            s := s'
+            gen := hgen }, rfl, fun _ _ => rfl, ?_⟩
+  · rw [Category.assoc, y.x_over]
+    unfold sOf
+    rw [spMap_comp_spMap, ← RingHom.comp_assoc]
+    congr 2
+    ext r
+    simp
+  · obtain ⟨pm, h1, h2, h3⟩ := hs'
+    refine ⟨pm, h1, h2, fun i h => ?_⟩
+    have h4 := h3 i h
+    have h5 : scal y.x (1 : S) i = 1 := by
+      unfold scal
+      rw [map_one]
+      simp [Out.liftFun]
+    rw [h5, _root_.one_mul] at h4
+    exact h4
+
+end GlobalTheory.Frames.FramedBaseChange
+end

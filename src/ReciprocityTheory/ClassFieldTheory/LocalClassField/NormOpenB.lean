@@ -51,9 +51,9 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Connected.Separation
 import Mathlib.Topology.MetricSpace.Ultra.TotallySeparated
-import ReciprocityTheory.ClassFieldTheory.LocalClassField.ValUnitsA
-public import ReciprocityTheory.ClassFieldTheory.LocalClassField.ValUnitsB
-public import ReciprocityTheory.ClassFieldTheory.LocalClassField.ValUnitsC
+import ReciprocityTheory.ClassFieldTheory.LocalClassField.Bundle008
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.Bundle009
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.Bundle013
 
 @[expose] public section
 

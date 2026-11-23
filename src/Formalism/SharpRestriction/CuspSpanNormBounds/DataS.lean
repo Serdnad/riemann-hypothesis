@@ -1,8 +1,7 @@
 module
 
 public import Formalism.LocalRingCardinality.Params
-public import Formalism.SharpRestriction.CuspSpanNormBounds.PsiEDef
-public import Formalism.SharpRestriction.CuspSpanNormBounds.Point
+public import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

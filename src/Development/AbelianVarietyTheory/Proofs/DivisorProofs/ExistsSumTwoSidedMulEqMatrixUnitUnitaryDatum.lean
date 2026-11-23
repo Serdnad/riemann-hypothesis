@@ -53,8 +53,8 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsRootSelectionUnitaryRankOne
-import Development.AbelianVarietyTheory.Definitions.Divisors.TwOrbMEqTwOrbUOfNormal
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsIntBTmulBasis
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle040
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle112
 
 @[expose] public section
 

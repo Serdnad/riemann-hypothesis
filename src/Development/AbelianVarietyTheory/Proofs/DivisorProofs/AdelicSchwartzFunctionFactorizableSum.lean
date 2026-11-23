@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ConjLinApply
-public import GroundTheory.GlobalFields.Adele.Approximation
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SchwartzBruhatInvariantUnderIntegralLattice
-public import GroundTheory.GlobalFields.LocalAtPlace
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1290
+public import GroundTheory.GlobalFields.Adele.Bundle002
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1451
+public import GroundTheory.GlobalFields.Bundle001
 public import GroundTheory.GlobalFields.TateThesis.AdelicCharDual
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

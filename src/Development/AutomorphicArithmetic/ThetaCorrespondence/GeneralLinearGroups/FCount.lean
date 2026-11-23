@@ -46,7 +46,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 import Development.AutomorphicArithmetic.ThetaCorrespondence.GeneralLinearGroups.CasselmanSuffTemp
-import Development.AutomorphicArithmetic.ThetaCorrespondence.GeneralLinearGroups.FirstIn
+import Development.AutomorphicArithmetic.ThetaCorrespondence.GeneralLinearGroups.Bundle001
 
 @[expose] public section
 

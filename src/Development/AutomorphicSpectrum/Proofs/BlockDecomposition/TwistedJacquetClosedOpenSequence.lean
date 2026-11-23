@@ -1,11 +1,10 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.AvgVanish
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ProjectionToTwistedEigenfunctionSupport
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.BijectiveIntertwinerSubrepEquiv
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle317
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle318
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle328
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsFiniteSupport
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsSmoothSmInd
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SurjectiveIntertwinerQuotientEquiv
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle122
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

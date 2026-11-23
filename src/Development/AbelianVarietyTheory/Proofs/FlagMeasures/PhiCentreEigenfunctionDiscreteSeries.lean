@@ -1,8 +1,8 @@
 module
 
 public import Development.AbelianVarietyTheory.Statements.CuspFrameWeights.DiscreteSpectrumKFiniteDecomposition
-public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.TrPowSumFilterZero
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ProdPartialZpow
+public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.Bundle003
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle126
 public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.HWDiag
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

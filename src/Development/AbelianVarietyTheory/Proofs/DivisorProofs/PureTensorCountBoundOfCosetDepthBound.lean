@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.InfCountAtOf
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GridFirstColumnSpaceRankSignatureSelfDual
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2051
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1560
 import Formalism.LocalRingCardinality.SpanPowerMembership.ExampleLayerExistsGenerators
 public import Formalism.SharpRestriction.CuspSpanNormBounds.BridgeLevelGenB
 import Formalism.SharpRestriction.GlobalSchurBounds.ThickPlacesCorollaryOfAnyTranslate

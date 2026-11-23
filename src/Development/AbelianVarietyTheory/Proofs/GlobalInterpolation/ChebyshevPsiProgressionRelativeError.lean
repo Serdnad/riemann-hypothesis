@@ -1,13 +1,13 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.ZerosDisc
+public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.Bundle003
 public import Mathlib.Data.FunLike.Fintype
 public import Mathlib.NumberTheory.DirichletCharacter.Orthogonality
 public import Mathlib.RingTheory.SimpleRing.Principal
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExceptionalDirichletZeroUniqueZeroFreeRegionStatement
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExplicitFormulaDirichletZerosRightHalfStatement
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.RepulsionStatement
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.SumRpowZerosLeStatement
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle050
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle089
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle032
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle063
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

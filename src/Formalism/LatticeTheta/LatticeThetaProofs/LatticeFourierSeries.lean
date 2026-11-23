@@ -43,8 +43,8 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-public import Formalism.LatticeTheta.LatticeThetaProofs.FundamentalDomainEqPreimage
-public import Formalism.LatticeTheta.LatticeThetaProofs.InnerDualVecBasis
+public import Formalism.LatticeTheta.LatticeThetaProofs.Bundle001
+public import Formalism.LatticeTheta.LatticeThetaProofs.Bundle002
 
 @[expose] public section
 

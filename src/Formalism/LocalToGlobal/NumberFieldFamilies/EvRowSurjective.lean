@@ -3,7 +3,7 @@ module
 public import Formalism.LocalToGlobal.Divisibility.HeckeCSDICommTrRep
 public import Formalism.LocalToGlobal.Columns.GSetLemmas
 public import Formalism.LocalToGlobal.Columns.RowFormsLemmas
-public import Formalism.LocalToGlobal.Columns.InvariantSubspaceCoordsX
+public import Formalism.LocalToGlobal.Columns.Bundle013
 public import Formalism.LocalToGlobal.GroupLattices.JointServices.LevelOperatorFixesImage
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,10 +1,9 @@
 module
 
 public import Formalism.LocalToGlobal.GlobalTheory.CoordinateLengths.IntSpanLeRat
-public import Formalism.LocalToGlobal.GlobalTheory.CoordinateLengths.SecondBranchCoordinatesOfSurjectivity
-public import Formalism.LocalToGlobal.GlobalTheory.CoordinateLengths.DuCount
-public import Formalism.LocalToGlobal.GlobalTheory.CoordinateLengths.MixedChange
-import Formalism.LocalToGlobal.GlobalTheory.GL6.LatticeInclusionFamilyOf
+public import Formalism.LocalToGlobal.GlobalTheory.CoordinateLengths.Bundle002
+public import Formalism.LocalToGlobal.GlobalTheory.CoordinateLengths.Bundle001
+import Formalism.LocalToGlobal.GlobalTheory.GL6.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

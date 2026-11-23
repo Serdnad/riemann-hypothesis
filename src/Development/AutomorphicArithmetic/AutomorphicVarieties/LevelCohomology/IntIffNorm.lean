@@ -1,9 +1,9 @@
 module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.GeneratorCountTuples.LemmaK
-public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.ExistsPrimitiveRootPow
+public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.Bundle003
 public import Formalism.GaloisCohomology.LocalTateDualityK
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.LocalRingsCompletion.DvrIntClosure
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.LocalRingsCompletion.Bundle002
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.ExistsAb
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -52,7 +52,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CharacterLevelBounds.ShaFamMono
-import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.UnramifiedCocycleIsCoboundaryOfBernoulliUnit
+import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.Bundle006
 import Development.AutomorphicArithmetic.AutomorphicVarieties.OddResidueBounds.ZeroMemUnrHom
 import Development.AutomorphicArithmetic.AutomorphicVarieties.PrimitiveFrobeniusFixed.IsAdmissiblePrimeListNil
 
@@ -259,7 +259,9 @@ theorem UpperTheory.V.X.soVec :
   have hl0 : algebraMap O E (l : O) ≠ 0 := by
     rw [map_natCast]
     exact Nat.cast_ne_zero.2 (Fact.out : l.Prime).ne_zero
+  haveI : IsLocalRing O := h1.toIsLocalRing
   have hlm : (l : O) ∈ IsLocalRing.maximalIdeal O := by
+    rw [IsLocalRing.mem_maximalIdeal, mem_nonunits_iff]
     rintro ⟨u, hu⟩
     have b1 : ‖algebraMap O E ((u⁻¹ : Oˣ) : O)‖ ≤ 1 := (hint _).1 ((u⁻¹ : Oˣ) : O).2
     have b2 : ‖algebraMap O E (l : O)‖ * ‖algebraMap O E ((u⁻¹ : Oˣ) : O)‖ = 1 := by

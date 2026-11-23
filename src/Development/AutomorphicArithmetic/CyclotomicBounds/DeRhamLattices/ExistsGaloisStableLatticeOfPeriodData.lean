@@ -1,9 +1,8 @@
 module
 
 public import Formalism.SharpRestriction.LevelLetterCocycles.TableLineDegreeTwo
-public import Development.AutomorphicArithmetic.CyclotomicBounds.DeRhamLattices.AdmissibleLatticesCommensurable
-public import Development.AutomorphicArithmetic.CyclotomicBounds.DeRhamLattices.ExistsLatticeEqAddSmulOfStableFgSubmodule
-public import Development.AutomorphicArithmetic.CyclotomicBounds.DeRhamLattices.ExistsLinearEquivQuotientOfLatticeSum
+public import Development.AutomorphicArithmetic.CyclotomicBounds.DeRhamLattices.Bundle001
+public import Development.AutomorphicArithmetic.CyclotomicBounds.DeRhamLattices.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

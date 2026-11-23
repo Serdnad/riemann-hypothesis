@@ -1,10 +1,10 @@
 module
 
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.CrystallineTowers.CrystallinePeriodsOfSmooth
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.JointApproxOfMem
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.FiltrationZeroMembership
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FinrankInvariantsEqOfInvertiblePeriodMatrix
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TensorProductBasisCoordinates
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle025
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle013
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle032
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle034
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FiniteDimensionalFilDR
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

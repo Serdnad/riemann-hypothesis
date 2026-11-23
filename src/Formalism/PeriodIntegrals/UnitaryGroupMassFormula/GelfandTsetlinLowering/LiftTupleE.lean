@@ -1,7 +1,7 @@
 module
 
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LBidetMinor
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.GelfandTsetlinLowering.LiftTupleM
+public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle005
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.GelfandTsetlinLowering.Bundle003
 public import Formalism.GradedWeylDivisibility.DualWeylDominanceOf
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.GelfandTsetlinLowering.LiftTupleD
 import Mathlib.Algebra.Order.Floor.Extended
@@ -50,7 +50,7 @@ import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 import Formalism.LocalRingCardinality.Params
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.GelfandTsetlinLowering.LiftTupleA
-import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.GelfandTsetlinLowering.LiftTupleC
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.GelfandTsetlinLowering.Bundle004
 
 @[expose] public section
 

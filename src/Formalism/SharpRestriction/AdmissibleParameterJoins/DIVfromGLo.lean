@@ -1,6 +1,6 @@
 module
 
-public import Formalism.SharpRestriction.AdmissibleParameterJoins.DIVfromGLm
+public import Formalism.SharpRestriction.AdmissibleParameterJoins.Bundle006
 public import Formalism.SharpRestriction.GlobalSchurBounds.AlcoveOf
 import Formalism.SharpRestriction.GlobalSchurBounds.GlobalRankLatticeProofs.SevenLogLeLOfPowerBound
 import Mathlib.Algebra.Order.Floor.Extended

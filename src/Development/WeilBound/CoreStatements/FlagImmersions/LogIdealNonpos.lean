@@ -1,13 +1,11 @@
 module
 
-public import Development.WeilBound.CoreStatements.FlagImmersions.FibSandwich
+public import Development.WeilBound.CoreStatements.FlagImmersions.Bundle013
 public import Development.AutomorphicSpectrum.Proofs.AdelicProofs.NormEqOneOfValuationEqOne
 public import Mathlib.Algebra.AffineMonoid.Basic
-public import Development.AutomorphicSpectrum.Proofs.AdelicProofs.DifferentIdealLogSumRootDiscriminantStatement
-public import Development.AutomorphicSpectrum.Proofs.AdelicProofs.LogNormsExtDegreeAdelicStatement
-public import Development.AutomorphicSpectrum.Proofs.AdelicProofs.PadicLogIdealMaxElementStatement
-public import Development.AutomorphicSpectrum.Proofs.AdelicProofs.SqrtDiscriminantBoundsCmFieldStatement
-public import Development.AutomorphicSpectrum.Proofs.AdelicProofs.SumEmbeddingsBaseChangeStatement
+public import Development.AutomorphicSpectrum.Proofs.AdelicProofs.Bundle012
+public import Development.AutomorphicSpectrum.Proofs.AdelicProofs.Bundle006
+public import Development.AutomorphicSpectrum.Proofs.AdelicProofs.Bundle011
 public import Development.AutomorphicSpectrum.Statements.GeometryStatements.NearRecordOfValue
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

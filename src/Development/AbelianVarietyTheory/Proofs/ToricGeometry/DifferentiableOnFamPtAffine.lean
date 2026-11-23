@@ -2,7 +2,7 @@ module
 
 public import Development.AbelianVarietyTheory.Proofs.ToricGeometry.TangentBijectionOfValues
 public import Development.AbelianVarietyTheory.Proofs.ToricGeometry.ExistsConstOfCover
-public import Development.AbelianVarietyTheory.Proofs.ToricGeometry.ExistsLinearOfMulPeriod
+public import Development.AbelianVarietyTheory.Proofs.ToricGeometry.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

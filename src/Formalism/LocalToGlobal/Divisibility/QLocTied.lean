@@ -1,7 +1,7 @@
 module
 
-public import Formalism.LocalToGlobal.UnitaryNorms.CharDiv
-public import Formalism.SharpRestriction.Divisibility.ZetaProductPairs
+public import Formalism.LocalToGlobal.UnitaryNorms.Bundle007
+public import Formalism.SharpRestriction.Divisibility.Bundle002
 public import Formalism.DoubleCosetMeasures.StatementV
 import Formalism.LocalToGlobal.UnitaryNorms.CharUniq
 import Mathlib.Algebra.Order.Floor.Extended

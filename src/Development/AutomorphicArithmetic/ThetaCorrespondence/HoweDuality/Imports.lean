@@ -2,9 +2,9 @@ module
 
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.HoweDuality.FactorApply
 public import Mathlib.LinearAlgebra.Dimension.Basic
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.TensorEqTopOrLeKerFiniteLengthModulesStatement
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle072
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.HoweDuality.NakAll
-import Development.AutomorphicArithmetic.ThetaCorrespondence.HoweDuality.PartStable
+import Development.AutomorphicArithmetic.ThetaCorrespondence.HoweDuality.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,6 +1,6 @@
 module
 
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.GaXiSplit
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle103
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Block3MulBlocks
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.CompactGroupHaarExists
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.ConjugationContinuousOnInvertible

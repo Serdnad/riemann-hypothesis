@@ -1,10 +1,10 @@
 module
 
-public import GroundTheory.GlobalFields.ExistenceTheorem.KummerNorm
+public import GroundTheory.GlobalFields.ExistenceTheorem.Bundle001
 public import GroundTheory.GlobalFields.ClassFieldConsequences.CongruenceSubgroupLeStandardOpenSubgroup
 public import GroundTheory.GlobalFields.GlobalReciprocity.General
 public import GroundTheory.GlobalFields.ClassFieldConsequences.OpenSubgroup
-import GroundTheory.GlobalFields.NormResidueSymbol.RestrictNormalInfiniteLocalSymbol
+import GroundTheory.GlobalFields.NormResidueSymbol.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,7 +1,7 @@
 module
 
 public import Development.WeilBound.RepresentationTheoryGL.UnitaryDualProof.OpenCellDecomposition.OpenCellUnipotents.LevZZero
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.OpenFns
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle297
 public import Development.WeilBound.RepresentationTheoryGL.UnitaryDualProof.BernsteinExponentBounds.IsInvForm
 public import GroundTheory.AutomorphicForms.GLnLocal
 import Mathlib.Algebra.Order.Floor.Extended

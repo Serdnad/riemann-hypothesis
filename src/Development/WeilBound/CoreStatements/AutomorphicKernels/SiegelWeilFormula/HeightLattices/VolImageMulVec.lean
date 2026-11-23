@@ -2,11 +2,11 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.Foundations.T2SpaceTensorProductFiniteExtension
 public import Formalism.UnipotentAdelicQuotients.SWXSDefs
-public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.GlobalUnitScalingHaarProductFormula
+public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.Bundle055
 import Development.AbelianVarietyTheory.Definitions.Divisors.LineOppositeParabolicUnitaryLeviSectionEq
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContinuousDistribHaarCharUnits
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.AddEquivAddHaarCharMulVecArtinianReduced
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsRestrictScalarsMatrixLeftRightMulAdeleTens
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle073
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle073
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle072
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdelicLocalCompactness.T2SpaceTensorProductFiniteExtension
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerVolume.TensTop
 import Mathlib.Algebra.Order.Floor.Extended
@@ -98,6 +98,7 @@ theorem vol_image_mulVec (v : HeightOneSpectrum (𝓞 F)) {n : ℕ} (μ : Measur
   let b := Module.Free.chooseBasis K V
   let N := LinearMap.toMatrix b b f
   have hdet : N.det = Algebra.norm K M.1.det := by
+    haveI : Module.Free B V := Module.Free.of_basis (Pi.basisFun B (Fin n))
     rw [LinearMap.det_toMatrix, LinearMap.det_restrictScalars]
     congr 1
     exact LinearMap.det_toLin' _

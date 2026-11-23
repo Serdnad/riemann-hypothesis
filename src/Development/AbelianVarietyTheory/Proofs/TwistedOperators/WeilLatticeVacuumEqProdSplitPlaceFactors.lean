@@ -1,14 +1,14 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.DetIdlVal
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.WeilRepLatticeStabilizerVacuumEqDetCharSmul
-public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.UnramifiedCharacter
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle321
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2304
+public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.Bundle006
 import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsGivenStageEqOne
 import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.RealIdemMulOfReal
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.InLatticeStabilizerAtPlaceOfSupportedStabilizer
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MemLocalHomLatticeOfKeepsCompletedLattices
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.EvalVCutIdemOfNotMem
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.IsLocalVacuumOfIsLatticeVacuumCoprimeLevel
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1067
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle191
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle159
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.OmSplitHalves
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -46,8 +46,8 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.PairPtsClasses
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.PairPtsEqSum
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle287
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle310
 
 @[expose] public section
 

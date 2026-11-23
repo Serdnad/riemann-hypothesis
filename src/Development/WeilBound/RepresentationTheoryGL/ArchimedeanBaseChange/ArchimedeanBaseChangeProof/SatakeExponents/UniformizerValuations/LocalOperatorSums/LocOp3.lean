@@ -2,9 +2,9 @@ module
 
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.SatakeExponents.UniformizerValuations.LeviOf
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ConstantTermConvolutionHecke
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ConstantTermLocallyConstant
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HintConstMulSum
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.RelIndexEqCard
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle550
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle565
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle585
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

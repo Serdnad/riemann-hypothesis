@@ -1,8 +1,8 @@
 module
 
-public import Formalism.SharpRestriction.GlobalSchurBounds.MainSup
-public import Formalism.SharpRestriction.AdmissibleParameterJoins.DIVfromGLz
-import Formalism.SharpRestriction.AdmissibleParameterJoins.SfromGLu
+public import Formalism.SharpRestriction.GlobalSchurBounds.Bundle005
+public import Formalism.SharpRestriction.AdmissibleParameterJoins.Bundle007
+import Formalism.SharpRestriction.AdmissibleParameterJoins.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

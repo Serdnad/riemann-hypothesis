@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.HasDivPlace
-public import Development.AbelianVarietyTheory.Definitions.Divisors.Uniformised
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ExistsEquivOfFinrank
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle058
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle018
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle056
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

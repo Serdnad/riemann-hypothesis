@@ -4,12 +4,9 @@ public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsUnitOf
 public import Mathlib.RingTheory.RegularLocalRing.Defs
 public import Mathlib.RingTheory.RingHom.Smooth
 public import Mathlib.RingTheory.SimpleRing.Principal
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.AlgebraicIndependentOfAdjoinStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsPermNormalizedMinorsStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LocalizationClosureEqualStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LocalizationClosureSmoothStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LuDecompositionOfMinorsStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.NormalizedMinorExtendsStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle080
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle078
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle068
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

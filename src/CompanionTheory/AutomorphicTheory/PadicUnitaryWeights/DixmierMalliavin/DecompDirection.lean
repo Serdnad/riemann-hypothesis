@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.AutomorphicForms.DixmierMalliavinProducts
+public import GroundTheory.AutomorphicForms.Bundle010
 public import GroundTheory.AutomorphicForms.HeckeAlgebra
 public import GroundTheory.AutomorphicForms.DixmierMalliavinHaar
 import GroundTheory.AutomorphicForms.DixmierMalliavinHaarCoord

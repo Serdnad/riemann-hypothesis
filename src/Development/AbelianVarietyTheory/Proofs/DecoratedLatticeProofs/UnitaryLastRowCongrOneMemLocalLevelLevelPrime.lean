@@ -2,9 +2,9 @@ module
 
 public import Formalism.LocalToGlobal.Columns.RecLevelLocT
 public import Formalism.LocalToGlobal.HermitianForms.IsLocBasis
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ULocDualHformOne
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.UlocOfTrivDisc
-import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.LevelSubgroupFiniteAdelicStandard
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle158
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle076
+import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -50,17 +50,17 @@ import Development.AbelianVarietyTheory.Definitions.LatticeFrames.ExistsUnitaryS
 import Development.AbelianVarietyTheory.Definitions.LatticeFrames.IsThetaFam
 import Development.AbelianVarietyTheory.Definitions.LatticeFrames.JointSmooth
 import Development.AbelianVarietyTheory.Definitions.LatticeFrames.MiStarOfMid
-import Development.AbelianVarietyTheory.Definitions.LatticeFrames.OnesRepresent
-import Development.AbelianVarietyTheory.Definitions.LatticeFrames.PairForm
+import Development.AbelianVarietyTheory.Definitions.LatticeFrames.Bundle001
+import Development.AbelianVarietyTheory.Definitions.LatticeFrames.Bundle019
 import Development.AbelianVarietyTheory.Definitions.LatticeFrames.UnitRatio
 import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.CovolOneIntegralAdd
 import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.ValuationDetOfMemKO
 import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.WittSmallGroupEmbeddingMemPointwiseStabilizerIso
 import Formalism.LocalRingCardinality.DataTheta
 import Formalism.LocalToGlobal.BesselHermitianTheta.NoncompactGapAtLeastRange
-import Formalism.LocalToGlobal.IndefiniteReal.IndefiniteWeightData
+import Formalism.LocalToGlobal.IndefiniteReal.Bundle001
 import Formalism.LocalToGlobal.IndefiniteReal.LinksDefs
-import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.GapAtLeast
+import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.Bundle001
 import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.GenusMassVolumes
 
 @[expose] public section

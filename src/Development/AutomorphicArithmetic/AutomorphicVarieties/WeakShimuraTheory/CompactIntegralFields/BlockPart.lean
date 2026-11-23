@@ -1,8 +1,8 @@
 module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.NearSplit
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.EiiUnit
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.GeAlgTop
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Bundle015
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Bundle003
 import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.LMemMax
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -46,6 +46,10 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 
 @[expose] public section
+
+local instance (priority := 2000) ratFieldIsTorsionFreeForBlockPart
+    (Ω : Type) [Field Ω] [CharZero Ω] : Module.IsTorsionFree ℚ Ω :=
+  DivisionSemiring.to_moduleIsTorsionFree
 
 open NumberField IsDedekindDomain Formalism.ConjugateSelfDual Formalism.HC ReciprocityTheory.Gal IsLocalRing Polynomial UpperTheory.V.Base UpperTheory.V.Alg UpperTheory.V.HV UpperTheory.V.GradeZeroInterpolatingElement UpperTheory.V.Ws
 
@@ -127,7 +131,7 @@ private theorem bp_eq (X : M4 R) : bp X = ee * X * ee + (1 - ee) * X * (1 - ee) 
 
 private theorem up_diag {X Y : M4 R} (hX : IsUp X) (hY : IsUp Y) (i : Fin 4) : (X * Y) i i = X i i * Y i i := by
   rw [Matrix.mul_apply]
-  refine Finset.sum_eq_single i (fun k _ hk => ?_) (by simp)
+  refine Finset.sum_eq_single i (fun k _ hk => ?_) (fun hi => (hi (Finset.mem_univ i)).elim)
   rcases lt_or_gt_of_ne hk with h | h
   · rw [hX i k h, zero_mul]
   · rw [hY k i h, mul_zero]
@@ -171,7 +175,7 @@ private theorem ee_mem (A : Subalgebra R (M4 R)) (X : M4 R) (hX : X ∈ A) (hb :
     obtain ⟨v, hv⟩ := hu.exists_left_inv
     convert A.smul_mem (A.sub_mem (A.smul_mem hY (y0 + y3)) (A.mul_mem hY hY)) v using 1
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [ee, Matrix.mul_apply, Fin.sum_univ_four] <;>
+    fin_cases i <;> fin_cases j <;> simp [ee, Matrix.mul_apply, Fin.sum_univ_four, -mul_eq_zero, -zero_eq_mul] <;>
       first | linear_combination -hv | ring
   have b01 := hb 0 1 (by decide)
   have b03 := hb 0 3 (by decide)

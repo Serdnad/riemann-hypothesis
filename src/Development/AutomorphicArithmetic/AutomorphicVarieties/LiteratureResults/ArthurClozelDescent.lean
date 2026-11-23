@@ -40,13 +40,13 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Development.AutomorphicArithmetic.AutomorphicVarieties.PublishedTheorems.GelfandKazhdanReal
-import Development.AutomorphicArithmetic.IntegralCasts.IsOpenStabOfMemNhds
-import Formalism.ConjugateSelfDual.Statement
+import Development.AutomorphicArithmetic.AutomorphicVarieties.PublishedTheorems.Bundle001
+import Development.AutomorphicArithmetic.IntegralCasts.Bundle001
+import Formalism.ConjugateSelfDual.Bundle001
 import Formalism.LocalToGlobal.UnitaryNorms.IsUnitaryNormOf
 import Formalism.SharpRestriction.LevelLetterCocycles.LocCoh
 public import Mathlib.NumberTheory.NumberField.InfinitePlace.TotallyRealComplex
-import ReciprocityTheory.NeutralLocalFields.Reciprocity
+import ReciprocityTheory.NeutralLocalFields.Bundle001
 
 @[expose] public section
 

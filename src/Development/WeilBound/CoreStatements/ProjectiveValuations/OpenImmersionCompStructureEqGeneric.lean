@@ -1,6 +1,6 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.OffZero
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle264
 public import Development.WeilBound.CoreStatements.ProjectiveValuations.NV
 public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.ExistsFramesOfHolPeriods
 import Development.AbelianVarietyTheory.Proofs.GenericRegularity.FrameBorelGroupoidProperties

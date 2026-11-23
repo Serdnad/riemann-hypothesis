@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.Divisibility.HeckeRI
+public import Formalism.LocalToGlobal.Divisibility.Bundle003
 public import Formalism.LocalToGlobal.Divisibility.InertPartitionLePartF
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

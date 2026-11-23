@@ -1,11 +1,10 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.AdelicGroupAlgebraActionInjective
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.SabComp
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.MemEigSpOfMemHtDual
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.SemiabelianLieModelsAgreeStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.TwistOkAllStatement
-public import Development.WeilBound.CoreStatements.HomogeneousNonvanishing.Imports
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle007
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle008
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle236
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle095
+public import Development.WeilBound.CoreStatements.HomogeneousNonvanishing.Bundle012
 public import Development.WeilBound.CoreStatements.HomogeneousNonvanishing.LatticeIntegrallyClosedTorsion
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

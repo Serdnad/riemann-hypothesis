@@ -1,15 +1,15 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SameOfUSame
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsClassicalPointCentredClosedPointArithmetic
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsGaloisAutConjugateFieldPointsCoverStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsLabelsUnitaryClassicalTraitStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsOpenNonemptyCrystallineTrait
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsometryEqReflOfCongrModGeThree
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LatticeClassSumsOfTermsPrescribedNormsStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2639
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3004
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3302
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3370
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2648
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2719
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ThetaSystemValueEqRootMulThetaConstant
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TorsFrameTwoLevels
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.UnitaryTraitLabelsSurjectiveKernel
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2936
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3065
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -47,7 +47,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-public import Development.AbelianVarietyTheory.Definitions.Divisors.NonemptyUWit
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle075
 
 @[expose] public section
 

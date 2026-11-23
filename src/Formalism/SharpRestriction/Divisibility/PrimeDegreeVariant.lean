@@ -1,7 +1,7 @@
 module
 
-public import Formalism.LocalRingCardinality.PrincipalHermitianLattice
-public import Formalism.SharpRestriction.LevelLetterCocycles.ArithmeticCylinders
+public import Formalism.LocalRingCardinality.Bundle003
+public import Formalism.SharpRestriction.LevelLetterCocycles.Bundle006
 public import Mathlib.Tactic.Linter.HaveILetI
 public import Formalism.CyclotomicNorms.NonsquarefreeBounds.NonsquarefreeMonicBoundHolds
 import Mathlib.Algebra.Order.Floor.Extended

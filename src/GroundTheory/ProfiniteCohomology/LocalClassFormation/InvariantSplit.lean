@@ -2,9 +2,9 @@ module
 
 import Mathlib
 public import GroundTheory.ProfiniteCohomology.GaloisCohomology.BrauerInflationDefs
-public import GroundTheory.ProfiniteCohomology.LocalClassFormation.InvariantDefs
+public import GroundTheory.ProfiniteCohomology.LocalClassFormation.Bundle002
 import GroundTheory.LocalFields.MaximalUnramified
-public import GroundTheory.ProfiniteCohomology.CohomologyTwoIntAddEquivQZSymmApply
+public import GroundTheory.ProfiniteCohomology.Bundle003
 public import GroundTheory.ProfiniteCohomology.GaloisCohomology.BrauerInflation
 public import GroundTheory.ProfiniteCohomology.LocalClassFormation.FinrankLeNatCardGroupCohomologyTwoGalUnits
 public import GroundTheory.ProfiniteCohomology.LocalClassFormation.InvariantLevels

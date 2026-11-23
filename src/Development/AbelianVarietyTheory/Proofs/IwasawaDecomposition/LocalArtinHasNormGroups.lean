@@ -1,29 +1,29 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HasNormGroups
-public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.ChevalleyUnits
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle080
+public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.Bundle001
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.HasExponentZeroIff
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ArtinTransportAlgClosureEquivStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsAbelianizedGaloisHomOfClosureIso
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsLocalExtensionOfFiniteIndexWeilSubgroupStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsTotallyPositiveApproxAtFinitePlaces
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.GlobalArtinLocalIdeleInjectiveStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NormTotallyPositiveOfTotallyPositiveNeZero
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ProdIdeleCharacterEqOneOfTotallyPositive
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.UnitsAdicCompletionHomExtOfIsOpenKer
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WeilGroupRestriction
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.AbsoluteGaloisAbelianizationEqOneOfMemOpenSubgro
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CompletionEmbeddingCompatibleClosuresStatement
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle200
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle302
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle490
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle194
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle466
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle039
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle713
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle043
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle416
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle057
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle163
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.DecompositionGroupLocalGaloisIso
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsFinsetPlacesOverFinsetPlaces
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsLocalEmbeddingOverPlace
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsWeilOfFixesStatement
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HeckeCharacterUnramifiedAeAndExistsLevel
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsOpenIdeleSubgroupContainsCongruenceUnits
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LocalEmbeddingWeilActionFiniteExtensionStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LocalEmbeddingsTowerCompatibleStatement
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle061
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle149
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle162
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle118
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle056
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle192
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle180
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.NormCloseToOneOfCloseAbovePlace
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ProdLocalValuesGlobalOverPlacesAboveStatement
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle072
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -132,7 +132,7 @@ theorem res_art_eq_art_norm (E E' Ω : Type) [Field E] [NumberField E] [Field Ω
       Units.map (algebraMap E (w.adicCompletion E)).toMonoidHom (Units.map (Algebra.norm E (S := E')) z))
     (art : Ideles E →* Gab E Ω) (art' : Ideles E' →* Gab E' Ω) (ha : IsGlobalArtin art) (ha' : IsGlobalArtin art')
     (ρ : Gab E' Ω →* Gab E Ω) (hρc : Continuous ρ)
-    (hρ : ∀ (τ : G E' Ω) (σ : G E Ω), (∀ z, RingEquiv.refl Ω (σ z) = τ (RingEquiv.refl Ω z)) →
+    (hρ : ∀ (τ : _root_.Formalism.ConjugateSelfDual.G E' Ω) (σ : _root_.Formalism.ConjugateSelfDual.G E Ω), (∀ z, RingEquiv.refl Ω (σ z) = τ (RingEquiv.refl Ω z)) →
       ρ (toAb E' Ω τ) = toAb E Ω σ)
     (x : (w'.adicCompletion E')ˣ) :
     ρ (art' (localIdele E' w' x)) = art (localIdele E w (N x)) := by
@@ -286,7 +286,7 @@ theorem res_art_eq_art_norm (E E' Ω : Type) [Field E] [NumberField E] [Field Ω
     exact mul_left_cancel (hPK.trans hPE.symm)
   rw [← F1, key, F2]
 
-theorem art_norm_eq_res : ∀ (E K Ω : Type) [Field E] [NumberField E] [Field K] [NumberField K] [Field Ω] [Algebra E Ω] [IsAlgClosure E Ω] [Algebra K Ω] [IsAlgClosure K Ω] [Algebra E K] [IsScalarTower E K Ω] (art : Neutral.B1.Ideles E →* GlobalTheory.HeckeGal.Gab E Ω) (artK : Neutral.B1.Ideles K →* GlobalTheory.HeckeGal.Gab K Ω), GlobalTheory.HeckeGal.IsGlobalArtin art → GlobalTheory.HeckeGal.IsGlobalArtin artK → ∀ (v : HeightOneSpectrum (𝓞 E)) (W : HeightOneSpectrum (𝓞 K)), W.asIdeal.comap (algebraMap (𝓞 E) (𝓞 K)) = v.asIdeal → ∀ (N : (W.adicCompletion K)ˣ →* (v.adicCompletion E)ˣ), Continuous N → (∀ z : Kˣ, N (Units.map (algebraMap K (W.adicCompletion K)).toMonoidHom z) = Units.map (algebraMap E (v.adicCompletion E)).toMonoidHom (Units.map (Algebra.norm E (S := K)) z)) → ∀ (y : (W.adicCompletion K)ˣ) (τ : G K Ω) (σ : G E Ω), (∀ z, σ z = τ z) → artK (Neutral.B1.localIdele K W y) = GlobalTheory.HeckeGal.toAb K Ω τ → art (Neutral.B1.localIdele E v (N y)) = GlobalTheory.HeckeGal.toAb E Ω σ := by
+theorem art_norm_eq_res : ∀ (E K Ω : Type) [Field E] [NumberField E] [Field K] [NumberField K] [Field Ω] [Algebra E Ω] [IsAlgClosure E Ω] [Algebra K Ω] [IsAlgClosure K Ω] [Algebra E K] [IsScalarTower E K Ω] (art : Neutral.B1.Ideles E →* GlobalTheory.HeckeGal.Gab E Ω) (artK : Neutral.B1.Ideles K →* GlobalTheory.HeckeGal.Gab K Ω), GlobalTheory.HeckeGal.IsGlobalArtin art → GlobalTheory.HeckeGal.IsGlobalArtin artK → ∀ (v : HeightOneSpectrum (𝓞 E)) (W : HeightOneSpectrum (𝓞 K)), W.asIdeal.comap (algebraMap (𝓞 E) (𝓞 K)) = v.asIdeal → ∀ (N : (W.adicCompletion K)ˣ →* (v.adicCompletion E)ˣ), Continuous N → (∀ z : Kˣ, N (Units.map (algebraMap K (W.adicCompletion K)).toMonoidHom z) = Units.map (algebraMap E (v.adicCompletion E)).toMonoidHom (Units.map (Algebra.norm E (S := K)) z)) → ∀ (y : (W.adicCompletion K)ˣ) (τ : _root_.Formalism.ConjugateSelfDual.G K Ω) (σ : _root_.Formalism.ConjugateSelfDual.G E Ω), (∀ z, σ z = τ z) → artK (Neutral.B1.localIdele K W y) = GlobalTheory.HeckeGal.toAb K Ω τ → art (Neutral.B1.localIdele E v (N y)) = GlobalTheory.HeckeGal.toAb E Ω σ := by
   intro E K Ω _ _ _ _ _ _ _ _ _ _ _ art artK ha haK v W hW N hN hNg y τ σ hσ hy
   have hφ : ∀ x, RingEquiv.refl Ω (algebraMap E Ω x) = algebraMap K Ω (algebraMap E K x) :=
     fun x => IsScalarTower.algebraMap_apply E K Ω x

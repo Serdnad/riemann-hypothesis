@@ -1,9 +1,9 @@
 module
 
 public import Development.WeilBound.ThetaLifts.SmallCones.ThetaUniq
-public import Development.WeilBound.ThetaLifts.CartanFactorisation.CartanConj
+public import Development.WeilBound.ThetaLifts.CartanFactorisation.Bundle002
 public import Development.WeilBound.ThetaLifts.EigenvalueEndgame.PlaneRemovalConfiguration
-public import Development.WeilBound.ThetaLifts.CartanFactorisation.IntegrableOnRight
+public import Development.WeilBound.ThetaLifts.CartanFactorisation.Bundle001
 public import Development.WeilBound.ThetaLifts.CartanFactorisation.Unimod
 public import Development.WeilBound.ThetaLifts.ConeHypotheses.PureEqPureA
 public import Development.WeilBound.ThetaLifts.EigenvalueEndgame.TowerCodimensionTwo

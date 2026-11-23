@@ -1,8 +1,8 @@
 module
 
-public import Formalism.LocalToGlobal.HermitianForms.TiedSym
-public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.InJSymRestrict
-public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.TilEqLevel
+public import Formalism.LocalToGlobal.HermitianForms.Bundle009
+public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.Bundle008
+public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -41,7 +41,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.MulLatMulLat
+public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.Bundle006
 
 @[expose] public section
 

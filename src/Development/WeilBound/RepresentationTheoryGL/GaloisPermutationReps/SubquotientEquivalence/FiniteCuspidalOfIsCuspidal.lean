@@ -1,11 +1,11 @@
 module
 
 public import Development.WeilBound.RepresentationTheoryGL.GaloisPermutationReps.SubquotientEquivalence.IsTypeMap
-public import Formalism.PadicSubsetSums.CentralIdempotents.IsConstituent
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CentralIdempotentsSimpleFDRepFiniteFinsumEqOne
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CuspidalLabelUniqueStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsCuspidalWithLabelStatement
-public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.IsIrreducibleTransportRep
+public import Formalism.PadicSubsetSums.CentralIdempotents.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle305
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle100
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle316
+public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle032
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

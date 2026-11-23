@@ -1,7 +1,7 @@
 module
 
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.QxChain
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutJDHatJDRStepABorder
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle092
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,7 +1,7 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.StatementsDualStackedExcResidue
-public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.StatementsDualLatticeModPrime
+public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.Bundle037
+public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.Bundle024
 public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PDualLatticeIndex
 public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PDualStackedExcGeoFirst
 import Mathlib.Algebra.Order.Floor.Extended

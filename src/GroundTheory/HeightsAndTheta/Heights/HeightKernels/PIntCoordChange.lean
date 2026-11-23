@@ -1,8 +1,7 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.StatementsIntCoordGeoNum
-public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.StatementsIntCoordArInt
-public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.PSpecialMultAt
+public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.Bundle025
+public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Bundle012
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -45,7 +44,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterDivSupp
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle015
 
 @[expose] public section
 

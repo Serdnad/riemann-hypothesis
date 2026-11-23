@@ -1,11 +1,11 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.LieLatticeData
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Imports
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.LatticeGoodBaseChangeStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.LocFreeMapMkQIff
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.LocallyFreeBaseChangeQuotientStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.SmulMemSpanOver
+public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.Bundle002
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle028
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle033
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle038
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle022
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

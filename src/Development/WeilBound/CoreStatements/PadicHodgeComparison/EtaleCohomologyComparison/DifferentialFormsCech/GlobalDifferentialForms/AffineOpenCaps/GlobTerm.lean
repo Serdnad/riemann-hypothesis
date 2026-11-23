@@ -1,8 +1,8 @@
 module
 
-public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.DifferentialFormsCech.GlobalDifferentialForms.FV
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CapMPull
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.OmegaPullId
+public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.DifferentialFormsCech.GlobalDifferentialForms.Bundle001
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle190
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle047
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.DifferentialFormsCech.CoverRefinementHodge.TermAff
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

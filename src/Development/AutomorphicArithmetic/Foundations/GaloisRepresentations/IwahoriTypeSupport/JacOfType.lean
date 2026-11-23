@@ -1,8 +1,8 @@
 module
 
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.IwahoriTypeSupport.TorusScalar
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsJLeviMulJPlus
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.IwahoriNeBotOfSpherical
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle440
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle205
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

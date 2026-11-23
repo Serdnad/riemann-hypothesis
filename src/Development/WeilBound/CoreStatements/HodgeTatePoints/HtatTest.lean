@@ -1,17 +1,17 @@
 module
 
 public import Development.AutomorphicSpectrum.Statements.GeometryStatements.IsPolLatticePlane
-public import Development.AutomorphicSpectrum.Statements.GeometryStatements.HTChartExists
+public import Development.AutomorphicSpectrum.Statements.GeometryStatements.Bundle002
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.TwoWeightEqOneAddRoot
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.HodgeTateConstantDividesPSqStatement
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle045
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsLieModel
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieModelExistsUniqueAct
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieModelRankEqGeneric
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.TateIsoTorsionTowerStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.TorsionTowerWeilPairingStatement
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.HtatBcTors
-import Development.WeilBound.CoreStatements.HodgeTatePoints.HtatLieBc
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.HtatLieIso
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle021
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle185
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle243
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle226
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle011
+import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle042
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle043
 public import Development.WeilBound.CoreStatements.HodgeTatePoints.HtatRed
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

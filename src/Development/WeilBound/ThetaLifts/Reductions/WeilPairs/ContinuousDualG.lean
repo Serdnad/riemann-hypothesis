@@ -1,8 +1,8 @@
 module
 
-public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.LatH
+public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.Bundle001
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsDualGOfGQ
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsTransportF
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1374
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ThetaDistributionAutomorphySourceGroup
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

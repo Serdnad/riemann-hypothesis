@@ -1,11 +1,10 @@
 module
 
 public import ReciprocityTheory.ReductiveGroups.TraceFormulas.LatDefs
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsFrobAtPlaceOverPrimeStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsFrobeniusAndExponentModEq
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsPadicIntOfCompatibleZmodPowStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.PadicIntContinuousHomNormalizeOneStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.RingHomApplyEqPowOfPowPowEqSelfStatement
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle137
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle253
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle088
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle112
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

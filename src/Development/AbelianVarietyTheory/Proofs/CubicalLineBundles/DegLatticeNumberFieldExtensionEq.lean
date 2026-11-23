@@ -46,8 +46,8 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import ReciprocityTheory.GeometryOfNumbers.LatticeCovolumes.ArakelovDegreeEqDegreeOfFamily
-import ReciprocityTheory.GeometryOfNumbers.LatticeCovolumes.DegStA
-import ReciprocityTheory.SemistableReduction.SemiDegCA
+import ReciprocityTheory.GeometryOfNumbers.LatticeCovolumes.Bundle003
+import ReciprocityTheory.SemistableReduction.Bundle004
 
 @[expose] public section
 

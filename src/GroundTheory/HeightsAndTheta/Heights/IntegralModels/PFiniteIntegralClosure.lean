@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.HeightsAndTheta.Heights.IntegralModels.Statements
-public import GroundTheory.HeightsAndTheta.Heights.IntegralModels.FiniteIntegralClosureCharP
+public import GroundTheory.HeightsAndTheta.Heights.IntegralModels.Bundle001
 public import GroundTheory.HeightsAndTheta.Heights.IntegralModels.FiniteIntegralClosureCharZero
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

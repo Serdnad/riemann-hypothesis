@@ -5,11 +5,11 @@ public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArithmeticInt
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ArithmeticHilbertSamuelLowerBound
 public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.MetricsProjectionFormulaNef
 public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.UnitRatioDivisorSupportEq
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ChartLatticeNormMembership
-import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PLocalRep
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle082
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle036
 import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PSectionOrderAtPoint
 import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.CoordinateIdeals.MemMCoordIdealOfAevalEqZero
-public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.FrameDefinitions.Values
+public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.FrameDefinitions.Bundle001
 public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.PVertFactorSmooth
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -80,12 +80,12 @@ variable {K : Type} [Fintype K] {ι : K → Type} [∀ k, Fintype (ι k)]
 
 theorem multAt_eqZ (J W : Ideal (MRing ι)) (hW : W.IsPrime) :
     multAt J W = (locLen (MRing ι ⧸ J) ⟨W, hW⟩).toNat := by
-  simp [multAt, hW, locLen]
+  simp [multAt, hW, ReciprocityTheory.ChartRestriction.G.AI.locLen]
 
 open Classical in
 theorem divCycle_applyZ (V W : Ideal (MRing ι)) (f : MRing ι) :
     divCycle V f W = if W ∈ divSupp V f then multAt (V ⊔ Ideal.span {f}) W else 0 := by
-  simp only [divCycle, Finsupp.ofSupportFinite_coe]
+  simp only [ReciprocityTheory.ChartRestriction.G.Geo.divCycle, Finsupp.ofSupportFinite_coe]
 
 theorem mem_of_mem_divSuppZ {V W : Ideal (MRing ι)} {f : MRing ι} (hW : W ∈ divSupp V f) : f ∈ W :=
   hW.1.1.2 (Ideal.mem_sup_right (Ideal.mem_span_singleton_self _))

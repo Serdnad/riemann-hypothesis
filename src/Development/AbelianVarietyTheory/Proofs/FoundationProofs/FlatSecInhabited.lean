@@ -1,16 +1,15 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Foundations.ExistsFlatSecRankZero
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsFinsetIntegralOfDefinite
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsNumberFieldPoint
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IdemAtEqOneIff
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle412
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle395
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsOpenImmersionOfSection
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.NvalDetFrChgConst
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.SubmatrixMulVec
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle307
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.PtOfFrameEqOfPointEq
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FrameChangeByMatricesReflAndComp
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FrameChangeExistsUniqueOfSamePoint
-import Formalism.LocalToGlobal.ProjectiveLattices.FreeBridge
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle045
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle040
+import Formalism.LocalToGlobal.ProjectiveLattices.Bundle035
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

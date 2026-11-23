@@ -1,7 +1,6 @@
 module
 
-public import ReciprocityTheory.GroupCohomology.CupConnRightStatement
-public import ReciprocityTheory.GroupCohomology.HomogExistsStatement
+public import ReciprocityTheory.GroupCohomology.Bundle003
 public import Mathlib.Topology.ContinuousMap.Algebra
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -45,7 +44,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.GroupCohomology.HomogIso
+public import ReciprocityTheory.GroupCohomology.Bundle005
 public import ReciprocityTheory.GroupCohomology.PrismOpZeroEval
 
 @[expose] public section

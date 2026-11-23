@@ -1,25 +1,23 @@
 module
 
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterNamed
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle010
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.BlowupProjections.BlowupProjStatement
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArithmeticIntersection.MixedFieldContraction.ContractMixedFieldStatement
-public import Development.AutomorphicSpectrum.PublishedTheorems.Metrics₂.PoincareLelong
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.DegreeAndCoordinatesOfResolutionStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.IntersectionExistsOfPoincareLelongStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ResolutionExistsOfResolutionStatementStatement
-import GroundTheory.HeightsAndTheta.Heights.Intersections.EqZeroOfEventuallyEval
-import GroundTheory.HeightsAndTheta.Heights.Intersections.IsMultiProjPrimeImageZ
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.PPFIntZero
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.PPFVert
-import GroundTheory.HeightsAndTheta.Heights.Intersections.PRatioAlgDep
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.ArithSystem
-import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Contract
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.ContractMixed
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.ContractMixedField
-import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.ExistsUnique
-import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.GeoNum
-import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.ImageArithClosed
-import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.ProjContract
+public import Development.AutomorphicSpectrum.PublishedTheorems.Metrics₂.Bundle001
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle153
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle162
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle155
+import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle011
+import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle039
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle038
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle041
+import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle037
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle022
+import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle033
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle032
+import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle026
+import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle037
+import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle021
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

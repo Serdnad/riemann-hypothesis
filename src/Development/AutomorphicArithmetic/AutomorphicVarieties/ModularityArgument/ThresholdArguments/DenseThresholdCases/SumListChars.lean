@@ -1,18 +1,18 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.TTypeConj
-import Development.AbelianVarietyTheory.Definitions.Divisors.EqOfHasValueAtInfinite
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.Bundle006
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle010
 import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.EmbedsLevelZeroDepthZero
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.EpsilonFactorRecCompatible
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle591
 import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsEquivProdIrrTw
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsListPairwiseNotRel
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsSubquotientUnramPrinSeriesOfHasSupport
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle463
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle425
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.AutomorphyLifting.PolarizedLinkage.ExtraV
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.LanglandsQuotient
-import Development.AutomorphicSpectrum.Proofs.GlobalProofs.HasSupportOfIsSubquotientProdIrr
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.Bundle062
+import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle067
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LatticeIndices.CharZeroAdicCompletion
 import GroundTheory.LocalFields.UnramifiedHensel
-import GroundTheory.ProfiniteCohomology.LocalClassFormation.UnramifiedRes
+import GroundTheory.ProfiniteCohomology.LocalClassFormation.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -217,6 +217,7 @@ private theorem order_cj (γ : ℂ ≃+* ℂ) {χ ψ : kˣ →* ℂˣ} (h : cj �
   have h1 := cj_abs γ 1 x
   rw [Nat.cast_one] at h1
   rw [← cj_val, h, MonoidHom.mul_apply, MonoidHom.mul_apply, Units.val_mul, Units.val_mul, map_mul, h1, cj_val]
+attribute [-instance] UpperTheory.V.Pr.IsCD.toIsDomain UpperTheory.V.Pr.IsCD.toIsDiscreteValuationRing UpperTheory.V.Pr.IsCD.complete in
 private theorem sum_deg (ω : Fin n → kˣ →* ℂˣ) (hω : ∀ i, IsSmoothChar (ω i)) :
     ∑ a, (IrrGL.ofChar (ω a) (hω a)).1 = n := by simp [IrrGL.ofChar]
 private theorem twist_prod (ω : Fin n → kˣ →* ℂˣ) (hω : ∀ i, IsSmoothChar (ω i)) (hd : ∑ _ : Fin n, 1 = n)
@@ -238,6 +239,7 @@ private theorem good_cosocle (ω : Fin n → kˣ →* ℂˣ) (hω : ∀ i, IsSmo
   obtain ⟨a, -, hy⟩ := Multiset.mem_sum.1 hy
   rw [Multiset.mem_singleton.1 hy]
   rfl
+attribute [-instance] UpperTheory.V.Pr.IsCD.toIsDomain UpperTheory.V.Pr.IsCD.toIsDiscreteValuationRing UpperTheory.V.Pr.IsCD.complete in
 private theorem cosocle_main (γ : ℂ ≃+* ℂ) {V V' : Type} [AddCommGroup V] [Module ℂ V] [AddCommGroup V'] [Module ℂ V']
     {σ : Representation ℂ (GL (Fin n) k) V} {σ' : Representation ℂ (GL (Fin n) k) V'} {f : V ≃+ V'}
     (hf : Cj γ σ σ' f) (hi : σ'.IsIrreducible) (ω : Fin n → kˣ →* ℂˣ) (hω : ∀ i, IsSmoothChar (ω i)) {s : ℂ}

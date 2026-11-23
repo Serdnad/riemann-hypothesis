@@ -1,10 +1,8 @@
 module
 
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.RealBands.IsBand
-public import Development.AutomorphicArithmetic.ThetaCorrespondence.RealBands.ConvAssoc
-public import Development.AutomorphicArithmetic.ThetaCorrespondence.RealBands.ConvEig
-public import Development.AutomorphicArithmetic.ThetaCorrespondence.RealBands.ExistsCompactTail
-public import Development.AutomorphicArithmetic.ThetaCorrespondence.RealBands.OpLeHalf
+public import Development.AutomorphicArithmetic.ThetaCorrespondence.RealBands.Bundle001
+public import Development.AutomorphicArithmetic.ThetaCorrespondence.RealBands.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

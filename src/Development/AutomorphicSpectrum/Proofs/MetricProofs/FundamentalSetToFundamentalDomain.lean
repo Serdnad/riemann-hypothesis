@@ -1,13 +1,13 @@
 module
 
 import Development.WeilBound.CoreStatements.VolumeEquality.Pieces
-public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.GroupDict
+public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.Bundle003
 public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.DifferentiableOnOfTendstoLocallyUniformlyOn
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.BallAutomorphismInverseExists
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.HaarPushforwardEqBallDensityStatement
-public import GroundTheory.HeightsAndTheta.Heights.FiniteCovolume.PAdelicCovolumeFinite
-public import GroundTheory.HeightsAndTheta.Heights.FiniteCovolume.PArchLatticeDiscrete
-import GroundTheory.HeightsAndTheta.Heights.FiniteCovolume.PMajorantStabCompact
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle049
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle068
+public import GroundTheory.HeightsAndTheta.Heights.FiniteCovolume.Bundle021
+public import GroundTheory.HeightsAndTheta.Heights.FiniteCovolume.Bundle020
+import GroundTheory.HeightsAndTheta.Heights.FiniteCovolume.Bundle012
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -58,7 +58,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-public import ReciprocityTheory.AnalyticForms.AnalyticCharts.NullZero
+public import ReciprocityTheory.AnalyticForms.AnalyticCharts.Bundle001
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsCompletedStrictHens
 
 @[expose] public section

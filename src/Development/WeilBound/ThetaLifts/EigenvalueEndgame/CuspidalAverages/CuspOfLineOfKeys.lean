@@ -3,12 +3,12 @@ module
 public import Development.WeilBound.ThetaLifts.EigenvalueEndgame.SignatureSplitting.AeFacts
 public import Development.AbelianVarietyTheory.Definitions.Divisors.MatchingOfParts
 public import Development.WeilBound.ThetaLifts.EigenvalueEndgame.CuspidalAverages.IsAvLeft
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ColumnWhittakerTransformKeepsLaterLaw
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsFundamentalDomainMassOneCocompactLatticeStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsStandardAdelicAddCharStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsGenericOfIsLocComp
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SetIntegralFundamentalDomainEqMassMulAverageStatement
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WhittakerLawUpperTriangularUnipotentAdelicStatement
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle382
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle249
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle777
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle785
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle248
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle410
 public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.PfDictSec
 public import Development.WeilBound.ThetaLifts.ConeHypotheses.PureEqPureA
 public import Development.WeilBound.ThetaLifts.EigenvalueEndgame.CuspidalAverages.AvLine
@@ -17,7 +17,7 @@ public import Development.WeilBound.ThetaLifts.EigenvalueEndgame.TowerCodimensio
 import Development.WeilBound.ThetaLifts.EigenvalueEndgame.UnipotentGroups.ContinuousExpG
 import Development.WeilBound.ThetaLifts.TowerModels.LeviAd
 import Formalism.LocalRingCardinality.SpanPowerMembership.LocAtA
-import Formalism.LocalToGlobal.IndefiniteReal.PHeisFC
+import Formalism.LocalToGlobal.IndefiniteReal.Bundle014
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -64,7 +64,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.PfDictDef
+public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.Bundle002
 
 @[expose] public section
 

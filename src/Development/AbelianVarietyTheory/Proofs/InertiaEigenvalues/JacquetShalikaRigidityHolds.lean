@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.RsTerm
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle516
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.AbsPowOneNotIsAlgRat
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsIsUnitaryTwistAbsPow
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LocalRankinSelbergLogarithmFormulaStatement
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.RankinSelbergPartialLPoleAtOneConjStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.RankinSelbergPartialLTendstoNeZeroAtOneStatement
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle544
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle964
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle954
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle975
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

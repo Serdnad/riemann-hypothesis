@@ -1,9 +1,9 @@
 module
 
-public import Development.WeilBound.CoreStatements.SesquilinearFractions.CmPackLieProperties
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieModelEigenvectorsActionStatement
-import Development.WeilBound.CoreStatements.SesquilinearFractions.GLieInt
-import Development.WeilBound.CoreStatements.SesquilinearFractions.GLieIntB
+public import Development.WeilBound.CoreStatements.SesquilinearFractions.Bundle014
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle093
+import Development.WeilBound.CoreStatements.SesquilinearFractions.Bundle010
+import Development.WeilBound.CoreStatements.SesquilinearFractions.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

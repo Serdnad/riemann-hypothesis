@@ -1,6 +1,6 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.InjectiveWedgeHighestCoefficient
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle449
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.AnnEqZeroOfDegreeZero
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.BracketLeviModuleBoundaryPart
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CreAnnApply

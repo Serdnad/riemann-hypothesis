@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.DualLattices.EigenLengthFrobeniusStatement
+public import ReciprocityTheory.DualLattices.Bundle020
 public import ReciprocityTheory.DualLattices.UnramifiedCokernelLowerBoundOf
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -55,7 +55,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.DualLattices.StdJForm
+public import ReciprocityTheory.DualLattices.Bundle016
 
 @[expose] public section
 

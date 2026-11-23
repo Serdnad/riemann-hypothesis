@@ -1,8 +1,8 @@
 module
 
-public import Formalism.SharpRestriction.LevelLetterCocycles.JointConditionsZpowers.ResidualIrreducibleRankR
-public import Formalism.SharpRestriction.LevelLetterCocycles.JointConditionsZpowers.IrreducibilityOfTheoremThree
-public import Formalism.SharpRestriction.LevelLetterCocycles.ArithmeticCylinders
+public import Formalism.SharpRestriction.LevelLetterCocycles.JointConditionsZpowers.Bundle007
+public import Formalism.SharpRestriction.LevelLetterCocycles.JointConditionsZpowers.Bundle004
+public import Formalism.SharpRestriction.LevelLetterCocycles.Bundle006
 import Mathlib.Algebra.AffineMonoid.UniqueSums
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

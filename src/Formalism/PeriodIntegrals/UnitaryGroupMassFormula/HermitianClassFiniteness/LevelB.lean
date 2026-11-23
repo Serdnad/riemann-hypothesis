@@ -46,7 +46,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Formalism.PeriodIntegrals.InHHClassFin
+import Formalism.PeriodIntegrals.Bundle025
 
 @[expose] public section
 

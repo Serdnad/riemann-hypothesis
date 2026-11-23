@@ -1,13 +1,13 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.MemCycAlgOfPow
-public import Development.AbelianVarietyTheory.Definitions.Foundations.FinalTheorems
-public import Development.AbelianVarietyTheory.Definitions.Foundations.NotIsTrDataGaussianIntOne
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle109
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle016
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle005
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.ResMapBijective
 public import Mathlib.RingTheory.AdicCompletion.Noetherian
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.CyclotomicDvdOfAevalPrimitiveRootInertiaFixedStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsDerivationOnISupOfCompatible
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsTowerUnionZetaDerivationModIntegralClosure
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle358
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle066
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle171
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -47,7 +47,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-import Development.AbelianVarietyTheory.Definitions.Foundations.ExpUpper
+import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle001
 
 @[expose] public section
 

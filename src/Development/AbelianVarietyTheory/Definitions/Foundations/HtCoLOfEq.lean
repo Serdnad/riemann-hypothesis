@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Foundations.HtCoIOfEq
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle019
 public import Development.AbelianVarietyTheory.Definitions.Foundations.ExistsEqSubOfMemCob
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

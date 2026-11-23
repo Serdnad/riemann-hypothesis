@@ -1,8 +1,8 @@
 module
 
-public import Formalism.SizeWindowBrackets.GrowthBoundGivesRiemannHypothesis
+public import Formalism.SizeWindowBrackets.Bundle002
 public import Mathlib.NumberTheory.Chebyshev
-public import Formalism.ThickAverageLoss.ThickAverageProofs.Balance
+public import Formalism.ThickAverageLoss.ThickAverageProofs.Bundle001
 public import Formalism.ZetaNonvanishing.GzLipschitz
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

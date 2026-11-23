@@ -1,6 +1,6 @@
 module
 
-import CompanionTheory.AutomorphicTheory.PieriRules.ThetaBesselIsometries.BesselGapVanishing
+import CompanionTheory.AutomorphicTheory.PieriRules.ThetaBesselIsometries.Bundle015
 public import Formalism.HermitianCurvature.BesselNonvanishingReduction
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.ContinuousMulMt
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.UhMeasurableSet

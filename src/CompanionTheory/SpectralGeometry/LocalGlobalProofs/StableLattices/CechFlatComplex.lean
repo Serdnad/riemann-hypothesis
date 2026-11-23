@@ -3,9 +3,9 @@ module
 public import CompanionTheory.AutomorphicTheory.TemperedLocalSpectra.ObstructionLifting.H1StructureDimLe
 public import Mathlib.RingTheory.Regular.RegularSequence
 public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.IsRegularOfSupportDimQuotientAddLengthLe
-public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.FlatQuotientWeaklyRegular
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.LocalizationOfIsStandardSmooth
-public import GroundTheory.ArithmeticGeometry.SchemeCohomology.RegularSmooth
+public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.Bundle003
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle018
+public import GroundTheory.ArithmeticGeometry.SchemeCohomology.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -362,3 +362,20 @@ theorem ciFlat : CompanionTheory.ObstructionTrivialLocus.CIFlat := by
       (Ideal.span (Set.range f))).restrictScalars R).toLinearEquiv.symm)
 
 end GlobalTheory.CompanionTheory.CIFlatPf
+
+end
+
+section
+
+@[expose] public section
+
+open CategoryTheory CategoryTheory.Limits AlgebraicGeometry MonoidalCategory CartesianMonoidalCategory MonObj
+open scoped CategoryTheory.Obj
+open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Geo.Tor GlobalTheory.AbLaw GlobalTheory.CechPic GlobalTheory.AbDual CompanionTheory.ObstructionTrivialLocus
+attribute [local instance] Over.cartesianMonoidalCategory
+
+theorem _root_.GlobalTheory.T.CechFlatComplex : CIFlat := by
+  first | exact @GlobalTheory.CompanionTheory.CIFlatPf.ciFlat | exact GlobalTheory.CompanionTheory.CIFlatPf.ciFlat | (intros; apply GlobalTheory.CompanionTheory.CIFlatPf.ciFlat <;> assumption)
+
+end
+end

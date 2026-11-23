@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.CharacterGerms.RowTieUpFBrR
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle027
 public import Mathlib.RingTheory.AdicCompletion.RingHom
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

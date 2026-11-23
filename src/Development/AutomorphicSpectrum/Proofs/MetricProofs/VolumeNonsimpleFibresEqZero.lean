@@ -1,10 +1,10 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.CxSimple
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle038
 public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.PPtsSheetOnlyNull
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.SetFibreFiniteOfGoodProj
-import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PSheetOnlyNull
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.PCriticalFibreInfinite
+import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle076
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle017
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -54,11 +54,11 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import ReciprocityTheory.AnalyticForms.AnalyticCharts.NullZero
+import ReciprocityTheory.AnalyticForms.AnalyticCharts.Bundle001
 public import ReciprocityTheory.AnalyticForms.RegularLocalRings.MemConePtsIffChartIdeal
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterSheetB
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle008
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.CxPosDens
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle037
 
 @[expose] public section
 

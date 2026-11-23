@@ -1,10 +1,10 @@
 module
 
 public import Development.WeilBound.CoreStatements.AbelianHeightsDuality.ZarhinTrick.IsLBZb
-public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.LocZeroTranslDiffComp
+public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle026
 public import Development.WeilBound.CoreStatements.AbelianHeightsDuality.ZarhinTrick.EightfoldProjection
-public import Development.WeilBound.CoreStatements.AbelianHeightsDuality.ZarhinTrick.FibLam
-import Development.WeilBound.CoreStatements.AbelianHeightsDuality.ZarhinTrick.FibLamC
+public import Development.WeilBound.CoreStatements.AbelianHeightsDuality.ZarhinTrick.Bundle007
+import Development.WeilBound.CoreStatements.AbelianHeightsDuality.ZarhinTrick.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -59,6 +59,8 @@ open GlobalTheory.IndefiniteRowSideFullHecke.ZeroSectionBase (IsPrincipalPol sqT
 attribute [local instance] Over.cartesianMonoidalCategory
 
 namespace PositivityTheory.PrwZar
+
+attribute [local instance] grpObjPairingPullback overHomOfNatOne
 
 variable {S : Scheme.{0}} {A B : Over S} [GrpObj A] [GrpObj B]
 

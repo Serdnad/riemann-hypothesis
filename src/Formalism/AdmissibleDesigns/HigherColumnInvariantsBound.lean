@@ -1,11 +1,11 @@
 module
 
 public import Formalism.AdmissibleDesigns.NonemptyPl
-public import Formalism.SharpRestriction.LevelLetterCocycles.GoodCongruenceDataOf
+public import Formalism.SharpRestriction.LevelLetterCocycles.Bundle010
 public import Formalism.WachLatticeTwists.ShapeRowIsomorphisms.Statement
 public import Formalism.CharacterColumnKernels.IdempotentNormalForms.LengthKerOfDetEqZero
 public import Formalism.SharpRestriction.LevelLetterCocycles.EndomorphismIndexBound
-public import Formalism.SharpRestriction.LevelLetterCocycles.RingDataOfIdempotents
+public import Formalism.SharpRestriction.LevelLetterCocycles.Bundle011
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

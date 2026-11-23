@@ -1,10 +1,9 @@
 module
 
 public import Formalism.SharpRestriction.GrowthBounds.CovariantDegrees
-public import Formalism.SharpRestriction.GrowthBounds.RootWeights.EnvelopingMonoidPreservesStable
-public import Formalism.SharpRestriction.GrowthBounds.RootWeights.ExistsNonzeroMultipleMemLattice
+public import Formalism.SharpRestriction.GrowthBounds.RootWeights.Bundle008
 public import Formalism.SharpRestriction.GrowthBounds.RootWeights.IntegralEnvelopingPreservesLattice
-public import Formalism.SharpRestriction.GrowthBounds.RootWeights.IntegralEnvelopingPreservesStable
+public import Formalism.SharpRestriction.GrowthBounds.RootWeights.Bundle009
 public import Formalism.SharpRestriction.GrowthBounds.RootWeights.LagrangeProjectorPreservesStable
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

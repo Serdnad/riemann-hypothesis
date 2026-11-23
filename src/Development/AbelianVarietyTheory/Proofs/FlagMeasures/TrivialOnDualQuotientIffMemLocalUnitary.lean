@@ -1,13 +1,13 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.SelfDualAt
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle005
 public import Formalism.LocalToGlobal.HermitianForms.IsLocBasis
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.CmFieldSplitCompletelyPlaceStructureStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HermitianLatticeLevelLocalDualQuotientLengthOneStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.StepLevelTLat
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.DualOfDualFrames
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle101
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle292
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle081
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle012
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.MemDualSetOfMemSpan
-import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.SplitIntLoc
+import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

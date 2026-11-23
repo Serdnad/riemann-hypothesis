@@ -1,12 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.PoitouTateNormalised
-public import Development.WeilBound.CoreStatements.PublishedTheorems.PoitouTateDuality.PtfsDefs
-public import Development.WeilBound.CoreStatements.PublishedTheorems.PoitouTateDuality.PtfsHyp
-public import Development.WeilBound.CoreStatements.PublishedTheorems.GlobalFiniteness.VanishAll
-public import Development.WeilBound.CoreStatements.PublishedTheorems.PoitouTateDuality.Bridge
-public import Development.WeilBound.CoreStatements.PublishedTheorems.PoitouTateDuality.MemDecompositionSubgroupIff
-public import Development.WeilBound.CoreStatements.PublishedTheorems.PoitouTateDuality.PtfsHypOfCmp
+public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.Bundle003
+public import Development.WeilBound.CoreStatements.PublishedTheorems.PoitouTateDuality.Bundle001
+public import Development.WeilBound.CoreStatements.PublishedTheorems.PoitouTateDuality.Bundle002
+public import Development.WeilBound.CoreStatements.PublishedTheorems.GlobalFiniteness.Bundle001
+public import Development.WeilBound.CoreStatements.PublishedTheorems.PoitouTateDuality.Bundle009
+public import Development.WeilBound.CoreStatements.PublishedTheorems.PoitouTateDuality.Bundle003
 public import Development.WeilBound.CoreStatements.PublishedTheorems.PoitouTateDuality.PtfsShaFinal
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

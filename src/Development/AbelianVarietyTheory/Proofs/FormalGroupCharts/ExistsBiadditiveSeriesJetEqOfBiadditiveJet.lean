@@ -2,11 +2,11 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.TwoChartAtlas.AdditionLawSecondIdentity
 public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.ExistsFormalBiextMap
-public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.FormalCompApplyEqMvPowerSeriesSubst
-public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.FormalGroupLogEndomorphismLinear
-public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.JetEqBilinearSeriesOfBiadditiveStatement
-import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.MvPowerSeriesJetEqCalculus
-public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.PderivSecondEvFirstPointEqZero
+public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.Bundle006
+public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.Bundle010
+public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.Bundle027
+import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.Bundle021
+public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.Bundle009
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

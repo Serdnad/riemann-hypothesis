@@ -2,7 +2,7 @@ module
 
 public import GroundTheory.LocalFields.MaximalAbelianExtension
 public import GroundTheory.LocalFields.LocalReciprocityUniversal
-public import GroundTheory.LocalFields.Existence
+public import GroundTheory.LocalFields.Bundle012
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

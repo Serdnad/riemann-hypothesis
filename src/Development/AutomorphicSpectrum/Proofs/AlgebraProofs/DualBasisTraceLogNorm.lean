@@ -1,10 +1,10 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsTransition
-public import Development.AutomorphicSpectrum.Definitions.AdelicLattices.FactPrimes
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle014
+public import Development.AutomorphicSpectrum.Definitions.AdelicLattices.Bundle001
 public import Mathlib.Algebra.AffineMonoid.Basic
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ExistsCoordinate
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.IdealPadicGeneratorLogNormStatement
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle076
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle016
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

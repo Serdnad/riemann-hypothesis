@@ -1,11 +1,10 @@
 module
 
-public import Formalism.SharpRestriction.CuspSpanNormBounds.LocalBesselAndTopKernel
-public import Formalism.SharpRestriction.CuspSpanNormBounds.AuxiliaryNormPrimes
-public import Formalism.SharpRestriction.CuspSpanNormBounds.BranchingAndRankConstants
+public import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle015
+public import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle014
 public import Formalism.SharpRestriction.CuspSpanNormBounds.AmplitudeAndVolumeBounds
-public import Formalism.SharpRestriction.CuspSpanNormBounds.OnePlaceEstimates
-public import Formalism.SharpRestriction.CuspSpanNormBounds.SBridge
+public import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle010
+public import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle009
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

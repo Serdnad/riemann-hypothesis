@@ -1,11 +1,11 @@
 module
 
 public import GroundTheory.LocalFields.ConductorMatch
-public import GroundTheory.PAdicHodge.FieldOfNormsCyclBase
+public import GroundTheory.PAdicHodge.Bundle004
 public import GroundTheory.PAdicHodge.SenTateCharUnits
-public import GroundTheory.LocalFields.Examples
+public import GroundTheory.LocalFields.Bundle002
 public import GroundTheory.LocalFields.LocalArtinMap
-public import GroundTheory.PAdicHodge.GaloisOnCp
+public import GroundTheory.PAdicHodge.Bundle001
 public import Mathlib.RingTheory.PicardGroup
 import GroundTheory.LocalFields.ConductorReciprocity
 import Mathlib.Algebra.Order.Floor.Extended
@@ -182,6 +182,26 @@ theorem eq_one_of_mem_fixingSubgroup_maximalAbelianExtension (hη : Continuous �
     rw [MonoidHom.coe_ker]
     exact isClosed_singleton.preimage hη
   exact hker hρ
+
+scoped instance padicAlgCl_valuativeExtension_of_intermediateField :
+    ValuativeExtension K (PadicAlgCl p) := by
+  refine ⟨fun {_ _} => ?_⟩
+  rw [vle_iff_norm_le, subfield_vle_iff_norm_le]
+  rfl
+
+-- The local reciprocity theorems use the valuation induced from the ambient field.
+@[reducible] scoped instance (priority := 2000) charTower_valuativeRel
+    (L : IntermediateField K (PadicAlgCl p)) : ValuativeRel L :=
+  GroundTheory.LocalField.intermediateField_valuativeRel L
+
+scoped instance (priority := 2000) charTower_valuativeExtension
+    (L : IntermediateField K (PadicAlgCl p)) : ValuativeExtension K L :=
+  GroundTheory.LocalField.intermediateField_valuativeExtension_left L
+
+scoped instance (priority := 2000) charTower_isNonarchimedeanLocalField
+    (L : IntermediateField K (PadicAlgCl p)) [FiniteDimensional K L] :
+    IsNonarchimedeanLocalField L :=
+  GroundTheory.LocalField.intermediateField_isNonarchimedeanLocalField_of_finiteDimensional L
 
 theorem restrictNormalHom_mem_upperRamificationGroup_iff (hη : Continuous η) (k n : ℕ)
     [FiniteDimensional K (charTower η k)] [IsAbelianGalois K (charTower η k)]

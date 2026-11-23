@@ -1,10 +1,10 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.DomBy
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.CoordsAt
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle013
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle002
 public import Mathlib.RingTheory.Valuation.ValuationSubring
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ChartPrimeExistsUniquePointStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.RegAtChartLocalizationStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle074
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle076
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

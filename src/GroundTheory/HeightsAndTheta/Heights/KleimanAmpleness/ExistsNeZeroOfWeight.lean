@@ -1,7 +1,7 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.ImportsTailExtra
-import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.IntNumRelabel
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle049
+import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.Bundle009
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

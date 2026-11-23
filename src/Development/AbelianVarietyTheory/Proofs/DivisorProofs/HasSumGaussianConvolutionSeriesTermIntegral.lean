@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PowForm
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle051
 public import Mathlib.Analysis.Distribution.SchwartzSpace.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

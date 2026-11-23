@@ -1,8 +1,8 @@
 module
 
 public import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.TrDefs
-public import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.AlgTrace
-public import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.CutIrr
+public import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.Bundle005
+public import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

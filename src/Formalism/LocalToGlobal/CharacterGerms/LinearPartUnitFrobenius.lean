@@ -2,11 +2,11 @@ module
 
 public import Formalism.LocalToGlobal.CharacterGerms.CoeffOneSubstCurve
 public import Formalism.LocalToGlobal.CharacterGerms.ConstantZeroCompCoordinate
-public import Formalism.LocalToGlobal.CharacterGerms.FirstVanishingAt
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle033
 import Formalism.LocalToGlobal.CharacterGerms.CoeffLMulCvFrob
 import Formalism.LocalToGlobal.CharacterGerms.MaximalOfValuationGeOne
 public import Formalism.LocalToGlobal.CharacterGerms.PderivDoubleMultiplicationJacobian
-import Formalism.LocalToGlobal.CharacterGerms.RowTieCartFB
+import Formalism.LocalToGlobal.CharacterGerms.Bundle008
 public import Formalism.LocalToGlobal.CharacterGerms.RowTiePOActSelf
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -229,7 +229,7 @@ theorem aLinAdj_holds : ALinAdjSt := by
   have hSI : ∀ w, (∀ i, V.Ge 0 (w i)) → IntS V (zl w Y.u1) := fun w hw => intS_zl hw (first_unit_series_integral C V O dd Y)
 
   have key : ev (n := 1) ![e] (zl v Y.u1) + MvPowerSeries.C (V.l : C) * T = zl v' Y.u1 + ev (n := 1) ![M] T := by
-    rw [hS, hS, hT, ev_sub (z0_1 e he0), ev_mul (z0_1 e he0), ev_C, ev_sub (z0_1 M hM0), eval_single_comp he0 hM0,
+    rw [hS, hS, hT, ev_sub (z0_1 e he0), PartialDerivEval.ev_mul (z0_1 e he0), PartialDerivEval.ev_C, ev_sub (z0_1 M hM0), eval_single_comp he0 hM0,
       eval_single_comp hM0 he0, hMdef, mulL_comm Y.B.G he0 hhom]
     ring
 

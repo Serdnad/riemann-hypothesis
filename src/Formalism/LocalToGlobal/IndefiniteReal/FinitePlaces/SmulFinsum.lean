@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.FourModel
+public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.Bundle001
 public import Mathlib.Algebra.Module.Pi
 public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.FourExist
 import Mathlib.Algebra.Order.Floor.Extended

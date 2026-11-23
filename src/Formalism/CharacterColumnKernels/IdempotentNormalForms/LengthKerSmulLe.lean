@@ -1,6 +1,6 @@
 module
 
-public import Formalism.CharacterColumnKernels.StatBlockRhoCount
+public import Formalism.CharacterColumnKernels.Bundle003
 public import Formalism.CharacterColumnKernels.IdempotentNormalForms.LengthEqKerAddRange
 import Formalism.CharacterColumnKernels.IdempotentNormalForms.LengthKerOfDetEqZero
 import Mathlib.Algebra.Order.Floor.Extended

@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.GlobalFields.SemilocalAlgebras.ContinuousCompletionMap
+public import GroundTheory.GlobalFields.SemilocalAlgebras.Bundle001
 import GroundTheory.GlobalFields.LocalFieldAtPlace
 import GroundTheory.LocalFields.Integers
 import Mathlib.Algebra.Order.Floor.Extended

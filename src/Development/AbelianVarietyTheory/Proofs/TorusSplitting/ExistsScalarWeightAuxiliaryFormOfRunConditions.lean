@@ -1,10 +1,10 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.HeightFunctions.GrowthConstantBoundGcR
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ThetaRunParametersAtTypePrimesProduct
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle043
 public import Development.AbelianVarietyTheory.Proofs.TorusSplitting.EtValIntegral
-public import Development.AbelianVarietyTheory.Proofs.TorusSplitting.EtaleExtensionDegreeTwoConstantsStatement
-public import Development.AbelianVarietyTheory.Proofs.TorusSplitting.PageRows
+public import Development.AbelianVarietyTheory.Proofs.TorusSplitting.EtaleExtensionDegreeTwoConstants
+public import Development.AbelianVarietyTheory.Proofs.TorusSplitting.Bundle008
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -38,12 +38,12 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AutomorphicSpectrum.Definitions.AdelicLattices.IsSelfDualLat
+import Development.AutomorphicSpectrum.Definitions.AdelicLattices.Bundle001
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.ArakelovInstances.IsStrictDom
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.LiftFactorization
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.Signature
-import Formalism.LocalToGlobal.ProjectiveLattices.AlgebraMapCAt
-import Formalism.LocalToGlobal.ProjectiveLattices.JFDFree
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.Bundle002
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.Bundle001
+import Formalism.LocalToGlobal.ProjectiveLattices.Bundle003
+import Formalism.LocalToGlobal.ProjectiveLattices.Bundle008
 
 @[expose] public section
 

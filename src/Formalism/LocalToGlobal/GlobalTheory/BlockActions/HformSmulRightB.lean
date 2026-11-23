@@ -1,9 +1,9 @@
 module
 
 public import Formalism.LocalRingCardinality.SpanPowerMembership.ExampleLayerExistsGenerators
-public import Formalism.LocalToGlobal.HermitianForms.TiedBr
+public import Formalism.LocalToGlobal.HermitianForms.Bundle006
 public import Formalism.SharpRestriction.GlobalSchurBounds.ProductFirstZerothParts
-public import Formalism.LocalToGlobal.GlobalTheory.GL4.CTEqConjTranspose
+public import Formalism.LocalToGlobal.GlobalTheory.GL4.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

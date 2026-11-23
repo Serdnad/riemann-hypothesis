@@ -256,7 +256,8 @@ theorem aT_mul_of_eigen {P : Matrix (Fin n) (Fin n) ℂ} {c : ℂ} (h : A * P = 
     simp only [Matrix.mul_apply, Matrix.smul_apply, smul_eq_mul] at this
     simp only [Matrix.mulVec, dotProduct, Matrix.smul_apply, smul_eq_mul, Pi.smul_apply, mul_assoc, ← Finset.mul_sum, this]
   have h2 := congrFun (exp_mulVec_of_eigen h1) i
-  simpa [eT, Matrix.mulVec, dotProduct, Matrix.mul_apply] using h2
+  unfold _root_.GlobalTheory.CompanionTheory.GradLine.eT
+  simpa [Matrix.mulVec, dotProduct, Matrix.mul_apply] using h2
 
 theorem aT_Pm (hA : IsGrad ε A) (t : ℝ) : eT A t * Pm A = ((Real.exp (-t) : ℝ) : ℂ) • Pm A := by
   have h : A * Pm A = (-1 : ℂ) • Pm A := by rw [A_Pm hA]; simp

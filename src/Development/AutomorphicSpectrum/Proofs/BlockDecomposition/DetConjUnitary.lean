@@ -1,11 +1,11 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SecondCountableHermC
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle009
 public import Mathlib.Analysis.Matrix.Spectrum
 public import Mathlib.Analysis.Normed.Lp.MeasurableSpace
 public import Mathlib.LinearAlgebra.Complex.FiniteDimensional
 public import Mathlib.MeasureTheory.Measure.Haar.OfBasis
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.LintegralFintypeProdEqProd
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle029
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

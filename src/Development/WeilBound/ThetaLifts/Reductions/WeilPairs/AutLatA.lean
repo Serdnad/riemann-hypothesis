@@ -1,16 +1,16 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsIsHalfIdem
-public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.AutDef
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1775
+public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.Bundle003
 public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.GoodLat
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.FiniteRationalPointsCompletedLattice
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle068
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FiniteDetSmulSubOne
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RationalLatticeSelfDualFgFullIndex
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RelIndexMapNsmulComapEqAbsNormDetStatement
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1824
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle222
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ThetaFunctionHeisenbergInvariant
 public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.FinIdemSmulOfReal
 import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.LatRepA
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalUnitaryOrbits.QInertHolds
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalUnitaryOrbits.Bundle009
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

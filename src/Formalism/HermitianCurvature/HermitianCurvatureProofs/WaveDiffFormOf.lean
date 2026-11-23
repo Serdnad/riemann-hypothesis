@@ -3,7 +3,7 @@ module
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.WaveDiffForm
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CccoefMono
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.PositiveDensityModerateGrowth
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.RoomOffGridSymmetric
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle050
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

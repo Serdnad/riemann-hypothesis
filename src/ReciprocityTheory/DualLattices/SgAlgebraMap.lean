@@ -2,7 +2,7 @@ module
 
 public import Mathlib.Algebra.Polynomial.AlgebraMap
 public import Mathlib.NumberTheory.Padics.PadicIntegers
-public import ReciprocityTheory.DualLattices.IsUnitOfNotMem
+public import ReciprocityTheory.DualLattices.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -51,7 +51,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.DualLattices.EigPowEqOne
+public import ReciprocityTheory.DualLattices.Bundle005
 public import ReciprocityTheory.DualLattices.IsAdicCompleteOfBasis
 public import Mathlib.Algebra.CharP.Frobenius
 public import Mathlib.LinearAlgebra.Matrix.Charpoly.Basic

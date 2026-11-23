@@ -1,12 +1,12 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.SumExpSt
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle059
 public import Development.AbelianVarietyTheory.Definitions.Divisors.HasBlockOfOccurs
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LinIndMapRangeField
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TotalDegreeLeOfColW
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle873
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ValuesMemOfLocal
 import Formalism.LocalToGlobal.Divisibility.ProjLemmas
-import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.AutomorphicFormsDecompositionHolds
+import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

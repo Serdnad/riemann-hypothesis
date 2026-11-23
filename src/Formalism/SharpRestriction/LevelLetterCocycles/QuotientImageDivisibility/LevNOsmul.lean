@@ -2,11 +2,11 @@ module
 
 public import Formalism.SharpRestriction.LevelLetterCocycles.QuotientImageDivisibility.SmulSAddLeft
 public import Formalism.SharpRestriction.LevelLetterCocycles.WachCoordinates
-public import Formalism.JumpKernelCokernel.JumpShiftProofs.InvConst
+public import Formalism.JumpKernelCokernel.JumpShiftProofs.Bundle001
 public import Formalism.SharpRestriction.LevelLetterCocycles.LocalizationQuotientSeparatedDvd
 public import Formalism.SharpRestriction.LevelLetterCocycles.QuotientImageDivisibility.CmpOfMemX
 public import Formalism.SharpRestriction.LevelLetterCocycles.QuotientImageDivisibility.ExpPowSubOne
-public import Formalism.SharpRestriction.LevelLetterCocycles.QuotientImageDivisibility.GammaLevelsExpansion
+public import Formalism.SharpRestriction.LevelLetterCocycles.QuotientImageDivisibility.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

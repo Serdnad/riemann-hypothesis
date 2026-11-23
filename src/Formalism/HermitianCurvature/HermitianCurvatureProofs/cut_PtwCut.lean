@@ -1,11 +1,11 @@
 module
 
 public import Formalism.HermitianCurvature.RealInputsClosedAdmissibleSettings
-public import Formalism.FormalDegreeBessel.FinalBF
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.AdjointnessPolynomiallyBounded
+public import Formalism.FormalDegreeBessel.Bundle002
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle024
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.ComponentFamilySettingOfSetting
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutERCV
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutEnCVLocal
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle197
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle070
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.OrbitalIntegralAeConvergenceContinuity
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.RegularisedPairingViaPhase
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.TheoremPIntegralOfPlaces
@@ -48,7 +48,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.DensityConstantOfParts
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle130
 
 @[expose] public section
 

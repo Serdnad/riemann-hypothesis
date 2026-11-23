@@ -1,18 +1,17 @@
 module
 
 import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsPolyBallOfCompact
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MvecLeviMulUv
-public import Development.WeilBound.RepresentationTheoryGL.GenericUnitaryGL.LeibnizOrders.PhiPG0
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle125
+public import Development.WeilBound.RepresentationTheoryGL.GenericUnitaryGL.LeibnizOrders.Bundle001
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.NonemptyEquivMultiProdOne
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.AddCharConductorAndHaarIntegersExist
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.LeviIntegralFacts
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsInducedBallIndicatorStatement
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsMemTwKerPolyBall
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsRepsSumEqZero
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.GpProjContinuous
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LocallyConstantFiniteBallSumStatement
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MirabolicFourierExpansion
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.RestrictionBallIndicatorSpanStatement
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle043
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle062
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle329
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle124
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle163
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle155
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle150
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle351
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -491,7 +490,7 @@ theorem core (ψ : AddChar k Circle) (hψ : Continuous ψ) (N : ℕ) (H : Subgro
 
 theorem twist_equiv {G V W : Type} [Group G] [AddCommGroup V] [Module ℂ V] [AddCommGroup W] [Module ℂ W]
     (A : Representation ℂ G V) (B : Representation ℂ G W) (χ : G →* ℂˣ) (h : Nonempty (A.Equiv B)) :
-    Nonempty ((twist A χ).Equiv (twist B χ)) := by
+    Nonempty ((_root_.GlobalTheory.SmGL.twist A χ).Equiv (_root_.GlobalTheory.SmGL.twist B χ)) := by
   obtain ⟨e⟩ := h
   refine ⟨Representation.Equiv.mk e.toLinearEquiv fun g => LinearMap.ext fun x => ?_⟩
   show e.toLinearEquiv ((χ g : ℂ) • A g x) = (χ g : ℂ) • B g (e.toLinearEquiv x)
@@ -545,13 +544,13 @@ theorem smooth_GL_zero {V : Type} [AddCommGroup V] [Module ℂ V] (a : Represent
 theorem smc_dpow (n : ℕ) (s : ℝ) : IsSmoothChar (dpow (k := k) n s) := (GlobalTheory.LocGL.isSmoothChar_absPow _).detChar
 
 theorem sm_tw {n : ℕ} {σ : GRep k n} (hσ : IsSmooth σ.ρ) (s : ℝ) : IsSmooth (σ.tw s).ρ :=
-  isSmooth_twist hσ (smc_dpow n s)
+  _root_.GlobalTheory.SmGL.isSmooth_twist hσ (smc_dpow n s)
 
 theorem sm_gres {n : ℕ} {σ : GRep k (n + 1)} (hσ : IsSmooth σ.ρ) : IsSmooth (gres σ).ρ :=
   isSmooth_comp hσ _ continuous_subtype_val
 
 theorem sm_mtw {n : ℕ} {τ : MRep k n} (hτ : IsSmooth τ.ρ) (s : ℝ) : IsSmooth (mtw τ s).ρ :=
-  isSmooth_twist hτ ((smc_dpow (n + 1) s).preimage continuous_subtype_val)
+  _root_.GlobalTheory.SmGL.isSmooth_twist hτ ((smc_dpow (n + 1) s).preimage continuous_subtype_val)
 
 section Final
 variable {t : ℕ} (τ : MRep k 0) (σ : GRep k (t + 1))
@@ -614,7 +613,7 @@ theorem sm3 {W : Type} [AddCommGroup W] [Module ℂ W] (c₁ c₂ c₃ : ℂ) (h
 
 theorem match_tmul (m : Mir k (0 + t)) (a : τ.V) (b : σ.V) :
     TensorProduct.congr (eMk τ) (LinearEquiv.refl ℂ σ.V)
-      (twist (twist ((rho0 τ σ).comp (iotaH t)) (dpowM (0 + t) 1)) (dpowM (0 + t) (-1 / 2)) m (a ⊗ₜ[ℂ] b)) =
+      (_root_.GlobalTheory.SmGL.twist (_root_.GlobalTheory.SmGL.twist ((rho0 τ σ).comp (iotaH t)) (dpowM (0 + t) 1)) (dpowM (0 + t) (-1 / 2)) m (a ⊗ₜ[ℂ] b)) =
     ((rhoR τ σ).comp (iotaG t)) m (TensorProduct.congr (eMk τ) (LinearEquiv.refl ℂ σ.V) (a ⊗ₜ[ℂ] b)) := by
   have hq : (pgProj k 0 (t + 1) (iotaH t m)).2 = ((gpProj k 0 t (iotaG t m)).2 : GL (Fin (t + 1)) k) :=
     pg_gp t m (hlv t m) (iotaG t m).2
@@ -623,7 +622,7 @@ theorem match_tmul (m : Mir k (0 + t)) (a : τ.V) (b : σ.V) :
     rw [hq]
     exact det_pg t m (iotaG t m).2
   have hs := scal_one (Matrix.GeneralLinearGroup.det (m : GL (Fin (0 + t + 1)) k))
-  rw [twist_apply, twist_apply]
+  rw [_root_.GlobalTheory.SmGL.twist_apply, _root_.GlobalTheory.SmGL.twist_apply]
   show TensorProduct.congr (eMk τ) (LinearEquiv.refl ℂ σ.V) (_ • _ • rho0 τ σ (iotaH t m) (a ⊗ₜ[ℂ] b)) =
     rhoR τ σ (iotaG t m) (eMk τ a ⊗ₜ[ℂ] b)
   have h3 : ((dpow (k := k) (t + 1) (-((0 + 1 : ℕ) : ℝ) / 2) (pgProj k 0 (t + 1) (iotaH t m)).2 : ℂˣ) : ℂ) =
@@ -634,7 +633,7 @@ theorem match_tmul (m : Mir k (0 + t)) (a : τ.V) (b : σ.V) :
 
 theorem final_match (m : Mir k (0 + t)) (x : τ.V ⊗[ℂ] σ.V) :
     TensorProduct.congr (eMk τ) (LinearEquiv.refl ℂ σ.V)
-      (twist (twist ((rho0 τ σ).comp (iotaH t)) (dpowM (0 + t) 1)) (dpowM (0 + t) (-1 / 2)) m x) =
+      (_root_.GlobalTheory.SmGL.twist (_root_.GlobalTheory.SmGL.twist ((rho0 τ σ).comp (iotaH t)) (dpowM (0 + t) 1)) (dpowM (0 + t) (-1 / 2)) m x) =
     ((rhoR τ σ).comp (iotaG t)) m (TensorProduct.congr (eMk τ) (LinearEquiv.refl ℂ σ.V) x) := by
   induction x using TensorProduct.induction_on with
   | zero => simp
@@ -653,20 +652,20 @@ theorem dpowM_one (n : ℕ) (m : Mir k n) :
 
 theorem phi_of_induced_rank_zero_equiv (ψ : AddChar k Circle) (hψ : Continuous ψ) (hσ : IsSmooth σ.ρ) :
     Nonempty ((phiMinus k ψ (cInd (HPG k 0 (t + 1)) (rho0 τ σ) : Representation ℂ (Mir k (0 + t + 1)) _)).Equiv
-      (twist ((rho0 τ σ).comp (iotaH t)) (dpowM (0 + t) 1))) :=
+      (_root_.GlobalTheory.SmGL.twist ((rho0 τ σ).comp (iotaH t)) (dpowM (0 + t) 1))) :=
   core ψ hψ (0 + t) (HPG k 0 (t + 1)) (HPG_zero (t + 1)) (rho0 τ σ) (smooth_rho0 τ σ hσ) (hlv t) _
     (fun m x => congrArg (fun c : ℂ => c • (rho0 τ σ ⟨_, hlv t m⟩ x)) (dpowM_one (0 + t) m))
 
 set_option synthInstance.maxHeartbeats 100000 in
 theorem comb_lem (ψ : AddChar k Circle) (hψ : Continuous ψ) (hσ : IsSmooth σ.ρ) :
-    Nonempty ((twist (phiMinus k ψ (cInd (HPG k 0 (t + 1)) (rho0 τ σ) : Representation ℂ (Mir k (0 + t + 1)) _)) (dpowM (0 + t) (-1 / 2))).Equiv
+    Nonempty ((_root_.GlobalTheory.SmGL.twist (phiMinus k ψ (cInd (HPG k 0 (t + 1)) (rho0 τ σ) : Representation ℂ (Mir k (0 + t + 1)) _)) (dpowM (0 + t) (-1 / 2))).Equiv
       (cInd (MirabolicParabolic k 0 t) (rhoR τ σ))) :=
   ⟨((twist_equiv _ _ (dpowM (0 + t) (-1 / 2)) (phi_of_induced_rank_zero_equiv τ σ ψ hψ hσ)).some.trans
       (equiv_of_lin _ _ _ (final_match τ σ)).some).trans
     (cInd_top (MirabolicParabolic k 0 t) (mirabolicParabolic_zero_left_eq_top t) (rhoR τ σ) (sm_rhoR τ σ hσ) ((rhoR τ σ).comp (iotaG t)) (fun x w => rfl)).some.symm⟩
 
 theorem miso_of (ψ : AddChar k Circle) {n : ℕ} {V : Type} [AddCommGroup V] [Module ℂ V] (π : Representation ℂ (Mir k (n + 1)) V) (B : MRep k n)
-    (h : Nonempty ((twist (phiMinus k ψ π) (dpowM n (-1 / 2))).Equiv B.ρ)) : MIso (phiN ψ (⟨V, π⟩ : MRep k (n + 1))) B := h
+    (h : Nonempty ((_root_.GlobalTheory.SmGL.twist (phiMinus k ψ π) (dpowM n (-1 / 2))).Equiv B.ρ)) : MIso (phiN ψ (⟨V, π⟩ : MRep k (n + 1))) B := h
 
 theorem aux0 (ψ : AddChar k Circle) (hψ : Continuous ψ) (hσ : IsSmooth σ.ρ) :
     MIso (phiN (n := 0 + t) ψ (⟨_, cInd (HPG k 0 (t + 1)) (rho0 τ σ)⟩ : MRep k (0 + t + 1))) (prodGPn (psiN τ) (gres σ)) :=

@@ -7,7 +7,7 @@ import Development.WeilBound.CoreStatements.AutomorphicKernels.EisensteinSeriesG
 import Development.WeilBound.CoreStatements.AutomorphicKernels.EisensteinSeriesG2.G2HaarMeasure.ContinuousInFrame
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.UnfoldingCompactness.CellsSub
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.UnfoldingCompactness.MatrixOfUnipotentFrame
-import Development.WeilBound.ThetaLifts.LatticeBasics.UnfoldB
+import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle011
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

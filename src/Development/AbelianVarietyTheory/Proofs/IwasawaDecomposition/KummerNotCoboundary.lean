@@ -3,25 +3,23 @@ module
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.FiniteDimensionalWdSpace
 public import Formalism.LocalRingCardinality.AdicCompletionLocal.LocTied
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsCrisP
-public import Development.AbelianVarietyTheory.CrystallinePeriods.AdicMaps
-public import Development.AbelianVarietyTheory.CrystallinePeriods.CrisIncl
+public import Development.AbelianVarietyTheory.CrystallinePeriods.Bundle001
 public import Development.AbelianVarietyTheory.CrystallinePeriods.RingBasics
 public import Development.AbelianVarietyTheory.CrystallinePeriods.RingIface
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsFinExt
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Acris0TorsionFree
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.AcrisGaloisActionFontaineTEqCyclotomic
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.AcrisLogTeichmullerUniqueGaloisFrobeniusBdR
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.AcrisToBdRPlusInjective
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle384
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle086
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle144
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle133
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle127
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CanonicalAcrisToBdRPlusUniqueEquivariantApprox
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CoeffEqMkRootT
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.EigenAdd
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.EventuallyIntegral
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsCompatibleRootsOfUnityAndTiltPadic
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsLogTeichmullerAcrisEqMuMulUnit
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsSumFactorial
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.OneAddMulDerivativeTrunc
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle083
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle162
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle084
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle082
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle098
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle140
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.PeriodRingsGaloisActionLawsFrobeniusComm
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ThetaBdRPlusSurjectiveKerUnitsEquivariant
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle081
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -110,12 +108,12 @@ theorem exists_full (P : LocPrime l) (K : FinExt l) (b : P.R.B)
 section Log
 
 set_option allowUnsafeReducibility true in
-attribute [local irreducible] Per.Acris Per.Bcris
+attribute [local irreducible] _root_.Formalism.Per.Acris _root_.Formalism.Per.Bcris
 
-theorem log_cong (C : Core l) (e : Per.Fl l) (d : ℤ_[l]) (y : Per.Acris l)
+theorem log_cong (C : Core l) (e : _root_.Formalism.Per.Fl l) (d : ℤ_[l]) (y : _root_.Formalism.Per.Acris l)
     (hr : ∀ m : ℕ, (rootT e m : ℂ_[l]) = algebraMap (Om l) ℂ_[l] (C.ζ m ^ (PadicInt.toZModPow m d).val))
-    (hy : IsLogA e y) (m : ℕ) : ∃ w : Per.Acris l,
-    y - ((PadicInt.toZModPow m d).val : Per.Acris l) * C.t = (l : Per.Acris l) ^ m * w := by
+    (hy : IsLogA e y) (m : ℕ) : ∃ w : _root_.Formalism.Per.Acris l,
+    y - ((PadicInt.toZModPow m d).val : _root_.Formalism.Per.Acris l) * C.t = (l : _root_.Formalism.Per.Acris l) ^ m * w := by
   haveI : NeZero (l ^ m) := ⟨pow_ne_zero _ (Fact.out : l.Prime).ne_zero⟩
   have he1 : e.untilt = 1 := Subtype.ext (by
     have := hr 0
@@ -124,11 +122,11 @@ theorem log_cong (C : Core l) (e : Per.Fl l) (d : ℤ_[l]) (y : Per.Acris l)
   have hrm := hr m
   set a := (PadicInt.toZModPow m d).val with ha
   obtain ⟨b, hb⟩ : ∃ b, a + b = l ^ m := Nat.exists_eq_add_of_le (ZMod.val_lt _).le |>.imp fun _ h => h.symm
-  set em := ((frobeniusEquiv (Per.Fl l) l).symm)^[m] C.ε with hem
-  set fm := ((frobeniusEquiv (Per.Fl l) l).symm)^[m] e with hfm
+  set em := ((frobeniusEquiv (_root_.Formalism.Per.Fl l) l).symm)^[m] C.ε with hem
+  set fm := ((frobeniusEquiv (_root_.Formalism.Per.Fl l) l).symm)^[m] e with hfm
   have hε := TAct.eps_untilt C
-  have hr1 : ((em.untilt : Per.OC l) : ℂ_[l]) = algebraMap (Om l) ℂ_[l] (C.ζ m) := C.ε_root m
-  have hr2 : ((fm.untilt : Per.OC l) : ℂ_[l]) = algebraMap (Om l) ℂ_[l] (C.ζ m ^ a) := hrm
+  have hr1 : ((em.untilt : _root_.Formalism.Per.OC l) : ℂ_[l]) = algebraMap (Om l) ℂ_[l] (C.ζ m) := C.ε_root m
+  have hr2 : ((fm.untilt : _root_.Formalism.Per.OC l) : ℂ_[l]) = algebraMap (Om l) ℂ_[l] (C.ζ m ^ a) := hrm
   have he : (fm * em ^ b).untilt = 1 := by
     rw [map_mul, map_pow]
     apply Subtype.ext
@@ -143,16 +141,16 @@ theorem log_cong (C : Core l) (e : Per.Fl l) (d : ℤ_[l]) (y : Per.Acris l)
   rw [h3] at h1
   have h4 := (LogFun.log_fun l _ _ (by rw [map_mul, he1, map_pow, hε, one_pow, one_mul]) h1).1 _ h2
   refine ⟨z - C.t, ?_⟩
-  have h5 : (a : Per.Acris l) + b = (l : Per.Acris l) ^ m := by
-    exact_mod_cast congrArg (Nat.cast : ℕ → Per.Acris l) hb
+  have h5 : (a : _root_.Formalism.Per.Acris l) + b = (l : _root_.Formalism.Per.Acris l) ^ m := by
+    exact_mod_cast congrArg (Nat.cast : ℕ → _root_.Formalism.Per.Acris l) hb
   push_cast at h4
   linear_combination h4 - C.t * h5
 
-theorem log_eq (C : Core l) (e : Per.Fl l) (x : ℤ_[l]) (y : Per.Acris l)
+theorem log_eq (C : Core l) (e : _root_.Formalism.Per.Fl l) (x : ℤ_[l]) (y : _root_.Formalism.Per.Acris l)
     (hr : ∀ m : ℕ, (rootT e m : ℂ_[l]) = algebraMap (Om l) ℂ_[l] (C.ζ m ^ (PadicInt.toZModPow m x).val))
-    (hy : IsLogA e y) : y = algebraMap (Per.Ainf l) (Per.Acris l) (Per.zA l x) * C.t := by
+    (hy : IsLogA e y) : y = algebraMap (_root_.Formalism.Per.Ainf l) (_root_.Formalism.Per.Acris l) (_root_.Formalism.Per.zA l x) * C.t := by
   haveI := (acris_basic l).1
-  rw [IsHausdorff.eq_iff_smodEq (I := Ideal.span {(l : Per.Acris l)})]
+  rw [IsHausdorff.eq_iff_smodEq (I := Ideal.span {(l : _root_.Formalism.Per.Acris l)})]
   intro m
   obtain ⟨w, hw⟩ := log_cong C e x y hr hy m
   haveI : NeZero (l ^ m) := ⟨pow_ne_zero _ (Fact.out : l.Prime).ne_zero⟩
@@ -161,23 +159,23 @@ theorem log_eq (C : Core l) (e : Per.Fl l) (x : ℤ_[l]) (y : Per.Acris l)
     rw [RingHom.mem_ker, map_sub, map_natCast, ZMod.natCast_zmod_val, sub_self]
   rw [PadicInt.ker_toZModPow, Ideal.mem_span_singleton'] at hk
   obtain ⟨c, hc⟩ := hk
-  have hc' := congrArg ((algebraMap (Per.Ainf l) (Per.Acris l)).comp (Per.zA l)) hc
+  have hc' := congrArg ((algebraMap (_root_.Formalism.Per.Ainf l) (_root_.Formalism.Per.Acris l)).comp (_root_.Formalism.Per.zA l)) hc
   rw [map_mul, map_sub, map_pow, map_natCast, map_natCast, RingHom.comp_apply, RingHom.comp_apply] at hc'
   rw [SModEq.sub_mem, smul_eq_mul, Ideal.mul_top, Ideal.span_singleton_pow, Ideal.mem_span_singleton']
-  refine ⟨w - algebraMap (Per.Ainf l) (Per.Acris l) (Per.zA l c) * C.t, ?_⟩
+  refine ⟨w - algebraMap (_root_.Formalism.Per.Ainf l) (_root_.Formalism.Per.Acris l) (_root_.Formalism.Per.zA l c) * C.t, ?_⟩
   linear_combination - hw - C.t * hc'
 
 end Log
 
-def IsLogP (w : Per.AinfP l) (y : Per.BdRp l) : Prop :=
-  ∀ n : ℕ, ((n.factorial : ℕ) : Per.AinfP l ⧸ Per.kerP l ^ n) * Per.ev l n y =
-    Ideal.Quotient.mk _ (∑ k ∈ Finset.range n, (-1) ^ k * ((n.factorial / (k + 1) : ℕ) : Per.AinfP l) * w ^ (k + 1))
+def IsLogP (w : _root_.Formalism.Per.AinfP l) (y : _root_.Formalism.Per.BdRp l) : Prop :=
+  ∀ n : ℕ, ((n.factorial : ℕ) : _root_.Formalism.Per.AinfP l ⧸ Per.kerP l ^ n) * Per.ev l n y =
+    Ideal.Quotient.mk _ (∑ k ∈ Finset.range n, (-1) ^ k * ((n.factorial / (k + 1) : ℕ) : _root_.Formalism.Per.AinfP l) * w ^ (k + 1))
 
-theorem IsLogP.add {a b : Per.AinfP l} {y y' z : Per.BdRp l} (ha : a ∈ Per.kerP l) (hb : b ∈ Per.kerP l)
+theorem IsLogP.add {a b : _root_.Formalism.Per.AinfP l} {y y' z : _root_.Formalism.Per.BdRp l} (ha : a ∈ Per.kerP l) (hb : b ∈ Per.kerP l)
     (hy : IsLogP a y) (hy' : IsLogP b y') (hz : IsLogP (a + b + a * b) z) : z = y + y' := by
   refine GlobalTheory.RingIface.ev_ext l _ _ fun n => ?_
-  let q : Per.AinfP l →+* Per.AinfP l ⧸ Per.kerP l ^ n := Ideal.Quotient.mk _
-  have hR : ∀ m : ℕ, m ≠ 0 → IsUnit (m : Per.AinfP l ⧸ Per.kerP l ^ n) := fun m hm => by
+  let q : _root_.Formalism.Per.AinfP l →+* _root_.Formalism.Per.AinfP l ⧸ Per.kerP l ^ n := Ideal.Quotient.mk _
+  have hR : ∀ m : ℕ, m ≠ 0 → IsUnit (m : _root_.Formalism.Per.AinfP l ⧸ Per.kerP l ^ n) := fun m hm => by
     have := (GlobalTheory.RingBasics.isUnit_nat l m hm).map q
     rwa [map_natCast] at this
   apply (hR _ n.factorial_ne_zero).mul_left_cancel
@@ -191,8 +189,8 @@ theorem IsLogP.add {a b : Per.AinfP l} {y y' z : Per.BdRp l} (ha : a ∈ Per.ker
   simp only [map_sum, map_mul, map_pow, map_neg, map_one, map_natCast, map_add (f := _)]
   exact key
 
-theorem IsLogP.gal {a : Per.AinfP l} {y : Per.BdRp l} (hy : IsLogP a y) (g : GQ l) :
-    IsLogP (Per.extP (Per.σA g) a) (Per.σDp g y) := by
+theorem IsLogP.gal {a : _root_.Formalism.Per.AinfP l} {y : _root_.Formalism.Per.BdRp l} (hy : IsLogP a y) (g : GQ l) :
+    IsLogP (Per.extP (_root_.Formalism.Per.σA g) a) (Per.σDp g y) := by
   intro n
   have h := hy n
   rw [← map_natCast (Per.ev l n), ← map_mul] at h
@@ -200,11 +198,11 @@ theorem IsLogP.gal {a : Per.AinfP l} {y : Per.BdRp l} (hy : IsLogP a y) (g : GQ 
   rw [map_mul, map_natCast, map_mul, map_natCast] at h2
   rw [h2]
 
-  simp only [map_sum (Per.extP (Per.σA g)), map_mul (Per.extP (Per.σA g)), map_pow (Per.extP (Per.σA g)),
-  map_neg (Per.extP (Per.σA g)), map_one (Per.extP (Per.σA g)), map_natCast (Per.extP (Per.σA g))]
+  simp only [map_sum (Per.extP (_root_.Formalism.Per.σA g)), map_mul (Per.extP (_root_.Formalism.Per.σA g)), map_pow (Per.extP (_root_.Formalism.Per.σA g)),
+  map_neg (Per.extP (_root_.Formalism.Per.σA g)), map_one (Per.extP (_root_.Formalism.Per.σA g)), map_natCast (Per.extP (_root_.Formalism.Per.σA g))]
 
 theorem exists_tilt (ν : ℕ → Om l) (hs : ∀ m, ν (m + 1) ^ l = ν m) (u : ℕ) (h0 : ν 0 = u) :
-    ∃ e : Per.Fl l, ∀ m, (rootT e m : ℂ_[l]) = algebraMap (Om l) ℂ_[l] (ν m) := by
+    ∃ e : _root_.Formalism.Per.Fl l, ∀ m, (rootT e m : ℂ_[l]) = algebraMap (Om l) ℂ_[l] (ν m) := by
   have hmem : ∀ m, algebraMap (Om l) ℂ_[l] (ν m) ∈ PadicComplexInt l := fun m => by
     have h : algebraMap (Om l) ℂ_[l] (ν m) ^ l ^ m = u := by
       have := zeta_pow_iter hs 0 m
@@ -215,7 +213,7 @@ theorem exists_tilt (ν : ℕ → Om l) (hs : ∀ m, ν (m + 1) ^ l = ν m) (u :
       exact natCast_mem (PadicComplexInt l) u
     change Valued.v (algebraMap (Om l) ℂ_[l] (ν m)) ≤ 1
     exact (pow_le_one_iff_of_nonneg zero_le (pow_ne_zero _ (Fact.out : l.Prime).ne_zero)).1 h2
-  obtain ⟨e, he⟩ := zeta_exists_tilt (p := l) (O := Per.OC l)
+  obtain ⟨e, he⟩ := zeta_exists_tilt (p := l) (O := _root_.Formalism.Per.OC l)
     (fun m => ⟨algebraMap (Om l) ℂ_[l] (ν m), hmem m⟩) (fun m => Subtype.ext (by
       show algebraMap (Om l) ℂ_[l] (ν (m + 1)) ^ l = algebraMap (Om l) ℂ_[l] (ν m)
       rw [← map_pow, hs]))
@@ -253,25 +251,25 @@ theorem exists_exponent (P : LocPrime l) (ν : ℕ → Om l) (hs : ∀ m, ν (m 
   rw [zeta_pow_eq_iff]
   simp
 
-theorem gal_eq_mul (g : GQ l) (x e : Per.Fl l)
-    (h : ∀ m, Per.σC g (rootT x m : ℂ_[l]) = (rootT x m : ℂ_[l]) * (rootT e m : ℂ_[l])) :
-    Per.σF g x = x * e := by
+theorem gal_eq_mul (g : GQ l) (x e : _root_.Formalism.Per.Fl l)
+    (h : ∀ m, _root_.Formalism.Per.σC g (rootT x m : ℂ_[l]) = (rootT x m : ℂ_[l]) * (rootT e m : ℂ_[l])) :
+    _root_.Formalism.Per.σF g x = x * e := by
   refine Perfection.ext fun n => ?_
   refine (GlobalTheory.AdicMaps.coeff_galois l g x n (rootT x n) (coeff_eq_mk_rootT x n)).trans ?_
   change _ = PreTilt.coeff n (x * e)
   rw [map_mul, coeff_eq_mk_rootT, coeff_eq_mk_rootT]
-  exact congrArg (Ideal.Quotient.mk (Ideal.span {((l : ℕ) : Per.OC l)}))
+  exact congrArg (Ideal.Quotient.mk (Ideal.span {((l : ℕ) : _root_.Formalism.Per.OC l)}))
     (Subtype.ext ((GlobalTheory.RingIface.sigO_coe l g (rootT x n)).trans (h n)) :
-      Per.σO g (rootT x n) = rootT x n * rootT e n)
+      _root_.Formalism.Per.σO g (rootT x n) = rootT x n * rootT e n)
 
 theorem map_quot {A B : Type} [CommRing A] [CommRing B] (f : A →+* B) (x e v : A) :
     f (x * e * v - 1) = f (x * v - 1) + f (e - 1) + f (x * v - 1) * f (e - 1) := by
   simp only [map_sub, map_mul, map_one]
   ring
 
-theorem gal_quot (g : GQ l) (x e : Per.Fl l) (h : Per.σF g x = x * e) (v : ℤ_[l]) :
-    Per.σA g (Per.tm x * Per.zA l v - 1) = Per.tm x * Per.tm e * Per.zA l v - 1 := by
-  have e1 : Per.σA g (Per.tm x) = Per.tm x * Per.tm e := by
+theorem gal_quot (g : GQ l) (x e : _root_.Formalism.Per.Fl l) (h : _root_.Formalism.Per.σF g x = x * e) (v : ℤ_[l]) :
+    _root_.Formalism.Per.σA g (_root_.Formalism.Per.tm x * _root_.Formalism.Per.zA l v - 1) = _root_.Formalism.Per.tm x * _root_.Formalism.Per.tm e * _root_.Formalism.Per.zA l v - 1 := by
+  have e1 : _root_.Formalism.Per.σA g (_root_.Formalism.Per.tm x) = _root_.Formalism.Per.tm x * _root_.Formalism.Per.tm e := by
     rw [← map_mul (WittVector.teichmuller l), ← h]
     exact GlobalTheory.RingIface.sigA_teich l g x
   rw [map_sub, map_mul, map_one, (ActLaws.act_laws l).2.2.2.2.2.2.2.1, e1]
@@ -279,25 +277,25 @@ theorem gal_quot (g : GQ l) (x e : Per.Fl l) (h : Per.σF g x = x * e) (v : ℤ_
 section Unit
 
 set_option allowUnsafeReducibility true in
-attribute [local irreducible] Per.Acris Per.Bcris
+attribute [local irreducible] _root_.Formalism.Per.Acris _root_.Formalism.Per.Bcris
 
 theorem exists_period_acris (C : Core l) (μ : ℕ → Om l) (hs : ∀ m, μ (m + 1) ^ l = μ m)
-    (h0 : μ 0 = ((l + 1 : ℕ) : Om l)) : ∃ Y : Per.Acris l, ∀ (g : GQ l) (d : ℤ_[l]),
+    (h0 : μ 0 = ((l + 1 : ℕ) : Om l)) : ∃ Y : _root_.Formalism.Per.Acris l, ∀ (g : GQ l) (d : ℤ_[l]),
       (∀ m, g (μ m) = C.ζ m ^ (PadicInt.toZModPow m d).val * μ m) →
-      sigA g Y = Y + algebraMap (Per.Ainf l) (Per.Acris l) (Per.zA l d) * C.t := by
+      sigA g Y = Y + algebraMap (_root_.Formalism.Per.Ainf l) (_root_.Formalism.Per.Acris l) (_root_.Formalism.Per.zA l d) * C.t := by
   obtain ⟨x, hx⟩ := exists_tilt μ hs _ h0
   have hu : IsUnit ((l + 1 : ℕ) : ℤ_[l]) := by
     rw [PadicInt.isUnit_iff, PadicInt.norm_natCast_eq_one_iff]
     simp
   obtain ⟨v, hv⟩ := hu.exists_right_inv
-  have hv' : ((l + 1 : ℕ) : Per.Ainf l) * Per.zA l v = 1 := by
-    have := congrArg (Per.zA l) hv
+  have hv' : ((l + 1 : ℕ) : _root_.Formalism.Per.Ainf l) * _root_.Formalism.Per.zA l v = 1 := by
+    have := congrArg (_root_.Formalism.Per.zA l) hv
     rwa [map_mul, map_natCast, map_one] at this
-  have hx0 : x.untilt = ((l + 1 : ℕ) : Per.OC l) := Subtype.ext (by
+  have hx0 : x.untilt = ((l + 1 : ℕ) : _root_.Formalism.Per.OC l) := Subtype.ext (by
     have := hx 0
     rw [h0, map_natCast] at this
     exact this.trans (SubringClass.coe_natCast _ _).symm)
-  have hz : Per.θ l (Per.tm x * Per.zA l v - 1) = 0 := by
+  have hz : Per.θ l (_root_.Formalism.Per.tm x * _root_.Formalism.Per.zA l v - 1) = 0 := by
     have := congrArg (Per.θ l) hv'
     rw [map_mul, map_natCast, map_one] at this
     rw [map_sub, map_mul, map_one, WittVector.fontaineTheta_teichmuller, hx0, this, sub_self]
@@ -315,7 +313,7 @@ theorem exists_period_acris (C : Core l) (μ : ℕ → Om l) (hs : ∀ m, μ (m 
     have := he 0
     rw [C.ζ_zero, one_pow, map_one] at this
     exact this)
-  have hxe : Per.σF g x = x * e := gal_eq_mul g x e fun m => by
+  have hxe : _root_.Formalism.Per.σF g x = x * e := gal_eq_mul g x e fun m => by
     rw [hx, he, ← map_mul, mul_comm, ← hd]
     exact GlobalTheory.RingBasics.σC_coe g _
   obtain ⟨y, -, hy, -⟩ := exists_isLogA l e he1
@@ -337,7 +335,7 @@ theorem exists_unit_period {P : LocPrime l} {AI : LocAinf l P} (T : LocTied l P 
     rw [Function.iterate_succ_apply', hr]
   choose d hd using exists_exponent P (fun m => r^[m] ((l + 1 : ℕ) : Om l)) hs _ (Nat.succ_ne_zero l) rfl
   obtain ⟨Y, hY⟩ := exists_period_acris C (fun m => r^[m] ((l + 1 : ℕ) : Om l)) hs rfl
-  refine ⟨_, d, T.eB.symm (algebraMap (Per.Acris l) (Per.Bcris l) Y), fun m => ?_, hd, fun g => ?_⟩
+  refine ⟨_, d, T.eB.symm (algebraMap (_root_.Formalism.Per.Acris l) (_root_.Formalism.Per.Bcris l) Y), fun m => ?_, hd, fun g => ?_⟩
   · have := zeta_pow_iter (ζ := fun m => r^[m] ((l + 1 : ℕ) : Om l)) hs 0 m
     rwa [zero_add] at this
   · apply T.eB.injective

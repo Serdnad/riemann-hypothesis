@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.IrreducibleFactorHeightBound
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.Bundle030
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -53,10 +53,10 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-import ReciprocityTheory.SemistableReduction.GaussAbsMulOfMonomialOrder
-import ReciprocityTheory.SemistableReduction.LogNormCoeffSubLeBlockSphereLogMean
-public import ReciprocityTheory.SemistableReduction.SemiDegCA
-import ReciprocityTheory.SemistableReduction.TorusL2CauchyInequality
+import ReciprocityTheory.SemistableReduction.Bundle008
+import ReciprocityTheory.SemistableReduction.Bundle013
+public import ReciprocityTheory.SemistableReduction.Bundle004
+import ReciprocityTheory.SemistableReduction.Bundle027
 public import Mathlib.RingTheory.FractionalIdeal.Norm
 
 @[expose] public section

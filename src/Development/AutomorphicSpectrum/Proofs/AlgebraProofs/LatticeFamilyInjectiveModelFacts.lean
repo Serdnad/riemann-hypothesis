@@ -1,9 +1,9 @@
 module
 
-import Development.WeilBound.CoreStatements.TorusUniformisation.ChowMahlerFamilies.XFamConstr
-public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.IsLatticeFamily
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.AffineGenerators
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.LocallyFreeFiniteProjectiveBaseChange
+import Development.WeilBound.CoreStatements.TorusUniformisation.ChowMahlerFamilies.Bundle013
+public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.Bundle005
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle073
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle008
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

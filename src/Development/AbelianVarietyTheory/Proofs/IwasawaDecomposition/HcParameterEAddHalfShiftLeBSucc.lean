@@ -1,8 +1,8 @@
 module
 
 public import Formalism.LocalToGlobal.IndefiniteReal.LinksDefs
-public import Formalism.LocalToGlobal.IndefiniteReal.BridgeTie
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LamGeoEqFormula
+public import Formalism.LocalToGlobal.IndefiniteReal.Bundle010
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle025
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,11 +1,11 @@
 module
 
 public import Development.WeilBound.CoreStatements.VolumeEquality.Pieces
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.CuspVolumeLimitStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FibreLatticeBaseChangeConjStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HolomorphicCoordsOfGenericPointStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ExistsFundamentalSetStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ExistsGroupDictionaryStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle281
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle193
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle140
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle132
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle094
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -47,6 +47,8 @@ import Mathlib.Tactic.NormNum.RealSqrt
 noncomputable section
 
 namespace SheetDecomposition
+
+attribute [-instance] GlobalTheory.CompHt.fintypePsi
 
 open AlgebraicGeometry CategoryTheory Limits NumberField MeasureTheory Filter Topology
 open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Geo ReciprocityTheory.ChartRestriction.G.Geo.Tor ReciprocityTheory.ChartRestriction.G.Semi

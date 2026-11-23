@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.DoubleCollapse
+public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.Bundle014
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.IsTransportAdelicCorrection
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.CmHostImaginaryGeneratorNeZero
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.PeterssonStepZeroScalarFormsEqPosMulInnerStatement
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle313
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle288
 import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.IdemElt
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

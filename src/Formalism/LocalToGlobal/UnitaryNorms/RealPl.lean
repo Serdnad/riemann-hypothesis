@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.UnitaryNorms.MemFIffReal
+public import Formalism.LocalToGlobal.UnitaryNorms.Bundle005
 public import Formalism.LocalRingCardinality.RankBoundMonotoneInDimension
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

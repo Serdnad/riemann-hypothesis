@@ -2,11 +2,11 @@ module
 
 public import Formalism.SharpRestriction.GrowthBounds.FormalGroupSystem
 public import Formalism.SharpRestriction.GrowthBounds.LatticeSystems
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LGradedLemmas
+public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle006
 import Formalism.GradedWeylDivisibility.DualWeylDominanceOf
 import Formalism.GradedWeylDivisibility.FinalD
 public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LEhwLemmas
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LHwrowLemmas
+public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle004
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Wlocal
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

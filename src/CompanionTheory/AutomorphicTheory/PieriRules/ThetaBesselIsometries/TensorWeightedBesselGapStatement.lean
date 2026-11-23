@@ -1,7 +1,7 @@
 module
 
-public import CompanionTheory.AutomorphicTheory.PieriRules.ThetaBesselIsometries.IsDSOfIsDG
-public import CompanionTheory.AutomorphicTheory.PieriRules.ThetaBesselIsometries.TensorWeightedBesselGap
+public import CompanionTheory.AutomorphicTheory.PieriRules.ThetaBesselIsometries.Bundle001
+public import CompanionTheory.AutomorphicTheory.PieriRules.ThetaBesselIsometries.Bundle018
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

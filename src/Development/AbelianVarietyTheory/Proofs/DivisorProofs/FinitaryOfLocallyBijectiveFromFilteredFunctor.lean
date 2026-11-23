@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.IndEtOfForallFinset
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleSheafSectionsSepGlueOfSurjectiveFamily
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsEtaleCoverModelOfIsColimit
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsIsColimitPushoutUnder
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PreservesFilteredColimitsModuleCatIffForgetIffEl
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SheafSectionEqZeroAtStageOfFilteredColimitStatement
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle006
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle346
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle304
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle298
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle429
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle494
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

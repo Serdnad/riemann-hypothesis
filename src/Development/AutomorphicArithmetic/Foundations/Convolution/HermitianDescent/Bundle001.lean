@@ -1,0 +1,184 @@
+module
+
+public import Development.AutomorphicArithmetic.Foundations.Convolution.HermitianDescent.IsHerm
+public import Mathlib.NumberTheory.NumberField.Completion.InfinitePlace
+public import Mathlib.RingTheory.DedekindDomain.AdicValuation.Completion
+public import Mathlib.RingTheory.Flat.FaithfullyFlat.Basic
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Topology.Sheaves.Init
+
+@[expose] public section
+
+section
+
+noncomputable section
+
+open Matrix Polynomial NumberField IsDedekindDomain
+open scoped TensorProduct
+
+namespace UpperTheory.ConvolutionTheory.D
+
+def CsrOf : Prop :=
+  ∀ (k R : Type) [CommRing k] [CommRing R] [Algebra k R] [Nontrivial R] (c : R ≃ₐ[k] R), c ^ 2 = 1 → ∀ n : ℕ,
+    (∀ (J : Matrix (Fin n) (Fin n) R) (γ : GL (Fin n) R), IsUnit J.det → cong c γ J = J → IsCsr c n (cp γ)) ∧
+    ∀ d : GL (Fin n) R, IsCsr c n (cp (d * th c d))
+
+def ModelEx : Prop :=
+  ∀ (k R : Type) [CommRing k] [IsLocalRing k] [CommRing R] [Algebra k R] (c : R ≃ₐ[k] R), IsGal c 2 → ∀ (n : ℕ) (P : R[X]), IsCsr c n P → P.Separable →
+    ∃ (A : Type) (_ : CommRing A) (_ : Algebra k A) (b : Module.Basis (Fin n) k A) (g : (R ⊗[k] A)ˣ), IsReg c b g ∧ cp (matU b g) = P
+
+def GramBasic : Prop :=
+  ∀ (k R : Type) [CommRing k] [CommRing R] [Algebra k R] (A : Type) [CommRing A] [Algebra k A] (n : ℕ) (b : Module.Basis (Fin n) k A) (c : R ≃ₐ[k] R), IsGal c 2 →
+    (∀ s z, ct c (mat b z) * gramL b s = gramL b (io c A z * s) ∧ gramL b s * mat b z = gramL b (s * z) ∧
+      ct c (gramL b s) = gramL b (io c A s) ∧ (gramL b s).det = Algebra.norm R s * (gram R b 1).det) ∧
+    (∀ x : A, gram R b x = (Matrix.of fun i j => Algebra.trace k A (x * (b i * b j))).map (algebraMap k R) ∧
+      (gram R b x).det = algebraMap k R (Algebra.norm k x) * (gram R b 1).det) ∧
+    ∀ g, IsReg c b g → IsUnit (gram R b (1 : A)).det ∧ Function.Injective (gramL (R := R) b) ∧
+      ∀ y : Matrix (Fin n) (Fin n) R, y * mat b g = mat b g * y → ∃ z, y = mat b z
+
+def TBase : Prop :=
+  ∀ (k R : Type) [CommRing k] [IsLocalRing k] [CommRing R] [Algebra k R] (A : Type) [CommRing A] [Algebra k A] (n : ℕ) (b : Module.Basis (Fin n) k A) (c : R ≃ₐ[k] R), IsGal c 2 → ∀ g, IsReg c b g → ∃ w : (R ⊗[k] A)ˣ, io c A w.val = g.val * w.val
+
+def TClass : Prop :=
+  ∀ (k R : Type) [CommRing k] [IsLocalRing k] [CommRing R] [Algebra k R] (A : Type) [CommRing A] [Algebra k A] (n : ℕ) (b : Module.Basis (Fin n) k A) (c : R ≃ₐ[k] R), IsGal c 2 → ∀ g, IsReg c b g → ∀ w : (R ⊗[k] A)ˣ, io c A w.val = g.val * w.val →
+    ∀ d : GL (Fin n) R, cp (d * th c d) = cp (matU b g) →
+    ∃ (x : Aˣ) (y : GL (Fin n) R), ((thConj c y d)⁻¹ : GL (Fin n) R).val = gramL b (((1 : R) ⊗ₜ[k] (x : A)) * w.val)
+
+def TIso : Prop :=
+  ∀ (k R : Type) [CommRing k] [CommRing R] [Algebra k R] (A : Type) [CommRing A] [Algebra k A] (n : ℕ) (b : Module.Basis (Fin n) k A) (c : R ≃ₐ[k] R), IsGal c 2 → ∀ g, IsReg c b g → ∀ w : (R ⊗[k] A)ˣ, io c A w.val = g.val * w.val →
+    (∀ x : Aˣ, ∃ d : GL (Fin n) R, (d⁻¹ : GL (Fin n) R).val = gramL b (((1 : R) ⊗ₜ[k] (x : A)) * w.val)) ∧
+    ∀ (x x' : Aˣ) (d d' : GL (Fin n) R), (d⁻¹ : GL (Fin n) R).val = gramL b (((1 : R) ⊗ₜ[k] (x : A)) * w.val) →
+      (d'⁻¹ : GL (Fin n) R).val = gramL b (((1 : R) ⊗ₜ[k] (x' : A)) * w.val) → d * th c d = matU b g ∧
+      ∀ y, d' = thConj c y d ↔ ∃ z : (R ⊗[k] A)ˣ, y = matU b z ∧ (1 : R) ⊗ₜ[k] ((x' / x : Aˣ) : A) = z * io c A z
+
+end UpperTheory.ConvolutionTheory.D
+end
+end
+
+section
+
+noncomputable section
+
+open Matrix Polynomial NumberField IsDedekindDomain
+open scoped TensorProduct
+
+namespace UpperTheory.ConvolutionTheory.D
+
+def GalField : Prop :=
+  ∀ (F E : Type) [Field F] [Field E] [Algebra F E] [FiniteDimensional F E] [IsGalois F E] (σ : E ≃ₐ[F] E),
+    (∀ τ, τ ∈ Subgroup.zpowers σ) → IsGal σ (Module.finrank F E)
+
+def GalExt : Prop :=
+  ∀ (F E k : Type) [Field F] [Field E] [Algebra F E] [CommRing k] [Algebra F k] (σ : E ≃ₐ[F] E) (q : ℕ),
+    IsGal σ q → IsGal (ext k σ) q
+
+def GalBase : Prop :=
+  ∀ (k R : Type) [CommRing k] [CommRing R] [Algebra k R] (A : Type) [CommRing A] [Algebra k A] (σ : R ≃ₐ[k] R) (q : ℕ), IsGal σ q →
+    Module.Finite k R ∧ Module.Projective k R ∧ Module.FaithfullyFlat k R ∧
+    IsGal (Algebra.TensorProduct.congr AlgEquiv.refl σ : A ⊗[k] R ≃ₐ[A] A ⊗[k] R) q
+
+def Descent : Prop :=
+  ∀ (k R : Type) [CommRing k] [CommRing R] [Algebra k R] (σ : R ≃ₐ[k] R) (q : ℕ), IsGal σ q →
+    ∀ (M : Type) [AddCommGroup M] [Module k M] [Module R M] [IsScalarTower k R M] (s : M →ₗ[k] M),
+    (∀ (r : R) m, s (r • m) = σ r • s m) → s ^ q = 1 →
+    Function.Bijective (TensorProduct.lift ((Algebra.lsmul k k M (A := R)).toLinearMap.compl₂ (LinearMap.eqLocus s LinearMap.id).subtype))
+
+def H90 : Prop :=
+  ∀ (k R : Type) [CommRing k] [IsLocalRing k] [CommRing R] [Algebra k R] (S T : Type) [CommRing S] [CommRing T] [Algebra k S] [Module.Finite k S] [Algebra S T]
+    (σ : T ≃ₐ[S] T) (q : ℕ), IsGal σ q → ∀ a : Tˣ, ∏ i ∈ Finset.range q, (σ ^ i) a = 1 → ∃ z : Tˣ, (a : T) * σ z = z
+
+def ConjSep : Prop :=
+  ∀ (k R : Type) [CommRing k] [IsLocalRing k] [CommRing R] [Algebra k R] [Module.Finite k R] (n : ℕ) (g : Matrix (Fin n) (Fin n) R), g.charpoly.Separable →
+    (∀ g' : Matrix (Fin n) (Fin n) R, g'.charpoly = g.charpoly → ∃ x : GL (Fin n) R, g * x.val = x.val * g') ∧
+    (∀ y, y * g = g * y → ∃ p : R[X], y = aeval g p) ∧ ∀ p : R[X], aeval g p = 0 ↔ g.charpoly ∣ p
+
+def NmPoly : Prop :=
+  ∀ (k R : Type) [CommRing k] [CommRing R] [Algebra k R] (σ : R ≃ₐ[k] R) (q : ℕ), IsGal σ q → ∀ (n : ℕ) (δ : GL (Fin n) R),
+    (∃ p : k[X], p.Monic ∧ cp (nm σ q δ) = p.map (algebraMap k R)) ∧ ∀ x, nm σ q (sgConj σ x δ) = x⁻¹ * nm σ q δ * x
+
+def NmRep : Prop :=
+  ∀ (k R : Type) [CommRing k] [IsLocalRing k] [CommRing R] [Algebra k R] (σ : R ≃ₐ[k] R) (q : ℕ), IsGal σ q → ∀ (n : ℕ) (δ : GL (Fin n) R) (γ : GL (Fin n) k),
+    (cp γ).Separable → cp (nm σ q δ) = (cp γ).map (algebraMap k R) →
+    ∃ x, nm σ q (sgConj σ x δ) = up R γ ∧ Commute (sgConj σ x δ) (up R γ)
+
+def NmInj : Prop :=
+  ∀ (k R : Type) [CommRing k] [IsLocalRing k] [CommRing R] [Algebra k R] (σ : R ≃ₐ[k] R) (q : ℕ), IsGal σ q → ∀ (n : ℕ) (δ δ' : GL (Fin n) R),
+    (cp (nm σ q δ)).Separable → cp (nm σ q δ') = cp (nm σ q δ) → ∃ x, δ' = sgConj σ x δ
+
+def NmCent : Prop :=
+  ∀ (k R : Type) [CommRing k] [IsLocalRing k] [CommRing R] [Algebra k R] (σ : R ≃ₐ[k] R) (q : ℕ), IsGal σ q → ∀ (n : ℕ) (a : GL (Fin n) R) (γ : GL (Fin n) k),
+    (cp γ).Separable → nm σ q a = up R γ → ∀ x, sgConj σ x a = a ↔ ∃ t : GL (Fin n) k, Commute t γ ∧ x = up R t
+
+def HasseEt : Prop :=
+  ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] [IsGalois F E] [IsCyclic (E ≃ₐ[F] E)] (A : Type) [CommRing A] [Algebra F A] [Module.Finite F A] [IsReduced A] (x : Aˣ),
+    (∀ v : HeightOneSpectrum (𝓞 F), IsNm F E ((1 : v.adicCompletion F) ⊗ₜ[F] (x : A))) →
+    (∀ v : InfinitePlace F, IsNm F E ((1 : v.Completion) ⊗ₜ[F] (x : A))) → IsNm F E (x : A)
+
+def NmHasse : Prop :=
+  ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] [IsGalois F E] (σ : E ≃ₐ[F] E), (∀ τ, τ ∈ Subgroup.zpowers σ) → ∀ (n : ℕ) (γ : GL (Fin n) F), (cp γ).Separable →
+    (∀ v : HeightOneSpectrum (𝓞 F), ∃ δ, cp (nm (ext (v.adicCompletion F) σ) (Module.finrank F E) (n := n) δ) =
+      (cp γ).map ((inc (v.adicCompletion F)).comp (algebraMap F E))) →
+    (∀ v : InfinitePlace F, ∃ δ, cp (nm (ext v.Completion σ) (Module.finrank F E) (n := n) δ) =
+      (cp γ).map ((inc v.Completion).comp (algebraMap F E))) →
+    ∃ a : GL (Fin n) E, nm σ (Module.finrank F E) a = up E γ ∧ Commute a (up E γ)
+
+def NmInt : Prop :=
+  ∀ (O S k R : Type) [CommRing O] [IsLocalRing O] [CommRing S] [Algebra O S] [Field k] [CommRing R] [Algebra k R]
+    (i : O →+* k) (j : S →+* R) (s : S ≃ₐ[O] S) (σ : R ≃ₐ[k] R) (q : ℕ), IsGal s q → IsGal σ q → Function.Injective j →
+    (∀ x, j (s x) = σ (j x)) → (∀ x, j (algebraMap O S x) = algebraMap k R (i x)) →
+    ∀ (n : ℕ) (a a' : GL (Fin n) S) (γ : GL (Fin n) O), (cp γ).Separable → nm s q a = up S γ →
+    ∀ x : GL (Fin n) R, sgConj σ x (Matrix.GeneralLinearGroup.map j a) = Matrix.GeneralLinearGroup.map j a' →
+    ∃ (t : GL (Fin n) k) (u : GL (Fin n) S), Commute t (Matrix.GeneralLinearGroup.map i γ) ∧
+      x = up R t * Matrix.GeneralLinearGroup.map j u
+
+def NmAlg : Prop :=
+  ∀ (F E k : Type) [Field F] [Field E] [Algebra F E] [Field k] [Algebra F k] (σ : E ≃ₐ[F] E) (q : ℕ), IsGal σ q →
+    ∀ (n : ℕ) (γ : GL (Fin n) F), (cp γ).Separable →
+    ((∃ δ : GL (Fin n) (k ⊗[F] E), cp (nm (ext k σ) q δ) = (cp γ).map ((inc k).comp (algebraMap F E))) ↔
+      IsNm F E ((1 : k) ⊗ₜ[F] AdjoinRoot.root (cp γ))) ∧
+    ((∃ a : GL (Fin n) E, nm σ q a = up E γ ∧ Commute a (up E γ)) ↔ IsNm F E (AdjoinRoot.root (cp γ)))
+
+def NormProd : Prop :=
+  ∀ (k R : Type) [CommRing k] [CommRing R] [Algebra k R] [Module.Free k R] (σ : R ≃ₐ[k] R) (q : ℕ), IsGal σ q → ∀ r : R,
+    algebraMap k R (Algebra.norm k r) = ∏ i ∈ Finset.range q, (σ ^ i) r
+
+end UpperTheory.ConvolutionTheory.D
+end
+end

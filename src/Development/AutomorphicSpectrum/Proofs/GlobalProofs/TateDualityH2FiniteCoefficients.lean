@@ -1,24 +1,22 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TateH2PeriodDatum
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle477
 public import Development.AutomorphicSpectrum.Definitions.NonGaloisLines.TopLine
-public import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.TateLocalDualityTopDegree
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.IsAdicCompleteSpanAlgebraMapOfFreeFinite
+public import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.Bundle002
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle029
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.H2EquivOfTorsionCharacter
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsIntegralOfNormLeOne
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CyclotomicCharacterPadicBasicProperties
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsCycCycChar
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle194
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle164
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle165
 public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.CupFlip
 public import Development.AutomorphicSpectrum.Proofs.NonGaloisProofs.DualDOfDualQ
 public import Development.AutomorphicSpectrum.Proofs.NonGaloisProofs.DualQOfTopInj
-public import Development.AutomorphicSpectrum.Proofs.NonGaloisProofs.ExistsFinsetSep
+public import Development.AutomorphicSpectrum.Proofs.NonGaloisProofs.Bundle001
 public import Development.AutomorphicSpectrum.Proofs.NonGaloisProofs.ExistsLimitOfCauchyAdicFiltration
-public import Development.AutomorphicSpectrum.Proofs.NonGaloisProofs.ExistsPerfectCharacterQuotient
 import Development.AutomorphicSpectrum.Proofs.NonGaloisProofs.GoodOAdicCompleteCompactBasis
 import Development.AutomorphicSpectrum.Proofs.NonGaloisProofs.GoodOAdicCompleteCompactBasisStatement
 public import Development.AutomorphicSpectrum.Proofs.NonGaloisProofs.GrowthGaloisInvariantsModPrimePowerLattice
 public import Development.AutomorphicSpectrum.Proofs.NonGaloisProofs.H2LineOfTateH2AndCoboundaries
-public import Development.AutomorphicSpectrum.Proofs.NonGaloisProofs.T2SpaceOfLatticeNhdsBasis
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -62,7 +60,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import Development.AbelianVarietyTheory.Definitions.Foundations.HTBasis
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle010
 
 @[expose] public section
 

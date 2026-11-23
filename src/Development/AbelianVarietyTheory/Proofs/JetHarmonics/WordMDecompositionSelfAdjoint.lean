@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Jets.SameFns
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.FrameStartConstantsNormalFormEmptyWord
+public import Development.AbelianVarietyTheory.Definitions.Jets.Bundle004
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle112
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.HatLettersPassDiGIBoundedFactors
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.LetterLiftOfParts
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.RuleGD

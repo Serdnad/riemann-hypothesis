@@ -1,9 +1,9 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.StatementsMahler
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PDefectAverage
-public import GroundTheory.HeightsAndTheta.Heights.LocalFiniteness.TargetsCurveVertPointLength
-import GroundTheory.HeightsAndTheta.Heights.LocalFiniteness.UniformIntegrabilityProportionalityHolds
+public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle015
+public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle023
+public import GroundTheory.HeightsAndTheta.Heights.LocalFiniteness.Bundle004
+import GroundTheory.HeightsAndTheta.Heights.LocalFiniteness.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

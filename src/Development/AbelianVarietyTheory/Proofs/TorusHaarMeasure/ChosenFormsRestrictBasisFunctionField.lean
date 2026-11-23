@@ -1,16 +1,15 @@
 module
 
-public import Formalism.LocalToGlobal.ProjectiveLattices.CurveAsm
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle048
 public import Formalism.LocalToGlobal.ProjectiveLattices.CompHt
-public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.CompSplitRecord
-public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.CurveModelExistsAllPrimesAllPoints
-public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.CuspEqZeroOfGenericValues
-import Development.AbelianVarietyTheory.Proofs.GenericRegularity.FiniteReducedSection
-import Development.AbelianVarietyTheory.Proofs.GenericRegularity.FinrankHostDivTwo
+public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.Bundle038
+public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.Bundle035
+import Development.AbelianVarietyTheory.Proofs.GenericRegularity.Bundle034
+import Development.AbelianVarietyTheory.Proofs.GenericRegularity.Bundle022
 public import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.ExistsDvdOfAlgebraic
 public import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.FractionToIntegralSectionSmulEq
-public import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.GenericSectionInjectiveOfAxH
-public import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.IndependentDifferentialsRatiosOfTrdegValues
+public import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.Bundle010
+public import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.Bundle035
 import Formalism.LocalToGlobal.ProjectiveLattices.CurveLocInst
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -162,7 +161,7 @@ theorem chosenForms_restrict_basis_functionField : ∀ (D : D7) (T : Top D) (h :
     intro Z k
     unfold ReciprocityTheory.ChartRestriction.G.T0.Data.x
     rw [hw', hw']
-    exact ratio_single _ _ _ (hq Z)
+    exact GlobalTheory.BigRec.ratio_single _ _ _ (hq Z)
   obtain ⟨h0, h1, h2⟩ := basis_descends_record (recPlus h j hj) la G hB (fun Z : Comp (T.Q.Xo j) T.Q.c => Om Z)
     (fun Z => formsEvR j hG hT Z) hD e d.jc (fun Z k => evC hG Z (G.w k).1)
     (fun Z k => formsEvR_inc h j hj hG hT Z wL (G.w k)) d.x hq hx (fun Z => (hS Z).1) (fun Z => (hS Z).2.1) g0

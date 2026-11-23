@@ -1,6 +1,6 @@
 module
 
-public import Formalism.SharpRestriction.LevelLetterCocycles.TypePrimeCongruences
+public import Formalism.SharpRestriction.LevelLetterCocycles.Bundle012
 public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.InSpanAdd
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

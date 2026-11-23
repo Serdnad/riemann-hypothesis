@@ -1,6 +1,6 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.ChartComparison
+public import Formalism.SharpRestriction.GrowthBounds.Bundle012
 import Formalism.LocalToGlobal.GroupLattices.TiedFamilies.TieDim
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,7 +1,7 @@
 module
 
-public import Formalism.LocalToGlobal.TorsionIntegrality.QuadraticSemicharacters.QuadraticSemicharactersFactAltForm
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.UnimodLocStd
+public import Formalism.LocalToGlobal.TorsionIntegrality.QuadraticSemicharacters.Bundle003
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle015
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

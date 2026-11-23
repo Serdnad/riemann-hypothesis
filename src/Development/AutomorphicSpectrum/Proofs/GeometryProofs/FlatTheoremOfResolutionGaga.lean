@@ -1,13 +1,12 @@
 module
 
-public import Development.AutomorphicSpectrum.Statements.GeometryStatements.ThmFlatA
+public import Development.AutomorphicSpectrum.Statements.GeometryStatements.Bundle004
 public import Development.AutomorphicSpectrum.PublishedTheorems.Geometry₂.GagaSections
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.BlowupProjections.BlowupProjStatement
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.UniformisationConclusion
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FiniteConstantHoldsStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FlatFirstFromResolutionAndGagaStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FlatTheoremOfPartsStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FlatZeroFromResolutionAndGagaStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle283
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle322
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle319
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

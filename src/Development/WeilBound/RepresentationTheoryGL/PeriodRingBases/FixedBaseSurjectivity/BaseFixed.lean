@@ -2,7 +2,7 @@ module
 
 public import Development.WeilBound.CoreStatements.CrystallinePeriodRings.ExistsMapEqOfPowMul
 public import Development.WeilBound.RepresentationTheoryGL.PeriodRingBases.PeriodRingUnits.DieudonneManinBasisModification
-public import Development.WeilBound.CoreStatements.CrystallinePeriodRings.InvRestrictScalarsMem
+public import Development.WeilBound.CoreStatements.CrystallinePeriodRings.Bundle002
 public import Development.WeilBound.CoreStatements.CrystallinePeriodRings.PhiGalCris
 public import Development.WeilBound.RepresentationTheoryGL.PeriodRingBases.FixedBaseSurjectivity.GaloisPeriodCyclotomic
 public import Development.WeilBound.RepresentationTheoryGL.PeriodRingBases.ThetaAlgebraMap.ThAlgebraMap

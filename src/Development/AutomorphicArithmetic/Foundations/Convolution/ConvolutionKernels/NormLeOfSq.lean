@@ -1,6 +1,6 @@
 module
 
-public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.GalTwistEx
+public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.Bundle004
 public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.QhtBasic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

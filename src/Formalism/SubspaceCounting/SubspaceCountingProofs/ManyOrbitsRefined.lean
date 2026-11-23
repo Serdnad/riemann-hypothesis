@@ -1,6 +1,6 @@
 module
 
-public import Formalism.SubspaceCounting.Statement
+public import Formalism.SubspaceCounting.Bundle001
 public import Mathlib.Basic.Real.Basic
 public import Mathlib.RingTheory.DiscreteValuationRing.Basic
 import Mathlib.Algebra.Order.Floor.Extended
@@ -50,7 +50,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Formalism.SubspaceCounting.SubspaceCountingProofs.ManyOrbits
+import Formalism.SubspaceCounting.SubspaceCountingProofs.Bundle001
 public import Mathlib.LinearAlgebra.Dimension.Constructions
 public import Mathlib.LinearAlgebra.FreeModule.PID
 

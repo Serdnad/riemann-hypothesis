@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ContinuousAtPlace
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SchroedingerMemSchwartzBruhatFinitePlace
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SchroedingerOperatorHeisenbergInnerPreserving
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SchwartzBruhatMatrixCoefficientCompactSupportFinStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ThetaTransformRationalTranslateQuasiInvariant
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1199
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1902
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1483
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1441
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1282
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

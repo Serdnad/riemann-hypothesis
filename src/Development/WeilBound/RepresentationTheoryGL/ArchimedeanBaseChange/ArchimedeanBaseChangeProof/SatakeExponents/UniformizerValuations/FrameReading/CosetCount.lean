@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsIrreducibleIff
-public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.IwahoriDoubleCosets
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle001
+public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.Bundle004
 public import Development.WeilBound.RepresentationTheoryGL.TwistedFactors.LocalBaseChange.GenericPrincipalSeries.GenericPrincipalSeries
 public import Mathlib.LinearAlgebra.Eigenspace.Basic
 import Mathlib.Algebra.Order.Floor.Extended

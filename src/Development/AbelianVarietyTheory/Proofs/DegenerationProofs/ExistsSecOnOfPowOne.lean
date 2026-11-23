@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.AuxiliaryInertOddPrime
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsSabExtension
-public import Development.AbelianVarietyTheory.Statements.SemistableTorsion.ImmersedBy
-import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.IsIntegralOfSmoothFieldOfConnectedSpace
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ClassicalPointsAndLocalRegularity
+public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.Bundle002
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle118
+public import Development.AbelianVarietyTheory.Statements.SemistableTorsion.Bundle001
+import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle002
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle048
 import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.IsSchemeTheoreticallyDominantSpecOfInjective
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsUniqueHomExtensionSemiAbelianNormal
 import Mathlib.Algebra.Order.Floor.Extended
@@ -234,9 +234,17 @@ theorem exists_triple : (∀ (T K : Type) [CommRing T] [IsDomain T] [IsDiscreteV
   let act₀ := Geo.Tor.OAct.pullback Z.u₀ ρ.P.A act
   obtain ⟨act', hact, -⟩ := ExtUnique.existsUnique_oAct_of_isGrpPullback Z.cart act₀ fun x => by
     obtain ⟨e, he, he'⟩ := grpPullback_iso Z.cart (isGrpPullback_pullback Z.G U₀.ι)
-    have := act₀.hom x
+    letI : IsMonHom e.hom := he
+    letI : IsMonHom (act₀.act x) := act₀.hom x
+    have isMonHomInv {X : Scheme.{0}} {G H : Over X} [GrpObj G] [GrpObj H] (j : G ≅ H)
+        (hj : IsMonHom j.hom) : IsMonHom j.inv := by
+      letI : IsMonHom j.hom := hj
+      infer_instance
+    letI : IsMonHom e.inv := isMonHomInv e he
+    letI : IsMonHom (act₀.act x ≫ e.hom) := CategoryTheory.instIsMonHomComp _ _
+    have hconj : IsMonHom (e.inv ≫ act₀.act x ≫ e.hom) := CategoryTheory.instIsMonHomComp _ _
     obtain ⟨F, ⟨-, hF⟩, -⟩ := GlobalTheory.existsUnique_hom_extension_semiAbelian_normal hD M.Z U₀ U₀.ι ⟨hO.normal, _, inferInstance, hfl⟩ inferInstance inferInstance
-      inferInstance inferInstance Z.G Z.G Z.semi Z.semi (e.inv ≫ act₀.act x ≫ e.hom) inferInstance
+      inferInstance inferInstance Z.G Z.G Z.semi Z.semi (e.inv ≫ act₀.act x ≫ e.hom) hconj
     refine ⟨F, ?_⟩
     rw [← he', Category.assoc, ← ExtUnique.pullback_map_left_fst, hF, ← Category.assoc, ← Category.assoc,
       ← Over.comp_left, ← Over.comp_left, Iso.hom_inv_id_assoc]

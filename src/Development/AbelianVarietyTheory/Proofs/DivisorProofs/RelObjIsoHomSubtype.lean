@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsFinSubRange
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LePreimageOfCompEq
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2887
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2930
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

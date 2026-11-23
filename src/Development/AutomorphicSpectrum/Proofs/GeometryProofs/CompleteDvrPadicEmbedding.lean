@@ -2,9 +2,9 @@ module
 
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LabelSigBijective
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsHomogeneousCompIdeal
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsCDVRFractionFieldReadingInCpFiniteExtension
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle823
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.NonemptyPadicIntRingHomOfIsAdicComplete
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FiniteResidueAbsoluteValue
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle210
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.RootOriginFrameHeightEstimate
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -40,8 +40,8 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.BddGood
-import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.DefiniteFormStabilizerFiniteAwayFromP
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle008
+import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle002
 import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ModelSmall
 
 @[expose] public section

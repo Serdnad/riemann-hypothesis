@@ -1,9 +1,9 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.CharZeroOfW
+public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.Bundle008
 public import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.FactorsOfPerturb
 public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.MemIntPolOfCoeff
-public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.SymbolVariableLowerLetter
+public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

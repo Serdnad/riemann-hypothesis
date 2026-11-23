@@ -2,23 +2,23 @@ module
 
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.MoriwakiBigness.MoriwakiRankBounds.Development
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.Statements
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.KleimanGenericPointSectionInput
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.KleimanInputNefAmpleSectionCount
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsCoordNeZero
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FiniteDimensionalChartLattice
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle062
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle066
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle207
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle237
 public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.TendstoFinrankVeryAmple
 import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.PCutRegular
-import GroundTheory.HeightsAndTheta.Heights.HeightComparison.IsMultiHomogIdealIff
+import GroundTheory.HeightsAndTheta.Heights.HeightComparison.Bundle003
 import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.AssemblyBase
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.ExistsLinearIndependentOfGenerates
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PBigIffGenDeg
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PChartLatRank
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PKodairaSection
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PLiftBirationalNef
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PNefOnGenericOfSemipos
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PNefPlusAmpleDegree
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle090
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle016
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle078
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle070
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle044
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle056
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle095
 import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PSectionLatticeFinite
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PSemiposTwist
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle063
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

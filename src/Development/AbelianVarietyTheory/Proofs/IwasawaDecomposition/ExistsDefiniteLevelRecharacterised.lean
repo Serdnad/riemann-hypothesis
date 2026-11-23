@@ -40,7 +40,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsSplitOfMemAdmissibleConjugatePairPlaces
-import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.NoFormsOff
+import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle029
 import Formalism.LocalToGlobal.IndefiniteReal.LinksDefs
 
 @[expose] public section

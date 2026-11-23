@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SpanLStable
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ComplementedSup
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle380
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -41,7 +41,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsSummandTw
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle346
 import Formalism.SharpRestriction.LevelLetterCocycles.PairedCharacterCondition
 
 @[expose] public section

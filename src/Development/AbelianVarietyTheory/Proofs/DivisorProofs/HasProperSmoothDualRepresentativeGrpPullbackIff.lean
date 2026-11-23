@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.SameIdIff
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle029
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LiftLeftFst
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

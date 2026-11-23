@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CrossTZeroRight
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle476
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FaceSubMid
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsZeroChains
 import Mathlib.Algebra.Order.Floor.Extended

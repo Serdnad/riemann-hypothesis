@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GramHspOf
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle781
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.HolomorphicFamilies.ModelLatA
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HermitianSelfDualLatticeSpaceFormHermitianNondeg
-public import Formalism.LocalToGlobal.IndefiniteReal.DatumLemmas
-public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.FactPrincipalDatum
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1259
+public import Formalism.LocalToGlobal.IndefiniteReal.Bundle020
+public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.Bundle002
 import Formalism.LocalToGlobal.ProjectiveLattices.HostInt
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

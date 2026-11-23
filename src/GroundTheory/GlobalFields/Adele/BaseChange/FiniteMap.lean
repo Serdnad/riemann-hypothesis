@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.GlobalFields.SemilocalAlgebras.ContinuousCompletionMap
+public import GroundTheory.GlobalFields.SemilocalAlgebras.Bundle001
 public import Mathlib.RingTheory.DedekindDomain.FiniteAdeleRing
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.GroupCohomology.CupConnRightStatement
+public import ReciprocityTheory.GroupCohomology.Bundle003
 public import Mathlib.Order.CompletePartialOrder
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

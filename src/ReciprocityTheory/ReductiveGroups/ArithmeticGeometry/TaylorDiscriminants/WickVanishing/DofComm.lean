@@ -1,8 +1,8 @@
 module
 
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.ConnectionKillsSeries
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.Bundle005
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.LogInv
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.GaugeExp
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -47,7 +47,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.LogChain
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.Bundle009
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section
@@ -117,7 +117,7 @@ private theorem cc_ev_lemma {m n : ℕ} {a : Fin m → Pt k n d} (ha : CZ a) (f 
   have h0 : CZ (fun _ _ => (0 : PS k n d) : Fin n → Pt k n d) := by
     intro j i
     simp
-  have h1 := ev_ev (a := (fun _ _ => (0 : PS k n d) : Fin n → Pt k n d)) h0 ha f
+  have h1 := _root_.ReciprocityTheory.ChartRestriction.G.TB.LogPf.ev_ev (a := (fun _ _ => (0 : PS k n d) : Fin n → Pt k n d)) h0 ha f
   rw [ev_zeroFam] at h1
   have h2 : (fun j i => ev (fun _ _ => (0 : PS k n d)) (a j i)) = fun _ _ => (0 : PS k n d) := by
     funext j i
@@ -137,21 +137,21 @@ private theorem pderiv_fin_one_ev (g : PS k 2 d) (b : Fin d) :
   simp [pt_apply, MvPowerSeries.pderiv_X, Pi.single_apply]
 
 theorem ezF (h : PS k 1 d) : ev (n := 1) ![pt k d 0, 0] (ev (n := 2) ![G.F] h) = h := by
-  rw [ev_ev cz1 (czFF (G := G))]
+  rw [_root_.ReciprocityTheory.ChartRestriction.G.TB.LogPf.ev_ev cz1 (czFF (G := G))]
   have e : (fun j i => ev (n := 1) ![pt k d 0, 0] ((![G.F] : Fin 1 → Pt k 2 d) j i)) =
       fun j => pt k (n := 1) d j := by
     funext j i
     fin_cases j
     simp [formalGroupLaw_ev_x_zero, pt_apply]
-  rw [e, ev_pt]
+  rw [e, _root_.ReciprocityTheory.ChartRestriction.G.TB.LogPf.ev_pt]
 
 theorem ez_y (h : PS k 1 d) : ev (n := 1) ![pt k d 0, 0] (ev (n := 2) ![pt k d 1] h) = C (constantCoeff h) := by
-  rw [ev_ev cz1 czY]
+  rw [_root_.ReciprocityTheory.ChartRestriction.G.TB.LogPf.ev_ev cz1 czY]
   have e : (fun j i => ev (n := 1) ![pt k d 0, 0] ((![pt k d 1] : Fin 1 → Pt k 2 d) j i)) =
       fun _ _ => (0 : PS k 1 d) := by
     funext j i
     fin_cases j
-    simp [pt_apply, ev_X cz1]
+    simp [pt_apply, _root_.ReciprocityTheory.ChartRestriction.G.TB.LogPf.ev_X cz1]
   rw [e, ev_zeroFam]
 
 theorem d_y (h : PS k 1 d) (b : Fin d) :

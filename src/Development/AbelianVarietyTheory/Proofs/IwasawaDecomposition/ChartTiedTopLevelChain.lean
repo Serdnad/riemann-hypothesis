@@ -1,20 +1,19 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.LatAtLattice
-public import Formalism.LocalToGlobal.Columns.RecLevel
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.BaseFieldsPrimesOk
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ChrLast
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.GloRhoZeroOfCompat
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsPtOfIffUnitaryDecoration
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.MemIdSOfResSEqZero
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.PrimesOverPlaces
+public import Formalism.LocalToGlobal.Columns.Bundle010
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle290
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle215
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle157
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle345
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle115
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle376
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.SymmetricFlagBasisVectorEqSingleOfNoExtra
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.SymmetricLevelBoundLe
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.TrueColumnSpacesStandardInFrameCoords
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle339
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ValuedLtOfMem
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ValuationLeOneOfMemZmu
 import Formalism.LocalToGlobal.Columns.RecLevelLocP
-public import Formalism.LocalToGlobal.Columns.RecLevelStep
+public import Formalism.LocalToGlobal.Columns.Bundle023
 public import Mathlib.Algebra.Group.Action.Sigma
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.BesselFormsTrivialNeBot
-public import Formalism.PeriodIntegrals.BesselMapUniq
+public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.Bundle005
+public import Formalism.PeriodIntegrals.Bundle019
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.HighestWeightUniqueness.UnitaryOfBlockWMem
 public import Mathlib.Analysis.Calculus.InverseFunctionTheorem.ContDiff
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.UnitaryGroupSecondKindCoordinatesNearOne

@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.LocalFields.UnitsBasic
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ExistsRootOfAdicComplete
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle055
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,7 +1,7 @@
 module
 
 public import Development.WeilBound.ThetaLifts.LeviDeterminants.LagrangianUniqueness.GeoCore
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EigenIntertwinerTransitive
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2020
 public import Development.WeilBound.ThetaLifts.LeviDeterminants.LagrangianUniqueness.GeoAdm
 public import Development.WeilBound.ThetaLifts.LeviDeterminants.LagrangianUniqueness.LagLine
 import Mathlib.Algebra.Order.Floor.Extended

@@ -1,10 +1,10 @@
 module
 
 public import Formalism.TameInertiaTowers.StatementField
-public import Formalism.TameInertiaTowers.InvLength
+public import Formalism.TameInertiaTowers.Bundle001
 public import Mathlib.NumberTheory.NumberField.Cyclotomic.Basic
 public import Mathlib.RingTheory.SimpleRing.Principal
-public import Formalism.TameInertiaTowers.CentralOrderTwo.NormalOrderTwoCentral
+public import Formalism.TameInertiaTowers.CentralOrderTwo.Bundle001
 import Mathlib.Algebra.AffineMonoid.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

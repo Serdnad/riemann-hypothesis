@@ -1,8 +1,8 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsCliff
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle472
 public import Mathlib.Analysis.Complex.Circle
-public import GroundTheory.GlobalFields.TateThesis.ArchCharsUnits
+public import GroundTheory.GlobalFields.TateThesis.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

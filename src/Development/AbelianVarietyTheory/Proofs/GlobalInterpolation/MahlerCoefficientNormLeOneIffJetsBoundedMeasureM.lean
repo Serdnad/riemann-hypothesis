@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.LatIntZero
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsMeasureOfBoundedMoments
+public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.Bundle003
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle004
 public import Mathlib.RingTheory.MvPolynomial.IrreducibleQuadratic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

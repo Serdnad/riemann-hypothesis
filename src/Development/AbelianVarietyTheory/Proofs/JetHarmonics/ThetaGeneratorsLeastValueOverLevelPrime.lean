@@ -1,16 +1,17 @@
 module
 
 public import Formalism.LocalToGlobal.ProjectiveLattices.CrudeMin
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PlaceDivisors.StChartF
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PlaceDivisors.Bundle001
 public import Development.AbelianVarietyTheory.Definitions.Jets.JetsOnCopiesCompatibleFrames
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ConstantCoeffDmonNCongr
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.DepthBelowOneOfHodgeTateChartFormStatement
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsAlgClosedValuedFieldOverCompleteDVRStatement
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsProductDataCopiesTrivialisationValuationStatement
-import Development.AbelianVarietyTheory.Proofs.JetHarmonics.MinorStProdRange
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.NonemptyTateIsometryIntegralFramedPointChartStatement
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.PointStatementsOnCopiesHoldStatement
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ValueTranslatePullbackEqGeneratorStatement
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle072
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle174
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle082
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle168
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle069
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle166
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsCharactersBoundedMinorsOfHodgeTateChartBou
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle180
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle178
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -51,7 +52,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.LBLocalC
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.Bundle005
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section

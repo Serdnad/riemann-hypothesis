@@ -1,18 +1,18 @@
 module
 
 import Lemmata.FiberEquations.FiberEq
-public import Formalism.HarderNarasimhan.QuotRealize
+public import Formalism.HarderNarasimhan.Bundle002
 public import Mathlib.Algebra.AffineMonoid.Basic
 public import Mathlib.RingTheory.DedekindDomain.Different
 public import Mathlib.RingTheory.Ideal.Norm.AbsNorm
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.DegSupermodZ
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.DiscreteSpanOfLinIndep
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.Duality
-public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.ExistsSmulMemOfFinrankEq
+public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.Bundle001
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.MuChar
-import Formalism.HarderNarasimhan.HarderNarasimhanProofs.SatBasic
-public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.ShiftInvariance
-public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.SizeMu
+import Formalism.HarderNarasimhan.HarderNarasimhanProofs.Bundle002
+public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.Bundle003
+public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.Bundle004
 import Formalism.LatticeSlopes.ExistsSaturatedSlopeEqMuMax
 import Formalism.LatticeSlopes.LatticeSlopesProofs.DegQuot
 import Formalism.LatticeSlopes.LatticeSlopesProofs.DiscreteTopologyOfLe

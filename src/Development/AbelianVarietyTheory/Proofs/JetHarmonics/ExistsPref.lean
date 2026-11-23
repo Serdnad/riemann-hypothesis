@@ -1,12 +1,12 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.FrameBiextDictionarySecondPartialLaw
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.IsLawOfOfMatch
-public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.RosIdSt
-import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.ValSerGermFnVal
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle073
+public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.Bundle030
+import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.Bundle017
 import Formalism.SharpRestriction.Divisibility.GeneratorPowers.FBIdJet
-import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermDJet
-import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ThetaSwapFirstTwo
+import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle013
+import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle022
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -48,7 +48,7 @@ import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.T
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.VtUniq
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.LBPull
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.PhiGenPf
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FirstCohomology.GenProd
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FirstCohomology.Bundle002
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FirstCohomology.LevelFrameOfLaws
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.GaugeTrans
 

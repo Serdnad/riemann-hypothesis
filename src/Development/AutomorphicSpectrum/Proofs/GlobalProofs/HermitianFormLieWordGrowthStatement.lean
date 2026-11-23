@@ -3,7 +3,7 @@ module
 public import Mathlib.Analysis.Real.Sqrt
 public import Mathlib.Basic.Complex.Basic
 public import Mathlib.LinearAlgebra.FiniteDimensional.Defs
-public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.HermitianFormLieWordGrowth
+public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle050
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -42,14 +42,14 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.DefClassNum
-import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.IsAdmOnOfFiniteDimensional
+import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle008
+import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.Bundle001
 import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.ExistsStandardIndModule
-import Development.AutomorphicSpectrum.Proofs.GlobalProofs.IsSmoothVec
+import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle040
 import Development.AutomorphicSpectrum.PublishedTheorems.Jets₂.IsPermissibleOfCentre
 import Formalism.LocalToGlobal.BesselHermitianTheta.NoncompactGapAtLeastRange
-import Formalism.RealPlaceAnalysis.StatementA
-import Formalism.SharpRestriction.CuspSpanNormBounds.Point
+import Formalism.RealPlaceAnalysis.Bundle001
+import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle001
 
 @[expose] public section
 

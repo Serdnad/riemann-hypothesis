@@ -5,7 +5,7 @@ public import GroundTheory.LocalFields.HerbrandFunction
 public import GroundTheory.LocalFields.SeparableClosure
 public import Mathlib.FieldTheory.Galois.Abelian
 public import GroundTheory.LocalFields.ConductorReciprocity
-import GroundTheory.LocalFields.Existence
+import GroundTheory.LocalFields.Bundle012
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

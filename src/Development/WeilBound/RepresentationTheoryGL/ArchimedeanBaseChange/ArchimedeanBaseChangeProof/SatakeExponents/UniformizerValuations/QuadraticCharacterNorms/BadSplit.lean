@@ -1,8 +1,8 @@
 module
 
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.SatakeExponents.UniformizerValuations.BadEx2
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsBallSubset
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MemULOfSplit
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1784
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1757
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.SatakeExponents.UniformizerValuations.MatchBPf
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

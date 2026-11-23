@@ -1,10 +1,8 @@
 module
 
 public import Development.AutomorphicArithmetic.Foundations.Convolution.WeightRankUnits.DeltaProdAlt
-public import Development.AutomorphicArithmetic.Foundations.Convolution.WeightRankUnits.AbsProd
+public import Development.AutomorphicArithmetic.Foundations.Convolution.WeightRankUnits.Bundle001
 public import Development.AutomorphicArithmetic.Foundations.Convolution.WeightRankUnits.DeltaLoc
-public import Development.AutomorphicArithmetic.Foundations.Convolution.WeightRankUnits.MuProd
-public import Development.AutomorphicArithmetic.Foundations.Convolution.WeightRankUnits.Regroup
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

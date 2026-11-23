@@ -1,15 +1,15 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.AdelicHermitianForms.IsHermHyperbolic
+public import Development.AbelianVarietyTheory.Definitions.AdelicHermitianForms.Bundle001
 public import Development.AbelianVarietyTheory.Definitions.ExistenceOfLattices.Hat1
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsAnisotropicOrthogonalBasisHermitian
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.TransvectionIdentitiesUnitaryStatement
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.UnitaryEqQuasiReflectionMulTransvectionsStatement
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.UnitaryGroupWeakApproximationAtPrimesStatement
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.UnitaryTransvectionSubmonoidAdjustIntegralAwayStatement
-import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.UnitaryTransvectionSubmonoidNormalDetOneStatement
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.AdelicCompletionRationalPointsAndApproximation
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsLatticeRationalVectorsInAdelicTranslate
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle027
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle021
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle045
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle057
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle054
+import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle037
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle023
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle025
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -59,7 +59,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-public import Development.AbelianVarietyTheory.Definitions.AdelicHermitianForms.IsHermForm
+public import Development.AbelianVarietyTheory.Definitions.AdelicHermitianForms.Bundle002
 
 @[expose] public section
 

@@ -41,13 +41,12 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import ReciprocityTheory.AnalyticForms.RegularLocalRings.BijOnClosedPointsOfIsIso
+import ReciprocityTheory.AnalyticForms.RegularLocalRings.Bundle009
 public import ReciprocityTheory.AnalyticForms.RegularLocalRings.DivSheaf
 public import ReciprocityTheory.AnalyticForms.RegularLocalRings.ExistsClosedOffOfIsOpen
 import ReciprocityTheory.AnalyticForms.RegularLocalRings.RegDom
 public import ReciprocityTheory.AnalyticForms.RegularLocalRings.StalkIdEqMonomial
-public import ReciprocityTheory.AnalyticForms.RegularLocalRings.Surj
-public import ReciprocityTheory.AnalyticForms.RegularLocalRings.WGermB
+public import ReciprocityTheory.AnalyticForms.RegularLocalRings.Bundle015
 
 @[expose] public section
 

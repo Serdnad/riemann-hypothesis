@@ -2,11 +2,10 @@ module
 
 public import Development.WeilBound.ThetaLifts.FrameEstimates.ContinuousMixedSymm
 public import Development.WeilBound.ThetaLifts.FrameEstimates.SquareIntegrableWeilRange
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LocalComponentsNontrivialAdelicCharacter
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.IsOpenNsmulAdelicCompletionOfVectorSet
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.LcscAdelicUnitaryGroup
-public import Development.WeilBound.ThetaLifts.FrameEstimates.FinBound
-public import Development.WeilBound.ThetaLifts.FrameEstimates.LatCpt
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle280
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle023
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle018
+public import Development.WeilBound.ThetaLifts.FrameEstimates.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

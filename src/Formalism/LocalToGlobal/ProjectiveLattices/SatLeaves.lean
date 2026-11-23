@@ -3,8 +3,7 @@ module
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.IntegralFrameChangeIntegralInvertibleMatrix
 public import Formalism.LocalToGlobal.ProjectiveLattices.ChartDirectionsIntegral
 public import Formalism.LocalToGlobal.ProjectiveLattices.IntAllProof
-public import Formalism.LocalToGlobal.ProjectiveLattices.AllTest
-public import Formalism.LocalToGlobal.ProjectiveLattices.UnifGen
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle012
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

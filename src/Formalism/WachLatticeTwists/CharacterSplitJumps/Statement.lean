@@ -1,7 +1,7 @@
 module
 
-public import Formalism.CharacterColumnKernels.StatementRho
-public import Formalism.WachLatticeTwists.HodgeTateChains.InvariantsCohomologyData
+public import Formalism.CharacterColumnKernels.Bundle002
+public import Formalism.WachLatticeTwists.HodgeTateChains.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

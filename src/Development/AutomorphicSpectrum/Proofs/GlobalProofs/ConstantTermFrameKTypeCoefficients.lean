@@ -44,8 +44,8 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Development.AutomorphicSpectrum.Proofs.GlobalProofs.IsDiscreteRepResMuROrep
-import Formalism.ConjugateSelfDual.Statement
+import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle016
+import Formalism.ConjugateSelfDual.Bundle001
 import GroundTheory.GlobalFields.HerbrandQuotients.RationalForm
 import GroundTheory.GlobalFields.IdeleClassGroup.IdeleClassMapIdeleClassMap
 import ReciprocityTheory.GaloisValuations.GlobalA
@@ -81,3 +81,18 @@ theorem cdp_eq_of_continuousMulEquiv : ∀ (G H : Type) [Group G] [TopologicalSp
   exact le_antisymm (cdp_le_of_continuousMulEquiv p e) (cdp_le_of_continuousMulEquiv p e.symm)
 
 end GlobalTheory.CompanionTheory.GSCd
+
+end
+
+section
+
+@[expose] public section
+
+open NumberField IsDedekindDomain CategoryTheory GroundTheory.ProfCoh GroundTheory.Global FiniteSubfield ReciprocityTheory.Gal Formalism.ConjugateSelfDual GlobalTheory.CompanionTheory.GSCd GroundTheory.Global.IdeleGroup GroundTheory.Global.SemiLocal GroundTheory.Global.AdeleBaseChange
+open scoped DirectSum
+
+theorem _root_.GlobalTheory.T.cohomological_dimension_topological_iso : ∀ (G H : Type) [Group G] [TopologicalSpace G] [IsTopologicalGroup G] [Group H] [TopologicalSpace H] [IsTopologicalGroup H] (p : ℕ), (G ≃ₜ* H) → cdp p G = cdp p H := by
+  first | exact @GlobalTheory.CompanionTheory.GSCd.cdp_eq_of_continuousMulEquiv | exact GlobalTheory.CompanionTheory.GSCd.cdp_eq_of_continuousMulEquiv | (intros; apply GlobalTheory.CompanionTheory.GSCd.cdp_eq_of_continuousMulEquiv <;> assumption)
+
+end
+end

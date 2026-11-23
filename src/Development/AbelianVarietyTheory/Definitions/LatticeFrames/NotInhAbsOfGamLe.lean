@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.MiPinnedWithFinIff
+public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.Bundle011
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.KerInclOn
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.VanishingGramTermsBoundParams
 import Mathlib.Algebra.Order.Floor.Extended

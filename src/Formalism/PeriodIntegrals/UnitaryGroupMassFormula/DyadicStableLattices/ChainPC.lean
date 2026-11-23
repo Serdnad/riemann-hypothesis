@@ -1,8 +1,8 @@
 module
 
-public import Formalism.PeriodIntegrals.GoodTwo
+public import Formalism.PeriodIntegrals.Bundle016
 public import Formalism.LocalToGlobal.TorsionIntegrality.EisensteinTranslationProducts.MulStableIntegral
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.DyadicStableLattices.ChainPA
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.DyadicStableLattices.Bundle001
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.DyadicStableLattices.ChainPB
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

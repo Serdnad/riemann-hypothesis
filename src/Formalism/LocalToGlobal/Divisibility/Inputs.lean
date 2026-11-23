@@ -1,7 +1,7 @@
 module
 
-public import Formalism.QuotientMetricDivisors.DivIntoDualShift
-public import Formalism.ThetaSupremumBounds.DivIneqExplicit6
+public import Formalism.QuotientMetricDivisors.Bundle004
+public import Formalism.ThetaSupremumBounds.Bundle001
 public import Formalism.ThetaSupremumBounds.StatementCB
 public import Formalism.LocalToGlobal.IndefiniteForms.IndefSide
 import Mathlib.Algebra.Order.Floor.Extended

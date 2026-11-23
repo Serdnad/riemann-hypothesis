@@ -2,7 +2,7 @@ module
 
 public import CompanionTheory.AutomorphicTheory.PadicCyclotomicFields.GcohDefs
 public import GroundTheory.ProfiniteCohomology.PoincareDuality.NsmulEqZeroOfNonemptyAddEquiv
-public import CompanionTheory.AutomorphicTheory.PadicCyclotomicFields.GcohTateA
+public import CompanionTheory.AutomorphicTheory.PadicCyclotomicFields.Bundle001
 public import CompanionTheory.AutomorphicTheory.PadicCyclotomicFields.GcohTateB
 public import GroundTheory.ProfiniteCohomology.LocalTateDuality.MainDefs
 import GroundTheory.ProfiniteCohomology.PoincareDuality

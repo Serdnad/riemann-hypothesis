@@ -1,9 +1,8 @@
 module
 
-public import GroundTheory.LocalFields.UnitsGalois
+public import GroundTheory.LocalFields.Bundle004
 public import GroundTheory.LocalFields.CompleteTrivial
-public import GroundTheory.LocalFields.UnramifiedDefs
-public import GroundTheory.LocalFields.HilbertCyclic
+public import GroundTheory.LocalFields.Bundle003
 public import GroundTheory.LocalFields.UnramifiedNormSurj
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,12 +1,10 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CosetOff
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle101
 public import Development.WeilBound.RepresentationTheoryGL.SiegelWeilProof.BinaryMassMeans.MeanVal
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CosetCongruenceRefinementStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CosetEmptyPlacesLatticeStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CosetUnitIdealIntegralStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LatticeCosetScaledRiemannSumStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LocallyConstantBoxApproximationStatement
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle123
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle155
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle310
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

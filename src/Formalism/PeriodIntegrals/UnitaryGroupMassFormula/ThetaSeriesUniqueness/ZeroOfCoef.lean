@@ -1,8 +1,7 @@
 module
 
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ThetaSeriesUniqueness.Complete
-public import Formalism.PeriodIntegrals.AreaLat
-public import Formalism.PeriodIntegrals.SigmaStarUniq
+public import Formalism.PeriodIntegrals.Bundle012
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

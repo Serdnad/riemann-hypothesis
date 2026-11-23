@@ -2,7 +2,7 @@ module
 
 public import Development.WeilBound.ThetaLifts.Reductions.SiegelCore
 public import Development.WeilBound.ThetaLifts.FrameEstimates.SquareIntegrableWeilRange
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.LcscAdelicUnitaryGroup
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle018
 public import Development.WeilBound.ThetaLifts.FrameEstimates.LeHeightOfIsTorusElt
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

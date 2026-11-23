@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.FromBaseAlt
-public import Development.AbelianVarietyTheory.Definitions.Divisors.TorusMemOfSepAtBTate
-import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.GlobalFnsHolds
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HomDescent
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LbIsoOfLbIsoFieldExt
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle075
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle063
+import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle012
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3201
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3198
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -43,7 +43,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.ChartPullbacks.TangentLinearity.ConstPullback
-import Development.AbelianVarietyTheory.Definitions.Divisors.HasRigidCoords
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle077
 
 @[expose] public section
 

@@ -5,7 +5,7 @@ public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCoh
 public import Mathlib.Tactic.Bound
 public import Mathlib.Tactic.Monotonicity.Lemmas
 public import Mathlib.Topology.Sheaves.Presheaf
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MapHCompEqSmul
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle096
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -2,7 +2,7 @@ module
 
 public import Mathlib.NumberTheory.NumberField.Basic
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsCompletedStrictHens
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.FiniteSubfieldSpecial
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle018
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -41,11 +41,11 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsThetaMeanSquareNorm
-import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.LieModel
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.TopLeOfClosedPoint
-import GroundTheory.HeightsAndTheta.Heights.HeightsOfSets.DenseLift
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.CubicalStructures.CubeSymmetricSwapFirst
+import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle013
+import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle001
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle119
+import GroundTheory.HeightsAndTheta.Heights.HeightsOfSets.Bundle001
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.CubicalStructures.Bundle001
 
 @[expose] public section
 
@@ -64,3 +64,22 @@ theorem exists_numberField_point (C : Type) [Field C] [CharZero C] [Algebra.IsAl
   _root_.UpperTheory.Reformulated.B.SpecPointFactorsThroughNumberField.main C X π x
 
 end GlobalTheory.CompanionTheory.Ar.Sl.Reg.Descend
+
+end
+
+section
+
+@[expose] public section
+
+open AlgebraicGeometry CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj NumberField MeasureTheory
+open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Geo ReciprocityTheory.ChartRestriction.G.Geo.Tor ReciprocityTheory.ChartRestriction.G.Semi
+open GroundTheory.Heights₂.Heights TensorProduct
+open GlobalTheory.CompanionTheory.Ar GlobalTheory.CompanionTheory.Ar.Sl
+open GlobalTheory.CompanionTheory.Ar.Sl.Reg
+
+
+theorem _root_.GlobalTheory.T.algebraic_point_over_number_field : ∀ (C : Type) [Field C] [CharZero C] [Algebra.IsAlgebraic ℚ C] (X : Scheme.{0}) (π : X ⟶ Sp ℤ) [LocallyOfFiniteType π] (x : Sp C ⟶ X), ∃ (K : Type) (_ : Field K) (_ : NumberField K) (e : K →+* C) (x' : Sp K ⟶ X), spMap e ≫ x' = x := by
+  first | exact @GlobalTheory.CompanionTheory.Ar.Sl.Reg.Descend.exists_numberField_point | exact GlobalTheory.CompanionTheory.Ar.Sl.Reg.Descend.exists_numberField_point | (intros; apply GlobalTheory.CompanionTheory.Ar.Sl.Reg.Descend.exists_numberField_point <;> assumption)
+
+end
+end

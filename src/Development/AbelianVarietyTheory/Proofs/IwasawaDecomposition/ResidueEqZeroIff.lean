@@ -1,8 +1,8 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.ReferenceCharactersFactorTame
-public import Formalism.LocalToGlobal.HermitianForms.PsiZeroNontrivialCharacter
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.AfsplitC
+public import Formalism.LocalToGlobal.HermitianForms.Bundle001
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle008
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ValuedLtOfMem
 import Formalism.LocalRingCardinality.SpanPowerMembership.LocAtA
 import Formalism.LocalToGlobal.Columns.AdelicLemmas

@@ -1,15 +1,15 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsThetaMeanSquareNorm
-public import GroundTheory.HeightsAndTheta.Heights.KernelsMatrix
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsFullTorsionNumberFieldStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ThetaFunctionArchimedeanFrameStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ThetaMultiplierQuadraticCharacterStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.TorsionValueIntegralStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.TorsionValueUniqueBaseChangeStatement
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle013
+public import GroundTheory.HeightsAndTheta.Heights.Bundle001
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle271
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle267
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle257
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle280
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle220
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ThetaFunctionEvenBoundStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.TorsionValueNormEqThetaNormStatement
-public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.CoordWeak
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle075
+public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -185,7 +185,7 @@ theorem sum_log_norm_nonneg (K : Type) [Field K] [NumberField K] (T : K) (hT : I
   rw [Complex.norm_intCast]
   exact_mod_cast Int.one_le_abs hnz
 
-open Classical in
+open _root_.Classical in
 theorem card_ext (L K : Type) [Field L] [NumberField L] [Field K] [NumberField K] [Algebra L K] (σ : L →+* ℂ) :
     Fintype.card {τ : K →+* ℂ // τ.comp (algebraMap L K) = σ} = Module.finrank L K := by
   letI : Algebra L ℂ := σ.toAlgebra
@@ -197,7 +197,7 @@ theorem card_ext (L K : Type) [Field L] [NumberField L] [Field K] [NumberField K
       left_inv := fun t => by ext; rfl
       right_inv := fun φ => by ext; rfl }
 
-open Classical in
+open _root_.Classical in
 theorem sum_comp_algebraMap (L K : Type) [Field L] [NumberField L] [Field K] [NumberField K] [Algebra L K]
     (F : (L →+* ℂ) → ℝ) :
     ∑ τ : K →+* ℂ, F (τ.comp (algebraMap L K)) = Module.finrank L K * ∑ σ, F σ := by
@@ -602,3 +602,21 @@ theorem mean_log_sup : ∃ C : ℝ, 0 ≤ C ∧ ∀ (E : Type) [Field E] [Number
     linarith
 
 end GlobalTheory.CompanionTheory.Ar.Sl.Sup
+
+end
+end
+
+section
+
+@[expose] public section
+
+open AlgebraicGeometry CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj NumberField MeasureTheory
+open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Geo ReciprocityTheory.ChartRestriction.G.Geo.Tor ReciprocityTheory.ChartRestriction.G.Semi
+open GroundTheory.Heights₂.Heights TensorProduct
+open GlobalTheory.CompanionTheory.Ar GlobalTheory.CompanionTheory.Ar.Sl
+
+theorem _root_.GlobalTheory.T.exists_theta_sup_bound_log_mean : ∃ C : ℝ, 0 ≤ C ∧ ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Host E) (L : Type) [Field L] [NumberField L] (D : PPData H L) (th : Out.H0 D.t.PP.L 1) (Φ : ℝ), 1 ≤ D.g → 0 ≤ Φ → D.HasTheta th Φ → ∃ M : (L →+* ℂ) → ℝ, (∀ σ, 0 < M σ) ∧ D.SupLe th M ∧ mean L (fun σ => Real.log (M σ)) ≤ Φ + C * D.g * Real.log (2 + D.g + Φ) := by
+  exact @GlobalTheory.CompanionTheory.Ar.Sl.Sup.mean_log_sup
+
+end
+end

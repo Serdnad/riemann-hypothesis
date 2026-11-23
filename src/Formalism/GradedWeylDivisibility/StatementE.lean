@@ -1,6 +1,6 @@
 module
 
-public import Formalism.GradedWeylDivisibility.StatementB
+public import Formalism.GradedWeylDivisibility.Bundle001
 public import Formalism.GradedWeylDivisibility.FinalB
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

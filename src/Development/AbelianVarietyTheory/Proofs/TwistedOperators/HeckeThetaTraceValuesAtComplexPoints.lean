@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsIsCan
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.FrMoveValues
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.IsHolToFibPtAndCompFibre
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle411
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle157
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle038
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -46,7 +46,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.VtUniq
-public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.KerScheme
+public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.Bundle003
 
 @[expose] public section
 

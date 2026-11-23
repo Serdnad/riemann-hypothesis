@@ -2,7 +2,7 @@ module
 
 public import Mathlib.MeasureTheory.Integral.IntegrableOn
 public import Mathlib.MeasureTheory.Measure.Haar.OfBasis
-public import ReciprocityTheory.ThetaSummability.TailSumEstimates.ConeDefs
+public import ReciprocityTheory.ThetaSummability.TailSumEstimates.Bundle001
 import Aesop.Main
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

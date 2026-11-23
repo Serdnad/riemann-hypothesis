@@ -4,8 +4,8 @@ public import Formalism.LocalRingCardinality.DataHost
 public import Formalism.LocalToGlobal.UnitaryNorms.IsUnitaryNormOf
 public import Mathlib.RingTheory.SimpleRing.Principal
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.EtaEqJacobiSym
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsUnitNormOfIsCoprime
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.UnderEqIffConjPl
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle065
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle092
 import Formalism.FrobeniusOrbits.FrobeniusOrbitsProofs.NcardEqTwoIff
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

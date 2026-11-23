@@ -2,7 +2,7 @@ module
 
 public import Development.AbelianVarietyTheory.Statements.DiscreteSeriesShifts.ThmBpDS
 public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.ActualClassesCompactSupport
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.BesselXiIntegrableHolds
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle107
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.PointwiseBoundDiscreteSeriesCoefficientsStatement
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -51,3 +51,17 @@ theorem discreteSeriesCoef_pointwiseBound : ThmBpDS :=
   GlobalTheory.T.pointwiseBound_discreteSeries_coefficients GlobalTheory.besselXiIntegrable_holds GlobalTheory.actualClasses_compactSupport
 
 end GlobalTheory
+
+end
+
+section
+
+@[expose] public section
+
+open BpJoin
+
+theorem _root_.GlobalTheory.T.discreteSeriesCoef_pointwiseBound_unconditional : ThmBpDS := by
+  first | exact @GlobalTheory.discreteSeriesCoef_pointwiseBound | exact GlobalTheory.discreteSeriesCoef_pointwiseBound | (intros; apply GlobalTheory.discreteSeriesCoef_pointwiseBound <;> assumption)
+
+end
+end

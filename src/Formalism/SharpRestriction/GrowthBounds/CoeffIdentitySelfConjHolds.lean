@@ -1,8 +1,8 @@
 module
 
-public import Formalism.LocalToGlobal.CharacterGerms.CoefficientIdentitySelfConjugate
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle037
 public import Formalism.SharpRestriction.GrowthBounds.CoeffGaugeSquareLowDegree
-public import Formalism.SharpRestriction.GrowthBounds.CoeffIdentitySelfConjOfTwo
+public import Formalism.SharpRestriction.GrowthBounds.Bundle011
 public import Formalism.SharpRestriction.GrowthBounds.GenIntSPsubst
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

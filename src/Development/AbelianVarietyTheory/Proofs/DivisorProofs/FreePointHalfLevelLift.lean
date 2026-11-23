@@ -1,18 +1,18 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsWhittakerDatumAndHalfLevels
-public import Development.AbelianVarietyTheory.Definitions.Divisors.EigLatLe
-public import Development.AbelianVarietyTheory.Definitions.Divisors.QuoIff
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AdelicCongruenceSelfDualOfPrincipalLatticeStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FinalRowGramAlgebraicSection
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle720
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle056
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle060
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1518
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2359
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FinalRowWeightGramAlgebraic
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FrameReductionEqOneOfCongruentModIdealStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LevelMoveLiftCongruentModIdealStatement
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MulVecMemLatGHat
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle811
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1632
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1677
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SubMemSmulTopOfLevel
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.FamPSizesRecord
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle200
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.FinCongMemLevEnv
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsLevelAtEachIndex
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle272
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -46,9 +46,9 @@ import Mathlib.Tactic.NormNum.NatSqrt
 import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-public import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.LevelCarrying
+public import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.Bundle003
 import Development.AbelianVarietyTheory.Definitions.Divisors.CuspIso
-import Development.AbelianVarietyTheory.Definitions.Divisors.GenRatios
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle057
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsCoprimeOfNatCast
 import Development.AbelianVarietyTheory.Definitions.Divisors.IsRightActFunPull
 import Development.AbelianVarietyTheory.Definitions.Divisors.IsoOverOfIsOpenImmersion

@@ -4,7 +4,7 @@ public import Mathlib.NumberTheory.NumberField.CMField
 public import ReciprocityTheory.GaloisValuations.Global
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsContinuousPadic
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.KstarRam
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.SplittingFieldIsoQuadratic
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -55,13 +55,13 @@ import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.NonemptyEqu
 import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.HasExponentZeroIff
 import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.TrivialOnInertiaOfUnr
 import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.Newform
-import Development.AutomorphicArithmetic.AutomorphicVarieties.PublishedTheorems.GelfandKazhdanReal
-import Development.AutomorphicArithmetic.IntegralCasts.IsOpenStabOfMemNhds
-import Formalism.LocalRingCardinality.SpanPowerMembership.NZTypeD
+import Development.AutomorphicArithmetic.AutomorphicVarieties.PublishedTheorems.Bundle001
+import Development.AutomorphicArithmetic.IntegralCasts.Bundle001
+import Formalism.LocalRingCardinality.SpanPowerMembership.Bundle001
 import Formalism.LocalToGlobal.UnitaryNorms.IsUnitaryNormOf
 import Formalism.SharpRestriction.LevelLetterCocycles.DataNLoc
 import Formalism.SharpRestriction.LevelLetterCocycles.LocCoh
-import ReciprocityTheory.NeutralLocalFields.Reciprocity
+import ReciprocityTheory.NeutralLocalFields.Bundle001
 
 @[expose] public section
 
@@ -95,7 +95,7 @@ private theorem ringOfIntegers_rat_exists_int_eq (x : 𝓞 ℚ) : ∃ n : ℤ, x
 
 private theorem exists_isPlaceOver_natCast_mem_of_valuation_lt_one {Ω : Type} [Field Ω] [Algebra ℚ Ω] (A : ValuationSubring Ω) (p : ℕ)
     (hp0 : p ≠ 0) (h : A.valuation (p : Ω) < 1) :
-    ∃ v : HeightOneSpectrum (𝓞 ℚ), IsPlaceOver A v ∧ (p : 𝓞 ℚ) ∈ v.asIdeal := by
+    ∃ v : HeightOneSpectrum (𝓞 ℚ), _root_.Formalism.ConjugateSelfDual.IsPlaceOver A v ∧ (p : 𝓞 ℚ) ∈ v.asIdeal := by
   have hmem : ∀ x : 𝓞 ℚ, ((algebraMap ℚ Ω).comp (algebraMap (𝓞 ℚ) ℚ)) x ∈ A := by
     intro x
     obtain ⟨n, rfl⟩ := ringOfIntegers_rat_exists_int_eq x
@@ -163,8 +163,8 @@ private theorem nonempty_ringHom_Kstar_of_sq_eq_neg (l : ℕ) [Fact l.Prime] (p 
 theorem UpperTheory.V.Af.Cq.exQuad :
     ∀ (Ω : Type) [Field Ω] [Algebra ℚ Ω] [IsAlgClosure ℚ Ω] (l : ℕ) [Fact l.Prime], l ≠ 2 → ∀ (S : HeightOneSpectrum (𝓞 ℚ) → Prop), (∀ᶠ v in Filter.cofinite, S v) →
         ∃ (K : Type) (_ : Field K) (_ : NumberField K) (_ : IsCMField K) (_ : Algebra K Ω) (_ : IsScalarTower ℚ K Ω) (_ : IsAlgClosure K Ω),
-          Module.finrank ℚ K = 2 ∧ Nonempty (K →+* ℚ_[l]) ∧ ∃ (v : HeightOneSpectrum (𝓞 ℚ)) (A : ValuationSubring Ω), S v ∧ IsPlaceOver A v ∧
-            ∃ s ∈ Ine (F := ℚ) A, s ∉ (AlgEquiv.restrictScalarsHom ℚ : G K Ω →* G ℚ Ω).range := by
+          Module.finrank ℚ K = 2 ∧ Nonempty (K →+* ℚ_[l]) ∧ ∃ (v : HeightOneSpectrum (𝓞 ℚ)) (A : ValuationSubring Ω), S v ∧ _root_.Formalism.ConjugateSelfDual.IsPlaceOver A v ∧
+            ∃ s ∈ Ine (F := ℚ) A, s ∉ (AlgEquiv.restrictScalarsHom ℚ : _root_.Formalism.ConjugateSelfDual.G K Ω →* _root_.Formalism.ConjugateSelfDual.G ℚ Ω).range := by
   intro Ω _ instA _ l hl hl2 S hS
   haveI hc : CharZero Ω := charZero_of_injective_algebraMap (algebraMap ℚ Ω).injective
   have e : instA = DivisionRing.toRatAlgebra := Subsingleton.elim _ _
@@ -186,7 +186,7 @@ theorem UpperTheory.V.Af.Cq.exQuad :
     fun p => exists_valuationSubring_valuation_prime_lt_one Ω p p.2.1
   choose Af hAf using hA
   have hv : ∀ p : P, ∃ v : HeightOneSpectrum (𝓞 ℚ),
-      IsPlaceOver (Af p) v ∧ ((p : ℕ) : 𝓞 ℚ) ∈ v.asIdeal :=
+      _root_.Formalism.ConjugateSelfDual.IsPlaceOver (Af p) v ∧ ((p : ℕ) : 𝓞 ℚ) ∈ v.asIdeal :=
     fun p => exists_isPlaceOver_natCast_mem_of_valuation_lt_one (Af p) p p.2.1.ne_zero (hAf p)
   choose vf hvf1 hvf2 using hv
   have hinj : Function.Injective vf := by

@@ -1,8 +1,8 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.GoodPathWeight
-public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.OldestLetterInSegment
-public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.PsiCutSupported
+public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.Bundle005
+public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.Bundle012
+public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.Bundle013
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

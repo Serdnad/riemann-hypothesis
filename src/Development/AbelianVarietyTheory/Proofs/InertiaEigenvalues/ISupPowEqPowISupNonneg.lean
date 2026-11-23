@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsGauss
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle008
 public import Development.AbelianVarietyTheory.CrystallinePeriods.RingBasics
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.AcrisGaussNormEventuallyMonomial
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsGaussGCTarget
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Acris0TorsionFree
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle251
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle289
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle086
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

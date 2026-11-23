@@ -1,10 +1,10 @@
 module
 
-public import GroundTheory.LocalFields.LubinTateLimit
+public import GroundTheory.LocalFields.Bundle008
 public import GroundTheory.LocalFields.MaximalAbelianExtension
-public import GroundTheory.LocalFields.Examples
+public import GroundTheory.LocalFields.Bundle002
 public import GroundTheory.LocalFields.LubinTateTower
-public import GroundTheory.LocalFields.Existence
+public import GroundTheory.LocalFields.Bundle012
 import GroundTheory.LocalFields.ExistenceDictionary
 import GroundTheory.LocalFields.LubinTateUnramified
 public import GroundTheory.LocalFields.PrincipalUnitsRank

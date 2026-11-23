@@ -3,7 +3,7 @@ module
 public import GroundTheory.ProfiniteCohomology.RestrictedRamification.BaseChangeDefs
 public import GroundTheory.ProfiniteCohomology.RestrictedRamification.BaseChangePlaces
 public import GroundTheory.ProfiniteCohomology.MackeyFormula.CompactSupport
-public import GroundTheory.ProfiniteCohomology.RestrictedRamification.LocalMaps
+public import GroundTheory.ProfiniteCohomology.RestrictedRamification.Bundle003
 import GroundTheory.GlobalFields.CompletionAtPlace.Integers
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

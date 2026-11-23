@@ -2,10 +2,9 @@ module
 
 public import Mathlib.Analysis.Complex.Norm
 public import Mathlib.RingTheory.MvPolynomial.Symmetric.Defs
-public import Development.AutomorphicArithmetic.Foundations.Convolution.PolynomialCoefficientBounds.GenFund
-public import Development.AutomorphicArithmetic.Foundations.Convolution.PolynomialCoefficientBounds.GenRed
-public import Development.AutomorphicArithmetic.Foundations.Convolution.PolynomialCoefficientBounds.GenTrunc
-import Development.AutomorphicArithmetic.Foundations.Convolution.PolynomialCoefficientBounds.MatrixEntryAbsSumUnitaryLieCoordinatesSplit
+public import Development.AutomorphicArithmetic.Foundations.Convolution.PolynomialCoefficientBounds.Bundle002
+public import Development.AutomorphicArithmetic.Foundations.Convolution.PolynomialCoefficientBounds.Bundle004
+import Development.AutomorphicArithmetic.Foundations.Convolution.PolynomialCoefficientBounds.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.Columns.KOneCharacterTrivialNearOne
+public import Formalism.LocalToGlobal.Columns.Bundle023
 public import Formalism.LocalToGlobal.Columns.ChainTwPsi
 import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.ThDistC
 import Mathlib.Algebra.Order.Floor.Extended

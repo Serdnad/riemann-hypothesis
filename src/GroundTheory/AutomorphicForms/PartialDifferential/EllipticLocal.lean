@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.AutomorphicForms.PartialDifferential.EllipticOperators
-import GroundTheory.AutomorphicForms.PartialDifferential.SobolevMollifier
+import GroundTheory.AutomorphicForms.PartialDifferential.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

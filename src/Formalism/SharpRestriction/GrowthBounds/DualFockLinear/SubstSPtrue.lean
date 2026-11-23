@@ -1,7 +1,7 @@
 module
 
 public import Formalism.SharpRestriction.GrowthBounds.DualFockLinear.SubstDtop
-public import Formalism.SharpRestriction.GrowthBounds.DualFockLinear.DvdOfCompl
+public import Formalism.SharpRestriction.GrowthBounds.DualFockLinear.Bundle007
 import Formalism.SharpRestriction.GrowthBounds.PathWeight.DvDegOtherMono
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

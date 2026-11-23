@@ -1,12 +1,12 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.FinitePrimesUnder
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsMaximalAboveOfDvdNormHost
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.CmFiniteAdeleIntegralSeparatedComplete
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsHalfIdem
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsIdeleGenerator
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle668
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle212
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle250
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle238
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Hilbert90IntegralIdelesOfMovedPrimes
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.RationalPointsIntegralPointsMembership
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle216
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.UnitaryHeckeCharacterValues
 import Formalism.LocalToGlobal.ProjectiveLattices.HostInt
 import Mathlib.Algebra.Order.Floor.Extended
@@ -48,7 +48,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CosetVecEq
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1898
 
 @[expose] public section
 

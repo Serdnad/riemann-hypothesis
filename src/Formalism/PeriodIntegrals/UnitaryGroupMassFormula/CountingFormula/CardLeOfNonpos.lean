@@ -1,7 +1,7 @@
 module
 
-public import Formalism.LocalRingCardinality.DataSpaces
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CountingFormula.CTEqConjTranspose
+public import Formalism.LocalRingCardinality.Bundle001
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CountingFormula.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

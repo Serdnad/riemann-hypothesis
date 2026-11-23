@@ -1,9 +1,9 @@
 module
 
-import Development.EtaleCohomology.EtaleSheaves.LeafPrimCoverPf
+import Development.EtaleCohomology.EtaleSheaves.Bundle014
 public import Development.AbelianVarietyTheory.Definitions.Divisors.SecClass
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleAdjoinRootXPowSubC
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleLocallyIffAffineEtalePointCover
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle122
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle406
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PrimitiveRootPowUnitSubProdProperties
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

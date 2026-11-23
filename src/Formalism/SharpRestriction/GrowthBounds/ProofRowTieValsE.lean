@@ -1,13 +1,13 @@
 module
 
 public import Formalism.SharpRestriction.GrowthBounds.ProofRowTieValsCg
-public import Formalism.LocalToGlobal.CharacterGerms.RowTieValL
-public import Formalism.LocalToGlobal.CharacterGerms.ValueEquationOfProjectors
-import Formalism.LocalToGlobal.CharacterGerms.ConstantCoeffSinglePointZero
-import Formalism.LocalToGlobal.CharacterGerms.IntSProd
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle032
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle028
+import Formalism.LocalToGlobal.CharacterGerms.Bundle027
+import Formalism.LocalToGlobal.CharacterGerms.Bundle007
 public import Formalism.LocalToGlobal.CharacterGerms.LinearCoeffExponentialEqIte
-public import Formalism.LocalToGlobal.CharacterGerms.RowTieValK
-import Formalism.LocalToGlobal.CharacterGerms.SubstSubst
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle008
+import Formalism.LocalToGlobal.CharacterGerms.Bundle011
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

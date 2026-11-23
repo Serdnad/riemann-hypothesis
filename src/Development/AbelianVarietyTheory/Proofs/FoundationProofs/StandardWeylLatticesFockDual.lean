@@ -5,16 +5,15 @@ public import Formalism.LocalToGlobal.Divisibility.CoefMod
 public import Mathlib.Tactic.Monotonicity.Lemmas
 public import Mathlib.Topology.Sheaves.Presheaf
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ApplyWordMemDualWeyl
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.FockQWordRowActAdj
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.LowerTriIntegral
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.LowerTriOfInterlaced
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.StdWeylLatticesFgAndSpanCoeffSpace
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle185
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle186
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle220
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.UnitriMonomialOfLowerTri
 import Formalism.GradedWeylDivisibility.DualWeylDominanceOf
 import Formalism.GradedWeylDivisibility.FinalB
 import Formalism.GradedWeylDivisibility.FinalC
 import Formalism.GradedWeylDivisibility.FinalD
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LClosedeqLemmas
+import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle002
 public import Formalism.LocalToGlobal.Columns.CoefficientsModP.FkMapInitMinor
 public import Formalism.LocalToGlobal.Columns.CoefficientsModP.FkPderivBlockEmbNe
 public import Formalism.LocalToGlobal.Columns.CoefficientsModP.PairingNondegenerateHolds

@@ -2,7 +2,7 @@ module
 
 public import Formalism.WachLatticeTwists.RamifiedBlockRings.Statement
 public import Formalism.CharacterColumnKernels.CharacterColumnKernelEqualityForm
-public import Formalism.CharacterColumnKernels.StatementGC
+public import Formalism.CharacterColumnKernels.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

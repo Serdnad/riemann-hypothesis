@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.KerInfMemLocSpan
-public import Development.AbelianVarietyTheory.Definitions.Divisors.KerInfIntegrableOfMemRspan
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CompactUniformBound
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle917
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle026
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle849
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

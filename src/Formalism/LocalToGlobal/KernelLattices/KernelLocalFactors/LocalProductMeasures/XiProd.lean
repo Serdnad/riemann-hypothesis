@@ -1,7 +1,7 @@
 module
 
-public import Formalism.LocalToGlobal.KernelLattices.MuProd
-public import Formalism.LocalToGlobal.Divisibility.TuplesLemmas
+public import Formalism.LocalToGlobal.KernelLattices.Bundle002
+public import Formalism.LocalToGlobal.Divisibility.Bundle001
 public import Formalism.LocalToGlobal.GlobalTheory.GL1.CompactFixesLattice.AdeleIntA
 public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.ThDistC
 import Mathlib.Algebra.Order.Floor.Extended

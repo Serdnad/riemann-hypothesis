@@ -1,21 +1,21 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.KerDatTuple
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.NormalFam
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle052
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle016
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.MemLatOIffExistsActO
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsDetOneMulStdBlockStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsSplitSupportedUnitaryLiftDetOneStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.MulVecMemHatSwap
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle220
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1727
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle335
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.EqZeroOrEqOfPlaceIdem
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsInvariantForm
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.AdjointHalfDatumStabilizerPairMove
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsSelfDualCoordLatticeOfSelfDualFrame
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.LevelPlacesNotIsConjPlaceRealDat
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle171
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle232
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.MemHomLatticeIffFrameStabilizerActMem
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ParahoricLevelLiftsExist
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SchrodingerIntertwinerSchwartzBruhatIsTheta
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SplitPlaceWeilRepLatticeVacuumCharacter
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.WeilActionSchrodingerModelFiniteIdempotent
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle550
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle345
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle562
 import Formalism.LocalToGlobal.Columns.AdelicLemmas
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -54,7 +54,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-import Development.AbelianVarietyTheory.Definitions.Divisors.RealisedChainTorusEq
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle045
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.KernelSpanOverClasses
 
 @[expose] public section

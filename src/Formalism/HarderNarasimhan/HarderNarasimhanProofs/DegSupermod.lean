@@ -1,6 +1,6 @@
 module
 
-public import Formalism.HarderNarasimhan.DegSupermodZ
+public import Formalism.HarderNarasimhan.Bundle001
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.DegSupermodZ
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

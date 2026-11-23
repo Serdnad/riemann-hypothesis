@@ -1,22 +1,21 @@
 module
 
-public import ReciprocityTheory.NeutralLocalFields.HilbertClassField
+public import ReciprocityTheory.NeutralLocalFields.Bundle001
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.ExistsUniqueHcharOfFiniteOrder
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FiniteIndexUnitIdlSup
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LocUnitApply
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsNormNearNegOneAtRealPlaceStatement
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.InfIdeleNegOneNotMemClosurePrincipalIdentityCompStatement
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle090
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle049
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle088
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle108
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.MemConnectedComponentOfOneOfPos
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.AbsoluteGaloisAbelianizationEqOneOfMemOpenSubgro
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle057
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.DenseRangeUnits
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsFinsetPlacesOverFinsetPlaces
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FrobeniusRestrictScalarsPowModInertia
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IntValuationNormEqSumResidueDegreeMul
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsOpenIdeleSubgroupContainsCongruenceUnits
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle061
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle060
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle056
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.NormCloseToOneOfCloseAbovePlace
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.UnitOpenAndCongrOpen
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsIdeleClassGroupHomOpenKernel
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.InertiaElementEqOneOrLiesAboveFinitePlace
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle091
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle064
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle030
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -83,7 +82,7 @@ theorem art_diag (ha : IsGlobalArtin art) (k : Eˣ) : art (diagUnits E k) = 1 :=
 
 theorem chi_norm_local (ha : IsGlobalArtin art) {B : Type} [CommGroup B] (χ : Gab E Ω →* B)
     (K : IntermediateField E Ω) [FiniteDimensional E K] [NumberField K]
-    (hK : ∀ σ : G K Ω, χ (GlobalTheory.HeckeGal.toAb E Ω (σ.restrictScalars E)) = 1) (v : HeightOneSpectrum (𝓞 E))
+    (hK : ∀ σ : _root_.Formalism.ConjugateSelfDual.G K Ω, χ (GlobalTheory.HeckeGal.toAb E Ω (σ.restrictScalars E)) = 1) (v : HeightOneSpectrum (𝓞 E))
     (hv : ∀ x, IsUnitAt v x → χ (art (localIdele E v x)) = 1) (a : Kˣ) :
     χ (art (locUnit E v (Units.map (Algebra.norm E (S := K)) a))) = 1 := by
   haveI : IsAlgClosure K Ω := ⟨IsAlgClosure.isAlgClosed E, Algebra.IsAlgebraic.tower_top (K := E) K⟩
@@ -128,7 +127,7 @@ theorem infPart_mul_finPart (a : Ideles E) : Units.map (infPart E) a * Units.map
   Units.ext (Prod.ext (mul_one _) (one_mul _))
 
 theorem art_sign_mem (ha : IsGlobalArtin art) (U : Subgroup (Gab E Ω)) (hU : IsOpen (U : Set (Gab E Ω)))
-    (j : Ω →+* ℂ) (c : G E Ω) (hc : ∀ x, j (c x) = starRingEnd ℂ (j x)) (hcU : GlobalTheory.HeckeGal.toAb E Ω c ∈ U) :
+    (j : Ω →+* ℂ) (c : _root_.Formalism.ConjugateSelfDual.G E Ω) (hc : ∀ x, j (c x) = starRingEnd ℂ (j x)) (hcU : GlobalTheory.HeckeGal.toAb E Ω c ∈ U) :
     art (infIdele E (InfinitePlace.mk (j.comp (algebraMap E Ω))) (-1)) ∈ U := by
   haveI : DiscreteTopology (Gab E Ω ⧸ U) := QuotientGroup.discreteTopology hU
   let χ : Gab E Ω →* Gab E Ω ⧸ U := QuotientGroup.mk' U
@@ -138,7 +137,7 @@ theorem art_sign_mem (ha : IsGlobalArtin art) (U : Subgroup (Gab E Ω)) (hU : Is
   obtain ⟨L, _, _, hL⟩ := GlobalTheory.RayFromArtin.exists_field (χ.comp (GlobalTheory.HeckeGal.toAb E Ω))
     ((isOpen_discrete {1}).preimage (QuotientGroup.continuous_mk.comp QuotientGroup.continuous_mk))
   haveI : NumberField L := NumberField.of_module_finite E L
-  have hK : ∀ σ : G L Ω, χ (GlobalTheory.HeckeGal.toAb E Ω (σ.restrictScalars E)) = 1 := fun σ =>
+  have hK : ∀ σ : _root_.Formalism.ConjugateSelfDual.G L Ω, χ (GlobalTheory.HeckeGal.toAb E Ω (σ.restrictScalars E)) = 1 := fun σ =>
     (hL _).1 (AlgEquiv.ext fun x => (algebraMap L Ω).injective
       (((σ.restrictScalars E).restrictNormal_commutes L x).trans (σ.commutes x)))
   have hj : ComplexEmbedding.IsReal (j.comp (algebraMap L Ω)) := by
@@ -172,13 +171,13 @@ theorem art_sign_mem (ha : IsGlobalArtin art) (U : Subgroup (Gab E Ω)) (hU : Is
   rw [art_diag ha, map_one]
 
 omit [NumberField E] [IsAlgClosure E Ω] in
-theorem isReal_of_conj (j : Ω →+* ℂ) (c : G E Ω) (hc : ∀ x, j (c x) = starRingEnd ℂ (j x)) :
+theorem isReal_of_conj (j : Ω →+* ℂ) (c : _root_.Formalism.ConjugateSelfDual.G E Ω) (hc : ∀ x, j (c x) = starRingEnd ℂ (j x)) :
     (InfinitePlace.mk (j.comp (algebraMap E Ω))).IsReal := by
   rw [InfinitePlace.isReal_mk_iff, ComplexEmbedding.isReal_iff]
   ext x
   rw [ComplexEmbedding.conjugate_coe_eq, RingHom.comp_apply, ← hc, c.commutes]
 
-theorem art_sign_eq (ha : IsGlobalArtin art) (j : Ω →+* ℂ) (c : G E Ω) (hc : ∀ x, j (c x) = starRingEnd ℂ (j x)) :
+theorem art_sign_eq (ha : IsGlobalArtin art) (j : Ω →+* ℂ) (c : _root_.Formalism.ConjugateSelfDual.G E Ω) (hc : ∀ x, j (c x) = starRingEnd ℂ (j x)) :
     art (infIdele E (InfinitePlace.mk (j.comp (algebraMap E Ω))) (-1)) = GlobalTheory.HeckeGal.toAb E Ω c := by
   have hg1 : art (infIdele E (InfinitePlace.mk (j.comp (algebraMap E Ω))) (-1)) ≠ 1 := fun h =>
     GlobalTheory.T.infIdele_neg_one_not_mem_closure_principal_identityComponent E _ (isReal_of_conj j c hc) (ha.ker ▸ h)
@@ -219,7 +218,7 @@ theorem art_sign_eq (ha : IsGlobalArtin art) (j : Ω →+* ℂ) (c : G E Ω) (hc
   · exact g₁ h.1
   · exact g₂ h.2
 
-theorem exists_conj (w : InfinitePlace E) (hw : w.IsReal) : ∃ (j : Ω →+* ℂ) (c : G E Ω),
+theorem exists_conj (w : InfinitePlace E) (hw : w.IsReal) : ∃ (j : Ω →+* ℂ) (c : _root_.Formalism.ConjugateSelfDual.G E Ω),
     (∀ x, j (c x) = starRingEnd ℂ (j x)) ∧ InfinitePlace.mk (j.comp (algebraMap E Ω)) = w := by
   haveI : IsGalois E Ω := {}
   let j : Ω →+* ℂ := ComplexEmbedding.lift Ω w.embedding
@@ -230,7 +229,7 @@ theorem exists_conj (w : InfinitePlace E) (hw : w.IsReal) : ∃ (j : Ω →+* �
 
 theorem art_mem_of_class (ha : IsGlobalArtin art) (U : Subgroup (Gab E Ω)) (hU : IsOpen (U : Set (Gab E Ω)))
     (hI : ∀ (A : ValuationSubring Ω), ∀ σ ∈ Ine (F := E) A, GlobalTheory.HeckeGal.toAb E Ω σ ∈ U)
-    (hC : ∀ c : G E Ω, IsComplexConjugation c → GlobalTheory.HeckeGal.toAb E Ω c ∈ U)
+    (hC : ∀ c : _root_.Formalism.ConjugateSelfDual.G E Ω, IsComplexConjugation c → GlobalTheory.HeckeGal.toAb E Ω c ∈ U)
     (x : Ideles E) (hx : GlobalTheory.Mem.UnitIndex.classHom E x = 1) : art x ∈ U := by
   haveI : IsGalois E Ω := {}
   haveI : DiscreteTopology (Gab E Ω ⧸ U) := QuotientGroup.discreteTopology hU
@@ -268,24 +267,24 @@ theorem classHom_surjective : Function.Surjective (GlobalTheory.Mem.UnitIndex.cl
   exact this
 
 omit [IsAlgClosure E Ω] in
-theorem mem_ine_iff (A : ValuationSubring Ω) (σ : G E Ω) :
+theorem mem_ine_iff (A : ValuationSubring Ω) (σ : _root_.Formalism.ConjugateSelfDual.G E Ω) :
     σ ∈ (A.inertiaSubgroup E).map (A.decompositionSubgroup E).subtype ↔ σ ∈ Ine (F := E) A := by
   rw [ReciprocityTheory.Neutral.Bridge.HCF.mem_inertia_map_iff]
   exact ⟨fun h => ⟨h.1, fun x hx => A.mem_nonunits_iff.1 (h.2 x ((A.valuation_le_one_iff x).1 hx))⟩,
     fun h => ⟨h.1, fun x hx => A.mem_nonunits_iff.2 (h.2 x ((A.valuation_le_one_iff x).2 hx))⟩⟩
 
-theorem mem_hilbertSubgroup (ha : IsGlobalArtin art) (σ : G E Ω) (x : Ideles E)
+theorem mem_hilbertSubgroup (ha : IsGlobalArtin art) (σ : _root_.Formalism.ConjugateSelfDual.G E Ω) (x : Ideles E)
     (hσ : art x = GlobalTheory.HeckeGal.toAb E Ω σ) (hx : GlobalTheory.Mem.UnitIndex.classHom E x = 1) : σ ∈ hilbertSubgroup E Ω := by
   haveI : IsGalois E Ω := {}
-  let N : ClosedSubgroup (G E Ω) := ⟨hilbertSubgroup E Ω, Subgroup.isClosed_topologicalClosure _⟩
+  let N : ClosedSubgroup (_root_.Formalism.ConjugateSelfDual.G E Ω) := ⟨hilbertSubgroup E Ω, Subgroup.isClosed_topologicalClosure _⟩
   have hN : (IntermediateField.fixedField (hilbertSubgroup E Ω)).fixingSubgroup = hilbertSubgroup E Ω :=
     InfiniteGalois.fixingSubgroup_fixedField N
   rw [← hN, IntermediateField.mem_fixingSubgroup_iff]
   intro y hy
-  let V := MulAction.stabilizer (G E Ω) y
-  have hV : IsOpen (V : Set (G E Ω)) := stabilizer_isOpen_of_isIntegral y
+  let V := MulAction.stabilizer (_root_.Formalism.ConjugateSelfDual.G E Ω) y
+  have hV : IsOpen (V : Set (_root_.Formalism.ConjugateSelfDual.G E Ω)) := stabilizer_isOpen_of_isIntegral y
   have hHV : hilbertSubgroup E Ω ≤ V := fun g hg => (IntermediateField.mem_fixedField_iff _ y).1 hy g hg
-  have hgen : ∀ g ∈ ((commutator (G E Ω) : Set (G E Ω)) ∪
+  have hgen : ∀ g ∈ ((commutator (_root_.Formalism.ConjugateSelfDual.G E Ω) : Set (_root_.Formalism.ConjugateSelfDual.G E Ω)) ∪
       {σ | ∃ A : ValuationSubring Ω, σ ∈ (A.inertiaSubgroup E).map (A.decompositionSubgroup E).subtype} ∪
       {c | IsComplexConjugation c}), g ∈ V := fun g hg =>
     hHV (Subgroup.le_topologicalClosure _ (Subgroup.subset_closure hg))
@@ -322,7 +321,7 @@ theorem GlobalTheory.Published.GlobalArtinReciprocity.hilbertClassField :
     ext x
     rw [Set.mem_preimage, SetLike.mem_coe, SetLike.mem_coe, MonoidHom.mem_ker, hρ, MonoidHom.mem_ker]
   let ψ : (Ω ≃ₐ[E] Ω) →* ClassGroup (𝓞 E) := ρ.comp (GlobalTheory.HeckeGal.toAb E Ω)
-  have hlies : ∀ (v : HeightOneSpectrum (𝓞 E)) (A : ValuationSubring Ω), LiesAbove A v → IsPlaceOver A v :=
+  have hlies : ∀ (v : HeightOneSpectrum (𝓞 E)) (A : ValuationSubring Ω), LiesAbove A v → _root_.Formalism.ConjugateSelfDual.IsPlaceOver A v :=
     fun v A h x => by rw [← h x, A.mem_nonunits_iff]
   have hk : ∀ σ, σ ∈ (ψ⁻¹).ker ↔ ρ (GlobalTheory.HeckeGal.toAb E Ω σ) = 1 := fun σ => by
     rw [MonoidHom.mem_ker, MonoidHom.inv_apply, inv_eq_one]
@@ -337,7 +336,7 @@ theorem GlobalTheory.Published.GlobalArtinReciprocity.hilbertClassField :
     rw [hk, ← hx, hρ] at hσ
     exact hσ
   · have ho : IsOpen ((ψ⁻¹).ker : Set (Ω ≃ₐ[E] Ω)) := by
-      convert hρo.preimage (QuotientGroup.continuous_mk (N := (commutator (G E Ω)).topologicalClosure)) using 1
+      convert hρo.preimage (QuotientGroup.continuous_mk (N := (commutator (_root_.Formalism.ConjugateSelfDual.G E Ω)).topologicalClosure)) using 1
       exact Set.ext hk
     refine Subgroup.topologicalClosure_minimal _ ((Subgroup.closure_le _).2 ?_) (Subgroup.isClosed_of_isOpen _ ho)
     rintro g ((hg | ⟨A, hg⟩) | ⟨j, hg⟩)

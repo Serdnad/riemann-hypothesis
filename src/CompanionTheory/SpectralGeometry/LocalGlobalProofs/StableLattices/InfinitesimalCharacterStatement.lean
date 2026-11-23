@@ -1,9 +1,9 @@
 module
 
 public import CompanionTheory.RealGroups.DiscreteSeries.DiscreteSeriesClassification.DiscreteSeriesExhaustion.HeckeAlgebraActions.BackStable
-public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.CayleyHamiltonStatementStatement
-import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.QuantumDeterminantTensorStatement
-import Formalism.RealPlaceAnalysis.ThirdArithmeticHolds
+public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.Bundle045
+import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.Bundle032
+import Formalism.RealPlaceAnalysis.Bundle005
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -536,3 +536,17 @@ end Main
 theorem stepChar : CompanionTheory.RgExh.StepChar := stepChar_of GlobalTheory.T.QuantumDeterminantTensor GlobalTheory.T.CayleyHamiltonHk
 
 end GlobalTheory.CompanionTheory.RgExhHecke.StepCharPf
+
+end
+end
+
+section
+
+@[expose] public section
+
+
+theorem _root_.GlobalTheory.T.InfinitesimalCharacterStatement : CompanionTheory.RgExh.StepChar := by
+  first | exact @GlobalTheory.CompanionTheory.RgExhHecke.StepCharPf.stepChar | exact GlobalTheory.CompanionTheory.RgExhHecke.StepCharPf.stepChar | (intros; apply GlobalTheory.CompanionTheory.RgExhHecke.StepCharPf.stepChar <;> assumption)
+
+end
+end

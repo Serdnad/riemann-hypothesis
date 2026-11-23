@@ -49,7 +49,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.ProIsoAt
+import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.Bundle001
 public import Mathlib.Algebra.Algebra.Hom.Rat
 
 @[expose] public section

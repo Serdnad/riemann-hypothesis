@@ -1,10 +1,10 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsFlatAnIffIsConstMul
-public import Formalism.LocalToGlobal.ProjectiveLattices.IsCombAt
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FlatModelTorusRingStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FrameBorelChangeVectorsStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FramePointVectorsStatement
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle011
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle011
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle224
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle097
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle166
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

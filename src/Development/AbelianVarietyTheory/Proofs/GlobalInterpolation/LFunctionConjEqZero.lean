@@ -3,10 +3,10 @@ module
 public import Mathlib.Analysis.Analytic.Order
 public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Mathlib.NumberTheory.LSeries.DirichletContinuation
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.LogDerivDirichletLFunctionLocalZeroSum
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.LogDerivativeBound
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.NegReLogDerivPrincipalLFunctionLe
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.NegSumLogDerivNonneg
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle017
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle003
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle031
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

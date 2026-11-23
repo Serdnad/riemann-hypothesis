@@ -2,36 +2,25 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.MatchingOfParts
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.IsSmoothModerateOfIsAutFunSm
-public import Development.WeilBound.ThetaLifts.CartanFactorisation.CartanConj
-public import Development.WeilBound.ThetaLifts.FrameEstimates.HodgeTateFromSandwich
-public import Development.WeilBound.ThetaLifts.FrameEstimates.BlockForm
+public import Development.WeilBound.ThetaLifts.CartanFactorisation.Bundle002
+public import Development.WeilBound.ThetaLifts.FrameEstimates.Bundle002
+public import Development.WeilBound.ThetaLifts.FrameEstimates.Bundle003
 public import Development.WeilBound.ThetaLifts.FrameEstimates.CoefBd
 public import Development.WeilBound.ThetaLifts.FrameEstimates.CoefEq
-public import Development.WeilBound.ThetaLifts.FrameEstimates.CoefReal
 public import Development.WeilBound.ThetaLifts.FrameEstimates.CoefSum
-public import Development.WeilBound.ThetaLifts.FrameEstimates.DomWeil
-public import Development.WeilBound.ThetaLifts.FrameEstimates.ExistsColsDetNeZero
-public import Development.WeilBound.ThetaLifts.FrameEstimates.FourierInj
-public import Development.WeilBound.ThetaLifts.FrameEstimates.FrameBasis
-public import Development.WeilBound.ThetaLifts.FrameEstimates.FundamentalDomainFiniteVolume
-public import Development.WeilBound.ThetaLifts.FrameEstimates.GrpTop
+public import Development.WeilBound.ThetaLifts.FrameEstimates.Bundle008
+public import Development.WeilBound.ThetaLifts.FrameEstimates.Bundle012
+public import Development.WeilBound.ThetaLifts.FrameEstimates.Bundle011
+public import Development.WeilBound.ThetaLifts.FrameEstimates.Bundle006
 public import Development.WeilBound.ThetaLifts.FrameEstimates.HermitianFormDetNeZero
-public import Development.WeilBound.ThetaLifts.FrameEstimates.IContOf
+public import Development.WeilBound.ThetaLifts.FrameEstimates.Bundle013
 public import Development.WeilBound.ThetaLifts.FrameEstimates.InitialPairs.SquareIntegrableIntegralHolds
 public import Development.WeilBound.ThetaLifts.FrameEstimates.InitialPairs.TriplePairHolds
-public import Development.WeilBound.ThetaLifts.FrameEstimates.IsCompactIntV
-public import Development.WeilBound.ThetaLifts.FrameEstimates.LatArch
-import Development.WeilBound.ThetaLifts.FrameEstimates.LatCpt
-public import Development.WeilBound.ThetaLifts.FrameEstimates.LatFull
-public import Development.WeilBound.ThetaLifts.FrameEstimates.LatInv
-public import Development.WeilBound.ThetaLifts.FrameEstimates.LatMeas
-public import Development.WeilBound.ThetaLifts.FrameEstimates.LatTor
-public import Development.WeilBound.ThetaLifts.FrameEstimates.OneVar
-public import Development.WeilBound.ThetaLifts.FrameEstimates.Parity
+public import Development.WeilBound.ThetaLifts.FrameEstimates.Bundle004
+import Development.WeilBound.ThetaLifts.FrameEstimates.Bundle005
+public import Development.WeilBound.ThetaLifts.FrameEstimates.Bundle010
 public import Development.WeilBound.ThetaLifts.FrameEstimates.SiegelAll
-public import Development.WeilBound.ThetaLifts.FrameEstimates.SoSemi
-public import Development.WeilBound.ThetaLifts.FrameEstimates.SqAllC
-public import Development.WeilBound.ThetaLifts.FrameEstimates.ThetaSumNeg
+public import Development.WeilBound.ThetaLifts.FrameEstimates.Bundle009
 import Development.WeilBound.ThetaLifts.FrameEstimates.ThickFrames
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

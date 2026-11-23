@@ -1,10 +1,10 @@
 module
 
 public import Development.WeilBound.CoreStatements.VolumeEquality.RootBranches
-public import Development.WeilBound.CoreStatements.VolumeEquality.CoverRootsAlg
+public import Development.WeilBound.CoreStatements.VolumeEquality.Bundle001
 public import Development.WeilBound.CoreStatements.VolumeEquality.CoverRootsSch
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GenPtSpecializesOfSpecializes
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.RegAtFractionNoetherianClosed
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle074
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle014
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -43,7 +43,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.AbProj
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle007
 
 @[expose] public section
 

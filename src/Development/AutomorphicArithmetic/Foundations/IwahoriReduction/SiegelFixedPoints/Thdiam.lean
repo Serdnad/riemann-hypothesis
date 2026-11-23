@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Foundations.IsLamOfLSmulIff
-public import Development.AbelianVarietyTheory.Definitions.Foundations.PieceEqPieceT
-public import Development.AbelianVarietyTheory.Definitions.Foundations.AdmissibleHodgeTateZetaClassParams
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle017
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle005
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle011
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.ResMapBijective
 public import Development.AutomorphicArithmetic.Foundations.IwahoriReduction.SiegelFixedPoints.IsThBIff
 public import Mathlib.RingTheory.AdicCompletion.Noetherian

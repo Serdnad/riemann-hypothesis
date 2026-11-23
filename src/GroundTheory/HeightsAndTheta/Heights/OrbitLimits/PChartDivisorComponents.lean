@@ -1,7 +1,7 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.StChartDivisorComponents
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PSectionComponents
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle015
+public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle009
 public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.PSegreChartDim
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -44,8 +44,8 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterBridgeB
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterDivSupp
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterRedF
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle015
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle013
 
 @[expose] public section
 

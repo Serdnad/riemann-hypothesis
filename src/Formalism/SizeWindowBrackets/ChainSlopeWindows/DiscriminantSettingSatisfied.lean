@@ -1,6 +1,6 @@
 module
 
-public import Formalism.SizeWindowBrackets.PrimeClassLossHypothesesSatisfiable
+public import Formalism.SizeWindowBrackets.Bundle003
 public import Formalism.SizeWindowBrackets.ChainSlopeWindows.AdmissibleSchurLemma
 public import Formalism.SizeWindowBrackets.ChainSlopeWindows.OneLeThresholdMulPowers
 import Mathlib.Algebra.Order.Floor.Extended

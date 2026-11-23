@@ -1,8 +1,8 @@
 module
 
 public import Mathlib
-public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.ThetaKernels.LiftedSchrodingerDatum
-public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.ThetaKernels.SiegelWeilKmainLin
+public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.ThetaKernels.Bundle028
+public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.ThetaKernels.Bundle023
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.FockVacuumBounds.MainEq
 import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.ThetaSchwartzSums.HolValueAtFinsum
 import Mathlib.Algebra.Order.Floor.Extended
@@ -136,7 +136,7 @@ theorem perLiftC_k (c : ℂ) (hA : AbsThm) (hT : _root_.PositivityTheory.SiegelW
         have hC := hTC F E σ d (φ 1) (hφ 1).1 nb lam 𝓖 hcd T x
         show HolValueAt (fun z => fc d.B.ψ d.b nb lam 𝓖 (d.eis (d.sec0 (φ 1)) (s0 d.m d.n) z) T x) (s0 d.m d.n)
           (fc d.B.ψ d.b nb lam 𝓖 (c • d.I (φ 1)) T x)
-        rw [_root_.PositivityTheory.SiegelWeilFormula.Atop.fc_smul_k, hC]
+        rw [_root_.PositivityTheory.SiegelWeilFormula.Atop.fc_smul_k d c (d.I (φ 1)) nb lam 𝓖 T x, hC]
         exact hWh.congr ⟨t', fun z hz => ((ht' z hz nb lam 𝓖 hcd ε ww hww x).2 T hT).symm⟩ }
   exact hA d.m d.n (fun _ => true) (2 * Real.pi) (2 * Real.pi * ((R.sg w : ℤ) : ℝ)) p q e sL ρ hLD (hgood hnm)
     d.G (par2 σ d.Y) (rat2 σ d.Y) (R.ι w) (s0 d.m d.n) d.Ht sl Il d.lamSet hGDat P x

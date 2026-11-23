@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LogVandermondeBounds.LogRatioLowerBound
+public import Formalism.LogVandermondeBounds.Bundle001
 public import Formalism.LogVandermondeBounds.LogVandermondeProofs.LogRatioLowerBoundOfLogVandermondeGap
 public import Formalism.LogVandermondeBounds.LogVandermondeProofs.VandNSuccRight
 import Mathlib.Algebra.Order.Floor.Extended

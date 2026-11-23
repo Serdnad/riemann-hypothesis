@@ -1,7 +1,7 @@
 module
 
-public import Development.AutomorphicArithmetic.CommutativeAlgebra.EtaleCohomology.ZeroPull
-public import Development.AutomorphicArithmetic.CommutativeAlgebra.EtaleCohomology.SplitRules
+public import Development.AutomorphicArithmetic.CommutativeAlgebra.EtaleCohomology.Bundle001
+public import Development.AutomorphicArithmetic.CommutativeAlgebra.EtaleCohomology.Bundle002
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.AcrisKummerUnits.GaloisTwistIdentitySection
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalToGlobal.Columns.TwQGrp
-public import Formalism.LocalToGlobal.Columns.TwQThetaOpen
+public import Formalism.LocalToGlobal.Columns.Bundle015
 import Formalism.LocalRingCardinality.SpanPowerMembership.LocAtA
 public import Formalism.LocalToGlobal.Columns.TwQCmp
 import Mathlib.Algebra.Order.Floor.Extended

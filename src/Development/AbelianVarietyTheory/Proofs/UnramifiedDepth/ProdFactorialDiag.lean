@@ -1,7 +1,7 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FormalGroupDeterminantPowDepthEqZeroOfLtPrime
-public import Formalism.LocalToGlobal.CharacterGerms.BiadditiveInSingleVariables
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle732
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle004
 public import Mathlib.CategoryTheory.Category.Basic
 public import Mathlib.RingTheory.MvPolynomial.Homogeneous
 import Mathlib.Algebra.Order.Floor.Extended

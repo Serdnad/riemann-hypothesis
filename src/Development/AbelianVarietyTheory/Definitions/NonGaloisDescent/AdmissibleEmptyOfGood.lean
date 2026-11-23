@@ -2,17 +2,17 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsPlaceModelPlaceMap
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.GoodIdempotentBadPlaces
-public import Development.AbelianVarietyTheory.Definitions.Divisors.IsUnitaryOnTheta
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle030
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.UnivOfNotLinearIndependent
 public import Formalism.LocalToGlobal.Columns.AdelicLemmas
-public import Formalism.LocalToGlobal.IndefiniteReal.BridgeTie
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ThetaPureTensorO
-import Development.AbelianVarietyTheory.Proofs.HeightProofs.AdelicUnitaryRealPointsStructureRealPlaces
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsCharOfTrace
+public import Formalism.LocalToGlobal.IndefiniteReal.Bundle010
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1545
+import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle048
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle251
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsSelfDualAdelicFrameLevelOne
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsThetaFunNeZero
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.VacuumOrientedExists
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.CsEquiv
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle350
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle323
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle013
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

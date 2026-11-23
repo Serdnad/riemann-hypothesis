@@ -1,11 +1,11 @@
 module
 
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.PBCLoc
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle045
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.PBBLiftV
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.PBCBlk
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.PBCKer
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle004
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.PBCLat
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.PBCStep
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle102
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.TheoremPIntegralOfPlaces
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -53,8 +53,8 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.PBCGlob
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.PBCHerg
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle043
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle092
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.PBCSplit
 
 @[expose] public section

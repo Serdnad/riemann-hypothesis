@@ -1,8 +1,8 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.PullHlComp
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsMayerVietorisConnectingExact
-public import Development.AutomorphicArithmetic.CommutativeAlgebra.EtalePurityFreeCover
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle509
+public import Development.AutomorphicArithmetic.CommutativeAlgebra.Bundle024
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

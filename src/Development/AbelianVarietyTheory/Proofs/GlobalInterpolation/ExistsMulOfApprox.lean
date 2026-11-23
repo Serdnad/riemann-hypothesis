@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.SubstitutionAdjoint
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExistsDenOfValLeOne
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.MemExtLatOfMemLocP
+public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.Bundle011
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle137
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle080
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.RenameMemDualWeyl
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.SubDSharpInDeg
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle081
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

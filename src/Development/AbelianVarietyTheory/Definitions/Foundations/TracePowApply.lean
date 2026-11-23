@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Foundations.GelfA
-public import Formalism.RealPlaceAnalysis.StatementB
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle001
+public import Formalism.RealPlaceAnalysis.Bundle002
 public import Formalism.GradedWeylDivisibility.StatementA
 public import Mathlib.LinearAlgebra.Matrix.Trace
 import Mathlib.Algebra.Order.Floor.Extended

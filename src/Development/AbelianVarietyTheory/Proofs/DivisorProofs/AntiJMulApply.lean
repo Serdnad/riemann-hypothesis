@@ -1,9 +1,9 @@
 module
 
-public import Formalism.SatakeDualWeyl.StatementF
+public import Formalism.SatakeDualWeyl.Bundle001
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.InvMemDoubleCosetAndComm
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Cartan
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.FSatakeB
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle006
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.FSatakeC
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

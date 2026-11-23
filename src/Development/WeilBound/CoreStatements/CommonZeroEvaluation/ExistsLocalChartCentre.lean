@@ -1,7 +1,7 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.CoordsAt
-public import Development.WeilBound.CoreStatements.CommonZeroEvaluation.GenMapEqOfFactor
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle002
+public import Development.WeilBound.CoreStatements.CommonZeroEvaluation.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

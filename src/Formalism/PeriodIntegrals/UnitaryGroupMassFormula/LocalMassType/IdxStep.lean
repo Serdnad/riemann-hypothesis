@@ -1,9 +1,9 @@
 module
 
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalMassType.IdxGrp
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalMassType.Bundle003
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalMassOrder.IsTopRingTens
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalMassType.IdxAbs
-import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalMassType.IdxLin
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalMassType.Bundle001
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalMassType.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

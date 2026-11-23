@@ -1,8 +1,8 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.SimpleTwistedTraceFormulaStable
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsLevelProjLevelProj
-public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.IwahoriDoubleCosets
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle018
+public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.Bundle004
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.TraceFormula.OrbitalIntegrals.QuotFubini
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TwistedLocalOrbits.Match
 import Mathlib.Algebra.Order.Floor.Extended

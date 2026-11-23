@@ -1,7 +1,7 @@
 module
 
 public import Development.WeilBound.CoreStatements.PublishedTheorems.JacquetShalikaBound.FormQuasiInvariantMirabolic
-import GroundTheory.AutomorphicForms.HaarCosets
+import GroundTheory.AutomorphicForms.Bundle008
 public import GroundTheory.AutomorphicForms.MacdonaldHecke
 public import GroundTheory.AutomorphicForms.MacdonaldWhittakerHecke
 import GroundTheory.LocalFields.LocalFourierHaar

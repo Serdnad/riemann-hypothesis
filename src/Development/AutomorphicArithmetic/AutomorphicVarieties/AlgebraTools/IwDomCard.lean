@@ -1,13 +1,13 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.HeckePairTop
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.Bundle017
 public import Development.AbelianVarietyTheory.Definitions.Divisors.T2SpaceGeneralLinearGroup
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.IwDomMul
-import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.IwHeckePairIwC
-import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.IwHkApply
-import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.IwHkNorm
+import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.Bundle025
+import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.Bundle022
+import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.Bundle026
 import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.IwMemIwC
-import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.IwPermCard
+import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.Bundle031
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -2,9 +2,9 @@ module
 
 public import Development.ResolutionOfSingularities.Foundations.BlowupUniversalProperty
 public import Development.ResolutionOfSingularities.Foundations.Blowup.AffineBlowupUniversal
-import Development.ResolutionOfSingularities.Foundations.Blowup.BlowupBasic
+import Development.ResolutionOfSingularities.Foundations.Blowup.Bundle001
 import Development.ResolutionOfSingularities.Foundations.Blowup.BlowupOpenCover
-import Development.ResolutionOfSingularities.Foundations.Schemes.AffineOpens
+import Development.ResolutionOfSingularities.Foundations.Schemes.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

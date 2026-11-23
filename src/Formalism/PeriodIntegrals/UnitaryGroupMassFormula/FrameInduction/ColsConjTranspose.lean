@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.FrameInduction.NegBound
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.FrameInduction.Bundle001
 public import Formalism.FormalDegreeBessel.FormalDegreeRatio.GBasic
 public import Formalism.FormalDegreeBessel.FormalDegreeRatio.ReverseCauchySchwarzHolds
 import Mathlib.Algebra.Order.Floor.Extended

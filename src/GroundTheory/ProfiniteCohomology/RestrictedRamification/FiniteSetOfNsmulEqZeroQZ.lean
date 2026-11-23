@@ -1,9 +1,9 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.IdeleLimits
+public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.Bundle001
 public import GroundTheory.ProfiniteCohomology.RestrictedRamification.BrauerDefs
 public import GroundTheory.ProfiniteCohomology.RestrictedRamification.BrauerLocalDefs
-public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.ExistsUnitsToIdelesEqOfIdelesSumInvEqZero
+public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.Bundle008
 public import GroundTheory.ProfiniteCohomology.RestrictedRamification.BrauerSplit
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

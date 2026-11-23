@@ -1,8 +1,8 @@
 module
 
 public import Formalism.SharpRestriction.LevelLetterCocycles.RamifiedCoefficientChains
-public import Formalism.TruncatedSeriesCounting.RamifiedValuationInequality
-public import Formalism.FrobeniusContraction.FrobeniusContractionProofs.LenBound
+public import Formalism.TruncatedSeriesCounting.Bundle002
+public import Formalism.FrobeniusContraction.FrobeniusContractionProofs.Bundle001
 public import Formalism.TruncatedSeriesCounting.EtaDeterminantPolynomialIdentities
 import Formalism.TruncatedSeriesCounting.TruncatedSeriesProofs.ColAssembly
 import Mathlib.Algebra.Order.Floor.Extended

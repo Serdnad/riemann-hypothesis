@@ -1,13 +1,12 @@
 module
 
-public import Development.AutomorphicArithmetic.CyclotomicBounds.ClassNumberBounds.CyclotomicTotient.NuInf
-public import Development.AutomorphicArithmetic.PrimeDiscriminants.ExistsPrimitiveRootTorsionOrder
+public import Development.AutomorphicArithmetic.CyclotomicBounds.ClassNumberBounds.CyclotomicTotient.Bundle001
+public import Development.AutomorphicArithmetic.PrimeDiscriminants.Bundle001
 public import Formalism.LocalRingCardinality.DataHost
 public import Mathlib.RingTheory.Henselian
 public import Mathlib.RingTheory.RegularLocalRing.Defs
 public import Mathlib.RingTheory.SimpleRing.Principal
-public import Development.AutomorphicArithmetic.CyclotomicBounds.RootsOfUnity.NuLe
-public import Development.AutomorphicArithmetic.CyclotomicBounds.RootsOfUnity.NuQDUnit
+public import Development.AutomorphicArithmetic.CyclotomicBounds.RootsOfUnity.Bundle002
 public import Development.AutomorphicArithmetic.CyclotomicBounds.RootsOfUnity.SplitNotDvd
 public import Development.AutomorphicArithmetic.CyclotomicBounds.RootsOfUnity.SumFactorizationMulLogLe
 public import Development.AutomorphicArithmetic.CyclotomicBounds.RootsOfUnity.WDvdQS

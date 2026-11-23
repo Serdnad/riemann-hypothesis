@@ -1,9 +1,9 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.LatAtLattice
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.MemStabGLAdeleIff
-public import Formalism.LocalRingCardinality.IntCastDvdOfDvdIntegers
-public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.FiniteAdeleRingNontrivial
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle048
+public import Formalism.LocalRingCardinality.Bundle003
+public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.Bundle002
 public import Formalism.LocalToGlobal.GroupLattices.LevelCharts.SelfDualPI
 public import Formalism.LocalToGlobal.GroupLattices.LevelCharts.SplitIntPI
 public import Formalism.LocalToGlobal.GroupLattices.TrivialTransfer.OneAddPowOfSq

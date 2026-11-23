@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.IndEtOfForallFinset
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CoveringsRefineOfCechConervePropertyStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleCohomologyEquivalenceBasicPropertiesStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleCohomologyEquivalenceOfStrictlyHenselianStaStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleSpaceDescentLocalEquivalenceStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SmallEtaleCechNerveResolutionOfSurjectiveStatement
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle006
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle395
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle677
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1655
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle592
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle913
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

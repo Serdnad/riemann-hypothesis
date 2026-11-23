@@ -4,7 +4,7 @@ public import Formalism.SharpRestriction.LevelLetterCocycles.HermFlagUnipotentAn
 public import Formalism.SharpRestriction.LevelLetterCocycles.QuotientImageDivisibility.ResiduePi0EqNegPrime
 public import Mathlib.RingTheory.Binomial
 public import Formalism.SharpRestriction.LevelLetterCocycles.AnnihilatorLevelsUnramifiedStatement
-public import Formalism.SharpRestriction.LevelLetterCocycles.CompleteOfPow
+public import Formalism.SharpRestriction.LevelLetterCocycles.Bundle021
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

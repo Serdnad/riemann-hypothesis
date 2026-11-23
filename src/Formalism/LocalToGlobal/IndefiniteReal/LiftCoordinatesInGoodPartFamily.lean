@@ -2,7 +2,7 @@ module
 
 public import Formalism.LocalToGlobal.IndefiniteReal.PrimitiveStatementsWithPassage
 public import Formalism.LocalToGlobal.Divisibility.InertPartitionLePartF
-import Formalism.LocalToGlobal.IndefiniteReal.MemRangeAdjointOfKerStable
+import Formalism.LocalToGlobal.IndefiniteReal.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

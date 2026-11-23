@@ -1,0 +1,262 @@
+module
+
+public import GroundTheory.ArithmeticGeometry.AbelianVarieties.DualIsogenyExists
+public import GroundTheory.GlobalFields.ComplexMultiplication.DifferentialBaseChange
+public import GroundTheory.GlobalFields.ComplexMultiplication.Bundle008
+public import GroundTheory.GlobalFields.ComplexMultiplication.DualDescentField
+public import GroundTheory.GlobalFields.ComplexMultiplication.Bundle007
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Linter.Style
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Topology.Sheaves.Init
+public import GroundTheory.GlobalFields.ComplexMultiplication.BaseChange
+
+@[expose] public section
+
+section
+
+namespace GroundTheory.Global
+
+open Polynomial GroundTheory.Arith.Abelian IntermediateField
+open WeierstrassCurve.Affine (Point equation_iff)
+
+universe u
+
+section BaseChange
+
+variable {F Ω : Type u} [Field F] [Field Ω] [Algebra F Ω]
+  {E E' E'' : WeierstrassCurve F} [E.IsElliptic] [E'.IsElliptic] [E''.IsElliptic]
+
+theorem x_isogBaseChange (φ : Isogeny E E') :
+    (isogBaseChange (F' := Ω) φ).x = bcEmb (F' := Ω) E φ.x := by
+  classical
+  obtain ⟨⟨x, y, h, he, -⟩, -⟩ := φ.2
+  change xOf _ (isogBaseChange (F' := Ω) φ).1 = _
+  rw [isogBaseChange_val, he, Point.map_some, Isogeny.x, he]
+  rfl
+
+theorem y_isogBaseChange (φ : Isogeny E E') :
+    (isogBaseChange (F' := Ω) φ).y = bcEmb (F' := Ω) E φ.y := by
+  classical
+  obtain ⟨⟨x, y, h, he, -⟩, -⟩ := φ.2
+  change yOf _ (isogBaseChange (F' := Ω) φ).1 = _
+  rw [isogBaseChange_val, he, Point.map_some, Isogeny.y, he]
+  rfl
+
+theorem isogBaseChange_injective :
+    Function.Injective (isogBaseChange (F' := Ω) : Isogeny E E' → _) := by
+  intro φ ψ h
+  apply Isogeny.ext_xy
+  · have e := congrArg Isogeny.x h
+    rw [x_isogBaseChange, x_isogBaseChange] at e
+    exact (bcEmb (F' := Ω) E).injective e
+  · have e := congrArg Isogeny.y h
+    rw [y_isogBaseChange, y_isogBaseChange] at e
+    exact (bcEmb (F' := Ω) E).injective e
+
+theorem isogBaseChange_comp (ψ : Isogeny E' E'') (φ : Isogeny E E') :
+    isogBaseChange (F' := Ω) (ψ.comp φ) =
+      (isogBaseChange (F' := Ω) ψ).comp (isogBaseChange (F' := Ω) φ) := by
+  apply Isogeny.ext_xy
+  · rw [x_isogBaseChange, Isogeny.comp_alt, Isogeny.comp_alt, x_isogBaseChange,
+      comap_isogBaseChange_bcEmb]
+  · rw [y_isogBaseChange, Isogeny.comp_y, Isogeny.comp_y, y_isogBaseChange,
+      comap_isogBaseChange_bcEmb]
+
+theorem isogBaseChange_mulIsogeny (n : ℤ) (hn : n ≠ 0) :
+    isogBaseChange (F' := Ω) (mulIsogeny E n hn) = mulIsogeny (E.baseChange Ω) n hn := by
+  classical
+  apply Subtype.ext
+  show Point.map (W' := E) (bcEmb (F' := Ω) E) (n • genericPoint E) =
+    n • genericPoint (E.baseChange Ω)
+  rw [map_zsmul, map_bcEmb_genericPoint]
+  rfl
+
+theorem degree_isogBaseChange (φ : Isogeny E E') :
+    (isogBaseChange (F' := Ω) φ).degree = φ.degree := by
+  obtain ⟨r, hr⟩ := φ.exists_ratEmb_eq_x
+  have hcop : IsCoprime (r.num.map (algebraMap F Ω)) (r.denom.map (algebraMap F Ω)) := by
+    simpa using r.isCoprime_num_denom.map (mapRingHom (algebraMap F Ω))
+  obtain ⟨h1, h2⟩ := num_denom_div_of_isCoprime (r.monic_denom.map (algebraMap F Ω)) hcop
+  have hb : ∀ p : F[X], bcEmb (F' := Ω) E (aeval (genX E) p) =
+      aeval (genX (E.baseChange Ω)) (p.map (algebraMap F Ω)) := by
+    intro p
+    rw [← aeval_algHom_apply, bcEmb_genX, aeval_map_algebraMap]
+  have hx : ratEmb (E.baseChange Ω) (algebraMap _ _ (r.num.map (algebraMap F Ω)) /
+      algebraMap _ _ (r.denom.map (algebraMap F Ω))) = (isogBaseChange (F' := Ω) φ).x := by
+    rw [x_isogBaseChange, ← hr, ratEmb_div]
+    conv_rhs => rw [← RatFunc.num_div_denom r]
+    rw [ratEmb_div, map_div₀, hb, hb]
+  rw [φ.degree_eq_max_natDegree hr, (isogBaseChange (F' := Ω) φ).degree_eq_max_natDegree hx, h1, h2,
+    natDegree_map_eq_of_injective (algebraMap F Ω).injective,
+    natDegree_map_eq_of_injective (algebraMap F Ω).injective]
+
+end BaseChange
+
+section Dual
+
+variable {F : Type u} [Field F] {E E' E'' : WeierstrassCurve F} [E.IsElliptic] [E'.IsElliptic]
+  [E''.IsElliptic]
+
+theorem isogeny_degree_pos (φ : Isogeny E E') : 0 < φ.degree := by
+  classical
+  rw [← degree_isogBaseChange (Ω := AlgebraicClosure F)]
+  exact Isogeny.degree_pos _
+
+theorem isogeny_degree_ne_zero (φ : Isogeny E E') : (φ.degree : ℤ) ≠ 0 :=
+  Nat.cast_ne_zero.mpr (isogeny_degree_pos φ).ne'
+
+theorem mulIsogeny_eq_dual_comp_isogBaseChange [DecidableEq (AlgebraicClosure F)] (φ : Isogeny E E') :
+    mulIsogeny (E.baseChange (AlgebraicClosure F)) φ.degree (isogeny_degree_ne_zero φ) =
+      (isogBaseChange (F' := AlgebraicClosure F) φ).dual.comp (isogBaseChange φ) := by
+  rw [Isogeny.dual_comp]
+  exact mulIsogeny_congr (by rw [degree_isogBaseChange]) _ _
+
+theorem mulIsogeny_comap_mem_fieldRange (φ : Isogeny E E') (f : E.toAffine.FunctionField) :
+    (mulIsogeny E φ.degree (isogeny_degree_ne_zero φ)).comap f ∈ φ.comap.fieldRange := by
+  classical
+  apply mem_fieldRange_comap_of_bcEmb (Ω := AlgebraicClosure F) φ
+  rw [← comap_isogBaseChange_bcEmb, isogBaseChange_mulIsogeny,
+    mulIsogeny_eq_dual_comp_isogBaseChange, Isogeny.comap_comp, AlgHom.comp_apply]
+  exact ⟨_, rfl⟩
+
+noncomputable def dualComapOver (φ : Isogeny E E') :
+    E.toAffine.FunctionField →ₐ[F] E'.toAffine.FunctionField :=
+  φ.comap.equivFieldRange.symm.toAlgHom.comp
+    ((mulIsogeny E φ.degree (isogeny_degree_ne_zero φ)).comap.codRestrict
+      φ.comap.fieldRange.toSubalgebra (mulIsogeny_comap_mem_fieldRange φ))
+
+theorem comap_dualComapOver (φ : Isogeny E E') (f : E.toAffine.FunctionField) :
+    φ.comap (dualComapOver φ f) = (mulIsogeny E φ.degree (isogeny_degree_ne_zero φ)).comap f := by
+  have := φ.comap.equivFieldRange.apply_symm_apply
+    ((mulIsogeny E φ.degree (isogeny_degree_ne_zero φ)).comap.codRestrict
+      φ.comap.fieldRange.toSubalgebra (mulIsogeny_comap_mem_fieldRange φ) f)
+  exact congrArg Subtype.val this
+
+noncomputable def dualPtOver (φ : Isogeny E E') : (E.baseChange E'.toAffine.FunctionField).toAffine.Point :=
+  Point.map (dualComapOver φ) (genericPoint E)
+
+theorem isGenPt_dualPtOver (φ : Isogeny E E') : IsGenPt E (dualPtOver φ) :=
+  isGenPt_map_genericPoint E _
+
+theorem map_bcEmb_dualPtOver [DecidableEq (AlgebraicClosure F)] (φ : Isogeny E E') :
+    (Point.map (W' := E) (bcEmb (F' := AlgebraicClosure F) E') (dualPtOver φ) :
+      ((E.baseChange (AlgebraicClosure F)).baseChange
+        (E'.baseChange (AlgebraicClosure F)).toAffine.FunctionField).toAffine.Point) =
+      (isogBaseChange (F' := AlgebraicClosure F) φ).dual.1 := by
+  have hD : (bcEmb (F' := AlgebraicClosure F) E').comp (dualComapOver φ) =
+      ((isogBaseChange (F' := AlgebraicClosure F) φ).dual.comap.restrictScalars F).comp
+        (bcEmb (F' := AlgebraicClosure F) E) := by
+    apply AlgHom.ext
+    intro f
+    have key : (isogBaseChange (F' := AlgebraicClosure F) φ).comap
+        (bcEmb (F' := AlgebraicClosure F) E' (dualComapOver φ f)) =
+        (isogBaseChange (F' := AlgebraicClosure F) φ).comap
+          ((isogBaseChange (F' := AlgebraicClosure F) φ).dual.comap
+            (bcEmb (F' := AlgebraicClosure F) E f)) := by
+      rw [comap_isogBaseChange_bcEmb, comap_dualComapOver, ← comap_isogBaseChange_bcEmb,
+        isogBaseChange_mulIsogeny, mulIsogeny_eq_dual_comp_isogBaseChange, Isogeny.comap_comp,
+        AlgHom.comp_apply]
+    exact (isogBaseChange (F' := AlgebraicClosure F) φ).comap.injective key
+  have hcast : ∀ X : (E.baseChange (E.baseChange (AlgebraicClosure F)).toAffine.FunctionField).toAffine.Point,
+      Point.map (W' := E)
+          ((isogBaseChange (F' := AlgebraicClosure F) φ).dual.comap.restrictScalars F) X =
+        Point.map (W' := E.baseChange (AlgebraicClosure F))
+          (isogBaseChange (F' := AlgebraicClosure F) φ).dual.comap X := by
+    intro X
+    cases X <;> rfl
+  rw [dualPtOver, Point.map_map, hD, ← Point.map_map, hcast, map_bcEmb_genericPoint,
+    Isogeny.map_comap_genericPoint]
+
+end Dual
+
+end GroundTheory.Global
+end
+
+section
+
+open Filter Topology Set Polynomial WeierstrassCurve.Affine GroundTheory.Arith.Abelian
+open scoped PeriodPair
+
+noncomputable section
+
+namespace GroundTheory.Global
+namespace Elliptic
+
+variable {L₁ L₂ : PeriodPair}
+
+
+variable (L₁ L₂) in
+def latticeHomEquiv : latticeHom L₁ L₂ ≃+ isogHom (weierstrassCurve L₁) (weierstrassCurve L₂) where
+  toFun := latticeToHom
+  invFun Q := ⟨_, homConst_mem_latticeHom Q⟩
+  left_inv α := Subtype.ext (homConst_latticeToHom α)
+  right_inv Q := latticeToHom_homConst Q
+  map_add' := latticeToHom_add
+
+variable (L : PeriodPair)
+
+def latticeEnd : Subring ℂ where
+  carrier := {α | ∀ l ∈ L.lattice, α * l ∈ L.lattice}
+  add_mem' ha hb := (latticeHom L L).add_mem ha hb
+  zero_mem' := (latticeHom L L).zero_mem
+  neg_mem' ha := (latticeHom L L).neg_mem ha
+  one_mem' l hl := by rwa [one_mul]
+  mul_mem' {a b} ha hb l hl := by
+    rw [mul_assoc]
+    exact ha _ (hb l hl)
+
+def latticeEndEquiv : latticeEnd L ≃+* isogEnd (weierstrassCurve L) where
+  toFun α := latticeToHom ⟨α, α.2⟩
+  invFun Q := ⟨homConst (weierstrassCurve L) (weierstrassCurve L) Q, homConst_mem_latticeHom Q⟩
+  left_inv _ := Subtype.ext (homConst_latticeToHom _)
+  right_inv Q := latticeToHom_homConst Q
+  map_mul' α β := latticeToHom_mul ⟨α, α.2⟩ ⟨β, β.2⟩ (α * β).2
+  map_add' α β := latticeToHom_add ⟨α, α.2⟩ ⟨β, β.2⟩
+
+theorem homConst_latticeEndEquiv (α : latticeEnd L) :
+    homConst (weierstrassCurve L) (weierstrassCurve L) (latticeEndEquiv L α) = α :=
+  homConst_latticeToHom _
+
+variable {L}
+
+end Elliptic
+end GroundTheory.Global
+end
+end

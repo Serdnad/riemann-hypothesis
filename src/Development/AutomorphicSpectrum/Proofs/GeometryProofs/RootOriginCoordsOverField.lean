@@ -2,25 +2,21 @@ module
 
 public import Development.AutomorphicSpectrum.Definitions.DivisibilityTowers.GoodOrigin
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsSmoothHermTrivLine
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ComplexPointsIffCentresStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.DegreeReindexedCoordsStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.DominatingCoordsReindexedStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.DominatingRegularPushStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FlatOnLogResolutionCorrStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeCompDescentFifthStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeCompDescentFirstStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeCompDescentFourthStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeCompDescentSecondStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeCompDescentThirdStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeCptBirationalArithVarStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HolomorphicDegreeCompositionStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LogResolutionPotentialPullbackStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LogResolutionReindexedStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.MemAbLocusIff
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.PositiveHomogeneousPotentialStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.RootOriginCoordFieldStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ExistsAnalyticLogResolutionStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.LogResolutionFunctorialHolomorphicStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle092
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle142
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle117
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle116
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle272
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle215
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle126
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle182
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle172
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle218
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle223
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle096
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle168
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle127
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle034
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -58,7 +54,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterRedF
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle013
 
 @[expose] public section
 
@@ -73,6 +69,7 @@ noncomputable section
 
 namespace GlobalTheory.CompanionTheory.Ar
 
+attribute [-instance] GlobalTheory.CompHt.fintypePsi in
 theorem root_model_on_cover : Top.Given → ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Host E) (D : Datum H) (l : Tor.Level H) (Xo : Moduli D l) (c : Coeff l) (Y : Model Xo c (algebraMap (𝓞 c.F) c.F)) (Sys : PB.AnSys (Top.dimFl (CMType H) (D.p + D.q)) (Option (RootIx D))) (Fx : FixedData Y Sys) (R : Top.RootModel (CMType H) (D.p + D.q)) (o : RootOrigin Y ∅ R Fx) (S : Finset ℕ) (Ω : Type) [Field Ω] [CharZero Ω] (K : Type) [Fintype K] (J : K → Type) [∀ k, Fintype (J k)] (y : (Σ k, J k) → Ω) (bk : R.K → K) (bx : ∀ k, R.ι k ≃ J (bk k)) (i : R.Ω →+* Ω) (𝔐 : HodgeCpt Y S y) (h : 𝔐.X ⟶ o.𝔐.X) (Fl : 𝔐.Flag) (xdeg : RootIx D → K → ℤ) (e : RootIx D → Ω), o.Fl.deg = 1 → Cmp.IsEmbedded o.Re.R.A R.P o.Re.R.U o.Re.R.lift → Function.Bijective o.Re.π → Function.Injective bk → (∀ k a, y ⟨bk k, bx k a⟩ = i (R.y ⟨k, a⟩)) → GlobalTheory.CompanionTheory.Ar.Dominates 𝔐.ξ o.𝔐.ξ h i → 𝔐.f = h ≫ o.𝔐.f → 𝔐.cst = i.comp o.𝔐.cst → (∀ s a, (𝔐.M.pt (Fl.b s a)).left ≫ 𝔐.m.φ = spMap (dualMap i) ≫ (o.𝔐.M.pt (o.Fl.b s a)).left ≫ o.𝔐.m.φ) → (letI := i.toAlgebra; Module.finrank R.Ω Ω = Fl.deg) → Fl.RootLines xdeg e → 𝔐.OmVB → SmoothGenericFibreM y → ∃ (RM : Top.RootModel (CMType H) (D.p + D.q)) (o' : RootOrigin Y S RM Fx), o'.𝔐.OmVB ∧ o'.𝔐.R = 𝔐.R ∧ o'.Re.J = ⊤ ∧ ∃ _ : Algebra ℚ RM.Ω, SmoothGenericFibreM RM.y := by
   intro hG E _ _ _ H D l Xo c Y Sys Fx R o S Ω _ _ K _ J _ y bk bx i 𝔐 h Fl xdeg e hdeg1 hemb hbij hbk hy hd hf hcst
     hfl hfin hlines hom hsm
@@ -80,7 +77,7 @@ theorem root_model_on_cover : Top.Given → ∀ (E : Type) [Field E] [NumberFiel
   have hv := isBlockMap_blkV bx hbk
   haveI : Nonempty K := ⟨bk o.k₀⟩
   obtain ⟨hbir, harith⟩ := GlobalTheory.T.hodge_cpt_birational_arith_var E H D l Xo c _ _ Y S Ω K J y 𝔐 Fl hβ
-  have harith' : IsArithVar (mCoordIdeal y) (Top.dimFl (CMType H) (D.p + D.q) + 1) := harith
+  have harith' : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsArithVar (mCoordIdeal y) (Top.dimFl (CMType H) (D.p + D.q) + 1) := harith
   obtain ⟨R'⟩ := GlobalTheory.T.exists_analytic_log_resolution K J Ω y _ harith' hsm
   have hP₀ : ¬ (⊤ : Ideal (MRing R.ι)) ≤ mCoordIdeal R.y := fun h' =>
     R.arith.2.1.1.ne_top (top_le_iff.1 h')

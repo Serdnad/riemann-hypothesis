@@ -1,0 +1,459 @@
+module
+
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.UnitAtOfMulRight
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle009
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsCompletedStrictHens
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle059
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle080
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle150
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle062
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle011
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle055
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle060
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle089
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle001
+public import Mathlib.RingTheory.MvPowerSeries.Derivative
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle152
+public import GroundTheory.FunctionField.PlaceDefs
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.CurveVerticalPointChart
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.PrimeIsMaximalOfIsFractionRing
+import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle005
+import GroundTheory.HeightsAndTheta.Heights.Intersections.OneNotMemOfIsPrime
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsArith
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle090
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.CategoryTheory.Monoidal.Cartesian.Over
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Henselian
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.RegularLocalRing.Defs
+import Mathlib.RingTheory.SimpleRing.Principal
+import Mathlib.RingTheory.WittVector.IsPoly
+import Mathlib.Tactic.Basify
+import Mathlib.Tactic.ENatToNat
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Linter.HaveILetI
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.Polynomial.Basic
+import Mathlib.Tactic.ReduceModChar
+import Std.Tactic.BVDecide.Normalize.Prop
+import Mathlib.Topology.Sheaves.Init
+import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.GermComp1ZeroPointLeft
+import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.IsSplitGaussChars
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.TranslDiffEq
+import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle002
+import Mathlib.Topology.Sheaves.Presheaf
+import Development.AutomorphicSpectrum.Definitions.MetricPeriods.Bundle001
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle003
+public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.CoordinateIdeals
+public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.Bundle016
+import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.FrameDefinitions.PermFinTwoUniv
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArithmeticIntersection.MixedFieldContraction.GenericFibreKerTarget
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArithmeticIntersection.RationalSections.IsRatSectionOn
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.CocycleRightZeroThd
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.QuadTie
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.CubicalStructures.Bundle001
+
+@[expose] public section
+
+section
+
+open AlgebraicGeometry CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj NumberField
+open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Geo ReciprocityTheory.ChartRestriction.G.Geo.Tor ReciprocityTheory.ChartRestriction.G.Semi GlobalTheory.CompanionTheory.Ar GlobalTheory.CompanionTheory.Ar.SncBase
+
+noncomputable section
+
+namespace GlobalTheory.CompanionTheory.Ar.SncBase.Mdl
+
+theorem ratEval_mem {X : Scheme.{0}} {Ω : Type} [Field Ω] {ξ : Sp Ω ⟶ X} {N : ℕ} {x : Fin (N + 1) → Ω}
+    {c : Fin (N + 1)} {p : Cpt ξ} (hc : InChart ξ x c p) (g : MRing (fun _ : Unit => Fin (N + 1))) :
+    ratEval x c g ∈ regAt ξ p := by
+  induction g using MvPolynomial.induction_on with
+  | C a => simpa using intCast_mem (regAt ξ p) a
+  | add a b ha hb => simpa using (regAt ξ p).add_mem ha hb
+  | mul_X a i ha =>
+    simpa using (regAt ξ p).mul_mem ha (hc.2 i.2)
+
+theorem not_unitAt_of_mem_span {X : Scheme.{0}} {Ω : Type} [Field Ω] {ξ : Sp Ω ⟶ X} {N : ℕ}
+    {x : Fin (N + 1) → Ω} {B : Set (Cpt ξ)} (hξ : IsCptGen ξ) {c : Fin (N + 1)} {p : Cpt ξ} (hp : p ∈ B)
+    (hc : InChart ξ x c p) {g : MRing (fun _ : Unit => Fin (N + 1))} (hg : g ∈ Ideal.span (bdGens ξ x B)) :
+    ¬ unitAt ξ p (ratEval x c g) := by
+  induction hg using Submodule.span_induction with
+  | mem G hG =>
+    obtain ⟨d, -, h⟩ := hG
+    exact h c p hp hc
+  | zero => simpa [unitAt] using fun h : (0 : Ω) ≠ 0 => absurd rfl h
+  | add a b _ _ ha hb =>
+    have := not_unitAt_add hξ (ratEval_mem hc a) (ratEval_mem hc b) ha hb
+    simpa using this
+  | smul a b _ hb =>
+    intro h
+    have e : ratEval x c (a • b) = ratEval x c a * ratEval x c b := by simp
+    rw [e] at h
+    exact hb (unitAt_of_mul_right h (ratEval_mem hc a) (ratEval_mem hc b))
+
+theorem patch_invAdj {Ω : Type} [Field Ω] [Algebra ℚ Ω] {Pt Bd : Set (Subring Ω)} {e : ℕ} {A : Subalgebra ℚ Ω}
+    {z : Fin e → A} {n : ℕ} (hA : IsSncPatch Pt Bd e A z n) {g : Ω} (hg : g ∈ A) (h0 : g ≠ 0) :
+    ∃ z' : Fin e → invAdj A g, IsSncPatch Pt Bd e (invAdj A g) z' n ∧ ∀ i, (z' i : Ω) = z i := by
+  let z' : Fin e → invAdj A g := fun i => ⟨z i, le_invAdj A g (z i).2⟩
+  have hd := GlobalTheory.T.kaehler_basis_adjoin_inverse Ω A g hg h0 e z z' (fun _ => rfl) hA.li hA.span
+  refine ⟨z', ⟨?_, GlobalTheory.T.smooth_adjoin_inverse Ω A g hg h0 hA.smooth, hA.le, hd.1, hd.2, ?_⟩, fun _ => rfl⟩
+  · obtain ⟨S, hS⟩ := hA.fg
+    classical
+    refine ⟨insert g⁻¹ S, ?_⟩
+    rw [Finset.coe_insert]
+    apply le_antisymm
+    · refine Algebra.adjoin_mono (Set.insert_subset_insert ?_)
+      rw [← hS]
+      exact Algebra.subset_adjoin
+    · refine Algebra.adjoin_le (Set.insert_subset (Algebra.subset_adjoin (Set.mem_insert _ _)) ?_)
+      rw [← hS]
+      exact Algebra.adjoin_mono (Set.subset_insert _ _)
+  · intro q hq
+    obtain ⟨R, hR, hloc, hbd⟩ := hA.pts (primeUnder A g q) (Ideal.comap_isPrime _ _)
+    refine ⟨R, hR, isLocAt_invAdj hg h0 hq hloc, hbd.trans ?_⟩
+    exact exists_congr fun i => and_congr_right fun _ => Iff.rfl
+
+theorem chartQ_fg {Ω : Type} [Field Ω] [Algebra ℚ Ω] {N : ℕ} (x : Fin (N + 1) → Ω) (c : Fin (N + 1)) :
+    (chartQ x c).FG :=
+  ⟨(Set.finite_range (fun j => x j / x c)).toFinset, by simp⟩
+
+theorem not_mem_primeUnder {Ω : Type} [Field Ω] [Algebra ℚ Ω] {A : Subalgebra ℚ Ω} {g : Ω} (hg : g ∈ A) (h0 : g ≠ 0)
+    {q : Ideal (invAdj A g)} (hq : q.IsPrime) : (⟨g, hg⟩ : A) ∉ primeUnder A g q :=
+  not_mem_of_isPrime hg h0 hq
+
+variable {Ω : Type} [Field Ω] [CharZero Ω] {X : Scheme.{0}} {ξ : Sp Ω ⟶ X}
+
+theorem exists_patch {N : ℕ} {x : Fin (N + 1) → Ω} {e : ℕ} {B : Set (Cpt ξ)} (hT : CoordTie ℤ ξ x)
+    (hP : ∀ p, Char0 ξ p → ∃ (A : Subalgebra ℚ Ω) (z : Fin e → A) (n : ℕ) (q : Ideal A),
+      IsSncPatch (Pts ξ) (regAt ξ '' B) e A z n ∧ q.IsPrime ∧ IsLocAt A q (regAt ξ p))
+    (c : Fin (N + 1)) (p : Cpt ξ) (hp : Char0 ξ p) (hc : InChart ξ x c p) :
+    ∃ h ∈ chartQ x c, unitAt ξ p h ∧ ∃ (z : Fin e → invAdj (chartQ x c) h) (n : ℕ),
+      IsSncPatch (Pts ξ) (regAt ξ '' B) e (invAdj (chartQ x c) h) z n := by
+  obtain ⟨A, z, n, q, hA, hq, hl⟩ := hP p hp
+  obtain ⟨I, hI, hu, hIl⟩ := GlobalTheory.T.component_gives_chart_prime Ω X ξ _ x c hT p hp hc
+  obtain ⟨g, h, hg, hh, he⟩ := GlobalTheory.T.localizations_equal_basic_opens Ω A (chartQ x c) q I (regAt ξ p) hA.fg (chartQ_fg x c) hq hI hl hIl
+  have hg0 : (g : Ω) ≠ 0 := fun h0 => hg (by
+    have : g = 0 := Subtype.ext h0
+    rw [this]; exact q.zero_mem)
+  obtain ⟨z', hz', -⟩ := patch_invAdj hA g.2 hg0
+  refine ⟨h, h.2, (hu h).1 hh, ?_⟩
+  rw [← he]
+  exact ⟨z', n, hz'⟩
+
+theorem primePoint {κ : Type} {x : κ → Ω} {c : κ} (hT : CoordTie ℤ ξ x) (hx : x c ≠ 0) {h : Ω}
+    (hh : h ∈ chartQ x c) (h0 : h ≠ 0) (q : Ideal (invAdj (chartQ x c) h)) (hq : q.IsPrime) :
+    ∃ p : Cpt ξ, Char0 ξ p ∧ InChart ξ x c p ∧ unitAt ξ p h ∧
+      (∀ s : invAdj (chartQ x c) h, s ∉ q ↔ unitAt ξ p (s : Ω)) ∧
+      IsLocAt (invAdj (chartQ x c) h) q (regAt ξ p) := by
+  obtain ⟨p, hp, hc, hu, hl⟩ := GlobalTheory.T.chart_prime_gives_component Ω X ξ κ x c hT hx (primeUnder _ h q) (Ideal.comap_isPrime _ _)
+  have hhu : unitAt ξ p h := (hu ⟨h, hh⟩).1 (not_mem_primeUnder hh h0 hq)
+  refine ⟨p, hp, hc, hhu, ?_, isLocAt_invAdj hh h0 hq hl⟩
+  intro s
+  obtain ⟨k, hk⟩ := exists_mul_pow_mem hh h0 s.2
+  have hreg : (s : Ω) ∈ regAt ξ p := invAdj_le hp (fun _ => chartQ_le hp hc) hhu s.2
+  rw [not_congr (mem_iff_mul_pow hh h0 hq s k ⟨_, hk⟩ rfl), hu]
+  exact ⟨fun u => unitAt_of_mul_left u hreg (unitAt_pow hhu k).2.1, fun u => unitAt_mul u (unitAt_pow hhu k)⟩
+
+theorem pointPrime {κ : Type} {x : κ → Ω} {c : κ} (hT : CoordTie ℤ ξ x) {h : Ω} (hh : h ∈ chartQ x c)
+    (p : Cpt ξ) (hp : Char0 ξ p) (hc : InChart ξ x c p) (hu : unitAt ξ p h) :
+    ∃ q : Ideal (invAdj (chartQ x c) h), q.IsPrime ∧
+      (∀ s : invAdj (chartQ x c) h, s ∉ q ↔ unitAt ξ p (s : Ω)) ∧
+      IsLocAt (invAdj (chartQ x c) h) q (regAt ξ p) := by
+  haveI hloc : IsLocalRing (regAt ξ p) := (regAt_isLocalRing_isFractionRing_stalk X Ω ξ hT.gen p).1
+  have hmem : ∀ s : invAdj (chartQ x c) h, (s : Ω) ∈ regAt ξ p :=
+    fun s => invAdj_le hp (fun _ => chartQ_le hp hc) hu s.2
+  let f : invAdj (chartQ x c) h →+* regAt ξ p :=
+    ((invAdj (chartQ x c) h).val : invAdj (chartQ x c) h →+* Ω).codRestrict (regAt ξ p) hmem
+  have hq : (Ideal.comap f (IsLocalRing.maximalIdeal (regAt ξ p))).IsPrime := inferInstance
+  have hs : ∀ s : invAdj (chartQ x c) h,
+      s ∉ Ideal.comap f (IsLocalRing.maximalIdeal (regAt ξ p)) ↔ unitAt ξ p (s : Ω) := by
+    intro s
+    rw [Ideal.mem_comap, IsLocalRing.mem_maximalIdeal, mem_nonunits_iff, not_not]
+    constructor
+    · intro hu'
+      obtain ⟨b, hb⟩ := hu'.exists_right_inv
+      have e1 : (s : Ω) * (b : Ω) = 1 := congrArg Subtype.val hb
+      have h0 : (s : Ω) ≠ 0 := fun h0 => by simp [h0] at e1
+      refine ⟨h0, hmem s, ?_⟩
+      rw [inv_eq_of_mul_eq_one_right e1]
+      exact b.2
+    · rintro ⟨h0, -, hinv⟩
+      exact isUnit_iff_exists_inv.2 ⟨⟨_, hinv⟩, Subtype.ext (mul_inv_cancel₀ h0)⟩
+  obtain ⟨I, -, hI, hIl⟩ := GlobalTheory.T.component_gives_chart_prime Ω X ξ κ x c hT p hp hc
+  have e : primeUnder (chartQ x c) h (Ideal.comap f (IsLocalRing.maximalIdeal (regAt ξ p))) = I := by
+    ext a
+    exact not_iff_not.1 ((hs ⟨a, le_invAdj _ h a.2⟩).trans (hI a).symm)
+  exact ⟨_, hq, hs, isLocAt_invAdj hh hu.1 hq (e ▸ hIl)⟩
+
+theorem patchClause {κ : Type} {x : κ → Ω} {e : ℕ} {B : Set (Cpt ξ)} (hT : CoordTie ℤ ξ x)
+    {S : Subalgebra ℚ Ω} {z : Fin e → S} {n : ℕ} (hS : IsSncPatch (Pts ξ) (regAt ξ '' B) e S z n)
+    (q : Ideal S) (hq : q.IsPrime) (p : Cpt ξ) (hl : IsLocAt S q (regAt ξ p)) :
+    p ∈ B ↔ ∃ i : Fin e, (i : ℕ) < n ∧ z i ∈ q := by
+  obtain ⟨R, -, hRl, hbd⟩ := hS.pts q hq
+  have hR : R = regAt ξ p := Subring.ext fun a => (hRl a).trans (hl a).symm
+  subst hR
+  rw [← hbd]
+  constructor
+  · exact fun hp => ⟨p, hp, rfl⟩
+  · rintro ⟨p', hp', e'⟩
+    have := GlobalTheory.T.regular_ring_determines_component X Ω ξ ℤ κ x hT p' p e'
+    exact this ▸ hp'
+
+end GlobalTheory.CompanionTheory.Ar.SncBase.Mdl
+
+namespace GlobalTheory.CompanionTheory.Ar.SncBase
+
+
+open Mdl in
+theorem exists_isSncModel_of_patches : ∀ (Ω : Type) [Field Ω] [CharZero Ω] (X : Scheme.{0}) (ξ : Sp Ω ⟶ X) (N : ℕ) (x : Fin (N + 1) → Ω) (e : ℕ) (B : Set (Cpt ξ)), CoordTie ℤ ξ x → (∀ p ∈ B, Char0 ξ p) → (∀ p, Char0 ξ p → ∃ (A : Subalgebra ℚ Ω) (z : Fin e → A) (n : ℕ) (q : Ideal A), IsSncPatch (Pts ξ) (regAt ξ '' B) e A z n ∧ q.IsPrime ∧ IsLocAt A q (regAt ξ p)) → ∃ bd : Ideal (MRing (fun _ : Unit => Fin (N + 1))), Cmp.IsSncModel (fun p : (Σ _ : Unit, Fin (N + 1)) => x p.2) e bd ∧ ∀ (z : Spec (CommRingCat.of ℂ) ⟶ X) w, CoordsAt ξ (fun p : (Σ _ : Unit, Fin (N + 1)) => x p.2) z w → (w ∈ mcPts bd ↔ ∃ h : genPt ξ ⤳ centre z, (⟨centre z, h⟩ : Cpt ξ) ∈ B) := by
+  open Mdl in
+  intro Ω _ _ X ξ N x e B hT hB hP
+  have hcov := fun c p hp hc => exists_patch (B := B) hT hP c p hp hc
+  have hsep : ∀ c (p : Cpt ξ), Char0 ξ p → InChart ξ x c p → p ∉ B →
+      ∃ G ∈ bdGens ξ x B, unitAt ξ p (ratEval x c G) := by
+    intro c p hp hc hnB
+    obtain ⟨h, hh, hu, z, n, hz⟩ := hcov c p hp hc
+    have hcl : ∀ q : Cpt ξ, Char0 ξ q → InChart ξ x c q → unitAt ξ q h →
+        (q ∈ B ↔ ∃ i : Fin e, (i : ℕ) < n ∧ ¬ unitAt ξ q (z i : Ω)) := by
+      intro q hq hcq huq
+      obtain ⟨Q, hQ, hs, hl⟩ := pointPrime hT hh q hq hcq huq
+      rw [patchClause hT hz Q hQ q hl]
+      refine exists_congr fun i => and_congr_right fun _ => ?_
+      rw [← hs (z i), not_not]
+    obtain ⟨a, ha, hau, hnon⟩ := GlobalTheory.T.snc_patch_boundary_units Ω X ξ _ x c B h e n z p hT.gen hB hh hu.1 hcl hp hc hu hnB
+    exact GlobalTheory.T.boundary_generator_unit Ω X ξ N x c B p a hB hp hc ha hau hnon
+  refine ⟨Ideal.span (bdGens ξ x B), ?_, GlobalTheory.T.boundary_points_coords Ω X ξ N x B hT.gen hsep⟩
+  refine GlobalTheory.T.snc_model_from_local_patches Ω X ξ N x e B _ hcov ?_ ?_ ?_
+  · intro c hx I hI
+    obtain ⟨p, a, b, d, -⟩ := GlobalTheory.T.chart_prime_gives_component Ω X ξ _ x c hT hx I hI
+    exact ⟨p, a, b, d⟩
+  · intro c h hx hh h0 q hq
+    obtain ⟨p, hp, hc, -, hs, hl⟩ := primePoint hT hx hh h0 q hq
+    exact ⟨p, hp, hc, hs, fun z n hz => patchClause hT hz q hq p hl⟩
+  · intro c p hp hc
+    constructor
+    · intro hpB g hg
+      exact not_unitAt_of_mem_span hT.gen hpB hc hg
+    · intro hall
+      by_contra hn
+      obtain ⟨G, hG, hu⟩ := hsep c p hp hc hn
+      exact hall G (Ideal.subset_span hG) hu
+
+end GlobalTheory.CompanionTheory.Ar.SncBase
+end
+end
+
+section
+
+open AlgebraicGeometry CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj NumberField
+open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Geo.Tor Formalism.L2.Pj Formalism.MainNotions.ModuliIntegralCharts.H1 GlobalTheory.CompanionTheory.Ar.Crv GlobalTheory.CompanionTheory.Ar.Conj GlobalTheory.CompanionTheory.Ar.Coc
+open scoped CategoryTheory.Obj
+attribute [local instance] Over.cartesianMonoidalCategory
+
+theorem _root_.GlobalTheory.T.pderiv_zero_of_jet_pth_power_diff : ∀ (k : Type) [Field k] (p : ℕ) [Fact p.Prime] [CharP k p] (d : ℕ) (F f : MvPowerSeries (Fin 1 × Fin d) k), (∀ q, MvPowerSeries.pderiv (R := k) q f = 0) → (∀ m, ∃ v : Jet k (Fin 1 × Fin d) m, psJet m F = v ^ p - psJet m f) → ∀ q, MvPowerSeries.pderiv (R := k) q F = 0 := by
+  first | exact @GlobalTheory.CompanionTheory.Ar.Coc.pderiv_eq_zero_of_jet_pow_sub | exact GlobalTheory.CompanionTheory.Ar.Coc.pderiv_eq_zero_of_jet_pow_sub | (intros; apply GlobalTheory.CompanionTheory.Ar.Coc.pderiv_eq_zero_of_jet_pow_sub <;> assumption)
+end
+
+section
+
+open MvPolynomial ReciprocityTheory.ChartRestriction.G.Geo GroundTheory.FunctionField GroundTheory.Heights₂.Heights.Inter IsLocalRing GlobalTheory.CompanionTheory.Ar.GeoDeg
+
+noncomputable section
+
+namespace GlobalTheory.CompanionTheory.Ar.GeoDeg.ChartMin
+
+open GroundTheory.Heights₂.Heights.Targets.CurveVerticalPointChart
+
+variable {B : Type} [Fintype B] {J : B → Type} [∀ k, Fintype (J k)] {K : Type} [Field K]
+
+def chartIdeal (w : (Σ k, J k) → K) (c : ∀ k, J k) (hc : ∀ k, w ⟨k, c k⟩ ≠ 0) (U : Ideal (MRing J)) :
+    Ideal (chartRingZ w c) where
+  carrier := {r | (r : K) ∈ chartPrime w c U}
+  add_mem' ha hb := chartPrime_add w ha hb
+  zero_mem' := ⟨0, 0, fun m hm => by simp at hm, U.zero_mem, by simp⟩
+  smul_mem' a _ hb := chartPrime_mul w hc a.2 hb
+
+theorem mem_chartIdeal {w : (Σ k, J k) → K} {c : ∀ k, J k} {hc : ∀ k, w ⟨k, c k⟩ ≠ 0} {U : Ideal (MRing J)}
+    {r : chartRingZ w c} : r ∈ chartIdeal w c hc U ↔ (r : K) ∈ chartPrime w c U :=
+  Iff.rfl
+
+theorem chartIdeal_mono {w : (Σ k, J k) → K} {c : ∀ k, J k} (hc : ∀ k, w ⟨k, c k⟩ ≠ 0)
+    {U U' : Ideal (MRing J)} (h : U ≤ U') : chartIdeal w c hc U ≤ chartIdeal w c hc U' := by
+  rintro r ⟨e, g, hg, hgU, hr⟩
+  exact ⟨e, g, hg, h hgU, hr⟩
+
+theorem chartIdeal_isPrime (w : (Σ k, J k) → K) {c : ∀ k, J k} (hc : ∀ k, w ⟨k, c k⟩ ≠ 0)
+    {U : Ideal (MRing J)} (hVU : mCoordIdeal w ≤ U) (hU : U.IsPrime)
+    (hXU : ∀ k, (X ⟨k, c k⟩ : MRing J) ∉ U) : (chartIdeal w c hc U).IsPrime := by
+  refine ⟨?_, ?_⟩
+  · rw [Ideal.ne_top_iff_one]
+    intro h
+    have h1 := (mem_chartPrime_iff w hVU hU hXU (r := ((1 : chartRingZ w c) : K)) (e := 0) (k := 1)
+      GroundTheory.Heights₂.Heights.Inter.AvoidRing.isMultiHomog_one (by simp)).mp (mem_chartIdeal.mp h)
+    exact hU.ne_top ((Ideal.eq_top_iff_one U).mpr h1)
+  · intro a b hab
+    obtain ⟨e, k, hk, ha⟩ := exists_rep w hc a.2
+    obtain ⟨e', k', hk', hb⟩ := exists_rep w hc b.2
+    have hkk : k * k' ∈ U := (mem_chartPrime_iff w hVU hU hXU (r := ((a * b : chartRingZ w c) : K))
+      (GroundTheory.Heights₂.Heights.Inter.AvoidRing.isMultiHomog_mul hk hk') (by
+        rw [MulMemClass.coe_mul, map_mul, prod_pow_add]
+        linear_combination ((b : K) * ∏ k, w ⟨k, c k⟩ ^ e' k) * ha + (aeval w k) * hb)).mp
+      (mem_chartIdeal.mp hab)
+    rcases hU.mem_or_mem hkk with h | h
+    · exact Or.inl ⟨e, k, hk, h, ha⟩
+    · exact Or.inr ⟨e', k', hk', h, hb⟩
+
+theorem mem_minimalPrimes_of_coord (B : Type) [Fintype B] (J : B → Type) [∀ k, Fintype (J k)] (p : ℕ) [Fact p.Prime]
+    (K : Type) [Field K] [Algebra (ZMod p) K] [IsFunctionField (ZMod p) K] (w : (Σ k, J k) → K)
+    (hbir : Birational w) (W : Ideal (MRing J)) (c : ∀ k, J k) (hWp : W.IsPrime) (hWh : IsMultiHomogIdeal W)
+    (hVW : mCoordIdeal w ≤ W) (hXc : ∀ k, (X ⟨k, c k⟩ : MRing J) ∉ W) (k : B) (c₀ : J k)
+    (hw : w ⟨k, c₀⟩ ≠ 0) (hx : (X ⟨k, c₀⟩ : MRing J) ∈ W) :
+    W ∈ (mCoordIdeal w ⊔ Ideal.span {(X ⟨k, c₀⟩ : MRing J)}).minimalPrimes := by
+  classical
+  have hIW : mCoordIdeal w ⊔ Ideal.span {(X ⟨k, c₀⟩ : MRing J)} ≤ W :=
+    sup_le hVW ((Ideal.span_singleton_le_iff_mem _).2 hx)
+  refine ⟨⟨hWp, hIW⟩, ?_⟩
+  rintro Q ⟨hQp, hIQ⟩ hQW
+  have hwc : ∀ j, w ⟨j, c j⟩ ≠ 0 := fun j h => hXc j (hVW ((X_mem_iff w j (c j)).2 h))
+  have hVQ : mCoordIdeal w ≤ Q := le_sup_left.trans hIQ
+  have hxQ : (X ⟨k, c₀⟩ : MRing J) ∈ Q := hIQ (Ideal.mem_sup_right (Ideal.mem_span_singleton_self _))
+  have hXQ : ∀ j, (X ⟨j, c j⟩ : MRing J) ∉ Q := fun j h => hXc j (hQW h)
+
+  have hpW := chartIdeal_isPrime w hwc hVW hWp hXc
+  have hpQ := chartIdeal_isPrime w hwc hVQ hQp hXQ
+
+  let r : chartRingZ w c := ⟨w ⟨k, c₀⟩ / w ⟨k, c k⟩, Algebra.subset_adjoin ⟨⟨k, c₀⟩, rfl⟩⟩
+  have hr : r ∈ chartIdeal w c hwc Q := by
+    refine ⟨Pi.single k 1, X ⟨k, c₀⟩, GroundTheory.Heights₂.Heights.Inter.regularityLocalFlat_holds.homog_X k c₀, hxQ, ?_⟩
+    have hprod : ∏ j, w ⟨j, c j⟩ ^ (Pi.single k 1 : B → ℕ) j = w ⟨k, c k⟩ := by
+      rw [Fintype.prod_eq_single k (fun j hj => by simp [Pi.single_eq_of_ne hj])]
+      simp
+    rw [hprod, aeval_X]
+    exact div_mul_cancel₀ _ (hwc k)
+  have hne : chartIdeal w c hwc Q ≠ ⊥ := by
+    intro h0
+    have h1 : r = 0 := by simpa [h0] using hr
+    exact div_ne_zero hw (hwc k) (congrArg Subtype.val h1)
+  have hmax := chart_prime_isMaximal (p := p) w hbir c hwc _ hpQ hne
+  have heq := hmax.eq_of_le hpW.ne_top (chartIdeal_mono hwc hQW)
+
+  obtain ⟨S, hS, hSe⟩ := hWh
+  have hSW : Ideal.span S ≤ W := hSe.ge
+  rw [hSe, Ideal.span_le]
+  intro g hg
+  obtain ⟨e, he⟩ := hS g hg
+  have hprod : (∏ j, w ⟨j, c j⟩ ^ e j) ≠ 0 :=
+    Finset.prod_ne_zero_iff.2 fun j _ => pow_ne_zero _ (hwc j)
+  have hrep : aeval w g * (∏ j, w ⟨j, c j⟩ ^ e j)⁻¹ * ∏ j, w ⟨j, c j⟩ ^ e j = aeval w g :=
+    inv_mul_cancel_right₀ hprod _
+  let t : chartRingZ w c := ⟨_, form_div_mem_chart w c he⟩
+  have htW : t ∈ chartIdeal w c hwc W := ⟨e, g, he, hSW (Ideal.subset_span hg), hrep⟩
+  rw [← heq] at htW
+  exact (mem_chartPrime_iff w hVQ hQp hXQ he hrep).1 (mem_chartIdeal.1 htW)
+
+end GlobalTheory.CompanionTheory.Ar.GeoDeg.ChartMin
+
+end
+end
+
+section
+
+noncomputable section
+
+namespace GlobalTheory.CompanionTheory.Ar.Cusp.NineEq
+
+open MvPolynomial ReciprocityTheory.ChartRestriction.G.Geo ReciprocityTheory.ChartRestriction.G.AI.I1 ReciprocityTheory.ChartRestriction.G.ArakelovGeometry
+open GroundTheory.Heights₂.Heights GroundTheory.Heights₂.Heights.HilbertSamuel GlobalTheory.CompanionTheory.Ar.Small
+open GroundTheory.Heights₂.Heights.LowerBoundFree (AmpleOnGenericFibre)
+
+variable {K : Type} [Fintype K] {ι : K → Type} [∀ k, Fintype (ι k)]
+
+section Field
+
+variable {F : Type} [Field F]
+
+end Field
+
+variable {Ω : Type} [Field Ω]
+
+
+theorem geomDeg_eq (hD : DegreeStatement) {W : Ideal (MRing ι)} {d : ℕ} (hW : IsArithVar W (d + 1))
+    {A : ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι} (hA : IsSmoothHerm A) : geomDeg W A d = genDeg W d A.a := by
+  classical
+  have h := GlobalTheory.CompanionTheory.Ar.Giv.degreeGeneric_of_degree hD K ι W d (fun _ => A) hW (fun _ => hA)
+  have hpot : pot (fun _ : Fin d => A) = fun (_ : Fin d) z => Real.log (A.h z) := rfl
+  rw [hpot] at h
+  unfold geomDeg genDeg
+  rw [h]
+
+section Values
+
+variable {y : (Σ k, ι k) → Ω} {L : Type} [Field L] {z : (Σ k, ι k) → L} {c : ∀ k, ι k}
+
+end Values
+
+end GlobalTheory.CompanionTheory.Ar.Cusp.NineEq
+
+end
+
+noncomputable section
+
+namespace GlobalTheory.CompanionTheory.Ar.Cusp.NineEq
+
+open NumberField Filter Topology
+open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Geo ReciprocityTheory.ChartRestriction.G.Geo.Tor ReciprocityTheory.ChartRestriction.G.ArakelovGeometry
+open GroundTheory.Heights₂.Heights.LowerBoundFree
+
+section Systems
+
+open ReciprocityTheory.ChartRestriction.G.AI.I1 ReciprocityTheory.ChartRestriction.G.AI.I2 ReciprocityTheory.ChartRestriction.G.AI.I4
+
+end Systems
+
+section Clauses
+
+variable {II : IntersectionSystem} {Ψ : Type} [Fintype Ψ] {K : Type} [Fintype K] {J : K → Type} [∀ k, Fintype (J k)]
+  {Ω : Type} [Field Ω] [Algebra ℚ Ω] {W : Ψ → Type} [∀ τ, AddCommGroup (W τ)] [∀ τ, Module Ω (W τ)]
+  {Dc : ComponentData II Ψ K J Ω W} (Hd : HodgeData Dc)
+
+variable {w : ((Σ k, J k) → ℂ) → ℝ} {M : XModel Dc} (S : BoundedRegularisationSetting M Dc.Xo Hd.aMu w)
+
+end Clauses
+
+end GlobalTheory.CompanionTheory.Ar.Cusp.NineEq
+end
+end

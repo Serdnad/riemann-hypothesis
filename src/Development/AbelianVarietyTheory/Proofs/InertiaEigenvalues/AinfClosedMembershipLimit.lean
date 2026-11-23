@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.BreuilKisinEvWIsUnitInjectiveDvd
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.AinfDivisibilityBreuilKisinFacts
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.BreuilKisinOEModPrimeLaurentField
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle731
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle559
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle606
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FrobeniusIntegralityWittTiltAinf
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SmodEqIffDvd
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle042
 import Development.AutomorphicArithmetic.IntegralCasts.CrystallinePeriods.Kernel
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

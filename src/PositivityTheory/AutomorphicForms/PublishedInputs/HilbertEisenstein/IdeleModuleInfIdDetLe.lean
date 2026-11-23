@@ -1,8 +1,8 @@
 module
 
-public import PositivityTheory.AutomorphicForms.PublishedInputs.HilbertEisenstein.SSmooth
+public import PositivityTheory.AutomorphicForms.PublishedInputs.HilbertEisenstein.Bundle001
 import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsUniqueIdeleOfLinearEquivQuotientLocal
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsOpenIdeleSubgroupContainsCongruenceUnits
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle056
 import Formalism.SharpRestriction.GrowthBounds.MonomialOrderSegments.BrData
 public import GroundTheory.IdeleRoots.ClassicalIdeles.FinOrdValGenProof
 import Mathlib.Algebra.Order.Floor.Extended
@@ -44,7 +44,7 @@ import Mathlib.Tactic.ReduceModChar
 import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.ExistsUniqueHcharOfFiniteOrder
 import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.RestrictionMemInvariantH1
 import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.ConstSmall
-import Development.AutomorphicArithmetic.AutomorphicVarieties.PublishedTheorems.GelfandKazhdanReal
+import Development.AutomorphicArithmetic.AutomorphicVarieties.PublishedTheorems.Bundle001
 
 @[expose] public section
 
@@ -227,7 +227,7 @@ theorem exists_D {ω : HChar F} {c : HeightOneSpectrum (𝓞 F) → ℕ} (hyp : 
     rw [← Ideal.zero_eq_bot]
     exact Finset.prod_ne_zero_iff.2 fun w _ => pow_ne_zero _ (by rw [Ideal.zero_eq_bot]; exact w.ne_bot)
   obtain ⟨b, hb, hb0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot h𝔠
-  have hdiff : differentIdeal ℤ (𝓞 F) ≠ ⊥ := differentIdeal_ne_bot
+  have hdiff : differentIdeal ℤ (𝓞 F) ≠ ⊥ := _root_.differentIdeal_ne_bot
   obtain ⟨a, ha, ha0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hdiff
   refine ⟨a * b, mul_ne_zero ha0 hb0, fun w x hx => ?_⟩
   have hva : w.intValuation a ≤ WithZero.exp (-(dd w)) := by

@@ -1,12 +1,12 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.NormalFam
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle016
 public import Development.AbelianVarietyTheory.Definitions.Foundations.ThetaSeriesTies
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.LatticeExtensionAlongFieldEmbeddingDuals
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.SplitOffBadOfSuppSplitOff
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.TransportedLatticeLocalizationFreeLeCoefficientS
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.EqZeroOfFischSelf
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsMulAddEqOneOfNotMem
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle044
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle210
 public import Formalism.LocalToGlobal.Columns.CoefficientsModP.BaseCh
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -48,9 +48,9 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.FFVMap
-import Development.AbelianVarietyTheory.Definitions.Divisors.KerDatTuple
-import Development.AbelianVarietyTheory.Definitions.Divisors.RealisedChainTorusEq
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.Bundle004
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle052
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle045
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.KernelSpanOverClasses
 
 @[expose] public section

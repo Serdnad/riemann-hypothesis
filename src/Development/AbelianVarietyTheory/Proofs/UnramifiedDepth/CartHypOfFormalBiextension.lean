@@ -1,10 +1,10 @@
 module
 
 public import Formalism.LocalToGlobal.CharacterGerms.RowTieFB
-public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.CartHypOfIntegralGaugedFormalGroupLawStatement
+public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.Bundle068
 public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.HasGaugeAdjointLieProjectorsPairDataStatement
-public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.HasGaugeAdjointTeichmullerEndPairPlacesStatement
-public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.IsIntegralGaugedFormalGroupLawPairDataStatement
+public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.Bundle053
+public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.Bundle063
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

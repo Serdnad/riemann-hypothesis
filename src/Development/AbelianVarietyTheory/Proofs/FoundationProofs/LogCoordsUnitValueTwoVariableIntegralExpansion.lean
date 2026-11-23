@@ -1,16 +1,15 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsAlgZpOfPow
-public import Development.AbelianVarietyTheory.Definitions.Foundations.EeProd
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.DerivativeCyclotomicMul
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.EvOfFintype
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.EvalSeriesAndDerivUniqueOfCoefficientsStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.EvalSeriesCongIffCoeffAndIsUnitStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsBasisOnZetaPowMulQPow
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsIsDlog
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsDlogCoef
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsIntPrimeDivRootOfUnitySubOnePowStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.TowerLevelEmbeddingInjectiveRangeAdjoinRootsStatement
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle098
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle007
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle033
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle096
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle116
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle140
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle032
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle030
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle095
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle141
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -58,7 +57,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.Foundations.Integral
+import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle003
 
 @[expose] public section
 

@@ -1,7 +1,7 @@
 module
 
 public import Mathlib.NumberTheory.NumberField.Completion.FinitePlace
-public import GroundTheory.HeightsAndTheta.Heights.HeightsOfSets.DenseHeight
+public import GroundTheory.HeightsAndTheta.Heights.HeightsOfSets.Bundle003
 public import GroundTheory.HeightsAndTheta.Heights.HeightsOfSets.FieldChange
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -54,13 +54,13 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 import Development.AutomorphicSpectrum.Definitions.DivisibilityTowers.CompactGapsGE
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LocRatio
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle086
 import Mathlib.CategoryTheory.Monoidal.Cartesian.Basic
 import Mathlib.CategoryTheory.Monoidal.Category
 import Mathlib.CategoryTheory.Monoidal.Mon
 import Mathlib.Topology.Sheaves.Presheaf
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsCompletedStrictHens
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.CubicalStructures.CubeSymmetricSwapFirst
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.CubicalStructures.Bundle001
 
 @[expose] public section
 

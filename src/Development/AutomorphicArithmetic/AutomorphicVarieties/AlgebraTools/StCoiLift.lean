@@ -1,9 +1,9 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.InvAlg
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.Bundle005
 public import Mathlib.Data.Matrix.Basis
 public import Mathlib.RingTheory.AdicCompletion.Basic
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.IdemLiftComplete
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

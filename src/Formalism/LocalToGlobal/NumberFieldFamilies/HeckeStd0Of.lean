@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalToGlobal.NumberFieldFamilies.NPartCNd
-public import Formalism.LocalToGlobal.NumberFieldFamilies.IsLocalizedOfSpan
+public import Formalism.LocalToGlobal.NumberFieldFamilies.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

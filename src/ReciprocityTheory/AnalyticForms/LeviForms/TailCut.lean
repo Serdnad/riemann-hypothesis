@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.AnalyticForms.LeviForms.IsRegFamilyInhabitStatement
+public import ReciprocityTheory.AnalyticForms.LeviForms.Bundle001
 public import ReciprocityTheory.AnalyticForms.PlurisubharmonicFunctions.IsPshLocallyIntegrableStatement
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -45,7 +45,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Separation.CompletelyRegular
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.AnalyticForms.LeviForms.TailCutA
+public import ReciprocityTheory.AnalyticForms.LeviForms.Bundle002
 public import ReciprocityTheory.AnalyticForms.PlurisubharmonicFunctions.PshRegMax
 import Std.Tactic.BVDecide.Normalize.Prop
 public import Mathlib.MeasureTheory.Function.Jacobian

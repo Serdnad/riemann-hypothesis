@@ -1,9 +1,9 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.IsSmoothVec
+public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle040
 public import GroundTheory.HeightsAndTheta.Theta.EisensteinZeta.MirabolicInduction.HsInnerSelfEqSumSq
 public import Formalism.SharpRestriction.CuspSpanNormBounds.GlobAut
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.IwasawaMeasureExistence.NormExpSubOneSubLe
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.IwasawaMeasureExistence.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -46,8 +46,8 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Separation.CompletelyRegular
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.DefClassNum
-import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.IsAdmOnOfFiniteDimensional
+import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle008
+import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.Bundle001
 import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.ExistsStandardIndModule
 
 @[expose] public section

@@ -1,7 +1,7 @@
 module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.FrobeniusSmoothVectors.ContinuousCoboundaries2
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.HcDefs
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.Bundle002
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.KummerTheory.Mk0IdMapCongr
 public import Mathlib.GroupTheory.Nilpotent
 import Mathlib.Algebra.Order.Floor.Extended

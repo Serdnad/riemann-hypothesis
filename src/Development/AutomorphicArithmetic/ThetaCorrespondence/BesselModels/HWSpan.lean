@@ -5,11 +5,11 @@ public import Formalism.PeriodIntegrals.UpqRep
 public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.CompactCasimirHighestWeight
 public import Formalism.RealPlaceAnalysis.SmoothOnGVIff
 public import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.SetIntegralDifferentiability
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle023
 public import Formalism.RealPlaceAnalysis.FinalF
 public import Formalism.RealPlaceAnalysis.QuotientSettingHolds
-public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.CompactExponentialSurjective
-import Formalism.RealPlaceAnalysis.RealPlaceTaylor.IsCompactInvariantCompactSpan
+public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.Bundle005
+import Formalism.RealPlaceAnalysis.RealPlaceTaylor.Bundle003
 import Formalism.RealPlaceAnalysis.RealPlaceTaylor.KoszulLowersPower
 import Mathlib.Algebra.Order.Archimedean.Real.Hom
 import Mathlib.Algebra.Order.Floor.Extended
@@ -64,7 +64,7 @@ import Mathlib.Topology.Algebra.Group.Units
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 import Formalism.HermitianCurvature.BesselNonvanishingReduction
-import Formalism.HermitianCurvature.StatementI
+import Formalism.HermitianCurvature.Bundle001
 
 @[expose] public section
 

@@ -2,15 +2,15 @@ module
 
 public import Development.AutomorphicSpectrum.Definitions.DivisibilityTowers.GoodOrigin
 public import Development.WeilBound.CoreStatements.CentralCharts.PshAt0
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ComplexPointsIffCentresStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle092
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FlagWeightedDegreeSection
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FrameDomainInSegreChartStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GlobalPairSumGramBoundStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GramMatrixChangeFrameStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeCptAwayFromPrimesStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle139
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle309
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle268
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle146
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeCptInteriorFlag
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.InteriorPointPolarisedStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.RootLinesFlagDegreeStatement
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle189
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle097
 public import Development.WeilBound.CoreStatements.CentralCharts.AnalyticAtEval
 public import Development.WeilBound.CoreStatements.CentralCharts.PshAt0LogNorm
 import Mathlib.Algebra.Order.Floor.Extended
@@ -49,8 +49,8 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.ClopenCondOnto
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ContDiffUncentre
+public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.Bundle001
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle100
 
 @[expose] public section
 

@@ -1,10 +1,10 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.BdryChart
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsFlatAnIffIsConstMul
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeGramBoundNearBoundaryStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeGramPullbackIff
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ExistsUnitExtensionOfLogGrowth
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle012
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle011
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle307
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle123
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle030
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

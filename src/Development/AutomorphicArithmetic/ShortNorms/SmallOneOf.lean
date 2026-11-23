@@ -1,8 +1,8 @@
 module
 
 public import Development.AutomorphicArithmetic.ShortNorms.ShortNorm
-public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.ZerosDisc
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.PrimesAPIntervalOfPrimesRel
+public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.Bundle003
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle037
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,8 +1,8 @@
 module
 
-public import Formalism.LocalToGlobal.CharacterGerms.NegMem
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle016
 public import Development.AbelianVarietyTheory.Definitions.TeichmullerDepth.HasTeich
-public import Formalism.LocalToGlobal.CharacterGerms.RowTieAxes
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle007
 public import Mathlib.RingTheory.MvPowerSeries.Rename
 public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.NatCastMulCoeffOfPderivEq
 import Formalism.LocalToGlobal.CharacterGerms.ConstMemTypeSetOfNonneg

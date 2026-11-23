@@ -1,12 +1,12 @@
 module
 
-public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.HodgeBundleWeights.ToKnownTheoremsOf
+public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.HodgeBundleWeights.Bundle001
 public import Development.AbelianVarietyTheory.Definitions.Divisors.NormNegCmConstantEqAtAllEmbeddings
-public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.ComponentMassSum
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FlatConstantBoundedByNine
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.NonemptyKeySecOfFamily
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SupLatticeRankEqSumComponentRanksStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TwSecMulPow
+public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.Bundle014
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2818
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2634
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2147
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2071
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.HodgeBundleWeights.ExistsTwistedSectionWithDeepRoot
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -41,10 +41,10 @@ import Mathlib.Tactic.NormNum.NatSqrt
 import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-public import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.LevelCarrying
-import Development.AbelianVarietyTheory.Definitions.Divisors.BadElt
+public import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.Bundle003
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle021
 import Development.AbelianVarietyTheory.Definitions.Divisors.CuspIso
-import Development.AbelianVarietyTheory.Definitions.Divisors.GenRatios
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle057
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsCoprimeOfNatCast
 import Development.AbelianVarietyTheory.Definitions.Divisors.IsoOverOfIsOpenImmersion
 public import Development.AbelianVarietyTheory.Definitions.Divisors.MemLevEigenIffTransl

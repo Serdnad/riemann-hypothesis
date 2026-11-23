@@ -1,7 +1,7 @@
 module
 
-public import Formalism.LocalRingCardinality.DataSpaces
-public import Formalism.RealPlaceAnalysis.InstMeasurableSpaceUJ
+public import Formalism.LocalRingCardinality.Bundle001
+public import Formalism.RealPlaceAnalysis.Bundle004
 public import Mathlib.Analysis.CStarAlgebra.Module.Constructions
 public import Mathlib.MeasureTheory.Function.L2Space
 import Mathlib.Algebra.Order.Floor.Extended

@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsUniqueTangentLift
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle018
 public import Development.AbelianVarietyTheory.Proofs.HermitianTraceForms.IsLocallyConstantRankAtStalkEigenSub
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.TateIsoExistsLiftOfTwoData
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.EpsPtScaleZero
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle034
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle045
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.PushEquivSymmLeft
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.UnitOnInjectiveOfCommRing
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle026
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

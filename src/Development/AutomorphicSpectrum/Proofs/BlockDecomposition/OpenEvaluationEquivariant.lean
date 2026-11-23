@@ -1,8 +1,8 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.AvgVanish
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LocallyConstantCompactSupportUnipotentStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SmoothIntegralLinear
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle317
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle379
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle316
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -222,8 +222,8 @@ theorem qO_sigX {i t : ℕ} (ψ : AddChar k Circle) (τ : MRep k (i + 1)) (σ : 
       rw [pgProj_fst, pgProj_snd, map_one] at h1
       refine h1.trans ?_
       have h2 : (mtw τ (((t + 1 : ℕ) : ℝ) / 2)).ρ (uM k (i + 1) c) a = τ.ρ (uM k (i + 1) c) a := by
-        show twist τ.ρ (dpowM (i + 1) (((t + 1 : ℕ) : ℝ) / 2)) (uM k (i + 1) c) a = _
-        simp [twist, det_uM]
+        show _root_.GlobalTheory.SmGL.twist τ.ρ (dpowM (i + 1) (((t + 1 : ℕ) : ℝ) / 2)) (uM k (i + 1) c) a = _
+        simp [_root_.GlobalTheory.SmGL.twist, det_uM]
       rw [h2]
       rfl
     rw [e]

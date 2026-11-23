@@ -2,14 +2,14 @@ module
 
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.AlgebraicCharacters.EmbOrbit
 public import CompanionTheory.AutomorphicTheory.UnitriangularMeasure.AdeleCoordinateMeasure.EllipticTorusNorm
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ArtinTransportAlgClosureEquiv
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ChevalleyUnits
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsAbelianizedGaloisHomOfClosureIso
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.GlobalArtinLocalIdeleInjective
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WeilGroupRestriction
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.AbsoluteGaloisAbelianizationEqOneOfMemOpenSubgro
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle191
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle612
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle302
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle454
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle416
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle057
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.DenseRangeUnits
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsOpenIdeleSubgroupContainsCongruenceUnits
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle056
 import GroundTheory.AutomorphicForms.GLnLocal
 public import GroundTheory.GlobalFields.NormResidueSymbol.FunctorialFinite
 import GroundTheory.LocalFields.PadicLogSeries
@@ -105,7 +105,7 @@ private theorem art_diag {Ω : Type} [Field Ω] [Algebra K Ω] {art : Ideles K �
 
 private theorem glob_norm {Ω : Type} [Field Ω] [Algebra K Ω] [Algebra L Ω] [IsScalarTower K L Ω] [IsAlgClosure K Ω]
     [IsAlgClosure L Ω] {art : Ideles K →* Gab K Ω} {art' : Ideles L →* Gab L Ω} (ha : IsGlobalArtin art)
-    (ha' : IsGlobalArtin art') (x : Ideles L) (τ : G L Ω) (σ : G K Ω) (hσ : ∀ z, σ z = τ z) (hx : art' x = toAb L Ω τ) :
+    (ha' : IsGlobalArtin art') (x : Ideles L) (τ : _root_.Formalism.ConjugateSelfDual.G L Ω) (σ : _root_.Formalism.ConjugateSelfDual.G K Ω) (hσ : ∀ z, σ z = τ z) (hx : art' x = toAb L Ω τ) :
     art (GroundTheory.Global.ideleNorm K L x) = toAb K Ω σ := by
   classical
   have hφ : ∀ x, RingEquiv.refl Ω (algebraMap K Ω x) = algebraMap L Ω (algebraMap K L x) :=

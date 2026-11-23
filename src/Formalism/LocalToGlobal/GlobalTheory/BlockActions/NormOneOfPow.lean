@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.HermitianForms.FormsTied
+public import Formalism.LocalToGlobal.HermitianForms.Bundle004
 public import Formalism.LocalToGlobal.HermitianForms.TiedBrRep
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

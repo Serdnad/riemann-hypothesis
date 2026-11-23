@@ -1,8 +1,8 @@
 module
 
 public import Formalism.LocalToGlobal.NormalizedHeckeFactors.CoverF
-public import Formalism.LocalToGlobal.NormalizedHeckeFactors.CoverAct
-public import Formalism.LocalToGlobal.NormalizedHeckeFactors.CoverStd
+public import Formalism.LocalToGlobal.NormalizedHeckeFactors.Bundle004
+public import Formalism.LocalToGlobal.NormalizedHeckeFactors.Bundle002
 public import Formalism.LocalToGlobal.NormalizedHeckeFactors.CoverStdB
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

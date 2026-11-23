@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Degenerations.IsNormalSchemeSp
+public import Development.AbelianVarietyTheory.Definitions.Degenerations.Bundle001
 public import Development.AbelianVarietyTheory.Definitions.ShimuraVarieties.FlatImageOfOverFractionFieldOfValuationRing
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.FiniteOfIsClosedOfFiniteInterClosedPoints
-import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.FiniteResidueFieldOfIsClosedOfLocallyOfFiniteTyp
-import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.MemPadicAlgClValuationSubringIffNormLeOne
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle042
+import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle035
+import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle038
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.BijectiveAlgebraMapIntegralClosureOfBirational
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.IsDomainAndIsIntegrallyClosedAtPrimeOfSmoothOfCo
 import Mathlib.Algebra.Order.Floor.Extended
@@ -50,7 +50,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.SabPull
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle010
 
 @[expose] public section
 
@@ -239,7 +239,8 @@ theorem exists_inv_extension : ∀ C : Core, C.HasTests → SmoothOfRelativeDime
   have he : e.inv ≫ C.a = C.a.opensRange.ι := C.a.isoOpensRange_inv_comp
   have he' : e.hom ≫ C.a.opensRange.ι = C.a := C.a.isoOpensRange_hom_ι
   have existsUnique_extension_of_finite_specializations :
-      ∀ (X : Scheme.{0}) [IsIntegral X] (π : X ⟶ Sp ℤ) [Flat π] [LocallyOfFiniteType π] [QuasiCompact π], IsNormalScheme X → ∀ (Z P : Scheme.{0}) (s : X ⟶ Z) (t : P ⟶ Z) [IsProper t] (G : P.Opens) (U : X.Opens) (φ : U.toScheme ⟶ P), (U : Set X).Nonempty → φ ≫ t = U.ι ≫ s → (∀ σ : X, IsClosed ({σ} : Set X) → ∃ F : Set P, F.Finite ∧ F ⊆ G ∧ ∀ (p : ℕ) [Fact p.Prime] (a : Sp (OO p) ⟶ X) (a₀ : Sp (PadicAlgCl p) ⟶ U.toScheme) (b : Sp (OO p) ⟶ P), a (cPt p) = σ → a₀ ≫ U.ι = gPt p ≫ a → gPt p ≫ b = a₀ ≫ φ → b ≫ t = a ≫ s → b (cPt p) ∈ F) → ∃! Φ : X ⟶ G.toScheme, U.ι ≫ Φ ≫ G.ι = φ ∧ Φ ≫ G.ι ≫ t = s := by
+      ∀ (X : Scheme.{0}) [IsIntegral X] (π : X ⟶ Sp ℤ) [Flat π] [LocallyOfFiniteType π] [QuasiCompact π],
+      ReciprocityTheory.ChartRestriction.G.Geo.Tor.IsNormalScheme X → ∀ (Z P : Scheme.{0}) (s : X ⟶ Z) (t : P ⟶ Z) [IsProper t] (G : P.Opens) (U : X.Opens) (φ : U.toScheme ⟶ P), (U : Set X).Nonempty → φ ≫ t = U.ι ≫ s → (∀ σ : X, IsClosed ({σ} : Set X) → ∃ F : Set P, F.Finite ∧ F ⊆ G ∧ ∀ (p : ℕ) [Fact p.Prime] (a : Sp (OO p) ⟶ X) (a₀ : Sp (PadicAlgCl p) ⟶ U.toScheme) (b : Sp (OO p) ⟶ P), a (cPt p) = σ → a₀ ≫ U.ι = gPt p ≫ a → gPt p ≫ b = a₀ ≫ φ → b ≫ t = a ≫ s → b (cPt p) ∈ F) → ∃! Φ : X ⟶ G.toScheme, U.ι ≫ Φ ≫ G.ι = φ ∧ Φ ≫ G.ι ≫ t = s := by
     intro X _ π _ _ _ hX Z P s t _ G U φ hU hφ H
     have : IsLocallyNoetherian X := LocallyOfFiniteType.isLocallyNoetherian π
     have : Nonempty U.toScheme := hU.to_subtype

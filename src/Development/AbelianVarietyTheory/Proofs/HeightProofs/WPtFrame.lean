@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.DsigEq
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle030
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -33,14 +33,14 @@ import Mathlib.Tactic.NormNum.NatSqrt
 import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.FieldTies
+import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle010
 import Development.AbelianVarietyTheory.Definitions.HeightFunctions.GrowthConstantBoundGcR
-import Development.AbelianVarietyTheory.Definitions.HeightFunctions.IntUnit
+import Development.AbelianVarietyTheory.Definitions.HeightFunctions.Bundle001
 import Development.AbelianVarietyTheory.Definitions.HeightFunctions.RunsAlong
 import Development.AbelianVarietyTheory.Definitions.HeightFunctions.XiValIffXiAt
 import Formalism.SharpRestriction.Divisibility.AbelianOpenPart.AbelianAt
-import Formalism.SharpRestriction.GenusPolyhedralBounds.RelativeIndexClassSets.LevelsQDesc
-import Formalism.SharpRestriction.GenusPolyhedralBounds.RelativeIndexClassSets.QuotientParamNonneg
+import Formalism.SharpRestriction.GenusPolyhedralBounds.RelativeIndexClassSets.Bundle002
+import Formalism.SharpRestriction.GenusPolyhedralBounds.RelativeIndexClassSets.Bundle001
 
 @[expose] public section
 

@@ -1,7 +1,7 @@
 module
 
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.PartialDerivativeMinors.PMinorAff
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.MsMul
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle012
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

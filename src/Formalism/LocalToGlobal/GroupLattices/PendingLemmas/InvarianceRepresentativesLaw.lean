@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalToGlobal.GroupLattices.PendingLemmas.InvarianceRepresentativesTrivial
-public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.HkLatTupUpdate
+public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle021
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -2,8 +2,8 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.KerIsTerm
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.InvSmulMemOfRedL
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.TilLatticesOfLevel
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ClassSumPosHerm
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle115
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle168
 import Formalism.LocalToGlobal.Columns.PolyFnLemmas
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -50,7 +50,7 @@ noncomputable section
 namespace GlobalTheory.LvT.Built.RealM
 
 open NumberField IsDedekindDomain Matrix
-open Formalism.BasicNotions Formalism.L2.Col Formalism.L2.DIV Formalism.L2.Forms GlobalTheory.Mem.Col2 GlobalTheory.LvT.Pts
+open Formalism.BasicNotions _root_.Formalism.L2.Col Formalism.L2.DIV Formalism.L2.Forms GlobalTheory.Mem.Col2 GlobalTheory.LvT.Pts
 open Formalism.HermitianLatticesTheory (localization₂)
 
 def UG (E : Type) [Field E] [StarRing E] (n : ℕ) : Subgroup (GL (Fin n) E) where

@@ -2,7 +2,7 @@ module
 
 public import Formalism.LocalRingCardinality.SpanPowerMembership.Spaces
 public import Formalism.SharpRestriction.GlobalSchurBounds.StandardLattice
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.CardinalityOfBand
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle038
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.LatticeGeometry.ShimuraSheafOfIndefiniteSubspace
+public import Formalism.LocalToGlobal.LatticeGeometry.Bundle002
 public import Formalism.LocalToGlobal.LatticeGeometry.InhabLoc
 public import Formalism.LocalRingCardinality.SpanPowerMembership.PlLBridge
 public import Aesop.BuiltinRules

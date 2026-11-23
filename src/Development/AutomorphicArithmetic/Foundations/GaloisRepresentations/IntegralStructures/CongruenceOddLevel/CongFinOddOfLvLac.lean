@@ -1,7 +1,7 @@
 module
 
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.IntegralStructures.CongruenceOddLevel.NotApartOfOverPair
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.LinearIndependentSimulEigen
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle281
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.IntegralStructures.CongruenceOddLevel.ExistsEllType
 import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.IntegralStructures.CongruenceOddLevel.LacunaryBaseWeightAntitone
 import Mathlib.Algebra.Order.Floor.Extended

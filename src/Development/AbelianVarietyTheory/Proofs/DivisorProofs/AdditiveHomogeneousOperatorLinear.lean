@@ -1,6 +1,6 @@
 module
 
-import Development.WeilBound.ThetaLifts.FrameEstimates.FinBound
+import Development.WeilBound.ThetaLifts.FrameEstimates.Bundle005
 public import Development.AbelianVarietyTheory.Definitions.Divisors.HilbertNinetyQuotientHomEqIff
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsContinuousPadic
 public import Development.AbelianVarietyTheory.PublishedTheorems.GlobalTheta.PlaneFormNondegenerate

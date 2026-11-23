@@ -1,6 +1,6 @@
 module
 
-public import Formalism.ThetaLogCoordinates.JacobiPathWeights.CorA3primeB
+public import Formalism.ThetaLogCoordinates.JacobiPathWeights.Bundle004
 public import Formalism.ThetaLogCoordinates.JacobiPathWeights.JacobiMinorProofs.ExistsSuppOfEvalNe
 public import Mathlib.Algebra.MvPolynomial.Supported
 import Mathlib.Algebra.Order.Floor.Extended

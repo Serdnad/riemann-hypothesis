@@ -248,7 +248,7 @@ theorem exists_isTorusMeas (P : PPol σ r) : ∃ dta dtf dt, IsTorusMeas P dta d
   ⟨_, _, exists_isRestrictedProd (star' P) (one₁ P) (stdLattice (Fld P) 1)⟩
 
 def torVol (P : PPol σ r) (dt : Measure (Tor P (AF F))) : ENNReal :=
-  quotMeasure (ratPts (star' P) (one₁ P)) dt univ
+  _root_.GlobalTheory.AutomorphicL2Unitary.quotMeasure (ratPts (star' P) (one₁ P)) dt univ
 
 
 open Classical in

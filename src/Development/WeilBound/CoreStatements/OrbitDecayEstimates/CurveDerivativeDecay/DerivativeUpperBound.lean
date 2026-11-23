@@ -5,7 +5,7 @@ public import Development.WeilBound.CoreStatements.OrbitDecayEstimates.CurveDeri
 import Development.WeilBound.CoreStatements.OrbitDecayEstimates.CurveDerivativeDecay.HasDerivAtCurve
 public import Development.WeilBound.CoreStatements.OrbitDecayEstimates.CurveDerivativeDecay.KFiniteWordBoundIndefUnitary
 public import Development.WeilBound.CoreStatements.OrbitDecayEstimates.CurveDerivativeDecay.OrbitDeriv
-import Formalism.RealPlaceAnalysis.RealPlaceTaylor.ComplexificationHolds
+import Formalism.RealPlaceAnalysis.RealPlaceTaylor.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

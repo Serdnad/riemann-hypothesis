@@ -4,7 +4,7 @@ public import GroundTheory.GlobalFields.IdeleGroups.SIdeleGroups.Galois
 public import GroundTheory.ProfiniteCohomology.ContinuousCochains.Functoriality
 public import GroundTheory.ProfiniteCohomology.DiscreteModules.IsDiscreteRepIffForallExistsOpenNormalSubgroup
 public import Mathlib.FieldTheory.KrullTopology
-public import GroundTheory.ProfiniteCohomology.ColimitUnion
+public import GroundTheory.ProfiniteCohomology.Bundle008
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

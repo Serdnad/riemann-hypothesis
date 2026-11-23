@@ -3,7 +3,7 @@ module
 public import Formalism.FormalDegreeBessel.FormalDegreeRatio.GBasic
 public import Formalism.HermitianCurvature.FiniteOrderIntersectionInSmooth
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.FlagSpanVanishing
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.MajorantEstimate
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle042
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -47,7 +47,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.HermitianXiVector
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle059
 
 @[expose] public section
 

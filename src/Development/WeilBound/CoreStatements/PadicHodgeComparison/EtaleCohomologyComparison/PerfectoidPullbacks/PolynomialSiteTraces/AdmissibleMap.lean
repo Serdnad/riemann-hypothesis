@@ -126,7 +126,7 @@ theorem le_ext {B : Type} [CommRing B] (J : Ideal B) : J ≤ ((pq B).ext J).coma
 
 def polyT (T : Thick (nlFun γ p X q κ)) (hp : p ≠ 0) : Thick (nlFun γ p X q κ) :=
   ofMap T (algebraMap T.B (pq T.B).P) ((pq T.B).ext T.J) (eta T.δ) (le_ext T.J) (eta_std T.δ).dp
-    ⟨fun h => by simpa using (T.adm.1 h).map (algebraMap T.B (pq T.B).P), fun h => absurd h hp⟩
+    ⟨(admissible_map T (algebraMap T.B (pq T.B).P)).1, fun h => absurd h hp⟩
 
 def polyJ (T : Thick (nlFun γ p X q κ)) (hp : p ≠ 0) : T ⟶ polyT T hp := homOf _ _ _ _ _ _ _
 

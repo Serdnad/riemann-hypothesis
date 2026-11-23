@@ -1,8 +1,8 @@
 module
 
-public import Formalism.LocalToGlobal.HermitianForms.FramesLemmas
+public import Formalism.LocalToGlobal.HermitianForms.Bundle001
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.TopLevExists
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.RieszEigenvectorSesquilinearFunctionSpace
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle081
 import Formalism.GradedWeylDivisibility.DualWeylDominanceOf
 import Formalism.LocalToGlobal.Columns.PolyFnLemmas
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.ColDictValCPf

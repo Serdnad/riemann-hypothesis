@@ -3,11 +3,10 @@ module
 public import GroundTheory.GlobalFields.HerbrandQuotients.CycTate
 public import GroundTheory.GlobalFields.CompletionAtPlace.Galois
 public import GroundTheory.GlobalFields.CompletionAtPlace
-public import GroundTheory.LocalFields.UnitsGalois
-public import GroundTheory.LocalFields.UnramifiedDefs
+public import GroundTheory.LocalFields.Bundle004
+public import GroundTheory.LocalFields.Bundle003
 import GroundTheory.GlobalFields.CompletionAtPlace.Integers
-public import GroundTheory.LocalFields.HerbrandCyclic
-public import GroundTheory.LocalFields.HerbrandLocal
+public import GroundTheory.LocalFields.Bundle007
 public import GroundTheory.LocalFields.UnramifiedNorms
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,9 +1,7 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsPowerBlockMeasure
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsPowerBlockPointNorm
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsPowerBlockOldPartSurj
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsPrimeZariskiDense
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle079
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle010
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -384,9 +382,9 @@ theorem PowerBlockMeasure.proof (hPN : PowerBlockPointNorm.Statement) (hOS : Pow
         · simp
       have hB' : B.h (fun p => c p.1 * z' p) = ‖c none‖ * B.h z' := by
         rw [B.smul c z' hc, hBa, Finset.prod_eq_single (none : Option K)]
-        · simp [unitDeg]
+        · simp [ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.unitDeg]
         · intro k _ hk
-          simp [unitDeg, hk]
+          simp [ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.unitDeg, hk]
         · simp
       have hcn : ‖c none‖ ^ q ≠ 0 := pow_ne_zero _ (norm_ne_zero_iff.2 (hc none))
       simp only [hΦdef, hF', hB', norm_mul, norm_pow, mul_pow]

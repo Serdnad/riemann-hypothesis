@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.StabilizerCovolume.RecordEigenInputs
+public import GroundTheory.HeightsAndTheta.Heights.StabilizerCovolume.Bundle001
 import Mathlib.Algebra.AffineMonoid.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

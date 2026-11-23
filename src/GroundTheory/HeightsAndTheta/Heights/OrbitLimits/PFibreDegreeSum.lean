@@ -1,13 +1,13 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.StatementsDegreeFibre
-public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.AssemblyCN
-public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.PConservationOfNumberLE
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle004
+public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Bundle023
+public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Bundle006
 public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.PIntNumBaseChange
 public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.GeoNum
-import GroundTheory.HeightsAndTheta.Heights.HeightComparison.IsMultiHomogIdealIff
+import GroundTheory.HeightsAndTheta.Heights.HeightComparison.Bundle003
 public import GroundTheory.HeightsAndTheta.Heights.WeightedHomogeneous.Assembly
-public import GroundTheory.HeightsAndTheta.Heights.WeightedHomogeneous.WeightedHomogeneousComponentMap
+public import GroundTheory.HeightsAndTheta.Heights.WeightedHomogeneous.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,27 +1,25 @@
 module
 
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.HaarTransversals.UnitaryHaarProducts.SettingBlocks
-public import Formalism.PeriodIntegrals.ScPsiExists
-public import Formalism.PeriodIntegrals.ScMuExists
+public import Formalism.PeriodIntegrals.Bundle023
 public import Formalism.SharpRestriction.CuspSpanNormBounds.DiscreteSeriesWeylDimension
-public import Formalism.PeriodIntegrals.ScPiExists
-public import Formalism.PeriodIntegrals.ScXuExists
-public import Formalism.SharpRestriction.CuspSpanNormBounds.BridgeLitG
-public import Formalism.LocalRingCardinality.IntCastDvdOfDvdIntegers
+public import Formalism.PeriodIntegrals.Bundle024
+public import Formalism.PeriodIntegrals.Bundle025
+public import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle017
+public import Formalism.LocalRingCardinality.Bundle003
 public import Formalism.LocalRingCardinality.RankBoundMonotoneInDimension
-public import Formalism.LocalToGlobal.SiegelLatticeTheory.BesselDiscreteSeries.BesselNVGapPf
+public import Formalism.LocalToGlobal.SiegelLatticeTheory.BesselDiscreteSeries.Bundle001
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.HaarTransversals.UnitaryHaarProducts.BunExists
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.HaarTransversals.UnitaryHaarProducts.LocalWeightCharts.ScWlocExists
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.HaarTransversals.UnitaryHaarProducts.SplitPrimeCounts.LsSetresInt
 import Formalism.LocalToGlobal.SiegelLatticeTheory.HaarTransversals.UnitaryHaarProducts.SplitPrimeCounts.LsSetresSplit
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.ScMuExists
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.ScPiBuild
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.ScPiFrame
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.ScPsiExists
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.ScRefExists
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle020
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle018
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle019
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle016
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle022
 public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.ScXuExists
-public import Formalism.SharpRestriction.CuspSpanNormBounds.BridgeHW
-public import Formalism.SharpRestriction.CuspSpanNormBounds.HCFiniteKMultiplicityGapped
+public import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle018
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -59,7 +57,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import Formalism.LocalToGlobal.SiegelLatticeTheory.HaarTransversals.UnitaryHaarProducts.HCReprodM
+public import Formalism.LocalToGlobal.SiegelLatticeTheory.HaarTransversals.UnitaryHaarProducts.Bundle007
 
 @[expose] public section
 

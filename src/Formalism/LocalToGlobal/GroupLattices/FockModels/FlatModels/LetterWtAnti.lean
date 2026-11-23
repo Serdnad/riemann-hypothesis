@@ -2,7 +2,7 @@ module
 
 public import Formalism.LocalToGlobal.GroupLattices.FockModels.FlatModels.LaTwTranspose
 public import Formalism.SharpRestriction.GrowthBounds.ColumnSystems
-public import Formalism.LocalToGlobal.GroupLattices.FockModels.EdgePlane
+public import Formalism.LocalToGlobal.GroupLattices.FockModels.Bundle001
 import Formalism.LocalToGlobal.GroupLattices.FockModels.ElementaryDivisorBasis
 public import Formalism.LocalToGlobal.GroupLattices.FockModels.FlatModels.EdgeLatOfG
 import Mathlib.Algebra.Order.Floor.Extended

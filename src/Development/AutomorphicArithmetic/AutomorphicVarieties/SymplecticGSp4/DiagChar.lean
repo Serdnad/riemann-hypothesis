@@ -1,15 +1,14 @@
 module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.DecompSigmaOrd
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.Places
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.Bundle006
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.SplAdjUnit
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PlacesOfRationals.Minkowski
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PlacesOfRationals.PlacesQ
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.EptInt
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.GeAlgTop
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Bundle016
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Bundle003
 import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.LMemMax
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.PtInSmul
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.NormLeOneOfIsIntegral
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle062
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -56,9 +55,12 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Algebra.ClopenNhdofOne
 import Mathlib.Topology.Connected.Separation
 import Mathlib.Topology.MetricSpace.Ultra.TotallySeparated
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.IsFirstOrderDeformationOfRZero
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.Bundle017
 
 @[expose] public section
+
+local instance (priority := 2000) ratFieldIsTorsionFreeForSymplecticGSp4DiagChar (Ω : Type) [Field Ω] [Algebra ℚ Ω] :
+    Module.IsTorsionFree ℚ Ω := DivisionSemiring.to_moduleIsTorsionFree
 
 open NumberField IsDedekindDomain Formalism.ConjugateSelfDual ReciprocityTheory.Gal IsLocalRing UpperTheory.V UpperTheory.V.Base UpperTheory.V.Alg UpperTheory.V.HV UpperTheory.V.GradeZeroInterpolatingElement
 
@@ -147,6 +149,7 @@ private theorem open_ker {Ω K : Type} [Field Ω] [CharZero Ω] [IsAlgClosure �
     exact this
   have hfin : Finite δ.range := by
     haveI : NeZero N := ⟨hN⟩
+    haveI : Finite (rootsOfUnity N K) := instFiniteSubtypeUnitsMemSubgroupRootsOfUnity K (k := N)
     have hle : δ.range ≤ rootsOfUnity N K := by
       rintro _ ⟨g, rfl⟩
       exact htop g
@@ -165,12 +168,13 @@ private theorem norm_le_one_of_int (l : ℕ) [Fact l.Prime] (x : PadicAlgCl l) (
 
 private theorem residue_eq {l : ℕ} [Fact l.Prime] (c : Coef l) (a b : c.O) (h : ‖(a : PadicAlgCl l) - b‖ < 1) :
     residue c.O a = residue c.O b := by
+  have : Module.Finite ℤ_[l] c.O := c.fin
   rw [← sub_eq_zero, ← map_sub, residue_eq_zero_iff, mem_maximalIdeal, mem_nonunits_iff]
   rintro ⟨u, hu⟩
   have h1 : ‖((u : c.O) : PadicAlgCl l)‖ * ‖((u⁻¹ : c.Oˣ) : c.O).1‖ = 1 := by
     rw [← norm_mul, ← Subalgebra.coe_mul, Units.mul_inv]; simp
   have h3 : ‖((u⁻¹ : c.Oˣ) : c.O).1‖ ≤ 1 :=
-    norm_le_one_of_int l _ ((Algebra.IsIntegral.isIntegral (R := ℤ_[l]) _).map c.O.val)
+    norm_le_one_of_int l _ ((IsIntegral.of_finite ℤ_[l] _).map c.O.val)
   have h2 : ‖((u : c.O) : PadicAlgCl l)‖ < 1 := by rw [hu]; exact h
   have h4 := norm_nonneg ((u : c.O) : PadicAlgCl l)
   nlinarith

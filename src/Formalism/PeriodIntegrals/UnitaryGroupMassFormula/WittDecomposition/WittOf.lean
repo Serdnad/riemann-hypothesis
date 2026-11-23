@@ -1,9 +1,9 @@
 module
 
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.WittDecomposition.Anisotropic
-public import Formalism.PeriodIntegrals.WittExtension
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.WittDecomposition.Bundle001
+public import Formalism.PeriodIntegrals.Bundle001
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.WittDecomposition.EnlargeStep
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.WittDecomposition.Nondeg
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.WittDecomposition.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -2,7 +2,7 @@ module
 
 public import GroundTheory.AutomorphicForms.GKModules.Casimir
 public import Mathlib.Analysis.Calculus.IteratedDeriv.Defs
-public import GroundTheory.AutomorphicForms.ArchimedeanWhittaker.Density
+public import GroundTheory.AutomorphicForms.ArchimedeanWhittaker.Bundle001
 public import GroundTheory.AutomorphicForms.HarishChandraRegularity
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

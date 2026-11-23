@@ -1,7 +1,7 @@
 module
 
-public import Formalism.SharpRestriction.Divisibility.HookProducts.RBTieFrame
-public import Formalism.HarderNarasimhan.QuotRealize
+public import Formalism.SharpRestriction.Divisibility.HookProducts.Bundle001
+public import Formalism.HarderNarasimhan.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

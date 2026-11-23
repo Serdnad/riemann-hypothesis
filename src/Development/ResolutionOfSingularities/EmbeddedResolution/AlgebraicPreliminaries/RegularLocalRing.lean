@@ -1,7 +1,7 @@
 module
 
 public import Mathlib.RingTheory.RegularLocalRing.Defs
-public import Development.ResolutionOfSingularities.EmbeddedResolution.AlgebraicPreliminaries.SpanSingletonProduct
+public import Development.ResolutionOfSingularities.EmbeddedResolution.AlgebraicPreliminaries.Bundle002
 public import Mathlib.Algebra.Module.SpanRankOperations
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended

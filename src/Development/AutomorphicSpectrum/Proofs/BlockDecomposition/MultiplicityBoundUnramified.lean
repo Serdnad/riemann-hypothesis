@@ -1,8 +1,8 @@
 module
 
-public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.UnramifiedWhittaker.CProps
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CardHermitianMatricesModPow
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.UnramifiedQuotientCardStatement
+public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.UnramifiedWhittaker.Bundle002
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle090
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle065
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

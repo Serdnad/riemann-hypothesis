@@ -1,12 +1,12 @@
 module
 
-public import Formalism.LocalToGlobal.ProjectiveLattices.LiesOverBaseChange
-public import Formalism.LocalToGlobal.ProjectiveLattices.NonnegIffOfLiesTotal
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle025
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle028
 public import Development.AbelianVarietyTheory.Proofs.TorusSplitting.DegenerationDataAtModelPointOfUniformisation
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsEmbeddingCompleteAlgClosedFixedCarrierStatement
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsFramedPointBaseChangeAlgebraMap
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FramedPointEigenbasisBaseChange
-import Formalism.LocalToGlobal.ProjectiveLattices.ExtPtUnique
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle043
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle068
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle047
+import Formalism.LocalToGlobal.ProjectiveLattices.Bundle010
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -44,7 +44,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.AbProj
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle007
 import Formalism.LocalToGlobal.BesselHermitianTheta.NoncompactGapAtLeastRange
 import Formalism.SharpRestriction.Divisibility.AbelianOpenPart.AbelianAt
 

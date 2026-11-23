@@ -5,7 +5,7 @@ public import Mathlib.Combinatorics.Quiver.ReflQuiver
 public import Mathlib.RingTheory.RegularLocalRing.Defs
 public import Development.ResolutionOfSingularities.EmbeddedResolution.AlgebraicPreliminaries.RegularLocalRing
 public import Development.ResolutionOfSingularities.EmbeddedResolution.EtaleCoordinates.EtaleChartExistence
-import Development.ResolutionOfSingularities.Foundations.Schemes.AffineOpens
+import Development.ResolutionOfSingularities.Foundations.Schemes.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

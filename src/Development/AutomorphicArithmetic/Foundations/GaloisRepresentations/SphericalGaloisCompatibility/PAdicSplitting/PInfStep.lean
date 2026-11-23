@@ -2,7 +2,7 @@ module
 
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalGaloisCompatibility.PAdicSplitting.InfLifts
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.RegularSemisimpleFibres.ResEmbCompat
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.FiniteOrderTwists
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle288
 public import Development.AutomorphicArithmetic.Foundations.Convolution.Cbcc
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.LocalGlobalCompatibility.TemperedLocalGlobal.WeilGroupRestriction.NotRealComplex
 import Mathlib.Algebra.Order.Floor.Extended

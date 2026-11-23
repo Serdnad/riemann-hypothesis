@@ -2,7 +2,7 @@ module
 
 public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.MemColRangeOfLeEntry
 public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.NegDminusLeMu
-public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.PsiCutSupported
+public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.Bundle013
 import Formalism.SharpRestriction.GrowthBounds.ValuationLowestDegreeMapFractionField
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

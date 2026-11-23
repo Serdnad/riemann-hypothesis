@@ -1,9 +1,9 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ResAlgSplitTwo
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CardFibreGramDifferential
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ResidueAlgebraUnramified
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.UnramifiedQuotientCard
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle032
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle109
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle068
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle033
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

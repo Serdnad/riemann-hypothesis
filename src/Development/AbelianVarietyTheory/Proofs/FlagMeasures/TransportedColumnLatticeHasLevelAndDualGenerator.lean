@@ -1,11 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.LevelMatchIff
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.FrLink
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HermitianDualVectorNormInvNotMemLocalStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.MiddleLatticeSelfDualAnisotropicPairingStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.OrthogonalHyperbolicFrameAnisotropicMemSpanTransStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.UnitaryDatumLevelPrimeSplitDegreeGramFactsStatement
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle016
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle179
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle343
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle369
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle338
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

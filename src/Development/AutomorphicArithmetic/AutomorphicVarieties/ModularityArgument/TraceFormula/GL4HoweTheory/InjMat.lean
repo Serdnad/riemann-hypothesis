@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.NotIsGenericDetRepTwo
+public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.Bundle002
 public import Mathlib.Algebra.Module.Lattice.Full
 import Mathlib.Algebra.GroupWithZero.Submonoid.CancelMulZero
 import Mathlib.Algebra.Order.Floor.Extended

@@ -1,6 +1,6 @@
 module
 
-public import Formalism.ThetaLogCoordinates.JacobiPathWeights.StatementE
+public import Formalism.ThetaLogCoordinates.JacobiPathWeights.Bundle002
 public import Mathlib.CategoryTheory.Category.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

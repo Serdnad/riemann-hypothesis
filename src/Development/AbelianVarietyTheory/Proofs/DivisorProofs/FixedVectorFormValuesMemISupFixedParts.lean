@@ -1,13 +1,13 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.ContinuousMapPFin
-public import Development.AbelianVarietyTheory.Definitions.Divisors.IsUnifAt
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsIrreducibleSubrepFixedOfUnitary
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsInvariantPositivePeterssonFormStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.AutomorphicRepDualPairing
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.DefiniteUnitaryFinitePointsExistsOpenCompactStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsIrreducibleEquivariantProjection
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsAutRepUSpanValues
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle047
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle053
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1871
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle408
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle407
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle068
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle406
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -43,7 +43,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FinrankWsp
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1624
 
 @[expose] public section
 

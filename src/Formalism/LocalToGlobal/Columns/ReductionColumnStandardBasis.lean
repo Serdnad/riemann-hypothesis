@@ -5,8 +5,7 @@ public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.UnfoldingEquival
 public import Formalism.LocalToGlobal.Columns.BlockTriangularMulVecMemPartialFlag
 import Formalism.LocalToGlobal.Columns.ChainInst
 public import Formalism.LocalToGlobal.Columns.FirstUnfoldingEqZeroOfNotIntegral
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.UnfoldingEquivalence.CompSymmComp
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.UnfoldingEquivalence.Points
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.UnfoldingEquivalence.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

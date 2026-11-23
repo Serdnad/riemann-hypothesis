@@ -4,7 +4,7 @@ public import Formalism.SharpRestriction.CuspSpanNormBounds.StandingHypothesesHo
 public import Formalism.LocalToGlobal.GlobalTheory.GL2.Statement
 public import Formalism.LocalToGlobal.GlobalTheory.GL2.ModEqOfNormOneMod
 public import Formalism.SharpRestriction.AdmissibleParameterJoins.SfromGLt
-public import Formalism.SharpRestriction.GlobalSchurBounds.GlobalRankLatticeProofs.RamificationTwoAndConjugationAtQAndD
+public import Formalism.SharpRestriction.GlobalSchurBounds.GlobalRankLatticeProofs.Bundle002
 public import Formalism.SharpRestriction.SmoothDesignExistence.DGamSmooth
 import Mathlib.Algebra.AffineMonoid.Basic
 import Mathlib.Algebra.Order.Floor.Extended

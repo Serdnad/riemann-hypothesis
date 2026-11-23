@@ -1,8 +1,8 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NormSubLtOneOfFix
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.AdmSt
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsLiftsOfNormLeOne
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle011
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle521
 public import Formalism.SharpRestriction.LevelLetterCocycles.ProdOneSubPrimitiveRoots
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

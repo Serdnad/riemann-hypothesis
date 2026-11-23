@@ -1,9 +1,9 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ExistsPowSubMemSpanOfIsUnitModOfIsAlgClosed
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle004
 public import Mathlib.Order.CompletePartialOrder
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ComplexPointConjugateStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ComplexPointExistsUniqueEmbeddingStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle056
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle121
 public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PCoordConeArithVar
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

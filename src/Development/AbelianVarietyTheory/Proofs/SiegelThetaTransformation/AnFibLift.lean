@@ -1,12 +1,12 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.IsStabForm
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.VerticalDerivativeInCoordinates
-public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.ExistsLiftOfProjective
-import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.HermitianFormAtFrameLaws
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle072
+public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle044
+import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle036
 import Development.AbelianVarietyTheory.Proofs.ToricGeometry.TopLePreimageOfValAtNeZero
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.IsDerivAt0OfIsPullback
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.IsHolToFibPtAndCompFibre
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle038
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -333,10 +333,10 @@ theorem anFib_lift : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H :
   refine ⟨A₂, fun θ hθ j z pt hp1 hp2 hj => ?_, ?_⟩
   · obtain ⟨a, ha⟩ := hch z
     have hp1' : pt ≫ (snd (Over.mk y₂.x) d.Xo₂.univ.t.G).left = (ex z).left := hp1
-    have hq1 : (pt ≫ pm) ≫ gxFst y.x = (A.ex z).left := by
-      rw [Category.assoc, gxFst, pm1, ← Category.assoc, hp1', hex]
-    have hq2 : (pt ≫ pm) ≫ gxSnd y.x = 𝟙 _ := by
-      rw [Category.assoc, gxSnd, pm2]
+    have hq1 : (pt ≫ pm) ≫ _root_.Formalism.L2.PjFree.gxFst y.x = (A.ex z).left := by
+      rw [Category.assoc, _root_.Formalism.L2.PjFree.gxFst, pm1, ← Category.assoc, hp1', hex]
+    have hq2 : (pt ≫ pm) ≫ _root_.Formalism.L2.PjFree.gxSnd y.x = 𝟙 _ := by
+      rw [Category.assoc, _root_.Formalism.L2.PjFree.gxSnd, pm2]
       exact hp2
     have h1 := hθ a z (pt ≫ pm) hq1 hq2 (hex z ▸ ha)
     have h2 := val_secMaps w _ y₂.s t hst pt a j (hp1' ▸ ha) (hp1' ▸ hj)

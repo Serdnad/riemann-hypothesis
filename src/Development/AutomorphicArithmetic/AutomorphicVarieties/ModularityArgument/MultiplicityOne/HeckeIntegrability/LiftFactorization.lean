@@ -35,7 +35,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AbelianVarietyTheory.Definitions.Divisors.Tpr
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle023
 
 @[expose] public section
 

@@ -43,7 +43,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.ManyEdges
+import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.Bundle001
 
 @[expose] public section
 

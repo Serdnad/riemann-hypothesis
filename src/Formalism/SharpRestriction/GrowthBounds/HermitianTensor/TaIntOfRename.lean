@@ -1,7 +1,7 @@
 module
 
 public import Formalism.GradedWeylDivisibility.StatementD
-public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.DeltaPsiH
+public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.Bundle002
 public import Mathlib.RingTheory.DiscreteValuationRing.Basic
 public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.ShapeCovering.CovDet
 public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.TieDefs

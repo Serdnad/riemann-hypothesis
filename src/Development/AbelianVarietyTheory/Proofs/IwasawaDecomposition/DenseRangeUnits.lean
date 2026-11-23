@@ -1,10 +1,10 @@
 module
 
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.ExistsUniqueHcharOfFiniteOrder
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsForallAbvSubLt
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IdeleCharacterTrivialOnLocalUnits
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsProdUnifMulUnitIdl
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HeckeCharacterUnramifiedAeAndExistsLevel
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle005
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle093
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle090
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle118
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -182,9 +182,9 @@ variable {B : Type} [CommGroup B] [TopologicalSpace B] [T2Space B]
 
 
 open GlobalTheory.Mem.LocTriv GlobalTheory.Mem.Chr GlobalTheory.Mem.Chr.IdlFact in
-theorem eq_one_of_local (ψ : Ideles E →* B) (hψ : Continuous ψ) (a : Ideles E)
-    (h1 : (a : AdeleRing (𝓞 E) E).1 = 1) (hl : ∀ v, ψ (localIdele E v (Units.map (ev v) a)) = 1) : ψ a = 1 := by
-  have hp : ∀ (c : Ideles E) T, (∀ v, ψ (localIdele E v (Units.map (ev v) c)) = 1) → ψ (part c T) = 1 :=
+theorem eq_one_of_local (ψ : Neutral.B1.Ideles E →* B) (hψ : Continuous ψ) (a : Neutral.B1.Ideles E)
+    (h1 : (a : AdeleRing (𝓞 E) E).1 = 1) (hl : ∀ v, ψ (Neutral.B1.localIdele E v (Units.map (ev v) a)) = 1) : ψ a = 1 := by
+  have hp : ∀ (c : Neutral.B1.Ideles E) T, (∀ v, ψ (Neutral.B1.localIdele E v (Units.map (ev v) c)) = 1) → ψ (part c T) = 1 :=
     fun c T hc => by
       rw [part, map_prod]
       exact Finset.prod_eq_one fun v _ => hc v
@@ -206,7 +206,7 @@ theorem eq_one_of_local (ψ : Ideles E →* B) (hψ : Continuous ψ) (a : Ideles
   have hbi : (b : AdeleRing (𝓞 E) E).1 = 1 := by
     show (part a⁻¹ T : AdeleRing (𝓞 E) E).1 * (a : AdeleRing (𝓞 E) E).1 = 1
     rw [part_fst, h1, one_mul]
-  have hbl : ∀ v, ψ (localIdele E v (Units.map (ev v) b)) = 1 := fun v => by
+  have hbl : ∀ v, ψ (Neutral.B1.localIdele E v (Units.map (ev v) b)) = 1 := fun v => by
     by_cases hv : v ∈ T
     · rw [show Units.map (ev v) b = 1 from Units.ext (hb1 v hv), map_one, map_one]
     · rw [show Units.map (ev v) b = Units.map (ev v) a from Units.ext (hb2 v hv), hl]

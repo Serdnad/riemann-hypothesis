@@ -2,12 +2,12 @@ module
 
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.PerfectoidPullbacks.ConeSectionRestriction.ZeroC
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.PerfectoidPullbacks.GlobalSerreRelations.GlobSerreSt
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.RepUnique
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle173
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CupListRepresentativeOfForms
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsLocalFrameOfCoords
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LocalGradedClassRepresentative
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SheafFiltrationProperty
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.StCocycle
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle182
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle351
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle145
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle158
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

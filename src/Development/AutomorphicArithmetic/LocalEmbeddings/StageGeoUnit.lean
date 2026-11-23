@@ -2,7 +2,7 @@ module
 
 public import Development.AutomorphicArithmetic.LocalEmbeddings.StageGeoDefs
 public import Development.AbelianVarietyTheory.Statements.PlaceShiftStatements.NormSmall
-public import Development.AutomorphicArithmetic.CyclotomicBounds.RamifiedDiscriminants.FunKit
+public import Development.AutomorphicArithmetic.CyclotomicBounds.RamifiedDiscriminants.Bundle001
 public import Development.AutomorphicArithmetic.CyclotomicBounds.RamifiedDiscriminants.OffSmall
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

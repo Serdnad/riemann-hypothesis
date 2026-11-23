@@ -1,7 +1,7 @@
 module
 
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ArchimedeanOrbitMeasures.ExpCut
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ArchimedeanOrbitMeasures.GoodChartExOfStd
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ArchimedeanOrbitMeasures.Bundle019
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ArchimedeanOrbitMeasures.PsiSmoothHolds
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -56,10 +56,10 @@ attribute [local instance] Matrix.linftyOpNormedAddCommGroup Matrix.linftyOpNorm
   Matrix.linftyOpNormedAlgebra
 
 def LieSkewU : Prop := ∀ (n : ℕ) (ε : Fin n → Bool) (x : EuclideanSpace ℝ (Fin n × Fin n × Bool)), x ∈ gLie ε →
-    (unrealify x)ᴴ * Formalism.REAL.Jm ε + Formalism.REAL.Jm ε * unrealify x = 0
+    (_root_.Formalism.MainNotions.S.unrealify x)ᴴ * Formalism.REAL.Jm ε + Formalism.REAL.Jm ε * _root_.Formalism.MainNotions.S.unrealify x = 0
 
 def SkewLieU : Prop := ∀ (n : ℕ) (ε : Fin n → Bool) (X : Matrix (Fin n) (Fin n) ℂ),
-    Xᴴ * Formalism.REAL.Jm ε + Formalism.REAL.Jm ε * X = 0 → (WithLp.equiv 2 _).symm (realifyFun X) ∈ gLie ε
+    Xᴴ * Formalism.REAL.Jm ε + Formalism.REAL.Jm ε * X = 0 → (WithLp.equiv 2 _).symm (_root_.Formalism.MainNotions.S.realifyFun X) ∈ gLie ε
 
 def CaySkewU : Prop := ∀ (n : ℕ) (ε : Fin n → Bool) (M : Matrix (Fin n) (Fin n) ℂ), Formalism.REAL.inUJ ε M → IsUnit (M + 1) →
     ((2 : ℂ) • ((M - 1) * (M + 1)⁻¹))ᴴ * Formalism.REAL.Jm ε + Formalism.REAL.Jm ε * ((2 : ℂ) • ((M - 1) * (M + 1)⁻¹)) = 0
@@ -67,7 +67,7 @@ def CaySkewU : Prop := ∀ (n : ℕ) (ε : Fin n → Bool) (M : Matrix (Fin n) (
 def CayIdU : Prop := ∀ (n : ℕ) (M : Matrix (Fin n) (Fin n) ℂ), IsUnit (M + 1) →
     (2 + (2 : ℂ) • ((M - 1) * (M + 1)⁻¹)) * (2 - (2 : ℂ) • ((M - 1) * (M + 1)⁻¹))⁻¹ = M
 
-theorem unr_re {n : ℕ} (X : Matrix (Fin n) (Fin n) ℂ) : unrealify ((WithLp.equiv 2 _).symm (realifyFun X)) = X := by
+theorem unr_re {n : ℕ} (X : Matrix (Fin n) (Fin n) ℂ) : _root_.Formalism.MainNotions.S.unrealify ((WithLp.equiv 2 _).symm (_root_.Formalism.MainNotions.S.realifyFun X)) = X := by
   exact Formalism.MainNotions.S.Gauge.unrealify_realify X
 
 theorem inUJ_mul {n : ℕ} (ε : Fin n → Bool) {A B : Matrix (Fin n) (Fin n) ℂ} (hA : Formalism.REAL.inUJ ε A)
@@ -79,9 +79,9 @@ theorem inUJ_mul {n : ℕ} (ε : Fin n → Bool) {A B : Matrix (Fin n) (Fin n) �
     _ = Formalism.REAL.Jm ε := by rw [hA, hB]
 
 theorem expR_val {n : ℕ} (ε : Fin n → Bool) (x : EuclideanSpace ℝ (Fin n × Fin n × Bool))
-    (hx : (unrealify x)ᴴ * Formalism.REAL.Jm ε + Formalism.REAL.Jm ε * unrealify x = 0) :
+    (hx : (_root_.Formalism.MainNotions.S.unrealify x)ᴴ * Formalism.REAL.Jm ε + Formalism.REAL.Jm ε * _root_.Formalism.MainNotions.S.unrealify x = 0) :
     (((expR ε x : Formalism.REAL.UJ ε) : (Matrix (Fin n) (Fin n) ℂ)ˣ) : Matrix (Fin n) (Fin n) ℂ) =
-      NormedSpace.exp (unrealify x) := by
+      NormedSpace.exp (_root_.Formalism.MainNotions.S.unrealify x) := by
   unfold expR
   rw [dite_eq_left (inUJ_exp ε _ hx)]
   rfl
@@ -89,9 +89,9 @@ theorem expR_val {n : ℕ} (ε : Fin n → Bool) (x : EuclideanSpace ℝ (Fin n 
 theorem psiInv_of (hL : LieSkewU) (hS : SkewLieU) (hC : CaySkewU) (hI : CayIdU) : PsiInvU := by
   intro n ε m h hmh horth ι η _ _ L₀ L₁
   set Mf : EuclideanSpace ℝ ι × EuclideanSpace ℝ η → Matrix (Fin n) (Fin n) ℂ := fun p =>
-    NormedSpace.exp (unrealify (L₀ p.1 : EuclideanSpace ℝ (Fin n × Fin n × Bool))) *
-      NormedSpace.exp (unrealify (L₁ p.2 : EuclideanSpace ℝ (Fin n × Fin n × Bool))) with hMf
-  have hcu : Continuous (unrealify : EuclideanSpace ℝ (Fin n × Fin n × Bool) → Matrix (Fin n) (Fin n) ℂ) :=
+    NormedSpace.exp (_root_.Formalism.MainNotions.S.unrealify (L₀ p.1 : EuclideanSpace ℝ (Fin n × Fin n × Bool))) *
+      NormedSpace.exp (_root_.Formalism.MainNotions.S.unrealify (L₁ p.2 : EuclideanSpace ℝ (Fin n × Fin n × Bool))) with hMf
+  have hcu : Continuous (_root_.Formalism.MainNotions.S.unrealify : EuclideanSpace ℝ (Fin n × Fin n × Bool) → Matrix (Fin n) (Fin n) ℂ) :=
     (unrLin n).continuous_of_finiteDimensional
   have hMc : Continuous Mf := by
     refine Continuous.mul ?_ ?_
@@ -106,8 +106,8 @@ theorem psiInv_of (hL : LieSkewU) (hS : SkewLieU) (hC : CaySkewU) (hI : CayIdU) 
     exact hc.continuousAt.eventually_ne h0
   filter_upwards [hdet] with p hp
   have hu : IsUnit (Mf p + 1) := (Matrix.isUnit_iff_isUnit_det _).2 (isUnit_iff_ne_zero.2 hp)
-  set a := unrealify (L₀ p.1 : EuclideanSpace ℝ (Fin n × Fin n × Bool)) with ha_def
-  set b := unrealify (L₁ p.2 : EuclideanSpace ℝ (Fin n × Fin n × Bool)) with hb_def
+  set a := _root_.Formalism.MainNotions.S.unrealify (L₀ p.1 : EuclideanSpace ℝ (Fin n × Fin n × Bool)) with ha_def
+  set b := _root_.Formalism.MainNotions.S.unrealify (L₁ p.2 : EuclideanSpace ℝ (Fin n × Fin n × Bool)) with hb_def
   have hma : (L₀ p.1 : EuclideanSpace ℝ (Fin n × Fin n × Bool)) ∈ gLie ε := by
     rw [← hmh]; exact Submodule.mem_sup_left (L₀ p.1).2
   have hmb : (L₁ p.2 : EuclideanSpace ℝ (Fin n × Fin n × Bool)) ∈ gLie ε := by
@@ -117,16 +117,16 @@ theorem psiInv_of (hL : LieSkewU) (hS : SkewLieU) (hC : CaySkewU) (hI : CayIdU) 
   have hMU : Formalism.REAL.inUJ ε (Mf p) := inUJ_mul ε (inUJ_exp ε a ha) (inUJ_exp ε b hb)
   set X := (2 : ℂ) • ((Mf p - 1) * (Mf p + 1)⁻¹) with hX
   have hXs := hC n ε (Mf p) hMU hu
-  have hv : (WithLp.equiv 2 _).symm (realifyFun X) ∈ m ⊔ h := by rw [hmh]; exact hS n ε X hXs
+  have hv : (WithLp.equiv 2 _).symm (_root_.Formalism.MainNotions.S.realifyFun X) ∈ m ⊔ h := by rw [hmh]; exact hS n ε X hXs
 
   have hrec : (L₀ (psiE ε m h L₀ L₁ p).1 : EuclideanSpace ℝ (Fin n × Fin n × Bool)) +
-      (L₁ (psiE ε m h L₀ L₁ p).2 : EuclideanSpace ℝ (Fin n × Fin n × Bool)) = (WithLp.equiv 2 _).symm (realifyFun X) := by
+      (L₁ (psiE ε m h L₀ L₁ p).2 : EuclideanSpace ℝ (Fin n × Fin n × Bool)) = (WithLp.equiv 2 _).symm (_root_.Formalism.MainNotions.S.realifyFun X) := by
     obtain ⟨u, hu', w, hw, huw⟩ := Submodule.mem_sup.1 hv
     have h1 : w ∈ mᗮ := by rw [Submodule.mem_orthogonal]; intro z hz; exact horth z hz w hw
     have h2 : u ∈ hᗮ := by rw [Submodule.mem_orthogonal]; intro z hz; rw [real_inner_comm]; exact horth u hu' z hz
-    show ((L₀ (L₀.symm (m.orthogonalProjectionOnto ((WithLp.equiv 2 _).symm (realifyFun X)))) : m) :
+    show ((L₀ (L₀.symm (m.orthogonalProjectionOnto ((WithLp.equiv 2 _).symm (_root_.Formalism.MainNotions.S.realifyFun X)))) : m) :
         EuclideanSpace ℝ (Fin n × Fin n × Bool)) +
-      ((L₁ (L₁.symm (h.orthogonalProjectionOnto ((WithLp.equiv 2 _).symm (realifyFun X)))) : h) :
+      ((L₁ (L₁.symm (h.orthogonalProjectionOnto ((WithLp.equiv 2 _).symm (_root_.Formalism.MainNotions.S.realifyFun X)))) : h) :
         EuclideanSpace ℝ (Fin n × Fin n × Bool)) = _
     rw [LinearIsometryEquiv.apply_symm_apply, LinearIsometryEquiv.apply_symm_apply, ← huw, map_add (f := _), map_add (f := _),
       Submodule.orthogonalProjectionOnto_apply_of_mem_orthogonal h1,
@@ -134,16 +134,16 @@ theorem psiInv_of (hL : LieSkewU) (hS : SkewLieU) (hC : CaySkewU) (hI : CayIdU) 
     rw [show u = ((⟨u, hu'⟩ : m) : EuclideanSpace ℝ _) from rfl, Submodule.orthogonalProjectionOnto_mem_subspace_eq_self,
       show w = ((⟨w, hw⟩ : h) : EuclideanSpace ℝ _) from rfl, Submodule.orthogonalProjectionOnto_mem_subspace_eq_self]
   rw [hrec]
-  have hid : (2 + unrealify ((WithLp.equiv 2 _).symm (realifyFun X))) *
-      (2 - unrealify ((WithLp.equiv 2 _).symm (realifyFun X)))⁻¹ = Mf p := by
+  have hid : (2 + _root_.Formalism.MainNotions.S.unrealify ((WithLp.equiv 2 _).symm (_root_.Formalism.MainNotions.S.realifyFun X))) *
+      (2 - _root_.Formalism.MainNotions.S.unrealify ((WithLp.equiv 2 _).symm (_root_.Formalism.MainNotions.S.realifyFun X)))⁻¹ = Mf p := by
     rw [unr_re]; exact hI n (Mf p) hu
   have hMunit : IsUnit (Mf p) := (Matrix.isUnit_exp a).mul (Matrix.isUnit_exp b)
   apply Subtype.ext
   apply Units.ext
   unfold cayR
   rw [dite_eq_left ⟨by rw [hid]; exact hMunit, by rw [hid]; exact hMU⟩]
-  show (2 + unrealify ((WithLp.equiv 2 _).symm (realifyFun X))) *
-      (2 - unrealify ((WithLp.equiv 2 _).symm (realifyFun X)))⁻¹ = _
+  show (2 + _root_.Formalism.MainNotions.S.unrealify ((WithLp.equiv 2 _).symm (_root_.Formalism.MainNotions.S.realifyFun X))) *
+      (2 - _root_.Formalism.MainNotions.S.unrealify ((WithLp.equiv 2 _).symm (_root_.Formalism.MainNotions.S.realifyFun X)))⁻¹ = _
   rw [hid]
   show Mf p = (((expR ε (L₀ p.1 : EuclideanSpace ℝ (Fin n × Fin n × Bool)) : Formalism.REAL.UJ ε) :
       (Matrix (Fin n) (Fin n) ℂ)ˣ) : Matrix (Fin n) (Fin n) ℂ) *
@@ -215,9 +215,9 @@ theorem caySkew_holds : CaySkewU := by
 theorem psiMeas_holds : PsiMeasU := by
   intro n ε m h ι η _ _ L₀ L₁
   set Mf : EuclideanSpace ℝ ι × EuclideanSpace ℝ η → Matrix (Fin n) (Fin n) ℂ := fun p =>
-    NormedSpace.exp (unrealify (L₀ p.1 : EuclideanSpace ℝ (Fin n × Fin n × Bool))) *
-      NormedSpace.exp (unrealify (L₁ p.2 : EuclideanSpace ℝ (Fin n × Fin n × Bool))) with hMf
-  have hcu : Continuous (unrealify : EuclideanSpace ℝ (Fin n × Fin n × Bool) → Matrix (Fin n) (Fin n) ℂ) :=
+    NormedSpace.exp (_root_.Formalism.MainNotions.S.unrealify (L₀ p.1 : EuclideanSpace ℝ (Fin n × Fin n × Bool))) *
+      NormedSpace.exp (_root_.Formalism.MainNotions.S.unrealify (L₁ p.2 : EuclideanSpace ℝ (Fin n × Fin n × Bool))) with hMf
+  have hcu : Continuous (_root_.Formalism.MainNotions.S.unrealify : EuclideanSpace ℝ (Fin n × Fin n × Bool) → Matrix (Fin n) (Fin n) ℂ) :=
     (unrLin n).continuous_of_finiteDimensional
   have hMc : Continuous Mf := by
     refine Continuous.mul ?_ ?_
@@ -237,7 +237,7 @@ theorem psiMeas_holds : PsiMeasU := by
     simp only [Matrix.smul_apply, Matrix.mul_apply, smul_eq_mul]
     refine Measurable.const_mul (Finset.measurable_sum _ fun k _ => Measurable.mul ?_ (hN k j)) _
     exact ((continuous_apply k).comp ((continuous_apply i).comp (hMc.sub continuous_const))).measurable
-  have hv : Measurable fun p => ((WithLp.equiv 2 _).symm (realifyFun ((2 : ℂ) • ((Mf p - 1) * (Mf p + 1)⁻¹))) :
+  have hv : Measurable fun p => ((WithLp.equiv 2 _).symm (_root_.Formalism.MainNotions.S.realifyFun ((2 : ℂ) • ((Mf p - 1) * (Mf p + 1)⁻¹))) :
       EuclideanSpace ℝ (Fin n × Fin n × Bool)) := by
     refine (PiLp.continuousLinearEquiv 2 ℝ (fun _ : Fin n × Fin n × Bool => ℝ)).symm.continuous.measurable.comp ?_
     refine Measurable.of_eval fun q => ?_
@@ -285,20 +285,20 @@ theorem skew_of_lieOf {n : ℕ} (ε : Fin n → Bool) (X : Matrix (Fin n) (Fin n
 
 theorem lieSkew_holds : LieSkewU := by
   intro n ε x hx
-  refine Submodule.span_induction (p := fun v _ => (unrealify v)ᴴ * Formalism.REAL.Jm ε + Formalism.REAL.Jm ε * unrealify v = 0)
+  refine Submodule.span_induction (p := fun v _ => (_root_.Formalism.MainNotions.S.unrealify v)ᴴ * Formalism.REAL.Jm ε + Formalism.REAL.Jm ε * _root_.Formalism.MainNotions.S.unrealify v = 0)
     ?_ ?_ ?_ ?_ hx
   · rintro v ⟨X, hX, rfl⟩
     rw [unr_re]; exact skew_of_lieOf ε X hX
   · simp [unrealify_zero']
   · intro a b _ _ ha hb
-    have e : unrealify (a + b) = unrealify a + unrealify b := (unrLin n).map_add a b
+    have e : _root_.Formalism.MainNotions.S.unrealify (a + b) = _root_.Formalism.MainNotions.S.unrealify a + _root_.Formalism.MainNotions.S.unrealify b := (unrLin n).map_add a b
     rw [e, conjTranspose_add, Matrix.add_mul, Matrix.mul_add]
-    rw [show (unrealify a)ᴴ * Formalism.REAL.Jm ε + (unrealify b)ᴴ * Formalism.REAL.Jm ε +
-        (Formalism.REAL.Jm ε * unrealify a + Formalism.REAL.Jm ε * unrealify b) =
-        ((unrealify a)ᴴ * Formalism.REAL.Jm ε + Formalism.REAL.Jm ε * unrealify a) +
-        ((unrealify b)ᴴ * Formalism.REAL.Jm ε + Formalism.REAL.Jm ε * unrealify b) by abel, ha, hb, add_zero]
+    rw [show (_root_.Formalism.MainNotions.S.unrealify a)ᴴ * Formalism.REAL.Jm ε + (_root_.Formalism.MainNotions.S.unrealify b)ᴴ * Formalism.REAL.Jm ε +
+        (Formalism.REAL.Jm ε * _root_.Formalism.MainNotions.S.unrealify a + Formalism.REAL.Jm ε * _root_.Formalism.MainNotions.S.unrealify b) =
+        ((_root_.Formalism.MainNotions.S.unrealify a)ᴴ * Formalism.REAL.Jm ε + Formalism.REAL.Jm ε * _root_.Formalism.MainNotions.S.unrealify a) +
+        ((_root_.Formalism.MainNotions.S.unrealify b)ᴴ * Formalism.REAL.Jm ε + Formalism.REAL.Jm ε * _root_.Formalism.MainNotions.S.unrealify b) by abel, ha, hb, add_zero]
   · intro c a _ ha
-    have e : unrealify (c • a) = c • unrealify a := (unrLin n).map_smul c a
+    have e : _root_.Formalism.MainNotions.S.unrealify (c • a) = c • _root_.Formalism.MainNotions.S.unrealify a := (unrLin n).map_smul c a
     rw [e, conjTranspose_smul, star_trivial, Matrix.smul_mul, Matrix.mul_smul, ← smul_add, ha, smul_zero]
 
 theorem expProdU_of_cayProdU (hC : CayProdU) : ExpProdU := by

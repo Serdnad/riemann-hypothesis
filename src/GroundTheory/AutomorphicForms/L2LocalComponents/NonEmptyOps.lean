@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.AutomorphicForms.CuspidalDiscreteness.ExistsIsOpenForallCuspRepTFinOneEq
-public import GroundTheory.AutomorphicForms.ArchimedeanWhittaker.Density
+public import GroundTheory.AutomorphicForms.ArchimedeanWhittaker.Bundle001
 public import GroundTheory.AutomorphicForms.CuspidalDiscreteness.SummandsArchConv
 public import GroundTheory.AutomorphicForms.L2LocalComponents.ArchHaar
 import Mathlib.Algebra.Order.Floor.Extended

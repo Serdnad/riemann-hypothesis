@@ -1,12 +1,12 @@
 module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisCochains.GLinkQuot
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.LocalPublishedTheorems
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.Bundle011
 public import Mathlib.RingTheory.AdicCompletion.Noetherian
 public import Mathlib.RingTheory.Coalgebra.IsFrobenius
 public import Mathlib.RingTheory.HopfAlgebra.Basic
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisCochains.H2GaloisQuotientEq
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisCochains.H2RightExactModL
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisCochains.Bundle004
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisCochains.Bundle001
 import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisCochains.LocEuler
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,8 +1,8 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsPotential
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsCrysLatOfTrivial
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.OneNotMemFilOne
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle178
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle644
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -253,7 +253,7 @@ theorem isPotential_phi_sub {s : G →* GQ l} {η H : ℕ} {D : BKDat O K l e a 
     rfl
   · change D.desc.act g (D.phi m) = D.phi m
     rw [D.desc.act_phi, hm.2 g]
-  · refine ⟨1, fun i => ϖ.iTot t K (coordL D.toPhiMod _ ⟨_, hL⟩ i), by rw [map_one]; exact isUnit_one, ?_, ?_⟩
+  · refine ⟨1, fun i => ϖ.iTot t K (coordL D.toPhiMod (A O K) ⟨_, hL⟩ i), by rw [map_one]; exact isUnit_one, ?_, ?_⟩
     · rw [map_one, one_smul, ← toW_phi t ϖ D.toPhiMod hm.1]
       exact (toW_toCris_of_mem_L t ϖ D.toPhiMod hL (D.ext_mono (A_le_S l e) hL)).1
     · rw [map_one, one_smul]

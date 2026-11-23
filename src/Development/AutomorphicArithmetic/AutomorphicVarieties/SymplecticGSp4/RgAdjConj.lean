@@ -1,13 +1,13 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicCases.SymplecticGSp4
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.CongruenceNumberRankThree
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.LocalPublishedTheorems
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicCases.Bundle001
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.Bundle006
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.Bundle011
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.AdTransfer
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.LevBasis
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Bundle017
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.MemOfInt
-import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.PtInSmul
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.SgnMulSelf
+import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Bundle016
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Bundle004
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.TbTriDiag
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -51,6 +51,9 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 
 @[expose] public section
+
+local instance (priority := 2000) ratFieldIsTorsionFreeForSymplecticGSp4RgAdjConj (Ω : Type) [Field Ω] [Algebra ℚ Ω] :
+    Module.IsTorsionFree ℚ Ω := DivisionSemiring.to_moduleIsTorsionFree
 
 open NumberField IsDedekindDomain Formalism.ConjugateSelfDual ReciprocityTheory.Gal IsLocalRing UpperTheory.V UpperTheory.V.Base UpperTheory.V.Alg UpperTheory.V.HV UpperTheory.V.GradeZeroInterpolatingElement
 open scoped Matrix TensorProduct

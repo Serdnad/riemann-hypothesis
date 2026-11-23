@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsUnitOneAddPiOMul
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsMulInvolEqOfFixed
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsReducedAdjoinRootOfSeparable
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle295
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle014
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle080
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

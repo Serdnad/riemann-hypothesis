@@ -4,7 +4,7 @@ public import Development.AbelianVarietyTheory.Definitions.CommutativeAlgebra.Ab
 public import Mathlib.Basic.Complex.Basic
 public import Mathlib.RingTheory.Coalgebra.IsFrobenius
 public import Mathlib.RingTheory.HopfAlgebra.Basic
-public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.VirtualCharactersMulComapConjIndLinear
+public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.Bundle029
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

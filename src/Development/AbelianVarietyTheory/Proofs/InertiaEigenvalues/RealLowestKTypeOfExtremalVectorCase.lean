@@ -1,15 +1,15 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.AdjFormula
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle021
 public import Formalism.LocalToGlobal.IndefiniteReal.LinksStage
 public import Formalism.LocalToGlobal.IndefiniteReal.ExistsChosenExtremalVector
-public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.HolomorphicLowestType
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DiscreteSeriesModelUnitaryIrreducibleOrthonormal
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HolShapeOfOverK
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.AdelicUnitaryActionAtRealPlace
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ThetaFunctionEqZeroOfMeanSquareZero
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ThetaPairingInvariant
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContinuousOnAtTau
+public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.Bundle014
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1223
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1557
+public import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle042
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle779
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle650
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle313
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HolomorphicDiscreteSeriesLowestKTypeSmoothIrredu
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -50,7 +50,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilGramSignature
+public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.Bundle015
 
 @[expose] public section
 

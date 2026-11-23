@@ -69,7 +69,7 @@ import Mathlib.Topology.Compactness.CompactlyGeneratedSpace
 public import Mathlib.Topology.ContinuousMap.Units
 import Mathlib.Topology.Separation.CompletelyRegular
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.AnalyticForms.AnalyticCharts.Osgood
+public import ReciprocityTheory.AnalyticForms.AnalyticCharts.Bundle002
 public import Mathlib.Analysis.Complex.Liouville
 
 @[expose] public section

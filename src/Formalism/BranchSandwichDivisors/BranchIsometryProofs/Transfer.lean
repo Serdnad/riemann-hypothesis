@@ -1,13 +1,13 @@
 module
 
-public import Formalism.BranchSandwichDivisors.StatementL
+public import Formalism.BranchSandwichDivisors.Bundle001
 public import Mathlib.CategoryTheory.Category.Basic
 public import Mathlib.RingTheory.Coalgebra.IsFrobenius
 public import Mathlib.RingTheory.HopfAlgebra.Basic
 public import Formalism.BranchSandwichDivisors.BranchIsometryProofs.TransferMean
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.DiscreteSpanOfLinIndep
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.MuChar
-import Formalism.HarderNarasimhan.HarderNarasimhanProofs.SatBasic
+import Formalism.HarderNarasimhan.HarderNarasimhanProofs.Bundle002
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.SlopeIneqMean
 public import Formalism.MeanHeightDescent.AverageDegreeBounds.GoodBadCut
 import Mathlib.Algebra.Order.Floor.Extended

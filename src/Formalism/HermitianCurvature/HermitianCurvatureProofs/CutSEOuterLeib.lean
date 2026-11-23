@@ -1,7 +1,7 @@
 module
 
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutSELeib
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.SfiniteOfIsHaarOn
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle207
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle026
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

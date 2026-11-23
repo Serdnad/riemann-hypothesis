@@ -1,6 +1,6 @@
 module
 
-public import Formalism.HermitianLattices.DefsCS
+public import Formalism.HermitianLattices.Bundle002
 public import Formalism.HermitianLattices.HermitianLatticesProofs.ThetaSummable
 public import Lemmata.GeneralBFactSecondSide.Imports
 import Mathlib.Algebra.Order.Floor.Extended

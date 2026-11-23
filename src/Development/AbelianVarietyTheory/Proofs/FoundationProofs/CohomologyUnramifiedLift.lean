@@ -1,25 +1,19 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Foundations.FinalTheorems
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Brauer
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle016
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle034
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.ResMapBijective
 public import Mathlib.RingTheory.AdicCompletion.Noetherian
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.CocyclePairingLocallyConstantStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ColRepApplyOfOne
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.CupProductCoboundaryModStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.CupProductUnramifiedClassesVanishesStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsAuxiliaryPrimeFrobeniusNearCommutatorStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsCharacterPrimeConductorDegreePrimePowStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.InertiaFixesRootOfUnity
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IntegralTwoCocycleReciprocityTrivialAtLastPlaceStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsOpenKerAndIsLocallyConstant
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.LocalConditionsIndependentOfPlaceOverStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.LocalHeightFrobeniusPlaceStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.MemOfFinTwo
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.NormAlgebraMapLeOne
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.UnramifiedCocycleKillsRootsStatement
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.CongruenceMulOfUnitFactor
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.EqOfNatCastMem
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle357
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle341
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle397
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle376
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle339
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle385
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle342
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle188
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle060
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle058
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -88,7 +82,7 @@ theorem htc_dual1_eq_one {W : R2 Ω l} {s : G ℚ Ω} (hs : s ∈ N0g W) : dual1
   obtain ⟨hc, hw⟩ := Subgroup.mem_inf.1 hs
   rw [MonoidHom.mem_ker] at hc hw
   have hd : dt W s = 1 := by simp [dt, hw]
-  simp [dual1, tw, hw, hc, hd]
+  simp [dual1, _root_.UpperTheory.V.Af.tw, hw, hc, hd]
 
 theorem htc_cocycle {W : R2 Ω l} {x : G ℚ Ω → Fin 2 → Qbar l} (hx : x ∈ Z1 (Loc.colRep W)) (s t : G ℚ Ω) :
     x (s * t) = x s + mat W s *ᵥ x t := by

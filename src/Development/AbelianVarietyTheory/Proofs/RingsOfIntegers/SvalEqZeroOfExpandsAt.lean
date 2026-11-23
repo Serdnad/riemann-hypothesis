@@ -3,10 +3,10 @@ module
 public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.ExistsIntegralBasis
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.IsExtensionPullOver
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.GenCalc
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsDivOfExpandsAt
-public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.ExistsPivot
-import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.ExpandsAtSecIsMul
-public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.ExpandsAtSub
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle068
+public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.Bundle009
+import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.Bundle013
+public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.Bundle014
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

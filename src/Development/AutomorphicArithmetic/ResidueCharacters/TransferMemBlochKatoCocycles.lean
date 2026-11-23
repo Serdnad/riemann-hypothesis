@@ -1,9 +1,9 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.RestrictionCorestrictionH1f
-public import Formalism.WeaklyAdmissibleFiltrations.StatementTor
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TransferCocycleFormula
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TransferContinuousOfContinuousOn
+public import Formalism.WeaklyAdmissibleFiltrations.Bundle001
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle029
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle028
 public import Formalism.SharpRestriction.LevelLetterCocycles.LocCoh
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

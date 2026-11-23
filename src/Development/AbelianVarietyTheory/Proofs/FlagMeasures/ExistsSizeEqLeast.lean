@@ -1,15 +1,15 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.LayerProd
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.LamXEquivariant
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.AutPointLatticeIntersectionSelfDualProperties
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.AutPointRationalEquivarianceStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.CanonicalLatticeFiltrationSizePropertiesStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.NearTrivialPointwise
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.OrthogonalCanonicalFiltrationStepsAutPointStatement
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle007
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle111
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle120
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle187
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle126
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle206
 import Formalism.HarderNarasimhan.HarderNarasimhanProofs.SlopeIneqMean
 import Formalism.HarderNarasimhan.ShiftInvariance
-public import Formalism.LocalToGlobal.LatticeGeometry.OperatorNormFibers.PDescentCutA
+public import Formalism.LocalToGlobal.LatticeGeometry.OperatorNormFibers.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

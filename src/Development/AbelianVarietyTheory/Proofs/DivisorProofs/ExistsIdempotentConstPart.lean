@@ -1,8 +1,8 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ToSpanSingletonConstGenInjective
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FiniteAlgebraResiduePointIdempotentsOverOCStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PDivGroupResidueFieldTateLevelSectionStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle629
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle689
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -49,9 +49,9 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.EpsilonPairingZeta
-import Development.AbelianVarietyTheory.Definitions.Divisors.GhostFrobenius
-import Development.AbelianVarietyTheory.Definitions.Divisors.XiMulNu
+import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.Bundle005
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle012
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle002
 
 @[expose] public section
 

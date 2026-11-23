@@ -1,32 +1,25 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicCases.SymplecticGSp4
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.UnramifiedCocycleIsCoboundaryOfBernoulliUnit
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.CMFieldExponentialBounds.primesex
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.CharacterLevelBounds.ClsFacts
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicCases.Bundle001
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.Bundle006
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.CMFieldExponentialBounds.Bundle001
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.CharacterLevelBounds.Bundle001
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CharacterLevelBounds.PlacesQ
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.BchiFacts
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.Bundle006
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.CompAlg
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.CompCond
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.CompIne
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.CongrFacts
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.ExistsStrictHenselianAbsolutelyClosedLocalRing
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.HostOdd
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.Bundle007
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.Bundle010
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.HostSb
-import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.OrdProjNDvd
-import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.PartOrd
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.PsiBar
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.HcDirVal
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.HcOmDir
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.HcPrimProd
+import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.Bundle009
+import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.Bundle002
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.Bundle008
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.Bundle007
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.Bundle008
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.HcXvan
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.Th1Facts
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.Bundle009
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PrimitiveFrobeniusFixed.PlaceBasic
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.ExistsDirichletCharacterPrimeOfOrderOfDvd
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.ExistsPrimitiveOddDirichletCharacterTwoPow
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.ExistsPrimitiveTwoPowTwistMul
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.ReFrob
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.TwoPowLtSqMulOfPrimitiveCharPowEqOne
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Bundle001
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -71,6 +64,9 @@ import Std.Tactic.BVDecide.Normalize.Prop
 @[expose] public section
 
 open NumberField IsDedekindDomain Formalism.ConjugateSelfDual ReciprocityTheory.Gal IsLocalRing UpperTheory.V UpperTheory.V.Base UpperTheory.V.Alg UpperTheory.V.HV UpperTheory.V.GradeZeroInterpolatingElement
+
+local instance ratFieldIsTorsionFreeForSympDataEx (Ω : Type) [Field Ω] [CharZero Ω] : Module.IsTorsionFree ℚ Ω :=
+  _root_.DivisionSemiring.to_moduleIsTorsionFree
 
 private theorem dirX {O : Type} [CommRing O] [IsDomain O] {l d N p n c : ℕ} [NeZero l] [NeZero N] [NeZero p]
     (ω : DirichletCharacter O l) (θ χ : DirichletCharacter O N) (ξ₀ : DirichletCharacter O p) (ξ : DirichletCharacter O (2 ^ n))

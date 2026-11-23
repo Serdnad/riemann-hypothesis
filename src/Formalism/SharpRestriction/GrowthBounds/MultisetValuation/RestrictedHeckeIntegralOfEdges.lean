@@ -1,7 +1,7 @@
 module
 
 public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.HeckeValueEstimateOfRecordValue
-public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.RamifiedLatticeOfChainEstimates
+public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle010
 public import Formalism.SharpRestriction.GrowthBounds.LatticeSystems
 public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.GShiftRowGenMonomial
 public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.SmulUpdate

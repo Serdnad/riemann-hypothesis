@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.FiniteCovolume.StatementsDoubleCoset
+public import GroundTheory.HeightsAndTheta.Heights.FiniteCovolume.Bundle001
 public import Mathlib.MeasureTheory.Measure.Haar.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

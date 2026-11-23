@@ -1,10 +1,10 @@
 module
 
-public import Formalism.LocalToGlobal.ProjectiveLattices.BetaAddRight
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle024
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.BetaAtAddLeftAndDiagEqTwoOrder
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsGoodIntegral
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.IsProperOfSubsingleton
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.PsiCoordExistsUniqueUpToUnitLocal
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle041
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle089
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle032
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -41,7 +41,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.AbProj
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle007
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.OneArc
 import Formalism.SharpRestriction.Divisibility.AbelianOpenPart.AbelianAt
 

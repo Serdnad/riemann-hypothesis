@@ -1,18 +1,18 @@
 module
 
 public import Formalism.LocalToGlobal.ProjectiveLattices.HtXfer
-public import Formalism.LocalToGlobal.ProjectiveLattices.CompTie
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle031
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.AlgebraMapOLInjective
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.RangeMulStep
-public import Formalism.LocalToGlobal.ProjectiveLattices.CurveAsm
-public import Formalism.LocalToGlobal.ProjectiveLattices.CurveOpen
+public import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle063
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle048
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle045
 public import Development.AbelianVarietyTheory.Proofs.AlgebraicCurves.PlacesRestrictInjective
 public import Development.AbelianVarietyTheory.Proofs.HeightProofs.ExistsRingHomTensorOmSOfPoint
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.ExistsSectionMaps
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.GaussRingCompletionRename
+public import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle031
+public import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle030
 public import Development.AbelianVarietyTheory.Proofs.HeightProofs.LengthQuotientLeOfOrderBound
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.RealisationValuesEqValuedPointOrdersStatement
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.ValuationEqOrdAndEqZero
+public import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle098
+public import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle028
 import Formalism.LocalToGlobal.ProjectiveLattices.CurveLocInst
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -52,9 +52,9 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.HDiscAD
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.Bundle012
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.KTFiniteDimensional
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.OpIsDVR
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.Bundle010
 
 @[expose] public section
 

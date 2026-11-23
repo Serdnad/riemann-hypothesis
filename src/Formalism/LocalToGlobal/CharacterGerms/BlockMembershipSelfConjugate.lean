@@ -1,8 +1,8 @@
 module
 
-public import Formalism.LocalToGlobal.CharacterGerms.MemVarsProdAll
-public import Formalism.LocalToGlobal.CharacterGerms.ContentZeroAt
-public import Formalism.LocalToGlobal.CharacterGerms.CartesianBoundOnCurves
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle004
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle005
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle006
 public import Formalism.LocalToGlobal.CharacterGerms.CoeffIterateZero
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

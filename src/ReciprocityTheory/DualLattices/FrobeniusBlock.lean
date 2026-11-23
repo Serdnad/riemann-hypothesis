@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.DualLattices.LiftMonomialDeterminantStatement
+public import ReciprocityTheory.DualLattices.Bundle025
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -46,7 +46,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.DualLattices.FormMonomialUnitVector
-public import ReciprocityTheory.DualLattices.FrobEqOfLe
+public import ReciprocityTheory.DualLattices.Bundle002
 public import ReciprocityTheory.DualLattices.IsLocalOfIntegers
 import Std.Tactic.BVDecide.Normalize.Prop
 public import Mathlib.RingTheory.LocalRing.ResidueField.Basic

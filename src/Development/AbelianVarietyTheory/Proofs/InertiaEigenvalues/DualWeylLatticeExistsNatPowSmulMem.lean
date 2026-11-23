@@ -1,10 +1,10 @@
 module
 
 public import Formalism.LocalToGlobal.Divisibility.CoefMod
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ActPMemLocPNabStdOfIsBasisAt
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle211
 import Formalism.GradedWeylDivisibility.DualWeylDominanceOf
-public import Formalism.LocalToGlobal.Columns.CoefModAt
-import Formalism.LocalToGlobal.Columns.CoefficientsModP
+public import Formalism.LocalToGlobal.Columns.Bundle032
+import Formalism.LocalToGlobal.Columns.Bundle031
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

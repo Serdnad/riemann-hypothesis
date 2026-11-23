@@ -1,7 +1,7 @@
 module
 
 public import Formalism.FormalDegreeBessel.FormalDegreeRatio.IOCentral
-public import Formalism.PeriodIntegrals.DSInfCharCap
+public import Formalism.PeriodIntegrals.Bundle020
 public import Formalism.RealPlaceAnalysis.FinalF
 import Formalism.RealPlaceAnalysis.QuotientSettingHolds
 import Mathlib.Algebra.Order.Floor.Extended

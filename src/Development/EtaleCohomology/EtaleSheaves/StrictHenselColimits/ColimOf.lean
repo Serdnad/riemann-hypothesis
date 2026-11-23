@@ -1,6 +1,6 @@
 module
 
-public import Development.EtaleCohomology.EtaleSheaves.StrictHenselColimits
+public import Development.EtaleCohomology.EtaleSheaves.Bundle050
 public import Development.EtaleCohomology.EtaleSheaves.StrictHenselColimits.EtaleLiftToStrictLocalRingUniqueOnResidueField
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

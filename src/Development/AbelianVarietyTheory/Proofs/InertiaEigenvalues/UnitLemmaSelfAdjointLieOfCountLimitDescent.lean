@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.LinearDescent
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.EtaGramDetEqOneOfSelfDualLatticeStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.GramDetEqNormMulGramDetOneStatement
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle003
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle184
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle098
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -3,8 +3,8 @@ module
 public import Development.AbelianVarietyTheory.Definitions.PlaceAdaptation.AdaptStd
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExpansionBijectiveOverFields
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.ValuationMultiplicationInvariance
-public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.ExistsIntOfVgeZero
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.SecLinOfSecScal
+public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.Bundle040
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle021
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

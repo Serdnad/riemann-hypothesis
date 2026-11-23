@@ -1,12 +1,11 @@
 module
 
 public import Development.WeilBound.CoreStatements.AbelianHeightsDuality.ArakelovSingularities.MetricConj
-public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.EqOfIsometricTrivShift
+public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.Bundle014
 public import Development.AbelianVarietyTheory.Definitions.Divisors.FirstChernIntegralEqDegree
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsConjFsBasisOfUnitary
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1103
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.NontrivialIsomClassInt
-public import Development.WeilBound.CoreStatements.AbelianHeightsDuality.ArakelovSingularities.MetricLoc
-public import Development.WeilBound.CoreStatements.AbelianHeightsDuality.ArakelovSingularities.MetricPart
+public import Development.WeilBound.CoreStatements.AbelianHeightsDuality.ArakelovSingularities.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,9 +1,9 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.Regularisation.BoundedStatements
-public import GroundTheory.HeightsAndTheta.Heights.Regularisation.GlueCharts
-public import GroundTheory.HeightsAndTheta.Heights.Regularisation.IsCompactImageClosureMid
-public import GroundTheory.HeightsAndTheta.Heights.Regularisation.PChartComparison
+public import GroundTheory.HeightsAndTheta.Heights.Regularisation.Bundle002
+public import GroundTheory.HeightsAndTheta.Heights.Regularisation.Bundle006
+public import GroundTheory.HeightsAndTheta.Heights.Regularisation.Bundle004
+public import GroundTheory.HeightsAndTheta.Heights.Regularisation.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

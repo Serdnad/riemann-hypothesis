@@ -1,7 +1,7 @@
 module
 
-public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.AutDef
-public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.AutEtaB
+public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.Bundle003
+public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.Bundle002
 public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.EtaDef
 public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.GoodLat
 import Mathlib.Algebra.Order.Floor.Extended

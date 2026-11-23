@@ -1,10 +1,10 @@
 module
 
-public import Formalism.LocalToGlobal.GroupLattices.TiedFamilies.ChiMemSubfield
-public import Formalism.LocalToGlobal.GroupLattices.TiedFamilies.TieEvR
-public import Formalism.LocalToGlobal.GroupLattices.TiedFamilies.FullTiedCBase
-public import Formalism.LocalToGlobal.GroupLattices.TiedFamilies.TiePtRec
-public import Formalism.LocalToGlobal.GroupLattices.TiedFamilies.TiePtC
+public import Formalism.LocalToGlobal.GroupLattices.TiedFamilies.Bundle005
+public import Formalism.LocalToGlobal.GroupLattices.TiedFamilies.Bundle003
+public import Formalism.LocalToGlobal.GroupLattices.TiedFamilies.Bundle006
+public import Formalism.LocalToGlobal.GroupLattices.TiedFamilies.Bundle004
+public import Formalism.LocalToGlobal.GroupLattices.TiedFamilies.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

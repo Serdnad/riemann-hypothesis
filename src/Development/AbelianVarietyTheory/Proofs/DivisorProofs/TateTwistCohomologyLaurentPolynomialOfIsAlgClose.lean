@@ -2,11 +2,11 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.PullHlComp
 public import Mathlib.RingTheory.PicardGroup
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ChernClassKummerClassAdditive
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EqPowOfKummerClassOfUnitEqZeroStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsUnitKummerEqOfPicardTorsionFreeStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SmoothAffineCurveEtaleCohomologicalDimensionLeOnStatement
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TateTwistCohomologySpecTwistIndependentStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle827
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1136
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1137
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1861
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1066
 import Mathlib.Algebra.AffineMonoid.UniqueSums
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

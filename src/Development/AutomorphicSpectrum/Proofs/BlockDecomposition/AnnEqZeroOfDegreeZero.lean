@@ -1,8 +1,7 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.InjectiveWedgeHighestCoefficient
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.PairStructureOnLine
-public import CompanionTheory.HarishChandraModules.LowKTypeMultiplicity.EigenspaceCyclicDensity.CreationOperators.CreApply
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle449
+public import CompanionTheory.HarishChandraModules.LowKTypeMultiplicity.EigenspaceCyclicDensity.CreationOperators.Bundle001
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SgMulSelf
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

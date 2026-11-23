@@ -5,10 +5,10 @@ import Mathlib.RingTheory.DiscreteValuationRing.Basic
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.ExistsOfLayers
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.CyclotomicFrobeniusPowerSeriesXEqMulQuotient
 public import Mathlib.RingTheory.PowerSeries.Exp
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CyclotomicCharacterPadicBasicProperties
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsUniqueEv
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle164
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle279
 import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IntegersCompleteDVR
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LocPrimeVNormalised
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle307
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -396,7 +396,7 @@ theorem nonempty_wSer : ∀ (l : ℕ) [Fact l.Prime] (P : LocPrime l) (K : FinEx
   intro l _ P K s LL _ Γ
   obtain ⟨_, hcomp, -, hu, -⟩ := GlobalTheory.Per.integers_completeDVR l LL
   have : IsHausdorff (Ideal.span {(l : ↥(OL LL))}) ↥(OL LL) :=
-    ⟨fun x hx => IsHausdorff.haus (I := IsLocalRing.maximalIdeal ↥(OL LL)) inferInstance x fun k =>
+    ⟨fun x hx => IsHausdorff.haus hcomp.toIsHausdorff x fun k =>
       (hx k).mono (Submodule.smul_mono_left (Ideal.pow_right_mono
         ((Ideal.span_singleton_le_iff_mem _).2 hu) k))⟩
   have : FiniteDimensional ℚ_[l] ↥(K0 K) := (P.PD K).finK₀

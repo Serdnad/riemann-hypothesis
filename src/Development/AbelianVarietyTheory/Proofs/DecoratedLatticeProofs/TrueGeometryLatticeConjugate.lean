@@ -1,26 +1,23 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.EntryAgree
-public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.LevChiEqOne
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ContinuousLocHom
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExtXCastAdd
+public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.Bundle018
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle374
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle056
 public import Formalism.LocalToGlobal.Columns.Adelic
 import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.AdelicPointComponentsAtPlacesLatticesVacua
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsColSpaceAutToLocalGLMemOpenDense
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsGAtAllPlacesMul
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsN1LocalHomMemOpen
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.IsOpenMirabolicProjectionToGL
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.MemMirabolicProjectionIffColSpaceAutToLocalGL
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.MemN1IffLocalHom
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.MemR1IffLocalHom
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle060
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle351
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle061
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle059
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ParahoricLevelsCharactersDoubleCosetsAgreeRation
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.SplitPlaceProjectionEqOfPrimeComponentEq
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.UnitaryFiniteAdelicGroupSplitFinitePlaceSet
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ChartLevelTwistTrivialLocalMove
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle350
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle493
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle406
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsMemberStepCharts
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LevOkTwists
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle329
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.RepresentativeImagePointOfLift
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.TwistPlacesPrimeToLevelAndTypePrimes
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle341
 import Formalism.LocalToGlobal.Columns.RecLevelLocP
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -77,7 +74,7 @@ noncomputable section
 namespace GlobalTheory.LevProd.Bwd
 
 section Dense
-open Formalism.HermitianLatticesTheory Formalism.L2.Col GlobalTheory.RootEx GlobalTheory.TwBridge ValuativeRel
+open Formalism.HermitianLatticesTheory _root_.Formalism.L2.Col GlobalTheory.RootEx GlobalTheory.TwBridge ValuativeRel
 
 theorem prX_le_of_prCat (X : Formalism.L2.Col.Fields) (Pr : Formalism.L2.Col.Primes X) (R : Ranks) (Ch : Formalism.L2.Col.Chars X Pr R.m)
     (sel : HeightOneSpectrum (𝓞 X.F) → HeightOneSpectrum (𝓞 X.E)) (S₀ : Set ℕ) (mu : Formalism.L2.DIV.Tup X.F X.E X.K S₀)
@@ -149,7 +146,7 @@ theorem adAt_eq_of_pr {D : D7} {k : Type} [Field k] [ValuativeRel k] [Topologica
   exact (GlobalTheory.SplitProj.cpt_eq_adAt PP _).trans (GlobalTheory.Mem.Col2.adAt_inclE D.host.F PP x)
 
 section Rat
-open Formalism.L2.Col Formalism.UG
+open _root_.Formalism.L2.Col Formalism.UG
 attribute [local instance] GlobalTheory.Mem.Col2.starE
 
 

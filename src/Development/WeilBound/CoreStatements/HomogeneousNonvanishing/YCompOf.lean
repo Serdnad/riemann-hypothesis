@@ -2,11 +2,11 @@ module
 
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.CInfGood
 public import Development.AutomorphicSpectrum.Definitions.DivisibilityTowers.GoodOrigin
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GenMapStalkMap
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.NonemptyCptOverOfFlatPreimmersion
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.RootOriginComponentGenericPoint
-public import Development.AutomorphicSpectrum.Statements.GeometryStatements.EqOfSpecializes
-public import Formalism.LocalToGlobal.ProjectiveLattices.CompFin
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle032
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle100
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle133
+public import Development.AutomorphicSpectrum.Statements.GeometryStatements.Bundle002
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle014
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -41,9 +41,9 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.DefiniteFormStabilizerFiniteAwayFromP
+import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle002
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.ArakelovInstances.IsStrictDom
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.PolyGrowthStatementPfB
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.Bundle001
 
 @[expose] public section
 

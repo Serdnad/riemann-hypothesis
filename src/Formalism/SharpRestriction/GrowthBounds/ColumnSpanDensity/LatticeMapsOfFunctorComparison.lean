@@ -1,7 +1,7 @@
 module
 
 public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.RhoSumBoundOfMapsSplitting
-public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.EdgeLatRS
+public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.Bundle008
 import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.LatticeCountPrimeMonoLevel
 import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.RhoLowerBoundOfEdgeCount
 import Mathlib.Algebra.Order.Floor.Extended

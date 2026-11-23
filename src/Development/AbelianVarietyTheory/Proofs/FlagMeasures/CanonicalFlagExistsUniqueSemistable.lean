@@ -1,8 +1,8 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.LayerProd
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.CanonicalLatticeFiltrationSizePropertiesStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.NearTrivialPointwise
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle187
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle126
 import Formalism.HarderNarasimhan.ShiftInvariance
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

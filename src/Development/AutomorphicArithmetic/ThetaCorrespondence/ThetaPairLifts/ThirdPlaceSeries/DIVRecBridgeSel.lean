@@ -1,12 +1,12 @@
 module
 
-public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.LinkedFamiliesKernelFrame
-public import Formalism.LocalToGlobal.Columns.RowFormsSym
-public import Formalism.LocalToGlobal.Divisibility.DivisibilityConstruction.ShiftOfColTie
+public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.Bundle049
+public import Formalism.LocalToGlobal.Columns.Bundle010
+public import Formalism.LocalToGlobal.Divisibility.DivisibilityConstruction.Bundle001
 public import Formalism.LocalToGlobal.Divisibility.HeckeCSDICommTrRep
 public import Formalism.LocalToGlobal.Divisibility.RecBridgeNum
 public import Formalism.LocalToGlobal.Divisibility.RecBridgeTied
-public import Formalism.LocalToGlobal.Divisibility.SmallTies
+public import Formalism.LocalToGlobal.Divisibility.Bundle005
 public import Formalism.LocalToGlobal.Divisibility.RecBridgeSel
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -241,8 +241,8 @@ theorem linkDIVt_of_bridge_kernel {eps : ℝ} (Fm : FamP eps)
 theorem closed_linkDIVt_of_closed_bridge_kernel (𝒟 : FamClass) (Cabs : ℝ)
     (Rk : ∀ {eps : ℝ} (Fm : FamP eps), 𝒟 Fm →
       Σ' x0 : ℝ, ∀ x (hx : Fm.x1 < x), x0 ≤ x → ∀ i : Fm.Ix x, _root_.Formalism.L2.DIV.DivisionKernelData (Fm.ex x hx i))
-    (h : Closed 𝒟 (fun Fm CH => ∀ hc : 𝒟 Fm, TuSize Fm → DGamSize Fm → _root_.Formalism.L2.DIV.DivisionKernelConstantBounds Fm (Rk Fm hc) Cabs CH)) :
-    Closed 𝒟 (fun Fm CH => TuSize Fm → DGamSize Fm → LinkDIVt Fm Cabs CH) := by
+    (h : Closed 𝒟 (fun Fm CH => ∀ hc : 𝒟 Fm, TuSize Fm → _root_.Formalism.MainNotions.DGamSize Fm → _root_.Formalism.L2.DIV.DivisionKernelConstantBounds Fm (Rk Fm hc) Cabs CH)) :
+    Closed 𝒟 (fun Fm CH => TuSize Fm → _root_.Formalism.MainNotions.DGamSize Fm → LinkDIVt Fm Cabs CH) := by
   obtain ⟨e1, he1, hP⟩ := h
   refine ⟨e1, he1, fun e he hle => ?_⟩
   obtain ⟨K, hK⟩ := hP e he hle

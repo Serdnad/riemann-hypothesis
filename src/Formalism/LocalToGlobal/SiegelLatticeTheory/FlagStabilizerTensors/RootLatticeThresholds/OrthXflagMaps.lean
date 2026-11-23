@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalRingCardinality.SpanPowerMembership.ExampleLayerExistsGenerators
-public import Formalism.SharpRestriction.CuspSpanNormBounds.FlagEEqHyperbolic
+public import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle007
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.TermDefPf
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

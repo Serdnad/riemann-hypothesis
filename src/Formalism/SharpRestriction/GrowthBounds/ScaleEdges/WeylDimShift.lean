@@ -1,9 +1,9 @@
 module
 
-public import Formalism.PolynomialDimension.WeylDim
+public import Formalism.PolynomialDimension.Bundle001
 public import Mathlib.Basic.Real.Basic
 public import Mathlib.Data.Nat.Choose.Basic
-public import Formalism.PolynomialDimension.MultinomialDepth.FrameMultinomialBoundHolds
+public import Formalism.PolynomialDimension.MultinomialDepth.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

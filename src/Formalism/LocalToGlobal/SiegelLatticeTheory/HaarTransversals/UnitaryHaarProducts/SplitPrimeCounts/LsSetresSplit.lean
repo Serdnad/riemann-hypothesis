@@ -1,6 +1,6 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.NotDvdAbsNormDifferent
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle214
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.HaarTransversals.UnitaryHaarProducts.SettingBlocks
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

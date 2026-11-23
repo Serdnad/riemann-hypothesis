@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.CenLocOfCenReal
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle029
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsComp
-public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.UnipotentLatticeMembership
+public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.Bundle011
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.SubsetTwistExceptionalPlaces
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.ExistsXdAllIff
 import Mathlib.Algebra.Order.Floor.Extended
@@ -44,7 +44,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.RowsRestWordColumnUnitBaseTupleAlt
-import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.StrictHenselianAcyclic
+import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle036
 
 @[expose] public section
 

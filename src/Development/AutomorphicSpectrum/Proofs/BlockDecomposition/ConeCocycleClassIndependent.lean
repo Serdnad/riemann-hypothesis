@@ -1,8 +1,8 @@
 module
 
-public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.PerfectoidPullbacks.ConeSectionRestriction.Precomp
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ConeLiftRatioMemIdeal
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.TruncatedLogMultiplicative
+public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.PerfectoidPullbacks.ConeSectionRestriction.Bundle006
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle158
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle159
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

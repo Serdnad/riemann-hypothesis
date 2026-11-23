@@ -1,8 +1,8 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsStratHom
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.AcrisTorsionFreeCompleteFrobeniusProperties
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.PrimePowDvdTiltUniformizerPowAcrisEventually
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle588
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle587
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -48,8 +48,8 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.LocalPrimeGaloisActionPeriodT
-import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.PolyApproxZeroPadic
-import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.TrivIsCr
+import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle002
+import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle024
 import Formalism.SharpRestriction.LevelLetterCocycles.LocCoh
 
 @[expose] public section

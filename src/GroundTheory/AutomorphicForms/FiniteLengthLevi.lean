@@ -4,7 +4,7 @@ public import GroundTheory.AutomorphicForms.FiniteLengthLeviBlock
 public import GroundTheory.AutomorphicForms.CuspidalSplittingIsotypic
 public import GroundTheory.AutomorphicForms.GeometricLemmaNormal
 import GroundTheory.AutomorphicForms.JacquetAdmissible
-import GroundTheory.AutomorphicForms.SmoothRepSchur
+import GroundTheory.AutomorphicForms.Bundle009
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

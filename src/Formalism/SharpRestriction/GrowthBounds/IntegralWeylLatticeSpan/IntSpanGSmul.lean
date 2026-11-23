@@ -1,7 +1,7 @@
 module
 
 public import Formalism.SharpRestriction.GrowthBounds.IntegralWeylLatticeSpan.WeylLatticeDescent
-public import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.CmpCMemMIff
+public import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.Bundle010
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -2,7 +2,7 @@ module
 
 public import Mathlib.Data.Matrix.ColumnRowPartitioned
 public import ReciprocityTheory.AnalyticForms.PlurisubharmonicFunctions.IsPshLocallyIntegrableStatement
-public import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.DeterminantCauchySchwarz
+public import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -51,7 +51,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.AnalyticForms.AnalyticCharts.Osgood
+public import ReciprocityTheory.AnalyticForms.AnalyticCharts.Bundle002
 public import ReciprocityTheory.AnalyticForms.PlurisubharmonicFunctions.PshExtA
 import ReciprocityTheory.AnalyticForms.PlurisubharmonicFunctions.PshPoisson
 

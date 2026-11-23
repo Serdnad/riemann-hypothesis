@@ -1,15 +1,15 @@
 module
 
 public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.AdmissibleDiscreteSeriesOfHasParam
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.CartFrSgn
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.KFiniteVectorsDiscreteSeriesSmoothAbsolutelyIrre
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.DiscreteSeriesPureInnerProductsTensorProduct
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsRealIntertwinerContractionOnePlaceStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsRealPlaceThetaObjectsTheoremARPartsStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.GluingLawHoldsStatement
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle385
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle151
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle196
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle304
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle250
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle216
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.LocLineOfMatches
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ThetaModelsAreCoverDiscreteSeriesOfHarishChandraStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ThetaVacuumCharactersRealPlacesStatement
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle221
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle611
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -48,8 +48,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.EqMulProdOfPartial
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.NodeAgree
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle223
 
 @[expose] public section
 

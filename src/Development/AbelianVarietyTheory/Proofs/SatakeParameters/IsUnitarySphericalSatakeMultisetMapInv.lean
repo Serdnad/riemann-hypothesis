@@ -1,10 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.RpowNegLeNormOfComponent
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.EsymmInvMulEsymmCard
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle088
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle010
 public import Mathlib.LinearAlgebra.Matrix.Rank
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.CardQuotMatrixRangeDvrEqResiduePowCorankStatement
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.RelIndexGlMapStandardLatticeOfIntegralStatement
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle025
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,10 +1,10 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.EmbedsGeneric
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsRingHomComplexCompEqOfCountable
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GenericPointComponentLocalRing
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle013
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle010
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle063
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LocalRingPointsExistsUnique
-public import Development.WeilBound.CoreStatements.VolumeEquality.ChartMeetsPoint
+public import Development.WeilBound.CoreStatements.VolumeEquality.Bundle002
 public import Development.WeilBound.CoreStatements.VolumeEquality.CoverRootsSch
 public import GroundTheory.HeightsAndTheta.Heights.ElementarySymmetric.PFibreNormDehomRoots
 import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsArith
@@ -54,7 +54,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GapN
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle003
 public import Mathlib.Algebra.MvPolynomial.Funext
 
 @[expose] public section

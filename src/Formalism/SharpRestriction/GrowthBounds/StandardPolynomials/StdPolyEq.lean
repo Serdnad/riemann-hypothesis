@@ -1,7 +1,7 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.TCoreDef
-public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.IoDScalLast
+public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.Bundle002
+public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.Bundle009
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

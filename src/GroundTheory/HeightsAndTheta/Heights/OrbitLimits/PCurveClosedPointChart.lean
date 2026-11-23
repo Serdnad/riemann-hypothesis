@@ -1,9 +1,9 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.SegreChart
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle041
 public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PCoordConeArithVar
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.StatementsCurveClosedPointChart
-public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PClosedPointChart
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle012
+public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.Bundle022
 public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PClosedPointUnitSection
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

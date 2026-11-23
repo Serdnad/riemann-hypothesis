@@ -1,7 +1,7 @@
 module
 
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.FockDegreeOne.OmEDiagMonomial
-public import Formalism.PeriodIntegrals.FockDegreeTwoParts
+public import Formalism.PeriodIntegrals.Bundle016
 import Aesop.Frontend.Tactic
 import Aesop.Main
 import Mathlib.Algebra.Order.Floor.Extended

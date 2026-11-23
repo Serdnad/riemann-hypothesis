@@ -75,7 +75,7 @@ local instance t2Mx (m n : ℕ) : T2Space (Mx D m n) := (lattice_Mx D m n).2.2.2
 theorem isClosed_fixer {k : ℕ} (x : Mx D V.rank k) : IsClosed (fixer V x : Set (GA D V)) :=
   isClosed_eq ((continuous_mt (S := V)).matrix_mul continuous_const) continuous_const
 
-theorem centre_eq : (centre d : Set (GA D V)) = {g | mt V g ⬝ d.jX = d.jX} ∩ {g | mt V g ⬝ d.j0 = d.j0} := by
+theorem centre_eq : (_root_.GlobalTheory.MixPer.centre d : Set (GA D V)) = {g | mt V g ⬝ d.jX = d.jX} ∩ {g | mt V g ⬝ d.j0 = d.j0} := by
   ext g
   constructor
   · rintro ⟨c, rfl⟩
@@ -84,7 +84,7 @@ theorem centre_eq : (centre d : Set (GA D V)) = {g | mt V g ⬝ d.jX = d.jX} ∩
     obtain ⟨c, rfl⟩ := GlobalTheory.MixPer.Decomp.eq_nC d h1 h2
     exact ⟨c, rfl⟩
 
-theorem isClosed_centre : IsClosed (centre d : Set (GA D V)) := by
+theorem isClosed_centre : IsClosed (_root_.GlobalTheory.MixPer.centre d : Set (GA D V)) := by
   rw [centre_eq]
   exact (isClosed_eq ((continuous_mt (S := V)).matrix_mul continuous_const) continuous_const).inter
     (isClosed_eq ((continuous_mt (S := V)).matrix_mul continuous_const) continuous_const)
@@ -105,11 +105,11 @@ theorem radX_normal : ((radX d).subgroupOf (flagN d)).Normal := by
   calc mt V (k * h * k⁻¹) ⬝ d.jX = mt V k ⬝ (mt V h ⬝ (mt V k⁻¹ ⬝ d.jX)) := by simp only [mt_mul, Matrix.mul_assoc]
     _ = d.jX := by rw [e1, ← Matrix.mul_assoc, ← mt_mul, mul_inv_cancel, mt_one, Matrix.one_mul]
 
-theorem centre_le : centre d ≤ flagN d := by
+theorem centre_le : _root_.GlobalTheory.MixPer.centre d ≤ flagN d := by
   rintro g ⟨c, rfl⟩
   exact d.nC_mem_NFlag c
 
-theorem centre_normal : ((centre d).subgroupOf (flagN d)).Normal := by
+theorem centre_normal : ((_root_.GlobalTheory.MixPer.centre d).subgroupOf (flagN d)).Normal := by
   rw [Subgroup.normal_subgroupOf_iff (centre_le d)]
   rintro h k ⟨c, rfl⟩ hk
   obtain ⟨u, -, b, c', rfl⟩ := GlobalTheory.MixPer.Decomp.flag_decomp d hk
@@ -242,10 +242,10 @@ theorem skew_reduce : ∃ K0 : Set (Mx D ρ ρ), IsCompact K0 ∧ ∀ c : skewA 
   refine ⟨-skPart γ, neg_mem (skPart_rat hγ), _, hk, ?_⟩
   rw [skPart_add_skew, neg_add_cancel_left]
 
-theorem centre_cocompact : ∃ K : Set (centre d), IsCompact K ∧
-    ∀ m, ∃ γ ∈ (GQ V).subgroupOf (centre d), ∃ k ∈ K, m = γ * k := by
+theorem centre_cocompact : ∃ K : Set (_root_.GlobalTheory.MixPer.centre d), IsCompact K ∧
+    ∀ m, ∃ γ ∈ (GQ V).subgroupOf (_root_.GlobalTheory.MixPer.centre d), ∃ k ∈ K, m = γ * k := by
   obtain ⟨K0, hK0, hred⟩ := skew_reduce (D := D) (ρ := ρ)
-  let f : Mx D ρ ρ → centre d := fun x => ⟨d.nC (skPart x), skPart x, rfl⟩
+  let f : Mx D ρ ρ → _root_.GlobalTheory.MixPer.centre d := fun x => ⟨d.nC (skPart x), skPart x, rfl⟩
   have hf : Continuous f := (d.continuous_nC.comp continuous_skPart).subtype_mk _
   refine ⟨f '' K0, hK0.image hf, fun m => ?_⟩
   obtain ⟨g, c, rfl⟩ := m
@@ -419,7 +419,7 @@ theorem Nfix_cocompact (j : Fin ρ) : ∃ K : Set (Nfix d j), IsCompact K ∧
     (Subgroup.mem_subgroupOf.1 hγr)), ⟨_, hk'⟩, ⟨(kr, k), ⟨hkr, hk⟩, rfl⟩, Subtype.ext hn'⟩
 
 theorem flag_subgroups_closed_normal_cocompact : ∀ (D : D7) (V V₀ : HSp D) (ρ : ℕ) (d : HypDec V V₀ ρ),
-    IsClosed (flagN d : Set (GA D V)) ∧ ∀ M : Subgroup (GA D V), (M = centre d ∨ M = radX d ∨ ∃ j, M = Nfix d j) →
+    IsClosed (flagN d : Set (GA D V)) ∧ ∀ M : Subgroup (GA D V), (M = _root_.GlobalTheory.MixPer.centre d ∨ M = radX d ∨ ∃ j, M = Nfix d j) →
       M ≤ flagN d ∧ IsClosed (M : Set (GA D V)) ∧ (M.subgroupOf (flagN d)).Normal ∧
         ∃ K : Set M, IsCompact K ∧ ∀ m, ∃ γ ∈ (GQ V).subgroupOf M, ∃ k ∈ K, m = γ * k := by
   intro D V V₀ ρ d

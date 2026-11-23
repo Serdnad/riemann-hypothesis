@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.FramedDConst
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle042
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ArchimedeanFrameCharacterFactorization
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.UnitaryLieElementsGenerateOneParamLines
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsGrpDataMapHaar
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle275
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

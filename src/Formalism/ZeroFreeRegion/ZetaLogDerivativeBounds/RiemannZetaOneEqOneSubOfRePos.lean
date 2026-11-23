@@ -1,6 +1,6 @@
 module
 
-public import Formalism.ZeroFreeRegion.ZetaLogDerivativeBounds.DzDifferentiableOn
+public import Formalism.ZeroFreeRegion.ZetaLogDerivativeBounds.Bundle002
 public import Mathlib.NumberTheory.Harmonic.ZetaAsymp
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

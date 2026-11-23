@@ -1,7 +1,7 @@
 module
 
 public import Formalism.GradedWeylDivisibility.StatementA
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LRowstLemmas
+public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -47,7 +47,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.BaseChange
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle859
 
 @[expose] public section
 

@@ -1,13 +1,13 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.AdelicGroupAlgebraActionInjective
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsHodgeLine
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle007
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle010
 public import Mathlib.RingTheory.RegularLocalRing.Defs
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.CodimOneGramTwistAgreeStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.EqOfEqGenericProjectiveStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.EventuallyOneTmulAdicIntegralCoords
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeCptInteriorIffStatement
-public import Development.WeilBound.CoreStatements.HomogeneousNonvanishing.TwPhiF
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle207
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle084
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle073
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle097
+public import Development.WeilBound.CoreStatements.HomogeneousNonvanishing.Bundle016
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -45,7 +45,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.SabPull
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle010
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.LawsProved
 
 @[expose] public section

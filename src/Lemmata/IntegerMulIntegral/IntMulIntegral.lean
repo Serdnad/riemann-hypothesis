@@ -1,6 +1,6 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.FiniteQuotientComap
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle013
 public import Mathlib.NumberTheory.NumberField.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

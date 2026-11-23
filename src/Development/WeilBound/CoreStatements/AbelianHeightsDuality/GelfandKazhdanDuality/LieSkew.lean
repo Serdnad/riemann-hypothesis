@@ -2,7 +2,7 @@ module
 
 public import Development.WeilBound.CoreStatements.AbelianHeightsDuality.GelfandKazhdanDuality.PairingL2
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsFiniteMeasureQuotMeasure
-public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.HasDerivAtLpOfDominated
+public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

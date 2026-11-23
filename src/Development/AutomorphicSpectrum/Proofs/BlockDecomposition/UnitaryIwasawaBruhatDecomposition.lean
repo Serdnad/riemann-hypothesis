@@ -1,9 +1,9 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsPermWOne
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle389
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.IwahoriFactorisation.StrictDominance.UnitaryExtremality.IsStrictDom
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MemIwUIff
-import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.FSatakeB
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle412
+import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle006
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.FSatakeC
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,12 +1,12 @@
 module
 
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsSmoothHermTrivLine
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.PtsOverPt
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.AlgebraicElementHomogRelationStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ArithVarietyReindexedStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GenericPointsGoodStatementStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HomogRelationRatioReindexStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ImplicitRootAnalyticStatement
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle014
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle118
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle133
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle218
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle114
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle017
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.LogResolutionCompatiblePullbackStatement
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -50,7 +50,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
-public import ReciprocityTheory.AnalyticForms.PotentialTheory.DegreeInhab
+public import ReciprocityTheory.AnalyticForms.PotentialTheory.Bundle003
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterBridgeB
 
 @[expose] public section

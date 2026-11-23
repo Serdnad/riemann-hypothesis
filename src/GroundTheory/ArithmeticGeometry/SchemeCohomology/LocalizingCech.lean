@@ -2,7 +2,7 @@ module
 
 public import GroundTheory.ArithmeticGeometry.SchemeCohomology.ConsCompSuccAboveZero
 public import Mathlib.Order.CompletePartialOrder
-public import GroundTheory.ArithmeticGeometry.SchemeCohomology.Cartan
+public import GroundTheory.ArithmeticGeometry.SchemeCohomology.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

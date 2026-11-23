@@ -47,7 +47,7 @@ import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.BochnerInequality.CasimirGapAtNoncompactWeight
 import ReciprocityTheory.ReductiveGroups.DiscreteSeries.BochnerInequality.KhwWeightEqOfIrr
-import ReciprocityTheory.ReductiveGroups.DiscreteSeries.BochnerInequality.LayerOrth
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.BochnerInequality.Bundle002
 import ReciprocityTheory.ReductiveGroups.DiscreteSeries.BochnerInequality.Numerics
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.ExceptionalGroupG2.BochnerG2.LayerBound
 import ReciprocityTheory.ReductiveGroups.DiscreteSeries.ExceptionalGroupG2.BochnerG2.Numerics

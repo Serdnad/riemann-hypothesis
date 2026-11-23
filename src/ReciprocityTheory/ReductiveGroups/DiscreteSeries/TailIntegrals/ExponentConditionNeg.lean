@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TailIntegrals.Imports
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TailIntegrals.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -46,7 +46,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TailIntegrals.DeZeroBounds
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TailIntegrals.LintegralInsertFiberLe
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TailIntegrals.Bundle004
 public import Mathlib.MeasureTheory.Measure.Lebesgue.Basic
 
 @[expose] public section

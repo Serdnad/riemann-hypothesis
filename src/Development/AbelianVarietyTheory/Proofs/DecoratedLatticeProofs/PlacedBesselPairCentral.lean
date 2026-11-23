@@ -1,27 +1,27 @@
 module
 
 public import Mathlib
-public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.Placed
+public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.Bundle027
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.ExistsNormLeHeightPow
 public import Development.AbelianVarietyTheory.PublishedTheorems.DiscreteSeriesUnitary₂.DiscreteSeriesClassificationIff
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.ThmSOwn
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.FinitePartMemFrameStabilizerIffLocalStabilizer
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.DatumLevelHyperspecialOffFinitePlaces
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.SelfDualLatticeFrameChainStatement
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle177
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle257
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle451
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.LocalFrameHermitianIdeal
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.PlacedBesselTranslateVector
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsSuppVecLocEq
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.InertPlaceLocalTraceCharacterConductorIntegers
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.FirstIsotropicVectorCoordinatesNeZeroStatement
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle365
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle476
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle354
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle397
 public import Development.AbelianVarietyTheory.Definitions.Foundations.EqPlaceIdemOfIsPrimeIdem
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.PlacedBesselPairLattice
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle487
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.SelfDualSplitComponentIsLatticeStabilizerEq
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsSelfDualLatticeWithPrescribedSplitComponen
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsFiniteAdeleProjectionIntegralReductionStatement
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.LatticeCompletionAtPlacesMemCompletedHermitianLaStatement
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.MemLatticeCompletionAtPlacesOfFinPartMemHatLattiStatement
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.IdemAtUniqueOrth
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.GramEqOfInst
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle287
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle353
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle165
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle188
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle335
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle169
 
 @[expose] public section
 
@@ -141,7 +141,7 @@ theorem line_moved (q : SplitPt D k) {PP : Formalism.L2.DIV.Pl D.host.E} (hq : F
     mt V t⁻¹ *ᵥ (fun r => a * incA D (u r)) ∈ latV V Λ (· = q.v) ↔ q.pr a / κ ∈ 𝒪[k] ∧ q.pr (cA D a) * κ' ∈ 𝒪[k] := by
   have hI := int_moved q hq V Λ β hβ t G σ hM
   have hae : a = q.sec (q.pr a) + cA D (q.sec (q.pr (cA D a))) := by
-    rw [q.sec_pr, q.sec_pr, RingHom.map_mul, cA_cA, ← add_mul, (idem_iff q a).1 ha]
+    rw [q.sec_pr, q.sec_pr, RingHom.map_mul, _root_.Formalism.L2.Theta.cA_cA, ← add_mul, (idem_iff q a).1 ha]
   have hy : (fun r => a * incA D (u r)) = (fun r => q.sec (q.pr a * q.pr (incA D (u r)))) +
       (fun r => cA D (q.sec (q.pr (cA D a) * q.pr (incA D (star (u r)))))) := by
     funext r
@@ -290,7 +290,7 @@ theorem val_nat (q : SplitPt D k) {PP : Formalism.L2.DIV.Pl D.host.E} (hq : Form
 end Gen
 
 open scoped InnerProductSpace TensorProduct
-open Formalism.BasicNotions Formalism.MainNotions Formalism.DivisionValues Formalism.L2 Formalism.L2.DIV Formalism.L2.Indef Formalism.L2.Rows Formalism.L2.Theta Formalism.IndefR Formalism.IndefR.Cx Formalism.IndefR.Links
+open Formalism.BasicNotions Formalism.MainNotions Formalism.DivisionValues _root_.Formalism.L2 Formalism.L2.DIV Formalism.L2.Indef Formalism.L2.Rows Formalism.L2.Theta Formalism.IndefR Formalism.IndefR.Cx Formalism.IndefR.Links
 open Formalism.IndefR.Mult Formalism.IndefR.Datum MeasureTheory NumberField IsDedekindDomain
 open Formalism.L2.SG.RowsJoinPinned Formalism.L2.SG.RowDict Formalism.L2.SG.PoincareInHH.PoincareSetting
 open GlobalTheory.MixModel GlobalTheory.MixPer GlobalTheory.Unf GlobalTheory.MiS GlobalTheory.Core.Mi

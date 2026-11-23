@@ -1,8 +1,8 @@
 module
 
-public import Formalism.LocalToGlobal.AlgebraicTheory.StatementD
-public import Formalism.LocalToGlobal.AlgebraicTheory.StatementEig
-public import Formalism.LocalToGlobal.AlgebraicTheory.AlgebraicTheoryProofs.EigenFrameDualOf
+public import Formalism.LocalToGlobal.AlgebraicTheory.Bundle001
+public import Formalism.LocalToGlobal.AlgebraicTheory.Bundle002
+public import Formalism.LocalToGlobal.AlgebraicTheory.AlgebraicTheoryProofs.Bundle001
 public import Formalism.LocalToGlobal.AlgebraicTheory.AlgebraicTheoryProofs.XiConn
 public import Formalism.LocalToGlobal.AlgebraicTheory.ColBoundOfPaths
 import Mathlib.Algebra.Order.Floor.Extended

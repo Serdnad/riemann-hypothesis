@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.SemistableReduction.SphereLogIntegrableStatement
+public import ReciprocityTheory.SemistableReduction.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -52,8 +52,8 @@ import Mathlib.Tactic.ReduceModChar
 public import Mathlib.Topology.Algebra.MvPolynomial
 import Mathlib.Topology.Sheaves.Init
 import Mathlib.Topology.UniformSpace.Uniformizable
-public import ReciprocityTheory.SemistableReduction.LogNormEvalZeroLeCircleAverage
-public import ReciprocityTheory.SemistableReduction.MeasurePreservingSphereMap
+public import ReciprocityTheory.SemistableReduction.Bundle003
+public import ReciprocityTheory.SemistableReduction.Bundle006
 public import Mathlib.Analysis.Meromorphic.Basic
 public import Mathlib.MeasureTheory.Integral.CircleAverage
 

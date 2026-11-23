@@ -1,7 +1,7 @@
 module
 
 public import Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.SpecialLinearCosets.GoodU
-public import Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.UnramifiedSplitting.SgLaws
+public import Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.UnramifiedSplitting.Bundle001
 public import GroundTheory.GlobalFields.TateThesis.RootNumberLocalPlace
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -105,9 +105,10 @@ private theorem ab_idl_eq {F : Type} [Field F] [NumberField F] (v : P F) (t : (K
     show Valued.v (ϖ : Kv v) = _
     rw [valued_eq_exp_neg_ord ϖ.ne_zero, hϖ1]
     rfl
+  haveI : Nontrivial (Kv v) := ⟨⟨(t : Kv v), 0, t.ne_zero⟩⟩
   have hu : f0 (ϖ ^ (-GroundTheory.LocalField.ord (t : Kv v)) * t) = 1 := h7 _ (by
-    rw [valued_eq_one_iff_ord (Units.ne_zero _), GroundTheory.LocalField.ord_units_mul,
-      GroundTheory.LocalField.ord_unifUnit_zpow]
+    rw [GroundTheory.Global.valued_eq_one_iff_ord (K := F) (v := v) (Units.ne_zero _),
+      GroundTheory.LocalField.ord_units_mul (K := Kv v), GroundTheory.LocalField.ord_unifUnit_zpow (K := Kv v)]
     omega)
   have e : f0 t = f0 ϖ ^ GroundTheory.LocalField.ord (t : Kv v) := by
     conv_lhs => rw [GroundTheory.LocalField.eq_unifUnit_zpow_mul t]

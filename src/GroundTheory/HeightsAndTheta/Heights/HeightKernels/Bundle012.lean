@@ -1,0 +1,398 @@
+module
+
+public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.Bundle005
+public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.ChartMassAffine
+public import Mathlib.Order.CompletePartialOrder
+public import ReciprocityTheory.AnalyticForms.PlurisubharmonicFunctions.PartsSt
+public import Mathlib.Analysis.SpecialFunctions.SmoothTransition
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+public import Mathlib.Analysis.Matrix.LDL
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Henselian
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.RegularLocalRing.Defs
+import Mathlib.RingTheory.SimpleRing.Principal
+import Mathlib.RingTheory.WittVector.IsPoly
+import Mathlib.Tactic.Basify
+import Mathlib.Tactic.ENatToNat
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.Polynomial.Basic
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Topology.Sheaves.Init
+
+@[expose] public section
+
+section
+
+set_option maxSynthPendingDepth 1
+
+namespace GroundTheory.Heights₂.Heights
+
+open ReciprocityTheory.ChartRestriction.G.Geo Matrix MeasureTheory
+open scoped ComplexOrder
+
+noncomputable section
+
+def chartMixedEnergy {e : ℕ} (M N : Matrix (Fin (e + 1)) (Fin (e + 1)) ℂ) (k : ℕ) : ℝ :=
+  ∫ y : Fin e → ℂ, (hermChartPot M y - hermChartPot N y) *
+    maDensity (fun j : Fin e => if (j : ℕ) < k then hermChartPot M else hermChartPot N) y
+
+def ChartEnergy.Statement : Prop :=
+  ∀ (e : ℕ) (M N : Matrix (Fin (e + 1)) (Fin (e + 1)) ℂ), M.PosDef → N.PosDef →
+    ∑ k ∈ Finset.range (e + 1), chartMixedEnergy M N k =
+      1 / 2 * (Real.log M.det.re - Real.log N.det.re) *
+        chartMass (1 : Matrix (Fin (e + 1)) (Fin (e + 1)) ℂ)
+
+end
+
+end GroundTheory.Heights₂.Heights
+end
+
+section
+
+set_option maxSynthPendingDepth 1
+
+namespace GroundTheory.Heights₂.Heights
+
+open ReciprocityTheory.ChartRestriction.G.Geo Matrix MeasureTheory
+open scoped ComplexOrder
+
+noncomputable section
+
+def ChartEnergyIntegrable.Statement : Prop :=
+  ∀ (e : ℕ) (M N : Matrix (Fin (e + 1)) (Fin (e + 1)) ℂ), M.PosDef → N.PosDef → ∀ k : ℕ,
+    Integrable (fun y : Fin e → ℂ => (hermChartPot M y - hermChartPot N y) *
+      maDensity (fun j : Fin e => if (j : ℕ) < k then hermChartPot M else hermChartPot N) y)
+
+end
+
+end GroundTheory.Heights₂.Heights
+end
+
+section
+
+set_option maxSynthPendingDepth 1
+
+namespace GroundTheory.Heights₂.Heights
+
+open ReciprocityTheory.ChartRestriction.G.Geo Matrix MeasureTheory
+open scoped ComplexOrder
+
+noncomputable section
+
+def ChartEnergySymm.Statement : Prop :=
+  ∀ (e : ℕ) (A B C D : Matrix (Fin (e + 1)) (Fin (e + 1)) ℂ) (T : Fin e → Matrix (Fin (e + 1)) (Fin (e + 1)) ℂ)
+    (p : Fin e), A.PosDef → B.PosDef → C.PosDef → D.PosDef → (∀ j, (T j).PosDef) →
+    ∫ y : Fin e → ℂ, (hermChartPot A y - hermChartPot B y) *
+        (maDensity (fun j => hermChartPot (Function.update T p C j)) y -
+          maDensity (fun j => hermChartPot (Function.update T p D j)) y) =
+      ∫ y : Fin e → ℂ, (hermChartPot C y - hermChartPot D y) *
+        (maDensity (fun j => hermChartPot (Function.update T p A j)) y -
+          maDensity (fun j => hermChartPot (Function.update T p B j)) y)
+
+end
+
+end GroundTheory.Heights₂.Heights
+end
+
+section
+
+set_option maxSynthPendingDepth 1
+
+namespace GroundTheory.Heights₂.Heights
+
+open ReciprocityTheory.ChartRestriction.G.Geo Matrix
+open scoped ComplexOrder
+
+noncomputable section
+
+def ChartHessCompare.Statement : Prop :=
+  ∀ (e : ℕ) (M N : Matrix (Fin (e + 1)) (Fin (e + 1)) ℂ), M.PosDef → N.PosDef →
+    ∃ C : ℝ, ∀ y : Fin e → ℂ, (cxHessian (hermChartPot M) y).PosDef ∧
+      ((C : ℂ) • cxHessian (hermChartPot N) y - cxHessian (hermChartPot M) y).PosSemidef
+
+end
+
+end GroundTheory.Heights₂.Heights
+end
+
+section
+
+set_option maxSynthPendingDepth 1
+
+namespace GroundTheory.Heights₂.Heights
+
+open ReciprocityTheory.ChartRestriction.G.Geo Matrix MeasureTheory
+open scoped ComplexOrder
+
+noncomputable section
+
+def ChartIbpSymm.Statement : Prop :=
+  ∀ (n : ℕ) (A B C D : Matrix (Fin (n + 1 + 1)) (Fin (n + 1 + 1)) ℂ)
+    (T : Fin n → Matrix (Fin (n + 1 + 1)) (Fin (n + 1 + 1)) ℂ),
+    A.PosDef → B.PosDef → C.PosDef → D.PosDef → (∀ i, (T i).PosDef) →
+    ∫ y : Fin (n + 1) → ℂ, (hermChartPot A y - hermChartPot B y) *
+        maDensity (Fin.cons (fun y' => hermChartPot C y' - hermChartPot D y')
+          fun i => hermChartPot (T i)) y =
+      ∫ y : Fin (n + 1) → ℂ, (hermChartPot C y - hermChartPot D y) *
+        maDensity (Fin.cons (fun y' => hermChartPot A y' - hermChartPot B y')
+          fun i => hermChartPot (T i)) y
+
+end
+
+end GroundTheory.Heights₂.Heights
+end
+
+section
+
+set_option maxSynthPendingDepth 1
+
+namespace GroundTheory.Heights₂.Heights
+
+open ReciprocityTheory.ChartRestriction.G.Geo Matrix MeasureTheory
+open scoped ComplexOrder
+
+noncomputable section
+
+namespace ChartMongeAmpereAffineInvariance
+
+variable {e : ℕ}
+
+theorem mulVec_cons_of_row_zero (T : Matrix (Fin (e + 1)) (Fin (e + 1)) ℂ) (hT : ∀ j : Fin e, T 0 j.succ = 0)
+    (y : Fin e → ℂ) :
+    T *ᵥ (Fin.cons 1 y : Fin (e + 1) → ℂ) =
+      Fin.cons (T 0 0) ((fun i => T i.succ 0) + (T.submatrix Fin.succ Fin.succ) *ᵥ y) := by
+  funext p
+  refine Fin.cases ?_ (fun i => ?_) p
+  · simp [mulVec, dotProduct, Fin.sum_univ_succ, hT]
+  · simp [mulVec, dotProduct, Fin.sum_univ_succ]
+
+theorem det_of_row_zero (T : Matrix (Fin (e + 1)) (Fin (e + 1)) ℂ) (hT : ∀ j : Fin e, T 0 j.succ = 0) :
+    T.det = T 0 0 * (T.submatrix Fin.succ Fin.succ).det := by
+  rw [det_succ_row_zero, Fin.sum_univ_succ]
+  simp [hT, Fin.succAbove_zero]
+
+theorem hermChartPot_conj (M T : Matrix (Fin (e + 1)) (Fin (e + 1)) ℂ) (hM : M.PosDef)
+    (hT : ∀ j : Fin e, T 0 j.succ = 0) (ht : T 0 0 ≠ 0) (y : Fin e → ℂ) :
+    hermChartPot (Tᴴ * M * T) y =
+      hermChartPot M ((T 0 0)⁻¹ • (fun i => T i.succ 0) + ((T 0 0)⁻¹ • T.submatrix Fin.succ Fin.succ) *ᵥ y) +
+        Real.log ‖T 0 0‖ := by
+  set w : Fin e → ℂ := (T 0 0)⁻¹ • (fun i => T i.succ 0) + ((T 0 0)⁻¹ • T.submatrix Fin.succ Fin.succ) *ᵥ y with hw
+  set u : Fin (e + 1) → ℂ := Fin.cons 1 w with hu
+  have hTv : T *ᵥ (Fin.cons 1 y : Fin (e + 1) → ℂ) = T 0 0 • u := by
+    rw [mulVec_cons_of_row_zero T hT]
+    funext p
+    refine Fin.cases ?_ (fun i => ?_) p
+    · simp [u]
+    · have hm : (((T 0 0)⁻¹ • T.submatrix Fin.succ Fin.succ) *ᵥ y) i =
+          (T 0 0)⁻¹ * ((T.submatrix Fin.succ Fin.succ) *ᵥ y) i := by
+        simp [mulVec, dotProduct, Finset.mul_sum, mul_assoc]
+      simp only [u, w, Fin.cons_succ, Pi.smul_apply, Pi.add_apply, smul_eq_mul, hm]
+      field_simp
+  have hq : star (Fin.cons 1 y : Fin (e + 1) → ℂ) ⬝ᵥ ((Tᴴ * M * T) *ᵥ (Fin.cons 1 y : Fin (e + 1) → ℂ)) =
+      (Complex.normSq (T 0 0) : ℂ) * (star u ⬝ᵥ (M *ᵥ u)) := by
+    rw [← mulVec_mulVec, ← mulVec_mulVec, dotProduct_mulVec, ← star_mulVec, hTv, star_smul, mulVec_smul,
+      smul_dotProduct, dotProduct_smul, smul_eq_mul, smul_eq_mul, Complex.normSq_eq_conj_mul_self,
+      starRingEnd_apply]
+    ring
+  have hu0 : u ≠ 0 := fun h => by
+    have := congrFun h 0
+    simp [u] at this
+  have hx : 0 < (star u ⬝ᵥ (M *ᵥ u)).re := (Complex.pos_iff.mp (hM.dotProduct_mulVec_pos hu0)).1
+  simp only [hermChartPot]
+  rw [hq, Complex.re_ofReal_mul, Real.sqrt_mul (Complex.normSq_nonneg (T 0 0)), ← Complex.norm_def,
+    Real.log_mul (norm_ne_zero_iff.mpr ht) (Real.sqrt_pos.mpr hx).ne']
+  ring
+
+theorem chartMass_conj (M T : Matrix (Fin (e + 1)) (Fin (e + 1)) ℂ) (hM : M.PosDef)
+    (hT : ∀ j : Fin e, T 0 j.succ = 0) (hdet : T.det ≠ 0) :
+    chartMass (Tᴴ * M * T) = chartMass M := by
+  have ht : T 0 0 ≠ 0 := fun h => hdet (by rw [det_of_row_zero T hT, h, zero_mul])
+  have hC : (T.submatrix Fin.succ Fin.succ).det ≠ 0 := fun h => hdet (by rw [det_of_row_zero T hT, h, mul_zero])
+  set C := (T 0 0)⁻¹ • T.submatrix Fin.succ Fin.succ with hCdef
+  set c : Fin e → ℂ := (T 0 0)⁻¹ • (fun i => T i.succ 0) with hcdef
+  have hC' : C.det ≠ 0 := by
+    rw [hCdef, det_smul]
+    exact mul_ne_zero (pow_ne_zero _ (inv_ne_zero ht)) hC
+  have hfun : hermChartPot (Tᴴ * M * T) = fun y => hermChartPot M (c + C *ᵥ y) + Real.log ‖T 0 0‖ :=
+    funext (hermChartPot_conj M T hM hT ht)
+  unfold chartMass
+  rw [hfun]
+  simp_rw [maDensity_comp_affine (hermChartPot M) c C hC']
+  rw [integral_const_mul, integral_comp_affine (maDensity fun _ => hermChartPot M) c C hC', ← mul_assoc,
+    mul_inv_cancel₀ (Complex.normSq_pos.mpr hC').ne', one_mul]
+
+end ChartMongeAmpereAffineInvariance
+
+
+open ChartMongeAmpereAffineInvariance in
+theorem ChartMassInvariant.proof : ChartMassInvariant.Statement := by
+  intro e M hM
+  let S : Matrix (Fin (e + 1))ᵒᵈ (Fin (e + 1))ᵒᵈ ℂ := M
+  have hS : S.PosDef := hM
+  let P₀ : Matrix (Fin (e + 1))ᵒᵈ (Fin (e + 1))ᵒᵈ ℂ := LDL.lowerInv hS
+  let P : Matrix (Fin (e + 1)) (Fin (e + 1)) ℂ := P₀
+  have hPdet : P.det ≠ 0 := (isUnit_det_of_invertible P₀).ne_zero
+  set T : Matrix (Fin (e + 1)) (Fin (e + 1)) ℂ := Pᴴ with hTdef
+  have hT : ∀ j : Fin e, T 0 j.succ = 0 := fun j => by
+    have h := LDL.isLowerTriangular_lowerInv hS (i := OrderDual.toDual j.succ) (j := OrderDual.toDual 0)
+      (OrderDual.toDual_lt_toDual.mpr (Fin.succ_pos j))
+    rw [hTdef, conjTranspose_apply, show P j.succ 0 = 0 from h, star_zero]
+  have hTdet : T.det ≠ 0 := by
+    rw [hTdef, det_conjTranspose]
+    exact star_ne_zero.mpr hPdet
+  let d₀ : (Fin (e + 1))ᵒᵈ → ℂ := LDL.diagEntries hS
+  set d : Fin (e + 1) → ℂ := d₀ with hddef
+  have hD : Tᴴ * M * T = diagonal d := by
+    rw [hTdef, conjTranspose_conjTranspose]
+    exact (LDL.diag_eq_lowerInv_conj hS).symm
+  have hDpos : (diagonal d).PosDef := by
+    rw [← hD]
+    exact hM.conjTranspose_mul_mul_same
+      (mulVec_injective_iff_isUnit.mpr ((Matrix.isUnit_iff_isUnit_det T).mpr (isUnit_iff_ne_zero.mpr hTdet)))
+  have hdpos : ∀ i, 0 < d i := fun i => by simpa using hDpos.diag_pos (i := i)
+  set T' : Matrix (Fin (e + 1)) (Fin (e + 1)) ℂ := diagonal fun i => ((Real.sqrt (d i).re)⁻¹ : ℝ) with hT'def
+  have hT' : ∀ j : Fin e, T' 0 j.succ = 0 := fun j => diagonal_apply_ne _ (Fin.succ_ne_zero j).symm
+  have hT'det : T'.det ≠ 0 := by
+    rw [hT'def, det_diagonal, Finset.prod_ne_zero_iff]
+    intro i _
+    exact Complex.ofReal_ne_zero.mpr (inv_ne_zero (Real.sqrt_pos.mpr (Complex.pos_iff.mp (hdpos i)).1).ne')
+  have h1 : T'ᴴ * diagonal d * T' = 1 := by
+    rw [hT'def, diagonal_conjTranspose, diagonal_mul_diagonal, diagonal_mul_diagonal, ← diagonal_one]
+    congr 1
+    funext i
+    obtain ⟨hr, him⟩ := Complex.pos_iff.mp (hdpos i)
+    set r := (d i).re with hrdef
+    have hdi : d i = (r : ℂ) := Complex.ext (by simp [hrdef]) (by simp [← him])
+    have key : (Real.sqrt r)⁻¹ * r * (Real.sqrt r)⁻¹ = 1 := by
+      have hs : Real.sqrt r ≠ 0 := (Real.sqrt_pos.mpr hr).ne'
+      rw [mul_comm, ← mul_assoc, ← mul_inv, Real.mul_self_sqrt hr.le, inv_mul_cancel₀ hr.ne']
+    rw [hdi, Pi.star_apply, Complex.star_def, Complex.conj_ofReal]
+    exact_mod_cast key
+  calc chartMass M = chartMass (Tᴴ * M * T) := (chartMass_conj M T hM hT hTdet).symm
+    _ = chartMass (diagonal d) := by rw [hD]
+    _ = chartMass (T'ᴴ * diagonal d * T') := (chartMass_conj _ T' hDpos hT' hT'det).symm
+    _ = chartMass 1 := by rw [h1]
+
+end
+
+end GroundTheory.Heights₂.Heights
+end
+
+section
+
+set_option maxSynthPendingDepth 1
+
+namespace GroundTheory.Heights₂.Heights
+
+open NumberField
+open scoped nonZeroDivisors
+
+namespace KLinesIdealLatticeFG
+
+theorem idealLattice_eq_iSup (K : Type) [Field K] [NumberField K] {n : ℕ}
+    (a : Fin n → FractionalIdeal (𝓞 K)⁰ K) :
+    idealLattice a = ⨆ x, Submodule.map (LinearMap.single (𝓞 K) (fun _ : Fin n => K) x)
+      (a x : Submodule (𝓞 K) K) :=
+  (Submodule.iSup_map_single).symm
+
+theorem fg (K : Type) [Field K] [NumberField K] {n : ℕ} (a : Fin n → FractionalIdeal (𝓞 K)⁰ K) :
+    (idealLattice a).FG := by
+  rw [idealLattice_eq_iSup]
+  exact Submodule.fg_iSup _ fun x =>
+    ((a x).fg_of_isNoetherianRing le_rfl).map _
+
+theorem single_mem_span (K : Type) [Field K] [NumberField K] {n : ℕ}
+    (a : Fin n → FractionalIdeal (𝓞 K)⁰ K) (x : Fin n) (hx : a x ≠ 0) :
+    (Pi.single x 1 : Fin n → K) ∈ Submodule.span K (idealLattice a : Set (Fin n → K)) := by
+  have hbot : (a x : Submodule (𝓞 K) K) ≠ ⊥ := by
+    rwa [Ne, FractionalIdeal.coeToSubmodule_eq_bot]
+  obtain ⟨y, hy, hy0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hbot
+  have hmem : (Pi.single x y : Fin n → K) ∈ idealLattice a := by
+    rw [idealLattice, Submodule.mem_pi]
+    intro i _
+    by_cases h : i = x
+    · subst h; simpa using hy
+    · simp [h]
+  have heq : (Pi.single x 1 : Fin n → K) = y⁻¹ • (Pi.single x y : Fin n → K) := by
+    ext i
+    by_cases h : i = x
+    · subst h; simp [hy0]
+    · simp [h]
+  rw [heq]
+  exact Submodule.smul_mem _ _ (Submodule.subset_span hmem)
+
+end KLinesIdealLatticeFG
+
+
+open KLinesIdealLatticeFG in
+theorem LinesIdealLatticeFG.proof : LinesIdealLatticeFG.Statement := by
+  intro K _ _ n a ha
+  refine ⟨fg K a, ?_⟩
+  refine eq_top_iff.mpr ?_
+  rw [← (Pi.basisFun K (Fin n)).span_eq, Submodule.span_le]
+  rintro _ ⟨x, rfl⟩
+  rw [Pi.basisFun_apply]
+  exact single_mem_span K a x (ha x)
+
+end GroundTheory.Heights₂.Heights
+end
+
+section
+
+set_option maxSynthPendingDepth 1
+
+namespace GroundTheory.Heights₂.Heights
+
+open ReciprocityTheory.ChartRestriction.G.Geo Matrix MeasureTheory
+open scoped ComplexOrder
+
+noncomputable section
+
+def chartCutoff {D : ℕ} (k : ℕ) (y : Fin D → ℂ) : ℝ :=
+  Real.smoothTransition (2 - (∑ i, ‖y i‖ ^ 2) / ((k : ℝ) + 1) ^ 2)
+
+def ChartCutoffEnergy.Statement : Prop :=
+  ∀ (n : ℕ) (T : Fin n → Matrix (Fin (n + 1 + 1)) (Fin (n + 1 + 1)) ℂ), (∀ i, (T i).PosDef) →
+    ∃ K : ℝ, ∀ k : ℕ,
+      ∫ y : Fin (n + 1) → ℂ,
+        ReciprocityTheory.AnForm.A.gradDens (fun i => hermChartPot (T i)) (chartCutoff k) (chartCutoff k) y ≤ K
+
+end
+
+end GroundTheory.Heights₂.Heights
+end

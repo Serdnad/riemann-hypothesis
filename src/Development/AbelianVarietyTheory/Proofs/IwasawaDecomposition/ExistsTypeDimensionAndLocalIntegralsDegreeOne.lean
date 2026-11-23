@@ -4,13 +4,10 @@ public import Formalism.LocalToGlobal.Divisibility.QLocTied
 public import Development.AbelianVarietyTheory.Definitions.Foundations.MatrixMeasurableSpace
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsContinuousPadic
 public import Development.AbelianVarietyTheory.Definitions.Divisors.T2SpaceGeneralLinearGroup
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.BlockUpperTriangularGLMulDetInvStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsAddHaarCompletionIntegralMatricesVolOne
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsIsNrm
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsIsUnrM
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsOpenIsCompactParahoricGLCompletionStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ParahoricCharacterMulOfTameStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ParahoricTypeRCMulInvMemStatement
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle426
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle412
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle411
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle424
 import Formalism.LocalRingCardinality.SpanPowerMembership.LocAtA
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -57,7 +54,7 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Algebra.Group.Units
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.HostPins
+import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle018
 
 @[expose] public section
 

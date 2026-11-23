@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PieriBlockIdeals.StatementLC
+public import Formalism.PieriBlockIdeals.Bundle005
 public import Formalism.PieriBlockIdeals.PieriColumnMinors.BinaryFormsExample
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -2,7 +2,7 @@ module
 
 public import GroundTheory.AutomorphicForms.DiscreteSpectrumAbstract
 public import GroundTheory.AutomorphicForms.ReductionMahler
-public import GroundTheory.AutomorphicForms.ReductionMeasure
+public import GroundTheory.AutomorphicForms.Bundle012
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

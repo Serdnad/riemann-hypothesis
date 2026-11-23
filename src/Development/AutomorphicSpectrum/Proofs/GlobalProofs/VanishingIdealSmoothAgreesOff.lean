@@ -46,7 +46,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Std.Tactic.BVDecide.Normalize.Prop
-import ReciprocityTheory.AnalyticForms.RegularLocalRings.FinalTheorems
+import ReciprocityTheory.AnalyticForms.RegularLocalRings.Bundle001
 
 @[expose] public section
 

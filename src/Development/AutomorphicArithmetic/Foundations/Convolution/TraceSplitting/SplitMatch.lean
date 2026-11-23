@@ -1,12 +1,12 @@
 module
 
-public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.SplitStable
+public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.Bundle001
 import Development.AbelianVarietyTheory.Definitions.Divisors.T2SpaceGeneralLinearGroup
-public import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.FinSplit
-public import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.GlueBasic
+public import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.Bundle004
+public import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.Bundle001
 public import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.MatchProd
 import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.SplitLoc
-import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerOrbitVolume.DetAdmA
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerOrbitVolume.Bundle009
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

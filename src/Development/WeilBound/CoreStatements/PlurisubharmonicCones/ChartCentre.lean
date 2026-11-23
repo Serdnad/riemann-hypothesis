@@ -1,24 +1,24 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.BdryChart
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle012
 public import Development.AutomorphicSpectrum.Definitions.DivisibilityTowers.GoodOrigin
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ExistsUniqueLeftBasisCoordsAdicCompletion
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.AbelianFamilyHodgeLatticeStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.BoundaryChartHodgeMapStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.BoundaryChartLogPeriodFamilyStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ComponentDataHodgeBound
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ComponentDataIntersectionBoundStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.CuspVolumeMiddle
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FamilyExpDerivativeLie
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeComponentLabelFrameStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HolomorphicEndomorphismFamilyStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HolomorphicPointsOfComponentStatement
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle015
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle188
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle295
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle304
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle307
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle277
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle265
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle173
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle166
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle172
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle174
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsExcisionNbhdAway
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LogPeriodsModuleStructureStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.NormalSchemeCoordsInjectiveStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.SncChartHodgeComponentLocalStatement
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle060
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle123
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle273
 public import Development.WeilBound.CoreStatements.PlurisubharmonicCones.ExistsPrincipal
-public import Development.WeilBound.CoreStatements.PlurisubharmonicCones.ExistsSeqCover
+public import Development.WeilBound.CoreStatements.PlurisubharmonicCones.Bundle017
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -68,6 +68,8 @@ open GroundTheory.Heights₂.Heights.LowerBoundFree GlobalTheory.CompanionTheory
 
 noncomputable section
 namespace LevelTowerAlt.Val
+
+attribute [-instance] GlobalTheory.CompHt.fintypePsi
 
 variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E} {D : Datum H}
   {Xo : ∀ l : Tor.Level H, Moduli D l} {l : Tor.Level H} {c : Coeff l}

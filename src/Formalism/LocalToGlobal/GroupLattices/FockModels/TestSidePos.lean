@@ -5,7 +5,7 @@ public import Formalism.LocalToGlobal.GroupLattices.FockModels.TestSideDef
 public import Formalism.LocalToGlobal.GroupLattices.FockModels.TestSideEdge
 import Formalism.GradedWeylDivisibility.DualWeylDominanceOf
 import Formalism.GradedWeylDivisibility.FinalD
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LDlatLemmas
+import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle011
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

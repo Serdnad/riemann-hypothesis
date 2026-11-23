@@ -2,7 +2,7 @@ module
 
 public import Development.AutomorphicSpectrum.Definitions.DivisibilityTowers.BundleChernComparison
 public import Development.WeilBound.CoreStatements.IdealCycleValues.IntNumLCons
-public import Development.WeilBound.CoreStatements.IdealCycleValues.IntersectionNumbersPermInvariant
+public import Development.WeilBound.CoreStatements.IdealCycleValues.Bundle001
 public import Development.WeilBound.CoreStatements.IdealCycleValues.ProdMapToMultiset
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

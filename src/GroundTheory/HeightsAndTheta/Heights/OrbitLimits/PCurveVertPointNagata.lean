@@ -1,10 +1,10 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.StatementsCurveVertPointNagata
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.PLocRingPow
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.StatementsCurveVertPointLengthSteps
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle017
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle032
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle021
 public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.CoordinateIdeals.MemMCoordIdealOfAevalEqZero
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.CurveCountObjects
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle023
 import Mathlib.Algebra.MvPolynomial.Nilpotent
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -49,7 +49,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterDivSupp
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle015
 
 @[expose] public section
 
@@ -74,11 +74,11 @@ theorem aeval_eq_eval₂ {S : Type*} [CommRing S] [Algebra ℤ S] (v : (Σ k, ι
 abbrev comp (e : K → ℕ) (f : MRing ι) : MRing ι :=
   weightedHomogeneousComponent (Inter.LocRingPow.multiDegWeight ι) e f
 
-theorem isMultiHomog_comp (e : K → ℕ) (f : MRing ι) : IsMultiHomog (comp e f) e :=
+theorem isMultiHomog_comp (e : K → ℕ) (f : MRing ι) : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog (comp e f) e :=
   Inter.LocRingPow.isMultiHomog_iff.mpr (weightedHomogeneousComponent_isWeightedHomogeneous _ _)
 
 theorem aeval_mul_of_isMultiHomog {S : Type*} [CommRing S] [Algebra ℤ S] (r : (Σ k, ι k) → S) (t : K → S) {g : MRing ι}
-    {e : K → ℕ} (hg : IsMultiHomog g e) :
+    {e : K → ℕ} (hg : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog g e) :
     aeval (fun p => r p * t p.1) g = aeval r g * ∏ k, t k ^ e k := by
   classical
   conv_lhs => rw [g.as_sum]
@@ -99,7 +99,7 @@ theorem aeval_mul_of_isMultiHomog {S : Type*} [CommRing S] [Algebra ℤ S] (r : 
   ring
 
 theorem aeval_C_mul_X_of_isMultiHomog {S : Type*} [CommRing S] [Algebra ℤ S] [Algebra ℤ (MvPolynomial K S)] (r : (Σ k, ι k) → S) {g : MRing ι}
-    {e : K → ℕ} (hg : IsMultiHomog g e) :
+    {e : K → ℕ} (hg : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog g e) :
     (aeval (fun p => MvPolynomial.C (r p) * MvPolynomial.X p.1) g : MvPolynomial K S) =
       MvPolynomial.C (aeval r g) * ∏ k, (MvPolynomial.X k : MvPolynomial K S) ^ e k := by
   refine (aeval_mul_of_isMultiHomog (fun p => (MvPolynomial.C (r p) : MvPolynomial K S)) MvPolynomial.X hg).trans ?_
@@ -115,7 +115,7 @@ theorem coeff_aeval_C_mul_X {S : Type*} [CommRing S] [Algebra ℤ S] [Algebra �
   classical
   induction f using MvPolynomial.induction_on' with
   | monomial u a0 =>
-    have hu : IsMultiHomog (monomial u a0 : MRing ι) (fun k => ∑ i, u ⟨k, i⟩) := by
+    have hu : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog (monomial u a0 : MRing ι) (fun k => ∑ i, u ⟨k, i⟩) := by
       intro m hm k
       have := Finset.mem_singleton.mp (support_monomial_subset hm)
       subst this
@@ -145,7 +145,7 @@ theorem CurveVertPointNagata.proof (hCh : CurveVertPointChart.Statement) : Curve
   have hPW : mCoordIdeal y ≤ W := le_sup_left.trans hW.1.1.2
   have hPh : IsMultiHomogIdeal (mCoordIdeal y) := hP.2.1.2.1
   have hWh : IsMultiHomogIdeal W := isMultiHomogIdeal_of_mem_minimalPrimes hPh hs hW.1
-  have hformP : ∀ (g : MRing ι) (e : K → ℕ), IsMultiHomog g e → g ∈ mCoordIdeal y → aeval y g = 0 := by
+  have hformP : ∀ (g : MRing ι) (e : K → ℕ), _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog g e → g ∈ mCoordIdeal y → aeval y g = 0 := by
     intro g e hg hgP
     have h0 : mConeMap y g = 0 := hgP
     rw [LowerBoundFree.mConeMap_of_isMultiHomog y hg] at h0
@@ -184,13 +184,13 @@ theorem CurveVertPointNagata.proof (hCh : CurveVertPointChart.Statement) : Curve
     show IsLocalization.lift hu (IsLocalization.mk' Bm (a p) (⟨b p, hb p⟩ : m.primeCompl)) = _
     rw [IsLocalization.lift_mk'_spec]
     exact (hab p).symm
-  have hφev : ∀ (g : MRing ι) (e : K → ℕ), IsMultiHomog g e →
+  have hφev : ∀ (g : MRing ι) (e : K → ℕ), _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog g e →
       φ (aeval r g) = aeval y g / ∏ k, y ⟨k, c k⟩ ^ e k := fun g e hg => by
     have h1 := aeval_mul_of_isMultiHomog y (fun k => (y ⟨k, c k⟩)⁻¹) hg
     simp only [inv_pow, Finset.prod_inv_distrib, ← div_eq_mul_inv] at h1
     rw [hφaeval, h1]
 
-  have hcrit : ∀ (g : MRing ι) (e : K → ℕ), IsMultiHomog g e →
+  have hcrit : ∀ (g : MRing ι) (e : K → ℕ), _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog g e →
       (g ∈ W ↔ aeval r g ∈ IsLocalRing.maximalIdeal Bm) := by
     intro g e hg
     have h3 := (hCh K ι Ω y s d hP hs hsP W hW c hc).2.2 e g hg
@@ -223,7 +223,7 @@ theorem CurveVertPointNagata.proof (hCh : CurveVertPointChart.Statement) : Curve
   let N := mNagataRing K Bm
   have hψcoeff : ∀ f (n : K →₀ ℕ), (ψ f).coeff n = aeval r (comp (⇑n) f) := fun f n =>
     coeff_aeval_C_mul_X r f n
-  have hψform : ∀ (G : MRing ι) (e : K → ℕ), IsMultiHomog G e →
+  have hψform : ∀ (G : MRing ι) (e : K → ℕ), _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog G e →
       ψ G = MvPolynomial.C (aeval r G) * ∏ k, (MvPolynomial.X k : MvPolynomial K Bm) ^ e k :=
     fun G e hG => aeval_C_mul_X_of_isMultiHomog r hG
   have hrc : ∀ k, r ⟨k, c k⟩ = 1 := by
@@ -307,7 +307,7 @@ theorem CurveVertPointNagata.proof (hCh : CurveVertPointChart.Statement) : Curve
       intro f
       induction f using MvPolynomial.induction_on' with
       | monomial u a0 =>
-        have hu : IsMultiHomog (monomial u a0 : MRing ι) (fun k => ∑ i, u ⟨k, i⟩) := by
+        have hu : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog (monomial u a0 : MRing ι) (fun k => ∑ i, u ⟨k, i⟩) := by
           intro n hn k
           have := Finset.mem_singleton.mp (support_monomial_subset hn)
           subst this

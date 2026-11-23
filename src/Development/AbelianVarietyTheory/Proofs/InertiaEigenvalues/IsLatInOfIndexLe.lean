@@ -2,8 +2,7 @@ module
 
 public import Formalism.SharpRestriction.LevelLetterCocycles.IntegralHeckeForms
 public import Development.AbelianVarietyTheory.Counterexamples.NonGaloisSurvey.MemTypeSubspaceIffUnipotentCharacter
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LenRBaseChangeSubquotient
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LengthCommensurableOfIsLatIn
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle308
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

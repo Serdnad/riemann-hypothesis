@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.AutomorphicForms.AdelicGLn
-public import GroundTheory.AutomorphicForms.StrongApproximationSLElementary
+public import GroundTheory.AutomorphicForms.Bundle003
 public import GroundTheory.GlobalFields.TateThesis.AdelicCharDual
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

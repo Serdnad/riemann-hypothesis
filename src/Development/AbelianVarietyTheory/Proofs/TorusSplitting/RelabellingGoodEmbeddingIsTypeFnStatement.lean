@@ -1,7 +1,7 @@
 module
 
-public import Formalism.LocalToGlobal.ProjectiveLattices.UnFree
-public import Development.AbelianVarietyTheory.Proofs.TorusSplitting.RelabellingGoodEmbeddingIsTypeFn
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle013
+public import Development.AbelianVarietyTheory.Proofs.TorusSplitting.Bundle011
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -40,7 +40,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Development.AbelianVarietyTheory.Definitions.ArchimedeanThetaValues.IsFramedPointChangedByLetters
-import Development.AbelianVarietyTheory.Definitions.ThetaValues.IsNullVal
+import Development.AbelianVarietyTheory.Definitions.ThetaValues.Bundle001
 import Development.AbelianVarietyTheory.Definitions.TorusSections.IsTorusOf
 
 @[expose] public section

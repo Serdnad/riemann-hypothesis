@@ -1,17 +1,15 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.RealAt
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ChangedFrameRationalUnitaryStatement
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ComparedFormLevelZeroRealisesComplexPolyStatement
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ComparedFormNormalisedValuesLatticeTupleStatement
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.GmOfMapEqActC
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.KernelSiteModelStageWeightsEqChainWeightsStatement
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.KernelSiteValuesAtPointIffRealisesInStdCoordsStatement
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.NaturalActionInverseFrameUndoesMoveStatement
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.NormDerivationGeneratorsEqOneAtSiteStatement
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.OperatorPolynomialOfRealisingValueStatement
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.PolDYGoodDeg
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.PosTieAt
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle028
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle372
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle359
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle234
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle357
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle224
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle351
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle337
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle238
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle341
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -49,7 +47,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.RkLe
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle020
 
 @[expose] public section
 

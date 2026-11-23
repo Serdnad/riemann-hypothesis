@@ -1,12 +1,11 @@
 module
 
-public import Development.AutomorphicArithmetic.Foundations.Convolution.PowerSumTraces.DecayTraceClassAlt
-public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.KernelTransforms.TensApply
-public import Development.AutomorphicArithmetic.TwistedTraces.CuspDecayFinsetSum
-public import Development.AutomorphicArithmetic.TwistedTraces.CuspDecayOfRankZero
-public import Development.AutomorphicArithmetic.TwistedTraces.CuspDecayTensConvRealSmoothT
-public import Development.AutomorphicArithmetic.TwistedTraces.ExistsSumConvRealSmoothT
-public import Development.AutomorphicArithmetic.TwistedTraces.ExistsSumTensOfIsLeftSmooth
+public import Development.AutomorphicArithmetic.Foundations.Convolution.PowerSumTraces.Bundle001
+public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.KernelTransforms.Bundle003
+public import Development.AutomorphicArithmetic.TwistedTraces.Bundle012
+public import Development.AutomorphicArithmetic.TwistedTraces.Bundle014
+public import Development.AutomorphicArithmetic.TwistedTraces.Bundle007
+public import Development.AutomorphicArithmetic.TwistedTraces.Bundle017
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

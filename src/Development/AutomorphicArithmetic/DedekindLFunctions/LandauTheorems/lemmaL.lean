@@ -1,8 +1,8 @@
 module
 
 public import Development.AutomorphicArithmetic.DedekindLFunctions.CharFamily
-public import Development.AutomorphicArithmetic.DedekindLFunctions.LandauTheorems.CharFamilyLFunctionNeZeroOfOneLeRe
-public import Development.AutomorphicArithmetic.DedekindLFunctions.LandauTheorems.WindowHypUOfWindowHyp
+public import Development.AutomorphicArithmetic.DedekindLFunctions.LandauTheorems.Bundle003
+public import Development.AutomorphicArithmetic.DedekindLFunctions.LandauTheorems.Bundle006
 public import Development.AutomorphicArithmetic.DedekindLFunctions.LandauTheorems.landauWindow
 public import Development.AutomorphicArithmetic.DedekindLFunctions.LandauTheorems.poleData
 import Mathlib.Algebra.Order.Floor.Extended

@@ -1,11 +1,11 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsBlockRealGramComparison
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsBlockResolutionSup
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsSupBoundBlock
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsSupBoundCount
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle058
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle053
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle055
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle056
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.SupBoundCountLattice
-public import GroundTheory.HeightsAndTheta.Heights.MatrixCharts.DetIneq
+public import GroundTheory.HeightsAndTheta.Heights.MatrixCharts.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -68,12 +68,12 @@ set_option linter.unusedSectionVars false
 variable {D : ℕ} {K : Type} [Fintype K] [DecidableEq K] {ι : K → Type} [∀ k, Fintype (ι k)]
   {Ω : Type} [Field Ω] [CharZero Ω]
 
-theorem conj_pairValH (A : HermLine ι) (n : ℕ) (b b' : MvPolynomial (Σ k, ι k) ℚ) (z : (Σ k, ι k) → ℂ) :
+theorem conj_pairValH (A : _root_.ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) (n : ℕ) (b b' : MvPolynomial (Σ k, ι k) ℚ) (z : (Σ k, ι k) → ℂ) :
     conj (pairValH A n b b' z) = pairValH A n b' b z := by
   simp only [pairValH, map_div₀, map_mul, Complex.conj_conj, Complex.conj_ofReal]
   ring
 
-theorem pairValH_conjPt (A : HermLine ι) (hA : IsConjInvariantH A) (n : ℕ) (f f' : MRing ι)
+theorem pairValH_conjPt (A : _root_.ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) (hA : IsConjInvariantH A) (n : ℕ) (f f' : MRing ι)
     (z : (Σ k, ι k) → ℂ) :
     pairValH A n (map (Int.castRingHom ℚ) f) (map (Int.castRingHom ℚ) f') (conjPt z) =
       conj (pairValH A n (map (Int.castRingHom ℚ) f) (map (Int.castRingHom ℚ) f') z) := by
@@ -106,7 +106,7 @@ theorem sum_quad {r : ℕ} (c w : Fin r → ℂ) (t : ℝ) :
   simp only [map_mul, Complex.conj_conj]
   ring
 
-theorem quad_gram {X : Type*} [MeasurableSpace X] (μ : Measure X) (A : HermLine ι) (n : ℕ) {r : ℕ}
+theorem quad_gram {X : Type*} [MeasurableSpace X] (μ : Measure X) (A : _root_.ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) (n : ℕ) {r : ℕ}
     (f : Fin r → MRing ι) (p : X → (Σ k, ι k) → ℂ) (M : Matrix (Fin r) (Fin r) ℂ)
     (hM : ∀ k l, M k l = ∫ x, pairValH A n (map (Int.castRingHom ℚ) (f k)) (map (Int.castRingHom ℚ) (f l)) (p x) ∂μ)
     (hi : ∀ k l, Integrable (fun x =>

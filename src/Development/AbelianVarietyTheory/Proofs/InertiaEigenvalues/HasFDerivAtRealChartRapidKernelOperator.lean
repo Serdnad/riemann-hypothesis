@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WordAppendSingle
-public import Development.AbelianVarietyTheory.Definitions.Divisors.IsRapidInf
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NormToLMulLe
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle873
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle024
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle528
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

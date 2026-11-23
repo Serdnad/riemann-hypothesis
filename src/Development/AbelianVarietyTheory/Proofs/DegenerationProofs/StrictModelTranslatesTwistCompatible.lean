@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Degenerations.OfDerivationFnOn
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.IsOpenImmersionOfSections
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.TranslationBySection
+public import Development.AbelianVarietyTheory.Definitions.Degenerations.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle018
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle022
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsCompletionPointClosedPointMemOfSmooth
 public import Development.AbelianVarietyTheory.Proofs.ThetaFamilyOrigin.IsIntegralOfIsAbelianSchemeField
 import Mathlib.Algebra.Order.Floor.Extended

@@ -1,12 +1,12 @@
 module
 
-public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.HodgeBundleWeights.ToKnownTheoremsOf
-public import Development.AbelianVarietyTheory.Definitions.Divisors.GenRatios
+public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.HodgeBundleWeights.Bundle001
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle057
 public import Development.AbelianVarietyTheory.Definitions.Divisors.NormNegCmConstantEqAtAllEmbeddings
-public import Development.AbelianVarietyTheory.Definitions.Divisors.SemiposAtOfPositive
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsModelOf
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle064
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1161
 public import Development.WeilBound.CoreStatements.MinimalPrimeDimensions.CdvrPoint
-public import Development.WeilBound.CoreStatements.MinimalPrimeDimensions.WeightSectionsCdvrEstimate
+public import Development.WeilBound.CoreStatements.MinimalPrimeDimensions.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -39,8 +39,8 @@ import Mathlib.Tactic.NormNum.NatSqrt
 import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AbelianVarietyTheory.Definitions.Divisors.FirstChernLeviEqConstant
-import Development.AbelianVarietyTheory.Definitions.Divisors.SlopeTestRemainingChoices
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle027
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle026
 
 @[expose] public section
 

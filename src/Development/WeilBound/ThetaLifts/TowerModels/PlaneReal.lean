@@ -1,8 +1,8 @@
 module
 
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
-import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.SignatureConjugationInvariant
-import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.SignatureExists
+import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle003
+import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

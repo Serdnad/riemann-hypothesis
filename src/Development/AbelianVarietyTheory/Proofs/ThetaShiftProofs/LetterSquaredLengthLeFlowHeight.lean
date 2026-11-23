@@ -1,19 +1,18 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.ArchimedeanThetaValues.ModelsAt
-public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.LieBasisCoordinatesBijectiveTangent
+public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.Bundle010
 public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.LieCombBaseChange
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.AnVecTorusLetter
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.CmMetrisedLineLengthsEqSectionLieNorms
-import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.DegenerationDataBaseChangesExistPid
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExistsIsSplit
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle055
+import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle024
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle036
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExistsSubspaceIsometric
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.HermFormRsmulRight
-import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.HolArcNilpotent
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.IsIntegralDiscrMulOfTraceInt
+import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle023
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle029
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.IsLocalRingDual
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.IsTauCanonicalIffOfIsPullDegTauBimult
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.SplitBaseChange
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle034
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.TorusExtExponentialDerivativeBijectiveTangent
 import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.NonemptyCubicalPull
 import Mathlib.Algebra.Order.Floor.Extended
@@ -200,7 +199,7 @@ theorem le_sq_of_log {y b m : ℝ} (hb : 0 < b) (hm : 1 ≤ m) (h : Real.log y /
     linarith
   exact h₁.trans (pow_le_pow_left₀ hb.le (le_mul_of_one_le_right hb.le hm) 2)
 
-theorem letter_length_le : Known → ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E) (Dw : Datum H) (l : Level H) (Xo : Moduli Dw l) (c : Coeff l) (K₁ : Type) [Field K₁] [NumberField K₁] [Algebra c.F K₁] (a : ArcIn Dw l (RingHom.id c.F) K₁ (algebraMap c.F K₁)) (e : ∀ τ : E →+* ℂ, Fin (Dw.mult τ) → Out.GtPt a.D₀ (epsR K₁)) (th : a.D₀.P.L.Sec) (jj : ℤ) (n' : ℕ) (La c₁ : ℝ) (s : CMIn a e th jj n' La c₁) (em : K₁ →+* ℂ) [Algebra (FractionRing ℂ) ℂ] [IsScalarTower ℂ (FractionRing ℂ) ℂ] (σ : c.F →+* ℂ) (r : ℕ) (U : Unf Xo c σ r) (Uw : UnfWit U) (O : Type) [CommRing O] (β : O →+* c.F) (Y : Model Xo c β) (aC : ArcIn Dw l β ℂ (σ.comp β)) (p : Out.IsPullDeg em a.D₀ aC.D₀) (χ : Sp (PowerSeries ℂ) ⟶ Y.X) (W : Wit Y aC χ) (Ha : HolArc Y σ aC χ W Uw.F) (k : U.Comp) (ξ' : Fin r → E) (x x'' : (U.X k).dom) (sf : (U.X k).Ψ → ℂ) (w₁ : ℂ) (L : (Fin Uw.g → ℂ) ≃ₗ[ℂ] (Fin Uw.g → ℂ)) (gm : (Uw.F.Di Ha.i).La ≃ₗ[𝓞 E] (Uw.F.Di (Uw.ik k)).La) (ep : ℝ) (Hm : Matrix (Fin Uw.g) (Fin Uw.g) ℂ), σ = em.comp (algebraMap c.F K₁) → GoodEmb c σ → IsUnf U → InBC em (a.restrict β) aC p → 1 ≤ La → 0 < ep → (U.X k).IsIso ξ' → Ha.T < w₁.im → (∀ v, Uw.Pm k x (gm v) = L (Ha.Pw w₁ v)) → (∀ v v', (Uw.F.Di (Uw.ik k)).EF (gm v) (gm v') = (Uw.F.Di Ha.i).EF v v') → (∃ t, (∀ v', -(Uw.F.Di Ha.i).EF t v' = s.ξ (p.xe (Ha.y v'))) ∧ (Uw.φ k (gm t) : Fin r → E) = ξ') → x''.1 = (U.X k).flow ξ' sf x.1 → (∀ τ, (U.X k).tt ξ' x''.1 τ = ep) → IsRiem Uw.F (Uw.ik k) (Uw.Pm k x'') Hm → ∀ (τ : E →+* ℂ) (i : Fin (Dw.mult τ)) (eC : Out.GtPt aC.D₀ (epsR ℂ)) (z : Fin Uw.g → ℂ), LetBC p (e τ i) eC → AnVec Ha eC z → Real.pi * (hermForm Hm (L z) (L z)).re ≤ (La * Real.sqrt (max 1 ep⁻¹) * (s.line τ i).n em) ^ 2 := by
+theorem letter_length_le : Known → ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E) (Dw : Datum H) (l : Level H) (Xo : Moduli Dw l) (c : Coeff l) (K₁ : Type) [Field K₁] [NumberField K₁] [Algebra c.F K₁] (a : ArcIn Dw l (RingHom.id c.F) K₁ (algebraMap c.F K₁)) (e : ∀ τ : E →+* ℂ, Fin (Dw.mult τ) → Out.GtPt a.D₀ (epsR K₁)) (th : a.D₀.P.L.Sec) (jj : ℤ) (n' : ℕ) (La c₁ : ℝ) (s : CMIn a e th jj n' La c₁) (em : K₁ →+* ℂ) [Algebra (FractionRing ℂ) ℂ] [IsScalarTower ℂ (FractionRing ℂ) ℂ] (σ : c.F →+* ℂ) (r : ℕ) (U : _root_.Formalism.L2.PjFree.Unf Xo c σ r) (Uw : UnfWit U) (O : Type) [CommRing O] (β : O →+* c.F) (Y : Model Xo c β) (aC : ArcIn Dw l β ℂ (σ.comp β)) (p : Out.IsPullDeg em a.D₀ aC.D₀) (χ : Sp (PowerSeries ℂ) ⟶ Y.X) (W : Wit Y aC χ) (Ha : HolArc Y σ aC χ W Uw.F) (k : U.Comp) (ξ' : Fin r → E) (x x'' : (U.X k).dom) (sf : (U.X k).Ψ → ℂ) (w₁ : ℂ) (L : (Fin Uw.g → ℂ) ≃ₗ[ℂ] (Fin Uw.g → ℂ)) (gm : (Uw.F.Di Ha.i).La ≃ₗ[𝓞 E] (Uw.F.Di (Uw.ik k)).La) (ep : ℝ) (Hm : Matrix (Fin Uw.g) (Fin Uw.g) ℂ), σ = em.comp (algebraMap c.F K₁) → _root_.Formalism.L2.PjFree.GoodEmb c σ → _root_.Formalism.L2.PjFree.IsUnf U → InBC em (a.restrict β) aC p → 1 ≤ La → 0 < ep → (U.X k).IsIso ξ' → Ha.T < w₁.im → (∀ v, Uw.Pm k x (gm v) = L (Ha.Pw w₁ v)) → (∀ v v', (Uw.F.Di (Uw.ik k)).EF (gm v) (gm v') = (Uw.F.Di Ha.i).EF v v') → (∃ t, (∀ v', -(Uw.F.Di Ha.i).EF t v' = s.ξ (p.xe (Ha.y v'))) ∧ (Uw.φ k (gm t) : Fin r → E) = ξ') → x''.1 = (U.X k).flow ξ' sf x.1 → (∀ τ, (U.X k).tt ξ' x''.1 τ = ep) → IsRiem Uw.F (Uw.ik k) (Uw.Pm k x'') Hm → ∀ (τ : E →+* ℂ) (i : Fin (Dw.mult τ)) (eC : Out.GtPt aC.D₀ (epsR ℂ)) (z : Fin Uw.g → ℂ), LetBC p (e τ i) eC → AnVec Ha eC z → Real.pi * (hermForm Hm (L z) (L z)).re ≤ (La * Real.sqrt (max 1 ep⁻¹) * (s.line τ i).n em) ^ 2 := by
   intro hK E _ _ _ H Dw l Xo c K₁ _ _ _ a e th jj n' La c₁ s em _ _ σ r U Uw O _ β Y aC p χ W Ha k ξ' x x'' sf w₁ L gm
     ep Hm hσ hG hU hBC hLa hep hξ hw hP hEF ⟨t, ht, htξ⟩ hx htt hH τ i eC z hL hz
   classical
@@ -228,31 +227,31 @@ theorem letter_length_le : Known → ∀ (E : Type) [Field E] [NumberField E] [I
     let ξC : Module.Dual ℤ aC.D₀.X := s.ξ.comp p.xe.toIntLinearEquiv.toLinearMap
     have hpair : ∀ y, pairE (E := E) ξC y = pairE s.ξ (p.xe y) := fun y =>
       Finset.sum_congr rfl fun j _ => congrArg (fun q => _ * ((s.ξ q : ℤ) : E)) (hBC.2.1 _ y)
-    have hv : ∀ y, xiVal (conjEmb (relab c σ τ)) ξC y = em (φ₀ (p.xe y)) := fun y => by
+    have hv : ∀ y, xiVal (conjEmb (_root_.Formalism.L2.PjFree.relab c σ τ)) ξC y = em (φ₀ (p.xe y)) := fun y => by
       rw [(pairE_properties E aC.D₀.X ξC).2.2.2.2, hpair]
-      refine (ArchLen.emb_cc (relab c σ τ) _).symm.trans ?_
+      refine (ArchLen.emb_cc (_root_.Formalism.L2.PjFree.relab c σ τ) _).symm.trans ?_
       exact RingHom.congr_fun hσ _
-    have ha := anVec_torusLetter hGl E H Dw l Xo c σ O β Y aC χ W _ _ Uw.F Ha ξC t (conjEmb (relab c σ τ)) eC ht htan b₂
+    have ha := anVec_torusLetter hGl E H Dw l Xo c σ O β Y aC χ W _ _ Uw.F Ha ξC t (conjEmb (_root_.Formalism.L2.PjFree.relab c σ τ)) eC ht htan b₂
       fun y j hj => (d₂ y j hj).trans (congrArg _ (hv y).symm)
-    have hcc : conjEmb (conjEmb (relab c σ τ)) = relab c σ τ := by ext u; simp [conjEmb]
+    have hcc : conjEmb (conjEmb (_root_.Formalism.L2.PjFree.relab c σ τ)) = _root_.Formalism.L2.PjFree.relab c σ τ := by ext u; simp [conjEmb]
     rw [hcc] at ha
     have hz' := ((ExpTan.anVec_bijective hGl E H Dw l Xo c σ O β Y aC χ W _ _ Uw.F Ha).1 eC htan).unique hz ha
     have hLz : L z = (2 * Real.pi * Complex.I : ℂ)⁻¹ • fun j => if (Uw.e j).1 = τ then Uw.Pm k x (gm t) j else 0 := by
-      have := map_proj (fun j => relab c σ (Uw.e j).1) L.toLinearMap _ hspan' (by
+      have := map_proj (fun j => _root_.Formalism.L2.PjFree.relab c σ (Uw.e j).1) L.toLinearMap _ hspan' (by
         rintro u _ ⟨v, rfl⟩
         funext j
-        have e₁ : (fun j => relab c σ (Uw.e j).1 (u : E) * Ha.Pw w₁ v j) = Ha.Pw w₁ (u • v) :=
+        have e₁ : (fun j => _root_.Formalism.L2.PjFree.relab c σ (Uw.e j).1 (u : E) * Ha.Pw w₁ v j) = Ha.Pw w₁ (u • v) :=
           funext fun j => (hlin' u v j).symm
-        rw [e₁, LinearEquiv.coe_coe, ← hP, ← hP, map_smul, hlin]) (relab c σ τ) (Ha.Pw w₁ t)
+        rw [e₁, LinearEquiv.coe_coe, ← hP, ← hP, map_smul, hlin]) (_root_.Formalism.L2.PjFree.relab c σ τ) (Ha.Pw w₁ t)
       simp only [(ArchLen.relab_inj c σ).eq_iff, LinearEquiv.coe_coe] at this hz'
       rw [hP, ← this, ← map_smul, hz', hPw t (hy t ht0)]
       congr 1
       funext j
       by_cases h : (Uw.e j).1 = τ <;> simp [h, Pi.smul_apply, smul_eq_mul]
-    obtain ⟨τ', hτ'⟩ : ∃ τ' : (U.X k).Ψ, τ'.1 = relab c σ τ ∨ conjEmb τ'.1 = relab c σ τ := by
-      by_cases hm : relab c σ τ ∈ (U.X k).Ψ
+    obtain ⟨τ', hτ'⟩ : ∃ τ' : (U.X k).Ψ, τ'.1 = _root_.Formalism.L2.PjFree.relab c σ τ ∨ conjEmb τ'.1 = _root_.Formalism.L2.PjFree.relab c σ τ := by
+      by_cases hm : _root_.Formalism.L2.PjFree.relab c σ τ ∈ (U.X k).Ψ
       · exact ⟨⟨_, hm⟩, Or.inl rfl⟩
-      · refine ⟨⟨conjEmb (relab c σ τ), ?_⟩, Or.inr hcc⟩
+      · refine ⟨⟨conjEmb (_root_.Formalism.L2.PjFree.relab c σ τ), ?_⟩, Or.inr hcc⟩
         by_contra h'
         exact hm (((U.X k).cmType _).2 h')
     have key := htor (gm t) htξ τ τ' hτ'
@@ -336,3 +335,20 @@ theorem letter_length_le : Known → ∀ (E : Type) [Field E] [NumberField E] [I
     exact le_sq_of_log (mul_pos hLa' hpos) hm (hy₃ ▸ hy₂ hLa')
 
 end GlobalTheory.LetterLen
+
+end
+
+section
+
+@[expose] public section
+
+open AlgebraicGeometry CategoryTheory CategoryTheory.Limits MonoidalCategory CartesianMonoidalCategory MonObj NumberField IsDedekindDomain
+open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Geo.Tor ReciprocityTheory.ChartRestriction.G.FD ReciprocityTheory.ChartRestriction.G.FreeQuotientRank
+open Formalism.L2.Pj Formalism.L2.PjFree Formalism.L2.Pj.QAt Formalism.L2.LamCM GlobalTheory GlobalTheory.ArcQ GlobalTheory.LamF GlobalTheory.ArcCM
+open scoped LaurentSeries
+
+theorem _root_.GlobalTheory.T.letter_squaredLength_le_flow_height : Known → ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E) (Dw : Datum H) (l : Level H) (Xo : Moduli Dw l) (c : Coeff l) (K₁ : Type) [Field K₁] [NumberField K₁] [Algebra c.F K₁] (a : ArcIn Dw l (RingHom.id c.F) K₁ (algebraMap c.F K₁)) (e : ∀ τ : E →+* ℂ, Fin (Dw.mult τ) → Out.GtPt a.D₀ (epsR K₁)) (th : a.D₀.P.L.Sec) (jj : ℤ) (n' : ℕ) (La c₁ : ℝ) (s : CMIn a e th jj n' La c₁) (em : K₁ →+* ℂ) [Algebra (FractionRing ℂ) ℂ] [IsScalarTower ℂ (FractionRing ℂ) ℂ] (σ : c.F →+* ℂ) (r : ℕ) (U : _root_.Formalism.L2.PjFree.Unf Xo c σ r) (Uw : UnfWit U) (O : Type) [CommRing O] (β : O →+* c.F) (Y : Model Xo c β) (aC : ArcIn Dw l β ℂ (σ.comp β)) (p : Out.IsPullDeg em a.D₀ aC.D₀) (χ : Sp (PowerSeries ℂ) ⟶ Y.X) (W : Wit Y aC χ) (Ha : HolArc Y σ aC χ W Uw.F) (k : U.Comp) (ξ' : Fin r → E) (x x'' : (U.X k).dom) (sf : (U.X k).Ψ → ℂ) (w₁ : ℂ) (L : (Fin Uw.g → ℂ) ≃ₗ[ℂ] (Fin Uw.g → ℂ)) (gm : (Uw.F.Di Ha.i).La ≃ₗ[𝓞 E] (Uw.F.Di (Uw.ik k)).La) (ep : ℝ) (Hm : Matrix (Fin Uw.g) (Fin Uw.g) ℂ), σ = em.comp (algebraMap c.F K₁) → _root_.Formalism.L2.PjFree.GoodEmb c σ → _root_.Formalism.L2.PjFree.IsUnf U → InBC em (a.restrict β) aC p → 1 ≤ La → 0 < ep → (U.X k).IsIso ξ' → Ha.T < w₁.im → (∀ v, Uw.Pm k x (gm v) = L (Ha.Pw w₁ v)) → (∀ v v', (Uw.F.Di (Uw.ik k)).EF (gm v) (gm v') = (Uw.F.Di Ha.i).EF v v') → (∃ t, (∀ v', -(Uw.F.Di Ha.i).EF t v' = s.ξ (p.xe (Ha.y v'))) ∧ (Uw.φ k (gm t) : Fin r → E) = ξ') → x''.1 = (U.X k).flow ξ' sf x.1 → (∀ τ, (U.X k).tt ξ' x''.1 τ = ep) → IsRiem Uw.F (Uw.ik k) (Uw.Pm k x'') Hm → ∀ (τ : E →+* ℂ) (i : Fin (Dw.mult τ)) (eC : Out.GtPt aC.D₀ (epsR ℂ)) (z : Fin Uw.g → ℂ), LetBC p (e τ i) eC → AnVec Ha eC z → Real.pi * (hermForm Hm (L z) (L z)).re ≤ (La * Real.sqrt (max 1 ep⁻¹) * (s.line τ i).n em) ^ 2 := by
+  first | exact @GlobalTheory.LetterLen.letter_length_le | exact GlobalTheory.LetterLen.letter_length_le | (intros; apply GlobalTheory.LetterLen.letter_length_le <;> assumption)
+
+end
+end

@@ -1,13 +1,13 @@
 module
 
-public import Development.AutomorphicArithmetic.Foundations.Convolution.GeneralizedMeasures.HeckeFinAlt
-public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.KernelTransforms.CommPrj
-public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.KernelTransforms.HopBasic
-import GroundTheory.AutomorphicForms.HaarCosets
+public import Development.AutomorphicArithmetic.Foundations.Convolution.GeneralizedMeasures.Bundle001
+public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.KernelTransforms.Bundle003
+public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.KernelTransforms.Bundle006
+import GroundTheory.AutomorphicForms.Bundle008
 public import GroundTheory.AutomorphicForms.MacdonaldHecke
 public import GroundTheory.AutomorphicForms.MacdonaldWhittakerHecke
 public import GroundTheory.AutomorphicForms.Satake
-import GroundTheory.GlobalFields.KummerTheory.LocalIndexAtPlace
+import GroundTheory.GlobalFields.KummerTheory.Bundle001
 import GroundTheory.LocalFields.LocalFourierHaar
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,18 +1,18 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.AfDesc
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.WeightChange
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.SphericalRepGLExistsSatakeParameters
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.JordanHolderMultiplicityNormalizedBorelJacquetUn
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.Places
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.Bundle021
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle119
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle122
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.Bundle006
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.AutomorphyLifting.LocalConditionCharacters.CharPolSupp
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.AutomorphyLifting.PolarizedLinkage.ExtraV
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.AutomorphyLifting.PrimeIndexConstruction.OrdPlain
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.TJacqOfU
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.TLocCompR
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.TSatLoc
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.Bundle018
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.Bundle017
 public import Development.AutomorphicArithmetic.Foundations.LocalLanglands.LocalCentralUnits.RecTExists
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.IntertwinerDiagonalization
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle048
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -301,8 +301,8 @@ theorem UpperTheory.V.Z.Win.RR.ordAway_of_alt (hX : ExRS) (hGd : GdOf) :
     have h6 : (r s).val 0 0 = 1 := by linear_combination t1 - h5
     ext i j
     fin_cases i <;> fin_cases j <;> simp [h3, h4, h5, h6]
-  have diag_of_wd (hl : ((l : ℕ) : 𝓞 F) ∉ w.asIdeal) (ι : Qbar l ≃+* ℂ) (r : G F Ω →* GL (Fin 2) (Qbar l))
-      (ξ : G F Ω →* (Qbar l)ˣ) {x : WD h} (hx : IsWDOf ι r x)
+  have diag_of_wd (hl : ((l : ℕ) : 𝓞 F) ∉ w.asIdeal) (ι : Qbar l ≃+* ℂ) (r : _root_.Formalism.ConjugateSelfDual.G F Ω →* GL (Fin 2) (Qbar l))
+      (ξ : _root_.Formalism.ConjugateSelfDual.G F Ω →* (Qbar l)ˣ) {x : WD h} (hx : IsWDOf ι r x)
       (hc : ∀ g : Ine (F := F) A, ∃ y : ℂ, x.charPol (ineIncl h g) = (X - C 1) * (X - C y))
       (hd : ∀ g ∈ Ine (F := F) A, (r g).val.det = ξ g) (hr : ¬ Ine (F := F) A ≤ ξ.ker) :
       IsDiagOn r (Ine (F := F) A) ![1, ξ] := by
@@ -320,7 +320,7 @@ theorem UpperTheory.V.Z.Win.RR.ordAway_of_alt (hX : ExRS) (hGd : GdOf) :
     obtain ⟨s₀, hs₀, h0⟩ := IsConcreteLE.not_le_iff_exists.1 hr
     have h0' : (ξ s₀ : Qbar l) ≠ 1 := fun e => h0 (Units.ext e)
     obtain ⟨p, hp⟩ := UpperTheory.Reformulated.B.IntertwinerDiagonalization.exists_diag (r s₀) h0' (ht _ hs₀) (hd _ hs₀)
-    let r' : G F Ω →* GL (Fin 2) (Qbar l) := (MulAut.conj p).toMonoidHom.comp r
+    let r' : _root_.Formalism.ConjugateSelfDual.G F Ω →* GL (Fin 2) (Qbar l) := (MulAut.conj p).toMonoidHom.comp r
     have hr' : ∀ s, r' s = p * r s * p⁻¹ := fun s => rfl
     obtain ⟨t, htt, φ, hφ, N, a, hN, -⟩ : IsWDOf ι r' x := hx.of_conj hl p fun s => by rw [hr', inv_mul_cancel_right]
     obtain rfl : N = 0 := nil_zero h0' hN.1 (by

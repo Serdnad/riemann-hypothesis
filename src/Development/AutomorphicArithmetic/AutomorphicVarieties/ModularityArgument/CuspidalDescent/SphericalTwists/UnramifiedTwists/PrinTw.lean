@@ -1,6 +1,6 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.CuspidalDescent.SphericalTwists.HodgeTateFromSandwich
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.CuspidalDescent.SphericalTwists.Bundle001
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsEquivProdIrrTw
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.HeckeCharLocalComponentExistsUniqueUnitary
 import Mathlib.Algebra.Order.Floor.Extended
@@ -60,7 +60,11 @@ private def prinTw {n : ℕ} (χ : Fin n → kˣ →* ℂˣ) {μ : kˣ →* ℂ�
     (twist (prinSeries χ) (detChar (Fin n) μ)).Equiv (prinSeries fun i => χ i * μ) :=
   (GlobalTheory.LocGL.parIndTwistEquiv _ _ hμ).trans (GlobalTheory.LocGL.parIndEquiv _ (.mk (.refl ℂ _) fun g => by
     ext
-    simp [torusChar_apply, det_leviEmb, map_prod, Finset.prod_mul_distrib]
+    change (μ (Matrix.GeneralLinearGroup.det (leviEmb k (points (Fin n)) g)) : ℂ) *
+        ((torusChar χ (fun i => Matrix.GeneralLinearGroup.det (g i)) : ℂ) * 1) =
+      (torusChar (fun i => χ i * μ) (fun i => Matrix.GeneralLinearGroup.det (g i)) : ℂ) * 1
+    simp only [mul_one, torusChar_apply, det_leviEmb, map_prod, MonoidHom.mul_apply,
+      Finset.prod_mul_distrib, Units.val_mul]
     exact mul_comm _ _))
 
 private theorem ps_tw {n : ℕ} (ω : Fin n → kˣ →* ℂˣ) {μ : kˣ →* ℂˣ} (hμ : IsSmoothChar μ) :
@@ -85,7 +89,7 @@ theorem UpperTheory.V.Z.Desc.W.ordTw :
   · exact (ho i).cont.mul (hμ.comp continuous_subtype_val)
   · intro s g hg _
     have v := (ho i).val s g hg trivial
-    have m := hL.loc_away (Or.inr rfl) (a s) (g : G K Ω) (by rw [hg]; exact ha.glob art hart s)
+    have m := hL.loc_away (Or.inr rfl) (a s) (g : _root_.Formalism.ConjugateSelfDual.G K Ω) (by rw [hg]; exact ha.glob art hart s)
     simp only [MonoidHom.coe_comp, Function.comp_apply, Units.coeHom_apply, MonoidHom.mul_apply, Units.val_mul,
       Subgroup.coe_subtype, map_mul] at v ⊢
     rw [v, m]

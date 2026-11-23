@@ -1,7 +1,7 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsSectionNormSqExtension
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsSectionNormSqLevi
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle079
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle007
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.SectionNormSquares.Pointwise
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.SectionNormSquares.EventuallyDifferentiableAt
 import Mathlib.Algebra.Order.Floor.Extended
@@ -68,7 +68,7 @@ namespace SectionNormSqExtension
 
 variable {K : Type} [Fintype K] [DecidableEq K] {ι : K → Type} [∀ k, Fintype (ι k)] {N : ℕ}
 
-def Uf (d : (∀ k, ι k) → K → ℕ) (G : (∀ k, ι k) → Fin N → MRing ι) (A : HermLine ι) (m : ℕ)
+def Uf (d : (∀ k, ι k) → K → ℕ) (G : (∀ k, ι k) → Fin N → MRing ι) (A : ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) (m : ℕ)
     (F : Finset (MRing ι × (K → ℕ))) (c₀ : ∀ k, ι k) (x : (Σ k, ι k) → ℂ) : ℝ :=
   (∑ c, ∑ j, (fun x' => 1 / Nd (d c) x') x *
       (‖ev (G c₀ j * chartMon c (d c)) x +
@@ -77,7 +77,7 @@ def Uf (d : (∀ k, ι k) → K → ℕ) (G : (∀ k, ι k) → Fin N → MRing 
     ∑ p ∈ F, (fun x' => A.h x' ^ (2 * m) * ‖ev (chartMon c₀ (d c₀)) x'‖ ^ 2 / Nd p.2 x') x *
       (‖(fun _ => (0 : ℂ)) x + ev p.1 x‖ ^ 2 - ‖(fun _ => (0 : ℂ)) x‖ ^ 2)
 
-theorem decomp (d : (∀ k, ι k) → K → ℕ) (G : (∀ k, ι k) → Fin N → MRing ι) (A : HermLine ι) (m : ℕ)
+theorem decomp (d : (∀ k, ι k) → K → ℕ) (G : (∀ k, ι k) → Fin N → MRing ι) (A : ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) (m : ℕ)
     (F : Finset (MRing ι × (K → ℕ))) (c₀ : ∀ k, ι k) (x : (Σ k, ι k) → ℂ) :
     ‖ev (chartMon c₀ (d c₀)) x‖ ^ 2 * (Qf d G x + Ef A m F x) =
       Rf d x * ∑ j, ‖ev (G c₀ j) x‖ ^ 2 + Uf d G A m F c₀ x := by
@@ -126,7 +126,7 @@ theorem mem_of_homog {Ω : Type} [Field Ω] {y : (Σ k, ι k) → Ω} {g : MRing
   erw [mConeMap_homog y hg, h0]
   simp
 
-theorem numer_mem {Ω : Type} [Field Ω] {y : (Σ k, ι k) → Ω} {A : HermLine ι} {m : ℕ} {v : Fin N → Ω}
+theorem numer_mem {Ω : Type} [Field Ω] {y : (Σ k, ι k) → Ω} {A : ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι} {m : ℕ} {v : Fin N → Ω}
     {d e : (∀ k, ι k) → K → ℕ} {G : (∀ k, ι k) → Fin N → MRing ι}
     (he : ∀ c k, (e c k : ℤ) = d c k + m * A.a k) (hG : ∀ c j, IsMultiHomog (G c j) (e c))
     (hGy : ∀ c j, aeval y (G c j) = v j * aeval y (chartMon c (d c))) (c₀ c : ∀ k, ι k) (j : Fin N) :
@@ -149,7 +149,7 @@ theorem contDiffOn_Rf (d : (∀ k, ι k) → K → ℕ) :
   unfold Rf
   exact ContDiffOn.sum fun c _ => contDiffOn_term _ _
 
-theorem contDiffOn_Ef {A : HermLine ι} (hsm : IsSmoothHerm A) (m : ℕ) (F : Finset (MRing ι × (K → ℕ))) :
+theorem contDiffOn_Ef {A : ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι} (hsm : IsSmoothHerm A) (m : ℕ) (F : Finset (MRing ι × (K → ℕ))) :
     ContDiffOn ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) (Ef A m F) (blockNZ ι) := by
   unfold Ef
   exact (hsm.pow _).mul (ContDiffOn.sum fun p _ => contDiffOn_term _ _)
@@ -200,7 +200,7 @@ theorem levi_log_normSq (h₃ : LeviCompHol.Statement) (h₄ : LeviFSInvariant.S
 
 section Graph
 
-variable {Ω : Type} [Field Ω] {y : (Σ k, ι k) → Ω} {A : HermLine ι} {m : ℕ} {v : Fin N → Ω}
+variable {Ω : Type} [Field Ω] {y : (Σ k, ι k) → Ω} {A : ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι} {m : ℕ} {v : Fin N → Ω}
   {d e : (∀ k, ι k) → K → ℕ} {G : (∀ k, ι k) → Fin N → MRing ι} {F : Finset (MRing ι × (K → ℕ))}
 
 theorem isFlat_Uf (h₂ : LeviHolPerturb.Statement) (hsm : IsSmoothHerm A)
@@ -265,7 +265,7 @@ end Graph
 
 section Levi
 
-variable {Ω : Type} [Field Ω] {y : (Σ k, ι k) → Ω} {A : HermLine ι} {m : ℕ} {v : Fin N → Ω}
+variable {Ω : Type} [Field Ω] {y : (Σ k, ι k) → Ω} {A : ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι} {m : ℕ} {v : Fin N → Ω}
   {d e : (∀ k, ι k) → K → ℕ} {G : (∀ k, ι k) → Fin N → MRing ι} {F : Finset (MRing ι × (K → ℕ))}
 
 theorem levi_identity (h₁ : LeviLogFlat.Statement) (h₂ : LeviHolPerturb.Statement)

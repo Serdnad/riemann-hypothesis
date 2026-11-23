@@ -2,8 +2,8 @@ module
 
 public import Formalism.HermitianCurvature.StatementFr
 public import Mathlib.CategoryTheory.Category.Basic
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CommuteInvLeft
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.PositionInsertionDiagonalCompat
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle010
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle019
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

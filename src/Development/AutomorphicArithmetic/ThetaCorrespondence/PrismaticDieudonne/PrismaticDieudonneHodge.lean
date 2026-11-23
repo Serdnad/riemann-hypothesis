@@ -1,14 +1,14 @@
 module
 
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.InjectiveOfSmulMemRange
-public import Development.AutomorphicSpectrum.PublishedTheorems.Algebra₂.FarguesExact
+public import Development.AutomorphicSpectrum.PublishedTheorems.Algebra₂.Bundle001
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EqSumEpsPairingSmul
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsBFrame
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HasDatumBiconnOf
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle558
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HasPeriodIntegral
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PDivisibleGroupDatumOfConnectedDualConnectedStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PrismaticDieudonneHodgeOfHodgeTateDatumStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.WindowLiftToFontaineAinfMatricesStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1299
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1562
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle857
 public import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.FarguesExactness.FarguesExactOfPrismatic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -50,7 +50,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.EpsilonPairingZeta
+public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.Bundle005
 
 @[expose] public section
 

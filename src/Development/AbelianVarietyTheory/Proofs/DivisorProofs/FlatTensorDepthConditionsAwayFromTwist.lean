@@ -1,16 +1,16 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsExpansionIff
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1944
 public import Development.AbelianVarietyTheory.Statements.PlaceShiftStatements.InfClassAt
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsClearingIntegersPrincipalDatumHost
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle045
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.OneCosetOfIsTensor
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SumOKEx
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ValuationLeOneOfMem
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.MemCompletedGridArrowLatticeIffIntegralFrameMatr
-public import Development.AbelianVarietyTheory.Statements.HeckeThetaIntegrals.FormulaAtOfSubsingleton
+public import Development.AbelianVarietyTheory.Statements.HeckeThetaIntegrals.Bundle002
 public import Development.AutomorphicArithmetic.LocalEmbeddings.StairDepth
 import Formalism.LocalRingCardinality.SpanPowerMembership.LocAtA
-import Formalism.MirabolicMackeyTheory.MirabolicMackeyProofs.RamBasic
+import Formalism.MirabolicMackeyTheory.MirabolicMackeyProofs.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -49,7 +49,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.BitVec
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DiagonalBlockDetBlockTriangular
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsSBArgs
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1850
 
 @[expose] public section
 

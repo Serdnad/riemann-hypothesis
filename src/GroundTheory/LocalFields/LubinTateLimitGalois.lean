@@ -4,7 +4,7 @@ public import GroundTheory.LocalFields.LubinTateTowerMaps
 public import GroundTheory.LocalFields.UnitsBasic
 public import Mathlib.FieldTheory.KrullTopology
 public import Mathlib.Order.CompletePartialOrder
-import GroundTheory.LocalFields.ExamplesLaurent
+import GroundTheory.LocalFields.Bundle002
 import Mathlib.Algebra.GroupWithZero.Submonoid.CancelMulZero
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

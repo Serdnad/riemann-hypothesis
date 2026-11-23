@@ -101,3 +101,21 @@ theorem GlobalTheory.MixValues.mixed_values : ∀ D : D7, GlobalTheory.Indefinit
   change IsThetaFunO ψ T₀ S (I195MixedCoordinates_79cab7195843a34bfe21655d.source d S ψ μ' 𝓕' _ (incA D D.host.xi0⁻¹ • y)) at h2
   rw [hsw] at h2
   exact ((hcd S T₀).2.2.1 _).1 h2
+
+end
+
+section
+
+@[expose] public section
+
+open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.MainNotions.StandardLattice Formalism.L2.Theta Formalism.IndefR.Datum MeasureTheory IsDedekindDomain NumberField Matrix
+open GlobalTheory.MixModel GlobalTheory.MixPer GlobalTheory.Grow
+open scoped TensorProduct
+attribute [local instance] Formalism.BasicNotions.Host.cmStar
+open GlobalTheory.Unf
+
+theorem _root_.GlobalTheory.T.mixedCoordinates_of_thetaFunction_are_thetaFunctions : ∀ D : D7, GlobalTheory.IndefiniteRowSideFullHecke.SkewGramHalfModule.MixedValues D := by
+  first | exact @GlobalTheory.MixValues.mixed_values | exact GlobalTheory.MixValues.mixed_values | (intros; apply GlobalTheory.MixValues.mixed_values <;> assumption)
+
+end
+end

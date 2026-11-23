@@ -1,13 +1,13 @@
 module
 
 public import Development.WeilBound.ThetaLifts.LocalTheory.UnramifiedDeterminedBySpherical
-public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.BernsteinUnitaryProductIrreducible
-public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.PfDictDef
+public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.Bundle001
+public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.Bundle002
 public import Development.WeilBound.ThetaLifts.LocalTheory.DixmierCommutants.KilEmpty
-import Development.AbelianVarietyTheory.Definitions.Foundations.SecondCountableAndT2LocalField
-public import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.SplitCharacterFacts
+import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle006
+public import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.Bundle006
 public import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.VaceigenDual
-public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.KdMulRight
+public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.Bundle003
 public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.PfActs
 public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.PfDict
 import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.PfDictSec
@@ -59,7 +59,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.FinPartIdemMulMemIff
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle304
 public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.LmOfLinBar
 
 @[expose] public section

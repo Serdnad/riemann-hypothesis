@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.AddIntG
+public import Formalism.PeriodIntegrals.Bundle002
 public import Mathlib.Analysis.Normed.Field.Instances
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

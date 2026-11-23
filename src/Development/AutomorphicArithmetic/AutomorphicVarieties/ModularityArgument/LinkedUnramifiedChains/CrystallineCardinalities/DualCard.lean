@@ -2,7 +2,7 @@ module
 
 public import Mathlib.Data.Nat.Prime.Defs
 public import Mathlib.SetTheory.Cardinal.Finite
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.CardDualZmodModuleEqCard
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle041
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,10 +1,10 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.TCNumDef
-public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.RestSegCore
-public import Formalism.SharpRestriction.GrowthBounds.RootWeights.DvrFractionFieldCharZeroPrime
-public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.BlockYZeroLeOfBound
-public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.YcondCongr
+public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.Bundle001
+public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.Bundle003
+public import Formalism.SharpRestriction.GrowthBounds.RootWeights.Bundle002
+public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.Bundle006
+public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.Bundle007
 import Formalism.SharpRestriction.GrowthBounds.ValuationLowestDegreeMapFractionField
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

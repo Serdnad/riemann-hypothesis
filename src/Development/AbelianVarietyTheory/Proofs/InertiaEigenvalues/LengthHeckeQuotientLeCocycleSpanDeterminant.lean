@@ -1,10 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.GlobalCore
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CMemCoeffSub
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CutValueMemHeckeValueIdealOffSupportStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.DeterminantLemmaDiscreteValuationRingQuotientLenStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ResidualSelmer
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle009
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle077
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle289
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle266
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

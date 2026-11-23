@@ -1,19 +1,19 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.KerDatTuple
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.NormalFam
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle052
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle016
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.KernelSpanOverClasses
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsDetInt
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle170
 import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.GoodIdempotentBadPlaces
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.UnderEqOrSmulUnderEq
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.DetTwoDiagBlocksPropertiesStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.HeckeCharTrivialOnIdempotentIntegralUnitsStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsSelfDualCoordLatticeOfSelfDualFrameStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsUnramifiedEtaTildeOfOddExponentSumStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.LevelCharactersRamificationLevelPlaces
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.TameAtOfUnrAt
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.TameHeckeCharSplitSupportedEqProdResidueStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.WeilActionLiftPairStepVectorInvLevelChar
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle994
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle198
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle567
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle187
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle221
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle188
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle578
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle282
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle602
 import Formalism.LocalToGlobal.Columns.AdelicLemmas
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -55,7 +55,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-import Development.AbelianVarietyTheory.Definitions.Divisors.RealisedChainTorusEq
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle045
 
 @[expose] public section
 

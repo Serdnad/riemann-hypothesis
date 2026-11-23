@@ -1,13 +1,13 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.JSmul
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.LatticeMembershipByPowerSeries
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Saturated
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.ExistsPresOfRealD
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.GammaActionReductionStatement
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle011
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle003
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle008
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle013
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle439
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.GmultTransport
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NabBijectiveWindow
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WachDeltaInvariantsReductionIsLatticeStatement
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle462
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

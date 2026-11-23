@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.BaseLevelRowSideTransport
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle025
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.GoodPartEq
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,9 +1,9 @@
 module
 
 public import Formalism.LocalRingCardinality.RhoDetPrimeEqMuTildeMulChiPow
-public import Development.AutomorphicArithmetic.CyclotomicBounds.SmallFacts
-public import Development.AutomorphicArithmetic.CyclotomicBounds.ZmodTwoQuadraticNeZero
-public import Development.AutomorphicArithmetic.PrimeDiscriminants.RamDiscr
+public import Development.AutomorphicArithmetic.CyclotomicBounds.Bundle002
+public import Development.AutomorphicArithmetic.CyclotomicBounds.Bundle003
+public import Development.AutomorphicArithmetic.PrimeDiscriminants.Bundle002
 import Formalism.SharpRestriction.RamificationFrobenius.TotientGaloisClasses.HostFacts
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

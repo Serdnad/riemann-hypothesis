@@ -1,8 +1,8 @@
 module
 
-public import Formalism.SharpRestriction.CuspSpanNormBounds.BlockEnds
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.LocalTheoryWindows
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CountingFormula.EichESymmApply
+public import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle003
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle081
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CountingFormula.Bundle016
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

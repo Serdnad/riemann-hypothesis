@@ -1,6 +1,6 @@
 module
 
-public import Formalism.SatakeDualWeyl.StatementE
+public import Formalism.SatakeDualWeyl.Bundle001
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.TjcosetsLoc
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.GlintPrincRelIndexNeZero
 import Mathlib.Algebra.Order.Floor.Extended

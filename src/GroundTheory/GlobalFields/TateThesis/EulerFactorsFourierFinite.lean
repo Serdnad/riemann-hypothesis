@@ -2,7 +2,7 @@ module
 
 public import GroundTheory.GlobalFields.TateThesis.EulerFactorsFinite
 import GroundTheory.GlobalFields.TateThesis.AdeleScaling
-public import GroundTheory.GlobalFields.TateThesis.EulerFactorsInverse
+public import GroundTheory.GlobalFields.TateThesis.Bundle008
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,14 +1,13 @@
 module
 
 public import CompanionTheory.AutomorphicTheory.BesselWaveGrids.KDecayOfGap
-public import CompanionTheory.AutomorphicTheory.BesselWaveGrids.AsmDiff
-public import CompanionTheory.AutomorphicTheory.BesselWaveGrids.CoefFacts
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.ShiftAtRExistsEq
+public import CompanionTheory.AutomorphicTheory.BesselWaveGrids.Bundle004
+public import CompanionTheory.AutomorphicTheory.BesselWaveGrids.Bundle003
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle176
 public import CompanionTheory.AutomorphicTheory.BesselWaveGrids.EqShift
-public import CompanionTheory.AutomorphicTheory.BesselWaveGrids.GridsText
 public import CompanionTheory.AutomorphicTheory.BesselWaveGrids.LettersPoly
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.BaseCutoffIsTruncation
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutJDJDJComm
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle140
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.LevelFormSesquilinearFiniteClass
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

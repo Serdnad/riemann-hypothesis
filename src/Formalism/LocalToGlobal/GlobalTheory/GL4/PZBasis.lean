@@ -2,8 +2,8 @@ module
 
 public import Formalism.LocalToGlobal.GlobalTheory.GL4.KronDetScalar
 public import Formalism.LocalToGlobal.GlobalTheory.GL4.PColSlopeEq
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LClosedeqLemmas
-public import Formalism.LocalToGlobal.Columns.CoefficientsModP
+public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle002
+public import Formalism.LocalToGlobal.Columns.Bundle031
 import Formalism.LocalToGlobal.Columns.PolyFnLemmas
 public import Formalism.LocalToGlobal.GlobalTheory.GL4.PColStd
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StandardSlopeBound.GramMatrixDuality

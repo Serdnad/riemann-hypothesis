@@ -1,10 +1,10 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.DualStdModelField
+public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.Bundle025
 public import Mathlib.RingTheory.Henselian
 public import Mathlib.RingTheory.RegularLocalRing.Defs
 public import Mathlib.RingTheory.SimpleRing.Principal
-public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PDualArithVar
+public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.Bundle024
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

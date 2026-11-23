@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsFinPt
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ComplTupBijective
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ProdMinorsMemInv
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FockDetCharInvariantsLeSpanProdMaximalMinors
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PluckerMinorsProportional
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1901
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1900
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle781
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle898
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle096
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

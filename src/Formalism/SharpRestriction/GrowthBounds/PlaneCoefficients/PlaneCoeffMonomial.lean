@@ -1,7 +1,7 @@
 module
 
 public import Formalism.SharpRestriction.GrowthBounds.PlaneCoefficients.NoOpStep
-import Formalism.SharpRestriction.GrowthBounds.RootWeights.ValuationBoundDetPowerFactor
+import Formalism.SharpRestriction.GrowthBounds.RootWeights.Bundle014
 public import Formalism.SharpRestriction.GrowthBounds.TwistedSubstitution.JointEIntList
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

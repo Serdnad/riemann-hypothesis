@@ -3,8 +3,8 @@ module
 public import Formalism.LocalToGlobal.IndefiniteReal.NormalDecomposition.LiftHeckeOperators
 public import Formalism.LocalToGlobal.Divisibility.InertPartitionLePartF
 import Formalism.LocalToGlobal.Divisibility.RowLatLemmas
-public import Formalism.LocalToGlobal.IndefiniteReal.EquivFunOM
-import Formalism.LocalToGlobal.IndefiniteReal.MemRangeAdjointOfKerStable
+public import Formalism.LocalToGlobal.IndefiniteReal.Bundle008
+import Formalism.LocalToGlobal.IndefiniteReal.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -43,7 +43,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Formalism.LocalToGlobal.IndefiniteReal.CxPass
+import Formalism.LocalToGlobal.IndefiniteReal.Bundle014
 
 @[expose] public section
 

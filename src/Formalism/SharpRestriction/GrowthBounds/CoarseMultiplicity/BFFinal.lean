@@ -1,10 +1,10 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.SymbolFormOfOrthogonality
+public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.Bundle007
 public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.BlockForm
-public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.BFCoarse
+public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.Bundle011
 import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.BFTrueDeg
-public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.IoBlockEqSum
+public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.Bundle009
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

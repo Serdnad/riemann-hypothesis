@@ -3,7 +3,7 @@ module
 public import GroundTheory.HeightsAndTheta.Heights.HeightsOfSets.Statements
 public import GroundTheory.HeightsAndTheta.Heights.HeightsOfSets.Comparison
 public import GroundTheory.HeightsAndTheta.Heights.HeightsOfSets.DegreeTopEqArithDegree
-public import GroundTheory.HeightsAndTheta.Heights.HeightsOfSets.DenseBoundedHeight
+public import GroundTheory.HeightsAndTheta.Heights.HeightsOfSets.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

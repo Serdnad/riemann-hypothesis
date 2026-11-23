@@ -1,8 +1,8 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.UnipotentBlockColumnIndex
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.AvgIntervalIntegralSwap
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.AvgSubOfPer
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle178
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle200
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

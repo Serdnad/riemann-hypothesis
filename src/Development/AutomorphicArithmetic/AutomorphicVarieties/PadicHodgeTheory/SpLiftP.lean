@@ -1,9 +1,9 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.IsFirstOrderDeformationOfRZero
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.CommOfIntegral
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.Bundle017
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Bundle005
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.LMemMax
-import GroundTheory.LocalFields.Examples
+import GroundTheory.LocalFields.Bundle002
 import GroundTheory.LocalFields.PadicLogSeries
 import Mathlib.Algebra.Module.StablyFree.Basic
 public import Mathlib.Algebra.Module.Submodule.Union

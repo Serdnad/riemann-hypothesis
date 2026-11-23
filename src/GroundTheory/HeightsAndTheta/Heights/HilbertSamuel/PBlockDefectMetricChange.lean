@@ -1,9 +1,9 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsBlockRealGramComparison
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsBlockComplexGramMetricChange
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsBlockResolutionMixedIntegral
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.StatementsAntisym
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle058
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle061
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle060
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle012
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -46,7 +46,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.ATeleSt
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterFib
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle009
 
 @[expose] public section
 
@@ -64,7 +64,7 @@ section Telescoping
 
 variable {K : Type} [Fintype K] {ι : K → Type} [∀ k, Fintype (ι k)]
 
-def quotLine (C A : HermLine ι) (ha : A.a = C.a) : HermLine ι where
+def quotLine (C A : ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) (ha : A.a = C.a) : ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι where
   a := 0
   h z := A.h z / C.h z
   pos z hz := div_pos (A.pos z hz) (C.pos z hz)
@@ -75,7 +75,7 @@ def quotLine (C A : HermLine ι) (ha : A.a = C.a) : HermLine ι where
     rw [mul_div_mul_left _ _ hne]
     simp
 
-theorem tensor_quotLine (C A : HermLine ι) (ha : A.a = C.a) (hv : ∀ z, C.h z = 0 → A.h z = 0) :
+theorem tensor_quotLine (C A : ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) (ha : A.a = C.a) (hv : ∀ z, C.h z = 0 → A.h z = 0) :
     C.tensor (quotLine C A ha) = A := by
   apply tele_herm_ext
   · funext k
@@ -86,13 +86,13 @@ theorem tensor_quotLine (C A : HermLine ι) (ha : A.a = C.a) (hv : ∀ z, C.h z 
     · rw [h0, hv z h0, zero_mul]
     · exact mul_div_cancel₀ _ h0
 
-theorem isSmoothHerm_quotLine {C A : HermLine ι} (ha : A.a = C.a) (hC : IsSmoothHerm C) (hA : IsSmoothHerm A) :
+theorem isSmoothHerm_quotLine {C A : ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι} (ha : A.a = C.a) (hC : IsSmoothHerm C) (hA : IsSmoothHerm A) :
     IsSmoothHerm (quotLine C A ha) :=
   hA.div hC fun z hz => (C.pos z hz).ne'
 
 theorem fam_degZero_block (I : AllFam) (hI : I.IsFamily) {P : Ideal (MRing ι)} {n : ℕ}
-    (hP : IsArithVar P (n + 1)) (L : Fin n → HermLine ι) (hL : ∀ j, IsSmoothHerm (L j))
-    (B : HermLine ι) (hB : IsSmoothHerm B) (hB0 : B.a = 0) :
+    (hP : IsArithVar P (n + 1)) (L : Fin n → ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) (hL : ∀ j, IsSmoothHerm (L j))
+    (B : ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) (hB : IsSmoothHerm B) (hB0 : B.a = 0) :
     I K ι P (n + 1) (Fin.snoc L B) = ptsIntegral P (pot L) fun z => Real.log (B.h z) := by
   classical
   have hR := (hI K ι).2.2 P n L B 1 0 hP hL hB (fun k => by simp [hB0])
@@ -108,18 +108,18 @@ theorem fam_degZero_block (I : AllFam) (hI : I.IsFamily) {P : Ideal (MRing ι)} 
   rfl
 
 theorem ptsIntegral_log_sub (hInt : PtsIntegrableStatement) {P : Ideal (MRing ι)} {e : ℕ}
-    (hP : IsArithVar P (e + 1)) (L : Fin e → HermLine ι) (hL : ∀ j, IsSmoothHerm (L j))
-    (B₀ B₁ : HermLine ι) (h₀ : IsSmoothHerm B₀) (h₁ : IsSmoothHerm B₁) (h₀a : B₀.a = 0) (h₁a : B₁.a = 0)
+    (hP : IsArithVar P (e + 1)) (L : Fin e → ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) (hL : ∀ j, IsSmoothHerm (L j))
+    (B₀ B₁ : ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) (h₀ : IsSmoothHerm B₀) (h₁ : IsSmoothHerm B₁) (h₀a : B₀.a = 0) (h₁a : B₁.a = 0)
     (g : ((Σ k, ι k) → ℂ) → ℝ) (hg : ∀ z ∈ mcPts P, g z = Real.log (B₁.h z) - Real.log (B₀.h z)) :
     ptsIntegral P (pot L) (fun z => Real.log (B₁.h z)) - ptsIntegral P (pot L) (fun z => Real.log (B₀.h z)) =
       ptsIntegral P (pot L) g := by
   classical
-  have hl : ∀ B : HermLine ι, (fun z => Real.log (B.h z)) = fun z => - logNorm B 1 z := by
+  have hl : ∀ B : ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι, (fun z => Real.log (B.h z)) = fun z => - logNorm B 1 z := by
     intro B
     funext z
     simp [logNorm, Real.log_inv]
   have hP1 : (1 : MRing ι) ∉ P := fun h1 => hP.2.1.1.ne_top ((Ideal.eq_top_iff_one P).mpr h1)
-  have hsec : ∀ B : HermLine ι, B.a = 0 → IsSectionOn P B 1 := fun B hB =>
+  have hsec : ∀ B : ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι, B.a = 0 → IsSectionOn P B 1 := fun B hB =>
     ⟨0, fun k => by simp [hB], tele_one_homog, hP1⟩
   rw [hl B₁, hl B₀, tele_ptsIntegral_neg, tele_ptsIntegral_neg]
   unfold ptsIntegral
@@ -141,10 +141,10 @@ theorem ptsIntegral_log_sub (hInt : PtsIntegrableStatement) {P : Ideal (MRing ι
     · simp
   · simp
 
-def blockTeleFam (A A' : HermLine ι) (N i : ℕ) : Fin N → HermLine ι :=
+def blockTeleFam (A A' : ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) (N i : ℕ) : Fin N → ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι :=
   fun j => if j.val < i then A' else A
 
-theorem blockTeleFam_succAbove (A A' : HermLine ι) (D i : ℕ) (hi : i < D + 1) (k : ℕ) (hk : k = i ∨ k = i + 1) :
+theorem blockTeleFam_succAbove (A A' : ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) (D i : ℕ) (hi : i < D + 1) (k : ℕ) (hk : k = i ∨ k = i + 1) :
     blockTeleFam A A' (D + 1) k ∘ (⟨i, hi⟩ : Fin (D + 1)).succAbove = blockTeleFam A A' D i := by
   funext j
   simp only [Function.comp_apply, blockTeleFam]
@@ -163,7 +163,7 @@ theorem blockTeleFam_succAbove (A A' : HermLine ι) (D i : ℕ) (hi : i < D + 1)
       show ¬ j.val + 1 < k
       omega), if_neg h]
 
-theorem blockTeleFam_smooth {A A' : HermLine ι} (hA : IsSmoothHerm A) (hA' : IsSmoothHerm A') (N i : ℕ)
+theorem blockTeleFam_smooth {A A' : ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι} (hA : IsSmoothHerm A) (hA' : IsSmoothHerm A') (N i : ℕ)
     (j : Fin N) : IsSmoothHerm (blockTeleFam A A' N i j) := by
   unfold blockTeleFam
   split_ifs
@@ -171,7 +171,7 @@ theorem blockTeleFam_smooth {A A' : HermLine ι} (hA : IsSmoothHerm A) (hA' : Is
   · exact hA
 
 theorem top_sub_top_blockMixPot (hInt : PtsIntegrableStatement) (I : AllFam) (hI : I.IsFamily)
-    {P : Ideal (MRing ι)} {D : ℕ} (hP : IsArithVar P (D + 1)) {A A' C : HermLine ι} (hA : IsSmoothHerm A)
+    {P : Ideal (MRing ι)} {D : ℕ} (hP : IsArithVar P (D + 1)) {A A' C : ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι} (hA : IsSmoothHerm A)
     (hA' : IsSmoothHerm A') (hC : IsSmoothHerm C) (ha : A.a = C.a) (ha' : A'.a = C.a)
     (hv : ∀ z, C.h z = 0 → A.h z = 0) (hv' : ∀ z, C.h z = 0 → A'.h z = 0) :
     I K ι P (D + 1) (fun _ => A') - I K ι P (D + 1) (fun _ => A) = ∑ i ∈ Finset.range (D + 1),
@@ -214,11 +214,11 @@ theorem top_sub_top_blockMixPot (hInt : PtsIntegrableStatement) (I : AllFam) (hI
     simp only [pot, blockMixPot, blockTeleFam]
     split_ifs <;> rfl
   rw [e1, e0]
-  have q1 : (Fin.snoc (α := fun _ => HermLine ι) (blockTeleFam A A' D i) A') =
-      Fin.snoc (α := fun _ => HermLine ι) (blockTeleFam A A' D i) (C.tensor (quotLine C A' ha')) := by
+  have q1 : (Fin.snoc (α := fun _ => ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) (blockTeleFam A A' D i) A') =
+      Fin.snoc (α := fun _ => ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) (blockTeleFam A A' D i) (C.tensor (quotLine C A' ha')) := by
     rw [tensor_quotLine C A' ha' hv']
-  have q0 : (Fin.snoc (α := fun _ => HermLine ι) (blockTeleFam A A' D i) A) =
-      Fin.snoc (α := fun _ => HermLine ι) (blockTeleFam A A' D i) (C.tensor (quotLine C A ha)) := by
+  have q0 : (Fin.snoc (α := fun _ => ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) (blockTeleFam A A' D i) A) =
+      Fin.snoc (α := fun _ => ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) (blockTeleFam A A' D i) (C.tensor (quotLine C A ha)) := by
     rw [tensor_quotLine C A ha hv]
   rw [q1, q0]
   rw [hadd _ _ _ _ _ hP hLs hC hB₁, hadd _ _ _ _ _ hP hLs hC hB₀, add_sub_add_left_eq_sub,
@@ -238,15 +238,15 @@ section Pivot
 
 variable {K : Type} [Fintype K] [DecidableEq K] {ι : K → Type} [∀ k, Fintype (ι k)]
 
-theorem h_eq_zero_of_fs (k₀ : K) (A : HermLine ι) (hA : A.a = unitDeg k₀) (z : (Σ k, ι k) → ℂ)
-    (hz : (HermLine.ofMetrics (fun k => fsMetric (ι := ι k)) (unitDeg k₀)).h z = 0) : A.h z = 0 := by
+theorem h_eq_zero_of_fs (k₀ : K) (A : ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) (hA : A.a = ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.unitDeg k₀) (z : (Σ k, ι k) → ℂ)
+    (hz : (HermLine.ofMetrics (fun k => fsMetric (ι := ι k)) (ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.unitDeg k₀)).h z = 0) : A.h z = 0 := by
   obtain ⟨k, -, hk⟩ := Finset.prod_eq_zero_iff.mp hz
   have hk0 : k = k₀ := by
     by_contra hne
-    simp [unitDeg, hne] at hk
+    simp [ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.unitDeg, hne] at hk
   subst hk0
   have hρ : (fsMetric (ι := ι k)).ρ (fun i => z ⟨k, i⟩) = 0 := by
-    simpa [unitDeg] using hk
+    simpa [ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.unitDeg] using hk
   have hzk : (fun i => z ⟨k, i⟩) = 0 := by
     by_contra hne
     exact ((fsMetric (ι := ι k)).pos _ hne).ne' hρ
@@ -265,9 +265,9 @@ theorem h_eq_zero_of_fs (k₀ : K) (A : HermLine ι) (hA : A.a = unitDeg k₀) (
     · simp [hc, hp]
   have hs := A.smul c z hc0
   rw [hfix, hA] at hs
-  have hprod : (∏ k', ‖c k'‖ ^ unitDeg k k') = 2 := by
-    rw [Finset.prod_eq_single k (fun k' _ hk' => by simp [unitDeg, hk']) (fun h => absurd (Finset.mem_univ k) h)]
-    simp [hc, unitDeg]
+  have hprod : (∏ k', ‖c k'‖ ^ ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.unitDeg k k') = 2 := by
+    rw [Finset.prod_eq_single k (fun k' _ hk' => by simp [ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.unitDeg, hk']) (fun h => absurd (Finset.mem_univ k) h)]
+    simp [hc, ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.unitDeg]
   rw [hprod] at hs
   linarith
 
@@ -280,7 +280,7 @@ theorem BlockDefectMetricChange.proof (hR : BlockRealGramComparison.Statement)
   have h₁ := hR D K ι Ω (d.withMetric A' P0' hdeg hc hle hp)
   have h₀ := hR D K ι Ω d
   have hc₁ := hC D K ι Ω d A' P0' hdeg hc hle hp
-  have hFS := GroundTheory.Heights₂.Heights.Inter.isSmoothHerm_ofMetrics_fs (ι := ι) (unitDeg d.k₀)
+  have hFS := GroundTheory.Heights₂.Heights.Inter.isSmoothHerm_ofMetrics_fs (ι := ι) (ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.unitDeg d.k₀)
   have htop : I K ι (mCoordIdeal d.y) (D + 1) (fun _ => A') =
       I K ι (mCoordIdeal d.y) (D + 1) (fun _ => d.A) + ((D : ℝ) + 1) * blockMetricInt d A' := by
     rw [← hM D K ι Ω d A' hdeg hp.1, ← top_sub_top_blockMixPot hInt I hI d.arith d.semipos.1 hp.1 hFS

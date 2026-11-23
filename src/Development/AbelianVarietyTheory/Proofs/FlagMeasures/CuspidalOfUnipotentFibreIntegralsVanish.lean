@@ -1,14 +1,14 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.HermitianFormUnitaryOneOne
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.AdelicUnitaryHaarBiInvariantStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExtAeEqContRep
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle106
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle125
 import Development.AbelianVarietyTheory.Proofs.FlagMeasures.FiniteAdelicUnitaryCongruenceTopology
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IntegrablePhStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.RealUnipotentRadicalEmbedsAdelicRadicalStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ReproducingFormulaDiscreteSeriesTestGrowthStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.TruncatedLeastLatticeSizeBoundedBelowUnipotentRaStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.WeilIntegralVanishingOfFibreIntegralsStatement
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle297
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle146
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle304
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle231
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle167
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -213,7 +213,9 @@ theorem cusp_of_fibre_vanish : ∀ (B : RowsAut) (d : InfinitePlace B.I.F → �
     obtain ⟨-, ⟨Φ, hΦ, hbd⟩, hrep⟩ := GlobalTheory.T.reproducing_formula_discreteSeries_test_growth B d h hd hn hloc hbig hfd T hT y f hf
     obtain ⟨c, hc, hcle⟩ := GlobalTheory.T.truncatedLeastLatticeSize_bounded_below_unipotentRadical B.I W x hW
     obtain ⟨hνfin, -, hνc, hνinv⟩ := hν
-    have := hνfin
+    haveI : IsFiniteMeasure ν := hνfin
+    haveI : SFinite ν :=
+      @MeasureTheory.instSFiniteOfSigmaFinite _ _ ν (@IsFiniteMeasure.toSigmaFinite _ _ ν hνfin)
     obtain ⟨hfc, hfinv, -⟩ := hf
     have hae : ∀ᵐ m ∂ν, m ∈ B.I.NA W := mem_ae_iff.2 hνc
     have hbound : ∀ᵐ m ∂ν, ∀ g, ‖phe B d g * f (m * x * g)‖ ≤

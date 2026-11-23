@@ -1,13 +1,11 @@
 module
 
 public import GroundTheory.PAdicHodge.ACrisBdR
-public import GroundTheory.PAdicHodge.BdRAlgCl
+public import GroundTheory.PAdicHodge.Bundle011
 public import GroundTheory.PAdicHodge.ACrisBdRGalois
-import GroundTheory.PAdicHodge.ACrisBdRInj
+import GroundTheory.PAdicHodge.Bundle009
 public import GroundTheory.PAdicHodge.BCrisNewtonApprox
-public import GroundTheory.PAdicHodge.BCrisNewtonDom
-public import GroundTheory.PAdicHodge.BCrisNewtonSlope
-public import GroundTheory.PAdicHodge.BCrisNewtonValue
+public import GroundTheory.PAdicHodge.Bundle010
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

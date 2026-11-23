@@ -1,7 +1,6 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.CoinducedModules
-public import GroundTheory.ProfiniteCohomology.ContinuousCochains
+public import GroundTheory.ProfiniteCohomology.Bundle005
 import Mathlib.Algebra.Homology.ShortComplex.ModuleCat
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

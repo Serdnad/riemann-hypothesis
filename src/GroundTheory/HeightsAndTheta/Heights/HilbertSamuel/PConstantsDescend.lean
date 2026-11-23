@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsConstantsDescend
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle002
 public import Mathlib.FieldTheory.IntermediateField.Adjoin.Defs
 public import Mathlib.FieldTheory.Separable
 public import Mathlib.Topology.Sheaves.Presheaf

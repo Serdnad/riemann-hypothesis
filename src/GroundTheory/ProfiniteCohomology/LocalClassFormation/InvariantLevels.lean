@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.LocalClassFormation.InvariantDefs
+public import GroundTheory.ProfiniteCohomology.LocalClassFormation.Bundle002
 public import GroundTheory.ProfiniteCohomology.GaloisCohomology.BrauerInflationDefs
 public import GroundTheory.ProfiniteCohomology.LocalClassFormation.OrderInfRes
 public import GroundTheory.ProfiniteCohomology.GaloisCohomology.BrauerInflation

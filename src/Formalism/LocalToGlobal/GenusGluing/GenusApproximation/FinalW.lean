@@ -1,10 +1,8 @@
 module
 
 public import Formalism.LocalToGlobal.GenusGluing.GenusApproximation.FactsW
-public import Formalism.LocalToGlobal.GenusGluing.GenusApproximation.GenusApproximationProofs.ApproximationAdelicHolds
+public import Formalism.LocalToGlobal.GenusGluing.GenusApproximation.GenusApproximationProofs.Bundle002
 public import Formalism.LocalToGlobal.GenusGluing.GenusApproximation.GenusApproximationProofs.Cayley
-public import Formalism.LocalToGlobal.GenusGluing.GenusApproximation.GenusApproximationProofs.DetAddDiagonalCons
-public import Formalism.LocalToGlobal.GenusGluing.GenusApproximation.GenusApproximationProofs.EvaluationNeZeroHolds
 public import Formalism.LocalToGlobal.GenusGluing.GenusApproximation.GenusApproximationProofs.WeakApproxAllOf
 public import Formalism.LocalToGlobal.GenusGluing.GenusApproximation.LocalAdelicEquivHolds
 import Mathlib.Algebra.Order.Floor.Extended

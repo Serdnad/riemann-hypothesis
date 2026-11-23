@@ -2,10 +2,9 @@ module
 
 public import GroundTheory.ProfiniteCohomology.PoitouTate.PtCompactDualMapEqZeroOfPtCompactToGlobalEqZero
 public import ReciprocityTheory.Hypotheses.GalCohDefs
-public import Development.WeilBound.CoreStatements.EulerCharacteristicCounts.GcohCmp
+public import Development.WeilBound.CoreStatements.EulerCharacteristicCounts.Bundle001
 import Development.WeilBound.CoreStatements.EulerCharacteristicCounts.GcohCmpA
-public import Development.WeilBound.CoreStatements.PublishedTheorems.PoitouTateDuality.ResH1BijectiveOfInverse
-public import Development.WeilBound.CoreStatements.PublishedTheorems.PoitouTateDuality.ResH2BijectiveOfInverse
+public import Development.WeilBound.CoreStatements.PublishedTheorems.PoitouTateDuality.Bundle005
 import GroundTheory.ProfiniteCohomology.CupProducts.Cocycles
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.L2ExtensionLogCanonical
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LintegralNsqCanonicalAddChartPart
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ShellMass
+public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.Bundle003
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle387
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle379
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -49,10 +49,10 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.L2DbarEstimates.PlurisubharmonicCharts.AApproxB
-public import ReciprocityTheory.L2DbarEstimates.PlurisubharmonicCharts.LintegralBallRpowLtTop
+public import ReciprocityTheory.L2DbarEstimates.PlurisubharmonicCharts.Bundle004
+public import ReciprocityTheory.L2DbarEstimates.PlurisubharmonicCharts.Bundle005
 public import ReciprocityTheory.L2DbarEstimates.PlurisubharmonicCharts.ZLocLower
-import Development.AbelianVarietyTheory.Definitions.Divisors.EtaleEmpty
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle006
 
 @[expose] public section
 

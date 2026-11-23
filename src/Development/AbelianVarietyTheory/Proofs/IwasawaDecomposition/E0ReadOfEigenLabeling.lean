@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsTied
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle607
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.GoodIdempotentFixesOfOnlySeriesOfLabelActs
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.UnitaryRealisationReadingOfIdempotentActsViaLeve
 import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsComp
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SubOrthProjPerpMem
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.GoodVOfGoodL
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2411
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle251
 import Formalism.LocalToGlobal.Divisibility.ProjLemmas
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -42,11 +42,11 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.EtaJUntw
-import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.NotBaseCondFalse
-import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.PositionOfIntro
+import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle022
+import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle024
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.RowsRestWordColumnUnitBaseTupleAlt
-import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.StrictHenselianAcyclic
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FunKilled
+import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle036
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle076
 
 @[expose] public section
 

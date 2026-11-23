@@ -1,8 +1,8 @@
 module
 
-public import GroundTheory.AutomorphicForms.QuotientKernel
+public import GroundTheory.AutomorphicForms.Bundle011
 public import GroundTheory.AutomorphicForms.HilbertSchmidt
-public import GroundTheory.AutomorphicForms.HilbertSchmidtKernel
+public import GroundTheory.AutomorphicForms.Bundle003
 public import GroundTheory.AutomorphicForms.TraceFormulaConvolution
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

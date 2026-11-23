@@ -1,10 +1,10 @@
 module
 
 public import GroundTheory.LocalFields.Different
-public import GroundTheory.LocalFields.LowerIndex
+public import GroundTheory.LocalFields.Bundle007
 public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.MinpolyProductMap
-public import GroundTheory.LocalFields.LowerIndexQuotient
-public import GroundTheory.LocalFields.Monogenic
+public import GroundTheory.LocalFields.Bundle009
+public import GroundTheory.LocalFields.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

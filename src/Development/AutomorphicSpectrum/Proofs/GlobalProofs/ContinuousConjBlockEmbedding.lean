@@ -1,10 +1,10 @@
 module
 
 public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.HermitianPartLeLevi
-public import Formalism.LocalToGlobal.NumberFieldFamilies.ThetaCR
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CmDataIsCMExtAndGramIsHermND
+public import Formalism.LocalToGlobal.NumberFieldFamilies.Bundle003
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle219
 import Formalism.LocalToGlobal.BesselHermitianTheta.LemmasWeil
-public import Formalism.LocalToGlobal.NumberFieldFamilies.ThetaCD
+public import Formalism.LocalToGlobal.NumberFieldFamilies.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

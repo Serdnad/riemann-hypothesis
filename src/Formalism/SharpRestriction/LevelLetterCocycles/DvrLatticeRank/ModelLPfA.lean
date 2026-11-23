@@ -1,7 +1,7 @@
 module
 
 public import Formalism.SharpRestriction.LevelLetterCocycles.DownSlotProposition
-public import Formalism.SharpRestriction.LevelLetterCocycles.DvrLatticeRank.FramePfLoc
+public import Formalism.SharpRestriction.LevelLetterCocycles.DvrLatticeRank.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,12 +1,12 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ReadsZero
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1123
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.DeterminantSectionRule
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.ToroidalBoundaryMetricData
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.CompactificationOpenOfClosed
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.FlatSectionAndDegree
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FramePointCombinationMatrix
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.LieModel
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle328
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle336
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle636
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -40,8 +40,8 @@ import Mathlib.Tactic.NormNum.NatSqrt
 import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsAbelianGaloisHost
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.GramTransformOfCoordinateChangeImports
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle323
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle066
 
 @[expose] public section
 
@@ -114,10 +114,10 @@ theorem prod_flat {G : Type} [CommGroup G] (τ : Psi H) (t : Ix Dw → G) :
       · have hn : (⟨ρ, h⟩ : Psi H) ≠ τ := fun e => h1 (congrArg Subtype.val e)
         exact (wtOf_big _ 0 ⟨ρ, h⟩ i (i.2.trans_eq (mult_big ⟨ρ, h⟩).symm)).trans (by simp [flatWt, parWt, hn])
       · have hn : (⟨conjEmb ρ, conj_mem h⟩ : Psi H) ≠ τ := fun e =>
-          h2 ((conjEmb_conjEmb ρ).symm.trans (congrArg (fun s : Psi H => conjEmb s.1) e))
+          h2 ((_root_.GlobalTheory.AllWt.conjEmb_conjEmb ρ).symm.trans (congrArg (fun s : Psi H => conjEmb s.1) e))
         have hq : (i : ℕ) < Dw.q := by simpa [Datum.mult, h] using i.2
         have e := wtOf_small (flatWt Dw τ) 0 ⟨conjEmb ρ, conj_mem h⟩ i hq
-        simp only [conjEmb_conjEmb] at e
+        simp only [_root_.GlobalTheory.AllWt.conjEmb_conjEmb] at e
         exact e.trans (by simp [flatWt, parWt, hn])
     rw [this, zpow_zero]
 

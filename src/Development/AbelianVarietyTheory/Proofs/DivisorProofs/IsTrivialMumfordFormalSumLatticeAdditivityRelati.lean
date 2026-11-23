@@ -1,12 +1,12 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AlgIdemBinv
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RosVec
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsStronglyTrivialCubicalThetaFinsuppTensor
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MumfordTensorDataMatrixActionRingHomProperties
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TransportedGeneratorUniqueGlobalFunctionsBase
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3064
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3131
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3057
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3130
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.ExistsTorusAndQuotientHom
-import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.TauBalPow
+import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.Bundle018
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -46,7 +46,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.RosVal
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.LBPull
-import Development.AbelianVarietyTheory.Definitions.Divisors.GalRigidOfSurjective
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle074
 
 @[expose] public section
 

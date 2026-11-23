@@ -1,7 +1,7 @@
 module
 
-public import Formalism.LocalToGlobal.ProjectiveLattices.IsChartIff
-public import Formalism.LocalToGlobal.ProjectiveLattices.VAtVNeBot
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle018
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle012
 public import Aesop.BuiltinRules
 public import Mathlib.Tactic.ENatToNat
 import Mathlib.Algebra.Order.Floor.Extended

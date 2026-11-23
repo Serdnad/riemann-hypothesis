@@ -46,11 +46,11 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.CommutativeAlgebra.CohenMacaulay.Bridge
+public import ReciprocityTheory.CommutativeAlgebra.CohenMacaulay.Bundle001
 public import ReciprocityTheory.CommutativeAlgebra.CohenMacaulay.LocDim
 public import ReciprocityTheory.CommutativeAlgebra.PolynomialHeights.HeightAddRingKrullDimQuotientMvPolynomialField
 import ReciprocityTheory.CommutativeAlgebra.PolynomialHeights.PolyCM
-public import ReciprocityTheory.CommutativeAlgebra.SaturatedChains.DimFormulaOfSurjective
+public import ReciprocityTheory.CommutativeAlgebra.SaturatedChains.Bundle001
 public import Mathlib.RingTheory.Ideal.Height
 
 @[expose] public section

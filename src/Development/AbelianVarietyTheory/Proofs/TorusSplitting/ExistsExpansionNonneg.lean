@@ -1,12 +1,12 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.TorusSections.ExistsSecTie
-public import Development.AbelianVarietyTheory.Definitions.Uniformization.AllDV
+public import Development.AbelianVarietyTheory.Definitions.Uniformization.Bundle001
 public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.ExpansionOfIntegralSectionIsIntegral
 public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.IntegralDegenerationFamilyBaseChangeExtensionFie
 public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.IntegralFamilyLevelOne
 public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.ProdSumReindex
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.SecLinOfSecScal
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle021
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -44,7 +44,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.SectionScalarValuation
-import Development.AbelianVarietyTheory.Definitions.ThetaValues.IsNullVal
+import Development.AbelianVarietyTheory.Definitions.ThetaValues.Bundle001
 import Formalism.SharpRestriction.Divisibility.AbelianOpenPart.AbelianAt
 public import Formalism.SharpRestriction.Divisibility.AbelianOpenPart.IsOpenPart
 

@@ -1,7 +1,7 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.StatementsLiftGraphFactor
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsSectionNormSqExtension
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle031
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle079
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PPowerBlockMetric
 public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.PLiftGraphMetric
 import Mathlib.Algebra.Order.Floor.Extended

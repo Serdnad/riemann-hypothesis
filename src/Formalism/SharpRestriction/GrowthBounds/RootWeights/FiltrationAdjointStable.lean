@@ -1,9 +1,9 @@
 module
 
 public import Formalism.SharpRestriction.GrowthBounds.CovariantDegrees
-public import Formalism.SharpRestriction.GrowthBounds.RootWeights.NontrivialIsotypicWeightZeroKilled
+public import Formalism.SharpRestriction.GrowthBounds.RootWeights.Bundle003
 public import Formalism.SharpRestriction.GrowthBounds.RootWeights.BinomialPreservesDiagonalStable
-public import Formalism.SharpRestriction.GrowthBounds.RootWeights.IsotypicComponentLeLowerWeights
+public import Formalism.SharpRestriction.GrowthBounds.RootWeights.Bundle021
 public import Formalism.SharpRestriction.GrowthBounds.RootWeights.WeightConditionFromIntegralForm
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

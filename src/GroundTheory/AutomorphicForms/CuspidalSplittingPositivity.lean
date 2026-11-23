@@ -2,7 +2,7 @@ module
 
 public import GroundTheory.AutomorphicForms.CuspidalSplittingCoeff
 import GroundTheory.AutomorphicForms.LocallyProfinite
-import GroundTheory.AutomorphicForms.SmoothRepSchur
+import GroundTheory.AutomorphicForms.Bundle009
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

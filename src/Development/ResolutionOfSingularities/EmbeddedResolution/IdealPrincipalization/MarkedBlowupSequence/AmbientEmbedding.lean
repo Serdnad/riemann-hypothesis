@@ -2,7 +2,7 @@ module
 
 public import Development.ResolutionOfSingularities.Foundations.Blowup.BlowupExistence
 public import Development.ResolutionOfSingularities.Foundations.Blowup.BlowupProperties
-public import Development.ResolutionOfSingularities.EmbeddedResolution.IteratedBlowups.BlowupSequenceRelations
+public import Development.ResolutionOfSingularities.EmbeddedResolution.IteratedBlowups.Bundle001
 public import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.MarkedBlowupSequence.BlowupSequenceData
 public import Development.ResolutionOfSingularities.Foundations.Schemes.SchemeMorphismProperties
 import Mathlib.Algebra.Order.Floor.Extended

@@ -1,17 +1,15 @@
 module
 
 public import Development.AutomorphicArithmetic.Foundations.LocalLanglands.IsRecTOfIsRec
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LanglandsExtensionUniqueOnCuspidal
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle483
 public import Development.AutomorphicArithmetic.Foundations.LocalLanglands.LocalCentralUnits.ArtEx
 public import Development.AutomorphicArithmetic.Foundations.LocalLanglands.LocalCentralUnits.CuspEx
 public import Development.AutomorphicArithmetic.Foundations.LocalLanglands.LocalCentralUnits.ExtDepth
-import Development.AutomorphicArithmetic.Foundations.LocalLanglands.LocalCentralUnits.ExtDim
-public import Development.AutomorphicArithmetic.Foundations.LocalLanglands.LocalCentralUnits.ExtDual
-public import Development.AutomorphicArithmetic.Foundations.LocalLanglands.LocalCentralUnits.ExtInj
-public import Development.AutomorphicArithmetic.Foundations.LocalLanglands.LocalCentralUnits.RcTwOfSegments
+import Development.AutomorphicArithmetic.Foundations.LocalLanglands.LocalCentralUnits.Bundle010
+public import Development.AutomorphicArithmetic.Foundations.LocalLanglands.LocalCentralUnits.Bundle009
 public import Development.AutomorphicArithmetic.Foundations.LocalLanglands.LocalCentralUnits.TypeIff
 import Development.AutomorphicArithmetic.Foundations.LocalLanglands.Multi
-public import Development.DiscreteGroups.GlobalIrreducibility.DzLCusp
+public import Development.DiscreteGroups.GlobalIrreducibility.Bundle019
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

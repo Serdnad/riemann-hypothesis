@@ -3,11 +3,11 @@ module
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.TypeConditions.AutomorphicGaloisAdmissible
 public import Formalism.SharpRestriction.LevelLetterCocycles.PairedCharacterCondition
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.DepthZeroLabelsOfLabelLaws
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsSplitPlOfNotIsConjPl
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TypeLocalGlobal
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.MemZpowersOfTameGen
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.AdmissibleBranchingIffIsBranching
-public import Development.DiscreteGroups.GlobalIrreducibility.DzBigDef
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle304
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle456
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle259
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle062
+public import Development.DiscreteGroups.GlobalIrreducibility.Bundle018
 import Mathlib.Algebra.AffineMonoid.UniqueSums
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

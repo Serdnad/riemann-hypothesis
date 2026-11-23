@@ -1,10 +1,10 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.HeightFunctions.XiValIffXiAt
-public import Formalism.LocalToGlobal.ProjectiveLattices.ParCanon
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsGaloisConjugatesHeckeCharTrivialOnRealIdelStatement
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.ExistsAdelicCoreWithoutVolumeNormalisationStatement
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsParPinsCanon
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle038
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle079
+public import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle098
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle124
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -40,7 +40,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Development.AbelianVarietyTheory.Definitions.HeightFunctions.GrowthConstantBoundGcR
-import Development.AbelianVarietyTheory.Definitions.HeightFunctions.NormComparisonConstants
+import Development.AbelianVarietyTheory.Definitions.HeightFunctions.Bundle001
 
 @[expose] public section
 

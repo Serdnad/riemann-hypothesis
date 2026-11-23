@@ -1,13 +1,13 @@
 module
 
 public import Development.AutomorphicArithmetic.LocalEmbeddings.StageGeoDefs
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsReading
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ThetaEqB
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AdelicWeilRepSchrodingerModelUniqueStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsUnitDetGramOfHermitianSelfDualLatticeSpace
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.AlgebraicVectorsCorrespondSchrodingerThetaMapStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsWeilRepOrientedPairRationalSchrodingerStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SeesawWeilZetaGlobal
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle332
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle333
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2136
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1390
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle633
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle717
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle641
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.IsGPull
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsHarrisTaylorObjectPullbackBis
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle018
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1127
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GenModelEqGenericFibre
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HarrisTaylorObjectPullbackComp
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1094
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -41,7 +41,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CompEqOneOfTransl
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle546
 
 @[expose] public section
 

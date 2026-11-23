@@ -1,6 +1,6 @@
 module
 
-public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.ThmSUniform
+public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.Bundle003
 public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.FrobeniusLiftNorms.FrobeniusPartialCoboundaryBound
 import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.FrobeniusLiftNorms.OmegaOfTraceDuality
 import Mathlib.Algebra.Order.Floor.Extended

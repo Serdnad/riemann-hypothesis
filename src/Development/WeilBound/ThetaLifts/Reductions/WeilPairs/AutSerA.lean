@@ -1,10 +1,10 @@
 module
 
-public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.AutDef
+public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.Bundle003
 public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.GoodLat
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GaussianPoincareSeriesThetaVacuum
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HeisenbergCMRealLineAddNoPhase
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.StandardTraceAddCharIsStandardCharOfAdmissibleCM
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1201
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1602
 public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.AutLat
 import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.ContinuousTheta
 import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.FinIdemSmulOfReal

@@ -2,9 +2,9 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.ThetaValues.ThConst
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.HolomorphicFamilies.VtFrRdHol
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.AbelianHolomorphicFrameReadingConstOfFormsCancel
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.GeneratorReadingCorrMulInv
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.GeneratorReadingPullbackPeriodRigid
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle038
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle029
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle030
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

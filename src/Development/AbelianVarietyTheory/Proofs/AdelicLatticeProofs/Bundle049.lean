@@ -1,0 +1,258 @@
+module
+
+public import Mathlib.Basic.Complex.Basic
+public import Mathlib.RepresentationTheory.Irreducible
+public import Mathlib.RepresentationTheory.Semisimple
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle015
+public import Mathlib.RingTheory.DedekindDomain.FiniteAdeleRing
+public import Mathlib.Topology.Instances.Matrix
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle047
+import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle019
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.MvPolynomial.IrreducibleQuadratic
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Linter.HaveILetI
+import Mathlib.Tactic.Linter.Style
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Topology.Connected.Separation
+import Mathlib.Topology.MetricSpace.Ultra.TotallySeparated
+import Mathlib.Topology.Sheaves.Init
+import Development.AbelianVarietyTheory.Definitions.AdelicHermitianForms.Bundle001
+
+@[expose] public section
+
+section
+
+open Matrix GlobalTheory.ClassFin
+open scoped Kronecker ComplexOrder TensorProduct
+
+namespace GlobalTheory.ClassFin
+
+section
+variable {G : Type} [Group G] {V : Type} [AddCommGroup V] [Module ℂ V] {ρ : Representation ℂ G V}
+
+
+open Matrix in
+open scoped Kronecker ComplexOrder TensorProduct in
+variable {G : Type} [Group G] {V : Type} [AddCommGroup V] [Module ℂ V] {ρ : Representation ℂ G V} in
+theorem _root_.GlobalTheory.ClassFin.isIrreducible_toRepresentation_of_isAtom (σ : Subrepresentation ρ) (h : IsAtom σ) :
+    σ.toRepresentation.IsIrreducible := by
+  let F : Subrepresentation σ.toRepresentation → Subrepresentation ρ := fun τ =>
+    ⟨τ.toSubmodule.map σ.toSubmodule.subtype, by
+      rintro g _ ⟨w, hw, rfl⟩
+      exact ⟨σ.toRepresentation g w, τ.apply_mem_toSubmodule g hw, rfl⟩⟩
+  have hinj : Function.Injective (Submodule.map σ.toSubmodule.subtype) :=
+    Submodule.map_injective_of_injective σ.toSubmodule.injective_subtype
+  have hle : ∀ τ, F τ ≤ σ := by
+    intro τ
+    show τ.toSubmodule.map σ.toSubmodule.subtype ≤ σ.toSubmodule
+    rw [Submodule.map_le_iff_le_comap]
+    intro w _
+    exact w.2
+  have hF : ∀ τ, F τ = ⊥ ∨ F τ = σ := fun τ => h.le_iff.mp (hle τ)
+  have hbot : ∀ τ, F τ = ⊥ → τ = ⊥ := by
+    intro τ hτ
+    apply Subrepresentation.ext
+    apply hinj
+    have := congrArg Subrepresentation.toSubmodule hτ
+    change _ = Submodule.map _ ⊥
+    rw [Submodule.map_bot]
+    exact this
+  have htop : ∀ τ, F τ = σ → τ = ⊤ := by
+    intro τ hτ
+    apply Subrepresentation.ext
+    apply hinj
+    have := congrArg Subrepresentation.toSubmodule hτ
+    simp only [F] at this
+    rw [this]
+    exact (Submodule.map_subtype_top σ.toSubmodule).symm
+  have hne : (⊥ : Subrepresentation σ.toRepresentation) ≠ ⊤ := by
+    intro he
+    apply h.1
+    have h1 : F ⊤ = σ := by
+      apply Subrepresentation.ext
+      exact Submodule.map_subtype_top σ.toSubmodule
+    have h2 : F ⊥ = ⊥ := by
+      apply Subrepresentation.ext
+      exact Submodule.map_bot _
+    rw [← h1, ← he, h2]
+  haveI : Nontrivial (Subrepresentation σ.toRepresentation) := ⟨⟨⊥, ⊤, hne⟩⟩
+  exact ⟨fun τ => (hF τ).imp (hbot τ) (htop τ)⟩
+
+end
+
+open Matrix in
+open scoped Kronecker ComplexOrder TensorProduct in
+private theorem iSup_atoms_toSubmodule_eq_whole_of_semisimple {G : Type} [Group G] {V : Type} [AddCommGroup V]
+    [Module ℂ V] [FiniteDimensional ℂ V] (ρ : Representation ℂ G V)
+    (hρ : ρ.IsSemisimpleRepresentation) :
+    ⨆ σ : {σ : Subrepresentation ρ // IsAtom σ}, σ.1.toSubmodule = ⊤ := by
+  haveI : ComplementedLattice (Subrepresentation ρ) := hρ
+  haveI : WellFoundedLT (Subrepresentation ρ) :=
+    StrictMono.wellFoundedLT (f := Subrepresentation.toSubmodule) fun a b hab =>
+      lt_of_le_of_ne hab.le fun he => hab.ne (Subrepresentation.toSubmodule_injective he)
+  haveI : IsAtomic (Subrepresentation ρ) := isAtomic_of_orderBot_wellFounded_lt wellFounded_lt
+  set A := ⨆ σ : {σ : Subrepresentation ρ // IsAtom σ}, σ.1.toSubmodule with hA
+  let α : Subrepresentation ρ := ⟨A, by
+    intro g v hv
+    refine Submodule.iSup_induction _ (motive := fun v => ρ g v ∈ A) hv ?_ ?_ ?_
+    · intro σ w hw
+      exact (le_iSup (fun σ : {σ : Subrepresentation ρ // IsAtom σ} => σ.1.toSubmodule) σ)
+        (σ.1.apply_mem_toSubmodule g hw)
+    · simp
+    · intro x y hx hy
+      simpa using A.add_mem hx hy⟩
+  obtain ⟨β, hβ⟩ := exists_isCompl α
+  have hβbot : β = ⊥ := by
+    rcases eq_bot_or_exists_atom_le β with h | ⟨τ, hτ, hτβ⟩
+    · exact h
+    · exfalso
+      have hτα : τ ≤ α := fun v hv =>
+        (le_iSup (fun σ : {σ : Subrepresentation ρ // IsAtom σ} => σ.1.toSubmodule) ⟨τ, hτ⟩) hv
+      exact hτ.1 (le_bot_iff.mp (hβ.1 hτα hτβ))
+  have hαtop : α = ⊤ := by
+    have := hβ.2.eq_top
+    rwa [hβbot, sup_bot_eq] at this
+  exact congrArg Subrepresentation.toSubmodule hαtop
+
+
+open Matrix in
+open scoped Kronecker ComplexOrder TensorProduct in
+theorem _root_.GlobalTheory.ClassFin.isSemisimpleRepresentation_tprod : ∀ (G : Type) [Group G] (V : Type) [AddCommGroup V] [Module ℂ V] (ρ : Representation ℂ G V) (W : Type) [AddCommGroup W] [Module ℂ W] (ρ' : Representation ℂ G W) [FiniteDimensional ℂ V] [FiniteDimensional ℂ W], ρ.IsSemisimpleRepresentation → ρ'.IsSemisimpleRepresentation → (ρ.tprod ρ').IsSemisimpleRepresentation := by
+  intro G _ V _ _ ρ W _ _ ρ' _ _ hρ hρ'
+  let J := {σ : Subrepresentation ρ // IsAtom σ} × {τ : Subrepresentation ρ' // IsAtom τ}
+  let p : (j : J) → j.1.1.toSubmodule ⊗[ℂ] j.2.1.toSubmodule →ₗ[ℂ] V ⊗[ℂ] W := fun j =>
+    TensorProduct.map j.1.1.toSubmodule.subtype j.2.1.toSubmodule.subtype
+  refine _root_.GlobalTheory.ClassFin.isSemisimpleRepresentation_of_iSup_range G (V ⊗[ℂ] W) (ρ.tprod ρ') J
+    (fun j => j.1.1.toSubmodule ⊗[ℂ] j.2.1.toSubmodule)
+    (fun j => j.1.1.toRepresentation.tprod j.2.1.toRepresentation) p ?_ ?_ ?_
+  · intro j
+    exact _root_.GlobalTheory.ClassFin.isSemisimpleRepresentation_tprod_of_isIrreducible G _ _ _ _
+      (_root_.GlobalTheory.ClassFin.isIrreducible_toRepresentation_of_isAtom j.1.1 j.1.2)
+      (_root_.GlobalTheory.ClassFin.isIrreducible_toRepresentation_of_isAtom j.2.1 j.2.2)
+  · intro j g v
+    simp only [p]
+    rw [Representation.tprod_apply, Representation.tprod_apply, ← LinearMap.comp_apply,
+      ← LinearMap.comp_apply, ← TensorProduct.map_comp, ← TensorProduct.map_comp]
+    rfl
+  · rw [eq_top_iff, ← TensorProduct.span_tmul_eq_top, Submodule.span_le]
+    rintro _ ⟨v, w, rfl⟩
+    have hv : v ∈ ⨆ σ : {σ : Subrepresentation ρ // IsAtom σ}, σ.1.toSubmodule := by
+      rw [iSup_atoms_toSubmodule_eq_whole_of_semisimple ρ hρ]; trivial
+    have hw : w ∈ ⨆ τ : {τ : Subrepresentation ρ' // IsAtom τ}, τ.1.toSubmodule := by
+      rw [iSup_atoms_toSubmodule_eq_whole_of_semisimple ρ' hρ']; trivial
+    refine Submodule.iSup_induction _ (motive := fun v => ∀ w,
+      w ∈ ⨆ τ : {τ : Subrepresentation ρ' // IsAtom τ}, τ.1.toSubmodule →
+        v ⊗ₜ[ℂ] w ∈ ⨆ j, LinearMap.range (p j)) hv ?_ ?_ ?_ w hw
+    · intro σ x hx w hw
+      refine Submodule.iSup_induction _
+        (motive := fun w => x ⊗ₜ[ℂ] w ∈ ⨆ j, LinearMap.range (p j)) hw ?_ ?_ ?_
+      · intro τ y hy
+        exact (le_iSup (fun j => LinearMap.range (p j)) (σ, τ))
+          ⟨(⟨x, hx⟩ : σ.1.toSubmodule) ⊗ₜ[ℂ] (⟨y, hy⟩ : τ.1.toSubmodule), rfl⟩
+      · simp
+      · intro a b ha hb
+        rw [TensorProduct.tmul_add]
+        exact Submodule.add_mem _ ha hb
+    · intro w _
+      simp
+    · intro a b ha hb w hw
+      rw [TensorProduct.add_tmul]
+      exact Submodule.add_mem _ (ha w hw) (hb w hw)
+
+end GlobalTheory.ClassFin
+end
+
+section
+
+open Matrix GlobalTheory.ClassFin
+open scoped Kronecker ComplexOrder TensorProduct
+open NumberField IsDedekindDomain
+
+theorem _root_.GlobalTheory.T.integralFiniteAdele_compact_closed_multiples : ∀ (F : Type) [Field F] [NumberField F], IsCompact {a : FiniteAdeleRing (𝓞 F) F | (∀ v, (a : FiniteAdeleRing (𝓞 F) F) v ∈ HeightOneSpectrum.adicCompletionIntegers F v)} ∧ (∀ M : ℕ, 0 < M → IsClosed {a : FiniteAdeleRing (𝓞 F) F | ∃ c : FiniteAdeleRing (𝓞 F) F, (∀ v, (c : FiniteAdeleRing (𝓞 F) F) v ∈ HeightOneSpectrum.adicCompletionIntegers F v) ∧ a = (M : FiniteAdeleRing (𝓞 F) F) * c}) ∧ (∀ a : FiniteAdeleRing (𝓞 F) F, (∀ M : ℕ, 0 < M → ∃ c : FiniteAdeleRing (𝓞 F) F, (∀ v, (c : FiniteAdeleRing (𝓞 F) F) v ∈ HeightOneSpectrum.adicCompletionIntegers F v) ∧ a = (M : FiniteAdeleRing (𝓞 F) F) * c) → a = 0) ∧ (∀ x : F, (∀ v, (algebraMap F (FiniteAdeleRing (𝓞 F) F) x : FiniteAdeleRing (𝓞 F) F) v ∈ HeightOneSpectrum.adicCompletionIntegers F v) → ∃ y : 𝓞 F, x = y) ∧ (∀ a : FiniteAdeleRing (𝓞 F) F, ∃ M : ℕ, 0 < M ∧ (∀ v, (((M : FiniteAdeleRing (𝓞 F) F) * a) : FiniteAdeleRing (𝓞 F) F) v ∈ HeightOneSpectrum.adicCompletionIntegers F v)) ∧ IsReduced (FiniteAdeleRing (𝓞 F) F) := by
+  first | exact @GlobalTheory.IntegralFinAdele.integral_finiteAdele_properties | exact GlobalTheory.IntegralFinAdele.integral_finiteAdele_properties | (intros; apply GlobalTheory.IntegralFinAdele.integral_finiteAdele_properties <;> assumption)
+end
+
+section
+
+open Matrix GlobalTheory.ClassFin
+open scoped Kronecker ComplexOrder TensorProduct
+open NumberField IsDedekindDomain
+
+namespace GlobalTheory.IntegralPointsCompact
+
+theorem continuous_aeval_family {F A X σ : Type} [CommRing F] [CommRing A] [Algebra F A]
+    [TopologicalSpace A] [IsTopologicalRing A] [TopologicalSpace X] (f : X → σ → A)
+    (hf : ∀ s, Continuous fun x => f x s) (P : MvPolynomial σ F) :
+    Continuous fun x => MvPolynomial.aeval (f x) P := by
+  induction P using MvPolynomial.induction_on with
+  | C a => simpa using continuous_const
+  | add p q hp hq => simp only [map_add (f := _)]; exact hp.add hq
+  | mul_X p s hp => simp only [map_mul, MvPolynomial.aeval_X]; exact hp.mul (hf s)
+
+theorem isClosed_of_equations {F A ι : Type} [CommRing F] [CommRing A] [Algebra F A]
+    [TopologicalSpace A] [IsTopologicalRing A] [T2Space A] [Fintype ι] [DecidableEq ι]
+    (S : Set (MvPolynomial (ι × ι) F)) (H : Subgroup (GL ι A))
+    (hH : ∀ g, g ∈ H ↔ ∀ P ∈ S, MvPolynomial.aeval
+      (fun ij : ι × ι => ((g : GL ι A) : Matrix ι ι A) ij.1 ij.2) P = 0) :
+    IsClosed (H : Set (GL ι A)) := by
+  have e : (H : Set (GL ι A)) = ⋂ P ∈ S, {g : GL ι A | MvPolynomial.aeval
+      (fun ij : ι × ι => (g : Matrix ι ι A) ij.1 ij.2) P = 0} := by
+    ext g
+    simp only [Set.mem_iInter, SetLike.mem_coe]
+    exact hH g
+  rw [e]
+  refine isClosed_biInter fun P _ => isClosed_eq ?_ continuous_const
+  exact continuous_aeval_family (fun (g : GL ι A) (ij : ι × ι) => (g : Matrix ι ι A) ij.1 ij.2)
+    (fun s => Units.continuous_val.matrix_elem s.1 s.2) P
+
+theorem isCompact_integral_points : ∀ (F : Type) [Field F] [NumberField F] (n : ℕ) (S : Set (MvPolynomial (Fin n × Fin n) F)) (H : Subgroup (GL (Fin n) (FiniteAdeleRing (𝓞 F) F))), (∀ g, g ∈ H ↔ (∀ P ∈ S, MvPolynomial.aeval (fun ij : Fin n × Fin n => ((g : GL (Fin n) (FiniteAdeleRing (𝓞 F) F)) : Matrix (Fin n) (Fin n) (FiniteAdeleRing (𝓞 F) F)) ij.1 ij.2) P = 0)) → IsCompact {u : H | (∀ i j, (∀ v, (((u : GL (Fin n) (FiniteAdeleRing (𝓞 F) F)) : Matrix (Fin n) (Fin n) (FiniteAdeleRing (𝓞 F) F)) i j : FiniteAdeleRing (𝓞 F) F) v ∈ HeightOneSpectrum.adicCompletionIntegers F v) ∧ (∀ v, ((((u : GL (Fin n) (FiniteAdeleRing (𝓞 F) F))⁻¹ : GL (Fin n) (FiniteAdeleRing (𝓞 F) F)) : Matrix (Fin n) (Fin n) (FiniteAdeleRing (𝓞 F) F)) i j : FiniteAdeleRing (𝓞 F) F) v ∈ HeightOneSpectrum.adicCompletionIntegers F v))} := by
+  intro F _ _ n S H hH
+  have : T2Space (FiniteAdeleRing (𝓞 F) F) :=
+    inferInstanceAs (T2Space (RestrictedProduct (fun v : HeightOneSpectrum (𝓞 F) => v.adicCompletion F)
+      (fun v => (v.adicCompletionIntegers F : Set (v.adicCompletion F))) Filter.cofinite))
+  have hK := GlobalTheory.GLIntegral.isCompact_glSub (ι := Fin n) (GlobalTheory.GLIntegral.intSubring F)
+    (GlobalTheory.AdeleCocompact.isCompact_integral F)
+  have hc := isClosed_of_equations S H hH
+  have h := hc.isClosedEmbedding_subtypeVal.isCompact_preimage hK
+  refine (congrArg IsCompact (Set.ext fun u => ?_)).mpr h
+  exact ⟨fun hu => ⟨fun i j => (hu i j).1, fun i j => (hu i j).2⟩,
+    fun hu i j => ⟨hu.1 i j, hu.2 i j⟩⟩
+
+end GlobalTheory.IntegralPointsCompact
+end

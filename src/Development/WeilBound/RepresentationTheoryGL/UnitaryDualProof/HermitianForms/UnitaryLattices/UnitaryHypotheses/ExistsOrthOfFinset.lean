@@ -1,6 +1,6 @@
 module
 
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.AdmissibleUnitarySemisimple
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle064
 public import Development.AbelianVarietyTheory.Definitions.Foundations.SmoothPartStable
 public import Mathlib.Basic.Complex.Basic
 public import Mathlib.RepresentationTheory.Irreducible

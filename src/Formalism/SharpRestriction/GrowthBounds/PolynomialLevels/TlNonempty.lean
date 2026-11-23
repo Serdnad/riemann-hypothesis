@@ -1,6 +1,6 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.TwistedSubstitution.PlaneCoeff
+public import Formalism.SharpRestriction.GrowthBounds.TwistedSubstitution.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -38,7 +38,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Formalism.SharpRestriction.GrowthBounds.DiagonalSupport.TwiceValuationFactorialProduct
 import Formalism.SharpRestriction.GrowthBounds.DualFockLinear.IsMultiHom
-import Formalism.SharpRestriction.GrowthBounds.PlaneCoefficients.PlanePairsOnBlocksAt
+import Formalism.SharpRestriction.GrowthBounds.PlaneCoefficients.Bundle002
 import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.DvdOfAdd
 
 @[expose] public section

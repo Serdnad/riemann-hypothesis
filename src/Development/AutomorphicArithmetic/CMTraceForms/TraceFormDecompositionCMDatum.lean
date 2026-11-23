@@ -1,6 +1,6 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.JetHarmonics.IdempotentEmbeddingsCard
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle054
 public import Mathlib.NumberTheory.NumberField.Basic
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PlaceDivisors.StAvDefs
 import Mathlib.Algebra.AffineMonoid.Basic
@@ -52,7 +52,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Development.AutomorphicArithmetic.CMTraceForms.Places
-import Formalism.LocalToGlobal.ProjectiveLattices.RowDeg
+import Formalism.LocalToGlobal.ProjectiveLattices.Bundle001
 public import Mathlib.Algebra.Algebra.Hom.Rat
 public import Mathlib.NumberTheory.NumberField.Norm
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.CocycleRightZeroThd

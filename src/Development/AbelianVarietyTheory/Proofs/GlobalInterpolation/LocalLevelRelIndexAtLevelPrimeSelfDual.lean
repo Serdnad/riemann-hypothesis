@@ -1,18 +1,16 @@
 module
 
-public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.SelfDualStabiliserIndex
-public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.SplittingProjection
-public import Formalism.SatakeDualWeyl.StatementE
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExistsFrameCm
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExistsMemProjEqOnFinset
+public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.Bundle009
+public import Formalism.SatakeDualWeyl.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle063
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle049
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.IsUnitriGlEquiv
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.MemIntVIffOfSplitting
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.MemStabGLAdeleIff
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.RelIndexCongPre
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle125
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle048
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle054
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.RelIndexConjLevelVL
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.RingEquivAdicCompletionMemIntegersIff
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.SplitStabGLIffMemRange
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.StabilizerIndex
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle036
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle059
 import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ValuedAlgebraMapLtOneIff
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Afsplit
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Tjcosets
@@ -56,7 +54,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.OverPlaceIntegralForm
+public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.Bundle008
 
 @[expose] public section
 

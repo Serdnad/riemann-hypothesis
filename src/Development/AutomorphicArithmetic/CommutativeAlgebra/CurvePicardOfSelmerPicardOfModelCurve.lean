@@ -1,12 +1,12 @@
 module
 
-public import Development.EtaleCohomology.EtaleSheaves.LeafPicCut
-public import Development.EtaleCohomology.EtaleSheaves.LeafCurveVCut
-public import Development.AutomorphicArithmetic.CommutativeAlgebra.FiniteKummerSelmerOfCharts
-public import Development.AutomorphicArithmetic.CommutativeAlgebra.FiniteKummerSelmerOfFiniteExtension
-public import Development.AutomorphicArithmetic.CommutativeAlgebra.FinitePicTorsionOfFiniteKummerSelmer
+public import Development.EtaleCohomology.EtaleSheaves.Bundle001
+public import Development.EtaleCohomology.EtaleSheaves.Bundle031
+public import Development.AutomorphicArithmetic.CommutativeAlgebra.Bundle023
+public import Development.AutomorphicArithmetic.CommutativeAlgebra.Bundle008
+public import Development.AutomorphicArithmetic.CommutativeAlgebra.Bundle011
 public import Development.AutomorphicArithmetic.CommutativeAlgebra.IsFunctionFieldAndChartsOfIsCurveOfIsUnit
-public import Development.AutomorphicArithmetic.CommutativeAlgebra.IsFunctionFieldFractionRingOfDedekindFiniteType
+public import Development.AutomorphicArithmetic.CommutativeAlgebra.Bundle025
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

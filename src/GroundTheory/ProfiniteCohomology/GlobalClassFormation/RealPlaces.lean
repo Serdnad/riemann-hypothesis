@@ -2,8 +2,8 @@ module
 
 public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.SignsCup
 public import GroundTheory.GlobalFields.NormResidueSymbol.CyclotomicCompositum
-public import GroundTheory.GlobalFields.NormResidueSymbol.Rational
-public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.SymbolBridgeCyclotomic
+public import GroundTheory.GlobalFields.NormResidueSymbol.Bundle004
+public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -42,7 +42,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.LocalSymbol
+public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.Bundle005
 
 @[expose] public section
 

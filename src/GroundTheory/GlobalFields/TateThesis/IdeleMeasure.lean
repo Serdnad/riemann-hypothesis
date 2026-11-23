@@ -2,10 +2,10 @@ module
 
 public import GroundTheory.GlobalFields.TateThesis.AdeleMeasurable
 public import GroundTheory.GlobalFields.IdeleGroups.ClassGroup
-import GroundTheory.GlobalFields.Adele.Approximation
+import GroundTheory.GlobalFields.Adele.Bundle002
 public import GroundTheory.GlobalFields.Adele.Topology
 public import GroundTheory.GlobalFields.IdeleGroups.StandardOpenEquiv
-import GroundTheory.GlobalFields.LocalAtPlace
+import GroundTheory.GlobalFields.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.ValUniqOf
-public import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.CastGLSymmBc
+public import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.Bundle003
 import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.ColSpanMap
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

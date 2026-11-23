@@ -1,8 +1,8 @@
 module
 
-public import Development.EtaleCohomology.EtaleSheaves.H0TwistOverClosedField
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.KummerClassOfUnitCocycleNaturalAdditiveStatement
-public import Development.AutomorphicArithmetic.CommutativeAlgebra.ExistsH1MuGlueOfCompatible
+public import Development.EtaleCohomology.EtaleSheaves.Bundle009
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle800
+public import Development.AutomorphicArithmetic.CommutativeAlgebra.Bundle040
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

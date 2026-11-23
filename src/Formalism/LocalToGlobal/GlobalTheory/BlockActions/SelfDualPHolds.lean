@@ -1,10 +1,10 @@
 module
 
-public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.BrStmt
+public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.Bundle003
 public import Formalism.LocalToGlobal.GlobalTheory.EqGlobOfHat
-public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.FiniteAdeleRingNontrivial
+public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.Bundle002
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.PBwLocGen
-public import Formalism.LocalToGlobal.GlobalTheory.GL6.PBwLocGlob
+public import Formalism.LocalToGlobal.GlobalTheory.GL6.Bundle002
 public import Formalism.LocalToGlobal.GroupLattices.LevelCharts.FiniteClassSetOfFiniteIndex
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,10 +1,9 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.GlobalEulerCharacteristic.GlobalEulerFormulaInf
-import GroundTheory.ProfiniteCohomology.CupProducts.Projection
-public import GroundTheory.ProfiniteCohomology.EulerChar
+public import GroundTheory.ProfiniteCohomology.GlobalEulerCharacteristic.Bundle002
+import GroundTheory.ProfiniteCohomology.CupProducts.Bundle003
+public import GroundTheory.ProfiniteCohomology.Bundle010
 public import GroundTheory.ProfiniteCohomology.GlobalEulerCharacteristic.DefsForms
-public import GroundTheory.ProfiniteCohomology.GlobalEulerCharacteristic.RealHerbrand
 import GroundTheory.ProfiniteCohomology.RestrictedRamification.Finite
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

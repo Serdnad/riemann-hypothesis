@@ -1,7 +1,7 @@
 module
 
 public import Mathlib.NumberTheory.NumberField.Basic
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.RootsCharpolySmulMatrix
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle045
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -51,8 +51,8 @@ public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.MonodromyZeroOfWeilDeligneRepClassIff
 import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.Newform
 import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.AdmissibleResidues.SphericalOfHasSat
-import Development.AutomorphicArithmetic.IntegralCasts.IsOpenStabOfMemNhds
-import Formalism.LocalRingCardinality.SpanPowerMembership.NZTypeD
+import Development.AutomorphicArithmetic.IntegralCasts.Bundle001
+import Formalism.LocalRingCardinality.SpanPowerMembership.Bundle001
 import Formalism.SharpRestriction.LevelLetterCocycles.LocCoh
 
 @[expose] public section

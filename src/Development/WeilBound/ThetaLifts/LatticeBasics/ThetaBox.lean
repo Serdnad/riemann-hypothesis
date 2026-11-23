@@ -3,11 +3,11 @@ module
 public import Development.WeilBound.ThetaLifts.LatticeBasics.SliceSeminorm
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsNatMulIntegralOfIsCompact
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsStdCharNegOneOfStandardTraceAdelicAddChar
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.WeilRepresentationPreservesSchwartz
-public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.ThetaSumStarAndSchAStar
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1891
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1794
+public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.Bundle002
 public import Development.AutomorphicSpectrum.Proofs.NonGaloisProofs.ExistsEqAdelicCharMul
-import GroundTheory.AutomorphicForms.ReductionMeasure
+import GroundTheory.AutomorphicForms.Bundle012
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

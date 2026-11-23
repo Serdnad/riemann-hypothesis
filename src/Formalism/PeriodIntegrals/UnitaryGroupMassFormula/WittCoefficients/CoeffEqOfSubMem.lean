@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.ArtSch
+public import Formalism.PeriodIntegrals.Bundle019
 public import Mathlib.RingTheory.WittVector.Teichmuller
 public import Mathlib.RingTheory.WittVector.Truncated
 public import Mathlib.RingTheory.WittVector.Verschiebung

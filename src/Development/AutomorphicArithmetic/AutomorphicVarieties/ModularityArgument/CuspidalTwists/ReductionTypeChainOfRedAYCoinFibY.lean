@@ -1,8 +1,8 @@
 module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.CuspidalTwists.PromodularityCaseThree
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.CompactIntegralFields.FibLow
-import Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.SpaceMap
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.CompactIntegralFields.Bundle003
+import Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.Bundle001
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.ValuationCharacters.ConstOfFinite
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -66,7 +66,8 @@ private theorem ch_num {x y : WithBot ℕ∞} {a b c N : ℕ} (h1 : x ≤ y + (a
 private theorem supp_of {Γ A R K : Type} [Group Γ] [CommRing A] [CommRing R] [CommRing K] (r : Γ →* M4 A) (f : A →+* R)
     (φ : R →+* K) (q : Ideal R) (hq : ∀ z ∈ q, φ z = 0) {S : Finset (ℤ × ℤ)} (h : redIdeal S (mapRep f r) ≤ q) :
     Supp S (mapRep (φ.comp f) r) := fun g i j hij hw => by
-  simpa [mapRep_apply] using hq _ (h (Ideal.subset_span ⟨g, i, j, hij, hw, rfl⟩))
+  change φ (mapRep f r g i j) = 0
+  exact hq _ (h (Ideal.subset_span ⟨g, i, j, hij, hw, rfl⟩))
 
 private theorem ent_of {Γ A R K : Type} [Group Γ] [CommRing A] [CommRing R] [Field K] (r : Γ →* M4 A) (f : A →+* R)
     (φ : R →+* K) (q : Ideal R) (hq : ∀ z, φ z = 0 ↔ z ∈ q) (hY : redIdeal yY (mapRep f r) ≤ q)
@@ -126,6 +127,8 @@ private theorem t4 : ({wTh, -wTh, -wPs, -wBe, wAl} : Finset (ℤ × ℤ)) ∈ re
     ({wTh, -wTh, -wPs, -wBe, wAl} : Finset (ℤ × ℤ)) ≠ yY :=
   ⟨List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _ (List.Mem.head _))), by first | decide | (intro h; have := congrArg (fun s => -wPs ∈ s) h; simp [yY, wAl, wBe, wTh, wPs] at this)⟩
 
+set_option linter.overlappingInstances false in
+set_option synthInstance.maxHeartbeats 200000 in
 private theorem ch_core4 (hRA : RedA) (hYC : YCoin) (hFY : FibY) {O Γ : Type} [CommRing O] [Group Γ] [TopologicalSpace Γ]
     [IsTopologicalGroup Γ] [CompactSpace Γ] [TotallyDisconnectedSpace Γ] {Φ : Fr O Γ} {l : ℕ} [Fact l.Prime] {Λ : Type}
     [CommRing Λ] [IsDomain Λ] [IsDiscreteValuationRing Λ] [IsAdicComplete (maximalIdeal Λ) Λ] [Finite (ResidueField Λ)]
@@ -136,18 +139,20 @@ private theorem ch_core4 (hRA : RedA) (hYC : YCoin) (hFY : FibY) {O Γ : Type} [
     (hnn : ∀ v i j, i ≠ j → ∀ q : Ideal X.B, q.IsPrime → J ≤ q → (maximalIdeal Λ).map (algebraMap Λ X.B) ≤ q →
       (∀ s ∈ U v, X.ψ v i s - X.ψ v j s ∈ q) → ringKrullDim (X.B ⧸ q) + dv ≤ (2 * d + 1 : ℕ))
     (hp1 : ∀ (k : Type) [Field k] [Finite k] [Algebra Λ k] (y : X.A →ₐ[Λ] PowerSeries k),
-      (∀ b ∈ maximalIdeal X.B, PowerSeries.constantCoeff (y (algebraMap X.B X.A b)) = 0) →
+      (∀ b ∈ (@maximalIdeal X.B _ X.coB.toIsLocalRing), PowerSeries.constantCoeff (y (algebraMap X.B X.A b)) = 0) →
       (∀ b ∈ J, y (algebraMap X.B X.A b) = 0) →
       (∀ v i j, i ≠ j → ∃ s ∈ U v, y (X.P.ψ v i s) ≠ y (X.P.ψ v j s)) →
       Irr (mapRep ((algebraMap (PowerSeries k) (FractionRing (PowerSeries k))).comp (y : X.A →+* PowerSeries k)) X.P.r) →
       X.LocZero J (y : X.A →+* PowerSeries k))
     {c : PD Φ.ι Γ (ResidueField Λ)} (hc : Φ.IsRes ((residue Λ).comp a) c) (hIA : InA c)
     (hE : Ent c.r (-wPs) ∨ (Ent c.r (-wBe) ∧ Ent c.r (-wTh)))
-    {R : Type} [CommRing R] [Algebra Λ R] [IsCO Λ R] (f : X.A →ₐ[Λ] R) (hdef : Φ.IsDef a c (X.P.map (f : X.A →+* R)))
+    {R : Type} [CommRing R] [Algebra Λ R] [hR : IsCO Λ R] (f : X.A →ₐ[Λ] R) (hdef : Φ.IsDef a c (X.P.map (f : X.A →+* R)))
     {P Q : Ideal R} (hPQ : Ch.Adj R (N + 1) P Q) (hP : J ≤ P.comap ((f : X.A →+* R).comp (algebraMap X.B X.A))) :
     J ≤ Q.comap ((f : X.A →+* R).comp (algebraMap X.B X.A)) := by
   classical
   haveI := hS.char
+  haveI : IsLocalRing X.B := X.coB.toIsLocalRing
+  haveI : IsLocalRing R := hR.toIsLocalRing
   let φ : X.B →+* R := (f : X.A →+* R).comp (algebraMap X.B X.A)
   have hφ : ∀ t : Λ, φ (algebraMap Λ X.B t) = algebraMap Λ R t := fun t => by
     show f (algebraMap X.B X.A _) = _
@@ -158,8 +163,11 @@ private theorem ch_core4 (hRA : RedA) (hYC : YCoin) (hFY : FibY) {O Γ : Type} [
     obtain ⟨u, rfl⟩ := Ideal.mem_span_singleton'.1 ht
     rw [map_mul]
     exact q.mul_mem_left _ hq
-  have hϖm : algebraMap Λ R ϖ ∈ maximalIdeal R :=
-    map_nonunit _ _ (show ϖ ∈ maximalIdeal Λ by rw [hϖ]; exact Ideal.mem_span_singleton_self ϖ)
+  have hϖm : algebraMap Λ R ϖ ∈ maximalIdeal R := by
+    have hϖmem : ϖ ∈ maximalIdeal Λ := by
+      rw [hϖ]
+      exact Ideal.mem_span_singleton_self ϖ
+    exact fun hu => hϖmem (hR.isLocalHom.map_nonunit ϖ hu)
   let A : {S // S ∈ redTypes ∧ S ≠ yY} → Ideal R := fun S => redIdeal S.1 (X.P.map (f : X.A →+* R)).r
   let B : {t : Φ.ι × Fin 4 × Fin 4 // t.2.1 ≠ t.2.2} → Ideal R := fun t =>
     J.map φ ⊔ Ideal.span {algebraMap Λ R ϖ} ⊔ Ideal.span ((fun s => φ (X.ψ t.1.1 t.1.2.1 s - X.ψ t.1.1 t.1.2.2 s)) '' U t.1.1)
@@ -218,6 +226,8 @@ private theorem ch_core4 (hRA : RedA) (hYC : YCoin) (hFY : FibY) {O Γ : Type} [
       exact hIA.2 v h4
     have hn : (X.P.map (((algebraMap (R ⧸ p) (FractionRing (R ⧸ p))).comp (Ideal.Quotient.mk p)).comp
         (f : X.A →+* R))).n v 1 0 ≠ 0 := by
+      haveI : Nontrivial (R ⧸ p) := Ideal.Quotient.nontrivial_iff.2 hp.ne_top
+      haveI : Nontrivial (FractionRing (R ⧸ p)) := IsFractionRing.nontrivial (R ⧸ p) _
       have := (hu.map ((algebraMap (R ⧸ p) (FractionRing (R ⧸ p))).comp (Ideal.Quotient.mk p))).ne_zero
       simpa only [PD.map_n, Matrix.map_apply, RingHom.comp_apply] using this
     have hBle : ∀ (i i' : Fin 4) (hi : i ≠ i'), (∀ s ∈ Φ.Gv v,

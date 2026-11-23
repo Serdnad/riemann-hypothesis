@@ -1,10 +1,9 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsThetaMeanSquareNorm
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle013
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.SpecMapCompAppLE
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.DerivationHolUnifTangentStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IteratedDerivativeFactorStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.SectionRatioOverlapStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle135
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle137
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -44,8 +43,8 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.SabPull
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.HolomorphicFamilies.HolJetC
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle010
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.HolomorphicFamilies.Bundle008
 
 @[expose] public section
 

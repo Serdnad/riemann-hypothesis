@@ -1,8 +1,7 @@
 module
 
 public import Formalism.SharpRestriction.GenusPolyhedralBounds.RelativeIndexClassSets.LocalCOfLen
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.LengthBaseT0
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.LengthPoleInLift
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle036
 public import Formalism.SharpRestriction.GenusPolyhedralBounds.RelativeIndexClassSets.TheoremZeroBundledOfLengths
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -45,7 +45,7 @@ import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.Foundations.IsIwasawaOfIsCompact
 import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.LeviEmbMemNormalizerLower
 import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.PairwiseDisjointCell
-import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.SatakeComb
+import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle001
 
 @[expose] public section
 

@@ -1,19 +1,19 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.GoodGeneric
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle018
 public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisGeometry₂.HoweUnram
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.IsStepWeil
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.FamilySplitOperatorsEqLabelOperatorsModels
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.HeckeCharacterisationPlacesPartsOfWeakStatement
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.HyperspecialFixesAllChainVacuaAtInertPrimeStatement
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.InertHeckeOperatorsLiftsRationalSelfAdjointLabelStatement
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.IsSphericalDoubleCosetLabelIffDecreasingStatement
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.RealizationFamilyNormalOperatorsStatement
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.SelfDualAntitoneListIffInertPrimeHeckeExponentsStatement
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ThetaIntertwinesMatchedOperatorsStatement
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ThetaLiftTransferHeckePolySplitPrimeStatement
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.TwoSidedHeckePartnerInertPrimeStatement
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.WeightCocharacterEqOfGoodPlacesStatement
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle217
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle205
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle185
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle232
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle218
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle219
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle163
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle276
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle288
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle303
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle330
 public import Formalism.LocalToGlobal.IndefiniteReal.BridgeLemmas
 public import Formalism.LocalToGlobal.IndefiniteReal.LinksLemmas
 import Mathlib.Algebra.AffineMonoid.UniqueSums
@@ -140,7 +140,7 @@ theorem evC_single (V : HSp D) (P : Pl D.host.E) (a : List ℤ → ℂ) (d : Lis
     evC V P a (Finsupp.single d 1) = a d := by
   simp [evC, hd]
 
-theorem isLab_splitLab (V : HSp D) (P : Pl D.host.E) (hP : conjPl P ≠ P) (k : ℕ) (hk : k ≤ V.rank) :
+theorem isLab_splitLab (V : HSp D) (P : Pl D.host.E) (hP : _root_.Formalism.DivisionValues.conjPl P ≠ P) (k : ℕ) (hk : k ≤ V.rank) :
     IsLab V P (splitLab V.rank k) := by
   refine (GlobalTheory.T.isSphericalDoubleCosetLabel_iff_decreasing V P _).2 ⟨?_, ?_, fun h => absurd h hP⟩
   · simp [splitLab]
@@ -153,7 +153,7 @@ theorem isLab_splitLab (V : HSp D) (P : Pl D.host.E) (hP : conjPl P ≠ P) (k : 
       rw [List.eq_of_mem_replicate ha, List.eq_of_mem_replicate hb]
       norm_num
 
-theorem evC_splitC (V : HSp D) (P : Pl D.host.E) (hP : conjPl P ≠ P) (a : List ℤ → ℂ) (z : ℕ → ℂ) :
+theorem evC_splitC (V : HSp D) (P : Pl D.host.E) (hP : _root_.Formalism.DivisionValues.conjPl P ≠ P) (a : List ℤ → ℂ) (z : ℕ → ℂ) :
     evC V P a (splitC V.rank z) = ∑ j ∈ Finset.range (V.rank + 1), z j * a (splitLab V.rank j) := by
   unfold evC splitC
   rw [← Finsupp.sum_finsetSum_index (fun _ => by simp) (fun _ _ _ => by split_ifs <;> ring)]

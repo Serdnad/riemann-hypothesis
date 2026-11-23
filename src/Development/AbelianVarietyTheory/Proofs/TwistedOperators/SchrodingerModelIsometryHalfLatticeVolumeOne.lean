@@ -1,16 +1,16 @@
 module
 
 public import Mathlib
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RestrictedTensorBasePointNormSq
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.IsIntOv
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ThetaInnerProductHermitianStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsSchwartzBruhatHalfIffPullbackMatrixStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SchwartzBruhatHalfSpanModulatedTranslatesStatement
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle136
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle133
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle374
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle154
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle561
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.RealIdemMulOfReal
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.SelfDualLatticePairingDual
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.HasDerivAtZeroAndIsTheta
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.MemRangeOfOneTmulMem
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.SmulMemLatO
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle063
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle064
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.InfPartOneSubEInfSmul
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.PadicIsNonarchimedeanLocalField
 
@@ -228,9 +228,16 @@ theorem placeModel_isometry : ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ) (θ 
   haveI := GlobalTheory.LocalData.isLocalField v
   haveI : BorelSpace (Fv D.host.F v) := ⟨rfl⟩
   haveI := GlobalTheory.SplitWeil.secondCountable (Fv D.host.F v)
-  haveI : BorelSpace (Matrix (Fin m) (Fin n) (Fv D.host.F v)) :=
+  have hBorel : BorelSpace (Matrix (Fin m) (Fin n) (Fv D.host.F v)) :=
     inferInstanceAs (BorelSpace (Fin m → Fin n → Fv D.host.F v))
-  haveI : (GlobalTheory.SplitWeil.volM ν (Fin m) (Fin n)).IsAddHaarMeasure := Measure.pi.isAddHaarMeasure _
+  have hOpen : OpensMeasurableSpace (Matrix (Fin m) (Fin n) (Fv D.host.F v)) :=
+    ⟨le_of_eq hBorel.measurable_eq.symm⟩
+  have hHaar : (GlobalTheory.SplitWeil.volM ν (Fin m) (Fin n)).IsAddHaarMeasure :=
+    Measure.pi.isAddHaarMeasure _
+  have hAdd : MeasurableAdd (Matrix (Fin m) (Fin n) (Fv D.host.F v)) :=
+    inferInstanceAs (MeasurableAdd (Fin m → Fin n → Fv D.host.F v))
+  have hRight : (GlobalTheory.SplitWeil.volM ν (Fin m) (Fin n)).IsAddRightInvariant :=
+    @MeasureTheory.IsAddLeftInvariant.isAddRightInvariant _ _ _ _ hHaar.toIsAddLeftInvariant
   haveI : SecondCountableTopology (Matrix (Fin m) (Fin n) (Fv D.host.F v)) :=
     inferInstanceAs (SecondCountableTopology (Fin m → Fin n → Fv D.host.F v))
   obtain ⟨σ, h1, h2, h3⟩ := exists_section hκ
@@ -260,7 +267,9 @@ theorem placeModel_isometry : ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ) (θ 
       exact ⟨by rw [map_smul]; exact theta_smul c p.1, Submodule.smul_mem _ c p.2⟩
   have int : ∀ Ψ ∈ Submodule.span ℂ W, ∀ Ψ' ∈ Submodule.span ℂ W,
       Integrable (fun z => Ψ (σ z) * (starRingEnd ℂ) (Ψ' (σ z))) (GlobalTheory.SplitWeil.volM ν (Fin m) (Fin n)) :=
-    fun Ψ h Ψ' h' => Continuous.integrable_of_hasCompactSupport
+    fun Ψ h Ψ' h' =>
+      @Continuous.integrable_of_hasCompactSupport (Matrix (Fin m) (Fin n) (Fv D.host.F v)) ℂ _ _ _
+        (GlobalTheory.SplitWeil.volM ν (Fin m) (Fin n)) hOpen _ hHaar.toIsFiniteMeasureOnCompacts
       ((good Ψ h).2.1.continuous.mul (Complex.continuous_conj.comp (good Ψ' h').2.1.continuous))
       (HasCompactSupport.mul_right (good Ψ h).2.2)
   have main : ∀ Ψ ∈ Submodule.span ℂ W, ∀ Ψ' ∈ Submodule.span ℂ W,
@@ -273,7 +282,8 @@ theorem placeModel_isometry : ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ) (θ 
       obtain ⟨x', y', hx', hy', rfl⟩ := h'
       rw [(w1 x y hx hy).2 f₀ Tm hTm, (w1 x' y' hx' hy').2 f₀ Tm hTm,
         ipO_translates hψ hS hT ha hμ (base_theta hB) hB.2.2.2.2.2.lat (restrictedTensorBasePoint_norm_sq hB hμ) hx hx' hy hy']
-      exact (integral_waves hψ hS hT ha _ h1 h2 h3 h4 hκ.2.2.1.measurableSet hx hx' hy hy').symm
+      exact (@integral_waves D ψ S T ΛS ΛT hψ hS hT a ha _ _ _ hAdd _ hRight κ σ
+        h1 h2 h3 h4 hκ.2.2.1.measurableSet _ _ _ _ hx hx' hy hy').symm
     | zero_left => simp [ipO]
     | zero_right => simp [ipO]
     | add_left x y z hx hy hz p q =>

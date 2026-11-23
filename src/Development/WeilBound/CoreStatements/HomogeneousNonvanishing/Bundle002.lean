@@ -1,0 +1,154 @@
+module
+
+public import Mathlib.AlgebraicGeometry.Properties
+public import Mathlib.AlgebraicGeometry.Stalk
+public import Mathlib.Combinatorics.Quiver.ReflQuiver
+public import Mathlib.RingTheory.Henselian
+public import Mathlib.RingTheory.RegularLocalRing.Defs
+public import Mathlib.NumberTheory.NumberField.CMField
+public import Mathlib.RingTheory.SimpleRing.Principal
+public import Mathlib.RingTheory.Unramified.Basic
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.Order.CompletePartialOrder
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.WittVector.IsPoly
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Linter.Style
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.Polynomial.Basic
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Topology.Sheaves.Init
+public import Mathlib.RingTheory.Unramified.Finite
+
+@[expose] public section
+
+section
+
+open AlgebraicGeometry CategoryTheory
+
+namespace PositivityTheory.UnitarySelfGeneration
+
+theorem germ_vanishes_of_generic_vanishing : ∀ (X : Scheme.{0}) [IsReduced X] (Ω O : Type) [Field Ω] [CommRing O] (ξ : Spec (CommRingCat.of Ω) ⟶ X), (∀ q : X, ξ (IsLocalRing.closedPoint Ω) ⤳ q) → ∀ (s₀ : X ⟶ Spec (CommRingCat.of O)) (gm : O →+* Ω), ξ ≫ s₀ = Spec.map (CommRingCat.ofHom gm) → ∀ (x : X) (a : O), gm a = 0 → (Spec.preimage (X.fromSpecStalk x ≫ s₀)).hom a = 0 := by
+  intro X _ Ω O _ _ ξ hgen s₀ gm hcomp x a ha
+  obtain ⟨t, ht⟩ : ∃ t, t = s₀.appTop.hom ((Scheme.ΓSpecIso (CommRingCat.of O)).inv.hom a) :=
+    ⟨_, rfl⟩
+  have hnat := Scheme.ΓSpecIso_inv_naturality (CommRingCat.ofHom gm)
+  rw [← hcomp, Scheme.Hom.comp_appTop] at hnat
+  have h1 := RingHom.congr_fun (congrArg CommRingCat.Hom.hom hnat) a
+  simp only [CommRingCat.hom_comp, RingHom.comp_apply, CommRingCat.hom_ofHom, ha, map_zero] at h1
+  have hξt : ξ.appTop.hom t = 0 := by
+    rw [ht]
+    first
+    | exact h1.symm
+    | exact h1
+  have hξt' : (ConcreteCategory.hom ξ.appTop) t = 0 := hξt
+  have hpre := Scheme.preimage_basicOpen_top ξ t
+  rw [hξt', Scheme.basicOpen_zero] at hpre
+  have hbot : X.basicOpen t = ⊥ := by
+    rw [eq_bot_iff]
+    intro q hq
+    have hmem : ξ (IsLocalRing.closedPoint Ω) ∈ X.basicOpen t :=
+      (hgen q).mem_open (X.basicOpen t).isOpen hq
+    have hc := (Scheme.Hom.mem_preimage ξ (U := X.basicOpen t)).mpr hmem
+    rw [hpre] at hc
+    exact (TopologicalSpace.Opens.mem_bot.mp hc).elim
+  have ht0 : t = 0 := eq_zero_of_basicOpen_eq_bot t hbot
+  have hnat2 := Scheme.ΓSpecIso_inv_naturality (Spec.preimage (X.fromSpecStalk x ≫ s₀))
+  rw [Spec.map_preimage, Iso.comp_inv_eq] at hnat2
+  rw [hnat2, Scheme.Hom.comp_appTop]
+  simp only [CommRingCat.hom_comp, RingHom.comp_apply]
+  rw [← ht, ht0, map_zero, map_zero]
+
+end PositivityTheory.UnitarySelfGeneration
+end
+
+section
+
+open NumberField TensorProduct
+
+namespace PositivityTheory.UnitarySelfGeneration
+
+theorem differentiable_schwartz_translate {A B : Type} [CommRing A] [CommRing B] [IsDomain B] [Algebra A B] [Algebra.Unramified A B]
+    (σ : B →ₐ[A] B) (hσ : ∃ s, σ s ≠ s) : Ideal.span (Set.range fun x : B => x - σ x) = ⊤ := by
+  obtain ⟨t, ht1, ht2⟩ := (Algebra.FormallyUnramified.iff_exists_tensorProduct (R := A) (S := B)).1 inferInstance
+  let φ : B ⊗[A] B →ₐ[A] B := Algebra.TensorProduct.lift (AlgHom.id A B) σ fun _ _ => Commute.all _ _
+  obtain ⟨s, hs⟩ := hσ
+  have h0 : φ t = 0 := by
+    have := congrArg φ (ht1 s)
+    rw [map_mul, map_zero, map_sub] at this
+    simp only [φ, Algebra.TensorProduct.lift_tmul, map_one, AlgHom.id_apply, one_mul, mul_one] at this
+    exact (mul_eq_zero.1 this).resolve_left (sub_ne_zero.2 hs)
+  have h1 : ∀ u : B ⊗[A] B, Algebra.TensorProduct.lmul' A u - φ u ∈
+      Ideal.span (Set.range fun x : B => x - σ x) := by
+    intro u
+    induction u using TensorProduct.induction_on with
+    | zero => simp
+    | tmul a b =>
+      simp only [φ, Algebra.TensorProduct.lift_tmul, AlgHom.id_apply, Algebra.TensorProduct.lmul'_apply_tmul]
+      rw [← mul_sub]
+      exact Ideal.mul_mem_left _ _ (Ideal.subset_span ⟨b, rfl⟩)
+    | add x y hx hy =>
+      rw [map_add (f := _), map_add (f := _), add_sub_add_comm]
+      exact add_mem hx hy
+  have := h1 t
+  rw [ht2, h0, sub_zero] at this
+  exact (Ideal.eq_top_iff_one _).2 this
+
+theorem tw_g_diff : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (bar : 𝓞 E ≃+* 𝓞 E), (∀ a : 𝓞 E, ((bar a : 𝓞 E) : E) = IsCMField.complexConj E (a : E)) → Algebra.Unramified (𝓞 (maximalRealSubfield E)) (𝓞 E) → Ideal.span (Set.range fun x : 𝓞 E => x - bar x) = ⊤ := by
+  intro E _ _ _ bar hbar hun
+  let σ : 𝓞 E →ₐ[𝓞 (maximalRealSubfield E)] 𝓞 E :=
+    { bar.toRingHom with
+      commutes' := fun r => by
+        apply RingOfIntegers.ext
+        show ((bar _ : 𝓞 E) : E) = _
+        rw [hbar]
+        exact IsCMField.complexConj_apply_eq_self E (r : maximalRealSubfield E) }
+  refine differentiable_schwartz_translate σ ?_
+  by_contra hne
+  push Not at hne
+  apply IsCMField.complexConj_ne_one E
+  ext x
+  obtain ⟨a, b, hb, rfl⟩ := IsFractionRing.div_surjective (A := 𝓞 E) x
+  have h : ∀ a : 𝓞 E, IsCMField.complexConj E (algebraMap (𝓞 E) E a) = algebraMap (𝓞 E) E a := fun a => by
+    have h1 : bar a = a := hne a
+    have := hbar a
+    rw [h1] at this
+    exact this.symm
+  rw [map_div₀, h, h]; rfl
+
+end PositivityTheory.UnitarySelfGeneration
+end

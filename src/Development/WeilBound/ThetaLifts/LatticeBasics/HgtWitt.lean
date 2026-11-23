@@ -2,7 +2,7 @@ module
 
 public import Development.AutomorphicSpectrum.Proofs.AdelicProofs.HasIwasawaOfFrame
 public import Development.AbelianVarietyTheory.Definitions.Foundations.T2SpaceAdeleRing
-public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.CharacterAugmentationSubspaceQuotientActionTop
+public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

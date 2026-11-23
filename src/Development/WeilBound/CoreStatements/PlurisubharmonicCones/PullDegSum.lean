@@ -1,20 +1,20 @@
 module
 
-public import Development.WeilBound.CoreStatements.PlurisubharmonicCones.LevelFree
+public import Development.WeilBound.CoreStatements.PlurisubharmonicCones.Bundle009
 public import Development.WeilBound.CoreStatements.PlurisubharmonicCones.RootIdxLast
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.CmHostRankBoundsStatement
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.HodgeComponentFactorPointStatement
+public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle035
+public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle025
 public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.RootOriginComparisonSubset
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.BlockPullbackHermLineStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.CompactDatumIntersectionStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GenMapStalkMap
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeCptFieldExtensionStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle075
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle298
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle032
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle250
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeCptFiniteExtension
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeCptMultihomogFormStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IntersectionDatumDegreeSumStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle296
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle304
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.StalkSpecializesBijective
 public import Development.WeilBound.CoreStatements.PlurisubharmonicCones.HtLabelCongr
-public import Development.WeilBound.CoreStatements.PlurisubharmonicCones.JoinNormal
+public import Development.WeilBound.CoreStatements.PlurisubharmonicCones.Bundle012
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -53,7 +53,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.AbProj
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle007
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.OneArc
 
 @[expose] public section
@@ -107,6 +107,7 @@ theorem pullDeg_sum {K K' I : Type} [Fintype I] {κ : K → K'} (hκ : Function.
   · simp only [Function.extend_apply' _ _ _ hx, Pi.zero_apply, Finset.sum_const_zero]
 
 
+attribute [-instance] GlobalTheory.CompHt.fintypePsi in
 theorem common (h₁ : LevelFree) (h₂ : MuHodge) : Common := by
   intro hG E _ _ _ _ H D Xo l c Y S RM Sys Fx oR II K _ J _ Ω _ _ W _ _ Dc Hd S₀ Or B hS hdisc hvR hR4 hp hbg hsm hgood hgen
   classical
@@ -220,6 +221,18 @@ theorem common (h₁ : LevelFree) (h₂ : MuHodge) : Common := by
     have h := hlF _ _ oR.lines
     have e : (fun r => (Lp r).a) = fun r => pullDeg κ₁ (RM.xdeg r) := funext fun r => by rw [(hLp r).1, oR.sing_deg]
     rwa [e]
+  have hFintype : Subtype.fintype (fun τ : E →+* ℂ => τ (H.rt : E) = H.rt0) =
+      (GlobalTheory.CompHt.fintypePsi : Fintype (CMType H)) :=
+    Subsingleton.elim _ _
+  let Lτ := fun τ : CMType H => detLat (Or.𝔐.VS (S₀ ∪ Dc.SB B) (.inr τ)) (s τ)
+  have hTens := congrArg (fun inst : Fintype (CMType H) =>
+    @Lat.tens Or.𝔐.X Ω _ Or.𝔐.ξ (CMType H) inst Lτ (fun _ => -1)) hFintype
+  rw [hTens] at hdeg
+  have hUniv := congrArg (fun inst : Fintype (CMType H) => @Finset.univ (CMType H) inst) hFintype
+  rw [hUniv] at hmet
+  have hUnivLast := congrArg (fun inst : Fintype (CMType H) =>
+    letI := inst
+    Finset.univ (α := CMType H × Fin D.q)) hFintype
   have hiso := core 𝔐 Fl hbir Lp hroot
     (fun r => HodgePull.hodgeLine_pull E H D l (Xo l) c _ _ Y _ RM.Ω Ω₃ i₁ RM.K K₃ RM.ι ρ RM.y y oR.𝔐 𝔐 (a.hom ≫ g₁) j₁ m₁ κ₁
       v₁ oR.Fl bm₁ hy₁ hdom₁ hf𝔐 q3 q4 q6 q7 q9 Fl hbF r _ _ _ (oR.hodge r) (hLp r))
@@ -229,7 +242,7 @@ theorem common (h₁ : LevelFree) (h₂ : MuHodge) : Common := by
     (fun z w hw hz => hmet _ _ (hdown z w hw hz).1 (hdown z w hw hz).2) L L' ?_ (fun w => ?_) hL'
   · obtain ⟨f₁, f₂, hf, hdef⟩ := hiso
     exact ⟨f₁, f₂, hf, fun w hw => hdef w (hint w hw.1 hw.2)⟩
-  · rw [hL.1, ← sum_last D fun r => (Lp r).a]
+  · rw [hL.1, ← hUnivLast, ← sum_last D fun r => (Lp r).a]
     show pullDeg κ₁ (∑ r, muExp D.p r • (oR.sing r).a) = _
     rw [pullDeg_sum bm₁.1]
     refine Finset.sum_congr rfl fun r _ => ?_
@@ -244,7 +257,7 @@ theorem common (h₁ : LevelFree) (h₂ : MuHodge) : Common := by
         rw [bm₁.1.extend_apply]
         rfl
       · rw [Function.extend_apply' _ _ _ h]
-  · rw [hL.2, ← prod_last D fun r => (Lp r).h w]
+  · rw [hL.2, ← hUnivLast, ← prod_last D fun r => (Lp r).h w]
     show ∏ r, (oR.sing r).h _ ^ muExp D.p r = _
     refine Finset.prod_congr rfl fun r _ => ?_
     unfold muExp

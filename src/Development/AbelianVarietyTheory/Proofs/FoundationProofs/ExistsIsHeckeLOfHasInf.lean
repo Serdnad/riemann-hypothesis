@@ -1,17 +1,17 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ResFinEqOneOfAway
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.PlacesBelowSplitCoprimeConductorOfAdmissible
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ValuedEqOneOfLe
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle193
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle103
 public import Formalism.PairingDivisors.StatementA
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.AddCharTrivialIntegralFiniteAdeleMul
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsSplitPlOfTwoMem
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle067
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle457
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.DenseRangeUnits
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsUnitaryRationalInfTypeSubgroupAndInfTypeUnique
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HostCmData
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.UnderEqIffConjPl
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.HeckeLEntireAndNonzeroAtOneHolds
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.IntegralFiniteAdeleCompleteSeparated
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle166
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle253
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle092
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle158
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle010
 import Formalism.LocalToGlobal.UnitaryNorms.CharUniq
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
@@ -176,23 +176,23 @@ theorem host_unramFin : UnramFin D.host.E := by
 
 theorem exists_emb (i : X.Tw) (k : ℕ) : ∃ J : FractionRing (X.Ok i k) →+* Kbar X i,
     ∀ x, J (BlochKatoReduction.Gen.kMap X i k x) = algebraMap (FractionRing (X.O i)) (Kbar X i) x := by
-  have := X.Ok_fin i k
-  have : FaithfulSMul (X.O i) (X.Ok i k) := (faithfulSMul_iff_algebraMap_injective _ _).2 (X.Ok_inj i k)
-  have : FaithfulSMul (X.O i) (Kbar X i) := (faithfulSMul_iff_algebraMap_injective _ _).2 (by
+  letI : Module.Finite (X.O i) (X.Ok i k) := X.Ok_fin i k
+  have hKbar : Function.Injective (algebraMap (X.O i) (Kbar X i)) := by
     rw [IsScalarTower.algebraMap_eq (X.O i) (FractionRing (X.O i)) (Kbar X i)]
-    exact (algebraMap (FractionRing (X.O i)) (Kbar X i)).injective.comp (IsFractionRing.injective _ _))
-  let J0 : X.Ok i k →ₐ[X.O i] Kbar X i := (by
-    refine @_root_.IsAlgClosed.lift _ _ _ _ _ _ _ _ _ _ _ ?_ ?_ ?_
-    solve_by_elim* (maxDepth := 2) only [*,
-      @_root_.DivisionSemiring.to_moduleIsTorsionFree,
-      @_root_.Algebra.IsIntegral.isAlgebraic, @_root_.inferInstance])
+    exact (algebraMap (FractionRing (X.O i)) (Kbar X i)).injective.comp (IsFractionRing.injective _ _)
+  letI : Module.IsTorsionFree (X.O i) (X.Ok i k) :=
+    Module.isTorsionFree_iff_algebraMap_injective.mpr (X.Ok_inj i k)
+  letI : Module.IsTorsionFree (X.O i) (Kbar X i) :=
+    Module.isTorsionFree_iff_algebraMap_injective.mpr hKbar
+  letI : Algebra.IsIntegral (X.O i) (X.Ok i k) := Algebra.IsIntegral.of_finite _ _
+  letI : Algebra.IsAlgebraic (X.O i) (X.Ok i k) := Algebra.IsIntegral.isAlgebraic
+  let J0 : X.Ok i k →ₐ[X.O i] Kbar X i := _root_.IsAlgClosed.lift
   have hJ : Function.Injective J0.toRingHom := by
     rw [RingHom.injective_iff_ker_eq_bot]
     refine Ideal.eq_bot_of_comap_eq_bot (R := X.O i) ?_
     rw [Ideal.under_def, RingHom.comap_ker, ← RingHom.injective_iff_ker_eq_bot]
     intro a b hab
-    exact FaithfulSMul.algebraMap_injective (X.O i) (Kbar X i)
-      ((J0.commutes a).symm.trans (Eq.trans hab (J0.commutes b)))
+    exact hKbar ((J0.commutes a).symm.trans (Eq.trans hab (J0.commutes b)))
   refine ⟨IsFractionRing.lift hJ, fun x => ?_⟩
   refine DFunLike.congr_fun (IsLocalization.ringHom_ext (nonZeroDivisors (X.O i))
     (j := (IsFractionRing.lift hJ : FractionRing (X.Ok i k) →+* Kbar X i).comp (BlochKatoReduction.Gen.kMap X i k))
@@ -317,7 +317,7 @@ theorem exists_isHeckeL_of_hasInf (E : Type) [Field E] [NumberField E] [IsCMFiel
     ∃ Λ, IsHeckeL χ Λ := by
   refine GlobalTheory.HeckeOne.entire_of_not_normPow hu fun ⟨t, ht⟩ => ?_
   have hn : ∀ k : Eˣ, ideleNorm (infDiag k) = ∏ w : InfinitePlace E, w (k : E) ^ w.mult := fun k => by
-    rw [infDiag_eq]
+    rw [_root_.GlobalTheory.CMVal.infDiag_eq]
     change (∏ v : InfinitePlace E, ‖algebraMap E v.Completion k‖ ^ v.mult) *
       (∏ᶠ v : HeightOneSpectrum (𝓞 E), ‖(1 : v.adicCompletion E)‖) = _
     simp only [GlobalTheory.FrobDense.norm_inf, norm_one, finprod_one, mul_one]

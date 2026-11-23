@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.TorsionIntegrality.GaussianEigenFrames.StatementJ
+public import Formalism.LocalToGlobal.TorsionIntegrality.GaussianEigenFrames.Bundle001
 public import Formalism.LocalToGlobal.TorsionIntegrality.GaussianEigenFrames.StatementB
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

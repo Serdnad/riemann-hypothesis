@@ -1,13 +1,12 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Degenerations.CompanionTheory
+public import Development.AbelianVarietyTheory.Definitions.Degenerations.Bundle002
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsDiscreteValuationRingIntegralClosurePadicInt
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.AbelianSchemeProperClosureDataBasicProperties
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle089
 public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsAddExtension
 public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsLineBundleOfNormOneGenerators
-import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.JacobsonClosedPointsToolsInt
-import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.MemPadicAlgClValuationSubringIffNormLeOne
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.RegularOfBoundedAtPadicAlgClPoints
+import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle038
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle044
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsUniqueExtensionOfForallNormLeOne
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -73,12 +72,18 @@ theorem exists_point_norm_valF_eq {X : Scheme.{0}} {p : ℕ} [Fact p.Prime]
     (y : Spec (.of (integralClosure ℤ_[p] K)) ⟶ X) (U : X.Opens)
     (hy : ⊤ ≤ (Spec.map (CommRingCat.ofHom (algebraMap (integralClosure ℤ_[p] K) K)) ≫ y) ⁻¹ᵁ U)
     (φ : Γ(X, U)) :
-    ∃ y' : Sp (OO p) ⟶ X, y' (cPt p) = y (IsLocalRing.closedPoint (integralClosure ℤ_[p] K)) ∧
+    ∃ y' : Sp (OO p) ⟶ X, y' (cPt p) = y (by
+      letI := isLocalHom_integralClosureToPadicAlgClIntegers K
+      letI : IsLocalRing (integralClosure ℤ_[p] K) :=
+        (integralClosureToPadicAlgClIntegers K).domain_isLocalRing
+      exact IsLocalRing.closedPoint (integralClosure ℤ_[p] K)) ∧
       Set.range (gPt p ≫ y') ⊆ U ∧
       valF (gPt p ≫ y') U φ = (((Scheme.ΓSpecIso (.of K)).hom
         ((Spec.map (CommRingCat.ofHom (algebraMap (integralClosure ℤ_[p] K) K)) ≫ y).appLE
           U ⊤ hy φ) : K) : PadicAlgCl p) := by
   haveI := isLocalHom_integralClosureToPadicAlgClIntegers K
+  letI : IsLocalRing (integralClosure ℤ_[p] K) :=
+    (integralClosureToPadicAlgClIntegers K).domain_isLocalRing
   have e : gPt p ≫ spMap (integralClosureToPadicAlgClIntegers K) ≫ y =
       spMap K.val.toRingHom ≫
         Spec.map (CommRingCat.ofHom (algebraMap (integralClosure ℤ_[p] K) K)) ≫ y := by

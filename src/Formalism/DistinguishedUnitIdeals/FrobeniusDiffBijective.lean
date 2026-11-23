@@ -1,6 +1,6 @@
 module
 
-public import Formalism.DistinguishedUnitIdeals.StatementE
+public import Formalism.DistinguishedUnitIdeals.Bundle002
 public import Mathlib.Data.Nat.PadicValNat
 public import Mathlib.RingTheory.DiscreteValuationRing.Basic
 import Mathlib.Algebra.Order.Floor.Extended

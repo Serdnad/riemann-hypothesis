@@ -1,8 +1,8 @@
 module
 
 public import Formalism.SharpRestriction.GrowthBounds.FockGramWindow.RestWinOfLvl
-public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.CoarseCLower
-public import Formalism.SharpRestriction.GrowthBounds.FockGramWindow.FirstCoefficientLeDiv
+public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.Bundle007
+public import Formalism.SharpRestriction.GrowthBounds.FockGramWindow.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

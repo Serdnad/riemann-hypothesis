@@ -1,11 +1,11 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.PriceBoundSmallPrimes
+public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle016
 public import Formalism.LocalRingCardinality.ColumnWeightSpreadOffTop
-import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.NcCGNonneg
-import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.NcIotaInj
-public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.NeSumLe
-import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.PriceBoundLargePrimes
+import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle011
+import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle005
+public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle019
+import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle017
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

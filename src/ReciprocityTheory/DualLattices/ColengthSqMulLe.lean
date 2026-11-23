@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.DualLattices.SumLatInvMulVec
+public import ReciprocityTheory.DualLattices.Bundle018
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -50,10 +50,10 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.DualLattices.ExistsUnitMinor
+public import ReciprocityTheory.DualLattices.Bundle014
 import Std.Tactic.BVDecide.Normalize.Prop
 public import Mathlib.LinearAlgebra.Matrix.SchurComplement
-import ReciprocityTheory.DualLattices.TensorSpan
+import ReciprocityTheory.DualLattices.Bundle002
 
 @[expose] public section
 

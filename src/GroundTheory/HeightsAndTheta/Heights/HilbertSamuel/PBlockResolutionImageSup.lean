@@ -1,8 +1,8 @@
 module
 
-import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PBlockResolutionSupBound
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsBlockResolutionImageSup
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsChartSup
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle070
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle060
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -128,13 +128,13 @@ theorem eval_torus {f : MRingOver ℂ ι} {k₀ : K} {n : ℕ} (hf : IsMultiHomo
   apply _root_.GroundTheory.Heights₂.Heights.HilbertSamuel.BlockResolutionSupBound.eval_torus <;> assumption
 
 theorem normRatio_torus {f : MRingOver ℂ ι} {k₀ : K} {n : ℕ} (hf : IsMultiHomog f (blockDeg k₀ n))
-    (A : HermLine ι) (hA : A.a = unitDeg k₀) {z z' : (Σ k, ι k) → ℂ} (h : SameOrbit z z') :
+    (A : _root_.ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) (hA : A.a = _root_.ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.unitDeg k₀) {z z' : (Σ k, ι k) → ℂ} (h : SameOrbit z z') :
     ‖eval z f‖ / A.h z ^ n = ‖eval z' f‖ / A.h z' ^ n := by
   obtain ⟨c, hc, rfl⟩ := h
   rw [eval_torus hf, A.smul c z' hc, hA]
-  have hprod : ∏ k, ‖c k‖ ^ unitDeg k₀ k = ‖c k₀‖ := by
-    rw [Fintype.prod_eq_single k₀ fun k hk => by simp [unitDeg, hk]]
-    simp [unitDeg]
+  have hprod : ∏ k, ‖c k‖ ^ _root_.ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.unitDeg k₀ k = ‖c k₀‖ := by
+    rw [Fintype.prod_eq_single k₀ fun k hk => by simp [_root_.ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.unitDeg, hk]]
+    simp [_root_.ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.unitDeg]
   rw [hprod, norm_mul, norm_pow, mul_pow]
   have : ‖c k₀‖ ^ n ≠ 0 := pow_ne_zero _ (norm_ne_zero_iff.2 (hc k₀))
   rw [mul_div_mul_left _ _ this]

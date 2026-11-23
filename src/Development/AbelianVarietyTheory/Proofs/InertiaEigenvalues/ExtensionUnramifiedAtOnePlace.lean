@@ -3,13 +3,12 @@ module
 public import Mathlib.NumberTheory.NumberField.InfinitePlace.TotallyRealComplex
 public import Mathlib.RingTheory.DedekindDomain.AdicValuation.Completion
 public import ReciprocityTheory.GaloisValuations.Global
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CardQuotientEqOfPowSubSelfMemStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.EqOfRootCongrOfDerivUnitStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FrobeniusPowApplySubPowLtOneStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsTotallyComplexOfPrimitiveRootThreeLeStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NotMemSqOfDerivativeStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.PadicRingEquivAdicCompletionPlaceUnramifiedDegreStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TotallyComplexOfRootQuadraticNegDiscStatement
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle090
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle091
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle150
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle088
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle087
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle738
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -61,7 +60,7 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import ReciprocityTheory.GaloisValuations.GlobalA
 import ReciprocityTheory.GaloisValuations.GlobalB
-import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.LabelDatum
+import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle010
 import Formalism.LocalToGlobal.NormalizedHeckeFactors.TypesDefs
 import ReciprocityTheory.NeutralLocalFields.LocalFieldComparison.HCFFromRecipA
 
@@ -123,7 +122,7 @@ def placeBelow (K : Type) [Field K] [NumberField K] [Algebra K Ω] (A : Valuatio
 
 theorem isPlaceOver_placeBelow (K : Type) [Field K] [NumberField K] [Algebra K Ω] (A : ValuationSubring Ω)
     (x₀ : 𝓞 K) (h0 : x₀ ≠ 0) (hv : A.valuation (algebraMap K Ω (x₀ : K)) < 1) :
-    IsPlaceOver A (placeBelow K A x₀ h0 hv) := fun _ => Iff.rfl
+    _root_.Formalism.ConjugateSelfDual.IsPlaceOver A (placeBelow K A x₀ h0 hv) := fun _ => Iff.rfl
 
 theorem fix_adjoin {E : Type} [Field E] [Algebra E Ω] (β : Ω) (hβ : IsIntegral E β) (τ : Ω ≃ₐ[E] Ω)
     (hτ : τ β = β) : ∀ x ∈ IntermediateField.adjoin E ({β} : Set Ω), τ x = x := by
@@ -149,7 +148,7 @@ theorem adjoin_gen_eq_top (E : Type) [Field E] [Algebra E Ω] (β : Ω) (hβ : I
 
 open IntermediateField in
 theorem core {E : Type} [Field E] [NumberField E] [Algebra E Ω] [IsAlgClosure E Ω] {g : ℕ} [Fact g.Prime]
-    {A : ValuationSubring Ω} {w : HeightOneSpectrum (𝓞 E)} (h : IsPlaceOver A w)
+    {A : ValuationSubring Ω} {w : HeightOneSpectrum (𝓞 E)} (h : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A w)
     (hg1 : ((g : ℕ) : 𝓞 E) ∈ w.asIdeal) (hg2 : ((g : ℕ) : 𝓞 E) ∉ w.asIdeal ^ 2) (hN : normV w = g)
     (n : ℕ) (hn : 0 < n) (β : Ω) (f : ℤ[X]) (hf : f.Monic) (hfβ : aeval β f = 0)
     (hu : ¬ A.valuation (aeval β (derivative f)) < 1) (hq : A.valuation (β ^ (g ^ n) - β) < 1)
@@ -157,7 +156,7 @@ theorem core {E : Type} [Field E] [NumberField E] [Algebra E Ω] [IsAlgClosure E
     (hTC : 3 ≤ g ^ n - 1 ∨ ∃ a b : ℤ, β ^ 2 + (a : Ω) * β + (b : Ω) = 0 ∧ a ^ 2 < 4 * b) :
     ∃ (E' : Type) (_ : Field E') (_ : NumberField E') (_ : IsTotallyComplex E') (_ : Algebra E E')
       (_ : Algebra E' Ω) (_ : IsScalarTower E E' Ω) (_ : IsAlgClosure E' Ω) (w' : HeightOneSpectrum (𝓞 E'))
-      (_ : IsPlaceOver A w'), ((g : ℕ) : 𝓞 E') ∈ w'.asIdeal ∧ ((g : ℕ) : 𝓞 E') ∉ w'.asIdeal ^ 2 ∧
+      (_ : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A w'), ((g : ℕ) : 𝓞 E') ∈ w'.asIdeal ∧ ((g : ℕ) : 𝓞 E') ∉ w'.asIdeal ^ 2 ∧
       normV w' = g ^ n ∧ (∃ ζ : E', IsPrimitiveRoot ζ (g ^ n - 1)) ∧
       ∀ t ∈ Ine (F := E) A, ∀ e : E', t (algebraMap E' Ω e) = algebraMap E' Ω e := by
   classical
@@ -215,7 +214,7 @@ theorem core {E : Type} [Field E] [NumberField E] [Algebra E Ω] [IsAlgClosure E
   have hgv : A.valuation (algebraMap E' Ω (((g : ℕ) : 𝓞 E') : E')) < 1 := by
     simpa using hgΩ
   let w' := placeBelow E' A ((g : ℕ) : 𝓞 E') hg0 hgv
-  have hw' : IsPlaceOver A w' := isPlaceOver_placeBelow E' A _ hg0 hgv
+  have hw' : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A w' := isPlaceOver_placeBelow E' A _ hg0 hgv
 
   let ζE : E' := ⟨ζ, hζβ⟩
   have hζE : IsPrimitiveRoot ζE (g ^ n - 1) :=
@@ -283,11 +282,11 @@ theorem core {E : Type} [Field E] [NumberField E] [Algebra E Ω] [IsAlgClosure E
       simpa using this
 
 theorem exists_unramified_ext : ∀ (E Ω : Type) [Field E] [NumberField E] [Field Ω] [Algebra E Ω] [IsAlgClosure E Ω] (g : ℕ)
-    [Fact g.Prime] (A : ValuationSubring Ω) (w : HeightOneSpectrum (𝓞 E)) (h : IsPlaceOver A w)
+    [Fact g.Prime] (A : ValuationSubring Ω) (w : HeightOneSpectrum (𝓞 E)) (h : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A w)
     (i : ℚ_[g] ≃+* w.adicCompletion E) (hi : Continuous i) (n : ℕ) (hn : 0 < n),
     ∃ (E' : Type) (_ : Field E') (_ : NumberField E') (_ : IsTotallyComplex E') (_ : Algebra E E')
       (_ : Algebra E' Ω) (_ : IsScalarTower E E' Ω) (_ : IsAlgClosure E' Ω) (w' : HeightOneSpectrum (𝓞 E'))
-      (_ : IsPlaceOver A w'), ((g : ℕ) : 𝓞 E') ∈ w'.asIdeal ∧ ((g : ℕ) : 𝓞 E') ∉ w'.asIdeal ^ 2 ∧
+      (_ : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A w'), ((g : ℕ) : 𝓞 E') ∈ w'.asIdeal ∧ ((g : ℕ) : 𝓞 E') ∉ w'.asIdeal ^ 2 ∧
       normV w' = g ^ n ∧ (∃ ζ : E', IsPrimitiveRoot ζ (g ^ n - 1)) ∧
       ∀ t ∈ Ine (F := E) A, ∀ e : E', t (algebraMap E' Ω e) = algebraMap E' Ω e := by
   intro E Ω _ _ _ _ _ g _ A w h i hi n hn

@@ -1,10 +1,9 @@
 module
 
-public import CompanionTheory.AutomorphicTheory.BesselWaveGrids.NQText
-public import CompanionTheory.AutomorphicTheory.BesselWaveGrids.InterlacingGrids.PairOKOfInterlace
+public import CompanionTheory.AutomorphicTheory.BesselWaveGrids.Bundle001
+public import CompanionTheory.AutomorphicTheory.BesselWaveGrids.InterlacingGrids.Bundle001
 public import CompanionTheory.AutomorphicTheory.BesselWaveGrids.InterlacingGrids.PstMul
-public import CompanionTheory.AutomorphicTheory.BesselWaveGrids.QwBound
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.Interlace
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

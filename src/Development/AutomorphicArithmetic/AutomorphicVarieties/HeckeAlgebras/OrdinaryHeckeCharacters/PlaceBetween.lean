@@ -2,8 +2,8 @@ module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.IsTheta
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.ContinuousMapPFin
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IntertwiningGlOfUnitary
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsContinuousRetractionOntoUnitaryLocalPoints
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle295
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle296
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.SplitPlaceUnitaryLocalPointsEquivGL
 import Formalism.GradedWeylDivisibility.FinalD
 import Mathlib.Algebra.Order.Floor.Extended

@@ -1,11 +1,11 @@
 module
 
-public import Formalism.SharpRestriction.GlobalSchurBounds.MainSup
-public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.TSelF
-public import Formalism.LocalToGlobal.ClassOfRecordOfChoice
-public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.ClassOfRecordOfChoice
-public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.ClosedRankTiesFC2S
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.MinkowskiQ
+public import Formalism.SharpRestriction.GlobalSchurBounds.Bundle005
+public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.Bundle054
+public import Formalism.LocalToGlobal.Bundle001
+public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.Bundle056
+public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.Bundle049
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle010
 public import Formalism.SharpRestriction.GlobalSchurBounds.TheoremThreeFamilyOfFormalDegreeInput
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -41,7 +41,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Formalism.LocalToGlobal.IndefiniteRealisationChoice
-import Formalism.SharpRestriction.GlobalSchurBounds.TheoremThreeUnderScaleOfGeneral
+import Formalism.SharpRestriction.GlobalSchurBounds.Bundle004
 
 @[expose] public section
 

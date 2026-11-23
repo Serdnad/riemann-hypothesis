@@ -1,8 +1,8 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.RegularCharts.SCharts
-public import Formalism.LocalToGlobal.ProjectiveLattices.RegQFree
-public import Formalism.LocalToGlobal.ProjectiveLattices.RegModelC
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle017
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle010
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

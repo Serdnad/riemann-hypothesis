@@ -2,7 +2,7 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsCrisP
 public import Development.AbelianVarietyTheory.CrystallinePeriods.RingBasics
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FontaineThetaEqZeroIffFontaineXiElementDvd
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle081
 import Mathlib.Algebra.GroupWithZero.Submonoid.CancelMulZero
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -57,7 +57,7 @@ open scoped Formalism.Per
 
 noncomputable section
 namespace GlobalTheory.MemLoc.KerAll
-open Ideal
+open _root_.Ideal
 
 theorem dvd_of_step {A : Type*} [CommRing A] (q a : A)
     [IsAdicComplete (span {q}) A] (P : A → Prop)
@@ -119,7 +119,7 @@ theorem rootT_eq (x : Per.Fl l) (n : ℕ) : rootT x n = (rt x n).untilt := rfl
 
 theorem mk_rootT (x : Per.Fl l) (n : ℕ) :
     Ideal.Quotient.mk (span {(l : Per.OC l)}) (rootT x n) = PreTilt.coeff n x := by
-  rw [rootT, PreTilt.mk_untilt_eq_coeff_zero]
+  rw [rootT_eq, PreTilt.mk_untilt_eq_coeff_zero]
   have := PreTilt.coeff_iterate_frobeniusEquiv_symm 0 n x
   rw [zero_add] at this
   exact this

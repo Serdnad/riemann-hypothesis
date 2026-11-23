@@ -1,10 +1,10 @@
 module
 
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.MoriwakiBigness.HilbertSamuelApplications.SmallGeneratedCountUpperOfUse
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.PackingStatement
-import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PConstantShift
-import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PLocalRep
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PNefOnGenericOfSemipos
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle138
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle059
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle036
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle056
 import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.SmallSectionCountLeOfInjOn
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

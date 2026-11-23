@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.Columns.AtTLemmas
+public import Formalism.LocalToGlobal.Columns.Bundle012
 import Formalism.LocalToGlobal.Columns.BaseLemmas
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

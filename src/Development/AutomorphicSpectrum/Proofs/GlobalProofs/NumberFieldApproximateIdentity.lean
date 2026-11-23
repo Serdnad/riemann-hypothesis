@@ -43,9 +43,9 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Mathlib.Topology.UniformSpace.Uniformizable
-import Development.AbelianVarietyTheory.PublishedTheorems.GlobalTheta.IsSchwartzBruhatOfProd
-import Development.AutomorphicSpectrum.Proofs.GlobalProofs.IntegralIndicatorCharOfTrivial
-import Development.AutomorphicSpectrum.Proofs.GlobalProofs.IsCovolOne
+import Development.AbelianVarietyTheory.PublishedTheorems.GlobalTheta.Bundle002
+import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle058
+import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle053
 import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.GenusMassVolumes
 public import Mathlib.Analysis.Distribution.SchwartzSpace.Basic
 

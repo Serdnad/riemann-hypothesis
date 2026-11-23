@@ -1,7 +1,7 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.BigCellLocal
-public import Formalism.SatakeDualWeyl.StatementF
+public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.Bundle006
+public import Formalism.SatakeDualWeyl.Bundle001
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.FIwasawaE
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -48,7 +48,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.FIwasawaA
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle007
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.GlintPrincRelIndexNeZero
 
 @[expose] public section

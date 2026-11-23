@@ -1,11 +1,11 @@
 module
 
-public import Formalism.QuotientMetricDivisors.ProdFormula
+public import Formalism.QuotientMetricDivisors.Bundle004
 public import Formalism.HermitianLattices.HermitianLatticesProofs.DualBasic
 public import Formalism.HermitianLattices.HermitianLatticesProofs.DualLattice
 public import Formalism.HermitianLattices.HermitianLatticesProofs.IndexBasic
-public import Formalism.HermitianLattices.HermitianLatticesProofs.LocDual
-public import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.ProdFormula
+public import Formalism.HermitianLattices.HermitianLatticesProofs.Bundle002
+public import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.Bundle002
 public import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.ValBasic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

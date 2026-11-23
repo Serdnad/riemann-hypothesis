@@ -1,6 +1,6 @@
 module
 
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.FixedSubgroup
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle063
 public import Mathlib.LinearAlgebra.Eigenspace.Basic
 public import Mathlib.LinearAlgebra.Matrix.GeneralLinearGroup.Defs
 public import Mathlib.NumberTheory.Padics.PadicIntegers

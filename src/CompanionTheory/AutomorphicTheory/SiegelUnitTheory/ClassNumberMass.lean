@@ -1,7 +1,7 @@
 module
 
-public import Formalism.SharpRestriction.GlobalSchurBounds.MassRatioUnfoldedOfTheoremTwo
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.VolumeRatio
+public import Formalism.SharpRestriction.GlobalSchurBounds.Bundle004
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle151
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

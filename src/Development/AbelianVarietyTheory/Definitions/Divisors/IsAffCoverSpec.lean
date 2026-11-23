@@ -1,8 +1,8 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.ExactFormsLeClosedForms
-public import Development.AbelianVarietyTheory.Definitions.Divisors.CupPair
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsFormOneAddMulSmul
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle005
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1689
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

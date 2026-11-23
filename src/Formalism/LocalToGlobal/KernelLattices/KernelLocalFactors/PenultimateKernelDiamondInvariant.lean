@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.KernelLattices.MatrixKernelDiamondCommutation
+public import Formalism.LocalToGlobal.KernelLattices.Bundle002
 import Formalism.LocalToGlobal.Columns.AdelicLemmas
 public import Formalism.LocalToGlobal.Columns.AdjointFrobeniusPreservesRamified
 public import Formalism.LocalToGlobal.Columns.ChainInst

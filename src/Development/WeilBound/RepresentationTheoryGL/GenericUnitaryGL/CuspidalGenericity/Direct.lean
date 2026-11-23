@@ -1,11 +1,10 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.NonemptyEquivMultiProdOne
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CuspidalIsGeneric
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CuspidalTwistedKernelTopStatement
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.DerivativeZeroWhittakerKernel
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsNontrivialDerivative
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.RestrictionMirabolicTwistedKernel
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle498
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle470
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle320
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle374
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

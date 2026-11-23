@@ -2,7 +2,7 @@ module
 
 import Formalism.LocalToGlobal.ProjectiveLattices.LevelPb
 public import Formalism.LocalToGlobal.GlobalTheory.GL3.PIopNorm
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.CanonicalTranslateJets
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle080
 public import Formalism.LocalToGlobal.GlobalTheory.GL3.PHfTrace
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

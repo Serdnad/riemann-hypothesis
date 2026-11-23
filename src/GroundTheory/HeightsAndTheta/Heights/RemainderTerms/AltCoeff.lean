@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.HeightsAndTheta.Heights.RemainderTerms.Statements
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.VandermondeOfEqDet
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle048
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

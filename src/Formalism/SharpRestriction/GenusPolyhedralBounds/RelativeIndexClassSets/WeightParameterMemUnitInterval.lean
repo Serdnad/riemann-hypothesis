@@ -1,8 +1,8 @@
 module
 
 public import Formalism.SharpRestriction.Divisibility.WeightAlgebra
-public import Formalism.MirabolicMackeyTheory.StatementL
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ExistsBasisOfPid
+public import Formalism.MirabolicMackeyTheory.Bundle001
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle057
 public import Formalism.HermitianLattices.HermitianLatticesProofs.LocBasic
 import Formalism.MirabolicMackeyTheory.MirabolicMackeyProofs.IdxRules
 public import Formalism.MirabolicMackeyTheory.MirabolicMackeyProofs.ThreeForms

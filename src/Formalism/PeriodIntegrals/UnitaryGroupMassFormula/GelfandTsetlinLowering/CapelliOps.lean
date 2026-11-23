@@ -1,7 +1,7 @@
 module
 
 public import Formalism.GradedWeylDivisibility.StatementA
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.RowDivStable
+public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle003
 public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.SatisfiesGlRelationsBilinearLeft
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

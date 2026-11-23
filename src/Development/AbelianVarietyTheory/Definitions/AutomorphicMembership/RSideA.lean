@@ -1,7 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.BrgStdR
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.PositionOfIntro
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle024
 public import Formalism.LocalToGlobal.IndefiniteReal.LinksExistW
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

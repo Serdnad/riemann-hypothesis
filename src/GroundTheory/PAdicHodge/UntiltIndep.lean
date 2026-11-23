@@ -42,7 +42,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-public import GroundTheory.PAdicHodge.PerfectoidField
+public import GroundTheory.PAdicHodge.Bundle002
 
 @[expose] public section
 

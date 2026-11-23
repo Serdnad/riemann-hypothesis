@@ -1,15 +1,14 @@
 module
 
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.KunnethLefschetz.BasisOne
-public import Development.EtaleCohomology.EtaleTrace.CocEqPf
+public import Development.EtaleCohomology.EtaleTrace.Bundle006
 public import Development.EtaleCohomology.EtaleTrace.PrimSplitPf
-public import Development.EtaleCohomology.EtaleTrace.PtCovPf
-public import Development.EtaleCohomology.EtaleTrace.PtCoverPf
+public import Development.EtaleCohomology.EtaleTrace.Bundle009
+public import Development.EtaleCohomology.EtaleTrace.Bundle004
 public import Development.EtaleCohomology.EtaleTrace.TateTwistSectionConstantOnPointsOfTwLocPtCov
-public import Development.EtaleCohomology.EtaleTrace.TorsionH0PointOfTwistCoverCocycle
-public import Development.EtaleCohomology.EtaleTrace.TwZeroPfSplit
-public import Development.EtaleCohomology.TateTwists.AlgPowPfR
-public import Development.EtaleCohomology.TateTwists.TwTorsPfR
+public import Development.EtaleCohomology.EtaleTrace.Bundle010
+public import Development.EtaleCohomology.TateTwists.Bundle032
+public import Development.EtaleCohomology.TateTwists.Bundle020
 import Mathlib.Algebra.Category.ModuleCat.FilteredColimits
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -53,7 +52,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.TypeStar
-public import Development.EtaleCohomology.EtaleTrace.EtaleTateTwistSectionConstantOnPointsOfConnected
+public import Development.EtaleCohomology.EtaleTrace.Bundle007
 
 @[expose] public section
 

@@ -1,13 +1,13 @@
 module
 
 public import Development.WeilBound.ThetaLifts.Reductions.SiegelCore
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CuspFormRapidDecayStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CuspFormSiegelBoundStatement
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsCompactIwasawa
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle700
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle745
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle644
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ProjArchOfInfEmbArchPi
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SingleMulSingle
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.UnitaryAdelicIwasawaCompactStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.UnitarySiegelDomainExistsStatement
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle691
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle708
 public import Development.WeilBound.ThetaLifts.Reductions.SiegelOfCore
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -69,3 +69,15 @@ theorem siegelSetUnitary : GlobalTheory.Published.SiegelSetUnitary :=
   siegel_of_core siegelCore
 
 end GlobalTheory.CompanionTheory.SiegelRed
+
+end
+
+section
+
+@[expose] public section
+
+theorem _root_.GlobalTheory.T.siegel_set_unitary : GlobalTheory.Published.SiegelSetUnitary := by
+  first | exact @GlobalTheory.CompanionTheory.SiegelRed.siegelSetUnitary | exact GlobalTheory.CompanionTheory.SiegelRed.siegelSetUnitary | (intros; apply GlobalTheory.CompanionTheory.SiegelRed.siegelSetUnitary <;> assumption)
+
+end
+end

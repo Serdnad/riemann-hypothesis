@@ -1,0 +1,159 @@
+module
+
+public import Development.AbelianVarietyTheory.Statements.PlaceShiftStatements.InfClassAt
+public import Development.AutomorphicArithmetic.CyclotomicBounds.WildJets.Bundle003
+public import Development.AutomorphicArithmetic.CyclotomicBounds.WildJets.Bundle001
+public import Development.AutomorphicArithmetic.CyclotomicBounds.WildJets.Bundle004
+public import Development.AutomorphicArithmetic.CyclotomicBounds.WildJets.LatCoordB
+public import Formalism.PairingDivisors.PairingDivisorProofs.ValAdd
+import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.ValBasic
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Tactic.TypeStar
+
+@[expose] public section
+
+section
+
+open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.MainNotions.StandardLattice Formalism.L2.Theta Formalism.IndefR Formalism.IndefR.Datum Formalism.IndefR.Links Formalism.L2.DIV
+open IsDedekindDomain NumberField Matrix GlobalTheory.ChiGrid GlobalTheory.FunObj GlobalTheory.RowTest GlobalTheory.RowClaim GlobalTheory.TestLat GlobalTheory.SumSize
+open Formalism.DivisionValues (vw lw)
+attribute [local instance] Formalism.BasicNotions.Host.cmStar
+
+theorem UpperTheory.WildA.depth :
+    ∀ {D : D7} {T : Type} {L : LevCh D T} {sc : GlobalTheory.ChiGrid.Consts} {G : GlobalTheory.ChiGrid.GridData L sc} (large₂ : SizeData₂ D), GlobalTheory.IndefiniteRowSideFullHecke.LevelPlusSubgroup.SizeRows large₂ → ∀ {t : T} {p : GlobalTheory.ChiGrid.Pair T} (d : FinDatum G t p), d.P = locPl G t →
+      ∀ (w : PlL D) (l : ℕ), l.Prime → (l : 𝓞 D.what₂.LL) ∈ w.asIdeal → Away G t w → ∀ k : ℕ, 0 < k → IsCosetDatum k d →
+      ∃ k' : ℕ, 0 < k' ∧ IsCosetDatum k' d ∧ padicValNat l k' ≤ padicValNat l k ∧ (l ∣ k' → GlobalTheory.NormSum.SplitIn D l) := by
+  classical
+  intro D T L sc G large₂ hS t p d hP w l hl hlw hA k hk hc
+  by_cases h : ∃ PP ∈ d.P, ((l : ℕ) : 𝓞 D.host.E) ∈ PP.asIdeal
+  · obtain ⟨PP, hPP, hlPP⟩ := h
+    have key : ((l : ℕ) : 𝓞 D.host.F) ∈ (HeightOneSpectrum.under (𝓞 D.host.F) PP).asIdeal := by
+      rw [HeightOneSpectrum.under_asIdeal, Ideal.mem_under, map_natCast]
+      exact hlPP
+    have hsplit : GlobalTheory.NormSum.SplitIn D l := by
+      rw [hP] at hPP
+      unfold locPl at hPP
+      rcases Finset.mem_union.mp hPP with h0 | hQ
+      · unfold GlobalTheory.ChiGrid.Places.W0 at h0
+        obtain ⟨v, hv, rfl⟩ := Finset.mem_image.mp h0
+        rw [G.pl.w_over v hv] at key
+        exact UpperTheory.WildA.small_set_primes_split large₂ hS v hv l hl key
+      · rcases hA PP hQ with hS0 | hno
+        · exact UpperTheory.WildA.small_set_primes_split large₂ hS _ hS0 l hl key
+        · exact absurd hlw (hno l hl hlPP)
+    exact ⟨k, hk, hc, le_rfl, fun _ => hsplit⟩
+  · obtain ⟨k', hk', hnd, hc'⟩ := UpperTheory.WildA.depthDrop d l hl (fun w hw hlw' => h ⟨w, hw, hlw'⟩) k hk hc
+    refine ⟨k', hk', hc', ?_, fun hd => absurd hd hnd⟩
+    rw [Nat.padicValNat_def, multiplicity_eq_zero_of_not_dvd hnd]
+    exact Nat.zero_le _
+end
+
+section
+
+open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.MainNotions.StandardLattice Formalism.L2.Theta Formalism.IndefR Formalism.IndefR.Datum Formalism.IndefR.Links Formalism.L2.DIV
+open IsDedekindDomain NumberField Matrix GlobalTheory.ChiGrid GlobalTheory.FunObj GlobalTheory.RowTest GlobalTheory.RowClaim GlobalTheory.TestLat GlobalTheory.SumSize
+open Formalism.DivisionValues (vw lw)
+attribute [local instance] Formalism.BasicNotions.Host.cmStar
+
+private theorem lossLe_mul_wild_jets {D : D7} (w : PlL D) {x y : ℂ} {a b : ℝ}
+    (hx : LossLe w x a) (hy : LossLe w y b) : LossLe w (x * y) (a + b) := by
+  obtain ⟨s, hs, hs'⟩ := hx
+  obtain ⟨t, ht, ht'⟩ := hy
+  refine ⟨s * t, by rw [map_mul, hs, ht], ?_⟩
+  rcases hs' with h0 | h1
+  · left; simp [h0]
+  rcases ht' with h0 | h2
+  · left; simp [h0]
+  by_cases hs0 : s = 0
+  · left; simp [hs0]
+  by_cases ht0 : t = 0
+  · left; simp [ht0]
+  right
+  rw [Formalism.DivisionValues.ValuationRepresentative.vw_mul w s t hs0 ht0]
+  push_cast
+  linarith
+private theorem lossLe_add {D : D7} (w : PlL D) {x y : ℂ} {a : ℝ}
+    (hx : LossLe w x a) (hy : LossLe w y a) : LossLe w (x + y) a := by
+  obtain ⟨s, hs, hs'⟩ := hx
+  obtain ⟨t, ht, ht'⟩ := hy
+  refine ⟨s + t, by rw [map_add (f := _), hs, ht], ?_⟩
+  by_cases hs0 : s = 0
+  · subst hs0; simpa using ht'
+  by_cases ht0 : t = 0
+  · subst ht0; simpa using hs'
+  by_cases hst : s + t = 0
+  · left; exact hst
+  right
+  have h1 : -a ≤ (vw w s : ℝ) := hs'.resolve_left hs0
+  have h2 : -a ≤ (vw w t : ℝ) := ht'.resolve_left ht0
+  have h3 := Formalism.PairingDivisionLocalBalance.vw_add w s t hs0 ht0 hst
+  have h4 : ((min (vw w s) (vw w t) : ℤ) : ℝ) ≤ (vw w (s + t) : ℝ) := by exact_mod_cast h3
+  rw [Int.cast_min] at h4
+  exact le_trans (le_min h1 h2) h4
+private theorem lossLe_finset_sum {D : D7} (w : PlL D) {ι : Type*} (S : Finset ι) (g : ι → ℂ) {a : ℝ}
+    (hg : ∀ i ∈ S, LossLe w (g i) a) : LossLe w (∑ i ∈ S, g i) a := by
+  classical
+  induction S using Finset.induction_on with
+  | empty => exact ⟨0, by simp, Or.inl rfl⟩
+  | insert j S hj ih =>
+    rw [Finset.sum_insert hj]
+    exact lossLe_add w (hg j (Finset.mem_insert_self j S))
+      (ih fun i hi => hg i (Finset.mem_insert_of_mem hi))
+
+theorem UpperTheory.WildA.matLat :
+    ∀ (D : D7) {n n' : ℕ} (lam : D.what₂.Tau → DomWeight n) (lam' : D.what₂.Tau → DomWeight n') (w : PlL D) (l : ℕ), l.Prime →
+      (l : 𝓞 D.what₂.LL) ∈ w.asIdeal → ∀ (Λ : Submodule (𝓞 D.host.E) (Fin n → D.host.E)) (Λ' : Submodule (𝓞 D.host.E) (Fin n' → D.host.E)),
+      Formalism.MainNotions.TaylorLogMetric.EqAt D l Λ (Formalism.MainNotions.StandardLatticesGL3.stdL D n) → Formalism.MainNotions.TaylorLogMetric.EqAt D l Λ' (Formalism.MainNotions.StandardLatticesGL3.stdL D n') →
+      ∀ (f : VV ℂ lam →ₗ[ℂ] VV ℂ lam') (c : ℝ), (∀ i j, LossLe w ((bVV ℂ lam').repr (f (bVV ℂ lam j)) i) c) →
+      ∀ (a : ℝ) (v : VV ℂ lam), InLat lam w a Λ v → InLat lam' w (a + c) Λ' (f v) := by
+  intro D n n' lam lam' w l hl hlw Λ Λ' hΛ hΛ' f c hf a v hv
+  apply UpperTheory.WildA.latCoordB D lam' w l hl hlw Λ' hΛ' (a + c) (f v)
+  intro i
+  have hv' := UpperTheory.WildA.latCoordA D lam w l hl hlw Λ hΛ a v hv
+  have hsum := (bVV ℂ lam).sum_repr v
+  have hrepr : (bVV ℂ lam').repr (f v) i =
+      ∑ j, (bVV ℂ lam).repr v j * (bVV ℂ lam').repr (f (bVV ℂ lam j)) i := by
+    calc (bVV ℂ lam').repr (f v) i
+        = (bVV ℂ lam').repr (f (∑ j, (bVV ℂ lam).repr v j • bVV ℂ lam j)) i := by rw [hsum]
+      _ = _ := by
+
+        rw [map_sum, map_sum, Finset.sum_apply']
+        refine Finset.sum_congr rfl fun j _ => ?_
+        rw [map_smul, map_smul, Finsupp.smul_apply, smul_eq_mul]
+  rw [hrepr]
+  exact lossLe_finset_sum w _ _ fun j _ => lossLe_mul_wild_jets w (hv' j) (hf i j)
+end

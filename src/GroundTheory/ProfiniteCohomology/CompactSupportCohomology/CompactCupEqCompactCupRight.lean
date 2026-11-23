@@ -1,9 +1,8 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.CompactSupportCohomology.CupLeibniz
+public import GroundTheory.ProfiniteCohomology.CompactSupportCohomology.Bundle001
 public import GroundTheory.ProfiniteCohomology.CompactSupportCohomology
 public import GroundTheory.ProfiniteCohomology.CompactSupportCohomology.ConePairing
-public import GroundTheory.ProfiniteCohomology.CompactSupportCohomology.ConeSymmetry
 public import GroundTheory.ProfiniteCohomology.PoincareDuality.DeltaPairing
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

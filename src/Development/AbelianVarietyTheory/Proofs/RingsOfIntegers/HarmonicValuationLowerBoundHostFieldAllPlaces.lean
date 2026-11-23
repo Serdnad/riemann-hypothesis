@@ -2,9 +2,9 @@ module
 
 public import Development.AutomorphicArithmetic.PrimeDiscriminants.SlopeTestRemainingChoices
 public import Development.AbelianVarietyTheory.Definitions.PlaceAdaptation.AdaptStd
-public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.HarmonicValueBoundIntegralChartRamifiedStatement
-public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.HarmonicValueIntegralOfUnitDiscriminantStatement
-public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.HostFieldGaloisDegreeDiscrConjMovesPrimesStatement
+public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.Bundle046
+public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.Bundle042
+public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.Bundle041
 public import Formalism.SharpRestriction.RamificationFrobenius.TotientGaloisClasses.HostFacts
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

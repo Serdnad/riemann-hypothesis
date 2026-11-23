@@ -4,7 +4,7 @@ public import Development.AbelianVarietyTheory.Definitions.ThetaMetrics.HasSumLo
 public import Mathlib.NumberTheory.ModularForms.DedekindEta
 public import Mathlib.NumberTheory.NumberField.ClassNumber
 public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.LatticeCmEqIdealAndCovolume
-public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.LatticeDeterminedByInvariants
+public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle004
 public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.SumLogNormEmbeddingEqFinrankMulLogAbsNorm
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

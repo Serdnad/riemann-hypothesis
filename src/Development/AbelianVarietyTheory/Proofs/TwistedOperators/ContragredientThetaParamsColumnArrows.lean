@@ -1,8 +1,8 @@
 module
 
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.CuspAlongSmoothRows
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.CartFrSgn
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsRealThetaParameterPairThetaPartnerSignedParameStatement
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle385
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle461
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -259,7 +259,7 @@ section
 variable (G : GridData)
 
 theorem inCoset_parPi {q : ℕ} (hq : G.s = 2 * q + 1) (c : ℤ) (i : ℕ) :
-    InCoset ((c : ℚ) + (((G.s - 1 : ℕ) : ℚ) + 1) / 2) (entries (G.parPi i)) := by
+    InCoset ((c : ℚ) + (((G.s - 1 : ℕ) : ℚ) + 1) / 2) (GlobalTheory.SignedHC.entries (G.parPi i)) := by
   have hcast : ((G.s - 1 : ℕ) : ℚ) = 2 * q := by rw [hq, Nat.add_sub_cancel]; push_cast; ring
   intro x hx
   obtain ⟨b, hb⟩ := mem_entries.1 hx

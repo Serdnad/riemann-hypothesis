@@ -1,10 +1,10 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SchwartzBruhatUniformSummableMajorant
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle206
 public import Development.WeilBound.RepresentationTheoryGL.EisensteinSeries.SiegelEisensteinContinuation.IsEpCont
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.SummableProdCoord
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle069
 import GroundTheory.GlobalFields.TateThesis.AdelePoisson
-import GroundTheory.GlobalFields.TateThesis.AdelePoissonUniform
+import GroundTheory.GlobalFields.TateThesis.Bundle009
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

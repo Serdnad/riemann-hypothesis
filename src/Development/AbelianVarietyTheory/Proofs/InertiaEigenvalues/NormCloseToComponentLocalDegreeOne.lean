@@ -1,8 +1,8 @@
 module
 
 public import Mathlib.RingTheory.DedekindDomain.AdicValuation.Completion
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NormDivLocalEmbeddingCloseToOneStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ValuedMapEqOfContinuousCompletionIsoExtendingStatement
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle136
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle816
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

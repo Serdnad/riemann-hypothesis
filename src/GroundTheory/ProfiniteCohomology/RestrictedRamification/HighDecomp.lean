@@ -2,7 +2,7 @@ module
 
 public import GroundTheory.GlobalFields.CompletionAtPlace.Integers
 public import GroundTheory.LocalFields.MaximalUnramified
-public import GroundTheory.ProfiniteCohomology.ProcyclicDefs
+public import GroundTheory.ProfiniteCohomology.Bundle001
 public import GroundTheory.ProfiniteCohomology.RestrictedRamification.BrauerDivisor
 import GroundTheory.ProfiniteCohomology.RestrictedRamification.BrauerDefs
 public import GroundTheory.ProfiniteCohomology.RestrictedRamification.BrauerFrob

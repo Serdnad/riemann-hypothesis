@@ -2,10 +2,10 @@ module
 
 public import Development.AutomorphicArithmetic.Foundations.Convolution.GeneralizedMeasures.LocHeckeInert
 import Development.AbelianVarietyTheory.Definitions.Divisors.LineOppositeParabolicUnitaryLeviSectionEq
-public import Development.AutomorphicArithmetic.Foundations.Convolution.GeneralizedMeasures.LocHeightDiagPowLe
-public import Development.AutomorphicArithmetic.Foundations.Convolution.GeneralizedMeasures.SideE
+public import Development.AutomorphicArithmetic.Foundations.Convolution.GeneralizedMeasures.Bundle002
+public import Development.AutomorphicArithmetic.Foundations.Convolution.GeneralizedMeasures.Bundle005
 public import Development.AutomorphicArithmetic.Foundations.Convolution.GeneralizedMeasures.SmoothStar
-public import Development.AutomorphicArithmetic.Foundations.Convolution.GeneralizedMeasures.SumSmulApply
+public import Development.AutomorphicArithmetic.Foundations.Convolution.GeneralizedMeasures.Bundle004
 public import Development.AutomorphicArithmetic.Foundations.Convolution.GeneralizedMeasures.TermEx
 import Development.AutomorphicArithmetic.Foundations.Convolution.LocalGroupAnalysis.G1St
 import Mathlib.Algebra.Order.Floor.Extended
@@ -49,7 +49,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-public import Development.AutomorphicArithmetic.Foundations.Convolution.GeneralizedMeasures.HeckeFinAlt
+public import Development.AutomorphicArithmetic.Foundations.Convolution.GeneralizedMeasures.Bundle001
 
 @[expose] public section
 

@@ -3,7 +3,7 @@ module
 public import CompanionTheory.AutomorphicTheory.JacobiDiagonalBounds.NFModel
 public import CompanionTheory.AutomorphicTheory.NumberFieldModels.ModelPt
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CoordinateCommuteRaisingConstant
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutJDHatBdd
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle115
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.LevelsOfBuiltSetting
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.MatrixUnitZeroZeroEqInsert
 import Mathlib.Algebra.Order.Floor.Extended

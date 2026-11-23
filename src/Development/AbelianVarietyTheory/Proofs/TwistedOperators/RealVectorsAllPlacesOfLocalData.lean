@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Adapted
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle381
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.IntegralRealUnitaryHaarEqProdUpqHaar
-import Development.AbelianVarietyTheory.Proofs.HeightProofs.AdelicUnitaryActionAtRealPlace
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.AdelicUnitaryRealPointsStructureRealPlacesStatement
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContinuousOnAtTau
+import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle042
+public import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle056
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle313
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsUnitaryEmbeddingStabilizer
 import Formalism.LocalToGlobal.GlobalTheory.GL5.FamilyMassVolumeIdentityOfClassDecomp
 import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.IdemElt
@@ -82,7 +82,7 @@ theorem haar_prod {Y : HSp D} {S' : D.what₂.Tau → SPar} (M₀ : DSModel Y S'
     rw [hth]
     exact (GlobalTheory.HaarReal.ofFr_eqv M₀ g τ).symm
   let μP : Measure (∀ τ, Formalism.REAL.UJ (M₀.ε τ)) := Measure.pi fun τ => Formalism.REAL.muG (M₀.ε τ)
-  have hmapE : m.map e = Measure.haarScalarFactor (m.map e) μP • μP := Measure.isMulLeftInvariant_eq_smul_of_regular (Measure.map (⇑e) m) μP
+  have hmapE : m.map e = Measure.haarScalarFactor (m.map e) μP • μP := Measure.isMulLeftInvariant_eq_smul (Measure.map (⇑e) m) μP
   have hmapM : m.map eM = Measure.haarScalarFactor (m.map e) μP • μP := hmapE
   refine ⟨(Measure.haarScalarFactor (m.map e) μP : ℝ), by exact_mod_cast Measure.haarScalarFactor_pos_of_isHaarMeasure _ _, ?_⟩
   intro 𝕜 _ F

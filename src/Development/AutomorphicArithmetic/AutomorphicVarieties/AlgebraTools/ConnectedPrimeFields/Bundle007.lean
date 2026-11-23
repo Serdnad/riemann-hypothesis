@@ -1,0 +1,162 @@
+module
+
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.ConnectedPrimeFields.IsWeaklyRegularPairModOneLeft
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.ConnectedPrimeFields.Bundle003
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.ConnectedPrimeFields.CplFinite
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.ConnectedPrimeFields.CutDimCongr
+import Mathlib.Algebra.GroupWithZero.Submonoid.CancelMulZero
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebraHeight.Bundle002
+public import ReciprocityTheory.CommutativeAlgebra.ChainConnInDim
+public import Mathlib.RingTheory.DiscreteValuationRing.Basic
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.ConnectedPrimeFields.Bundle006
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Etale.Weakly
+import Mathlib.RingTheory.KrullDimension.Regular
+import Mathlib.RingTheory.PicardGroup
+import Mathlib.RingTheory.KrullDimension.NonZeroDivisors
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.TotallySplit
+import Mathlib.Tactic.Basify
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Linter.HaveILetI
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Topology.Sheaves.Init
+import Std.Tactic.BVDecide.Normalize.Prop
+
+@[expose] public section
+
+section
+
+open IsLocalRing UpperTheory.V.AlgebraTools.Conn
+
+theorem UpperTheory.V.AlgebraTools.Conn.one :
+    ∀ {R : Type} [CommRing R] [IsLocalRing R] [IsDomain R], HasBase R → ∀ (f : R) (b c : Ideal R), f ∈ maximalIdeal R →
+      (b ⊓ c).radical = (Ideal.span {f}).radical → b ≠ ⊤ → c ≠ ⊤ →
+      ringKrullDim (R ⧸ (b ⊔ c)) < ringKrullDim (R ⧸ b) → ringKrullDim (R ⧸ (b ⊔ c)) < ringKrullDim (R ⧸ c) →
+      ringKrullDim R ≤ ringKrullDim (R ⧸ (b ⊔ c)) + 2 := by
+  intro R _ _ _ hB f b c hf hrad hb hc hdb hdc
+  obtain ⟨A, _, _, i, hA, hinj, hfin⟩ := hB
+  letI : Algebra A R := i.toAlgebra
+  haveI : Module.Finite A R := hfin
+  haveI : FaithfulSMul A R := (faithfulSMul_iff_algebraMap_injective A R).mpr hinj
+  haveI : IsDomain A := hA.dom
+  haveI : IsNoetherianRing A := hA.cm.1
+  haveI : IsAdicComplete (maximalIdeal A) A := hA.complete
+  by_cases hf0 : f = 0
+  · exfalso
+    subst hf0
+    have hbc : b ⊓ c ≤ ⊥ := by
+      intro x hx
+      have : x ∈ (b ⊓ c).radical := Ideal.le_radical hx
+      rw [hrad, Ideal.span_singleton_eq_bot.mpr rfl, Ideal.radical_eq_iff.mpr (Ideal.isPrime_bot).isRadical] at this
+      exact this
+    have hprod : b * c = ⊥ := le_bot_iff.mp (le_trans Ideal.mul_le_inf hbc)
+    rcases Ideal.mul_eq_bot.mp hprod with h | h
+    · subst h
+      rw [bot_sup_eq] at hdc
+      exact lt_irrefl _ hdc
+    · subst h
+      rw [sup_bot_eq] at hdb
+      exact lt_irrefl _ hdb
+  obtain ⟨hloc, hcm⟩ := adjoin hA f
+  haveI : IsNoetherianRing (Algebra.adjoin A {f}) := hcm.1
+  haveI : Module.Finite A (Algebra.adjoin A {f}) :=
+    Module.Finite.of_injective (IsScalarTower.toAlgHom A (Algebra.adjoin A {f}) R).toLinearMap Subtype.val_injective
+  haveI : IsAdicComplete (maximalIdeal (Algebra.adjoin A {f})) (Algebra.adjoin A {f}) :=
+    cplFinite (A := A) (maximalIdeal _) (maximalIdeal.isMaximal _).ne_top
+  haveI : Module.Finite (Algebra.adjoin A {f}) R := Module.Finite.of_restrictScalars_finite A _ R
+  let x : Algebra.adjoin A {f} := ⟨f, Algebra.self_mem_adjoin_singleton A f⟩
+  have hx0 : x ≠ 0 := fun h => hf0 (congrArg Subtype.val h)
+  have hxm : x ∈ maximalIdeal (Algebra.adjoin A {f}) := by
+    rw [mem_maximalIdeal, mem_nonunits_iff]
+    intro hu
+    have : IsUnit f := hu.map (Algebra.adjoin A {f}).val
+    exact ((mem_maximalIdeal f).mp hf) this
+  have hdim : ringKrullDim (Algebra.adjoin A {f} ⧸ Ideal.ofList [x]) + ↑([x].length) =
+      ringKrullDim (Algebra.adjoin A {f}) := by
+    have hsp : Ideal.ofList [x] = Ideal.span {x} := by simp [Ideal.ofList]
+    rw [hsp]
+    apply ringKrullDim_quotient_span_singleton_succ_eq_ringKrullDim_of_mem_jacobson
+    · exact IsSMulRegular.of_ne_zero hx0
+    · rw [IsLocalRing.ringJacobson_eq_maximalIdeal]
+      exact hxm
+  have hmap : Ideal.map (algebraMap (Algebra.adjoin A {f}) R) (Ideal.ofList [x]) = Ideal.span {f} := by
+    simp [Ideal.ofList, Ideal.map_span]
+    rfl
+  have key := cut (A := Algebra.adjoin A {f}) (R := R) hcm [x] b c (by simpa using hxm) hdim (hmap ▸ hrad) hb hc hdb hdc
+  simp only [List.length_singleton, Nat.cast_one] at key
+  rw [add_assoc] at key
+  exact key
+end
+
+section
+
+open IsLocalRing UpperTheory.V.AlgebraTools.Conn
+
+private theorem dim_le_nil {R : Type} [CommRing R] :
+    ringKrullDim R ≤ ringKrullDim (R ⧸ nilradical R) := by
+  rw [ringKrullDim_quotient]
+  have h : PrimeSpectrum.zeroLocus (nilradical R : Set R) = Set.univ := by
+    ext p
+    simp only [Set.mem_univ, iff_true, PrimeSpectrum.mem_zeroLocus, SetLike.coe_subset_coe]
+    exact nilradical_le_prime p.asIdeal
+  rw [h]
+  exact le_of_eq (Order.krullDim_eq_of_orderIso OrderIso.Set.univ).symm
+
+theorem UpperTheory.V.AlgebraTools.Conn.clComp :
+    ∀ {O R : Type} [CommRing O] [IsDomain O] [IsDiscreteValuationRing O] [IsAdicComplete (maximalIdeal O) O]
+      [CommRing R] [IsLocalRing R] [Algebra O R] [IrreducibleSpace (PrimeSpectrum R)], UpperTheory.V.CA.IsCL O R → ∀ (a q : Ideal R) (h : ℕ),
+      ReciprocityTheory.CA.AraLE a h → q ∈ a.minimalPrimes → ringKrullDim R ≤ ringKrullDim (R ⧸ q) + h := by
+  intro O R _ _ _ _ _ _ _ _ hR a q h ha hq
+  haveI := hR.noeth
+  obtain ⟨s, hs, hrad⟩ := ha
+  have hnil : (nilradical R).IsPrime := by
+    have hirr : IsIrreducible (PrimeSpectrum.zeroLocus ((⊥ : Ideal R) : Set R)) := by
+      rw [Submodule.bot_coe, PrimeSpectrum.zeroLocus_singleton_zero]
+      exact IrreducibleSpace.isIrreducible_univ _
+    exact (PrimeSpectrum.isIrreducible_zeroLocus_iff ⊥).mp hirr
+  have hsup : (nilradical R ⊔ Ideal.span (s : Set R)).radical = a.radical := by
+    rw [Ideal.radical_sup, nilradical, Ideal.radical_idem, ← Ideal.radical_sup, Submodule.zero_eq_bot,
+      bot_sup_eq, hrad]
+  have hq' : q ∈ (nilradical R ⊔ Ideal.span (s : Set R)).minimalPrimes := by
+    rw [← Ideal.radical_minimalPrimes, hsup, Ideal.radical_minimalPrimes]
+    exact hq
+  calc ringKrullDim R ≤ ringKrullDim (R ⧸ nilradical R) := dim_le_nil
+    _ ≤ ringKrullDim (R ⧸ q) + s.card := compDim (cohen hR) _ q s hnil hq'
+    _ ≤ ringKrullDim (R ⧸ q) + h := by
+      gcongr
+end

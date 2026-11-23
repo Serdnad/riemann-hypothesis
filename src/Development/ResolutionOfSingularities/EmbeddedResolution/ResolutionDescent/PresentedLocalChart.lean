@@ -1,8 +1,7 @@
 module
 
-public import Development.ResolutionOfSingularities.EmbeddedResolution.ResolutionDescent.SmoothPullbackLocalAmbientEmbedding
-public import Development.ResolutionOfSingularities.EmbeddedResolution.ResolutionDescent.ClosedEmbeddingIntoAffineSpace
-public import Development.ResolutionOfSingularities.EmbeddedResolution.ResolutionDescent.SmoothLocalChart
+public import Development.ResolutionOfSingularities.EmbeddedResolution.ResolutionDescent.Bundle003
+public import Development.ResolutionOfSingularities.EmbeddedResolution.ResolutionDescent.Bundle009
 public import Development.ResolutionOfSingularities.EmbeddedResolution.ResolutionDescent.BasicOpenClosedEmbedding
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -43,7 +42,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-public import Development.ResolutionOfSingularities.EmbeddedResolution.ResolutionDescent.AffineSpaceChartPresentation
+public import Development.ResolutionOfSingularities.EmbeddedResolution.ResolutionDescent.Bundle010
 public import Development.ResolutionOfSingularities.EmbeddedResolution.ResolutionDescent.AffineSpaceZeroSection
 
 @[expose] public section

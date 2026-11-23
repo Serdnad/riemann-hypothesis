@@ -1,12 +1,12 @@
 module
 
 public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.DualOrder
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.NonemptyLinearEquivOfPiFinPowFinite
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle008
 public import Mathlib.RingTheory.Henselian
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.AbelianSchemeQuotients.IsAbelianScheme
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsFinitePartMulConstant
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle012
 public import Development.WeilBound.CoreStatements.HodgeTatePoints.TwhopfDiv
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.TwhopfFin
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle018
 public import Development.WeilBound.CoreStatements.HodgeTatePoints.TwhopfInd
 public import Development.WeilBound.CoreStatements.HodgeTatePoints.TwhopfSec
 import Mathlib.Algebra.Order.Floor.Extended

@@ -2,11 +2,10 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.CTSmallCone
 public import Development.WeilBound.ThetaLifts.LeviDeterminants.ContinuousOfMem
-public import Development.WeilBound.ThetaLifts.LeviDeterminants.GrowFin
-public import Development.WeilBound.ThetaLifts.LeviDeterminants.GrowFinal
+public import Development.WeilBound.ThetaLifts.LeviDeterminants.Bundle001
+public import Development.WeilBound.ThetaLifts.LeviDeterminants.Bundle006
 public import Development.WeilBound.ThetaLifts.LeviDeterminants.GrowHt
-public import Development.WeilBound.ThetaLifts.LeviDeterminants.GrowSob
-public import Development.WeilBound.ThetaLifts.LeviDeterminants.GrowTr
+public import Development.WeilBound.ThetaLifts.LeviDeterminants.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

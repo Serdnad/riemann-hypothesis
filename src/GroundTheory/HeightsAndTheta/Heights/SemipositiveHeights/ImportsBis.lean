@@ -1,16 +1,15 @@
 module
 
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.MoriwakiSt
-public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PPtsIntegralZeroLowerNE
-public import GroundTheory.HeightsAndTheta.Heights.HeightsOfSets.PCurveComplexPoint
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.Bundle005
+public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.Bundle018
+public import GroundTheory.HeightsAndTheta.Heights.HeightsOfSets.Bundle003
 public import GroundTheory.HeightsAndTheta.Heights.HeightsOfSets.PCurveIsOrbit
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.ExistsSmallOfArVolPPos
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle027
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PBirationalModelExists
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PCurvePointsFinite
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PNefOnGenericOfSemipos
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle092
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle056
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PSectionOrderAtPoint
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PSmallSectionPointHeight
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PTopConstantTwist
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle048
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -50,7 +49,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterDerived
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle012
 public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.HeightPtsIntegralPoints
 
 @[expose] public section
@@ -136,7 +135,7 @@ theorem Z2.proof (hMo : MoriwakiBigStatement) : SuccessiveMinimaUpperBound := by
     have hpos : 0 < arVolP (IsSmallH (mCoordIdeal y) y (A.tensor (constLine e'')))
         (chartLat y (A.tensor (constLine e'')).a) 1 D := by
       linarith
-    obtain ⟨τ, hτ, s, hsL, hs0, hsm⟩ := exists_small_section_of_arithmeticVolume_pos hpos
+    obtain ⟨τ, hτ, s, hsL, hs0, hsm⟩ := LatticeWithoutBigness.exists_small_section_of_arithmeticVolume_pos hpos
     obtain ⟨f, hfh, hfP, hfW⟩ := hS K ι Ω y D (A.tensor (constLine e'')) τ s II hII har hbir
       (isSmoothHerm_twist hA e'') hτ (SmallSectionPointHeight.chartLat_le_chartLatNm _ _ _ hsL) hs0 hsm
     obtain ⟨W, hWF, hfW'⟩ := hdense f hfh hfP

@@ -1,21 +1,16 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.IsLatMeasurableConst
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.CovolEqOfAedisjoint
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.DetNormSqEqOneOfMemLatticeAutStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsCoordinatesInverseFirstColumnInfiniteGLStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsFundamentalDomainEmbeddedRowsLatticeStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsLatticeCovolumeInverseIdealStatement
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle010
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle163
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle218
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle219
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle205
 import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsScalarStableLatticeAutomorphismFundamental
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsScalarStableLatticeAutomorphismFundamentalStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.InfiniteLatticeCovolumeSplitLatticeProdStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.LatticeNonzeroVectorPairNormalFormsStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.LeftQuotientCovolumeWithDensityDetNormSqStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.LintegralIoiCompConstDivChangeOfVarStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.MapInfiniteGLHaarMeasureMulLeftStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.MeasureInterTranslateEqZeroOfCovolumeStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.MemLatticeAutSplitIffFirstColSingleStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.TranslatedLatticeAtInfinityFullCovolumeDualStatement
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle181
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle195
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle217
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle204
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle186
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -70,7 +65,7 @@ namespace GlobalTheory.OrbitTerm
 
 variable {E : Type} [Field E] [NumberField E]
 
-theorem mul_ne_self {j : ℕ} {γ x : MatInf E j} (hγ : γ ≠ oneInf E j) (hx : 0 < detNorm E j x) : γ * x ≠ x := by
+theorem mul_ne_self {j : ℕ} {γ x : MatInf E j} (hγ : γ ≠ oneInf E j) (hx : 0 < _root_.GlobalTheory.FlagMeas.detNorm E j x) : γ * x ≠ x := by
   intro h
   refine hγ (matInf_ext fun w => ?_)
   have h1 : Matrix.of (γ w) * Matrix.of (x w) = Matrix.of (x w) := by rw [← of_mul, h]
@@ -79,15 +74,15 @@ theorem mul_ne_self {j : ℕ} {γ x : MatInf E j} (hγ : γ ≠ oneInf E j) (hx 
 
 theorem exists_domain (hE : IsTotallyComplex E) {k : ℕ} (hk : 1 ≤ k) (Λ : Submodule (𝓞 E) (Fin k → E))
     (hΛ : Submodule.IsFullLattice E Λ) : ∃ D : Set (MatInf E k), MeasurableSet D ∧
-      (∀ g, 0 < detNorm E k g → ∃ γ ∈ autGL E k Λ, γ * g ∈ D) ∧
+      (∀ g, 0 < _root_.GlobalTheory.FlagMeas.detNorm E k g → ∃ γ ∈ autGL E k Λ, γ * g ∈ D) ∧
       (∀ γ ∈ autGL E k Λ, γ ≠ oneInf E k → haarGL E k {x | x ∈ D ∧ γ * x ∈ D} = 0) ∧
-      ∀ F : ℝ → ENNReal, Measurable F → ∫⁻ h in D, F (detNorm E k h) ∂(haarGL E k) =
+      ∀ F : ℝ → ENNReal, Measurable F → ∫⁻ h in D, F (_root_.GlobalTheory.FlagMeas.detNorm E k h) ∂(haarGL E k) =
         slabVol E k Λ * ∫⁻ t in Set.Ioi (0 : ℝ), F t / ENNReal.ofReal t := by
   obtain ⟨D, hDm, hDU, hcov, -, hint⟩ := GlobalTheory.T.exists_scalarStable_latticeAutomorphismFundamentalDomain E hE k Λ hΛ
   rw [haarGL_restrict hk] at hint
-  have hUinv : ∀ γ ∈ autGL E k Λ, ∀ x ∈ {g | 0 < detNorm E k g}, γ * x ∈ {g | 0 < detNorm E k g} :=
+  have hUinv : ∀ γ ∈ autGL E k Λ, ∀ x ∈ {g | 0 < _root_.GlobalTheory.FlagMeas.detNorm E k g}, γ * x ∈ {g | 0 < _root_.GlobalTheory.FlagMeas.detNorm E k g} :=
     fun γ hγ x hx => by
-      show 0 < detNorm E k (γ * x)
+      show 0 < _root_.GlobalTheory.FlagMeas.detNorm E k (γ * x)
       rw [detNorm_mul]; exact mul_pos (detNorm_pos_of_mem_autGL hγ) hx
   refine ⟨D, hDm, hcov, fun γ hγ hne => ?_, fun F hF => ?_⟩
   · haveI : BorelSpace (Fin k → ℂ) := inferInstance
@@ -97,7 +92,7 @@ theorem exists_domain (hE : IsTotallyComplex E) {k : ℕ} (hk : 1 ≤ k) (Λ : S
     haveI : MeasurableSpace.SeparatesPoints (InfinitePlace E → Fin k → Fin k → ℂ) := inferInstance
     haveI : MeasurableSpace.CountablySeparated (MatInf E k) :=
       inferInstanceAs (MeasurableSpace.CountablySeparated (InfinitePlace E → Fin k → Fin k → ℂ))
-    refine GlobalTheory.T.measure_inter_translate_eq_zero_of_covolume (MatInf E k) (autGL E k Λ) (haarGL E k) {g | 0 < detNorm E k g} D (countable_autGL Λ)
+    refine GlobalTheory.T.measure_inter_translate_eq_zero_of_covolume (MatInf E k) (autGL E k Λ) (haarGL E k) {g | 0 < _root_.GlobalTheory.FlagMeas.detNorm E k g} D (countable_autGL Λ)
       (fun γ _ => measurable_mul_left γ) (fun γ hγ => GlobalTheory.T.map_infiniteGLHaarMeasure_mul_left E k γ (detNorm_pos_of_mem_autGL hγ))
       (fun γ hγ δ hδ => ⟨γ * δ, mul_mem_autGL hγ hδ, fun x => matInf_mul_assoc _ _ _⟩) (fun γ hγ => ?_)
       measurableSet_detNorm_pos hUinv hDm hDU (fun A hA hAU hAi => ?_) γ hγ fun x hx => mul_ne_self hne hx
@@ -107,7 +102,7 @@ theorem exists_domain (hE : IsTotallyComplex E) {k : ℕ} (hk : 1 ≤ k) (Λ : S
     · have := hint (fun _ => 1) A (measurable_const.indicator measurableSet_detNorm_pos) (fun _ _ _ _ => rfl)
         hA hAU hAi
       rwa [setLIntegral_one, show (fun _ : MatInf E k => (1 : ENNReal)) = 1 from rfl, withDensity_one] at this
-  · have h1 := hint (fun h => F (detNorm E k h)) {g | 0 < detNorm E k g}
+  · have h1 := hint (fun h => F (_root_.GlobalTheory.FlagMeas.detNorm E k h)) {g | 0 < _root_.GlobalTheory.FlagMeas.detNorm E k g}
       ((hF.comp measurable_detNorm).indicator measurableSet_detNorm_pos)
       (fun γ hγ g _ => by rw [detNorm_mul, GlobalTheory.T.detNorm_eq_one_of_mem_autGL_var E hE k Λ hΛ γ hγ, one_mul])
       measurableSet_detNorm_pos subset_rfl hUinv
@@ -135,7 +130,7 @@ theorem FixesFirst.inv {k : ℕ} {x y : MatInf E (k + 1)} (hx : FixesFirst x) (h
   intro w
   conv_lhs => rw [← hx w, Matrix.mulVec_mulVec, ← of_mul, h, of_oneInf, Matrix.one_mulVec]
 
-theorem FixesFirst.inv_col {k : ℕ} {x : MatInf E (k + 1)} (hx : FixesFirst x) (hx' : 0 < detNorm E (k + 1) x)
+theorem FixesFirst.inv_col {k : ℕ} {x : MatInf E (k + 1)} (hx : FixesFirst x) (hx' : 0 < _root_.GlobalTheory.FlagMeas.detNorm E (k + 1) x)
     (g : MatInf E (k + 1)) :
     (fun u a => (Matrix.of ((x * g) u))⁻¹ a 0) = fun u a => (Matrix.of (g u))⁻¹ a 0 := by
   funext u a
@@ -172,8 +167,8 @@ theorem covol_stabilizer (hE : IsTotallyComplex E) {k : ℕ} (hk : 1 ≤ k) (Λ 
     (hmem : ∀ y, y ∈ Λ ↔ (fun _ => y 0) ∈ Λ₀ ∧ Fin.tail y ∈ Λ') (f : ℝ → ENNReal) (hf : Measurable f)
     (Φ : VecInf E (k + 1) → ENNReal) (hΦ : Measurable Φ) :
     covol {x | x ∈ autGL E (k + 1) Λ ∧ FixesFirst x}
-      ((haarGL E (k + 1)).withDensity fun g => f (detNorm E (k + 1) g) * Φ fun u a => (Matrix.of (g u))⁻¹ a 0)
-      {g | 0 < detNorm E (k + 1) g} =
+      ((haarGL E (k + 1)).withDensity fun g => f (_root_.GlobalTheory.FlagMeas.detNorm E (k + 1) g) * Φ fun u a => (Matrix.of (g u))⁻¹ a 0)
+      {g | 0 < _root_.GlobalTheory.FlagMeas.detNorm E (k + 1) g} =
     (∫⁻ x, Φ x) * ENNReal.ofReal (covAt E 1 (latAt E 1 Λ₀ (oneInf E 1)) ^ k *
       (Formalism.HermitianLatticesTheory.vInv E ^ (Formalism.HermitianLatticesTheory.fDeg E * k) / covAt E k (latAt E k Λ' (oneInf E k)))) *
       (slabVol E k Λ' * ∫⁻ t in Set.Ioi (0 : ℝ), f t * ENNReal.ofReal t / ENNReal.ofReal t) := by
@@ -182,40 +177,40 @@ theorem covol_stabilizer (hE : IsTotallyComplex E) {k : ℕ} (hk : 1 ≤ k) (Λ 
   obtain ⟨hh, TT, hhm, hTm, hdet, hequi, hint⟩ := GlobalTheory.T.exists_coordinates_inverseFirstColumn_infiniteGL E k hk
   have hstab := GlobalTheory.T.mem_latticeAut_split_iff_firstCol_single E k Λ Λ₀ Λ' hmem
   set G : MatInf E (k + 1) → ENNReal :=
-    fun g => f (detNorm E (k + 1) g) * Φ fun u a => (Matrix.of (g u))⁻¹ a 0 with hG
+    fun g => f (_root_.GlobalTheory.FlagMeas.detNorm E (k + 1) g) * Φ fun u a => (Matrix.of (g u))⁻¹ a 0 with hG
   have hGm : Measurable G := (hf.comp measurable_detNorm).mul (hΦ.comp measurable_inv_col)
   set μ := (haarGL E (k + 1)).withDensity G with hμ
   set S : Set (MatInf E (k + 1)) := {x | x ∈ autGL E (k + 1) Λ ∧ FixesFirst x} with hS
   have hbox : ∀ (B : Set (MatInf E k)) (Q : Set (VecInf E k)), MeasurableSet B → MeasurableSet Q →
-      μ {g | 0 < detNorm E (k + 1) g ∧ hh g ∈ B ∧ TT g ∈ Q} = (∫⁻ x, Φ x) * volume Q *
-        ∫⁻ h in B, f (detNorm E k h) * ENNReal.ofReal (detNorm E k h) ∂(haarGL E k) := by
+      μ {g | 0 < _root_.GlobalTheory.FlagMeas.detNorm E (k + 1) g ∧ hh g ∈ B ∧ TT g ∈ Q} = (∫⁻ x, Φ x) * volume Q *
+        ∫⁻ h in B, f (_root_.GlobalTheory.FlagMeas.detNorm E k h) * ENNReal.ofReal (_root_.GlobalTheory.FlagMeas.detNorm E k h) ∂(haarGL E k) := by
     intro B Q hB hQ
-    have hm : MeasurableSet {g | 0 < detNorm E (k + 1) g ∧ hh g ∈ B ∧ TT g ∈ Q} :=
+    have hm : MeasurableSet {g | 0 < _root_.GlobalTheory.FlagMeas.detNorm E (k + 1) g ∧ hh g ∈ B ∧ TT g ∈ Q} :=
       measurableSet_detNorm_pos.inter ((hhm hB).inter (hTm hQ))
-    have h1 := hint (B.indicator fun h => f (detNorm E k h)) (Q.indicator 1) Φ
+    have h1 := hint (B.indicator fun h => f (_root_.GlobalTheory.FlagMeas.detNorm E k h)) (Q.indicator 1) Φ
       ((hf.comp measurable_detNorm).indicator hB) (measurable_const.indicator hQ) hΦ
     rw [lintegral_indicator_one hQ] at h1
     rw [hμ, withDensity_apply _ hm, ← lintegral_indicator hm, ← lintegral_indicator hB]
-    have h2 : ∀ h, B.indicator (fun h => f (detNorm E k h) * ENNReal.ofReal (detNorm E k h)) h =
-        B.indicator (fun h => f (detNorm E k h)) h * ENNReal.ofReal (detNorm E k h) := fun h => by
+    have h2 : ∀ h, B.indicator (fun h => f (_root_.GlobalTheory.FlagMeas.detNorm E k h) * ENNReal.ofReal (_root_.GlobalTheory.FlagMeas.detNorm E k h)) h =
+        B.indicator (fun h => f (_root_.GlobalTheory.FlagMeas.detNorm E k h)) h * ENNReal.ofReal (_root_.GlobalTheory.FlagMeas.detNorm E k h) := fun h => by
       by_cases hhB : h ∈ B <;> simp [hhB]
     simp only [h2]
     rw [← h1]
     refine lintegral_congr_ae ?_
-    have hae : ∀ᵐ g ∂(haarGL E (k + 1)), g ∈ {g | 0 < detNorm E (k + 1) g} := haarGL_singular (by omega)
+    have hae : ∀ᵐ g ∂(haarGL E (k + 1)), g ∈ {g | 0 < _root_.GlobalTheory.FlagMeas.detNorm E (k + 1) g} := haarGL_singular (by omega)
     filter_upwards [hae] with g hg
-    have hg' : 0 < detNorm E (k + 1) g := hg
+    have hg' : 0 < _root_.GlobalTheory.FlagMeas.detNorm E (k + 1) g := hg
     by_cases h3 : hh g ∈ B <;> by_cases h4 : TT g ∈ Q <;> simp [Set.indicator, h3, h4, hg', hG, hdet g hg']
   have hSmul : ∀ γ ∈ S, ∀ δ ∈ S, γ * δ ∈ S := fun γ hγ δ hδ => ⟨mul_mem_autGL hγ.1 hδ.1, hγ.2.mul hδ.2⟩
   have hSinv : ∀ γ ∈ S, ∃ δ ∈ S, δ * γ = oneInf E (k + 1) ∧ γ * δ = oneInf E (k + 1) := fun γ hγ => by
     obtain ⟨δ, hδ, h1, h2⟩ := exists_inv_mem_autGL hγ.1
     exact ⟨δ, ⟨hδ, hγ.2.inv h1⟩, h1, h2⟩
-  have hSpos : ∀ γ ∈ S, 0 < detNorm E (k + 1) γ := fun γ hγ => detNorm_pos_of_mem_autGL hγ.1
+  have hSpos : ∀ γ ∈ S, 0 < _root_.GlobalTheory.FlagMeas.detNorm E (k + 1) γ := fun γ hγ => detNorm_pos_of_mem_autGL hγ.1
   have hμinv : ∀ γ ∈ S, μ.map (fun x => γ * x) = μ := fun γ hγ =>
     map_withDensity_of_invariant _ (measurable_mul_left γ) (GlobalTheory.T.map_infiniteGLHaarMeasure_mul_left E _ γ (hSpos γ hγ)) hGm fun x => by
       simp only [hG]
       rw [detNorm_mul, GlobalTheory.T.detNorm_eq_one_of_mem_autGL_var E hE _ Λ hΛ γ hγ.1, one_mul, hγ.2.inv_col (hSpos γ hγ)]
-  set D : Set (MatInf E (k + 1)) := {g | 0 < detNorm E (k + 1) g ∧ hh g ∈ D' ∧ TT g ∈ P} with hD
+  set D : Set (MatInf E (k + 1)) := {g | 0 < _root_.GlobalTheory.FlagMeas.detNorm E (k + 1) g ∧ hh g ∈ D' ∧ TT g ∈ P} with hD
   have hDm : MeasurableSet D := measurableSet_detNorm_pos.inter ((hhm hD'm).inter (hTm hPm))
   have hdis : ∀ γ ∈ S, γ ≠ oneInf E (k + 1) → μ {x | x ∈ D ∧ γ * x ∈ D} = 0 := by
     intro γ hγ hne
@@ -245,7 +240,7 @@ theorem covol_stabilizer (hE : IsTotallyComplex E) {k : ℕ} (hk : 1 ≤ k) (Λ 
       refine measure_mono_null (fun x hx => ?_) h0
       obtain ⟨h1, -⟩ := hequi x γ hx.1.1 (hSpos γ hγ) hγ.2 β fun _ _ _ => rfl
       exact ⟨hx.1.1, ⟨hx.1.2.1, h1 ▸ hx.2.2.1⟩, trivial⟩
-  rw [covol_eq_of_aedisjoint S μ {g | 0 < detNorm E (k + 1) g} D ((countable_autGL Λ).mono fun x hx => hx.1)
+  rw [covol_eq_of_aedisjoint S μ {g | 0 < _root_.GlobalTheory.FlagMeas.detNorm E (k + 1) g} D ((countable_autGL Λ).mono fun x hx => hx.1)
     (fun γ _ => measurable_mul_left γ) hμinv ?_ hDm (fun x hx => hx.1) ?_ ?_]
   · rw [hbox D' P hD'm hPm, hPv,
       hD'i (fun t => f t * ENNReal.ofReal t) (hf.mul ENNReal.measurable_ofReal)]
@@ -254,11 +249,11 @@ theorem covol_stabilizer (hE : IsTotallyComplex E) {k : ℕ} (hk : 1 ≤ k) (Λ 
     exact ⟨δ, hδ, fun x => by rw [← matInf_mul_assoc, h1, oneInf_mul],
       fun x => by rw [← matInf_mul_assoc, h2, oneInf_mul]⟩
   · intro g hg
-    have hg' : 0 < detNorm E (k + 1) g := hg
+    have hg' : 0 < _root_.GlobalTheory.FlagMeas.detNorm E (k + 1) g := hg
     obtain ⟨β, hβ, hβD⟩ := hD'c (hh g) (by rw [hdet g hg']; exact hg')
     have hγ₁ : blk 0 β ∈ S := ⟨(hstab _ (fixesFirst_blk 0 β)).2 ⟨hβ, 0, fun y _ => by
       rw [zero_dotProduct]; exact Λ₀.zero_mem, fun w b => by simp [blk]⟩, fixesFirst_blk 0 β⟩
-    have hg₁ : 0 < detNorm E (k + 1) (blk 0 β * g) := by
+    have hg₁ : 0 < _root_.GlobalTheory.FlagMeas.detNorm E (k + 1) (blk 0 β * g) := by
       rw [detNorm_mul]; exact mul_pos (hSpos _ hγ₁) hg'
     obtain ⟨h1, -⟩ := hequi g (blk 0 β) hg' (hSpos _ hγ₁) hγ₁.2 β fun _ _ _ => rfl
     obtain ⟨τ, hτ, hτP⟩ := hPc (TT (blk 0 β * g))
@@ -286,7 +281,7 @@ theorem covol_stabilizer (hE : IsTotallyComplex E) {k : ℕ} (hk : 1 ≤ k) (Λ 
     rw [matInf_mul_assoc, ← matInf_mul_assoc ε, h1, oneInf_mul]
     exact hx.2
 
-theorem orbit_term : ∀ (E : Type) [Field E] [NumberField E], IsTotallyComplex E → ∀ k : ℕ, 1 ≤ k → ∀ Lf : Ideal (𝓞 E) → Submodule (𝓞 E) (Fin k → E) → Submodule (𝓞 E) (Fin (k + 1) → E), (∀ 𝔞 Λ' y, y ∈ Lf 𝔞 Λ' ↔ (∀ t ∈ 𝔞, (t : E) * y 0 ∈ (algebraMap (𝓞 E) E).range) ∧ Fin.tail y ∈ Λ') → ∀ (w : ℝ → ENNReal) (Φ : VecInf E (k + 1) → ENNReal), Measurable w → Measurable Φ → ∀ (𝔞 : Ideal (𝓞 E)) (Λ' : Submodule (𝓞 E) (Fin k → E)), 𝔞 ≠ ⊥ → Submodule.IsFullLattice E Λ' → covol {x | x ∈ autGL E (k + 1) (Lf 𝔞 Λ') ∧ ∀ w a, x w a 0 = if a = 0 then 1 else 0} ((haarGL E (k + 1)).withDensity fun g => w (covAt E (k + 1) (latAt E (k + 1) (Lf 𝔞 Λ') g)) * Φ (fun u a => (Matrix.of (g u))⁻¹ a 0)) {g | 0 < detNorm E (k + 1) g} = slabVol E k Λ' * ENNReal.ofReal (Formalism.HermitianLatticesTheory.vInv E ^ (Formalism.HermitianLatticesTheory.fDeg E * (2 * k + 1)) * ((Ideal.absNorm 𝔞 : ℝ) ^ (k + 1))⁻¹) * (∫⁻ x, Φ x) * ∫⁻ t in Set.Ioi (0 : ℝ), w t / ENNReal.ofReal (t ^ 2) := by
+theorem orbit_term : ∀ (E : Type) [Field E] [NumberField E], IsTotallyComplex E → ∀ k : ℕ, 1 ≤ k → ∀ Lf : Ideal (𝓞 E) → Submodule (𝓞 E) (Fin k → E) → Submodule (𝓞 E) (Fin (k + 1) → E), (∀ 𝔞 Λ' y, y ∈ Lf 𝔞 Λ' ↔ (∀ t ∈ 𝔞, (t : E) * y 0 ∈ (algebraMap (𝓞 E) E).range) ∧ Fin.tail y ∈ Λ') → ∀ (w : ℝ → ENNReal) (Φ : VecInf E (k + 1) → ENNReal), Measurable w → Measurable Φ → ∀ (𝔞 : Ideal (𝓞 E)) (Λ' : Submodule (𝓞 E) (Fin k → E)), 𝔞 ≠ ⊥ → Submodule.IsFullLattice E Λ' → covol {x | x ∈ autGL E (k + 1) (Lf 𝔞 Λ') ∧ ∀ w a, x w a 0 = if a = 0 then 1 else 0} ((haarGL E (k + 1)).withDensity fun g => w (covAt E (k + 1) (latAt E (k + 1) (Lf 𝔞 Λ') g)) * Φ (fun u a => (Matrix.of (g u))⁻¹ a 0)) {g | 0 < _root_.GlobalTheory.FlagMeas.detNorm E (k + 1) g} = slabVol E k Λ' * ENNReal.ofReal (Formalism.HermitianLatticesTheory.vInv E ^ (Formalism.HermitianLatticesTheory.fDeg E * (2 * k + 1)) * ((Ideal.absNorm 𝔞 : ℝ) ^ (k + 1))⁻¹) * (∫⁻ x, Φ x) * ∫⁻ t in Set.Ioi (0 : ℝ), w t / ENNReal.ofReal (t ^ 2) := by
   intro E _ _ hE k hk Lf hLf w Φ hw hΦ 𝔞 Λ' h𝔞 hΛ'
   obtain ⟨Λ₀, hmem₀, hΛ₀_lattice, hc₀⟩ := GlobalTheory.T.exists_lattice_covolume_inverse_ideal E hE 𝔞 h𝔞
   have hΛ₀ : Submodule.IsFullLattice E Λ₀ := by
@@ -312,9 +307,9 @@ theorem orbit_term : ∀ (E : Type) [Field E] [NumberField E], IsTotallyComplex 
     (hw.comp (measurable_const.div measurable_id)) Φ hΦ
   have hdens : ((haarGL E (k + 1)).withDensity fun g => w (covAt E (k + 1) (latAt E (k + 1) (Lf 𝔞 Λ') g)) *
       Φ (fun u a => (Matrix.of (g u))⁻¹ a 0)) = (haarGL E (k + 1)).withDensity fun g =>
-      w (κ / detNorm E (k + 1) g) * Φ fun u a => (Matrix.of (g u))⁻¹ a 0 := by
+      w (κ / _root_.GlobalTheory.FlagMeas.detNorm E (k + 1) g) * Φ fun u a => (Matrix.of (g u))⁻¹ a 0 := by
     refine withDensity_congr_ae ?_
-    have hae : ∀ᵐ g ∂(haarGL E (k + 1)), g ∈ {g | 0 < detNorm E (k + 1) g} := haarGL_singular (by omega)
+    have hae : ∀ᵐ g ∂(haarGL E (k + 1)), g ∈ {g | 0 < _root_.GlobalTheory.FlagMeas.detNorm E (k + 1) g} := haarGL_singular (by omega)
     filter_upwards [hae] with g hg
     rw [(hκc g hg).2.1]
   rw [hdens]

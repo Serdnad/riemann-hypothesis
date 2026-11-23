@@ -1,12 +1,12 @@
 module
 
 import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsLinearEquivLift
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ExponentialFamilyPeriods
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle010
 public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.DifferentiableOnOfTendstoLocallyUniformlyOn
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.IsHolToOfComponents
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.IdealSheafComapIdealAffineOpenOfIsAffine
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LocalHolomorphicExponentialChartStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.RiemannFormPeriodDeterminantStatement
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle046
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle002
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle194
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle023
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -52,8 +52,8 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.HolomorphicFamilies.HolPairA
-import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsHodgeGram
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.HolomorphicFamilies.Bundle007
+import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle009
 
 @[expose] public section
 

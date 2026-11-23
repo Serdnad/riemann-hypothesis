@@ -10,7 +10,7 @@ public import Mathlib.RepresentationTheory.Irreducible
 public import Mathlib.RingTheory.WittVector.IsPoly
 public import Mathlib.Tactic.ReduceModChar
 public import Mathlib.Topology.Algebra.Module.ModuleTopology
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.EqOneOfPowClose
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle010
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

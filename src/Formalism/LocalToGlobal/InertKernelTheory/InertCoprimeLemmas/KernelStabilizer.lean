@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.InertKernelTheory.SecondKernelEntrywiseLastLevel
+public import Formalism.LocalToGlobal.InertKernelTheory.Bundle009
 public import Formalism.SharpRestriction.Divisibility.OrbitPlaces
 public import Formalism.LocalToGlobal.GroupLattices.PendingLemmas.WeightUpdateAtPlace
 import Mathlib.Algebra.Order.Floor.Extended

@@ -1,9 +1,9 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.StepJumpDirect
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.InertiaThroughOfIsSubFam
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.JumpsInVOfIsSubFam
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.PotentiallyCrystallineModuleEqCrystallineRestric
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle245
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle244
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle251
 public import Formalism.SharpRestriction.LevelLetterCocycles.JointConditionsZpowers.BaseFont
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

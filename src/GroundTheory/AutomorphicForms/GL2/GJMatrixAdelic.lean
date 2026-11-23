@@ -3,7 +3,7 @@ module
 public import GroundTheory.AutomorphicForms.GL2.GJMatrixFinite
 public import GroundTheory.AutomorphicForms.GL2.GJMatrixInfinite
 public import GroundTheory.AutomorphicForms.GL2.AdelicFourier2TensorCosetIndicatorAlgebraMap
-import GroundTheory.AutomorphicForms.ReductionMeasure
+import GroundTheory.AutomorphicForms.Bundle012
 import GroundTheory.GlobalFields.TateThesis.AdelePoisson
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

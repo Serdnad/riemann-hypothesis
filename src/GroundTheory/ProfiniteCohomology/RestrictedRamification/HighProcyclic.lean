@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.ProfiniteCohomology.Procyclic
-public import GroundTheory.ProfiniteCohomology.CoinducedModules
+public import GroundTheory.ProfiniteCohomology.Bundle005
 public import Mathlib.GroupTheory.Torsion
 public import GroundTheory.ProfiniteCohomology.CohomologicalDimension.SubsingletonCohomologyOfPrimaryOfFinite
 import GroundTheory.ProfiniteCohomology.CoinducedModules.Acyclic
