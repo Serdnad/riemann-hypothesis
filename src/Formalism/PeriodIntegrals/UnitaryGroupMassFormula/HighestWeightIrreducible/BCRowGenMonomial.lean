@@ -69,7 +69,6 @@ theorem bC_rowGen_C {r n : ℕ} (a : Fin r) (c : ℂ) :
     rowGen ℂ a a (C c : MvPolynomial (Fin r × Fin n) ℂ) = Polynomial.C (C c) := by
   first
     | simp [rowGen, MvPolynomial.aeval_C]
-    | rfl
 
 theorem bC_rowGen_monomial {r n : ℕ} (a : Fin r) (m : Fin r × Fin n →₀ ℕ) (c : ℂ) :
     rowGen ℂ a a (monomial m c) =
@@ -94,8 +93,6 @@ theorem bC_euler_monomial {r n : ℕ} (a : Fin r) (m : Fin r × Fin n →₀ ℕ
     Polynomial.coeff_X_add_one_pow, Nat.choose_one_right]
   first
     | rw [Nat.cast_smul_eq_nsmul, nsmul_eq_mul, mul_comm]
-    | simp [nsmul_eq_mul, mul_comm]
-    | (rw [MvPolynomial.smul_eq_C_mul, mul_comm]; simp)
 
 theorem bC_coeff_euler {r n : ℕ} (a : Fin r) (f : MvPolynomial (Fin r × Fin n) ℂ)
     (m : Fin r × Fin n →₀ ℕ) :
@@ -280,16 +277,6 @@ private theorem isWeightedHomogeneous_coeff_mul_fst_weight {r n : ℕ} (c : ℤ)
          ring
        rw [e1]
        exact (hF x.1).mul (hG x.2))
-    | (rw [← MvPolynomial.mem_weightedHomogeneousSubmodule]
-       refine Submodule.sum_mem _ fun x hx => ?_
-       rw [MvPolynomial.mem_weightedHomogeneousSubmodule]
-       have hx' : x.1 + x.2 = k := by simpa using hx
-       have e1 : d + e + (k : ℤ) * c = (d + (x.1 : ℤ) * c) + (e + (x.2 : ℤ) * c) := by
-         rw [← hx']
-         push_cast
-         ring
-       rw [e1]
-       exact (hF x.1).mul (hG x.2))
 
 private theorem isWeightedHomogeneous_coeff_rowGen_monomial {r n : ℕ} (a b : Fin r) (m : Fin r × Fin n →₀ ℕ) (c0 : ℂ) :
     ∀ k : ℕ, IsWeightedHomogeneous (fun v : Fin r × Fin n => ((v.1 : ℕ) : ℤ)) ((rowGen ℂ a b (monomial m c0)).coeff k)
@@ -302,7 +289,6 @@ private theorem isWeightedHomogeneous_coeff_rowGen_monomial {r n : ℕ} (a b : F
       rw [MvPolynomial.monomial_zero']
       first
         | simp [rowGen, MvPolynomial.aeval_C]
-        | rfl
     rw [hC, Polynomial.coeff_C]
     by_cases hk : k = 0
     · subst hk
@@ -349,12 +335,6 @@ private theorem isWeightedHomogeneous_rowDiv {r n : ℕ} (a b : Fin r) (p : MvPo
   first
     | (apply MvPolynomial.IsWeightedHomogeneous.sum
        intro x hx
-       have hmd : Finsupp.weight (fun v : Fin r × Fin n => ((v.1 : ℕ) : ℤ)) x = d := hp (MvPolynomial.mem_support_iff.mp hx)
-       rw [← hmd]
-       exact isWeightedHomogeneous_coeff_rowGen_monomial a b x _ k)
-    | (rw [← MvPolynomial.mem_weightedHomogeneousSubmodule]
-       refine Submodule.sum_mem _ fun x hx => ?_
-       rw [MvPolynomial.mem_weightedHomogeneousSubmodule]
        have hmd : Finsupp.weight (fun v : Fin r × Fin n => ((v.1 : ℕ) : ℤ)) x = d := hp (MvPolynomial.mem_support_iff.mp hx)
        rw [← hmd]
        exact isWeightedHomogeneous_coeff_rowGen_monomial a b x _ k)
