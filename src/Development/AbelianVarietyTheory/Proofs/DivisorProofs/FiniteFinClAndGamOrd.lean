@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GamOrdNeZero
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GamOrdNeZero
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LocCO
 public import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.SublevelSplitting
 public import Development.AbelianVarietyTheory.Definitions.Divisors.InvVolConjLevelOne

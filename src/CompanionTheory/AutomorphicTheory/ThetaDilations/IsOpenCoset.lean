@@ -1,6 +1,6 @@
 module
 
-public import Development.WeilBound.CoreStatements.ThetaDilations.IsOpenCoset
+import Development.WeilBound.CoreStatements.ThetaDilations.IsOpenCoset
 public import CompanionTheory.SpectralGeometry.CountingDefinitions.AdelicEulerProducts.CountData
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,6 +1,6 @@
 module
 
-public import Development.WeilBound.CoreStatements.EulerCharacteristicCounts.GcohCmpA
+import Development.WeilBound.CoreStatements.EulerCharacteristicCounts.GcohCmpA
 public import GroundTheory.ProfiniteCohomology.CupProducts
 public import ReciprocityTheory.GaloisValuations.SeparatedDvrSecondCohomologyMem
 public import GroundTheory.ProfiniteCohomology.FilteredHomology

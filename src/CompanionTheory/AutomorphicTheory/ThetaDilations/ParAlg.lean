@@ -1,6 +1,6 @@
 module
 
-public import Development.WeilBound.CoreStatements.ThetaDilations.ParAlg
+import Development.WeilBound.CoreStatements.ThetaDilations.ParAlg
 public import CompanionTheory.SpectralGeometry.CountingDefinitions.AdelicEulerProducts.HypJ
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

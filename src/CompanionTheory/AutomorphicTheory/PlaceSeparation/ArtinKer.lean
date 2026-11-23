@@ -1,6 +1,6 @@
 module
 
-public import Development.WeilBound.CoreStatements.PlaceConnectedComponents.ArtinKer
+import Development.WeilBound.CoreStatements.PlaceConnectedComponents.ArtinKer
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.ExistsUniqueHcharOfFiniteOrder
 public import GroundTheory.GlobalFields.TateThesis.HeckeCharRayClass
 import Mathlib.Algebra.Order.Floor.Extended

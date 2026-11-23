@@ -1,6 +1,6 @@
 module
 
-public import Development.WeilBound.CoreStatements.PlaceConnectedComponents.ArtinA
+import Development.WeilBound.CoreStatements.PlaceConnectedComponents.ArtinA
 public import ReciprocityTheory.GaloisValuations.Global
 public import Mathlib.FieldTheory.Galois.IsGaloisGroup
 public import Mathlib.RingTheory.Frobenius
