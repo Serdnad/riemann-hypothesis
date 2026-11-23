@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.CoreStatements.HodgeTatePoints.MbLNormChart
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.GlueApplyOfNotInFibre
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.JoinCoordsCentreChartStatement
 import Mathlib.Algebra.Order.Floor.Extended
@@ -56,30 +57,7 @@ namespace GlobalTheory.CompanionTheory.Ar.ChNorm
 
 theorem mem_of_isIntegral_of_inv_mem {Ω : Type} [Field Ω] (R : Subring Ω) {v : Ω} (hv : IsIntegral R v)
     (hv0 : v ≠ 0) (hu : v⁻¹ ∈ R) : v ∈ R := by
-  obtain ⟨p, hp, hpv⟩ := hv
-  have huv : v * v⁻¹ = 1 := mul_inv_cancel₀ hv0
-  have key : ∀ i m : ℕ, i ≤ m → v ^ i * v⁻¹ ^ m = v⁻¹ ^ (m - i) := by
-    intro i m him
-    obtain ⟨k, rfl⟩ := Nat.exists_eq_add_of_le him
-    rw [pow_add, ← mul_assoc, ← mul_pow, huv, one_pow, one_mul, Nat.add_sub_cancel_left]
-  rw [hp.as_sum] at hpv
-  simp only [Polynomial.eval₂_add, Polynomial.eval₂_finsetSum, Polynomial.eval₂_mul, Polynomial.eval₂_C,
-    Polynomial.eval₂_X_pow] at hpv
-  generalize p.natDegree = n at hpv
-  cases n with
-  | zero => simp at hpv
-  | succ m =>
-    have h2 := congrArg (· * v⁻¹ ^ m) hpv
-    simp only [add_mul, Finset.sum_mul, zero_mul] at h2
-    rw [pow_succ, mul_comm (v ^ m) v, mul_assoc, key m m le_rfl, Nat.sub_self, pow_zero, mul_one] at h2
-    have e : v = -∑ i ∈ Finset.range (m + 1), algebraMap R Ω (p.coeff i) * v⁻¹ ^ (m - i) := by
-      rw [eq_neg_iff_add_eq_zero, ← h2]
-      congr 1
-      refine Finset.sum_congr rfl fun i hi => ?_
-      rw [mul_assoc, key i m (by simp at hi; omega)]
-    rw [e]
-    refine neg_mem (sum_mem fun i _ => mul_mem ?_ (pow_mem hu _))
-    exact (p.coeff i).2
+  apply _root_.PositivityTheory.HtPt.Mb.LNormChart.ChNorm.mem_of_isIntegral_of_inv_mem <;> assumption
 
 end GlobalTheory.CompanionTheory.Ar.ChNorm
 
@@ -89,33 +67,7 @@ theorem chRing_join_iff {o : Type} [CommRing o] {Ω : Type} [Field Ω] [Algebra 
     {d n : ℕ} (z : κ ⊕ Fin n → Ω) (hz : ∀ c, z (Sum.inl c) = x c ^ d) (c : κ) (hc : x c ≠ 0) (a : Ω) :
     a ∈ chRing o (joinCo (RingHom.id Ω) x z) (c, Sum.inl c) ↔
       a ∈ Algebra.adjoin o (Set.range (fun j => x j / x c) ∪ Set.range (fun k => z k / x c ^ d)) := by
-  have hd : x c ^ d ≠ 0 := pow_ne_zero _ hc
-  have hrat : ∀ q : κ × (κ ⊕ Fin n), joinCo (RingHom.id Ω) x z q / joinCo (RingHom.id Ω) x z (c, Sum.inl c) =
-      x q.1 / x c * (z q.2 / x c ^ d) := by
-    intro q
-    simp only [joinCo, RingHom.id_apply, hz c]
-    exact mul_div_mul_comm _ _ _ _
-  have hT : chRing o (joinCo (RingHom.id Ω) x z) (c, Sum.inl c) =
-      Algebra.adjoin o (Set.range (fun j => x j / x c) ∪ Set.range (fun k => z k / x c ^ d)) := by
-    apply le_antisymm
-    · apply Algebra.adjoin_le
-      rintro _ ⟨q, rfl⟩
-      dsimp only
-      rw [hrat]
-      exact mul_mem (Algebra.subset_adjoin (Or.inl ⟨q.1, rfl⟩)) (Algebra.subset_adjoin (Or.inr ⟨q.2, rfl⟩))
-    · apply Algebra.adjoin_le
-      rintro _ (⟨j, rfl⟩ | ⟨k, rfl⟩)
-      · have h1 : joinCo (RingHom.id Ω) x z (j, Sum.inl c) / joinCo (RingHom.id Ω) x z (c, Sum.inl c) ∈
-            chRing o (joinCo (RingHom.id Ω) x z) (c, Sum.inl c) :=
-          Algebra.subset_adjoin (Set.mem_range_self (j, Sum.inl c))
-        rw [hrat, hz c, div_self hd, mul_one] at h1
-        exact h1
-      · have h1 : joinCo (RingHom.id Ω) x z (c, k) / joinCo (RingHom.id Ω) x z (c, Sum.inl c) ∈
-            chRing o (joinCo (RingHom.id Ω) x z) (c, Sum.inl c) :=
-          Algebra.subset_adjoin (Set.mem_range_self (c, k))
-        rw [hrat, div_self hc, one_mul] at h1
-        exact h1
-  rw [hT]
+  apply _root_.PositivityTheory.HtPt.Mb.LNormChart.ChNorm.chRing_join_iff <;> assumption
 
 end GlobalTheory.CompanionTheory.Ar.ChNorm
 
