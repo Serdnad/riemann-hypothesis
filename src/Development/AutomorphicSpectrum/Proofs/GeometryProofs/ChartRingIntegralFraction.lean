@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.CoreStatements.HodgeTatePoints.MbLFracExt
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.GlueApplyOfNotInFibre
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.RegAtChartLocalizationStatement
 import Mathlib.Algebra.Order.Floor.Extended
@@ -74,40 +75,13 @@ theorem exists_frac {o : Type} [CommRing o] {Ω : Type} [Field Ω] [Algebra o Ω
 theorem algebraMap_mem_chRing {o : Type} [CommRing o] {Ω : Type} [Field Ω] [Algebra o Ω] {κ : Type} (x : κ → Ω)
     (Ω' : Type) [Field Ω'] [Algebra Ω Ω'] [Algebra o Ω'] [IsScalarTower o Ω Ω'] (c : κ) {a : Ω}
     (ha : a ∈ chRing o x c) : algebraMap Ω Ω' a ∈ chRing o (fun k => algebraMap Ω Ω' (x k)) c := by
-  induction ha using Algebra.adjoin_induction with
-  | mem a h =>
-    obtain ⟨j, rfl⟩ := h
-    rw [map_div₀]
-    exact Algebra.subset_adjoin ⟨j, rfl⟩
-  | algebraMap r =>
-    rw [← IsScalarTower.algebraMap_apply]
-    exact Subalgebra.algebraMap_mem _ r
-  | add a b _ _ ha hb => rw [map_add]; exact add_mem ha hb
-  | mul a b _ _ ha hb => rw [map_mul]; exact mul_mem ha hb
+  apply _root_.PositivityTheory.HtPt.Mb.LFracExt.FracExt.algebraMap_mem_chRing <;> assumption
 
 theorem exists_integral_div : ∀ {o : Type} [CommRing o] {Ω : Type} [Field Ω] [Algebra o Ω] {κ : Type} [Finite κ]
     {x : κ → Ω} (M : PModel o x) (Ω' : Type) [Field Ω'] [Algebra Ω Ω'] [FiniteDimensional Ω Ω'] [Algebra o Ω']
     [IsScalarTower o Ω Ω'] (c : κ), x c ≠ 0 → ∀ a : Ω', ∃ b v : Ω',
       IsIntegral (chRing o (fun k => algebraMap Ω Ω' (x k)) c) b ∧
         v ∈ chRing o (fun k => algebraMap Ω Ω' (x k)) c ∧ v ≠ 0 ∧ a = b / v := by
-  intro o _ Ω _ _ κ _ x M Ω' _ _ _ _ _ c hc a
-  haveI : IsFractionRing (chRing o x c) Ω := IsFractionRing.of_field _ _ fun z => by
-    obtain ⟨u, hu, v, hv, e⟩ := exists_frac M hc z
-    exact ⟨⟨u, hu⟩, ⟨v, hv⟩, e⟩
-  have halg : IsAlgebraic (chRing o x c) a := by
-    haveI : Algebra.IsAlgebraic (chRing o x c) Ω' :=
-      (IsFractionRing.comap_isAlgebraic_iff (A := chRing o x c) (K := Ω) (C := Ω')).2 inferInstance
-    exact Algebra.IsAlgebraic.isAlgebraic a
-  obtain ⟨y, hy0, hi⟩ := halg.exists_integral_multiple
-  have hy0' : (y : Ω) ≠ 0 := fun h => hy0 (Subtype.ext h)
-  have hv : algebraMap Ω Ω' (y : Ω) ≠ 0 := (map_ne_zero _).2 hy0'
-  let φ : chRing o x c →+* chRing o (fun k => algebraMap Ω Ω' (x k)) c :=
-    ((algebraMap Ω Ω').comp (chRing o x c).val.toRingHom).codRestrict _
-      fun r => algebraMap_mem_chRing x Ω' c r.2
-  have hb := IsIntegral.map_of_comp_eq φ (RingHom.id Ω') (by ext r; rfl) hi
-  refine ⟨y • a, algebraMap Ω Ω' (y : Ω), hb, algebraMap_mem_chRing x Ω' c y.2, hv, ?_⟩
-  have e : y • a = algebraMap Ω Ω' (y : Ω) * a := by
-    rw [Algebra.smul_def]; rfl
-  rw [e, mul_div_cancel_left₀ _ hv]
+  apply _root_.PositivityTheory.HtPt.Mb.LFracExt.FracExt.exists_integral_div <;> assumption
 
 end GlobalTheory.CompanionTheory.Ar.FracExt
