@@ -418,8 +418,19 @@ theorem frame_at_root : ∀ (D : D7) (HW : HWOf D.loc) (F : FonOf D.loc D.locA H
       (((HW l).W K 1 LL hA.2.2).χΓ γ : ↥(OL LL)) - ((1 : ℕ) : ↥LL.1)) := by
     have h0 : 0 ≤ (D.loc l).v LL (algebraMap ↥(OL LL) ↥LL.1 (algebraMap ℤ_[l] ↥(OL LL) c)) :=
       ((D.loc l).v_O LL _).2 (algebraMap ℤ_[l] ↥(OL LL) c).2
-    rw [hχ, hu, map_add (f := _), map_add (f := _), map_one, map_one, Nat.cast_one, Nat.cast_one, add_sub_cancel_left, map_mul, map_mul,
-      map_natCast, map_natCast, AddValuation.map_mul, (D.loc l).v_l]
+    have hsub : algebraMap ↥(OL LL) ↥LL.1 (algebraMap ℤ_[l] ↥(OL LL) u) - ((1 : ℕ) : ↥LL.1) =
+        (l : ↥LL.1) * algebraMap ↥(OL LL) ↥LL.1 (algebraMap ℤ_[l] ↥(OL LL) c) := by
+      first
+        | (rw [hu, map_add (algebraMap ℤ_[l] ↥(OL LL)), map_add (algebraMap ↥(OL LL) ↥LL.1),
+            map_one, map_one, Nat.cast_one, add_sub_cancel_left, map_mul, map_mul, map_natCast,
+            map_natCast])
+        | (rw [hu, ← RingHom.comp_apply, map_add, map_one, map_mul, map_natCast, Nat.cast_one,
+            add_sub_cancel_left, RingHom.comp_apply])
+        | (rw [hu, RingHom.map_add, RingHom.map_add, RingHom.map_one, RingHom.map_one,
+            Nat.cast_one, add_sub_cancel_left, RingHom.map_mul, RingHom.map_mul, map_natCast,
+            map_natCast])
+        | (rw [hu]; simp)
+    rw [hχ, hsub, Nat.cast_one, AddValuation.map_mul, (D.loc l).v_l]
     exact le_add_of_nonneg_right h0
   obtain ⟨G, H, h1, h2⟩ := matrices_at ((HW l).W K 1 LL hA.2.2) T i (ζ : ↥LL.1) b (U i) (hU i) d hd
     (by rwa [(D.loc l).PD_p, (HW l).W_s, pow_one]) hS hS' γ

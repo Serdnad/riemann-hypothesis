@@ -122,7 +122,8 @@ theorem IsolatedPointsCountPrime.proof (hOpen : IsolatedFibreOpenPoly.Statement)
     intro x hx f hf
     have hf' : aeval Q f ∈ P := by
       rw [hK, RingHom.mem_ker] at hf
-      simpa [Ideal.Quotient.mkₐ_eq_mk, Ideal.Quotient.eq_zero_iff_mem] using hf
+      change Ideal.Quotient.mk P (aeval Q f) = 0 at hf
+      exact Ideal.Quotient.eq_zero_iff_mem.mp hf
     rw [← IsolatedPointsCountPrime.eval_aeval]
     exact hx _ hf'
   have hQc : Continuous Qm := continuous_pi fun i => MvPolynomial.continuous_eval _

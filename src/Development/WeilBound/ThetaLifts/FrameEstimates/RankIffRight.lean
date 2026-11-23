@@ -72,7 +72,7 @@ theorem rank_iff_right (Y : Matrix (Fin n) (Fin d) k) : Y.rank = n ↔ ∃ C : M
     have hr : LinearMap.range Y.mulVecLin = ⊤ := by
       apply Submodule.eq_top_of_finrank_eq
       rw [Module.finrank_fin_fun]
-      exact h
+      exact (Matrix.finrank_range_mulVecLin Y).trans h
     have hsurj : Function.Surjective Y.mulVecLin := LinearMap.range_eq_top.mp hr
     choose c hc using fun j : Fin n => hsurj (Pi.single j 1)
     refine ⟨Matrix.of fun a j => c j a, ?_⟩
@@ -115,7 +115,7 @@ theorem rank_of_map {E : Type} [Field E] (t : E →+* k) (x : Matrix (Fin n) (Fi
     rw [← LinearMap.ker_eq_bot, ← Submodule.finrank_eq_zero]
     have h1 := LinearMap.finrank_range_add_finrank_ker ((x.map t)ᵀ.mulVecLin)
     rw [Module.finrank_fin_fun] at h1
-    have h2 : Module.finrank k (LinearMap.range ((x.map t)ᵀ.mulVecLin)) = n := h
+    have h2 : Module.finrank k (LinearMap.range ((x.map t)ᵀ.mulVecLin)) = n := (Matrix.finrank_range_mulVecLin _).trans h
     omega
   have hinj2 : Function.Injective (xᵀ.mulVecLin) := by
     set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
@@ -129,7 +129,7 @@ theorem rank_of_map {E : Type} [Field E] (t : E →+* k) (x : Matrix (Fin n) (Fi
     funext i
     have h6 := congrFun h5 i
     exact (map_eq_zero t).mp h6
-  show Module.finrank E (LinearMap.range xᵀ.mulVecLin) = n
+  rw [← Matrix.finrank_range_mulVecLin xᵀ]
   rw [LinearMap.finrank_range_of_inj hinj2, Module.finrank_fin_fun]
 
 theorem isOpen_rank [TopologicalSpace k] [IsTopologicalRing k] [T1Space k] :

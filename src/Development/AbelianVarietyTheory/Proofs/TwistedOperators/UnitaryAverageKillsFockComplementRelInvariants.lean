@@ -282,7 +282,7 @@ theorem avg_perp : ∀ {ι : Type} [Fintype ι] (a d : ℕ) (n : ι → ℕ) {K 
     obtain ⟨g0, rfl⟩ := hsurj u
     change colSub (Mg ρ g0) Q = detChar n (Mg ρ g0) • Q
     ext m
-    rw [coeff_smul, smul_eq_mul]
+    rw [MvPolynomial.coeff_smul, smul_eq_mul]
     have h1 := hav ((lcoeff ℂ m).comp (colSub (Mg ρ g0)).toLinearMap)
     simp only [LinearMap.comp_apply, AlgHom.toLinearMap_apply, lcoeff_apply] at h1
     rw [← h1, hcoef m]

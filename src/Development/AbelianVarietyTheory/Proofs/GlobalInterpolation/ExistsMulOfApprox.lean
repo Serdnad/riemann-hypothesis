@@ -351,10 +351,10 @@ theorem closureIntegral : ClosureIntegral := by
     refine ⟨Z.coeff p, hZ p, ?_⟩
     have h1 := congrArg (AddMonoidAlgebra.coeff · p) hZ'
 
-    rw [← sum_ptTable, map_sum, coeff_sum, coeff_smul, smul_eq_mul] at h1
+    rw [← sum_ptTable, map_sum, coeff_sum, MvPolynomial.coeff_smul, smul_eq_mul] at h1
     rw [← h1]
     refine Finset.sum_congr rfl fun μ _ => ?_
-    rw [map_smul, coeff_smul, smul_eq_mul, ← map_monomial, ← map_blockAct, coeff_map]
+    rw [map_smul, MvPolynomial.coeff_smul, smul_eq_mul, ← map_monomial, ← map_blockAct, coeff_map]
   have hu : ∀ p, ∃ u : K, w.valuation K u ≤ 1 ∧ (T (jetMap J n (F : Pol K ι a))).coeff p = κ * D * u := by
     intro p
     refine exists_mul_of_approx w v σ hσ _ _ fun ε hε => ?_
@@ -378,7 +378,7 @@ theorem closureIntegral : ClosureIntegral := by
 
       rw [hH, coeff_sum, map_sum, map_mul, mul_assoc, h2, Finset.mul_sum, ← Finset.sum_sub_distrib]
       refine Finset.sum_congr rfl fun μ _ => ?_
-      rw [coeff_smul, smul_eq_mul, map_mul]
+      rw [MvPolynomial.coeff_smul, smul_eq_mul, map_mul]
       ring
     rw [h1]
     refine v.map_sum_le fun μ hμ => ?_
@@ -411,7 +411,7 @@ theorem closureIntegral : ClosureIntegral := by
     · rw [GlobalTheory.HAtBasis.mem_HAt_iff K w ι b lam' MW BW hMW]
       intro p
       obtain ⟨u, hu1, hu'⟩ := hu p
-      rw [Submodule.coe_smul, coe_jetOp _ _ _ _ _ hmem, map_smul, coeff_smul, coeff_smul, hu', hfac, smul_eq_mul,
+      rw [Submodule.coe_smul, coe_jetOp _ _ _ _ _ hmem, map_smul, MvPolynomial.coeff_smul, MvPolynomial.coeff_smul, hu', hfac, smul_eq_mul,
         smul_eq_mul]
       convert hu1 using 2
       field_simp

@@ -288,8 +288,7 @@ theorem radical_eq (hiso : ∀ e, IsoStab d (Wof e)) (hu : ∀ W, IsoStab d W �
         generalize e i = a
         generalize e' i = b
         generalize g i = c
-        revert a b c
-        decide
+        cases a <;> cases b <;> cases c <;> decide
     · exact (hjg i hji).symm
   exact le_antisymm (hg ▸ hmono _ _ hgj) (le_inf hJS hJP)
 

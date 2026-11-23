@@ -337,7 +337,7 @@ theorem psTrunc_law_sub_mem (G : FGLaw S d) {m : ℕ} (hm : 1 ≤ m) (j : Fin d)
     psTrunc m (G.F j) - (X ((0 : Fin 2), j) + X ((1 : Fin 2), j)) ∈ Io S (Fin 2 × Fin d) ^ 2 := by
   apply mem_pow_Io_lemma_3
   intro x hx
-  rw [mem_support_iff, coeff_sub, coeff_psTrunc_lemma_2] at hx
+  rw [mem_support_iff, MvPolynomial.coeff_sub, coeff_psTrunc_lemma_2] at hx
   by_contra hlt
   have h1 : x.degree ≤ 1 := by omega
   rw [if_pos (h1.trans hm)] at hx
@@ -433,7 +433,7 @@ theorem psTrunc_sub_mem {κ : Type} [Fintype κ] [DecidableEq κ] (f : MvPowerSe
     psTrunc m f - psTrunc k f ∈ Io S κ ^ (k + 1) := by
   apply mem_pow_Io_lemma_3
   intro x hx
-  rw [mem_support_iff, coeff_sub, coeff_psTrunc_lemma_2, coeff_psTrunc_lemma_2] at hx
+  rw [mem_support_iff, MvPolynomial.coeff_sub, coeff_psTrunc_lemma_2, coeff_psTrunc_lemma_2] at hx
   by_contra hlt
   have h1 : x.degree ≤ k := by omega
   rw [if_pos (h1.trans hkm), if_pos h1, sub_self] at hx
@@ -522,7 +522,7 @@ theorem psTrunc_act_sub_mem (φ : Fin d → PS S 1 d) (hφ : ∀ i, MvPowerSerie
     psTrunc m (φ i) - ∑ j, C (dLin φ i j) * X ((0 : Fin 1), j) ∈ Io S (Fin 1 × Fin d) ^ 2 := by
   apply mem_pow_Io_lemma_3
   intro x hx
-  rw [mem_support_iff, coeff_sub, coeff_psTrunc_lemma_2] at hx
+  rw [mem_support_iff, MvPolynomial.coeff_sub, coeff_psTrunc_lemma_2] at hx
   by_contra hlt
   have h1 : x.degree ≤ 1 := by omega
   rw [if_pos (h1.trans hm)] at hx

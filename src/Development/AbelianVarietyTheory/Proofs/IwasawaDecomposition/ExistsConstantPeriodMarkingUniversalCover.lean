@@ -78,7 +78,7 @@ theorem eventually_coord_eq {B : Type} [TopologicalSpace B] {b₀ : B} {lam : B 
   have hM : ∀ b c, M b c = ∑ m, c m • lam b m := fun b c => by simp [M]
   have hMc : ContinuousAt M b₀ := by
     refine tendsto_finsetSum _ fun m _ => ?_
-    exact ((ContinuousLinearMap.smulRightL ℝ (Fin r → ℝ) W (ContinuousLinearMap.proj m)).continuous.continuousAt.comp
+    exact ((StrongDual.smulRightL ℝ (Fin r → ℝ) W (ContinuousLinearMap.proj m)).continuous.continuousAt.comp
       (continuousAt_pi.1 hl m))
   obtain ⟨K, hK0, hK⟩ := (M b₀).toLinearMap.exists_antilipschitzWith (LinearMap.ker_eq_bot'.2 fun c hc =>
     funext (Fintype.linearIndependent_iff.1 hi c ((hM b₀ c).symm.trans hc)))

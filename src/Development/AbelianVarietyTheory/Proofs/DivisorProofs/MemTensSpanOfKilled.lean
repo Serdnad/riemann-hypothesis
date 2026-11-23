@@ -283,13 +283,13 @@ theorem le_deg_of_hw {μ : Ix R S → ℚ} {f : Formalism.BasicNotions.TH.Pol P 
       induction g using MvPolynomial.induction_on' with
       | monomial β z =>
         have : monomial β z = z • (monomial β (1 : ℂ)) := by rw [smul_monomial, smul_eq_mul, mul_one]
-        rw [this, map_smul, cartan2, coeff_smul, coeff_smul, coeff_smul, coeff_monomial]
+        rw [this, map_smul, cartan2, MvPolynomial.coeff_smul, MvPolynomial.coeff_smul, MvPolynomial.coeff_smul, coeff_monomial]
         by_cases h : β = α
         · subst h; simp only [if_true, smul_eq_mul]; ring
         · simp [h]
       | add p q hp hq => rw [map_add (f := _), MvPolynomial.coeff_add, MvPolynomial.coeff_add, hp, hq, mul_add]
     have h' := hd f
-    rw [h, coeff_smul, smul_eq_mul] at h'
+    rw [h, MvPolynomial.coeff_smul, smul_eq_mul] at h'
     exact (mul_right_cancel₀ hα h').symm
   have col : ∀ c : Ix R S, |shiftNu (cPair P Q) μ c| ≤ ∑ a, (α (a, c) : ℚ) := by
     intro c

@@ -85,7 +85,7 @@ theorem psJet_eq_mk (m : ℕ) (f : MvPowerSeries ι R) (p : MvPolynomial ι R)
   rw [Ideal.Quotient.eq]
   apply mem_orig_pow_of_coeff
   intro e he
-  rw [coeff_sub, GermFun.coeff_psTrunc m f e (by omega), h e (by omega), sub_self]
+  rw [MvPolynomial.coeff_sub, GermFun.coeff_psTrunc m f e (by omega), h e (by omega), sub_self]
 
 theorem psJet_mul (m : ℕ) (f g : MvPowerSeries ι R) : psJet m (f * g) = psJet m f * psJet m g := by
   have key : psJet m (f * g) = Ideal.Quotient.mk _ (psTrunc m f * psTrunc m g) := by
@@ -165,7 +165,7 @@ theorem exists_ps_of_compat (ρ : ∀ m, Jet R ι m) (h : ∀ m, jetTrunc (ρ (m
     induction k with
     | zero => rfl
     | succ k ih =>
-      rw [← ih, ← sub_eq_zero, ← coeff_sub]
+      rw [← ih, ← sub_eq_zero, ← MvPolynomial.coeff_sub]
       exact GermFun.coeff_eq_zero_of_mem (hstep (n + k)) (by omega)
   refine ⟨fun e => AddMonoidAlgebra.coeff (P e.degree) e, fun m => ?_⟩
   rw [← hP m]

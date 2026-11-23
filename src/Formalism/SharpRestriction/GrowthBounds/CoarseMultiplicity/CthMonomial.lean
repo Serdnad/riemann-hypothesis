@@ -73,7 +73,7 @@ theorem cth_add (v : σ) (n : ℕ) (F G : MvPolynomial σ K) : cth v n (F + G) =
 
 theorem cth_smul (v : σ) (n : ℕ) (c : K) (F : MvPolynomial σ K) : cth v n (c • F) = c • cth v n F := by
   ext μ
-  simp only [coeff_cth, coeff_smul, smul_eq_mul, mul_assoc]
+  simp only [coeff_cth, MvPolynomial.coeff_smul, smul_eq_mul, mul_assoc]
 
 def cthL (v : σ) (n : ℕ) : MvPolynomial σ K →ₗ[K] MvPolynomial σ K where
   toFun := cth v n

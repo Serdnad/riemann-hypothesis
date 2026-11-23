@@ -86,7 +86,7 @@ theorem UpperTheory.Gal.Gen.alg_pf :
       rw [← Matrix.rank_transpose]
       have h4 : (Matrix.of fun h g : H => a (h * g⁻¹)).transpose.rank =
           Module.finrank k (LinearMap.range
-            (Matrix.of fun h g : H => a (h * g⁻¹)).transpose.mulVecLin) := rfl
+            (Matrix.of fun h g : H => a (h * g⁻¹)).transpose.mulVecLin) := (Matrix.finrank_range_mulVecLin _).symm
       omega
     have h1 := hGD k l H hH a _ ha hrank
     rw [Nat.sub_sub_self hdN] at h1

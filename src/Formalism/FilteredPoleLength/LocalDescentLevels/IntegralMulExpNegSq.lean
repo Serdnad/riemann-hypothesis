@@ -142,7 +142,7 @@ private theorem gaussian_tail_pow_mul_exp_le {g : ℕ} {R0 s t : ℝ} (hR0 : 0 <
       have hexp : (1 + v) ^ g ≤ (Real.exp v) ^ g :=
         pow_le_pow_left_of_nonneg (by linarith) (by linarith [Real.add_one_le_exp v]) g
       have hnat : (Real.exp v) ^ g = Real.exp (g * v) := by
-        exact (Real.exp_nat_mul v g).symm
+        exact (Real.exp_natCast_mul g v).symm
       have hle : Real.exp (g * v) ≤ E := by
         rw [hE]
         apply Real.exp_le_exp.mpr

@@ -63,7 +63,7 @@ theorem exists_minor {F ι : Type*} [Field F] [Fintype ι] {k : ℕ} (v : Fin k 
   let r : ι → Fin k → F := fun i b => v b i
   let V : Matrix ι (Fin k) F := Matrix.of r
   have h1 : V.rank = k := by
-    rw [Matrix.rank_eq_finrank_span_cols]
+    rw [← Matrix.rank_eq_finrank_span_cols]
     have : V.col = v := by funext b i; rfl
     rw [this, finrank_span_eq_card hv, Fintype.card_fin]
   have h2 : Submodule.span F (Set.range r) = ⊤ := by

@@ -108,7 +108,9 @@ theorem tensor_eq_zero_of_fixed {K : Type} [Field K] [Fintype K] [DecidableEq K]
     ext v
     rw [LinearMap.sum_apply, LinearMap.zero_apply]
     exact hU _ fun u hu => hinv ⟨u, hu⟩ v
-  let F := PiTensorProduct.mapMultilinear ℂ (fun c => (lam c : Type)) (fun c => (lam c : Type))
+  let F : MultilinearMap (RingHom.id ℂ) (fun c' => (lam c' : Type) →ₗ[ℂ] (lam c' : Type))
+      (PiTensorProduct ℂ (fun c' => (lam c' : Type)) →ₗ[ℂ] PiTensorProduct ℂ (fun c' => (lam c' : Type))) :=
+    PiTensorProduct.mapMultilinear ..
   let m : ∀ c', (lam c' : Type) →ₗ[ℂ] (lam c' : Type) := fun c' => LinearMap.id
   have h1 : F (Function.update m c (∑ u : U, f u)) y = (Fintype.card U) • y := by
     rw [MultilinearMap.map_update_sum, LinearMap.sum_apply]

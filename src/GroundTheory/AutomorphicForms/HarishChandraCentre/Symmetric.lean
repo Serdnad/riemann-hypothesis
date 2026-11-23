@@ -226,7 +226,7 @@ theorem symmetric_le_adjoin (q : Fin n → MvPolynomial (Fin n) ℂ) (hq : ∀ k
       set p := aeval psumFin F
       rw [totalDegree, Finset.sup_le_iff]
       intro m hm
-      rw [mem_support_iff, coeff_sub, coeff_homogeneousComponent] at hm
+      rw [mem_support_iff, MvPolynomial.coeff_sub, coeff_homogeneousComponent] at hm
       have hm' : m ∈ p.support := by
         rw [mem_support_iff]; intro h0; rw [h0] at hm; simp at hm
       have h1 := le_totalDegree hm'

@@ -75,8 +75,7 @@ private theorem exists_isCompact_preimage_eq_of_isLimit_of_isAffineHom {n : ℕ}
     simp [map_sum, MonoidAlgebra.mapRingHom_single]
   rw [hx, key, ← hQ, MvPolynomial.map_aeval]
   simp [MvPolynomial.aeval_def, MvPolynomial.eval₂_map]
-  rw [MvPolynomial.bind₁, MvPolynomial.aeval_def, MvPolynomial.eval₂_map]
-  rfl
+
 
 private theorem mapRingHom_gdet_gen_single_eq_gen_single {A G : Type} [CommRing A] [Group G] {A' : Type} [CommRing A'] (ι : A →+* A')
     (m : ℕ) (g : Fin m → G) :

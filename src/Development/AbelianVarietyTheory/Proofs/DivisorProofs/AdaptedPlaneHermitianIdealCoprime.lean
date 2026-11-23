@@ -81,7 +81,8 @@ theorem det_ne_zero_of_hasSig {n r s : ℕ} {J : Matrix (Fin n) (Fin n) E} (φ :
   have h4 : 0 < Module.finrank ℂ (LinearMap.ker (J.map φ).mulVecLin) :=
     Module.finrank_pos_iff_exists_ne_zero.2 ⟨⟨v, hv⟩, fun e => hv0 (congrArg Subtype.val e)⟩
   rw [Module.finrank_fin_fun] at h3
-  have h5 : (J.map φ).rank = Module.finrank ℂ (LinearMap.range (J.map φ).mulVecLin) := rfl
+  have h5 : (J.map φ).rank = Module.finrank ℂ (LinearMap.range (J.map φ).mulVecLin) :=
+    (Matrix.finrank_range_mulVecLin (J.map φ)).symm
   rw [Fintype.card_sum, Fintype.card_fin, Fintype.card_fin] at h1
   omega
 

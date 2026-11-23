@@ -438,7 +438,8 @@ theorem ringKrullDim_eq_natDegree_idealHilbertPoly [Infinite k] [Finite ι]
       obtain rfl : j = 0 := Subsingleton.elim _ _
       refine (injective_iff_map_eq_zero _).1 hzinj _ ?_
       refine (comp_aeval_apply z (Ideal.Quotient.mkₐ k P) _).symm.trans ?_
-      simpa [Ideal.Quotient.eq_zero_iff_mem] using ha))).1
+      apply Ideal.Quotient.eq_zero_iff_mem.mpr
+      simpa using ha))).1
   let φ : MvPolynomial (Fin (e + 1)) k →ₐ[k] _ := aeval fun j => Ideal.Quotient.mk P (z j)
   letI := φ.toRingHom.toAlgebra
   haveI : Algebra.IsIntegral (MvPolynomial (Fin (e + 1)) k) (MvPolynomial ι k ⧸ P) := ⟨hzint⟩

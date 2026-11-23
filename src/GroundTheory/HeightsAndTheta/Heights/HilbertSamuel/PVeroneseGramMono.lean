@@ -130,7 +130,8 @@ theorem aeval_alt (f : MvPolynomial (Ix (Veronese.Idx D)) ℚ) :
       (Subsingleton.elim _ ((algebraMap (MvPolynomial (Fin (D + 1)) ℚ) (Veronese.Fld D)).comp C))
   | add p q hp hq => rw [map_add (f := _), map_add (f := _), map_add (f := _), hp, hq]
   | mul_X p q hp =>
-    rw [map_mul, map_mul, map_mul, hp, aeval_X]
+    have hq : phi D (X q) = X q.2.1.1 * X q.2.1.2 := bind₁_X_right ..
+    rw [map_mul, map_mul, map_mul, hp, aeval_X, hq]
     simp [phi, Veronese.x, Veronese.t]
 
 theorem phi_eq {N : ℕ} (b : MvPolynomial (Ix (Veronese.Idx D)) ℚ)

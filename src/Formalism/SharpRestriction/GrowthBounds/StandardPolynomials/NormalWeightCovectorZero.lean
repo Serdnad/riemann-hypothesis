@@ -85,7 +85,7 @@ theorem wh_Xpow (wt : σ → ℕ) (v1 v2 : σ) (a : ℕ) :
 theorem wh_sub {wt : σ → ℕ} {n : ℕ} {P Q : MvPolynomial σ K} (hP : IsWeightedHomogeneous wt P n)
     (hQ : IsWeightedHomogeneous wt Q n) : IsWeightedHomogeneous wt (P - Q) n := by
   intro d hd
-  rw [coeff_sub] at hd
+  rw [MvPolynomial.coeff_sub] at hd
   by_cases h : AddMonoidAlgebra.coeff P d = 0
   · rw [h, zero_sub, neg_ne_zero] at hd
     exact hQ hd

@@ -101,7 +101,7 @@ lemma exp_neg_le_rpow {δ : ℝ} (hδ : 0 < δ) (N : ℕ) :
     nlinarith
   have hpow : (m * (1 + t)) ^ N ≤ Real.exp (δ * t) := by
     calc (m * (1 + t)) ^ N ≤ Real.exp (δ * t / M) ^ N := pow_le_pow_left₀ (by positivity) hle N
-      _ = Real.exp (N * (δ * t / M)) := (Real.exp_nat_mul _ N).symm
+      _ = Real.exp (N * (δ * t / M)) := (Real.exp_natCast_mul N _).symm
       _ ≤ Real.exp (δ * t) := by
           refine Real.exp_le_exp.2 ?_
           have hdt : 0 ≤ δ * t := by positivity

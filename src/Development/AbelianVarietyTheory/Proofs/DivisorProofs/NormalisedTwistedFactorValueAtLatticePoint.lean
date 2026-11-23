@@ -66,10 +66,10 @@ section General
 
 variable {X Y Z : Scheme.{0}}
 
-def pt (q : Y ⟶ X) : Multiplicative (FreeAbelianGroup (Y ⟶ X)) := Multiplicative.ofAdd (FreeAbelianGroup.of q)
+def pt (q : Y ⟶ X) : Multiplicative (FreeAddCommGroup (Y ⟶ X)) := Multiplicative.ofAdd (FreeAddCommGroup.of q)
 
 def ratSub {L : LB X} (e₀ e₁ : Z ⟶ Y) {z : Z} {J : (Z ⟶ X) → L.ι} (hJ : Good L z J) :
-    Subgroup (Multiplicative (FreeAbelianGroup (Y ⟶ X)) × (Z.presheaf.stalk z)ˣ) where
+    Subgroup (Multiplicative (FreeAddCommGroup (Y ⟶ X)) × (Z.presheaf.stalk z)ˣ) where
   carrier := {g | ∃ (K : Type) (_ : Fintype K) (φ : K → (Y ⟶ X)) (ε : K → ℤ) (t : LB.Gen (LB.LinComb L φ ε)),
     t.IsGen ∧ ∏ k, pt (φ k) ^ ε k = g.1 ∧ val t e₁ z J = g.2 * val t e₀ z J}
   one_mem' := ⟨PEmpty, inferInstance, _, _, LB.oneGen L, (fun i j => (map_one _).trans
@@ -89,12 +89,12 @@ def ratSub {L : LB X} (e₀ e₁ : Z ⟶ Y) {z : Z} {J : (Z ⟶ X) → L.ι} (hJ
 
 theorem ratSub_eq_one {L : LB X} (hL : L.IsLB) (p : Y ⟶ Z) (e₀ e₁ : Z ⟶ Y) (h₀ : e₀ ≫ p = 𝟙 _) (h₁ : e₁ ≫ p = 𝟙 _)
     (hp : Function.Surjective p.appTop.hom) {z : Z} {J : (Z ⟶ X) → L.ι} (hJ : Good L z J)
-    {g : Multiplicative (FreeAbelianGroup (Y ⟶ X)) × (Z.presheaf.stalk z)ˣ} (hg : g ∈ ratSub e₀ e₁ hJ) (h : g.1 = 1) :
+    {g : Multiplicative (FreeAddCommGroup (Y ⟶ X)) × (Z.presheaf.stalk z)ˣ} (hg : g ∈ ratSub e₀ e₁ hJ) (h : g.1 = 1) :
     g.2 = 1 := by
   obtain ⟨K, _, φ, ε, t, ht, f, v⟩ := hg
   have triv : ∀ (U : Type) [CommGroup U] (k : (Y ⟶ X) → U), ∏ i, k (φ i) ^ ε i = 1 := fun U _ k => by
-    let F : Multiplicative (FreeAbelianGroup (Y ⟶ X)) →* U :=
-      AddMonoidHom.toMultiplicativeLeft (FreeAbelianGroup.lift fun q => Additive.ofMul (k q))
+    let F : Multiplicative (FreeAddCommGroup (Y ⟶ X)) →* U :=
+      AddMonoidHom.toMultiplicativeLeft (FreeAddCommGroup.lift fun q => Additive.ofMul (k q))
     have hF : ∀ q, F (pt q) = k q := fun q => by simp [F, pt]
     have := congrArg F (f.trans h)
     simpa only [map_prod, map_zpow, hF, map_one] using this

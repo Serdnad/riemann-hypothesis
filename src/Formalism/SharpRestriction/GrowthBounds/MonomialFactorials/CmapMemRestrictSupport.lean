@@ -57,7 +57,7 @@ theorem cmap_zero : cmap f (0 : MvPolynomial σ K) = 0 := by
   ext m; simp only [coeff_cmap, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply, map_zero]
 
 theorem cmap_neg (y : MvPolynomial σ K) : cmap f (-y) = -cmap f y := by
-  ext m; simp only [coeff_cmap, coeff_neg, map_neg]
+  ext m; simp only [coeff_cmap, MvPolynomial.coeff_neg, map_neg]
 
 theorem cmap_monomial (n : σ →₀ ℕ) (c : K) : cmap f (monomial n c) = monomial n (f c) := by
   classical

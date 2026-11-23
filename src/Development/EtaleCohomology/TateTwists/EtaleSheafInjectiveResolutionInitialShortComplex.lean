@@ -95,7 +95,6 @@ lemma etaleSheaf_injectiveResolution_initial_shortComplex_comp_zero (F : Shv R) 
   refine (Category.assoc _ _ _).trans ?_
   erw [h]
   simp
-  rfl
 
 noncomputable abbrev S0 (F : Shv R) : ShortComplex (Shv R) := ShortComplex.mk _ _ (etaleSheaf_injectiveResolution_initial_shortComplex_comp_zero R F)
 

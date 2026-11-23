@@ -140,7 +140,7 @@ theorem lam_caseM (L : MvPolynomial (Bool × (Fin r × Fin r)) K →ₗ[K] K) (N
   rw [lam_eq, lcoef_comm, map_mul, caseM ψ (rowAct K l) hgen hnone, caseM ψ (rowAct K l) hgen hnone]
   ext u
 
-  rw [coeff_smul, hc, hc, coeff_mul, coeff_mul, map_sum, map_sum, smul_eq_mul, Finset.mul_sum]
+  rw [MvPolynomial.coeff_smul, hc, hc, coeff_mul, coeff_mul, map_sum, map_sum, smul_eq_mul, Finset.mul_sum]
   refine Finset.sum_congr rfl fun p _ => ?_
   rw [thR_coeff, thR_coeff, th_coeff, th_coeff]
   exact hInv l hl _ (hv p.1) _ (ht p.2)

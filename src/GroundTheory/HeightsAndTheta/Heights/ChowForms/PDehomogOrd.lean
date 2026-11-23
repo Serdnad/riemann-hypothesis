@@ -138,8 +138,7 @@ theorem aeval_smul_hom {B : Type*} [CommSemiring B] [Algebra F B] (π : MvPolyno
     ring
   rw [key]
   congr 1
-  rw [← comp_aeval_apply]
-  simp
+  exact (DFunLike.congr_fun (MvPolynomial.aeval_unique π) g).symm
 
 theorem map_eq_zero_of_components {B G : Type*} [CommRing B] [FunLike G (MvPolynomial (Fin n) F) B]
     [RingHomClass G (MvPolynomial (Fin n) F) B] (f : G)

@@ -74,7 +74,7 @@ theorem rank_map_le {A D : Type} [Fintype A] [Fintype D] [DecidableEq D] (f : k 
   have h : Z.map f = P.map f * Q.map f := by rw [hPQ, Matrix.map_mul]
   rw [h]
   refine (Matrix.rank_mul_le_left _ _).trans ((Matrix.rank_le_card_width _).trans ?_)
-  simp [Matrix.rank, M]
+  simpa only [Fintype.card_fin] using (Matrix.finrank_range_mulVecLin Z).le
 
 theorem rank_map_equiv {A D : Type} [Fintype A] [Fintype D] [DecidableEq D] (j : k ≃+* k') (Z : Matrix A D k) :
     (Z.map j).rank = Z.rank := by

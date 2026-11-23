@@ -114,7 +114,7 @@ theorem integrable_fibre (n d : ℕ) (ν : kˣ →* ℂˣ) (hν : GlobalTheory.S
   obtain ⟨R, hR⟩ : ∃ R : Matrix (Fin d) (Fin n) k, Y * R = 1 := by
     have hsurj : LinearMap.range Y.mulVecLin = ⊤ := by
       apply Submodule.eq_top_of_finrank_eq
-      rw [Module.finrank_fin_fun]; exact hY
+      rw [Module.finrank_fin_fun, Matrix.finrank_range_mulVecLin]; exact hY
     obtain ⟨f, hf⟩ := LinearMap.exists_rightInverse_of_surjective _ hsurj
     refine ⟨LinearMap.toMatrix' f, ?_⟩
     have := congrArg LinearMap.toMatrix' hf

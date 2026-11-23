@@ -134,7 +134,7 @@ theorem isWeightedHomogeneous_of_torus {f : Pol N ℂ}
     by_cases hb : b = a
     · subst hb; simpa using hz1
     · simp [Function.update_of_ne hb])
-  rw [Formalism.GradedWeylDivisibility.ldrow_coeff_rowAct_diag, coeff_smul, smul_eq_mul, mul_comm] at h1
+  rw [Formalism.GradedWeylDivisibility.ldrow_coeff_rowAct_diag, MvPolynomial.coeff_smul, smul_eq_mul, mul_comm] at h1
   have h2 := mul_right_cancel₀ hm h1
   have h3 : ∀ d : Fin N → ℕ, ∏ b, Function.update (1 : Fin N → ℂ) a z b ^ d b = z ^ d a := by
     intro d

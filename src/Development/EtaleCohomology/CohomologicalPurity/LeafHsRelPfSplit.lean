@@ -93,7 +93,7 @@ theorem leafConeSplit : LeafConeSplit := by
     rw [toHom_pull, toHom_pull, map_zero, ← Category.assoc, z12, zero_comp]
 
 def LeafDblCok : Prop := ∀ (R : Type) [CommRing R] (P : Arrow Spc), Mono P.hom → ∀ n : ℤ,
-  IsIso (cokernel.map _ _ _ _ (sqw (dbl_sq R P) n))
+  IsIso (cokernel.map _ _ _ _ (sqw (dbl_sq R P) n).symm)
 
 theorem leafDblConeQI_of (hC : LeafConeCok) (hK : LeafDblCok) : LeafDblConeQI := by
   intro R _ P h

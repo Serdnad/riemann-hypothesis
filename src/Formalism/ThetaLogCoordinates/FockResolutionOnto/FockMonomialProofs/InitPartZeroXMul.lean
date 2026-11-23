@@ -82,7 +82,7 @@ noncomputable def resL (p : ℕ) [Fact p.Prime] (v : σ) (e : ℕ) :
     ext m; simp only [coeff_initPart, MvPolynomial.coeff_add]; split_ifs <;> simp
   map_smul' a x := by
     ext m
-    simp only [coeff_initPart, RingHom.id_apply, coeff_smul]
+    simp only [coeff_initPart, RingHom.id_apply, MvPolynomial.coeff_smul]
     split_ifs <;> simp
 
 theorem resL_apply (v : σ) (e : ℕ) (f : MvPolynomial σ ℚ_[p]) : resL p v e f = initPart v e f := rfl
@@ -96,7 +96,7 @@ theorem initPart_add (v : σ) (e : ℕ) (f g : MvPolynomial σ ℚ_[p]) :
 theorem initPart_smul (v : σ) (e : ℕ) (c : ℚ_[p]) (f : MvPolynomial σ ℚ_[p]) :
     initPart v e (c • f) = c • initPart v e f := by
   ext m
-  simp only [coeff_initPart, coeff_smul]
+  simp only [coeff_initPart, MvPolynomial.coeff_smul]
   split_ifs <;> simp
 
 theorem initPart_int (v : σ) (e : ℕ) (f : MvPolynomial σ ℚ_[p]) (hf : f ∈ IntPol p σ) :
@@ -134,7 +134,7 @@ theorem X_mul_int_iff (v : σ) (a : MvPolynomial σ ℚ_[p]) : X v * a ∈ IntPo
 theorem smul_int (c : ℚ_[p]) (hc : ‖c‖ ≤ 1) (a : MvPolynomial σ ℚ_[p]) (ha : a ∈ IntPol p σ) : c • a ∈ IntPol p σ := by
   rw [intPol_iff_norm] at ha ⊢
   intro m
-  rw [coeff_smul, smul_eq_mul, norm_mul]
+  rw [MvPolynomial.coeff_smul, smul_eq_mul, norm_mul]
   exact mul_le_one₀ hc (norm_nonneg _) (ha m)
 
 end Formalism.InvariantFactorPaths.L4

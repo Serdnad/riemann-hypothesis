@@ -295,10 +295,7 @@ theorem setBlock_of_not {z : Fin p × Fin p → σ} (x : σ → K)
 omit [DecidableEq σ] in
 theorem eval_bind₁' (y : σ → K) (g : σ → MvPolynomial σ K) (P : MvPolynomial σ K) :
     eval y (bind₁ g P) = eval (fun s => eval y (g s)) P := by
-  induction P using MvPolynomial.induction_on with
-  | C a => simp
-  | add P Q hP hQ => simp [hP, hQ]
-  | mul_X P s hP => simp [hP]
+  exact MvPolynomial.eval₂Hom_bind₁ (RingHom.id K) y g P
 
 theorem biInvariant_eval {z : Fin p × Fin p → σ} (hz : Function.Injective z)
     (P : MvPolynomial σ K)

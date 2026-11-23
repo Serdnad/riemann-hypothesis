@@ -88,7 +88,7 @@ theorem exists_coord_eq_sum_coeff {σ : Type} {d : ℕ} (V : Submodule ℂ (MvPo
         calc (v : MvPolynomial σ ℂ) = ((∑ j, B.repr v j • B j : V) : MvPolynomial σ ℂ) := by rw [B.sum_repr v]
           _ = _ := by rw [Submodule.coe_sum]; rfl
       rw [hv', coeff_sum]
-      simp only [coeff_smul]
+      simp only [MvPolynomial.coeff_smul]
       refine Finset.sum_eq_zero fun j _ => ?_
       have : m ∉ ((B j : V) : MvPolynomial σ ℂ).support := fun h =>
         hm (Finset.mem_biUnion.2 ⟨j, Finset.mem_univ _, h⟩)

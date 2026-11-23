@@ -122,7 +122,7 @@ theorem psiB_map (ψ : MvPolynomial σ K →ₐ[K] MvPolynomial σ K) (G : MvPol
 theorem lcoef_C_mul_map (L : B →ₗ[K] K) (b : B) (G : MvPolynomial σ K) :
     lcoef L (C b * map (algebraMap K B) G) = L b • G := by
   ext u
-  rw [coeff_lcoef, coeff_C_mul, coeff_map, coeff_smul, smul_eq_mul, mul_comm b, ← Algebra.smul_def, map_smul,
+  rw [coeff_lcoef, coeff_C_mul, coeff_map, MvPolynomial.coeff_smul, smul_eq_mul, mul_comm b, ← Algebra.smul_def, map_smul,
     smul_eq_mul, mul_comm]
 
 theorem lcoef_comm (ψ : MvPolynomial σ K →ₐ[K] MvPolynomial σ K) (L : B →ₗ[K] K) (h : MvPolynomial σ B) :
@@ -206,7 +206,7 @@ theorem scCol_coeff {k : ℕ} (t0 : Fin k) (c : K) (f : MvPolynomial (Fin k × F
 theorem scCol_of_hom {k : ℕ} (t0 : Fin k) (c : K) (f : MvPolynomial (Fin k × Fin k) K) (ν : Fin k → ℕ)
     (hf : IsWeightedHomogeneous (colW k k) f ν) : scCol K k t0 c f = c ^ ν t0 • f := by
   ext m
-  rw [scCol_coeff, coeff_smul, smul_eq_mul, mul_comm]
+  rw [scCol_coeff, MvPolynomial.coeff_smul, smul_eq_mul, mul_comm]
   by_cases h : AddMonoidAlgebra.coeff f m = 0
   · rw [h, mul_zero, mul_zero]
   · rw [hf h]
@@ -217,7 +217,7 @@ theorem wt_of_scale [Infinite K] {k : ℕ} (t0 : Fin k) (n : ℕ) (f : MvPolynom
   apply pow_exp_inj (K := K)
   intro c hc
   have := congrArg (AddMonoidAlgebra.coeff · m) (h c hc)
-  rw [scCol_coeff, coeff_smul, smul_eq_mul, mul_comm] at this
+  rw [scCol_coeff, MvPolynomial.coeff_smul, smul_eq_mul, mul_comm] at this
   exact mul_right_cancel₀ hm this
 
 theorem colAdd_trivial {k : ℕ} (l j : Fin k) (c : K) (f : MvPolynomial (Fin k × Fin k) K)

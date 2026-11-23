@@ -114,7 +114,7 @@ theorem linInd_map {F K σ ι : Type} [Field F] [Field K] (e : F →+* K) {v : �
   have key : ∑ i ∈ s, (B.repr (c i) j) • v i = 0 := by
     ext m
     have h1 := congrArg (AddMonoidAlgebra.coeff · m) hsum
-    simp only [coeff_sum, coeff_smul, coeff_map, smul_eq_mul] at h1 ⊢
+    simp only [coeff_sum, MvPolynomial.coeff_smul, coeff_map, smul_eq_mul] at h1 ⊢
     change ∑ x ∈ s, c x * e ((v x).coeff m) = 0 at h1
     change ∑ x ∈ s, (B.repr (c x)) j * (v x).coeff m = 0
     have h2 := congrArg (fun x => B.repr x j) h1

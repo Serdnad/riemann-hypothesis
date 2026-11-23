@@ -165,8 +165,8 @@ theorem gap_threshold_pays_far_terms : ∀ (Cg : ℝ) (n f q : ℕ) (rd g b : �
       rw [inv_pow] at ht1
       have a1 : t⁻¹ ≤ M ^ (11 * q) := inv_le_of_inv_le₀ (pow_pos hMpos _) ht1
       have a2 : M ^ (11 * q) ≤ Real.exp Lb ^ (11 * q) := pow_le_pow_left₀ hMpos.le hMle _
-      have a3 : Real.exp Lb ^ (11 * q) = Real.exp (((11 * q : ℕ) : ℝ) * Lb) :=
-        (Real.exp_nat_mul Lb (11 * q)).symm
+      have a3 : Real.exp Lb ^ (11 * q) = Real.exp (((11 * q : ℕ) : ℝ) * Lb) := by
+        rw [Real.exp_nat_mul]
       have a4 : ((11 * q : ℕ) : ℝ) * Lb ≤ 11 * s * Lb := by
         push_cast
         have : 11 * (q : ℝ) ≤ 11 * s := by linarith

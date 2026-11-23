@@ -57,6 +57,8 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 
+set_option backward.isDefEq.respectTransparency false
+
 @[expose] public section
 
 noncomputable section
@@ -96,9 +98,9 @@ theorem ooConv_of (hSch : SchurH) (hNIs : CompanionTheory.D.Upq.BesselFunctional
   have hop : ContinuousOn (fun g : Mx k r => (innerSL ℂ (l' (σ (γ⁻¹ * g) w0))).smulRight (l (σ g w0)))
       (Formalism.QuantumDeterminants.UH (Formalism.QuantumDeterminants.Hpk k r)) := by
     have ha : ContinuousOn (fun g : Mx k r =>
-        ContinuousLinearMap.smulRightL ℂ Wq Wp (innerSL ℂ (l' (σ (γ⁻¹ * g) w0))))
+        StrongDual.smulRightL ℂ Wq Wp (innerSL ℂ (l' (σ (γ⁻¹ * g) w0))))
         (Formalism.QuantumDeterminants.UH (Formalism.QuantumDeterminants.Hpk k r)) :=
-      (ContinuousLinearMap.smulRightL ℂ Wq Wp).continuous.comp_continuousOn
+      (StrongDual.smulRightL ℂ Wq Wp).continuous.comp_continuousOn
         ((innerSL ℂ).continuous.comp_continuousOn cont2')
     exact (ha.clm_apply hP1.1).congr fun g _ => rfl
   have hmeas : AEStronglyMeasurable (fun x : Formalism.QuantumDeterminants.Mt k r =>

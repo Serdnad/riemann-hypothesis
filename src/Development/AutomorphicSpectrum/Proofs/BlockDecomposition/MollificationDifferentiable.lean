@@ -142,11 +142,7 @@ theorem GlobalTheory.CompanionTheory.PresSobA.mol_differentiableAt :
   have hF'm : AEStronglyMeasurable (F' z) μ := by
     have hgz : Continuous (g z) := hg.comp (Continuous.prodMk_right z)
     let L : CLof (Mat n) ℝ →L[ℝ] V →L[ℝ] CLof (Mat n) V :=
-      LinearMap.mkContinuous₂ (ContinuousLinearMap.smulRightLₗ ℝ (Mat n) V) 1
-        (by
-          intro c v
-          change ‖c.smulRight v‖ ≤ 1 * ‖c‖ * ‖v‖
-          simp [ContinuousLinearMap.norm_smulRight_apply])
+      StrongDual.smulRightL ℝ (Mat n) V
     exact L.aestronglyMeasurable_comp₂
       hgz.aestronglyMeasurable (Lp.aestronglyMeasurable x)
   have hFb : ∀ u, ‖F z u‖ ≤ bound u := by

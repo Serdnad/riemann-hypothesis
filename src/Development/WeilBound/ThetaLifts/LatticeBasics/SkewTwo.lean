@@ -70,6 +70,10 @@ theorem rank_lt {M : Matrix β β K} {y w φ : β → K} (hy : M *ᵥ y = 0) (hw
     rw [add_mulVec, vecMulVec_mulVec, op_smul_eq_smul]
   have h1 : w ∈ LinearMap.range (M + vecMulVec w φ).mulVecLin := ⟨(φ ⬝ᵥ y)⁻¹ • y, by
     rw [mulVecLin_apply, mulVec_smul, e, hy, zero_add, smul_smul, inv_mul_cancel₀ hφ, one_smul]⟩
+  have hR : ∀ N : Matrix β β K, N.rank = Module.finrank K (LinearMap.range N.mulVecLin) := fun N => by
+    classical
+    exact (Matrix.finrank_range_mulVecLin N).symm
+  rw [hR, hR]
   refine Submodule.finrank_lt_finrank_of_lt (lt_of_le_of_ne ?_ fun h => hw (h ▸ h1))
   rintro _ ⟨x, rfl⟩
   rw [mulVecLin_apply, eq_sub_of_add_eq (e x).symm]

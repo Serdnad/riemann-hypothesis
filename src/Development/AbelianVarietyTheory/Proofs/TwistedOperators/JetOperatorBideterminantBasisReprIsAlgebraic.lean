@@ -150,7 +150,7 @@ theorem descent {σ κ : Type} [Fintype κ] (v : κ → MvPolynomial σ ℂ) (hv
       rw [← hq, coeff_map, hp]
     rw [h1]
 
-    simp only [coeff_sum, coeff_smul, smul_eq_mul, hc, map_sum]
+    simp only [coeff_sum, MvPolynomial.coeff_smul, smul_eq_mul, hc, map_sum]
     refine Finset.sum_congr rfl fun k _ => ?_
     have : x k * algebraMap A ℂ (c k) = c k • x k := by rw [Algebra.smul_def, mul_comm]
     rw [this, map_smul, smul_eq_mul, map_mul, mul_comm]

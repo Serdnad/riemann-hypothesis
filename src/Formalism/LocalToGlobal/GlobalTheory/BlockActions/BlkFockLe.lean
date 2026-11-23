@@ -75,7 +75,7 @@ theorem tf_smul_left (c : ℂ) (f g : MvPolynomial σ ℂ) :
     Formalism.REAL.fockF (c • f) g = c * Formalism.REAL.fockF f g := by
   rw [tf_eq_sum (c • f) g f.support support_smul, tf_eq_sum f g f.support le_rfl, Finset.mul_sum]
   refine Finset.sum_congr rfl fun m _ => ?_
-  rw [coeff_smul, smul_eq_mul]
+  rw [MvPolynomial.coeff_smul, smul_eq_mul]
   ring
 
 theorem tf_add_right (f g g' : MvPolynomial σ ℂ) :
@@ -91,7 +91,7 @@ theorem tf_smul_right (c : ℂ) (f g : MvPolynomial σ ℂ) :
   unfold Formalism.REAL.fockF
   rw [Finset.mul_sum]
   refine Finset.sum_congr rfl fun m _ => ?_
-  rw [coeff_smul, smul_eq_mul, star_mul']
+  rw [MvPolynomial.coeff_smul, smul_eq_mul, star_mul']
   ring
 
 def tfB : MvPolynomial σ ℂ →ₗ[ℂ] MvPolynomial σ ℂ →ₗ⋆[ℂ] ℂ :=

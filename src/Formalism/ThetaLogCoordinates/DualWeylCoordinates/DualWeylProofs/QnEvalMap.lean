@@ -159,7 +159,7 @@ theorem qn_main (n : ℕ) (ν : Fin n → ℕ) (hν : Antitone ν) {ι : Type}
       obtain ⟨c, hc⟩ := hyN 1 (Submonoid.one_mem _)
       refine ⟨c, ?_⟩
       have h := qn_otherWts_coeff' n ν _ hc
-      rw [Module.End.one_apply, map_sub, map_smul, coeff_sub, coeff_smul,
+      rw [Module.End.one_apply, map_sub, map_smul, MvPolynomial.coeff_sub, MvPolynomial.coeff_smul,
         ← qn_eval_eq_coeff n ν _ (qn_colHom ℚ n ν _ hyD), ← qn_eval_eq_coeff n ν _ (qn_colHom ℚ n ν _ hTvmem),
         hTvev, smul_eq_mul, mul_one, eq_intCast, sub_eq_zero] at h
       exact h

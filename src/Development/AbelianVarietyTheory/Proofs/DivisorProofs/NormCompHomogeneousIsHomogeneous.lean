@@ -88,7 +88,7 @@ theorem norm_comp_homogeneous_isHomogeneous :
     have key : ∀ (φ : MvPolynomial (Fin n) L) (x : Fin n × Fin m → L),
         eval x (bind₁ g φ) = eval (fun i => eval x (g i)) φ := by
       intro φ x
-      induction φ using MvPolynomial.induction_on <;> simp_all
+      induction φ using MvPolynomial.induction_on <;> simp_all [bind₁_X_right]
     rw [show G = bind₁ g f from rfl, key]
     congr 2
     funext i

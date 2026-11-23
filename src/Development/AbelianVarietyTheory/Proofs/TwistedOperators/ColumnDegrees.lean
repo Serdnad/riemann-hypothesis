@@ -145,7 +145,7 @@ private theorem coeff_apply_of_diagonal_on_monomials' {σ : Type} (g : Module.En
     have hc : (monomial u c : MvPolynomial σ ℂ) = c • monomial u 1 := by
       rw [smul_monomial, smul_eq_mul, mul_one]
     rw [hc, map_smul, hg, smul_smul]
-    simp only [coeff_smul, coeff_monomial, smul_eq_mul]
+    simp only [MvPolynomial.coeff_smul, coeff_monomial, smul_eq_mul]
     split_ifs with h
     · subst h; ring
     · ring
@@ -341,7 +341,7 @@ theorem column_degrees (σ : Type) [Fintype σ] [DecidableEq σ] (k l n : ℕ)
       | insert D s hD ih =>
         obtain ⟨Q, hQW, hQ⟩ := ih
         refine ⟨E Q - (D : ℂ) • Q, W.sub_mem (hWE Q hQW) (W.smul_mem _ hQW), fun m => ?_⟩
-        rw [coeff_sub, coeff_smul, hcoeffE, hQ, Finset.prod_insert hD, smul_eq_mul]
+        rw [MvPolynomial.coeff_sub, MvPolynomial.coeff_smul, hcoeffE, hQ, Finset.prod_insert hD, smul_eq_mul]
         ring
     obtain ⟨Q, hQW, hQ⟩ := hiter ((P.support.image zdeg).erase (zdeg m0))
     have hQm0 : AddMonoidAlgebra.coeff Q m0 ≠ 0 := by
@@ -353,7 +353,7 @@ theorem column_degrees (σ : Type) [Fintype σ] [DecidableEq σ] (k l n : ℕ)
     have hQ0 : Q ≠ 0 := fun h => hQm0 (by simp [h])
     have hEQ : E Q = (zdeg m0 : ℂ) • Q := by
       ext m
-      rw [hcoeffE, coeff_smul, smul_eq_mul]
+      rw [hcoeffE, MvPolynomial.coeff_smul, smul_eq_mul]
       by_cases hm : AddMonoidAlgebra.coeff Q m = 0
       · rw [hm, mul_zero, mul_zero]
       · have hmP : m ∈ P.support := by
@@ -382,7 +382,7 @@ theorem column_degrees (σ : Type) [Fintype σ] [DecidableEq σ] (k l n : ℕ)
         colOp_monomial, colOp_monomial, ← sub_smul]
       push_cast
       rfl
-    rw [hwt t, coeff_smul, smul_eq_mul] at h1
+    rw [hwt t, MvPolynomial.coeff_smul, smul_eq_mul] at h1
     have hc : AddMonoidAlgebra.coeff P m ≠ 0 := mem_support_iff.1 hm
     exact_mod_cast (mul_right_cancel₀ hc h1).symm
   have hsum : ∑ t, (∑ i, (m (z (i, t)) : ℤ)) = ∑ t, max (κ t) 0 := by

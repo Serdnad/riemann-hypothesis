@@ -84,7 +84,6 @@ lemma dzero (F : Shv R) : resι R F ≫ (res R F).d 0 1 = 0 := by
   change _ ≫ (injectiveResolution F).cochainComplex.d 0 1 = 0
   rw [InjectiveResolution.cochainComplex_d _ 0 1 0 1 rfl rfl]
   erw [Category.assoc, Iso.inv_hom_id_assoc, InjectiveResolution.ι_f_zero_comp_complex_d_assoc, zero_comp]
-  rfl
 
 lemma aug_nat {F G : Shv R} (φ : F ⟶ G) :
     resAug F ≫ resMap R φ = (CochainComplex.singleFunctor (Shv R) 0).map φ ≫ resAug G := by

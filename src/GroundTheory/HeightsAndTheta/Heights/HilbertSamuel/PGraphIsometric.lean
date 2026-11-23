@@ -309,7 +309,8 @@ theorem proof : GraphIsometric.Statement := by
         refine sup_le (fun p hp => RingHom.mem_ker.mpr (hx.2 p hp))
           (Ideal.span_le.mpr (Set.range_subset_iff.mpr fun j' => ?_))
         show φ _ = 0
-        simpa [φ, linForm, linApply] using hall j'
+        simp only [φ, RingHom.comp_apply]
+        exact ((hev (linForm A ⟨k, j'⟩)).symm.trans (hlin ⟨k, j'⟩)).trans (hall j')
       have h0 := RingHom.mem_ker.mp (hle hN)
       have hne : φ ((∏ k', (X ⟨k', i k'⟩ : MRing ι)) ^ N) ≠ 0 := by
         simp only [φ, map_pow, map_prod, RingHom.comp_apply, map_X, eval_X]

@@ -64,7 +64,7 @@ theorem injective_of_isFockIP {σ : Type} [DecidableEq σ] {H : Type} [NormedAdd
     induction P using MvPolynomial.induction_on' with
     | add P P' h h' => simp only [map_add (f := _), inner_add_right, h, h', MvPolynomial.coeff_add, add_mul]
     | monomial β c =>
-      rw [monomial_eq_smul β c, map_smul, inner_smul_right, hι, coeff_smul, coeff_monomial]
+      rw [monomial_eq_smul β c, map_smul, inner_smul_right, hι, MvPolynomial.coeff_smul, coeff_monomial]
       by_cases e : α = β
       · subst e; simp
       · simp [e, Ne.symm e]

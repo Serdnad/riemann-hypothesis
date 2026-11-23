@@ -229,7 +229,7 @@ theorem realises_blockHom : ∀ {p : ℕ} [Fact p.Prime] (X : Sys p) (D : D7) (p
   have hm0 : AddMonoidAlgebra.coeff R m ≠ 0 := (mem_support_iff.mp hm)
   have h2 : (2:ℂ) ^ (dg X D pos i τ₀ m) = c := by
     have := congrArg (AddMonoidAlgebra.coeff · m) hz
-    rw [coeff_sub, coeff_smul, hcoef, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply, sub_eq_zero, smul_eq_mul] at this
+    rw [MvPolynomial.coeff_sub, MvPolynomial.coeff_smul, hcoef, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply, sub_eq_zero, smul_eq_mul] at this
     exact mul_left_cancel₀ hm0 (by rw [this]; ring)
   have hcz : c = (2:ℂ) ^ (-((n : ℤ) * eT X D pos i τ₀) + (ε * ((n : ℤ) * (-(a τ₀))) + ε * ((∑ r, ν τ₀ r : ℕ) : ℤ))) := by
     have a1 : ((2:ℂ) ^ n) ^ (eT X D pos i τ₀) = (2:ℂ) ^ ((n : ℤ) * eT X D pos i τ₀) := by rw [zpow_mul, zpow_natCast]

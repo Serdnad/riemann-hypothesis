@@ -58,7 +58,7 @@ theorem lam_sat_restrict {O σ : Type} [CommRing O] [IsDomain O] (s : Set (σ �
   apply h
   have hm' := MvPolynomial.mem_support_iff.mp (Finset.mem_coe.mp hm)
   refine Finset.mem_coe.mpr (MvPolynomial.mem_support_iff.mpr ?_)
-  rw [coeff_smul, smul_eq_mul]
+  rw [MvPolynomial.coeff_smul, smul_eq_mul]
   exact mul_ne_zero ha hm'
 
 theorem lam_dvd_of_res {O σ : Type} [CommRing O] [IsDomain O] [IsDiscreteValuationRing O] {ϖ : O}

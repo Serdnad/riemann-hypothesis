@@ -128,7 +128,7 @@ theorem coefLast_eq_coeff [Fintype ι] (b : ι → Fin n → ℕ) (F : Pol K ι 
   | add p q hp hq => simp [hp, hq]
   | monomial m a =>
     have e : (monomial m a : Pol K ι N) = a • monomial m 1 := by simp [smul_monomial]
-    rw [e, map_smul, map_smul, coeff_smul]
+    rw [e, map_smul, map_smul, MvPolynomial.coeff_smul]
     congr 1
     rw [coefLast_monomial]
     have hm : splitLast K ι hN (monomial m 1) =

@@ -57,15 +57,15 @@ theorem leafConeCok : LeafConeCok := by
   let S₂ := ShortComplex.mk f' (cokernel.π f') (cokernel.condition f')
   have h₁ : S₁.ShortExact := ShortComplex.ShortExact.mk' (ShortComplex.exact_of_g_is_cokernel _ (cokernelIsCokernel f)) hm inferInstance
   have h₂ : S₂.ShortExact := ShortComplex.ShortExact.mk' (ShortComplex.exact_of_g_is_cokernel _ (cokernelIsCokernel f')) hm' inferInstance
-  let τ : S₁ ⟶ S₂ := { τ₁ := a, τ₂ := b, τ₃ := cokernel.map f f' a b comm, comm₁₂ := comm.symm, comm₂₃ := by simp [S₁, S₂] }
-  have iso3 : IsIso (cokernel.map f f' a b comm) := by
-    have : ∀ n, IsIso ((cokernel.map f f' a b comm).f n) := by
+  let τ : S₁ ⟶ S₂ := { τ₁ := a, τ₂ := b, τ₃ := cokernel.map f f' a b comm.symm, comm₁₂ := comm.symm, comm₂₃ := by simp [S₁, S₂] }
+  have iso3 : IsIso (cokernel.map f f' a b comm.symm) := by
+    have : ∀ n, IsIso ((cokernel.map f f' a b comm.symm).f n) := by
       intro n
       have e₁ := (h₁.map_of_exact (HomologicalComplex.eval _ _ n)).gIsCokernel
       have e₂ := (h₂.map_of_exact (HomologicalComplex.eval _ _ n)).gIsCokernel
       let i₁ : cokernel (f.f n) ≅ (cokernel f).X n := (colimit.isColimit _).coconePointUniqueUpToIso e₁
       let i₂ : cokernel (f'.f n) ≅ (cokernel f').X n := (colimit.isColimit _).coconePointUniqueUpToIso e₂
-      have key : (cokernel.map f f' a b comm).f n = i₁.inv ≫ cokernel.map _ _ _ _ (sqw comm n) ≫ i₂.hom := by
+      have key : (cokernel.map f f' a b comm.symm).f n = i₁.inv ≫ cokernel.map (f.f n) (f'.f n) (a.f n) (b.f n) (sqw comm n).symm ≫ i₂.hom := by
         rw [Iso.eq_inv_comp]
         refine (cancel_epi (cokernel.π (f.f n))).1 ?_
         have p₁ : cokernel.π (f.f n) ≫ i₁.hom = (cokernel.π f).f n :=

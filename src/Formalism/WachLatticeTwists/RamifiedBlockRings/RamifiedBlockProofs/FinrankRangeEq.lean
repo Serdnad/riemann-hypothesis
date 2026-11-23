@@ -121,7 +121,7 @@ theorem finrank_range_eq (R' : Subalgebra O (X' → Matrix d d (FractionRing O))
       (LinearMap.range (DistribSMul.toLinearMap (FractionRing O) (EvalSp O d R' x') a)) =
       (a.1 x').rank := by
   show Module.finrank (FractionRing O) (LinearMap.range (a.1 x').mulVecLin) = _
-  rfl
+  exact Matrix.finrank_range_mulVecLin _
 
 end Build
 

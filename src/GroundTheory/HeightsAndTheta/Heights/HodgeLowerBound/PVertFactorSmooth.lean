@@ -265,7 +265,7 @@ theorem exists_forms (D : ComponentData II Ψ K ι Ω E) {p : ℕ} (hp : p ∈ D
   have key : AddMonoidAlgebra.coeff (mConeMap D.y (u * D.vnum p - v * D.vden p)) (m + bf') = 0 := by
     have h0 : mConeMap D.y (u * D.vnum p - v * D.vden p) = 0 := huv
     simp [h0]
-  rw [map_sub, map_mul, map_mul, mConeMap_of_homog _ hf', mConeMap_of_homog _ hg', coeff_sub,
+  rw [map_sub, map_mul, map_mul, mConeMap_of_homog _ hf', mConeMap_of_homog _ hg', MvPolynomial.coeff_sub,
     coeff_mul_monomial, coeff_mul_monomial'] at key
   have hfy : aeval D.y (D.vnum p) ≠ 0 := fun h => hV.num_not_mem (mem_mCoordIdeal_of_aeval_eq_zero _ hf h)
   have hHz : eval z (map (Int.castRingHom ℂ) (comp u m)) ≠ 0 := by

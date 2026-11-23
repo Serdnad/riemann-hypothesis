@@ -198,7 +198,7 @@ theorem rowAct_one_tr (F : MvPolynomial (Fin n × Fin n) K) :
   have h := rowAct_scalar (n := n) K 1
   rw [one_smul] at h
   rw [h]
-  simp
+  simp [MvPolynomial.aeval_X_left_apply]
 
 theorem trAct_single_scalar (lam : ι → DomWeight n) (τ : ι) (t : Kˣ) (F : Pol K ι n) (hF : F ∈ VV K lam) :
     trAct (Pi.mulSingle τ (brpSc K t)) F = (t : K) ^ (∑ i, (lam τ).natW i) • F := by

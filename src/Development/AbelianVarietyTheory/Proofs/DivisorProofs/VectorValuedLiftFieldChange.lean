@@ -77,7 +77,7 @@ theorem cf_zero (φ : K' →+ K) : cf φ (0 : MvPolynomial σ K') = 0 := by
 theorem cf_smul_map {φ : K' →+ K} (hφ : ∀ a x, φ (j a * x) = a * φ x) (x : K') (Q : MvPolynomial σ K) :
     cf φ (x • map j Q) = φ x • Q := by
   ext m
-  rw [coeff_cf, coeff_smul, coeff_smul, coeff_map, smul_eq_mul, smul_eq_mul, mul_comm, hφ, mul_comm]
+  rw [coeff_cf, MvPolynomial.coeff_smul, MvPolynomial.coeff_smul, coeff_map, smul_eq_mul, smul_eq_mul, mul_comm, hφ, mul_comm]
 
 theorem map_smul' (a : K) (Q : MvPolynomial σ K) : map j (a • Q) = j a • map j Q := by
   rw [smul_eq_C_mul, smul_eq_C_mul, map_mul, map_C]
@@ -95,7 +95,7 @@ theorem cf_comm {φ : K' →+ K} (hφ : ∀ a x, φ (j a * x) = a * φ x)
 theorem eq_sum_cf {I : Type} [Fintype I] (e : I → K') (φ : I → K' →+ K) (h : ∀ x, ∑ i, e i * j (φ i x) = x)
     (P : MvPolynomial σ K') : P = ∑ i, e i • map j (cf (φ i) P) := by
   ext m
-  simp only [coeff_sum, coeff_smul, coeff_map, coeff_cf, smul_eq_mul, h]
+  simp only [coeff_sum, MvPolynomial.coeff_smul, coeff_map, coeff_cf, smul_eq_mul, h]
 
 theorem exists_ext (T : MvPolynomial σ K →ₗ[K] MvPolynomial τ K) :
     ∃ T' : MvPolynomial σ K' →ₗ[K'] MvPolynomial τ K', ∀ Q, T' (map j Q) = map j (T Q) := by

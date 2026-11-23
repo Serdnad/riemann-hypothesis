@@ -153,7 +153,10 @@ private theorem exists_mem_support_mul_weight_eq_of_weight_zero (w : σ → ℕ)
   have hrest : ∀ δ ∈ (D * (g - g0)).support, b + 1 ≤ Finsupp.weight w δ := by
     apply weight_le_of_mem_support_mul_of_right
     intro δ hδ
-    rw [mem_support_iff, coeff_sub, hc0] at hδ
+    have hsub : AddMonoidAlgebra.coeff (g - g0) δ =
+        AddMonoidAlgebra.coeff g δ - AddMonoidAlgebra.coeff g0 δ := by
+      first | rw [eq_sub_iff_add_eq, ← MvPolynomial.coeff_add, sub_add_cancel] | simp
+    rw [mem_support_iff, hsub, hc0] at hδ
     by_cases hδb : Finsupp.weight w δ = b
     · rw [if_pos hδb, sub_self] at hδ
       exact absurd rfl hδ

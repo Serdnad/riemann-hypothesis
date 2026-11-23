@@ -127,7 +127,7 @@ theorem psiM_integrable (T : KType ε (lowK ε lam)) (μ : Fin n → ℤ) (hμ :
             pow_le_pow_left₀ (norm_nonneg _) hb 2
         _ = Real.exp (h / (32 * c ^ 2)) ^ 2 *
               Real.exp (-(h / (4 * c) - n * c + n * c) * Real.sqrt (hs X)) := by
-            rw [mul_pow, ← Real.exp_nat_mul (-(h / (8 * c)) * Real.sqrt (hs X)) 2]
+            rw [mul_pow, ← Real.exp_natCast_mul 2 (-(h / (8 * c)) * Real.sqrt (hs X))]
             congr 2
             field_simp
             ring
@@ -164,7 +164,7 @@ theorem psiM_integrable (T : KType ε (lowK ε lam)) (μ : Fin n → ℤ) (hμ :
         calc ‖f g‖ ^ 2 ≤ (Real.exp (h / (32 * c ^ 2)) * Real.exp (-(h / (8 * c)) * r)) ^ 2 :=
               pow_le_pow_left₀ (norm_nonneg _) hb 2
           _ = _ := by
-              rw [mul_pow, ← Real.exp_nat_mul (-(h / (8 * c)) * r) 2]
+              rw [mul_pow, ← Real.exp_natCast_mul 2 (-(h / (8 * c)) * r)]
               congr 2
               field_simp
               ring

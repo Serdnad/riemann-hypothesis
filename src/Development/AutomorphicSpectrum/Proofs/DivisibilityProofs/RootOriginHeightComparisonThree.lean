@@ -66,6 +66,8 @@ public import GroundTheory.HeightsAndTheta.Heights.Intersections.ProjLineRankTwo
 
 @[expose] public section
 
+attribute [local simp] MvPolynomial.bind₁
+
 open AlgebraicGeometry CategoryTheory NumberField ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Geo ReciprocityTheory.ChartRestriction.G.Geo.Tor GlobalTheory.CompanionTheory.Ar GlobalTheory.CompanionTheory.Ar.Top
 open MvPolynomial Filter Topology
 open ReciprocityTheory.ChartRestriction.G.AI.I1 (IsBlockMap pullDeg)

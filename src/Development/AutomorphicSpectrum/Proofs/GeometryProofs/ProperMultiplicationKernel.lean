@@ -82,10 +82,7 @@ theorem finrank_ker_transpose (M : Matrix (Fin d) (Fin d) k) :
   have h2 := LinearMap.finrank_range_add_finrank_ker (Matrix.toLin' M.transpose)
   have h3 : Module.finrank k (LinearMap.range (Matrix.toLin' M.transpose)) =
       Module.finrank k (LinearMap.range (Matrix.toLin' M)) := by
-    have := Matrix.rank_transpose M
-    rw [Matrix.rank, Matrix.rank] at this
-    rw [Matrix.toLin'_apply', Matrix.toLin'_apply']
-    convert this using 2
+    exact (Matrix.finrank_range_mulVecLin M.transpose).trans ((Matrix.rank_transpose M).trans (Matrix.finrank_range_mulVecLin M).symm)
   omega
 
 theorem finrank_ker_rhoH_le (B : Germ.FB k d O) (a : O) :

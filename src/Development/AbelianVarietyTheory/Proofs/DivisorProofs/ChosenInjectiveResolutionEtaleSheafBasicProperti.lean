@@ -72,8 +72,7 @@ private theorem injectiveResolution_cochainComplex_exact_and_exactAt {C : Type*}
         I.cochainComplex.d 0 1 = 0 := by
       rw [I.ι'_f_zero, I.cochainComplex_d 0 1 0 1 rfl rfl]
       simp only [Category.assoc, Iso.inv_hom_id_assoc]
-      erw [Category.assoc, Iso.inv_hom_id_assoc, I.ι_f_zero_comp_complex_d_assoc, zero_comp]
-      rfl
+      erw [I.ι_f_zero_comp_complex_d_assoc, zero_comp]
     refine ⟨hw, ?_⟩
     refine (ShortComplex.exact_iff_of_iso ?_).mpr I.exact₀
     refine ShortComplex.isoMk (Iso.refl _) (I.cochainComplexXIso 0 0 rfl)

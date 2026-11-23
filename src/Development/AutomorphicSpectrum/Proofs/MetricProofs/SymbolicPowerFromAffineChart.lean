@@ -136,7 +136,7 @@ theorem part_mul_mem [DecidableEq K] {I : Ideal (MvPolynomial (Σ k, ι k) ℂ)}
       rw [if_pos e]
       have hr : ∀ m' ∈ (s - part b s).support, mdeg m' ≠ b := by
         intro m' hm' hb
-        rw [mem_support_iff, coeff_sub, coeff_part, if_pos hb, sub_self] at hm'
+        rw [mem_support_iff, MvPolynomial.coeff_sub, coeff_part, if_pos hb, sub_self] at hm'
         exact hm' rfl
       have e2 : s * f = part b s * f + (s - part b s) * f := by ring
       rw [e2, MvPolynomial.coeff_add, coeff_mul_eq_zero hr hf hm, add_zero]

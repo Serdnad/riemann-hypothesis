@@ -59,7 +59,7 @@ theorem intPol_zpClosed (σ : Type) : ZpClosed p (IntPol p σ).toAddSubgroup := 
   intro c hc x hx
   rw [mem_intPol_addSubgroup] at hx ⊢
   intro m
-  rw [coeff_smul, smul_eq_mul, norm_mul]
+  rw [MvPolynomial.coeff_smul, smul_eq_mul, norm_mul]
   exact (mul_le_of_le_one_left (norm_nonneg _) hc).trans (hx m)
 
 theorem intPol_whc {σ M : Type} [AddCommMonoid M] (w : σ → M) (μ : M) (x : MvPolynomial σ ℚ_[p])

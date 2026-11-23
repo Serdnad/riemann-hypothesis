@@ -90,7 +90,7 @@ theorem phiX_finrank_range {K : Type} [Field K] {n m : ℕ} (Ph : Matrix (Fin n)
   have h1 : (Matrix.of X * Ph).rank = m := by
     rw [Matrix.rank_mul_eq_left_of_isUnit_det Ph _ hPh, Matrix.rank_eq_finrank_span_row]
     exact (finrank_span_eq_card hX).trans (Fintype.card_fin m)
-  exact h1
+  exact (Matrix.finrank_range_mulVecLin (Matrix.of X * Ph)).trans h1
 
 theorem phiX_surj {K : Type} [Field K] {n m : ℕ} (Ph : Matrix (Fin n) (Fin n) K)
     (hPh : IsUnit Ph.det) (X : Fin m → Fin n → K) (hX : LinearIndependent K X) :
@@ -126,8 +126,7 @@ theorem count_eq (hF : FiberCard) (K : Type) [Field K] [Fintype K] (n m : ℕ)
       m Gm.transpose, phiX_finrank_ker Ph hPh X.1 X.2]
     have hr : Module.finrank K (Submodule.span K (Set.range (Gm.transpose : Fin m → Fin m → K))) =
         Gm.rank := by
-      rw [Matrix.rank_eq_finrank_span_cols]
-      rfl
+      exact Matrix.finrank_span_range_col Gm
     rw [hr]
   unfold countSplit
   rw [← Nat.card_coe_set_eq]

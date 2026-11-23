@@ -128,7 +128,7 @@ theorem wt_extract (p q w : ℕ) (lam2 : Fin q → ℕ) (u : VQ p q w lam2) (hu 
   have hκ : κ = fun a => ((Finsupp.weight (rowW (p + q) (p + q)) d (idx p q a) : ℕ) : ℤ) := by
     funext a
     have h1 := congrArg (fun x : VQ p q w lam2 => AddMonoidAlgebra.coeff (x : MvPolynomial _ ℚ) d) (((mem_wt p q w lam2 u κ).1 hw') a)
-    simp only [EV_coe, coeff_der_diag, Submodule.coe_smul, coeff_smul, smul_eq_mul] at h1
+    simp only [EV_coe, coeff_der_diag, Submodule.coe_smul, MvPolynomial.coeff_smul, smul_eq_mul] at h1
     have h2 := mul_right_cancel₀ hd h1
     exact_mod_cast h2.symm
   refine ⟨Finsupp.weight (rowW (p + q) (p + q)) d, ?_, hκ⟩
@@ -161,7 +161,7 @@ theorem lrj_hom_of_smul {σ M : Type*} [AddCommMonoid M] (wt : σ → M) (g' : M
   intro h0
   apply hd
   have h1 := congrArg (AddMonoidAlgebra.coeff · d) h
-  rw [coeff_smul, h0, smul_zero, coeff_map] at h1
+  rw [MvPolynomial.coeff_smul, h0, smul_zero, coeff_map] at h1
   have h2 : ((AddMonoidAlgebra.coeff g' d : ℤ) : ℚ) = 0 := by simpa using h1.symm
   exact_mod_cast h2
 

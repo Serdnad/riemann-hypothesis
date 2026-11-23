@@ -54,6 +54,7 @@ private def GoodWt (k : ℕ) : Prop :=
 
 private lemma bern4 : bernoulli 4 = -1 / 30 := by
   rw [bernoulli_eq_bernoulli'_of_ne_one (by norm_num), bernoulli'_four]
+  norm_num
 
 private lemma bern6 : bernoulli 6 = 1 / 42 := by
   have h5 : bernoulli' 5 = 0 := bernoulli'_eq_zero_of_odd (by decide) (by norm_num)

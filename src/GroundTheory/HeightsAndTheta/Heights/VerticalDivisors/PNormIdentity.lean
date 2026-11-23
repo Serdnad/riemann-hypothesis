@@ -46,6 +46,8 @@ import Mathlib.Topology.Sheaves.Init
 
 @[expose] public section
 
+attribute [local simp] MvPolynomial.bind₁
+
 set_option maxSynthPendingDepth 1
 
 namespace GroundTheory.Heights₂.Heights.Vertical

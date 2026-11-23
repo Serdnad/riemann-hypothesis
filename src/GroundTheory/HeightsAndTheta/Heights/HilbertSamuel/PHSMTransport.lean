@@ -110,7 +110,8 @@ theorem coneMap_subZ {Ω : Type} [Field Ω] (M : J → J → ℤ) (v : J → Ω)
   have h : (coneMap ℤ v).comp (subZ M) = coneMap ℤ (intAct M v) := by
     apply MvPolynomial.algHom_ext
     intro i
-    simp [subZ, coneMap, intAct, Finset.sum_mul, mul_assoc]
+    have hi : subZ M (X i) = ∑ j, C (M i j) * X j := bind₁_X_right ..
+    simp [hi, coneMap, intAct, Finset.sum_mul, mul_assoc]
   rw [← AlgHom.comp_apply, h]
 
 theorem isHomogeneous_subZ (M : J → J → ℤ) {g : MvPolynomial J ℤ} {n : ℕ} (hg : g.IsHomogeneous n) :
@@ -125,9 +126,11 @@ theorem map_subZ (M : J → J → ℤ) (g : MvPolynomial J ℤ) :
   | C a => simp [subZ, subC]
   | add p q hp hq => simp only [map_add (f := _), hp, hq]
   | mul_X p n hp =>
+    have hZ : subZ M (X n) = ∑ j, C (M n j) * X j := bind₁_X_right ..
+    have hC : subC M (X n) = ∑ j, C (M n j : ℂ) * X j := bind₁_X_right ..
     simp only [map_mul, hp, map_X]
     congr 1
-    simp [subZ, subC]
+    simp [hZ, hC]
 
 def dirD (z w : J → ℂ) (h : MvPolynomial J ℂ) : ℂ :=
   ∑ i, eval z (pderiv i h) * w i
@@ -160,7 +163,7 @@ theorem dirD_subC (M : J → J → ℤ) (z w : J → ℂ) (h : MvPolynomial J �
   | C a => simp only [subC, bind₁_C_right, dirD_C]
   | add p q hp hq => rw [map_add (f := _), dirD_add, dirD_add, hp, hq]
   | mul_X p n hp =>
-    have hX : subC M (X n) = ∑ j, C (M n j : ℂ) * X j := by simp [subC]
+    have hX : subC M (X n) = ∑ j, C (M n j : ℂ) * X j := bind₁_X_right ..
     have h1 : dirD z w (∑ j, C (M n j : ℂ) * X j) = intAct M w n := by
       rw [dirD_sum]
       simp only [dirD_mul, dirD_C, dirD_X, eval_C, eval_X]

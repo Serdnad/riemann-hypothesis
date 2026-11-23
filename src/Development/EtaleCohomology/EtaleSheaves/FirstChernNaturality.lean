@@ -53,8 +53,6 @@ theorem chainsXIso_inv_nat {E E' : Spc} (f : E ⟶ E') (p : ℕ) :
     (chainsXIso R E p).inv ≫ ((chains R).map f).f (-(p : ℤ)) =
       (free R).map (f.app (op (SimplexCategory.mk p))) ≫ (chainsXIso R E' p).inv := by
   simp [chains, chainsXIso, chainsN, HomologicalComplex.extendMap_f]
-  erw [Iso.inv_hom_id_assoc]
-  rfl
 
 theorem freeGen_nat {P P' : PSh} (g : P ⟶ P') (U : Scheme.{0}) (x : P.obj (op U)) :
     (((free R).map g).hom.app (op U)).hom (freeGen R P U x) = freeGen R P' U (g.app (op U) x) := by

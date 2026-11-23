@@ -170,8 +170,8 @@ theorem exists_root_disc : ∀ (h : ℂ → ℂ) (m : ℕ) (c : ℂ) (R : ℝ), 
   have hev : h =ᶠ[𝓝[≠] z] fun w => q w ^ m * g w := by
     filter_upwards [hA, hUn] with w hw hwU
     rcases hw with hw | hw
-    · simp only [Set.mem_setOf_eq, Pi.smul_apply', smul_eq_mul] at hw
-      rw [hw, hP]
+    · have hw' : h w = (∏ᶠ u, (· - u) ^ d u : ℂ → ℂ) w * g w := hw
+      rw [hw', hP]
     · exact absurd hwU hw
   have t1 : Tendsto h (𝓝[≠] z) (𝓝 (h z)) :=
     (hh z hzU).continuousAt.tendsto.mono_left nhdsWithin_le_nhds

@@ -93,7 +93,7 @@ theorem degree_of_mem_support {σ J : Type} [Fintype J] (z : J → σ) {P : MvPo
     (h : ∑ k, X (z k) * pderiv (z k) P = (w : ℂ) • P) {m : σ →₀ ℕ} (hm : m ∈ P.support) :
     ((∑ k, m (z k) : ℕ) : ℤ) = w := by
   have := congrArg (AddMonoidAlgebra.coeff · m) h
-  rw [coeff_sum, coeff_smul] at this
+  rw [coeff_sum, MvPolynomial.coeff_smul] at this
   simp only [coeff_X_mul_pderiv, ← Finset.sum_mul, smul_eq_mul] at this
   have h2 := mul_right_cancel₀ (mem_support_iff.1 hm) this
   exact_mod_cast h2

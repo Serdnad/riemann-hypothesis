@@ -132,7 +132,7 @@ theorem rankFacGen {K : Type} [Field K] {a b : ℕ} (y : Matrix (Fin a) (Fin b) 
     have : LinearIndependent K fun k => (bs k : Fin a → K) := bs.linearIndependent.map' U.subtype (Submodule.ker_subtype U)
     exact this
   have hrk : y.rank = s := by
-    rw [Matrix.rank_eq_finrank_span_cols]
+    rw [← Matrix.finrank_span_range_col]
     rfl
   have hs : 0 < s := by
     refine Nat.pos_of_ne_zero fun h => hy ?_
@@ -149,7 +149,9 @@ theorem rankFacGen {K : Type} [Field K] {a b : ℕ} (y : Matrix (Fin a) (Fin b) 
   have hsurj : Function.Surjective m.mulVecLin := by
     rw [← LinearMap.range_eq_top]
     apply Submodule.eq_top_of_finrank_eq
-    have : Module.finrank K (LinearMap.range m.mulVecLin) = s := hm
+    have : Module.finrank K (LinearMap.range m.mulVecLin) = s := by
+      rw [Matrix.finrank_range_mulVecLin]
+      exact hm
     simpa using this
   obtain ⟨g, hg⟩ := m.mulVecLin.exists_rightInverse_of_surjective (LinearMap.range_eq_top.2 hsurj)
   refine ⟨s, L, m, LinearMap.toMatrix' g, hs, hLi, hm, ?_, hym⟩

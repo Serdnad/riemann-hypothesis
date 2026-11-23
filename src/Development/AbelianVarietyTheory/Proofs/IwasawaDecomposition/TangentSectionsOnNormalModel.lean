@@ -67,7 +67,8 @@ theorem exists_minor_ne_zero {K : Type} [Field K] {m g k : ℕ} (a : Fin m → F
   have : Finite κ := Finite.of_injective b hb
   let : Fintype κ := Fintype.ofFinite κ
   have hκ : Fintype.card κ = k := by
-    rw [← finrank_span_eq_card hli, hsp, ← Matrix.rank_eq_finrank_span_cols, hM.rank_matrix, Fintype.card_fin]
+    rw [← finrank_span_eq_card hli, hsp]
+    exact (Matrix.finrank_span_range_col M).trans (hM.rank_matrix.trans (Fintype.card_fin k))
   let e : Fin k ≃ κ := (Fintype.equivFinOfCardEq hκ).symm
   have h1 : LinearIndependent K (M.submatrix id (b ∘ e)).col := hli.comp e e.injective
   exact ⟨b ∘ e, ((Matrix.isUnit_iff_isUnit_det _).1 (Matrix.linearIndependent_cols_iff_isUnit.1 h1)).ne_zero⟩

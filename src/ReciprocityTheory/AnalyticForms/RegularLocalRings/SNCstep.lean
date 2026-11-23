@@ -62,10 +62,7 @@ variable {n : ℕ}
 
 theorem eval_bind_one {m : ℕ} (y : Fin m → ℂ) {τ : Type} (g : τ → MvPolynomial (Fin m) ℂ)
     (φ : MvPolynomial τ ℂ) : eval y (bind₁ g φ) = eval (fun q => eval y (g q)) φ := by
-  induction φ using MvPolynomial.induction_on
-  · simp
-  · simp [*]
-  · simp [*]
+  exact MvPolynomial.eval₂Hom_bind₁ (RingHom.id ℂ) y g φ
 
 noncomputable def locEvalPt (I : Ideal (MvPolynomial (Fin n) ℂ)) (p : Fin n → ℂ)
     (hp : ∀ g ∈ I, eval p g = 0) : locRing I p →+* ℂ :=

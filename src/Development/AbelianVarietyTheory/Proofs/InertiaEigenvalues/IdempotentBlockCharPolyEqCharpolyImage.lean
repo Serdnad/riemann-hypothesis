@@ -60,7 +60,7 @@ theorem exists_factor_of_idempotent {K : Type} [Field K] {n t : ℕ} (e : Matrix
     ∃ (a : Matrix (Fin n) (Fin t) K) (b : Matrix (Fin t) (Fin n) K), b * a = 1 ∧ a * b = e := by
   classical
   set V := LinearMap.range e.mulVecLin with hV
-  have hd : Module.finrank K V = t := hr
+  have hd : Module.finrank K V = t := (Matrix.finrank_range_mulVecLin e).trans hr
   let bs := Module.finBasisOfFinrankEq K V hd
   let P : (Fin n → K) →ₗ[K] V := e.mulVecLin.rangeRestrict
   let fa : (Fin t → K) →ₗ[K] (Fin n → K) := V.subtype ∘ₗ bs.equivFun.symm.toLinearMap

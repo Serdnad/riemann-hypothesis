@@ -88,7 +88,7 @@ theorem substMat_mul (θ : InfFam D) (V : HSp D) (m : ℕ) (d : D.what₂.Tau �
 
   rw [map_sum, coeff_sum]
   refine Finset.sum_congr rfl fun k'' _ => ?_
-  rw [map_smul, coeff_smul, smul_eq_mul, mul_comm]
+  rw [map_smul, MvPolynomial.coeff_smul, smul_eq_mul, mul_comm]
 
 theorem substMat_cont {θ : InfFam D} (hθ : IsInfFam θ) (V : HSp D) (m : ℕ) (d : D.what₂.Tau →₀ ℕ)
     (k' k : Mon D m V.rank d) :
@@ -121,7 +121,7 @@ theorem substMat_central (θ : InfFam D) (V : HSp D) (m : ℕ) (d : D.what₂.Ta
     · subst hρ; rw [if_pos rfl, h1]
     · rw [if_neg hρ, h2 ρ hρ]
   ext k' k
-  simp only [substMat, e, GlobalTheory.T.matrixFamilyBilateralSubstitution_scalar_monomial, coeff_smul, coeff_monomial, Matrix.smul_apply, Matrix.one_apply,
+  simp only [substMat, e, GlobalTheory.T.matrixFamilyBilateralSubstitution_scalar_monomial, MvPolynomial.coeff_smul, coeff_monomial, Matrix.smul_apply, Matrix.one_apply,
     smul_eq_mul]
   rw [show Finsupp.mapDomain Prod.fst k.1 = d from k.2]
   by_cases h : k' = k

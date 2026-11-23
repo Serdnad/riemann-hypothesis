@@ -111,7 +111,7 @@ theorem eventually_eq_of_lattice {B La V : Type} [TopologicalSpace B] [AddCommGr
   let T : B → V →L[ℝ] V := fun b => ∑ i, (LinearMap.toContinuousLinearMap (bR.coord i)).smulRight (P b (c i))
   have hT : ∀ b x, T b x = ∑ i, bR.repr x i • P b (c i) := fun b x => by simp [T]
   have hTc : Continuous T := continuous_finsetSum _ fun i _ =>
-    (ContinuousLinearMap.smulRightL ℝ V V (LinearMap.toContinuousLinearMap (bR.coord i))).continuous.comp (hP _)
+    (StrongDual.smulRightL ℝ V V (LinearMap.toContinuousLinearMap (bR.coord i))).continuous.comp (hP _)
   have hT0 : T b₀ = ContinuousLinearMap.id ℝ V := by
     ext x
     rw [hT]

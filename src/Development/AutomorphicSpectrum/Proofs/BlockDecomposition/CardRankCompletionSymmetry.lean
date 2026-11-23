@@ -198,8 +198,7 @@ theorem card_matrix_rank (n ρ : ℕ) :
     (Matrix.toLin' : Matrix (Fin n) (Fin n) k ≃ₗ[k] ((Fin n → k) →ₗ[k] (Fin n → k))).toEquiv
     (fun D => by
       show D.rank = ρ ↔ finrank k (LinearMap.range (Matrix.toLin' D)) = ρ
-      rw [Matrix.toLin'_apply']
-      rfl)
+      rw [Matrix.toLin'_apply', Matrix.finrank_range_mulVecLin])
 
 theorem rank_symm (k : Type) [Field k] [Fintype k] (n ρ : ℕ) (h : ρ ≤ n) :
     Nat.card {D : Matrix (Fin n) (Fin n) k // D.rank = ρ} *

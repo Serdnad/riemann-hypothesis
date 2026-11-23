@@ -74,7 +74,7 @@ theorem mean_target : ∀ (D : D7) (V W : HSp D) (s : ℕ) (L : Matrix (Fin W.ra
     unfold actO
     rw [inv_one, hm1, Matrix.mul_one]
   have hrk : L.rank = s := by
-    rw [Matrix.rank_eq_finrank_span_cols]
+    rw [← Matrix.finrank_span_range_col]
     exact (finrank_span_eq_card hL.2.1).trans (Fintype.card_fin s)
   have hsym : ∀ y y' : Mx D s V.rank, symplO V W (HMul.hMul (HMul.hMul (L.map (incA D)) y) ((1 : Matrix (Fin V.rank) (Fin V.rank) D.host.E).map (incA D))) (HMul.hMul (HMul.hMul (L.map (incA D)) y') ((1 : Matrix (Fin V.rank) (Fin V.rank) D.host.E).map (incA D))) = 0 := by
     intro y y'

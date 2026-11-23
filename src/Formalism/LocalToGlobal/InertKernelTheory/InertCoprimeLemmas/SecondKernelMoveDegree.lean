@@ -128,7 +128,7 @@ theorem wt_deg {N : ℕ} (ν : D.what₂.Tau → Fin N → ℕ) (Q : MvPolynomia
   have h1 := hQ (fun τ' => Matrix.diagonal fun _ : Fin N => d τ') hB
   rw [colSub_diag] at h1
   have h2 := congrArg (AddMonoidAlgebra.coeff · m) h1
-  rw [coeff_aeval_CX, coeff_smul, smul_eq_mul] at h2
+  rw [coeff_aeval_CX, MvPolynomial.coeff_smul, smul_eq_mul] at h2
   have h3 := mul_right_cancel₀ hm h2
   have hl : (m.prod fun k e => d k.1 ^ e) = (2 : ℂ) ^ Finsupp.weight (wF τ) m := by
     rw [Finsupp.weight_apply, Finsupp.prod, Finsupp.sum, hd]

@@ -39,6 +39,8 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsNormalisedThetaSub
 
+set_option backward.isDefEq.respectTransparency false
+
 @[expose] public section
 
 open UpperTheory.V.Lit.Geo.Cs GlobalTheory.CuspRep GlobalTheory.CompanionTheory.CTSmooth
@@ -87,9 +89,9 @@ theorem UpperTheory.V.Lit.Geo.Cs.chartSz :
       rwa [List.map_append, List.prod_append, List.map_singleton, List.prod_singleton, Module.End.mul_apply] at this
     choose D hD0 hD using hi
     let Θ : Ix E a → Lie E a → (ℂ →L[ℝ] (Lie E a →L[ℝ] ℂ)) := fun i y =>
-      ContinuousLinearMap.smulRightL ℝ (Lie E a) ℂ (coordL i (invL y))
+      StrongDual.smulRightL ℝ (Lie E a) ℂ (coordL i (invL y))
     have hΘ : ∀ i, ContDiffAt ℝ ∞ (Θ i) (oneL E a) := fun i =>
-      (ContinuousLinearMap.smulRightL ℝ (Lie E a) ℂ).contDiff.contDiffAt.comp _
+      (StrongDual.smulRightL ℝ (Lie E a) ℂ).contDiff.contDiffAt.comp _
         ((coordL i).contDiff.contDiffAt.comp _ ((invL_smooth (E := E) (a := a)).1 _ h1))
     choose B hB using fun i => exists_sz k (Θ i) (oneL E a)
     have hS0 : 0 ≤ ∑ i, 2 ^ k * B i * D i :=

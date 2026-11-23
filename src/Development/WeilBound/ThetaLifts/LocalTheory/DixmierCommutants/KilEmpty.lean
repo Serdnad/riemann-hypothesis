@@ -71,7 +71,7 @@ theorem ri_iff {m : ℕ} {Y : Matrix (Fin n) (Fin m) k} : RI Y ↔ Y.rank = n :=
     have := rank_mul_le_left Y R
     rwa [h, rank_one, Fintype.card_fin] at this
   · intro h
-    have hs : LinearMap.range Y.mulVecLin = ⊤ := Submodule.eq_top_of_finrank_eq (by rw [Module.finrank_fin_fun]; exact h)
+    have hs : LinearMap.range Y.mulVecLin = ⊤ := Submodule.eq_top_of_finrank_eq (by rw [Module.finrank_fin_fun]; exact (Matrix.finrank_range_mulVecLin Y).trans h)
     choose u hu using fun j : Fin n => LinearMap.range_eq_top.1 hs (Pi.single j 1)
     refine ⟨Matrix.of fun i j => u j i, Matrix.ext fun i j => ?_⟩
     have := congrFun (hu j) i

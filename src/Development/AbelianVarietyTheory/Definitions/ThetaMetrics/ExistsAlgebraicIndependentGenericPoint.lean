@@ -258,7 +258,7 @@ theorem elimIdeal_ne_bot {p : Ideal (MvPolynomial σ K)} [hP : p.IsPrime]
     intro h
     have := homogeneousComponent_mem_of_mem hp h 0
     rw [homogeneousComponent_zero] at this
-    simp only [coeff_sub, coeff_zero_X, coeff_zero_one, zero_sub, map_neg, map_one,
+    simp only [MvPolynomial.coeff_sub, coeff_zero_X, coeff_zero_one, zero_sub, map_neg, map_one,
       neg_mem_iff] at this
     exact hP.ne_top ((Ideal.eq_top_iff_one _).2 this)
   let B := MvPolynomial σ K ⧸ q

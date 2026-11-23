@@ -167,7 +167,7 @@ theorem surjective_mulVecLin_of [Finite ι] {ε : ι → κ → K} (hε : Linear
   rw [← LinearMap.range_eq_top]
   apply Submodule.eq_top_of_finrank_eq
   rw [finrank_fintype_fun_eq_card]
-  exact LinearIndependent.rank_matrix (M := Matrix.of ε) hε
+  exact (Matrix.finrank_range_mulVecLin (Matrix.of ε)).trans (LinearIndependent.rank_matrix (M := Matrix.of ε) hε)
 
 variable [DecidableEq κ]
 

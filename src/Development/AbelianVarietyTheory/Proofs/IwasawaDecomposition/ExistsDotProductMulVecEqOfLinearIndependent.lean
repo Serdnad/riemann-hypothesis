@@ -66,7 +66,7 @@ theorem exists_dotProduct_mulVec_eq_of_linearIndependent :
   have htop : LinearMap.range U.mulVecLin = ⊤ := by
     apply Submodule.eq_top_of_finrank_eq
     rw [Module.finrank_fintype_fun_eq_card]
-    exact hrank
+    exact (Matrix.finrank_range_mulVecLin U).trans hrank
   obtain ⟨x, hx⟩ := LinearMap.range_eq_top.1 htop t
   refine ⟨x, fun i => ?_⟩
   rw [dotProduct_comm, ← hx]

@@ -70,7 +70,13 @@ theorem lin_comp {R : Type} [CommRing R] {k : ℕ} (M N : Matrix (Fin k) (Fin k)
   simp only [mul_assoc, MvPolynomial.algebraMap_eq]
 
 theorem lin_one {R : Type} [CommRing R] {k : ℕ} (P : MvPolynomial (Fin k) R) : lin (1 : Matrix (Fin k) (Fin k) R) P = P := by
-  simp [lin, Matrix.one_apply]
+  unfold lin
+  calc
+    _ = MvPolynomial.aeval (fun i : Fin k => (X i : MvPolynomial (Fin k) R)) P := by
+      apply congrArg (fun v => MvPolynomial.aeval v P)
+      funext i
+      simp [Matrix.one_apply, apply_ite]
+    _ = P := MvPolynomial.aeval_X_left_apply P
 
 theorem mono_eq {R : Type} [CommRing R] {σ : Type} [Fintype σ] (μ : σ →₀ ℕ) :
     (monomial μ (1 : R)) = ∏ v, X v ^ μ v := by
@@ -206,7 +212,13 @@ theorem Lin_comp {R : Type} [CommRing R] {k : ℕ} (M N : S → Matrix (Fin k) (
 
 theorem Lin_one {R : Type} [CommRing R] {k : ℕ} (P : MvPolynomial (S × Fin k) R) :
     Lin (fun _ : S => (1 : Matrix (Fin k) (Fin k) R)) P = P := by
-  simp [Lin, Matrix.one_apply]
+  unfold Lin
+  calc
+    _ = MvPolynomial.aeval (fun v : S × Fin k => (X v : MvPolynomial (S × Fin k) R)) P := by
+      apply congrArg (fun v => MvPolynomial.aeval v P)
+      funext v
+      simp [Matrix.one_apply, apply_ite]
+    _ = P := MvPolynomial.aeval_X_left_apply P
 
 theorem mem_Pol {R : Type} [CommRing R] {k : ℕ} {d : S → ℕ} {F : MvPolynomial (S × Fin k) R} :
     F ∈ Pol R k d ↔ ∀ μ ∈ F.support, ∀ i, multideg μ i = d i := by

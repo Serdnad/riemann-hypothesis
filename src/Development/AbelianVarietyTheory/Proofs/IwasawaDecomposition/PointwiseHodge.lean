@@ -59,7 +59,7 @@ theorem chernTop_add {n : ℕ} {ι : Type} {m : ι → ℕ} (G : ReciprocityTheo
 theorem chernTop_smul {n : ℕ} {ι : Type} {m : ι → ℕ} (G : ReciprocityTheory.L2DbarEstimates.V n → FlagBundle.Mat m ℂ) (v : ReciprocityTheory.L2DbarEstimates.V n)
     (r : ℝ) (P : MvPolynomial (ι × ℕ) ℝ) : chernTop (r • P) G v = r * chernTop P G v := by
   have h : ∀ Q : MvPolynomial (Fin n × Fin n) ℂ, topCoeff (r • Q) = (r : ℂ) * topCoeff Q := fun Q => by
-    simp only [topCoeff, coeff_smul, Complex.real_smul, Finset.mul_sum]
+    simp only [topCoeff, MvPolynomial.coeff_smul, Complex.real_smul, Finset.mul_sum]
     exact Finset.sum_congr rfl fun w _ => by ring
   simp only [chernTop, map_smul, h, Complex.re_ofReal_mul]
   ring

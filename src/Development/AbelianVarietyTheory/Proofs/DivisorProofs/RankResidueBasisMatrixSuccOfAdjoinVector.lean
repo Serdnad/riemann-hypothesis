@@ -136,7 +136,7 @@ theorem rank_residue_succ_of_adjoin
     · exact absurd (by simpa [hc] using Wc.smul_mem c⁻¹ hvW) hxb
   have key := Submodule.finrank_sup_add_finrank_inf_eq Wc (Submodule.span (ResidueField O) {xb})
   rw [hinf, finrank_bot, add_zero, finrank_span_singleton hxb0, ← hV] at key
-  show Module.finrank _ V = Module.finrank _ Wc + 1
+  rw [← Matrix.finrank_range_mulVecLin (As.map bar), ← Matrix.finrank_range_mulVecLin (Ac.map bar)]
   exact key
 
 end GlobalTheory

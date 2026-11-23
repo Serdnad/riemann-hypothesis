@@ -240,7 +240,7 @@ theorem lead_biadd {P : MvPolynomial (Fin 2 × Fin d) S} {m j : ℕ} (hj1 : 1 �
     have hP' := hP
     rw [memIo_lemma] at hP' ⊢
     intro x hx
-    rw [MvPolynomial.mem_support_iff, coeff_sub, coeff_homogeneousComponent] at hx
+    rw [MvPolynomial.mem_support_iff, MvPolynomial.coeff_sub, coeff_homogeneousComponent] at hx
     split_ifs at hx with hxj
     · simp at hx
     · have hxQ : x ∈ (P - 1).support := by
@@ -510,7 +510,7 @@ theorem const_one {P : MvPolynomial (Fin 2 × Fin d) S} {m : ℕ}
   have hfF : ∀ i, constantCoeff (fF i) = 0 := by
     intro i
     have h2 : AddMonoidAlgebra.coeff (fF i - (xs S d 0 i + xs S d 1 i)) 0 = 0 := ccmem_lemma_2 (n := 1) (hF i)
-    rw [coeff_sub, MvPolynomial.coeff_add] at h2
+    rw [MvPolynomial.coeff_sub, MvPolynomial.coeff_add] at h2
     have h0 : AddMonoidAlgebra.coeff (xs S d 0 i) 0 = 0 := hx 0 i
     have h1 : AddMonoidAlgebra.coeff (xs S d 1 i) 0 = 0 := hx 1 i
     rw [h0, h1, add_zero, sub_zero] at h2
@@ -544,7 +544,7 @@ theorem const_one {P : MvPolynomial (Fin 2 × Fin d) S} {m : ℕ}
     exact hi ((Finset.sum_eq_zero_iff.1 hs) i (Finsupp.mem_support_iff.2 hi))
   subst hx0
   apply MvPolynomial.mem_support_iff.1 hx
-  rw [coeff_sub, coeff_zero_one]
+  rw [MvPolynomial.coeff_sub, coeff_zero_one]
   linear_combination -h3
 
 private theorem coeffXX_lemma_15 (c : S) (a b : Fin 2 × Fin d) (e : Fin 2 × Fin d →₀ ℕ) :

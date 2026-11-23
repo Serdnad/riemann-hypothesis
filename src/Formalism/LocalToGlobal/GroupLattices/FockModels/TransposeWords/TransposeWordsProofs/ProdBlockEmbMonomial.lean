@@ -91,7 +91,7 @@ lemma fockR_smul_left (c : R) (f g : MvPolynomial σ R) :
   classical
   rw [fockR_eq_sum _ _ f.support (MvPolynomial.support_smul), fockR, Finset.mul_sum]
   refine Finset.sum_congr rfl fun m _ => ?_
-  simp only [coeff_smul, smul_eq_mul]; ring
+  simp only [MvPolynomial.coeff_smul, smul_eq_mul]; ring
 
 lemma fockR_add_right (f g g' : MvPolynomial σ R) :
     fockR f (g + g') = fockR f g + fockR f g' := by

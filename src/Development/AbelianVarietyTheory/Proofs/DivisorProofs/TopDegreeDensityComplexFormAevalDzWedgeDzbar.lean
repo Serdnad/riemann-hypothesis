@@ -169,7 +169,7 @@ theorem dens_aeval_sym (n : ℕ) (P : MvPolynomial (Fin n × Fin n) ℂ) :
     rw [dens_prod, ← topCoeff_prod, ← mul_div_assoc]
     congr 1
     unfold topCoeff
-    simp only [coeff_smul, smul_eq_mul, Finset.mul_sum]
+    simp only [MvPolynomial.coeff_smul, smul_eq_mul, Finset.mul_sum]
     refine Finset.sum_congr rfl fun w _ => by ring
   | add p q hp hq =>
     rw [map_add (f := _), Subalgebra.coe_add, dens_add', hp, hq, ← add_div]

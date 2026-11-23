@@ -93,7 +93,7 @@ noncomputable def coindSES : Rep.{u} k G ⥤ ShortComplex (Rep.{u} k G) where
     { τ₁ := f
       τ₂ := (resFunctor (⊥ : Subgroup G).subtype ⋙ coindFunctor k (⊥ : Subgroup G).subtype).map f
       τ₃ := cokernel.map (toCoind A) (toCoind B) f _
-        ((resCoindAdjunction k (⊥ : Subgroup G).subtype).unit.naturality f).symm
+        ((resCoindAdjunction k (⊥ : Subgroup G).subtype).unit.naturality f)
       comm₁₂ := (resCoindAdjunction k (⊥ : Subgroup G).subtype).unit.naturality f
       comm₂₃ := by simp }
   map_id A := by

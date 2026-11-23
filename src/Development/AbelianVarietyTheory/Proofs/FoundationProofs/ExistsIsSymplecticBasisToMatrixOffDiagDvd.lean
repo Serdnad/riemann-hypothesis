@@ -492,6 +492,7 @@ theorem exists_mul_mul_eq_one_of_card_le_rank {K : Type*} [Field K] (G : Matrix 
 omit [DecidableEq n] in
 theorem matrix_rank_sub_le {K : Type*} [Field K] (A B : Matrix n n K) :
     (A - B).rank ≤ A.rank + B.rank := by
+  simp only [← Matrix.finrank_range_mulVecLin]
   refine le_trans (Submodule.finrank_mono ?_) (Submodule.finrank_add_le_finrank_add_finrank
     (LinearMap.range A.mulVecLin) (LinearMap.range B.mulVecLin))
   rintro _ ⟨x, rfl⟩

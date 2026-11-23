@@ -146,7 +146,7 @@ theorem noAt (D : Formalism.BasicNotions.D7) (p : ℕ) [hpF : Fact p.Prime] {n' 
       exact le_rfl
   · rw [← hYy]
     intro bn
-    rw [coeff_sub, coeff_diagK, coeff_diagK, ← sub_mul]
+    rw [MvPolynomial.coeff_sub, coeff_diagK, coeff_diagK, ← sub_mul]
     have := geQ_mul _ _ (hlam3 bn) (hYint bn)
     rwa [add_zero] at this
 

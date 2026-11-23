@@ -174,7 +174,7 @@ theorem finrank_ker_mulVecLin {K : Type*} [Field K] {n : Type*} [Fintype n] [Dec
     finrank K (LinearMap.ker A.mulVecLin) = Fintype.card n - A.rank := by
   have h := LinearMap.finrank_range_add_finrank_ker A.mulVecLin
   rw [Module.finrank_pi] at h
-  have : A.rank = finrank K (LinearMap.range A.mulVecLin) := rfl
+  have : A.rank = finrank K (LinearMap.range A.mulVecLin) := (Matrix.finrank_range_mulVecLin A).symm
   omega
 
 theorem residue_unif_eq_zero {ϖ : O} (hϖ : Irreducible ϖ) : IsLocalRing.residue O ϖ = 0 := by
@@ -309,8 +309,12 @@ theorem rank_red {ϖ : O} (hϖ : Irreducible ϖ) {n : Type} [Fintype n] [Decidab
     rw [← Matrix.map_mul, hMM]
     ext i j
     simp [Matrix.smul_apply, residue_unif_eq_zero O hϖ]
+  have hrk : ∀ A : Matrix n n (IsLocalRing.ResidueField O),
+      finrank (IsLocalRing.ResidueField O) (LinearMap.range A.mulVecLin) = A.rank := by
+    intro A
+    exact Matrix.finrank_range_mulVecLin A
   have hr12 : r2 ≤ Fintype.card n - r1 := by
-    rw [hr2, ← finrank_ker_mulVecLin]
+    rw [hr2, ← finrank_ker_mulVecLin, ← hrk]
     apply Submodule.finrank_mono
     rintro x ⟨y, rfl⟩
     rw [LinearMap.mem_ker, Matrix.mulVecLin_apply, Matrix.mulVecLin_apply, Matrix.mulVec_mulVec, hz,
@@ -563,6 +567,10 @@ theorem card_filter_reps {ϖ : O} (hϖ : Irreducible ϖ) {n e : ℕ} {γ : GL (F
       Nat.card {U : Submodule (IsLocalRing.ResidueField O) (Fin n → IsLocalRing.ResidueField O) //
         finrank (IsLocalRing.ResidueField O) U = n - e ∧ P U} := by
   set K := Formalism.UG.GLint (Fin n) O
+  have hrk : ∀ A : Matrix (Fin n) (Fin n) (IsLocalRing.ResidueField O),
+      finrank (IsLocalRing.ResidueField O) (LinearMap.range A.mulVecLin) = A.rank := by
+    intro A
+    exact Matrix.finrank_range_mulVecLin A
   have htype : ∀ h ∈ R, IsType O ϖ e h := by
     intro h hh
     obtain ⟨k₁, hk₁, k₂, hk₂, rfl⟩ := hR.1 h hh
@@ -573,7 +581,7 @@ theorem card_filter_reps {ϖ : O} (hϖ : Irreducible ϖ) {n e : ℕ} {γ : GL (F
     obtain ⟨u, hu, hd⟩ := (htype h hh).det
     have := (rank_red O hϖ (htype h hh).int (htype h hh).intInv hu hd).2
     rw [Fintype.card_fin] at this
-    exact this
+    exact (hrk _).trans this
   have he : e ≤ n := by
     obtain ⟨u, hu, hd⟩ := hγ.det
     have := (rank_red O hϖ hγ.int hγ.intInv hu hd).1
@@ -586,13 +594,13 @@ theorem card_filter_reps {ϖ : O} (hϖ : Irreducible ϖ) {n e : ℕ} {γ : GL (F
     obtain ⟨u, hu, hd⟩ := h0.det
     have := (rank_red O hϖ h0.int h0.intInv hu hd).2
     rw [Fintype.card_fin] at this
-    exact this
+    exact (hrk _).trans this
   have hrγ : finrank (IsLocalRing.ResidueField O)
       (LinearMap.range (redM O (γ : Matrix (Fin n) (Fin n) L)).mulVecLin) = n - e := by
     obtain ⟨u, hu, hd⟩ := hγ.det
     have := (rank_red O hϖ hγ.int hγ.intInv hu hd).2
     rw [Fintype.card_fin] at this
-    exact this
+    exact (hrk _).trans this
 
   obtain ⟨g, hg, hgr⟩ := exists_GLint_map O h0.int _ (hr0.trans hrγ.symm)
   have hg0 : IsType O ϖ e (g * γ0) := by

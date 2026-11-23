@@ -48,6 +48,8 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 
+set_option backward.isDefEq.respectTransparency false
+
 @[expose] public section
 
 open MeasureTheory Matrix Finset Formalism.MainNotions.S Formalism.REAL Formalism.QuantumDeterminants GlobalTheory.Count GlobalTheory.Dec GlobalTheory.Dec.FormF
@@ -155,7 +157,7 @@ theorem psBasic : PsBasic := by
   have hτc : Continuous (fun k : KG ε => τ (toMK k) w) :=
     (hrep.2.2 w).comp_continuous (toMK_cont ε) hK
   have hPc : Continuous (fun k : KG ε => (innerSL ℂ (τ (toMK k) w)).smulRight (τ (toMK k) w)) := by
-    have := (ContinuousLinearMap.smulRightL ℂ W W).continuous₂.comp₂ ((innerSL ℂ).continuous.comp hτc) hτc
+    have := (StrongDual.smulRightL ℂ W W).continuous₂.comp₂ ((innerSL ℂ).continuous.comp hτc) hτc
     exact this
   refine ⟨isOpen_kConjNonzeroMinorsSet ε, fun x hx => posDef_mem_kConjNonzeroMinorsSet ε hx, ?_, ?_⟩
   · have hU := isOpen_kConjNonzeroMinorsSet ε

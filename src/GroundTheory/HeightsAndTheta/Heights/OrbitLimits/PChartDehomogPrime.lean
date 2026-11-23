@@ -64,7 +64,7 @@ theorem ChartDehomogPrime.proof : ChartDehomogPrime.Statement := by
   let φ : MvPolynomial (Fin n) F →ₐ[F] A :=
     (IsScalarTower.toAlgHom F (MvPolynomial (Fin n) F ⧸ W) A).comp (Ideal.Quotient.mkₐ F W)
   have hφ : ∀ g, aeval (fun m => φ (X m)) g = φ g := fun g => by
-    rw [← comp_aeval_apply]; simp
+    exact (DFunLike.congr_fun (MvPolynomial.aeval_unique φ) g).symm
   let ψ : MvPolynomial (Fin n) F →ₐ[F] A := aeval fun m => v * φ (X m)
   have hhom : ∀ {g : MvPolynomial (Fin n) F} {k : ℕ}, g.IsHomogeneous k → ψ g = v ^ k * φ g :=
     fun hg => by rw [← hφ]; exact ChartLocDomain.aeval_mul_of_isHomogeneous hg _ _

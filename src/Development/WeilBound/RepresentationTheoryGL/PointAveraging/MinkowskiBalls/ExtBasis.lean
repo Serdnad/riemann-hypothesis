@@ -120,7 +120,7 @@ theorem what₂ {k : Type*} [Field k] {n r j : ℕ} (hj : j ≤ n) (y : Matrix (
   have hE : (E k n n j).rank = j := rank_E hj
   have heq : LinearMap.range (E k n n j).mulVecLin = LinearMap.range y.mulVecLin := by
     apply Submodule.eq_of_le_of_finrank_le hc
-    exact (hy.trans hE.ge : y.rank ≤ (E k n n j).rank)
+    simpa only [Matrix.finrank_range_mulVecLin] using (hy.trans hE.ge : y.rank ≤ (E k n n j).rank)
   have hEE : E k n n j * E k n n j = E k n n j := E_mul hj
   ext i l
   have hcol : y.mulVecLin (Pi.single l 1) ∈ LinearMap.range (E k n n j).mulVecLin := by
@@ -198,7 +198,7 @@ theorem nf1 {k : Type*} [Field k] {n r j : ℕ} (x : Matrix (Fin n) (Fin r) k) (
   have hn : j ≤ n := hx ▸ (by simpa using x.rank_le_card_height)
   have hr : j ≤ r := hx ▸ (by simpa using x.rank_le_card_width)
   obtain ⟨bb, -⟩ : ∃ bb : Module.Basis (Fin j) k (LinearMap.range x.mulVecLin), True :=
-    ⟨Module.finBasisOfFinrankEq k _ hx, trivial⟩
+    ⟨Module.finBasisOfFinrankEq k _ ((Matrix.finrank_range_mulVecLin x).trans hx), trivial⟩
   obtain ⟨H, hH⟩ := ext_basis hn ((LinearMap.range x.mulVecLin).subtype ∘ bb)
     (bb.linearIndependent.map' _ (Submodule.ker_subtype _))
   have hcol : LinearMap.range (H.val * E k n n j).mulVecLin ≤ LinearMap.range x.mulVecLin := by

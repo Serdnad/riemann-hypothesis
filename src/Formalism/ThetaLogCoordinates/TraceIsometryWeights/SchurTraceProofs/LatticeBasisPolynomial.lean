@@ -78,10 +78,10 @@ theorem exists_unit_coeff (U : Submodule ℚ_[p] (MvPolynomial σ ℚ_[p])) (hU 
   obtain ⟨m, hm, hmax⟩ := Finset.exists_max_image x.support (fun m => ‖x.coeff m‖) hne
   have ha : x.coeff m ≠ 0 := mem_support_iff.mp hm
   refine ⟨(x.coeff m)⁻¹ • x, U.smul_mem _ hxU, m, ?_, ?_⟩
-  · rw [coeff_smul, smul_eq_mul, inv_mul_cancel₀ ha]
+  · rw [MvPolynomial.coeff_smul, smul_eq_mul, inv_mul_cancel₀ ha]
   · rw [mem_intPol_iff]
     intro n
-    rw [coeff_smul, smul_eq_mul, norm_mul, norm_inv]
+    rw [MvPolynomial.coeff_smul, smul_eq_mul, norm_mul, norm_inv]
     have hpos : 0 < ‖x.coeff m‖ := norm_pos_iff.mpr ha
     rw [inv_mul_le_iff₀ hpos, mul_one]
     by_cases hn : n ∈ x.support
@@ -137,7 +137,7 @@ theorem exists_family (d : ℕ) : ∀ (U : Submodule ℚ_[p] (MvPolynomial σ �
         have hI' : x - x.coeff m • x₀ ∈ IntPol p σ := by
           rw [mem_intPol_iff]
           intro n
-          rw [coeff_sub, coeff_smul, smul_eq_mul, sub_eq_add_neg]
+          rw [MvPolynomial.coeff_sub, MvPolynomial.coeff_smul, smul_eq_mul, sub_eq_add_neg]
           refine (Padic.nonarchimedean _ _).trans (max_le ((mem_intPol_iff x).mp hxI n) ?_)
           rw [norm_neg, norm_mul]
           exact mul_le_one₀ hc (norm_nonneg _) ((mem_intPol_iff x₀).mp hx₀I n)

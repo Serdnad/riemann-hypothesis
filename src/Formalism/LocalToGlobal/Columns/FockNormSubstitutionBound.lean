@@ -153,7 +153,7 @@ theorem blkE_of_hom {F : MvPolynomial (ι × Fin n × Fin n) ℂ} {d : ι → �
   classical
   ext m
   unfold blkE
-  rw [coeff_sum, coeff_smul, smul_eq_mul]
+  rw [coeff_sum, MvPolynomial.coeff_smul, smul_eq_mul]
   simp only [coeff_sum, coeff_X_mul_pderiv_columns]
   simp only [← Finset.sum_mul]
   by_cases h0 : AddMonoidAlgebra.coeff F m = 0

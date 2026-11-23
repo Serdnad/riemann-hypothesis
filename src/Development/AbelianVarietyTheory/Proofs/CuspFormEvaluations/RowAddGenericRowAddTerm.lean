@@ -53,6 +53,8 @@ public import Mathlib.Algebra.Polynomial.Roots
 
 @[expose] public section
 
+attribute [local simp] MvPolynomial.bind₁
+
 open MvPolynomial
 
 namespace GlobalTheory
@@ -83,7 +85,7 @@ theorem eval_rowAddGeneric (u w : ι → σ) (t : K) (P : MvPolynomial σ K) :
 theorem eval_zero_rowAddGeneric (u w : ι → σ) (P : MvPolynomial σ K) :
     Polynomial.eval 0 (rowAddGeneric u w P) = P := by
   have h := eval_rowAddGeneric u w (0 : K) P
-  simpa using h
+  simpa [MvPolynomial.aeval_X_left_apply] using h
 
 theorem rowAddGeneric_rowAddTerm (u w : ι → σ) (huw : ∀ k l, u k ≠ w l) (s : σ) :
     rowAddGeneric u w (rowAddTerm K u w s) = Polynomial.C (rowAddTerm K u w s) := by

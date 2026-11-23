@@ -261,7 +261,7 @@ theorem raising_keeps_last_letter : UKeepsLast := by
         (ycond_glStable LL (K + 1) _ 0 0) F hF c
       have h0 : glAct p LL (K + 1) 0 0 G = ((c : ℤ) : ℚ_[p]) • G := by
         ext m
-        rw [coeff_cartan, coeff_smul, smul_eq_mul, hG, coeff_compP]
+        rw [coeff_cartan, MvPolynomial.coeff_smul, smul_eq_mul, hG, coeff_compP]
         split_ifs with h
         · rw [h]
         · simp
@@ -290,7 +290,7 @@ theorem raising_keeps_last_letter : UKeepsLast := by
         have hF' := hYs F hF
         rw [mem_restrictSupport_iff] at hF' ⊢
         intro m hm
-        rw [Finset.mem_coe, mem_support_iff, coeff_sub, hG, coeff_compP] at hm
+        rw [Finset.mem_coe, mem_support_iff, MvPolynomial.coeff_sub, hG, coeff_compP] at hm
         split_ifs at hm with h
         · exact absurd (sub_self _) hm
         · rw [sub_zero] at hm

@@ -59,15 +59,15 @@ def LeafFreePb : Prop := ∀ (R : Type) [CommRing R] {A' A B' B : PSh} (t : A' �
 
 theorem isIso_cokernel_map_of_pb_epi {C : Type*} [Category C] [Abelian C] {X₁ X₂ X₃ X₄ : C}
     {t : X₁ ⟶ X₂} {l : X₁ ⟶ X₃} {r : X₂ ⟶ X₄} {b : X₃ ⟶ X₄} (sq : IsPullback t l r b)
-    (he : Epi (biprod.desc r b)) : IsIso (cokernel.map _ _ _ _ sq.w) := by
+    (he : Epi (biprod.desc r b)) : IsIso (cokernel.map t b l r sq.w.symm) := by
   have := Abelian.mono_cokernel_map_of_isPullback sq
-  have : Epi (cokernel.map _ _ _ _ sq.w) := by
+  have : Epi (cokernel.map t b l r sq.w.symm) := by
     have h1 : biprod.desc r b ≫ cokernel.π b = (biprod.fst : X₂ ⊞ X₃ ⟶ X₂) ≫ (r ≫ cokernel.π b) := by
       ext <;> simp
     have h3 : Epi (r ≫ cokernel.π b) := by
       have : Epi ((biprod.fst : X₂ ⊞ X₃ ⟶ X₂) ≫ (r ≫ cokernel.π b)) := by rw [← h1]; infer_instance
       exact epi_of_epi (biprod.fst : X₂ ⊞ X₃ ⟶ X₂) _
-    have h2 : cokernel.π t ≫ cokernel.map _ _ _ _ sq.w = r ≫ cokernel.π b := by simp
+    have h2 : cokernel.π t ≫ cokernel.map t b l r sq.w.symm = r ≫ cokernel.π b := by simp
     rw [← h2] at h3
     exact epi_of_epi (cokernel.π t) _
   exact isIso_of_mono_of_epi _

@@ -47,6 +47,8 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.BaseChangeUnits.CycCOfCyclic
 
+set_option backward.isDefEq.respectTransparency false
+
 @[expose] public section
 
 attribute [-instance] Formalism.DoubleCosetMeasures.instMeasGL
@@ -78,7 +80,7 @@ private theorem abs_deriv (hU : IsOpen U) (hA : ∀ b, ContinuousOn (A b) U)
     refine Filter.inter_mem (hU.mem_nhds hy) (Filter.eventually_all.2 fun b => ?_)
     exact ((hA b).continuousAt (hU.mem_nhds hy)).norm.eventually (gt_mem_nhds (lt_add_one _))
   have hL : ∀ b, Integrable (fun x => (A b y).smulRight (f (D b v) y x)) ν := fun b =>
-    (ContinuousLinearMap.smulRightL ℝ P ℂ (A b y)).integrable_comp (hi _)
+    (StrongDual.smulRightL ℝ P ℂ (A b y)).integrable_comp (hi _)
   have key := hasFDerivAt_integral_of_dominated_of_fderiv_le (𝕜 := ℝ) (μ := ν) (F := f v)
     (F' := fun z x => ∑ b, (A b z).smulRight (f (D b v) z x))
     (bound := fun _ => ∑ b, (‖A b y‖ + 1) * C (D b v)) hs
@@ -90,7 +92,7 @@ private theorem abs_deriv (hU : IsOpen U) (hA : ∀ b, ContinuousOn (A b) U)
     (integrable_const _) (Filter.Eventually.of_forall fun x z hz => hd v x z hz.1)
   rw [integral_finsetSum _ fun b _ => hL b] at key
   refine key.congr_fderiv (Finset.sum_congr rfl fun b _ => ?_)
-  exact ((ContinuousLinearMap.smulRightL ℝ P ℂ (A b y)).integral_comp_comm (hi _))
+  exact ((StrongDual.smulRightL ℝ P ℂ (A b y)).integral_comp_comm (hi _))
 
 private theorem abs_smooth {G : V → P → ℂ} (hU : IsOpen U) (hA : ∀ b, ContDiffOn ℝ ∞ (A b) U)
     (hd : ∀ v, ∀ y ∈ U, HasFDerivAt (G v) (∑ b, (A b y).smulRight (G (D b v) y)) y) (v : V) :

@@ -672,7 +672,7 @@ theorem inner_ps {ε : Fin n → Bool} (lam : Fin n → ℝ) {abelian₂ : Fin n
   have hT : Continuous (fun k : KG ε => τ (toMK k) w) := continuous_tau h w
   have hL : Continuous (fun k : KG ε => innerSL ℂ (τ (toMK k) w)) := (innerSL ℂ).continuous.comp hT
   have hS : Continuous (fun k : KG ε => (innerSL ℂ (τ (toMK k) w)).smulRight (τ (toMK k) w)) := by
-    have := ((ContinuousLinearMap.smulRightL ℂ W W).continuous.comp hL).clm_apply hT
+    have := ((StrongDual.smulRightL ℂ W W).continuous.comp hL).clm_apply hT
     exact this
   have hA : Continuous (fun k : KG ε => Phi lam ((toMK k)⁻¹ * z * toMK k) •
       (innerSL ℂ (τ (toMK k) w)).smulRight (τ (toMK k) w)) := hPhi.smul hS

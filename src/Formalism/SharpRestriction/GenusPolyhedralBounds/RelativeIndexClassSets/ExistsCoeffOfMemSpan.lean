@@ -155,7 +155,7 @@ theorem ind_claim (hy : ∀ l l', Δ l (y l') = if l = l' then 1 else 0) (hθ : 
       have hlow : (fun i => c i - homogeneousComponent a (c i)) = 0 := by
         apply ih
         · intro i m hm
-          rw [MvPolynomial.mem_support_iff, coeff_sub, coeff_homogeneousComponent] at hm
+          rw [MvPolynomial.mem_support_iff, MvPolynomial.coeff_sub, coeff_homogeneousComponent] at hm
           by_cases hd : m.degree = a
           · rw [if_pos hd, sub_self] at hm; exact absurd rfl hm
           · rw [if_neg hd, sub_zero] at hm

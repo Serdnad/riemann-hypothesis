@@ -88,10 +88,10 @@ theorem eval_bind₁_scale {ι : Type*} (r w : ι → ℂ) (f : MvPolynomial ι 
     MvPolynomial.eval w
         (MvPolynomial.bind₁ (fun j => MvPolynomial.C (r j) * MvPolynomial.X j) f) =
       MvPolynomial.eval (fun j => r j * w j) f := by
-  induction f using MvPolynomial.induction_on
-  · simp
-  · simp_all
-  · simp_all
+  rw [MvPolynomial.bind₁, MvPolynomial.aeval_def, MvPolynomial.algebraMap_eq,
+    ← MvPolynomial.eval_assoc]
+  refine congrArg (fun v => MvPolynomial.eval v f) (funext fun j => ?_)
+  simp only [Function.comp_apply, map_mul, MvPolynomial.eval_C, MvPolynomial.eval_X]
 
 private theorem bind1_C_mul_X_ne_zero_of_ne_zero {ι : Type} (r : ι → ℂ) (hr : ∀ j, r j ≠ 0)
     (f : MvPolynomial ι ℂ) (hf : f ≠ 0) :

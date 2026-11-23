@@ -65,7 +65,7 @@ theorem exists_cols_isUnit {F : Type} [CommRing F] (hF : IsField F) {b n : Type}
     rw [h, Matrix.rank_one] at this
     exact this
   have h2 : Module.finrank F (Submodule.span F (Set.range X.col)) = Fintype.card b := by
-    rw [← Matrix.rank_eq_finrank_span_cols, h1]
+    exact (Matrix.finrank_span_range_col X).trans h1
   obtain ⟨κ, e, he, hspan, hli⟩ := exists_linearIndependent' F X.col
   haveI : Finite κ := Finite.of_injective e he
   letI : Fintype κ := Fintype.ofFinite κ

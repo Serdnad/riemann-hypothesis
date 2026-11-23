@@ -342,11 +342,11 @@ variable {K : Type} [Field K] [CharZero K] {ι : Type} [Fintype ι] {N n : ℕ} 
 theorem fockB_smul_left' {σ : Type} (c : K) (f g : MvPolynomial σ K) : fockB (c • f) g = c * fockB f g := by
   rw [fockB_eq_sum (c • f) g f.support support_smul, fockB, Finset.mul_sum]
   refine Finset.sum_congr rfl fun m _ => ?_
-  rw [coeff_smul, smul_eq_mul]
+  rw [MvPolynomial.coeff_smul, smul_eq_mul]
   ring
 
 theorem fockB_smul_right' {σ : Type} (c : K) (f g : MvPolynomial σ K) : fockB f (c • g) = c * fockB f g := by
-  simp only [fockB, coeff_smul, smul_eq_mul, Finset.mul_sum]
+  simp only [fockB, MvPolynomial.coeff_smul, smul_eq_mul, Finset.mul_sum]
   exact Finset.sum_congr rfl fun m _ => by ring
 
 theorem ioConst_mul_bFac : ioConst hN K lam sg * (bFac (bExp hN lam sg) : K) =
@@ -1534,7 +1534,7 @@ theorem fockF_smul_smul {σ : Type} (c : ℂ) (p q : MvPolynomial σ ℂ) :
   · unfold Formalism.REAL.fockF
     rw [MvPolynomial.support_smul_eq hc, Finset.mul_sum]
     refine Finset.sum_congr rfl fun m _ => ?_
-    simp only [coeff_smul, smul_eq_mul, star_mul']
+    simp only [MvPolynomial.coeff_smul, smul_eq_mul, star_mul']
     ring
 
 end Comparison₂
@@ -2081,7 +2081,7 @@ theorem hwA_top (lam : DomWeight N) (sg : DomWeight n) (f : MvPolynomial (Fin N 
         (by intro s _ hs; show hwAw hN (iC hN j1, s) ≤ _; rw [hwAw_off hN _ s (Ne.symm hs)]; exact Nat.zero_le _) m hm rfl
   · intro a
     have h := congrArg (AddMonoidAlgebra.coeff · m) (hw.2 a)
-    rw [hwA_coeff_euler, coeff_smul, smul_eq_mul] at h
+    rw [hwA_coeff_euler, MvPolynomial.coeff_smul, smul_eq_mul] at h
     have := mul_right_cancel₀ (mem_support_iff.1 hm) h
     exact_mod_cast this
   · intro s
@@ -2104,7 +2104,7 @@ theorem hwA_mult_one (lam : DomWeight N) (sg : DomWeight n) (f ξ : MvPolynomial
     (hwA_isHwRow_sub hN sg f ξ _ hw hwξ) hH
   rw [hwA_slice_unique hN _ _ m' m hs' hs] at hm'
   apply mem_support_iff.1 hm'
-  rw [coeff_sub, coeff_smul, smul_eq_mul, div_mul_cancel₀ _ (mem_support_iff.1 hm), sub_self]
+  rw [MvPolynomial.coeff_sub, MvPolynomial.coeff_smul, smul_eq_mul, div_mul_cancel₀ _ (mem_support_iff.1 hm), sub_self]
 
 end Slice
 
@@ -2241,7 +2241,7 @@ theorem hwB_coeff_X_pderiv {σ : Type} (i : σ) (f : MvPolynomial σ K) (m : σ 
 theorem hwB_euler {r n : ℕ} (a : Fin r) (f : MvPolynomial (Fin r × Fin n) K) (ρ : Fin r → ℕ)
     (hf : IsWeightedHomogeneous (rowW r n) f ρ) : rE K r n a a f = (ρ a : K) • f := by
   ext m
-  rw [hwB_rE_sum, coeff_sum, coeff_smul, smul_eq_mul]
+  rw [hwB_rE_sum, coeff_sum, MvPolynomial.coeff_smul, smul_eq_mul]
   simp only [hwB_coeff_X_pderiv]
   rw [← Finset.sum_mul]
   by_cases hm : AddMonoidAlgebra.coeff f m = 0
@@ -3227,7 +3227,7 @@ lemma inC_ker_rowDiv {n : ℕ} {σ : Type} (sg : Fin n → ℕ)
     rw [Polynomial.IsRoot, hP, Polynomial.eval_finsetSum]
     rw [← e2]
     refine Finset.sum_congr rfl fun i _ => ?_
-    rw [Polynomial.eval_monomial, ← smul_eq_C_mul, map_smul, coeff_smul, smul_eq_mul, mul_comm]
+    rw [Polynomial.eval_monomial, ← smul_eq_C_mul, map_smul, MvPolynomial.coeff_smul, smul_eq_mul, mul_comm]
     rfl
   have hP0 : P = 0 := by
     apply Polynomial.eq_zero_of_infinite_isRoot

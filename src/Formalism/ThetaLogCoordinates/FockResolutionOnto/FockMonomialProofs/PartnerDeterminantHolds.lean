@@ -193,13 +193,13 @@ theorem graded_piece_bound_holds : GradedPieceBound := by
   set u0 := a⁻¹ • u with hu0def
   have hu0I : u0 ∈ IntPol p (Fin (K + 1) × Fin r) := by
     refine Formalism.GM.TM.mem_intPol_of_norm _ fun m' => ?_
-    rw [hu0def, coeff_smul, smul_eq_mul, norm_mul, norm_inv, inv_mul_le_iff₀ han, mul_one]
+    rw [hu0def, MvPolynomial.coeff_smul, smul_eq_mul, norm_mul, norm_inv, inv_mul_le_iff₀ han, mul_one]
     by_cases hm' : m' ∈ u.support
     · exact hmax m' hm'
     · rw [notMem_support_iff.mp hm', norm_zero]; exact han.le
   have hu0X : u0 ∈ XX := XX.smul_mem _ (hGX u hu)
   have hu0c : ‖AddMonoidAlgebra.coeff u0 m‖ = 1 := by
-    rw [hu0def, coeff_smul, smul_eq_mul, ← ha, inv_mul_cancel₀ ha0, norm_one]
+    rw [hu0def, MvPolynomial.coeff_smul, smul_eq_mul, ← ha, inv_mul_cancel₀ ha0, norm_one]
   have huu0 : u = a • u0 := by rw [hu0def, smul_smul, mul_inv_cancel₀ ha0, one_smul]
   have hy : ((p : ℚ_[p]) ^ c) • u0 ∈ Gr := hSat u0 hu0X hu0I
   have hpc : ((p : ℚ_[p]) ^ c) ≠ 0 := pow_ne_zero _ hpQ

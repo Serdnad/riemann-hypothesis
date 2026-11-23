@@ -125,7 +125,7 @@ theorem flagInt_eq_sum (P : RootPoly Ψ N) :
   unfold flagInt GroundTheory.Heights₂.Heights.LowerBoundFree.antisym
   rw [coeff_sum]
   refine Finset.sum_congr rfl fun u _ => ?_
-  rw [coeff_smul, smul_eq_mul, ← mapDomain_permExp u, coeff_rename_mapDomain _ (weylAct_injective u)]
+  rw [MvPolynomial.coeff_smul, smul_eq_mul, ← mapDomain_permExp u, coeff_rename_mapDomain _ (weylAct_injective u)]
 
 theorem flagInt_word_cast {n : ℕ} (w : Fin n → Ψ × Fin N) :
     ((flagInt Ψ N (∏ r, X (w r)) : ℚ) : ℝ) =

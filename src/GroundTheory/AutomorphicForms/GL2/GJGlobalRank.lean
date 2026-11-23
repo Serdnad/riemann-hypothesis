@@ -77,7 +77,7 @@ theorem rank_eq_iff_isUnit_det (ξ : Matrix (Fin n) (Fin n) K) : ξ.rank = n ↔
       rw [← LinearMap.range_eq_top]
       apply Submodule.eq_top_of_finrank_eq
       rw [Module.finrank_fin_fun]
-      exact h
+      exact (Matrix.finrank_range_mulVecLin ξ).trans h
     exact LinearMap.injective_iff_surjective.2 hs
   · intro h
     have := rank_of_isUnit ξ ((isUnit_iff_isUnit_det ξ).2 h)
@@ -95,7 +95,7 @@ theorem rank_lt_of_det_eq_zero {ξ : Matrix (Fin n) (Fin n) K} (h : ξ.det = 0) 
 theorem rank_eq_zero_iff {ξ : Matrix (Fin n) (Fin n) K} : ξ.rank = 0 ↔ ξ = 0 := by
   constructor
   · intro h
-    have hr : LinearMap.range ξ.mulVecLin = ⊥ := Submodule.finrank_eq_zero.1 h
+    have hr : LinearMap.range ξ.mulVecLin = ⊥ := Submodule.finrank_eq_zero.1 ((Matrix.finrank_range_mulVecLin ξ).trans h)
     have hz : ξ.mulVecLin = 0 := LinearMap.range_eq_bot.1 hr
     ext i j
     have := congrFun (congrArg DFunLike.coe hz) (Pi.single j 1)

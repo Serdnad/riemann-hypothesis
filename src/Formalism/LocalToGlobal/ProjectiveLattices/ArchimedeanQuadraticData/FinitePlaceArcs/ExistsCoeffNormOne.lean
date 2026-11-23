@@ -206,7 +206,7 @@ private theorem eval_frame_lemma_7 {K : Type} [NormedField K]
     simp only [frameLin, frameSub, map_sum, map_mul, eval_X, eval_C, Finset.sum_mul, mul_assoc]
   rw [map_mul, eval_C]
   congr 1
-  induction Q using MvPolynomial.induction_on <;> simp_all
+  induction Q using MvPolynomial.induction_on <;> simp_all [bind₁_X_right]
 
 private theorem coeff_subst_lemma_8 {K : Type} [NormedField K]
     (A Bm : ∀ τ : E →+* ℂ, Matrix (Fin (Dw.mult τ)) (Fin (Dw.mult τ)) K) (hAB : ∀ τ, A τ * Bm τ = 1)

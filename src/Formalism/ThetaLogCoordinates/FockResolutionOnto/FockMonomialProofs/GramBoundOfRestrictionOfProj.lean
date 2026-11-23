@@ -83,7 +83,7 @@ noncomputable def strip (p : ℕ) [Fact p.Prime] (v : σ) (e : ℕ) :
   map_add' x y := by
     rw [initPart_add]; ext m; simp only [coeff_divMonomial, MvPolynomial.coeff_add]
   map_smul' a x := by
-    rw [initPart_smul]; ext m; simp only [coeff_divMonomial, coeff_smul, RingHom.id_apply]
+    rw [initPart_smul]; ext m; simp only [coeff_divMonomial, MvPolynomial.coeff_smul, RingHom.id_apply]
 
 theorem coeff_strip (v : σ) (e : ℕ) (n : σ →₀ ℕ) (f : MvPolynomial σ ℚ_[p]) :
     AddMonoidAlgebra.coeff (strip p v e f) n = if n v = 0 then AddMonoidAlgebra.coeff f (Finsupp.single v e + n) else 0 := by

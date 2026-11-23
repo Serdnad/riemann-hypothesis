@@ -189,7 +189,10 @@ theorem mem_pow_ker_of_isBigO {k : ℕ} {q : MvPolynomial σ ℂ}
     simpa [coeff_homogeneousComponent, AddMonoidAlgebra.coeff] using this
   have hback : bind₁ (fun i => X i - C (w i)) q' = q := by
     rw [hq'def, bind₁_bind₁]
-    simp [bind₁_X_right]
+    have hfun : (fun i => bind₁ (fun i => X i - C (w i)) (X i + C (w i) : MvPolynomial σ ℂ)) = X := by
+      funext i
+      rw [map_add, bind₁_X_right, bind₁_C_right, sub_add_cancel]
+    rw [hfun, bind₁_X_left, AlgHom.id_apply]
   have := Ideal.mem_map_of_mem (bind₁ (fun i => (X i - C (w i) : MvPolynomial σ ℂ))) hmem
   rw [Ideal.map_pow, idealOfVars, Ideal.map_span, ← Set.range_comp, hback] at this
   rw [GroundTheory.Heights₂.Heights.GradientAtPoint.ker_eval_eq_span]

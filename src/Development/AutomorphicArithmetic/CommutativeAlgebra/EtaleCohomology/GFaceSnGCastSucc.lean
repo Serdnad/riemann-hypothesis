@@ -104,12 +104,12 @@ theorem gFace_sn_castSucc {m : ℕ} {B : C} (g : Gen P (m + 1) B) (i : Fin (m + 
     exact congrArg (P.map g.2) e
   exact (gFace_snG_castSucc g _ rfl i h').trans (snG_eq _ h')
 
-def hh (B : C) (m : ℕ) : (L P m).obj B →+ (L P (m + 1)).obj B := (FreeAbelianGroup.map sn : FreeAbelianGroup (Gen P m B) →+ _)
+def hh (B : C) (m : ℕ) : (L P m).obj B →+ (L P (m + 1)).obj B := (FreeAddCommGroup.map sn : FreeAddCommGroup (Gen P m B) →+ _)
 
-theorem hh_of (B : C) (m : ℕ) (g : Gen P m B) : hh B m (FreeAbelianGroup.of g) = FreeAbelianGroup.of (sn g) :=
-  FreeAbelianGroup.map_of_apply _
+theorem hh_of (B : C) (m : ℕ) (g : Gen P m B) : hh B m (FreeAddCommGroup.of g) = FreeAddCommGroup.of (sn g) :=
+  FreeAddCommGroup.map_of_apply _
 
-def ofL {k : ℕ} {B : C} (g : Gen P k B) : (L P k).obj B := FreeAbelianGroup.of g
+def ofL {k : ℕ} {B : C} (g : Gen P k B) : (L P k).obj B := FreeAddCommGroup.of g
 
 theorem d_hh_of (B : C) (k : ℕ) (g : Gen P (k + 1) B) :
     ((dL P (k + 1)).app B).hom (hh B (k + 1) (ofL g)) = hh B k (((dL P k).app B).hom (ofL g)) + (-1 : ℤ) ^ (k + 2) • ofL g := by

@@ -135,7 +135,7 @@ theorem hasDerivAt_coeff_colSub_of_curve [Fintype ι] {d a : ℕ} (τ : ι) (S :
     · rw [colDer_X, hone]
       by_cases hv : v.1 = τ
       · subst hv
-        simp only [if_true, Finset.mul_sum, coeff_sum, mul_smul_comm, coeff_smul, smul_eq_mul]
+        simp only [if_true, Finset.mul_sum, coeff_sum, mul_smul_comm, MvPolynomial.coeff_smul, smul_eq_mul]
       · simp [hv]
 
 theorem hasDerivAt_coeff_colSub_exp {ι : Type} [Fintype ι] [DecidableEq ι] (d a : ℕ) (τ : ι)

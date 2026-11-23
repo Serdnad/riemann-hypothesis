@@ -112,7 +112,6 @@ lemma shapiroCochains_hom_f_zero_const (B : Rep.{u} k S) (c : B) (hc : ∀ s : S
   have h := ProjectiveResolution.lift_commutes_zero (𝟙 (Rep.trivial k S k))
     (resBarResolution (k := k) S) (barResolution k S)
   have h3 := congrArg (fun φ => φ.hom (Finsupp.single v (MonoidAlgebra.single g (1 : k)))) h
-  simp at h3
   change (trivialToInvariant S B c hc).hom (((barResolution k S).π.f 0).hom
     (((barHomotopyEquiv (k := k) S).inv.f 0).hom (Finsupp.single v (MonoidAlgebra.single g 1)))) = c
   erw [h3]

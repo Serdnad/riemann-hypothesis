@@ -234,7 +234,7 @@ theorem exists_right_inv {K : Type*} [Field K] {s r : ℕ} (m : Matrix (Fin s) (
     ∃ m' : Matrix (Fin r) (Fin s) K, m * m' = 1 := by
   have htop : LinearMap.range m.mulVecLin = ⊤ := by
     apply Submodule.eq_top_of_finrank_eq
-    rw [Module.finrank_fin_fun]
+    rw [Module.finrank_fin_fun, Matrix.finrank_range_mulVecLin]
     exact hm
   have hs : ∀ i, ∃ v, m.mulVec v = Pi.single i 1 := fun i => by
     have : (Pi.single i (1 : K) : Fin s → K) ∈ LinearMap.range m.mulVecLin := htop ▸ Submodule.mem_top

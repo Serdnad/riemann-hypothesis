@@ -145,7 +145,7 @@ lemma coeff_sop_diag (w : GlobalTheory.ExportSeries.Weight D n) (τ : D.what₂.
   classical
   induction P using MvPolynomial.induction_on' with
   | monomial u c =>
-    rw [sop_diag, coeff_smul, coeff_monomial, smul_eq_mul]
+    rw [sop_diag, MvPolynomial.coeff_smul, coeff_monomial, smul_eq_mul]
     split_ifs with h
     · rw [h]
     · simp
@@ -276,7 +276,7 @@ lemma purify (w : GlobalTheory.ExportSeries.Weight D n) (V : Submodule ℂ (PolF
       · exact ⟨α, hα, h⟩
     set R := sop w τ a a P - lamM w τ a γ • P with hR
     have hcoeff : ∀ δ, AddMonoidAlgebra.coeff R δ = (lamM w τ a δ - lamM w τ a γ) * AddMonoidAlgebra.coeff P δ := by
-      intro δ; rw [hR, coeff_sub, coeff_smul, coeff_sop_diag, smul_eq_mul]; ring
+      intro δ; rw [hR, MvPolynomial.coeff_sub, MvPolynomial.coeff_smul, coeff_sop_diag, smul_eq_mul]; ring
     have hRV : R ∈ V := V.sub_mem (hV P hPV τ a a) (V.smul_mem _ hPV)
     have hsub : R.support ⊆ P.support.erase γ := by
       intro δ hδ
@@ -309,7 +309,7 @@ lemma pure_eigen (w : GlobalTheory.ExportSeries.Weight D n) (Q : PolF D m n) (hQ
     (hα : α ∈ Q.support) (τ : D.what₂.Tau) (a : Fin n) : sop w τ a a Q = lamM w τ a α • Q := by
   classical
   ext γ
-  rw [coeff_sop_diag, coeff_smul, smul_eq_mul]
+  rw [coeff_sop_diag, MvPolynomial.coeff_smul, smul_eq_mul]
   by_cases hγ : AddMonoidAlgebra.coeff Q γ = 0
   · rw [hγ, mul_zero, mul_zero]
   · rw [hQ τ a γ (mem_support_iff.2 hγ) α hα]

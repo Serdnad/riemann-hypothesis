@@ -125,7 +125,7 @@ theorem dsc_divide (p : ℕ) [Fact p.Prime] {σ : Type*} (k : ℕ) (g : MvPolyno
     intro m
     rw [← PadicInt.pow_p_dvd_int_iff]
     have := congrArg (AddMonoidAlgebra.coeff · m) h
-    rw [coeff_map, coeff_smul] at this
+    rw [coeff_map, MvPolynomial.coeff_smul] at this
     exact ⟨AddMonoidAlgebra.coeff z m, by simpa using this⟩
   obtain ⟨g1, rfl⟩ := hd
   exact ⟨g1, by rw [smul_eq_C_mul]⟩

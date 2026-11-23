@@ -58,7 +58,10 @@ theorem exists_right_inv {n r : ℕ} {J : Matrix (Fin n) (Fin n) ℂ} {e : Matri
       Matrix.rank_conjTranspose, ← Matrix.rank_transpose, hr]
   have hs : Function.Surjective (eᴴ * J).mulVec := by
     have h : LinearMap.range (eᴴ * J).mulVecLin = ⊤ :=
-      Submodule.eq_top_of_finrank_eq (by simpa [Matrix.rank] using hr2)
+      Submodule.eq_top_of_finrank_eq (by
+        first
+          | rw [Matrix.finrank_range_mulVecLin, hr2, Module.finrank_fin_fun]
+          | simpa [Matrix.finrank_range_mulVecLin] using hr2)
     exact LinearMap.range_eq_top.1 h
   exact Matrix.mulVec_surjective_iff_exists_right_inverse.1 hs
 

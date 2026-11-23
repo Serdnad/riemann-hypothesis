@@ -80,7 +80,7 @@ theorem idem_trace_det (P : Matrix ι ι ℂ) (hP : P * P = P) :
     rw [Module.End.mul_eq_comp, ← Matrix.toLin'_mul, hP]
   have hp : LinearMap.IsProj (LinearMap.range (Matrix.toLin' P)) (Matrix.toLin' P) :=
     LinearMap.IsIdempotentElem.isProj_range _ hi
-  have hr : Module.finrank ℂ (LinearMap.range (Matrix.toLin' P)) = P.rank := rfl
+  have hr : Module.finrank ℂ (LinearMap.range (Matrix.toLin' P)) = P.rank := Matrix.finrank_range_mulVecLin P
   refine ⟨?_, fun u => ?_⟩
   · rw [← Matrix.trace_toLin'_eq, hp.trace, hr]
   · rw [← LinearMap.det_toLin']
@@ -126,8 +126,7 @@ theorem le_rank_half {m : ℕ} {G s t : Matrix ι ι ℂ} (hpos : (G * s).PosDef
       by_contra h
       exact (hpos.dotProduct_mulVec_pos h).ne' h3
     rw [← Matrix.one_mulVec a, ← hC, ← Matrix.mulVec_mulVec, h4, Matrix.mulVec_zero]
-  unfold Matrix.rank
-  rw [LinearMap.finrank_range_of_inj hinj]
+  rw [← Matrix.finrank_range_mulVecLin, LinearMap.finrank_range_of_inj hinj]
   simp
 
 theorem trace_eq_zero {m : ℕ} {G s : Matrix ι ι ℂ} (hs : s * s = 1) (hpos : (G * s).PosDef) (hm : 2 * m = Fintype.card ι)

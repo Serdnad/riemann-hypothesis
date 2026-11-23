@@ -44,6 +44,8 @@ import Mathlib.Tactic.NormNum.RealSqrt
 
 @[expose] public section
 
+attribute [local simp] MvPolynomial.bind₁
+
 set_option autoImplicit false
 
 noncomputable section

@@ -142,7 +142,7 @@ theorem ta_exists_pow (w : O) (hw : Irreducible w) {σ : Type} (b : MvPolynomial
   have hs0 : s ≠ 0 := nonZeroDivisors.ne_zero hs
   obtain ⟨n, v, hv⟩ := IsDiscreteValuationRing.eq_unit_mul_pow_irreducible hs0 hw
   refine ⟨n, ta_Int_of_coeff fun u => ?_⟩
-  rw [coeff_smul, smul_eq_mul]
+  change algebraMap O K w ^ n * AddMonoidAlgebra.coeff b u ∈ _
   by_cases hu : u ∈ b.support
   · obtain ⟨r, hr⟩ := hsI _ (Finset.mem_image_of_mem _ hu)
     refine ⟨(↑v⁻¹ : O) * r, ?_⟩
@@ -188,8 +188,9 @@ theorem ta_sat (w : O) (hw : Irreducible w) (m : ℕ) (hm : 1 ≤ m) (b : MvPoly
     obtain ⟨c, hc⟩ := Ideal.mem_span_singleton'.mp hu
     refine ⟨c, ?_⟩
     have e5 := congrArg (AddMonoidAlgebra.coeff · u) hβ
-    rw [coeff_map, ← hc, map_mul, coeff_smul, smul_eq_mul] at e5
-    rw [coeff_smul, smul_eq_mul]
+    rw [coeff_map, ← hc, map_mul] at e5
+    change _ = algebraMap O K w ^ (n + 1) * AddMonoidAlgebra.coeff b u at e5
+    change algebraMap O K c = algebraMap O K w ^ n * AddMonoidAlgebra.coeff b u
     apply mul_right_cancel₀ hW0
     rw [e5]
     ring

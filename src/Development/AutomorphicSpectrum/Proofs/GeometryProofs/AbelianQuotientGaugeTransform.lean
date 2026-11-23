@@ -115,7 +115,8 @@ theorem bind_fst (P : MvPolynomial (Fin 1 × Fin d) R) :
     obtain rfl : a = 0 := Subsingleton.elim _ _
     rfl
   rw [this]
-  simp
+  change MvPolynomial.aeval (MvPolynomial.X : Fin 1 × Fin d → MvPolynomial (Fin 1 × Fin d) R) P = P
+  rw [MvPolynomial.aeval_X_left_apply]
 
 theorem bind_zero {σ τ : Type} (P : MvPolynomial σ R) (h : MvPolynomial.constantCoeff P = 0) :
     (MvPolynomial.bind₁ fun _ : σ => (0 : MvPolynomial τ R)) P = 0 := by
@@ -149,7 +150,10 @@ theorem double_substitution_first_axis (Qs : Fin d' → PS R 1 d) (hQ : ∀ i, M
   rw [cc_psIn, hQ, map_zero, sub_zero, psIn, MvPolynomial.aeval_rename]
   fin_cases l
   · simp [Function.comp_def]
-    exact bind_zero _ (by rw [cc_psTrunc, hQ])
+    have h0 : MvPolynomial.constantCoeff (psTrunc m (Qs j)) = 0 := by rw [cc_psTrunc, hQ]
+    first
+      | exact bind_zero _ h0
+      | simp [cc_psTrunc, hQ]
   · simp [Function.comp_def, cc_psTrunc, hQ]
     exact bind_fst _
 
@@ -164,7 +168,10 @@ theorem double_substitution_second_axis (Qs : Fin d' → PS R 1 d) (hQ : ∀ i, 
   · simp [Function.comp_def, cc_psTrunc, hQ]
     exact bind_fst _
   · simp [Function.comp_def]
-    exact bind_zero _ (by rw [cc_psTrunc, hQ])
+    have h0 : MvPolynomial.constantCoeff (psTrunc m (Qs j)) = 0 := by rw [cc_psTrunc, hQ]
+    first
+      | exact bind_zero _ h0
+      | simp [cc_psTrunc, hQ]
 
 theorem first_axis_comp_jet_inclusion (m : ℕ) :
     (jAx0 R d m).comp (jetCopy d m (0 : Fin 2)) = (Algebra.ofId R _).comp (jetAug : Jet R (Fin 1 × Fin d) m →ₐ[R] R) := by

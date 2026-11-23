@@ -137,7 +137,7 @@ theorem lower_triangular_over_field : LowerTriK := by
       refine ⟨x - AddMonoidAlgebra.coeff (c • bideterminant O sz hsz I) e, ?_⟩
       have hce : AddMonoidAlgebra.coeff (toK O K (c • bideterminant O sz hsz I)) e = algebraMap O K (AddMonoidAlgebra.coeff (c • bideterminant O sz hsz I) e) :=
         coeff_map (algebraMap O K) _ e
-      rw [hf', coeff_sub, hcb, map_sub, hx, hce]
+      rw [hf', MvPolynomial.coeff_sub, hcb, map_sub, hx, hce]
   · intro h
     by_contra hQ0
     exact ((colLex r n).coeff_degree_ne_zero_iff).mpr hQ0 (h _ (hlead Q hQ hQ0))

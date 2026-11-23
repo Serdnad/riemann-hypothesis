@@ -146,7 +146,7 @@ theorem apol_add (P g h : MvPolynomial σ ℝ) : apol P (g + h) = apol P g + apo
   unfold apol; rw [← Finset.sum_add_distrib]; refine Finset.sum_congr rfl (fun m _ => ?_); rw [MvPolynomial.coeff_add]; ring
 
 theorem apol_smul (P g : MvPolynomial σ ℝ) (c : ℝ) : apol P (c • g) = c * apol P g := by
-  unfold apol; rw [Finset.mul_sum]; refine Finset.sum_congr rfl (fun m _ => ?_); rw [coeff_smul, smul_eq_mul]; ring
+  unfold apol; rw [Finset.mul_sum]; refine Finset.sum_congr rfl (fun m _ => ?_); rw [MvPolynomial.coeff_smul, smul_eq_mul]; ring
 
 theorem apol_self_pos (P : MvPolynomial σ ℝ) (hP : P ≠ 0) : 0 < apol P P := by
   unfold apol

@@ -76,7 +76,7 @@ theorem idemKO : StatIdemKO := by
     simp only [Matrix.toLin'_apply, Matrix.mulVec_mulVec, hidK]
   have hfr : Module.finrank (FractionRing O) (LinearMap.range (Matrix.toLin' eK)) = 1 := by
     rw [← hr]
-    rfl
+    exact Matrix.finrank_range_mulVecLin eK
   obtain ⟨b⟩ : Nonempty (Module.Basis (Fin 1) (FractionRing O) (LinearMap.range (Matrix.toLin' eK))) :=
     ⟨Module.finBasisOfFinrankEq _ _ hfr⟩
   obtain ⟨U, W, hUW, hWU⟩ : ∃ (U : Matrix n (Fin 1) (FractionRing O))

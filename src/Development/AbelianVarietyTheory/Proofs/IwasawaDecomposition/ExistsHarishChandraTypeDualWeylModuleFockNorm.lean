@@ -129,7 +129,7 @@ theorem cdom_of_coeff_ne_zero {la : Fin n → ℕ} {f : Pol n ℂ} (hf : f ∈ n
     exact hc (cdom_of_partial_sums _ _ h1 h2)
   | zero => simp
   | add x y _ _ hx hy => rw [MvPolynomial.coeff_add, hx, hy, add_zero]
-  | smul c x _ hx => rw [coeff_smul, hx, smul_zero]
+  | smul c x _ hx => rw [MvPolynomial.coeff_smul, hx, smul_zero]
 
 def act (lam : DomWeight n) (g : Matrix (Fin n) (Fin n) ℂ) : Space lam.natW →L[ℂ] Space lam.natW :=
   LinearMap.toContinuousLinearMap
@@ -175,7 +175,7 @@ theorem isURepOn_act (lam : DomWeight n) : IsURepOn (UJset (allPos n)) (act lam)
 theorem coeff_torus (lam : DomWeight n) (θ : Fin n → ℝ) (x : Space lam.natW) (m : Fin n × Fin n →₀ ℕ) :
     AddMonoidAlgebra.coeff (incl lam (act lam (torus θ) x)) m =
       chr (fun a => (rowDeg m a : ℝ) + lam.detShift) θ * AddMonoidAlgebra.coeff (incl lam x) m := by
-  rw [incl_act, torus, Matrix.diagonal_transpose, coeff_smul, Formalism.GradedWeylDivisibility.ldrow_coeff_rowAct_diag, Matrix.det_diagonal,
+  rw [incl_act, torus, Matrix.diagonal_transpose, MvPolynomial.coeff_smul, Formalism.GradedWeylDivisibility.ldrow_coeff_rowAct_diag, Matrix.det_diagonal,
     smul_eq_mul, mul_left_comm, mul_comm]
   congr 1
   simp only [← Complex.exp_nat_mul]
@@ -214,7 +214,7 @@ theorem isKTypeOf_act (lam : DomWeight n) : IsKTypeOf (allPos n) (act lam) (fun 
       ext m
       have h1 := coeff_torus lam θ (toSpace _ ⟨_, extremal_mem ha⟩) m
       refine h1.trans ?_
-      rw [map_smul, coeff_smul, smul_eq_mul]
+      rw [map_smul, MvPolynomial.coeff_smul, smul_eq_mul]
       by_cases hm : AddMonoidAlgebra.coeff (incl lam (toSpace _ ⟨_, extremal_mem ha⟩)) m = 0
       · rw [hm, mul_zero, mul_zero]
       have h2 := Formalism.GradedWeylDivisibility.hwRowWeight ℂ n n le_rfl lam.natW ha hm
@@ -230,7 +230,7 @@ theorem isKTypeOf_act (lam : DomWeight n) : IsKTypeOf (allPos n) (act lam) (fun 
       refine chr_inj fun θ => ?_
       have h2 := coeff_torus lam θ v m
       have h3 : act lam (torus θ) v = chr μ θ • v := hw θ (by rw [kset_eq]; exact torus_mem θ)
-      rw [h3, map_smul, coeff_smul, smul_eq_mul] at h2
+      rw [h3, map_smul, MvPolynomial.coeff_smul, smul_eq_mul] at h2
       exact mul_right_cancel₀ hm h2
     have h4 := cdom_add (cdom_of_coeff_ne_zero (incl_mem lam v) m hm)
       (cdom_refl (allPos n) fun _ => (lam.detShift : ℝ))

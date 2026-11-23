@@ -185,7 +185,7 @@ theorem coeff_inCol_sg (c : Fin 2) (v : Fin 2 × Fin dd → C) (μ : Fin 2 × Fi
   · have hμ : (μ.mapDomain Prod.snd).mapDomain (fun x : Fin dd => (c, x)) = μ := by
       rw [← Finsupp.mapDomain_comp]
       conv_rhs => rw [← Finsupp.mapDomain_id (v := μ)]
-      apply Finsupp.mapDomain_congr
+      apply Finsupp.mapDomain_congr rfl
       intro x hx
       exact Prod.ext (hr x (Finsupp.mem_support_iff.1 hx)).symm rfl
     rw [← hμ, coeff_subst_rename_inj _ (col_inj c)]

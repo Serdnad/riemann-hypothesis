@@ -102,6 +102,6 @@ theorem jetMap_zR {S : Type} [CommRing S] {κ κ' : Type} (m : ℕ) (φ : κ →
     (jetMap φ h : Jet S κ m →ₐ[S] Jet S κ' m) (Ideal.Quotient.mk _ (MvPolynomial.X s)) = Ideal.Quotient.mk _ (φ s) := by
   simp only [jetMap]
   show ((Ideal.Quotient.mkₐ S (orig S κ' ^ (m + 1))).comp (MvPolynomial.bind₁ φ)) (MvPolynomial.X s) = _
-  simp
+  simp [MvPolynomial.bind₁_X_right]
 
 end Formalism.MainNotions.ModuliIntegralCharts.H1

@@ -115,7 +115,7 @@ theorem diagK_binomCombF (lam : (σ →₀ ℕ) →₀ O) (F : MvPolynomial σ (
   unfold binomCombF
   rw [Finset.sum_mul]
   refine Finset.sum_congr rfl fun m _ => ?_
-  rw [coeff_smul, coeff_mon_divDer, smul_eq_mul]
+  rw [MvPolynomial.coeff_smul, coeff_mon_divDer, smul_eq_mul]
   ring
 
 theorem geQ_binomCombF (S : UniformizedDVR p O) (lam : (σ →₀ ℕ) →₀ O) (a : σ →₀ ℕ) :
@@ -161,7 +161,7 @@ theorem coefGe_of_inBB [hp : Fact p.Prime] (S : UniformizedDVR p O) (w : O) (hw2
     {k : ℕ} (d : ι → ℕ) (Z : MvPolynomial (ι × Fin k) (KK O)) (hZ : Z ∈ Pol (KK O) k d) (hBB : InBB (O := O) p Z) :
     CoefGe p (((algebraMap O (KK O) w) ^ (padicValNat p (∏ s, (d s).factorial))) • Z) 0 := by
   intro bn
-  rw [coeff_smul, smul_eq_mul]
+  rw [MvPolynomial.coeff_smul, smul_eq_mul]
   by_cases hbn : bn ∈ Z.support
   · have hdeg : ∀ s, multideg bn s = d s := ((mem_restrictSupport_iff (KK O)).1 hZ) hbn
     have h1 := padicVal_expFact_le' p d bn hdeg

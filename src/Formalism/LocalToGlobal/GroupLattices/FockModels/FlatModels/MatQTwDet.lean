@@ -84,7 +84,7 @@ theorem coeffs_iff (h : HidaSetting p n' W Qq O Kf ι σ j w) {τ : Type} (a : O
     choose c hc using hc
     refine ⟨∑ m ∈ P.support, monomial m (c m), ?_⟩
     ext m
-    rw [coeff_map, coeff_smul, coeff_map, smul_eq_mul]
+    rw [coeff_map, MvPolynomial.coeff_smul, coeff_map, smul_eq_mul]
     have e : (∑ x ∈ P.support, monomial x (c x)).coeff m = if m ∈ P.support then c m else 0 := by
       rw [coeff_sum]
       simp only [coeff_monomial]
@@ -98,7 +98,7 @@ theorem coeffs_iff (h : HidaSetting p n' W Qq O Kf ι σ j w) {τ : Type} (a : O
   · rintro ⟨P0, hP0⟩ m
     refine ⟨P0.coeff m, kapR_inj h ?_⟩
     have e := congrArg (fun Q => Q.coeff m) hP0
-    simp only [coeff_map, coeff_smul, smul_eq_mul] at e
+    simp only [coeff_map, MvPolynomial.coeff_smul, smul_eq_mul] at e
     rw [e, kapR_alg, map_mul]
 
 theorem inA_iff (h : HidaSetting p n' W Qq O Kf ι σ j w) {τ : Type} (P : MvPolynomial τ (KK O)) :

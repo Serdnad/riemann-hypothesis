@@ -155,7 +155,7 @@ theorem loc_kill {R : Type} [CommRing R] {P Q : PSh} (f : P ⟶ Q)
   let h : Q.obj (op W) → P.obj (op W') := fun y =>
     if hy : ∃ x ∈ d.support, f.app (op W) x = y then P.map k.op hy.choose else P.map k.op x0
   have e : Finsupp.mapDomain (P.map k.op) d = Finsupp.mapDomain (h ∘ f.app (op W)) d := by
-    apply Finsupp.mapDomain_congr
+    refine Finsupp.mapDomain_congr rfl ?_
     intro x hx
     have hy : ∃ x' ∈ d.support, f.app (op W) x' = f.app (op W) x := ⟨x, hx, rfl⟩
     show _ = h (f.app (op W) x)

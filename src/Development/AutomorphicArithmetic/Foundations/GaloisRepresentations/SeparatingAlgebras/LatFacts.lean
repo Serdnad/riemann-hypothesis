@@ -70,7 +70,7 @@ theorem UpperTheory.Gal.Gen.latFacts_pf :
             calc (v : MvPolynomial σ ℂ) = ((∑ j, B.repr v j • B j : V) : MvPolynomial σ ℂ) := by rw [B.sum_repr v]
               _ = _ := by rw [Submodule.coe_sum]; rfl
           rw [hv', coeff_sum]
-          simp only [coeff_smul, ZeroMemClass.coe_zero, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply]
+          simp only [MvPolynomial.coeff_smul, ZeroMemClass.coe_zero, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply]
           refine Finset.sum_eq_zero fun j _ => ?_
           have : m ∉ ((B j : V) : MvPolynomial σ ℂ).support := fun h =>
             hm (Finset.mem_biUnion.2 ⟨j, Finset.mem_univ _, h⟩)

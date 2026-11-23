@@ -45,6 +45,8 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 
+set_option backward.isDefEq.respectTransparency false
+
 @[expose] public section
 
 noncomputable section
@@ -85,7 +87,7 @@ theorem sm_piOp {z : Fin (2 * r + k + 1) → ℂ} {u : Fin k → ℝ}
   have hs := Finset.stronglyMeasurable_sum (Finset.univ : Finset (Fin (Module.finrank ℂ Wp)))
     (f := fun i (h : Mt k r) => (innerSL ℂ ((stdOrthonormalBasis ℂ Wp) i)).smulRight
       (piV z π ((stdOrthonormalBasis ℂ Wp) i) h))
-    (fun i _ => (ContinuousLinearMap.smulRightL ℂ Wp Wp
+    (fun i _ => (StrongDual.smulRightL ℂ Wp Wp
       (innerSL ℂ ((stdOrthonormalBasis ℂ Wp) i))).continuous.comp_stronglyMeasurable (sm_piV hT hπ _))
   convert hs using 1
   funext h

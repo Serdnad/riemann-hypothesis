@@ -85,7 +85,7 @@ theorem rank_le_rank_map_algebraMap (k K : Type) [Field k] [Field K] [Algebra k 
     (Φ : Matrix (Fin a) (Fin a) k) : Φ.rank ≤ (Φ.map (algebraMap k K)).rank := by
   classical
   obtain ⟨f, hf⟩ := exists_linearIndependent_of_le_finrank (R := k)
-    (M := LinearMap.range Φ.mulVecLin) (n := Φ.rank) le_rfl
+    (M := LinearMap.range Φ.mulVecLin) (n := Φ.rank) (Matrix.finrank_range_mulVecLin Φ).ge
   have hv : LinearIndependent k (fun i => ((f i : LinearMap.range Φ.mulVecLin) : Fin a → k)) :=
     hf.map' _ (Submodule.ker_subtype _)
 
@@ -105,7 +105,7 @@ theorem rank_le_rank_map_algebraMap (k K : Type) [Field k] [Field K] [Algebra k 
   have hg : LinearIndependent K g := LinearIndependent.of_comp (LinearMap.range _).subtype hw
   have hc := hg.fintype_card_le_finrank
   rw [Fintype.card_fin] at hc
-  exact hc
+  exact hc.trans_eq (Matrix.finrank_range_mulVecLin _)
 
 theorem finrank_ker_map_le_of_first_order_kernel : ∀ (k K : Type) [Field k] [Field K] [Algebra k K] (a e : ℕ) (Φ : Matrix (Fin a) (Fin a) k) (U : Type) [AddCommGroup U] [Module k U] [Module.Finite k U] (t u : LinearMap.ker Φ.mulVecLin →ₗ[k] U), (∀ x0 x1 : Fin (e + 1) → LinearMap.ker Φ.mulVecLin, (∀ j, t (x0 j) = 0 ∧ t (x1 j) = u (x0 j)) → ¬ LinearIndependent k x0) → Module.finrank K (LinearMap.ker (Φ.map (algebraMap k K)).mulVecLin) ≤ Module.finrank k U + e := by
   intro k K _ _ _ a e Φ U _ _ _ t u h
@@ -114,6 +114,6 @@ theorem finrank_ker_map_le_of_first_order_kernel : ∀ (k K : Type) [Field k] [F
   have hk := LinearMap.finrank_range_add_finrank_ker Φ.mulVecLin
   have hK := LinearMap.finrank_range_add_finrank_ker (Φ.map (algebraMap k K)).mulVecLin
   rw [Module.finrank_fin_fun] at hk hK
-  unfold Matrix.rank at h2
+  rw [← Matrix.finrank_range_mulVecLin Φ, ← Matrix.finrank_range_mulVecLin (Φ.map (algebraMap k K))] at h2
   omega
 end GlobalTheory

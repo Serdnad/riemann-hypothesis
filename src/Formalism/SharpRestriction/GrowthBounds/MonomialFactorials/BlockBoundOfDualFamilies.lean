@@ -184,7 +184,7 @@ theorem block_dual_family_bound (aTop : Fin X.s → ℕ) (aPlus : ℕ) (b : SegB
       rw [MvPolynomial.as_sum (lam • map ι z)]
       refine Submodule.sum_mem _ fun v hv => Submodule.subset_span ⟨v, _, ?_, rfl⟩
       have hcv : (lam • map ι z).coeff v = lam * ι (z.coeff v) := by
-        rw [coeff_smul, coeff_map, smul_eq_mul]
+        rw [MvPolynomial.coeff_smul, coeff_map, smul_eq_mul]
       have hzv : z.coeff v ≠ 0 := by
         intro h0
         rw [MvPolynomial.mem_support_iff, hcv, h0, map_zero, mul_zero] at hv

@@ -184,7 +184,7 @@ theorem bad_iff (f g : MvPolynomial σ A) (D : ℕ) (k : Type) [Field k] (ψ : A
       ?_, hinv true, ?_, hinv false⟩
     · ext n
       have := hz (Sum.inl n)
-      rw [eval_eqs_coeff, coeff_sub, sub_eq_zero] at this
+      rw [eval_eqs_coeff, MvPolynomial.coeff_sub, sub_eq_zero] at this
       exact this
     · have := hz (Sum.inr (Sum.inl true)); rwa [eval_eqs_point] at this
     · have := hz (Sum.inr (Sum.inl false)); rwa [eval_eqs_point] at this

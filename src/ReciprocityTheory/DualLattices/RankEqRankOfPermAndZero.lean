@@ -271,7 +271,7 @@ private lemma rank_phi_le (hS : HodgeTateSetting p v R O σ cp) [CharP (IsLocalR
     _ ≤ Module.finrank (IsLocalRing.ResidueField R)
           (LinearMap.range ((U.εT i).map (IsLocalRing.residue R)).mulVecLin) :=
         RankA.rank_map_le _ _
-    _ = ((U.εT i).map (IsLocalRing.residue R)).rank := rfl
+    _ = ((U.εT i).map (IsLocalRing.residue R)).rank := Matrix.finrank_range_mulVecLin _
 
 end Local
 
@@ -303,7 +303,9 @@ theorem rank_eq_rank_of_perm_and_zero : EigenRankStatement := by
         set_option synthInstance.maxHeartbeats 100000 in
           simp only [map_sum, RingHom.mapMatrix_apply]
       rw [e, U.εT_sum, map_one]
-    exact RankA.sum_finrank (fun i => (U.εT i).map (IsLocalRing.residue R)) horth hs1
+    have h := RankA.sum_finrank (fun i => (U.εT i).map (IsLocalRing.residue R)) horth hs1
+    simp only [Matrix.finrank_range_mulVecLin] at h
+    exact h
   have hseq : ∀ i, ((U.εT i).map (IsLocalRing.residue R)).rank =
       Module.finrank R (LinearMap.range (U.εT i).mulVecLin) := by
     have h := (Finset.sum_eq_sum_iff_of_le hsn).mp (hsums.trans hsumn.symm)

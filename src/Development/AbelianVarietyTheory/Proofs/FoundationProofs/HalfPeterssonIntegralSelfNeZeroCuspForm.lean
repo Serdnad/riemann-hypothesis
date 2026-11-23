@@ -79,9 +79,6 @@ theorem volume_isOpenPosMeasure : (volume : Measure ℍ).IsOpenPosMeasure := by
       (((1 / NNReal.mk z.im z.im_pos.le : NNReal) ^ 2 : NNReal) : ENNReal)) = Set.univ := by
     ext z
     simp [z.im_ne_zero]
-    intro h
-    have h' := congrArg Subtype.val h
-    simp [z.im_ne_zero] at h'
   rw [hsupp, Set.univ_inter]
   exact hU.measure_pos _ hne
 

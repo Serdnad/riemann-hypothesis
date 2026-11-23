@@ -79,7 +79,7 @@ theorem specFirst_eq_map_eval (g : MvPolynomial (Fin (k + 1) × Fin n) F) (t : F
       rw [bind₁_C_right, rename_C, sumAlgEquiv_C_inl, map_C, eval_C]
     · rintro ⟨i, m⟩
       cases i using Fin.cases <;>
-        simp [specFirstVar, specFirstSplit, sumAlgEquiv_X_inl, sumAlgEquiv_X_inr]
+        simp [specFirstVar, specFirstSplit, sumAlgEquiv_X_inl, sumAlgEquiv_X_inr, bind₁_X_right]
   exact RingHom.congr_fun h g
 
 theorem exists_specFirst_ne_zero [Infinite F] {f : MvPolynomial (Fin (k + 1) × Fin n) F} (hf : f ≠ 0) :

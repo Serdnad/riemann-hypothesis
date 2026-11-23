@@ -129,7 +129,7 @@ theorem card_quot_range (O : Type) [CommRing O] [IsDomain O] [IsDiscreteValuatio
   have hfin : Module.finrank F ((Fin r → F) ⧸ R) + Module.finrank F R = r := by
     have := Submodule.finrank_quotient_add_finrank R
     simpa using this
-  have hrank : Ab.rank = Module.finrank F R := rfl
+  have hrank : Ab.rank = Module.finrank F R := (Matrix.finrank_range_mulVecLin Ab).symm
   have hdim : Module.finrank F ((Fin r → F) ⧸ R) = r - Ab.rank := by
     omega
   have : Finite ((Fin r → F) ⧸ R) := Finite.of_surjective R.mkQ (Submodule.mkQ_surjective R)

@@ -38,6 +38,8 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 
+set_option backward.isDefEq.respectTransparency false
+
 @[expose] public section
 
 open NumberField IsDedekindDomain MeasureTheory Matrix GroundTheory.Automorphic GroundTheory.Automorphic.AutomorphicForm
@@ -55,7 +57,7 @@ theorem UpperTheory.V.Af.Smo.schOfClosed :
     ⟨fun i => LinearMap.toContinuousLinearMap (b.coord i), fun i x => rfl⟩
   obtain ⟨L, hL⟩ : ∃ L : Fin (Module.finrank ℝ X) → (ℂ →L[ℝ] (X →L[ℝ] ℂ)),
       ∀ i z v, L i z v = c i v • z :=
-    ⟨fun i => ContinuousLinearMap.smulRightL ℝ X ℂ (c i), fun i z v => rfl⟩
+    ⟨fun i => StrongDual.smulRightL ℝ X ℂ (c i), fun i z v => rfl⟩
   have hsm : ∀ n : ℕ, ∀ f ∈ A, ContDiff ℝ n f := by
     intro n
     induction n with

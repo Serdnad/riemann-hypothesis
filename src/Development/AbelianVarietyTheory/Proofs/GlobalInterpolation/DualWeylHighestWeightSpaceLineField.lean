@@ -113,7 +113,7 @@ theorem hw_line_field : ∀ (k : Type) [Field k] (N : ℕ) (ν : Fin N → ℕ),
   obtain ⟨m, hm⟩ := ne_zero_iff.mp (hwNe k N N le_rfl ν)
   refine ⟨AddMonoidAlgebra.coeff f m / AddMonoidAlgebra.coeff (hw k le_rfl ν) m, ?_⟩
   have hcm := congrArg (AddMonoidAlgebra.coeff · m) hc
-  rw [coeff_map, coeff_smul, ← lclosedeq_hw_map φ, coeff_map, smul_eq_mul] at hcm
+  rw [coeff_map, MvPolynomial.coeff_smul, ← lclosedeq_hw_map φ, coeff_map, smul_eq_mul] at hcm
   have hφ : φ (AddMonoidAlgebra.coeff (hw k le_rfl ν) m) ≠ 0 := (map_ne_zero φ).mpr hm
   have hcv : c = φ (AddMonoidAlgebra.coeff f m / AddMonoidAlgebra.coeff (hw k le_rfl ν) m) := by
     rw [map_div₀, hcm, mul_div_cancel_right₀ _ hφ]

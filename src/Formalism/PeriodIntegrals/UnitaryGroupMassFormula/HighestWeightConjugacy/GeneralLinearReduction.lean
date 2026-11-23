@@ -115,7 +115,7 @@ theorem char_dd {n : ℕ} (c lam : Fin n → ℤ) (t : ℝ) :
     exact Finset.sum_congr rfl fun i _ => by ring]
   rw [Complex.exp_sum]
   refine Finset.prod_congr rfl fun i _ => ?_
-  exact (Complex.exp_int_mul ((c i : ℂ) * t) (lam i)).symm
+  exact (Complex.exp_int_mul (lam i) ((c i : ℂ) * t)).symm
 
 theorem tendsto_exp_neg {k : ℤ} (hk : k < 0) :
     Tendsto (fun t : ℝ => Complex.exp ((k : ℂ) * t)) atTop (𝓝 0) := by

@@ -114,8 +114,10 @@ theorem finrank_ker_map (A : Matrix (Fin n) (Fin n) K) :
   have h1 := LinearMap.finrank_range_add_finrank_ker (Matrix.toLin' (A.map φ))
   have h2 := LinearMap.finrank_range_add_finrank_ker (Matrix.toLin' A)
   have h3 : (A.map φ).rank = A.rank := GlobalTheory.Core.Rk.rank_map_field φ A
-  change (A.map φ).rank + _ = _ at h1
-  change A.rank + _ = _ at h2
+  have hr1 : Module.finrank L (LinearMap.range (Matrix.toLin' (A.map φ))) = (A.map φ).rank := Matrix.finrank_range_mulVecLin (A.map φ)
+  have hr2 : Module.finrank K (LinearMap.range (Matrix.toLin' A)) = A.rank := Matrix.finrank_range_mulVecLin A
+  rw [hr1] at h1
+  rw [hr2] at h2
   simp only [Module.finrank_fin_fun] at h1 h2
   omega
 

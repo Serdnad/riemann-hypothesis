@@ -125,12 +125,12 @@ theorem isW_E (E : Fin n → Fin n → MvPolynomial σ ℚ_[p] →ₗ[ℚ_[p]] M
   funext c
   have h1 : E c c x = ((μ c : ℤ) : ℚ_[p]) • x := by
     ext m'
-    rw [hdiag, coeff_smul, smul_eq_mul]
+    rw [hdiag, MvPolynomial.coeff_smul, smul_eq_mul]
     by_cases h0 : AddMonoidAlgebra.coeff x m' = 0
     · rw [h0, mul_zero, mul_zero]
     · rw [hx m' h0]
   have h2 := congrArg (AddMonoidAlgebra.coeff · m) (hcomm c c a b x)
-  rw [h1, map_smul, coeff_sub, hdiag, coeff_smul, smul_eq_mul, coeff_sub] at h2
+  rw [h1, map_smul, MvPolynomial.coeff_sub, hdiag, MvPolynomial.coeff_smul, smul_eq_mul, MvPolynomial.coeff_sub] at h2
   have h3 : AddMonoidAlgebra.coeff (if c = a then E c b x else 0) m = (if c = a then 1 else 0) * AddMonoidAlgebra.coeff (E a b x) m := by
     split_ifs with h
     · subst h; rw [one_mul]
@@ -166,7 +166,7 @@ noncomputable def mkGlW (E : Fin n → Fin n → MvPolynomial σ ℚ_[p] →ₗ[
     · rw [if_neg h, if_neg (Ne.symm h)]
   diag := fun c μ x => by
     ext m
-    rw [hdiag, coeff_smul, smul_eq_mul, coeff_compW]
+    rw [hdiag, MvPolynomial.coeff_smul, smul_eq_mul, coeff_compW]
     split_ifs with h
     · rw [h]
     · simp
@@ -459,7 +459,7 @@ theorem coeff_EX_diag (LL : Letters (K + 1)) (c : ℤ) (a : Fin (s + 1))
     AddMonoidAlgebra.coeff (EX p LL c a a x) m = ((wtX LL c m a : ℤ) : ℚ_[p]) * AddMonoidAlgebra.coeff x m := by
   refine Fin.cases ?_ (fun i => ?_) a
   · show AddMonoidAlgebra.coeff (Aop p K (s + 1) c x) m = ((c - ∑ a : Fin (s + 1), (m (Fin.last K, a) : ℤ) : ℤ) : ℚ_[p]) * AddMonoidAlgebra.coeff x m
-    rw [Aop_apply, coeff_sub, coeff_smul, ProjS.coeff_eulL, smul_eq_mul]
+    rw [Aop_apply, MvPolynomial.coeff_sub, MvPolynomial.coeff_smul, ProjS.coeff_eulL, smul_eq_mul]
     push_cast; ring
   · exact coeff_cartan LL (K + 1) _ x m
 

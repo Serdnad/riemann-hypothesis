@@ -53,6 +53,8 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 
+set_option backward.isDefEq.respectTransparency false
+
 @[expose] public section
 
 open MeasureTheory Matrix Finset Formalism.MainNotions.S Formalism.REAL Formalism.QuantumDeterminants GlobalTheory.Count GlobalTheory.Dec GlobalTheory.Dec.FormF
@@ -241,7 +243,7 @@ lemma ps_entry (h : IsTau ε abelian₂ τ w) (lam : Fin n → ℝ) {x : Matrix 
         (Fin.castLE_injective _)).det_pos.ne'
   have h3 : Continuous (fun k : KG ε => Phi lam ((toMK k)⁻¹ * x * toMK k) •
       (innerSL ℂ (τ (toMK k) w)).smulRight (τ (toMK k) w)) :=
-    h2.smul (((ContinuousLinearMap.smulRightL ℂ W W).continuous.comp
+    h2.smul (((StrongDual.smulRightL ℂ W W).continuous.comp
       ((innerSL ℂ).continuous.comp h1)).clm_apply h1)
   have h4 := h3.integrable_of_hasCompactSupport (μ := muK ε) (HasCompactSupport.of_compactSpace _)
   unfold ps

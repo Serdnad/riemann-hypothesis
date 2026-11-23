@@ -63,7 +63,7 @@ def flagIntegralReal (f N : ℕ) : MvPolynomial (Fin f × Fin N) ℝ →ₗ[ℝ]
   toFun G := ∑ α ∈ (blockVandermonde f N).support,
     AddMonoidAlgebra.coeff G α * ((AddMonoidAlgebra.coeff (blockVandermonde f N) α : ℚ) : ℝ) * α.prod (fun _ e => (e.factorial : ℝ))
   map_add' G H := by simp only [MvPolynomial.coeff_add, add_mul, sum_add_distrib]
-  map_smul' c G := by simp only [coeff_smul, smul_eq_mul, RingHom.id_apply, mul_sum, mul_assoc]
+  map_smul' c G := by simp only [MvPolynomial.coeff_smul, smul_eq_mul, RingHom.id_apply, mul_sum, mul_assoc]
 
 theorem flagIntegralReal_map (f N : ℕ) (Φ : RootRing f N) :
     flagIntegralReal f N (map (algebraMap ℚ ℝ) Φ) = (flagIntegral f N Φ : ℝ) := by
@@ -98,7 +98,7 @@ theorem ddConst_apply (f j k : ℕ) (G : IndefiniteRowSideFullHecke.RestTerms.Ro
       AddMonoidAlgebra.coeff (∑ w : Fin f → Equiv.Perm (Fin (j + k)),
         ((permSign f (j + k) w : ℤ) : ℝ) • rename (Equiv.prodCongrRight w) G) (rho f (j + k)) := by
   simp [IndefiniteRowSideFullHecke.RestTerms.ddConst, IndefiniteRowSideFullHecke.RestTerms.blockAntisym, permSign, rho,
-    IndefiniteRowSideFullHecke.RestTerms.rhoMon, coeff_sum, coeff_smul, smul_eq_mul]
+    IndefiniteRowSideFullHecke.RestTerms.rhoMon, coeff_sum, MvPolynomial.coeff_smul, smul_eq_mul]
 
 theorem ddConst_eq (f j k : ℕ) (G : IndefiniteRowSideFullHecke.RestTerms.Roots f j k) :
     IndefiniteRowSideFullHecke.RestTerms.ddConst f j k G =
@@ -166,7 +166,7 @@ theorem coeff_eq_zero_of_swap {f N : ℕ} (A : MvPolynomial (Fin f × Fin N) ℝ
         · rw [Equiv.swap_apply_of_ne_of_ne h1 h2]
     · rw [hu2 τ' h]; rfl
   have h := congrArg (AddMonoidAlgebra.coeff · β) (hA u)
-  rw [coeff_rename_prodCongrRight, hfix, hs, coeff_smul, smul_eq_mul] at h
+  rw [coeff_rename_prodCongrRight, hfix, hs, MvPolynomial.coeff_smul, smul_eq_mul] at h
   push_cast at h
   linarith
 

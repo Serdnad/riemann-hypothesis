@@ -92,7 +92,7 @@ theorem exists_rightInverse {p : ℕ} {κ : Type*} [Fintype κ] [DecidableEq κ]
   have hs : Function.Surjective A.mulVecLin := by
     rw [← LinearMap.range_eq_top]
     apply Submodule.eq_top_of_finrank_eq
-    simpa [Matrix.rank] using hA
+    simpa only [Module.finrank_fin_fun] using (Matrix.finrank_range_mulVecLin A).trans hA
   choose c hc using fun a : Fin p => hs (Pi.single a 1)
   refine ⟨Matrix.of c, ?_⟩
   ext a b
@@ -105,7 +105,7 @@ theorem eq_zero_of_vecMul_eq_zero {q : ℕ} {κ : Type*} [Fintype κ]
   have hFt : Fᵀ.rank = q := by rw [Matrix.rank_transpose, hF]
   have hk : LinearMap.ker Fᵀ.mulVecLin = ⊥ := by
     have h0 := LinearMap.finrank_range_add_finrank_ker Fᵀ.mulVecLin
-    have h1 : Module.finrank ℂ (LinearMap.range Fᵀ.mulVecLin) = q := hFt
+    have h1 : Module.finrank ℂ (LinearMap.range Fᵀ.mulVecLin) = q := (Matrix.finrank_range_mulVecLin Fᵀ).trans hFt
     rw [h1] at h0
     simp only [Module.finrank_fintype_fun_eq_card, Fintype.card_fin] at h0
     exact Submodule.finrank_eq_zero.mp (by omega)

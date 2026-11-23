@@ -130,7 +130,7 @@ theorem eCore {K : Type} [Field K] {S : Type} [Fintype S] [DecidableEq S] (A : M
       rw [hφc, hp, Polynomial.rootMultiplicity_mul (mul_ne_zero (Polynomial.X_sub_C_ne_zero _) hq0),
         Polynomial.rootMultiplicity_X_sub_C_self,
         Polynomial.rootMultiplicity_eq_zero (by rw [Polynomial.IsRoot, hδq]; exact hδ)]
-    calc EA.rank = Module.finrank K (LinearMap.range EA.mulVecLin) := rfl
+    calc EA.rank = Module.finrank K (LinearMap.range EA.mulVecLin) := (Matrix.finrank_range_mulVecLin EA).symm
       _ ≤ Module.finrank K (φ.eigenspace (α 0)) := Submodule.finrank_mono h1
       _ ≤ 1 := h2 ▸ LinearMap.finrank_eigenspace_le φ (α 0)
   · have hroot : φ.charpoly.IsRoot (α 0) := by
@@ -143,7 +143,7 @@ theorem eCore {K : Type} [Field K] {S : Type} [Fintype S] [DecidableEq S] (A : M
     rw [h2, hδq] at h1
     by_contra hlt
     have h0 : EA.rank = 0 := by omega
-    have h3 : LinearMap.range EA.mulVecLin = ⊥ := Submodule.finrank_eq_zero.mp h0
+    have h3 : LinearMap.range EA.mulVecLin = ⊥ := Submodule.finrank_eq_zero.mp ((Matrix.finrank_range_mulVecLin EA).trans h0)
     have h4 : EA.mulVecLin v ∈ LinearMap.range EA.mulVecLin := LinearMap.mem_range_self _ v
     rw [h3, Submodule.mem_bot] at h4
     have h5 : δ • v = 0 := by rw [← h1]; exact h4

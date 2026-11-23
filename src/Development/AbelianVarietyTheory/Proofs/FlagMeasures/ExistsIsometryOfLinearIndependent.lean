@@ -178,8 +178,7 @@ end Abstract
 theorem linearIndependent_col_of_rank {K : Type*} [Field K] {n a : ℕ}
     {X : Matrix (Fin n) (Fin a) K} (h : X.rank = a) : LinearIndependent K X.col := by
   rw [linearIndependent_iff_card_eq_finrank_span, Fintype.card_fin]
-  rw [Matrix.rank_eq_finrank_span_cols] at h
-  exact h.symm
+  exact h.symm.trans (Matrix.finrank_span_range_col X).symm
 
 private lemma exists_form_lemma {K : Type} [Field K] [StarRing K] {n : ℕ}
     (J : Matrix (Fin n) (Fin n) K) :

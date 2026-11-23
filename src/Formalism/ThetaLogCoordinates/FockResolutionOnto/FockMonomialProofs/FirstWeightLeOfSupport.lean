@@ -65,7 +65,7 @@ theorem cartan_eigC (LL : Letters N) (j : ℕ) (Cs : Finset (Fin r)) (μ : Fin r
     glAct p LL j c c x = ((μ c : ℤ) : ℚ_[p]) • x := by
   rw [WtSpC, mem_restrictSupport_iff] at hx
   ext m
-  rw [coeff_cartan, coeff_smul, smul_eq_mul]
+  rw [coeff_cartan, MvPolynomial.coeff_smul, smul_eq_mul]
   by_cases h : AddMonoidAlgebra.coeff x m = 0
   · simp [h]
   · have hm := hx (Finset.mem_coe.mpr (mem_support_iff.mpr h))
@@ -199,7 +199,7 @@ private theorem exists_mem_coeff_eq_prod_weight_sub_mul (LL : Letters N) (j : �
   | insert a F ha ih =>
     obtain ⟨y, hy, hym⟩ := ih
     refine ⟨glAct p LL j c c y - ((a : ℤ) : ℚ_[p]) • y, sub_mem (hS y hy) (Submodule.smul_mem _ _ hy), fun m => ?_⟩
-    rw [coeff_sub, coeff_cartan, coeff_smul, smul_eq_mul, hym m, Finset.prod_insert ha]
+    rw [MvPolynomial.coeff_sub, coeff_cartan, MvPolynomial.coeff_smul, smul_eq_mul, hym m, Finset.prod_insert ha]
     ring
 private theorem compP_weight_eq_mem_of_glAct_stable (LL : Letters N) (j : ℕ) (c : Fin r)
     (S : Submodule ℚ_[p] (MvPolynomial (Fin N × Fin r) ℚ_[p]))
@@ -217,7 +217,7 @@ private theorem compP_weight_eq_mem_of_glAct_stable (LL : Letters N) (j : ℕ) (
     exact (Finset.ne_of_mem_erase hw) (by exact_mod_cast h.symm)
   have heq : compP (fun m => wt LL j c m = k) x = (∏ w ∈ F, ((k : ℚ_[p]) - (w : ℚ_[p])))⁻¹ • y := by
     ext m
-    rw [coeff_compP, coeff_smul, smul_eq_mul, hym m]
+    rw [coeff_compP, MvPolynomial.coeff_smul, smul_eq_mul, hym m]
     by_cases hm : AddMonoidAlgebra.coeff x m = 0
     · simp [hm]
     · split_ifs with hk

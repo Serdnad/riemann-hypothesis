@@ -106,8 +106,7 @@ theorem chainsXIso_nat {E' E : Spc} (f : E' ⟶ E) (p : ℕ) :
     (chainsXIso R E' p).inv ≫ ((chains R).map f).f (-(p:ℤ)) =
       (free R).map (f.app (op (SimplexCategory.mk p))) ≫ (chainsXIso R E p).inv := by
   simp [chainsXIso, chains, chainsN, HomologicalComplex.extendMap_f _ _ (show ComplexShape.embeddingDownNat.f p = -(p:ℤ) from rfl)]
-  erw [Iso.inv_hom_id_assoc]
-  try rfl
+
 
 theorem ev_res {E : Spc} {I : Cx R} {n : ℤ} (α : Cochain ((chains R).obj E) I n) p s h (V U : Scheme.{0}) (g : V ⟶ U) (x : Sx E p U) :
     Sec.res g (ev α p s h U x) = ev α p s h V (x.res g) := by

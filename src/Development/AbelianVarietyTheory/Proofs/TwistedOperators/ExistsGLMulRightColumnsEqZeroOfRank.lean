@@ -73,7 +73,7 @@ theorem exists_gl_mul_cols_eq_zero_of_rank (k m a b n : Type) [Field k] [Fintype
   have hcard : Fintype.card n = Fintype.card a + Fintype.card b := by
     rw [← Fintype.card_congr e, Fintype.card_sum]
   have hrn := LinearMap.finrank_range_add_finrank_ker f
-  have hrank : Module.finrank k (LinearMap.range f) = Fintype.card a := hx
+  have hrank : Module.finrank k (LinearMap.range f) = Fintype.card a := (Matrix.finrank_range_mulVecLin x).trans hx
   rw [hrank, Module.finrank_fintype_fun_eq_card, hcard] at hrn
   have hK : Module.finrank k (LinearMap.ker f) = Fintype.card b := by omega
   have hsum := Submodule.finrank_add_eq_of_isCompl hKC

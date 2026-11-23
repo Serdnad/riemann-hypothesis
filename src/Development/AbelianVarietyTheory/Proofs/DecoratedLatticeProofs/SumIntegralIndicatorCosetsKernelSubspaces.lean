@@ -140,7 +140,8 @@ def colSp (s : Finset D) (κ : GL D 𝒪[k]) : Submodule 𝓀[k] (D → 𝓀[k])
   LinearMap.range (red κ.1 * projE 𝓀[k] s).mulVecLin
 
 theorem finrank_colSp (s : Finset D) (κ : GL D 𝒪[k]) : Module.finrank 𝓀[k] (colSp s κ) = s.card := by
-  rw [← rank_projE 𝓀[k] s]
+  change Module.finrank 𝓀[k] (LinearMap.range (red κ.1 * projE 𝓀[k] s).mulVecLin) = s.card
+  rw [Matrix.finrank_range_mulVecLin, ← rank_projE 𝓀[k] s]
   refine rank_mul_eq_right_of_isUnit_det _ _ ?_
   have : (red κ.1).det = IsLocalRing.residue 𝒪[k] κ.1.det := (RingHom.map_det _ _).symm
   rw [this]
@@ -149,7 +150,7 @@ theorem finrank_colSp (s : Finset D) (κ : GL D 𝒪[k]) : Module.finrank 𝓀[k
 theorem exists_colSp (s : Finset D) (U : Submodule 𝓀[k] (D → 𝓀[k])) (hU : Module.finrank 𝓀[k] U = s.card) :
     ∃ κ : GL D 𝒪[k], colSp s κ = U := by
   obtain ⟨g, hg⟩ := exists_gl_map_eq 𝒪[k] D (LinearMap.range (projE 𝓀[k] s).mulVecLin) U
-    (by rw [hU, ← rank_projE 𝓀[k] s]; rfl)
+    (by rw [hU, ← rank_projE 𝓀[k] s]; exact Matrix.finrank_range_mulVecLin _)
   exact ⟨g, by rw [colSp, mulVecLin_mul, LinearMap.range_comp]; exact hg⟩
 
 theorem colSp_le_ker_iff (s : Finset D) (κ : GL D 𝒪[k]) (Y : Matrix D' D 𝓀[k]) [Fintype D'] [DecidableEq D'] :

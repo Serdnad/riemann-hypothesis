@@ -185,12 +185,13 @@ theorem ker_le_span {r r₀ : ℕ} (Mr : Matrix (Fin r) (Fin r) ℝ) (Ar : Matri
     change Module.finrank ℝ (Submodule.span ℝ (Set.range fun i => Ar i)) = r₀
     rw [finrank_span_eq_card hA, Fintype.card_fin]
   have hT : Module.finrank ℝ (LinearMap.range T) = r₀ := by
-    change (Ar * Mrᵀ).rank = r₀
+    change Module.finrank ℝ (LinearMap.range (Ar * Mrᵀ).mulVecLin) = r₀
+    rw [Matrix.finrank_range_mulVecLin]
     rw [Matrix.rank_mul_eq_left_of_isUnit_det _ _ (by rwa [Matrix.det_transpose]), hAr]
   have h1 := LinearMap.finrank_range_add_finrank_ker T
   have h2 := LinearMap.finrank_range_add_finrank_ker (T ∘ₗ E)
   have hQ : Module.finrank ℝ (LinearMap.range (T ∘ₗ E)) = (Ar * Mrᵀ * Arᵀ).rank := by
-    rw [Matrix.rank, Matrix.mulVecLin_mul]
+    rw [← Matrix.finrank_range_mulVecLin, Matrix.mulVecLin_mul]
   have hmap : Submodule.map E (LinearMap.ker (T ∘ₗ E)) = LinearMap.range E ⊓ LinearMap.ker T := by
     rw [LinearMap.ker_comp, Submodule.map_comap_eq]
   have h3 : Module.finrank ℝ (LinearMap.range E ⊓ LinearMap.ker T : Submodule ℝ (Fin r → ℝ)) =

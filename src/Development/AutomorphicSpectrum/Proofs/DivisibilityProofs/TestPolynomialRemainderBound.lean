@@ -191,7 +191,7 @@ def degFlL (N : ℕ) : RP Ψ N →ₗ[ℝ] ℝ where
   map_add' a b := by
     simp only [degFl, MvPolynomial.coeff_add, mul_add, Finset.sum_add_distrib]
   map_smul' c a := by
-    simp only [degFl, coeff_smul, smul_eq_mul, RingHom.id_apply, Finset.mul_sum]
+    simp only [degFl, MvPolynomial.coeff_smul, smul_eq_mul, RingHom.id_apply, Finset.mul_sum]
     refine Finset.sum_congr rfl fun _ _ => ?_
     ring
 

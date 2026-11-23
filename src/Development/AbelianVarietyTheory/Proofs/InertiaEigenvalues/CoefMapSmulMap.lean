@@ -110,13 +110,13 @@ theorem coeff_coefMap (p : MvPolynomial σ ℂ) (m : σ →₀ ℕ) :
 theorem coefMap_monomial (m : σ →₀ ℕ) (c : ℂ) :
     coefMap F lam (monomial m c) = lam c • monomial m (1 : F) := by
   ext m'
-  rw [coeff_coefMap, coeff_smul, coeff_monomial, coeff_monomial]
+  rw [coeff_coefMap, MvPolynomial.coeff_smul, coeff_monomial, coeff_monomial]
   split_ifs <;> simp
 
 theorem coefMap_smul_map (c : ℂ) (R : MvPolynomial σ F) :
     coefMap F lam (c • map (algebraMap F ℂ) R) = lam c • R := by
   ext m
-  rw [coeff_coefMap, coeff_smul, coeff_map, coeff_smul, smul_eq_mul, smul_eq_mul]
+  rw [coeff_coefMap, MvPolynomial.coeff_smul, coeff_map, MvPolynomial.coeff_smul, smul_eq_mul, smul_eq_mul]
   have : c * algebraMap F ℂ (R.coeff m) = R.coeff m • c := by
     rw [Algebra.smul_def, mul_comm]
   rw [this, map_smul, smul_eq_mul, mul_comm]

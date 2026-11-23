@@ -257,7 +257,7 @@ theorem algebraicIndependent_tV : ∀ {K : Type} [Field K] {X : Scheme.{0}} {N d
   have hF : homogP P.totalDegree P = 0 :=
     (injective_iff_map_eq_zero _).1 ((algebraicIndependent_iff_injective_aeval).1 hind) _ hz
   have h := aeval_homogP (le_refl P.totalDegree) (1 : MvPolynomial (Fin d) K) MvPolynomial.X
-  rw [hF] at h
-  simpa using h.symm
+  rw [hF, map_zero, one_pow, one_mul, MvPolynomial.aeval_X_left_apply] at h
+  exact h.symm
 
 end GlobalTheory.CompanionTheory.GeoAlgInd

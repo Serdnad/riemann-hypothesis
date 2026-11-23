@@ -106,7 +106,7 @@ theorem exists_conj_diag_of_idem (k : Type) [Field k] (r : ℕ) (ε : Matrix (Fi
   set U := LinearMap.range f
   set K := LinearMap.ker f
   set a := ε.rank with ha
-  have haU : Module.finrank k U = a := rfl
+  have haU : Module.finrank k U = a := Matrix.finrank_range_mulVecLin ε
   have hsum : a + Module.finrank k K = r := by
     rw [← haU, Submodule.finrank_add_eq_of_isCompl hc, Module.finrank_fin_fun]
   have hKr : Module.finrank k K = r - a := by omega

@@ -86,7 +86,7 @@ theorem mr_add (F G : MvPolynomial σ A) : mr L (F + G) = mr L F + mr L G := by
   ext m; simp [coeff_mr]
 
 theorem mr_smul (c : k) (F : MvPolynomial σ A) : mr L (c • F) = c • mr L F := by
-  ext m; simp [coeff_mr, coeff_smul]
+  ext m; simp [coeff_mr, MvPolynomial.coeff_smul]
 
 theorem mr_monomial (m : σ →₀ ℕ) (a : A) : mr L (monomial m a) = monomial m (L a) := by
   classical
@@ -107,7 +107,7 @@ end
 theorem mr_C_mul_map {σ A : Type} [CommRing A] [Algebra k A] (L : A →ₗ[k] k) (c : A) (h : MvPolynomial σ k) :
     mr L (C c * map (algebraMap k A) h) = L c • h := by
   ext n
-  simp only [coeff_mr, coeff_C_mul, coeff_map, coeff_smul, smul_eq_mul]
+  simp only [coeff_mr, coeff_C_mul, coeff_map, MvPolynomial.coeff_smul, smul_eq_mul]
   rw [← Algebra.commutes, ← Algebra.smul_def, LinearMap.map_smul, smul_eq_mul, mul_comm]
 
 theorem commAlgEquiv_monomial_one {S₁ S₂ : Type} (m' : S₁ →₀ ℕ) :

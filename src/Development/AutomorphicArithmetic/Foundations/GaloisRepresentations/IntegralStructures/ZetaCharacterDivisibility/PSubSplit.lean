@@ -119,9 +119,10 @@ private lemma col_indep (A : Matrix (Fin n) (Fin a) k) (hA : A.rank = a)
     LinearIndependent k (Sum.elim A.col (fun j => (c j : Fin n → k))) := by
   apply LinearIndependent.sum_type
   · rw [linearIndependent_iff_card_eq_finrank_span, Fintype.card_fin]
-    calc a = A.rank := hA.symm
+    calc a = Module.finrank k (LinearMap.range A.mulVecLin) := by
+          rw [Matrix.finrank_range_mulVecLin]; exact hA.symm
       _ = _ := by
-        rw [Matrix.rank_eq_finrank_span_cols]
+        rw [Matrix.range_mulVecLin]
         rfl
   · exact c.linearIndependent.map' W'.subtype (Submodule.ker_subtype W')
   · refine hc.disjoint.mono ?_ ?_
@@ -141,7 +142,8 @@ theorem subSplit_of : SubSplit := by
   obtain ⟨W', hinv, hc⟩ := hss _ hinvW
   have hdim : Module.finrank k W' = b := by
     have h1 := Submodule.finrank_add_eq_of_isCompl hc
-    have h2 : Module.finrank k (LinearMap.range A.mulVecLin) = a := hA
+    have h2 : Module.finrank k (LinearMap.range A.mulVecLin) = a := by
+      rw [Matrix.finrank_range_mulVecLin]; exact hA
     rw [Module.finrank_fin_fun] at h1
     omega
   let c : Module.Basis (Fin b) k W' := Module.finBasisOfFinrankEq k W' hdim

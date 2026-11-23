@@ -113,10 +113,7 @@ theorem evalPoly_X {m : ℕ} (v : D.what₂.Tau × Fin m × Fin n × Bool) (z : 
 
 theorem eval_bind₁' {σ ι : Type*} (f : σ → ℂ) (g : ι → MvPolynomial σ ℂ) (p : MvPolynomial ι ℂ) :
     MvPolynomial.eval f (MvPolynomial.bind₁ g p) = MvPolynomial.eval (fun i => MvPolynomial.eval f (g i)) p := by
-  induction p using MvPolynomial.induction_on with
-  | C a => simp
-  | add p q hp hq => simp [hp, hq]
-  | mul_X p i hp => simp [hp]
+  exact MvPolynomial.eval₂Hom_bind₁ (RingHom.id ℂ) f g p
 
 def polyAt {m : ℕ} (τ : D.what₂.Tau) (fr : Matrix (Fin m) (Fin m) ℂ) (P : PX m n) :
     MvPolynomial (D.what₂.Tau × Fin m × Fin n × Bool) ℂ :=

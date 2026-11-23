@@ -210,7 +210,9 @@ theorem back_fwd_sub_mem (h : IsBlockImage y k₀ M N x) {f : MRing ι} {n : ℕ
   have hk : k = k₀ := fst_eq_of_mem_support hf hc hp
   subst hk
   have e3 : back k M (∑ j, C (N i j) * X j) = ∑ j, C (N i j) * blockForms k M j := by
-    simp [back]
+    rw [back, map_sum]
+    exact Finset.sum_congr rfl fun j _ => by
+      rw [map_mul, MvPolynomial.bind₁_C_right, MvPolynomial.bind₁_X_right]
   rw [blockSubst_block, e3]
   exact (Ideal.Quotient.eq.mpr (BlockImageTop.sub_mem_mCoordIdeal h i)).symm
 
@@ -235,8 +237,12 @@ theorem eval_fwd (h : IsBlockImage y k₀ M N x) {f : MRing ι} {n : ℕ} (hf : 
     | C a => simp [back]
     | add p q hp hq => rw [map_add (f := _), map_add (f := _), map_add (f := _), map_add (f := _), map_add (f := _), hp, hq]
     | mul_X p j hp =>
-      rw [map_mul, map_mul, map_mul, map_mul, map_mul, hp]
-      simp [back, blockForms, blockMapC]
+      rw [map_mul, map_mul, map_mul, map_mul, map_mul, hp, back, MvPolynomial.bind₁_X_right,
+        MvPolynomial.map_X, MvPolynomial.eval_X]
+      congr 1
+      first
+        | (simp [blockForms, blockMapC]; done)
+        | (simp [blockForms, blockMapC, mul_comm]; done)
   rw [e]
   have h0 := hz.2 _ (back_fwd_sub_mem h hf)
   rw [map_sub, map_sub, sub_eq_zero] at h0

@@ -189,7 +189,7 @@ theorem test (hP0 : (0 : G) ∈ P) (h1 : ∀ p ∈ P, ∀ φ ∈ SB G, l (fun x 
     refine (mul_eq_zero.1 h0).resolve_left (Nat.cast_ne_zero.2 (Finset.card_ne_zero.2 ⟨0, ?_⟩))
     have h4 : (0 : G ⧸ U.toAddSubgroup).out ∈ U :=
       (QuotientAddGroup.eq_zero_iff _).1 (QuotientAddGroup.out_eq' (0 : G ⧸ U.toAddSubgroup))
-    refine Finset.mem_filter.2 ⟨(ht _).2 ?_, 0, hP0, by simpa using U.neg_mem h4⟩
+    refine Finset.mem_filter.2 ⟨(ht _).2 ?_, 0, hP0, by first | (rw [zero_sub]; exact U.neg_mem h4) | exact U.sub_mem U.zero_mem h4⟩
     simp [ind, hU h4]
   obtain ⟨U₁, hU₁⟩ := uniform hφ
   obtain ⟨t, -, e⟩ := decomp hφ (U₀ ⊓ U₁) fun u hu => hU₁ u hu.2

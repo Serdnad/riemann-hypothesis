@@ -66,7 +66,8 @@ def linL (A : Mx F⟦X⟧ a b) : (Fin b → LaurentSeries F) →ₗ[LaurentSerie
 
 def colL (A : Mx F⟦X⟧ a b) : Submodule (LaurentSeries F) (Fin a → LaurentSeries F) := LinearMap.range (linL A)
 
-theorem finrank_colL (A : Mx F⟦X⟧ a b) : Module.finrank (LaurentSeries F) (colL A) = lrank A := rfl
+theorem finrank_colL (A : Mx F⟦X⟧ a b) : Module.finrank (LaurentSeries F) (colL A) = lrank A := by
+  rw [colL, linL, Matrix.range_mulVecLin] <;> rfl
 
 theorem linL_vecL (A : Mx F⟦X⟧ a b) (y : Fin b → F⟦X⟧) : linL A (vecL y) = vecL (A.mulVec y) := by
   funext j

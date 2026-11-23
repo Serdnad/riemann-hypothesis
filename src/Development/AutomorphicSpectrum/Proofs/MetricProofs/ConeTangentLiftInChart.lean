@@ -117,7 +117,7 @@ theorem eval_bind_scale (l w : σ → ℂ) (F : MvPolynomial σ ℂ) :
   induction F using MvPolynomial.induction_on with
   | C a => simp
   | add p q hp hq => simp [hp, hq]
-  | mul_X p r hp => simp [hp]
+  | mul_X p r hp => simp [hp, MvPolynomial.bind₁_X_right]
 
 theorem pderiv_bind_scale (l : σ → ℂ) (q : σ) (F : MvPolynomial σ ℂ) :
     pderiv q (bind₁ (fun r => C (l r) * X r) F) =

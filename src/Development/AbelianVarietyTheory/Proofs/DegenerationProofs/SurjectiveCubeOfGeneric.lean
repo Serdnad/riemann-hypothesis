@@ -158,19 +158,19 @@ variable {L : LB G.left} {Y : Over S}
 omit [GrpObj G] [IsCommMonObj G] in
 theorem formEq_of_sum {K K' : Type} [Fintype K] [Fintype K'] {V W : Scheme.{0}} {φ : K → (V ⟶ W)} {ε : K → ℤ}
     {φ' : K' → (V ⟶ W)} {ε' : K' → ℤ}
-    (h : ∑ k, ε k • FreeAbelianGroup.of (φ k) = ∑ k, ε' k • FreeAbelianGroup.of (φ' k)) : FormEq φ ε φ' ε' :=
+    (h : ∑ k, ε k • FreeAddCommGroup.of (φ k) = ∑ k, ε' k • FreeAddCommGroup.of (φ' k)) : FormEq φ ε φ' ε' :=
   fun U _ g => by
-    have := congrArg (FreeAbelianGroup.lift (fun q => Additive.ofMul (g q))) h
+    have := congrArg (FreeAddCommGroup.lift (fun q => Additive.ofMul (g q))) h
 
-    simp only [map_sum, map_zsmul, FreeAbelianGroup.lift_apply_of] at this
+    simp only [map_sum, map_zsmul, FreeAddCommGroup.lift_apply_of] at this
     apply Additive.ofMul.injective
     simpa only [ofMul_prod, ofMul_zpow] using this
 
 
 omit [GrpObj G] [IsCommMonObj G] in
 theorem rep_pull {K : Type} [Fintype K] {V : Over S} {φ : K → (V.left ⟶ G.left)} {ε : K → ℤ}
-    {t : LB.Gen (LB.LinComb L φ ε)} (ht : t.IsGen) (p : Y ⟶ V) {D : FreeAbelianGroup (Y.left ⟶ G.left)}
-    (hD : ∏ k, Multiplicative.ofAdd (FreeAbelianGroup.of (p.left ≫ φ k)) ^ ε k = Multiplicative.ofAdd D) :
+    {t : LB.Gen (LB.LinComb L φ ε)} (ht : t.IsGen) (p : Y ⟶ V) {D : FreeAddCommGroup (Y.left ⟶ G.left)}
+    (hD : ∏ k, Multiplicative.ofAdd (FreeAddCommGroup.of (p.left ≫ φ k)) ^ ε k = Multiplicative.ofAdd D) :
     Rep L D (fun Z r z J => val t (r ≫ p).left z J) := by
   refine ⟨K, inferInstance, _, _, LB.pullGen L φ ε t p.left, DVR.pullGen_isGen _ _ _ _ ht _, ?_,
     fun Z r z J hJ => val_pull hJ _ _ _⟩
@@ -180,7 +180,7 @@ theorem rep_pull {K : Type} [Fintype K] {V : Over S} {φ : K → (V.left ⟶ G.l
 
 omit [GrpObj G] [IsCommMonObj G] in
 theorem rep_unique (hL : L.IsLB) (hp : Function.Surjective Y.hom.appTop.hom) (e : 𝟙_ (Over S) ⟶ Y)
-    {D D' : FreeAbelianGroup (Y.left ⟶ G.left)} {f f' : ValFam L Y} (h : Rep L D f) (h' : Rep L D' f') (hD : D = D')
+    {D D' : FreeAddCommGroup (Y.left ⟶ G.left)} {f f' : ValFam L Y} (h : Rep L D f) (h' : Rep L D' f') (hD : D = D')
     (he : ∀ z J, Good L z J → f _ e z J = f' _ e z J) {Z : Over S} (r : Z ⟶ Y) {z : Z.left} {J} (hJ : Good L z J) :
     f Z r z J = f' Z r z J := by
   obtain ⟨K, _, φ, ε, t, ht, hs, hv⟩ := h
@@ -201,7 +201,7 @@ theorem exists_norm (hL : L.IsLB) (w : G ⟶ G) [IsMonHom w] (H : LBIso L (cubeL
         (congrArg (fun q => psum G q I.down) (funext fun i => by fin_cases i <;> simp [preHom])))
     rw [Fintype.prod_sum_type]
     simp only [Sum.elim_inl, Sum.elim_inr, e, Category.comp_id, Fintype.prod_unique]
-    rw [JetSer.prod_lam p (p ≫ w) (fun q => Multiplicative.ofAdd (FreeAbelianGroup.of q))]
+    rw [JetSer.prod_lam p (p ≫ w) (fun q => Multiplicative.ofAdd (FreeAddCommGroup.of q))]
     simp only [ofAdd_sub, ofAdd_add, div_eq_mul_inv, zpow_neg_one, pt])
   obtain ⟨K, _, φ, ε, t', ht', hs, hv⟩ := (R (𝟙 G)).mul (R 1).inv
   obtain ⟨u, hu, hu'⟩ := exists_gen hL (φ' := uφ (𝟙 G) w) (ε' := uε) (formEq_of_sum (hs.trans (by
@@ -222,11 +222,11 @@ theorem compat_of_surjective (h3 : Function.Surjective (G3 G).hom.appTop.hom) (P
       (fun Z r z J => cubV P.c z J (r ≫ a) (r ≫ b) (r ≫ d)) := fun a b d => Rep.cube P.c.isGen a b d
   have Ru : ∀ p : G3 G ⟶ G, Rep P.L.L (pt (p * (p ≫ w)) - (2 : ℤ) • pt p - pt (p ≫ w) + (2 : ℤ) • pt (1 : G3 G ⟶ G))
       (fun Z r z J => val u (r ≫ p).left z J) := fun p => rep_pull hu p (by
-    rw [prod_u (𝟙 G) w p (fun q => Multiplicative.ofAdd (FreeAbelianGroup.of q))]
+    rw [prod_u (𝟙 G) w p (fun q => Multiplicative.ofAdd (FreeAddCommGroup.of q))]
     simp only [ofAdd_sub, ofAdd_add, div_eq_mul_inv, zpow_neg, ofAdd_zsmul, pt, Category.comp_id])
   have Rs : ∀ p : G3 G ⟶ G, Rep P.L.L (pt p⁻¹ - pt p) (fun Z r z J => val P.sym (r ≫ p).left z J) := fun p =>
     rep_pull P.sym_gen p (by
-      rw [prod_sym p (fun q => Multiplicative.ofAdd (FreeAbelianGroup.of q))]
+      rw [prod_sym p (fun q => Multiplicative.ofAdd (FreeAddCommGroup.of q))]
       simp only [ofAdd_sub, div_eq_mul_inv, pt])
   obtain ⟨a, ha⟩ : ∃ a, a = x3 G 0 := ⟨_, rfl⟩
   obtain ⟨b, hb⟩ : ∃ b, b = x3 G 1 := ⟨_, rfl⟩

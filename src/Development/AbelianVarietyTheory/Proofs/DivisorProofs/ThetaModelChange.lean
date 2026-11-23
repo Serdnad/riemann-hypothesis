@@ -64,7 +64,7 @@ theorem det_ne_zero_of_hasSig {n r s : ℕ} {A : Matrix (Fin n) (Fin n) ℂ} (h 
   simp at h2
   have h3 : A.rank = n := le_antisymm (by simpa using A.rank_le_card_width) (by omega)
   have h4 : LinearMap.range A.mulVecLin = ⊤ :=
-    Submodule.eq_top_of_finrank_eq (by rw [Module.finrank_fin_fun]; exact h3)
+    Submodule.eq_top_of_finrank_eq (by rw [Module.finrank_fin_fun]; exact (Matrix.finrank_range_mulVecLin A).trans h3)
   have h5 : Function.Surjective A.mulVec := LinearMap.range_eq_top.mp h4
   exact (Matrix.isUnit_iff_isUnit_det A |>.mp (Matrix.mulVec_surjective_iff_isUnit.mp h5)).ne_zero
 

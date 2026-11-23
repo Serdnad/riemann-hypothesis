@@ -87,7 +87,7 @@ theorem exists_translate (a : Mat n) (P : Poly n) :
   · have h : ev (a * g) = (ev g).comp (bind₁ f : Poly n →ₐ[ℂ] Poly n).toRingHom := by
       refine MvPolynomial.ringHom_ext (fun r => ?_) ?_
       · simp [ev]
-      · rintro (x | x) <;> simp [ev, f, Matrix.mul_apply]
+      · rintro (x | x) <;> simp [ev, f, Matrix.mul_apply, bind₁_X_right]
     rw [h]; rfl
 
 def varWt : (Fin n × Fin n) ⊕ (Fin n × Fin n) → Fin n → ℝ :=

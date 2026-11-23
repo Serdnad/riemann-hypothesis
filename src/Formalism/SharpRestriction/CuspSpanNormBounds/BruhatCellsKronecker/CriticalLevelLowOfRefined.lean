@@ -411,7 +411,7 @@ theorem TfFacts.tframe (F : TfFacts D large₂ C' Cl Cu C0) {C3 : ℝ} (hCl : 4 
       have := Real.exp_one_lt_d9
       nlinarith
     calc Real.exp ((D.R.k : ℝ) / 4) ≤ Real.exp ((D.R.k : ℝ) * 1) := Real.exp_le_exp.2 (by linarith)
-      _ = Real.exp 1 ^ D.R.k := Real.exp_nat_mul 1 D.R.k
+      _ = Real.exp 1 ^ D.R.k := Real.exp_natCast_mul D.R.k 1
       _ ≤ gg D ^ D.R.k := pow_le_pow_left₀ (Real.exp_pos _).le h1 _
   have hfin : Real.exp 8 * (C0 * Real.exp ((D.R.k : ℝ) / 4)) < (gg D ^ 2) ^ D.R.k := by
     have e : (gg D ^ 2) ^ D.R.k = gg D ^ D.R.k * gg D ^ D.R.k := by ring

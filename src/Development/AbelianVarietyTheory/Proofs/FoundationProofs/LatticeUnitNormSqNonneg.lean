@@ -117,7 +117,7 @@ theorem posLog_le_of_le_exp {y E : ℝ} (hy : 0 ≤ y) (hE : 0 ≤ E) (h : y ≤
 theorem pow_le_exp {y t k : ℝ} {n : ℕ} (hy : 0 ≤ y) (ht : 0 ≤ t) (h : y ≤ Real.exp t) (hn : (n : ℝ) ≤ k) :
     y ^ n ≤ Real.exp (k * t) := by
   calc y ^ n ≤ Real.exp t ^ n := pow_le_pow_left₀ hy h n
-    _ = Real.exp (n * t) := (Real.exp_nat_mul t n).symm
+    _ = Real.exp (n * t) := (Real.exp_natCast_mul n t).symm
     _ ≤ _ := Real.exp_le_exp.2 (mul_le_mul_of_nonneg_right hn ht)
 
 theorem mul_le_exp {x y s t : ℝ} (hy : 0 ≤ y) (hx : x ≤ Real.exp s) (h : y ≤ Real.exp t) :

@@ -87,7 +87,7 @@ theorem fock_smul_right' (c : ℚ_[p]) (F G : MvPolynomial σ ℚ_[p]) : fock p 
   unfold fock
   rw [Finset.mul_sum]
   refine Finset.sum_congr rfl fun m _ => ?_
-  rw [coeff_smul, smul_eq_mul]
+  rw [MvPolynomial.coeff_smul, smul_eq_mul]
   ring
 
 theorem fock_add_left' (F F' G : MvPolynomial σ ℚ_[p]) : fock p (F + F') G = fock p F G + fock p F' G := by

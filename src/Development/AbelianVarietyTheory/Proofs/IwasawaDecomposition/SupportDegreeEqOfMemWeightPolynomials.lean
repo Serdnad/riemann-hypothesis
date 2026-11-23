@@ -101,7 +101,7 @@ theorem deg_eq_of_mem_wtPol : ∀ {K : Type} [Field K] [CharZero K] {ι : Type} 
   have hw := hQ β hbor
   rw [hsub] at hw
   have hcoef := congrArg (AddMonoidAlgebra.coeff · e) hw
-  rw [coeff_aeval_diag, coeff_smul] at hcoef
+  rw [coeff_aeval_diag, MvPolynomial.coeff_smul] at hcoef
   have hne : AddMonoidAlgebra.coeff Q e ≠ 0 := mem_support_iff.mp he
   have hL : (e.prod fun v k => c v.1 ^ k) = (2 : K) ^ (∑ α, ∑ s, e (τ, α, s)) := by
     rw [Finsupp.prod_fintype _ _ (fun _ => pow_zero _), Fintype.prod_prod_type,

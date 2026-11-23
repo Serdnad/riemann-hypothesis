@@ -95,7 +95,7 @@ theorem block_diag_minor_ne_zero {N j : ℕ} (hj : j ≤ N) (i : Fin N) (h : Mat
   have hcol : LinearIndependent ℂ A.col :=
     (Matrix.linearIndependent_cols_iff_isUnit.2 hu).comp e e.injective
   have hrank : A.rank = k := by
-    rw [Matrix.rank_eq_finrank_span_cols, finrank_span_eq_card hcol, Fintype.card_fin]
+    rw [← Matrix.rank_eq_finrank_span_cols, finrank_span_eq_card hcol, Fintype.card_fin]
   obtain ⟨κ, a, ha, hspan, hli⟩ := exists_linearIndependent' ℂ A.row
   haveI : Finite κ := Finite.of_injective a ha
   letI : Fintype κ := Fintype.ofFinite κ

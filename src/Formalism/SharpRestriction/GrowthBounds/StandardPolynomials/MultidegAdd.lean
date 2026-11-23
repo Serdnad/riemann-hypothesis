@@ -312,7 +312,7 @@ theorem tail_cls (hw : w ≠ 0) {f sg : RHH O X} {od : ℕ} {dg : X.TT × Bool �
         omega
       obtain ⟨a, ha⟩ := lift_substitution_coeff_divisible X.p X.n' O w (hhLetters X.TT) 1 1 (isGLW_one' _) f hf.inA M
       refine ⟨a, ?_⟩
-      rw [max_eq_right (by omega), coeff_sub, h0, sub_zero, coeff_C_mul]
+      rw [max_eq_right (by omega), MvPolynomial.coeff_sub, h0, sub_zero, coeff_C_mul]
       have ha' : (lift1 X O w f).coeff M = algebraMap O (KK O) (w ^ ndM X M * a) := ha
       rw [ha']
       have : ndM X M = od + (ndM X M - od) := by omega

@@ -67,13 +67,13 @@ theorem lam_mul_left (M : RigLB B) (cub : CubicalStr B M) {T : Over S} (x x' y :
   have ht := DVR.pullGen_isGen _ _ _ _ cub.isGen (lift x (lift x' y)).left
   have h0 := (GlobalTheory.CechPic.cls_eq_zero_iff (LB.isLB_linComb M.isLB _ _)).2 ⟨_, ht⟩
   rw [GlobalTheory.CechPic.cls_linComb M.isLB] at h0
-  have e := prod_cub x x' y (U := Multiplicative (FreeAbelianGroup (T.left ⟶ B.left)))
-    (fun ψ => Multiplicative.ofAdd (FreeAbelianGroup.of ψ))
-  have e' := congrArg (fun u => FreeAbelianGroup.lift (fun ψ => GlobalTheory.CechPic.pull ψ (GlobalTheory.CechPic.cls M.L M.isLB))
+  have e := prod_cub x x' y (U := Multiplicative (FreeAddCommGroup (T.left ⟶ B.left)))
+    (fun ψ => Multiplicative.ofAdd (FreeAddCommGroup.of ψ))
+  have e' := congrArg (fun u => FreeAddCommGroup.lift (fun ψ => GlobalTheory.CechPic.pull ψ (GlobalTheory.CechPic.cls M.L M.isLB))
     (Multiplicative.toAdd u)) e
 
   simp only [toAdd_prod, toAdd_zpow, toAdd_ofAdd, toAdd_mul, toAdd_inv, map_sum, map_zsmul, map_add (f := _), map_neg,
-  FreeAbelianGroup.lift_apply_of] at e'
+  FreeAddCommGroup.lift_apply_of] at e'
   have e'' := e'.symm.trans h0
   simp only [lam, pt]
   linear_combination (norm := abel) e''

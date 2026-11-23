@@ -92,7 +92,7 @@ theorem planeCoeff_pderiv (nu : τ →₀ ℕ) (v : σ) (G : MvPolynomial σ (Mv
   induction G using MvPolynomial.induction_on' with
   | monomial u a =>
     rw [pderiv_monomial, planeCoeff_monomial, planeCoeff_monomial, pderiv_monomial, ← nsmul_eq_mul', ← nsmul_eq_mul',
-      coeff_smul]
+      MvPolynomial.coeff_smul]
   | add p q hp hq => simp only [map_add (f := _), planeCoeff_add, hp, hq]
 
 theorem planeCoeff_X_mul (nu : τ →₀ ℕ) (v : σ) (G : MvPolynomial σ (MvPolynomial τ Kf)) :

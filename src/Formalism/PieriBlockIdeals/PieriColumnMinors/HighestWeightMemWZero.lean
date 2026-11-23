@@ -92,14 +92,14 @@ theorem der_diag_iff {r n : ℕ} (f : MvPolynomial (Fin r × Fin n) ℚ) (μ : F
   constructor
   · intro h a
     ext m
-    rw [coeff_der_diag, coeff_smul, smul_eq_mul]
+    rw [coeff_der_diag, MvPolynomial.coeff_smul, smul_eq_mul]
     by_cases hm : AddMonoidAlgebra.coeff f m = 0
     · rw [hm, mul_zero, mul_zero]
     · rw [h hm]
   · intro h m hm
     funext a
     have h1 := congrArg (AddMonoidAlgebra.coeff · m) (h a)
-    rw [coeff_der_diag, coeff_smul, smul_eq_mul] at h1
+    rw [coeff_der_diag, MvPolynomial.coeff_smul, smul_eq_mul] at h1
     exact_mod_cast mul_right_cancel₀ hm h1
 
 theorem mem_wt (p q w : ℕ) (lam2 : Fin q → ℕ) (v : VQ p q w lam2) (κ : Fin p ⊕ Fin q → ℤ) :

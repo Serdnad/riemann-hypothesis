@@ -82,7 +82,7 @@ theorem jointKer_fin_finrank {K C : Type} [Field K] [Field C] (φ : K →+* C) {
       N.rank + Module.finrank F (LinearMap.ker N.mulVecLin) = Fintype.card ι := by
     intro F _ N
     have := LinearMap.finrank_range_add_finrank_ker N.mulVecLin
-    rw [Module.finrank_fintype_fun_eq_card] at this
+    rw [Module.finrank_fintype_fun_eq_card, Matrix.finrank_range_mulVecLin N] at this
     exact this
   have h1 := rn R
   have h2 := rn (R.map φ)

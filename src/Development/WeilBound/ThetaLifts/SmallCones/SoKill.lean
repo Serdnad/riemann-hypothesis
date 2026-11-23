@@ -110,7 +110,7 @@ theorem kill_set {X : Type} [TopologicalSpace X] (N : Submodule ℂ (X → ℂ))
 
 theorem rank_ne_iff {k : Type} [Field k] {n d : ℕ} (C : Matrix (Fin n) (Fin d) k) : C.rank ≠ n ↔ ∃ p, p ≠ 0 ∧ p ᵥ* C = 0 := by
   have h := LinearMap.finrank_range_add_finrank_ker Cᵀ.mulVecLin
-  rw [Module.finrank_fin_fun, ← Matrix.rank, Matrix.rank_transpose] at h
+  rw [Module.finrank_fin_fun, Matrix.finrank_range_mulVecLin, Matrix.rank_transpose] at h
   have : C.rank ≠ n ↔ LinearMap.ker Cᵀ.mulVecLin ≠ ⊥ := by
     rw [Ne, Ne, ← Submodule.finrank_eq_zero]
     omega

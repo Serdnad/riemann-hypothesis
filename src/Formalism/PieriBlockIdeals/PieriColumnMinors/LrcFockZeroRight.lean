@@ -279,7 +279,7 @@ theorem dual_int_loc (hC : CoeffWord) (hL : LowerTriIntegral) (l : ℕ) (hl : l.
     exact h1 e (Finset.mem_filter.1 he).2
   have h2 : ∀ e : Fin r × Fin r →₀ ℕ, LowerTri e → ∃ z : ℤ, AddMonoidAlgebra.coeff ((M : ℚ) • g) e = z := by
     intro e he
-    rw [coeff_smul, smul_eq_mul]
+    rw [MvPolynomial.coeff_smul, smul_eq_mul]
     by_cases hes : e ∈ g.support
     · exact lrc_den_dvd_mul _ _ (Finset.dvd_prod_of_mem (fun e => (AddMonoidAlgebra.coeff g e).den) (Finset.mem_filter.2 ⟨hes, he⟩))
     · rw [notMem_support_iff.1 hes]

@@ -244,14 +244,14 @@ theorem rowWeight_iff [CharZero K] {r m : ℕ} (ρ : Fin r → ℕ) (f : MvPolyn
   constructor
   · intro h a
     ext μ
-    rw [coeff_rowE_self, coeff_smul, smul_eq_mul]
+    rw [coeff_rowE_self, MvPolynomial.coeff_smul, smul_eq_mul]
     by_cases h0 : AddMonoidAlgebra.coeff f μ = 0
     · simp [h0]
     · rw [← bm_weight_rowW, h h0]
   · intro h μ h0
     funext a
     have := congrArg (AddMonoidAlgebra.coeff · μ) (h a)
-    rw [coeff_rowE_self, coeff_smul, smul_eq_mul] at this
+    rw [coeff_rowE_self, MvPolynomial.coeff_smul, smul_eq_mul] at this
     rw [bm_weight_rowW]
     exact_mod_cast mul_right_cancel₀ h0 this
 

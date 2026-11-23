@@ -132,6 +132,6 @@ theorem cut_pullback_iso : ∀ {X Y : Scheme.{0}} (f : Y ⟶ X) (G : X.Modules) 
     simp
   exact ⟨PreservesCokernel.iso (Scheme.Modules.pullback f) (cutHom G hL s) ≪≫ cokernelIsoOfEq key ≪≫
     cokernelEpiComp _ _ ≪≫ cokernelCompIsIso _ _ ≪≫
-    (cokernelCompIsIso _ (twistZZeroIso ((Scheme.Modules.pullback f).obj G) hL').inv).symm⟩
+    (cokernelCompIsIso (twistZZeroIso ((Scheme.Modules.pullback f).obj G) hL').inv _).symm⟩
 
 end GlobalTheory

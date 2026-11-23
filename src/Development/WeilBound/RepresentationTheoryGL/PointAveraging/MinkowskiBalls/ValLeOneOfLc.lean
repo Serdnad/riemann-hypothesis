@@ -166,7 +166,7 @@ theorem exists_strictHenselian_absolutely_closed_local_ring (hjn : j ≤ n) (hjr
   have heq : Submodule.span k (Set.range v) = LinearMap.range x.mulVecLin := by
     apply Submodule.eq_of_le_of_finrank_le hsub
     rw [finrank_span_eq_card hli, Fintype.card_fin]
-    exact hrk
+    simpa only [Matrix.finrank_range_mulVecLin] using hrk
   have hmem : ∀ l : Fin r, (fun i => x i l) ∈ Submodule.span k (Set.range v) := by
     intro l
     rw [heq]

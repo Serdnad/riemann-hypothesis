@@ -67,8 +67,9 @@ lemma xiso_indep {i j : ℕ} {p : ℤ} (hi : (E M).f i = p) (hj : (E M).f j = p)
 lemma trd (i j : ℕ) :
     (K.stupidTrunc (E M)).d ((E M).f i) ((E M).f j) ≫ (K.stupidTruncXIso (E M) (i := j) rfl).hom =
       (K.stupidTruncXIso (E M) (i := i) rfl).hom ≫ K.d ((E M).f i) ((E M).f j) := by
-  simp [HomologicalComplex.stupidTrunc, HomologicalComplex.stupidTruncXIso,
-    HomologicalComplex.extend_d_eq _ _ rfl rfl, HomologicalComplex.restriction]
+  simp only [HomologicalComplex.stupidTruncXIso_rfl, HomologicalComplex.stupidTrunc,
+    (K.restriction (E M)).extend_d_eq (E M) (i := i) (j := j) rfl rfl,
+    Category.assoc, Iso.inv_hom_id, Category.comp_id, HomologicalComplex.restriction_d]
 
 
 open Classical in

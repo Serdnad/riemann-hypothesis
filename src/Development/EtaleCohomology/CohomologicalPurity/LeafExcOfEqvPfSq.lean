@@ -99,7 +99,7 @@ def LeafChiSq : Prop := ∀ {P' P : Arrow Spc} (φ : P' ⟶ P),
   IsPushout (dbl.inr P') (chi φ).right (dbl.map (chi φ)) (dbl.inr (QQ φ))
 
 def LeafCokPush : Prop := ∀ (q : ℕ) {A B C D : Cx (ZMod q)} (f : A ⟶ B) (g : A ⟶ C) (a : B ⟶ D) (b : C ⟶ D)
-  (h : IsPushout f g a b), IsIso (cokernel.map f b g a h.w)
+  (h : IsPushout f g a b), IsIso (cokernel.map f b g a h.w.symm)
 
 theorem LeafCokPush_of : LeafCokPush := by
   intro q A B C D f g a b h

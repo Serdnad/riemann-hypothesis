@@ -73,7 +73,7 @@ theorem qn_coeff_X_pderiv {σ : Type*} (i : σ) (f : MvPolynomial σ ℚ) (m : �
       · have h1 : Finsupp.single i 1 + (s - Finsupp.single i 1) = s :=
           add_tsub_cancel_of_le (Finsupp.single_le_iff.mpr (Nat.one_le_iff_ne_zero.mpr hs))
         rw [X, monomial_mul, h1, smul_monomial, one_mul, smul_eq_mul, mul_comm]
-    rw [h, coeff_smul, coeff_monomial, smul_eq_mul]
+    rw [h, MvPolynomial.coeff_smul, coeff_monomial, smul_eq_mul]
     split_ifs with hsm
     · rw [hsm]
     · simp
@@ -100,7 +100,7 @@ theorem qn_monomial_mem (n : ℕ) (m : Fin n × Fin n →₀ ℕ) (c : ℚ) :
   rw [qn_mem_weightSp]
   intro a
   ext m'
-  rw [qn_coeff_E, coeff_smul, coeff_monomial, smul_eq_mul]
+  rw [qn_coeff_E, MvPolynomial.coeff_smul, coeff_monomial, smul_eq_mul]
   split_ifs with h
   · rw [h]
   · simp
@@ -113,7 +113,7 @@ theorem qn_weightSp_coeff (n : ℕ) (w : Fin n → ℤ) (z : MvPolynomial (Fin n
   apply hm
   funext a
   have h := congrArg (AddMonoidAlgebra.coeff · m) (hz a)
-  rw [qn_coeff_E, coeff_smul, smul_eq_mul] at h
+  rw [qn_coeff_E, MvPolynomial.coeff_smul, smul_eq_mul] at h
   have := mul_right_cancel₀ hne h
   exact_mod_cast this
 
@@ -222,7 +222,7 @@ theorem qn_comp (n : ℕ) (ν : Fin n → ℕ) (hν : Antitone ν) (F : MvPolyno
   have h1 : AddMonoidAlgebra.coeff F (lhwline_mnu (le_refl n) ν) = c := by
     have e : AddMonoidAlgebra.coeff F (lhwline_mnu (le_refl n) ν) = AddMonoidAlgebra.coeff G (lhwline_mnu (le_refl n) ν) := by
       rw [hGdef, coeff_weightedHomogeneousComponent, if_pos hwt]
-    rw [e, hc, coeff_smul, hH1, smul_eq_mul, mul_one]
+    rw [e, hc, MvPolynomial.coeff_smul, hH1, smul_eq_mul, mul_one]
   rw [qn_eval_eq_coeff n ν F (qn_colHom ℚ n ν F hF), h1, hc]
 
 end Formalism.InvariantFactorPaths.ColumnFamilies

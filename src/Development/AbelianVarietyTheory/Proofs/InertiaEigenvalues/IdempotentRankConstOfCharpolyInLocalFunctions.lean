@@ -82,7 +82,7 @@ theorem charpoly_of_idem {K : Type} [Field K] {n : ℕ} (M : Matrix (Fin n) (Fin
       (0 : Module.End K (LinearMap.ker (Matrix.toLin' M))))).charpoly := by
     rw [key, Matrix.charpoly_toLin']
   rw [hcp, LinearEquiv.charpoly_conj, LinearMap.charpoly_prodMap,
-    LinearMap.charpoly_one, LinearMap.charpoly_zero, Matrix.rank, ← Matrix.toLin'_apply']
+    LinearMap.charpoly_one, LinearMap.charpoly_zero, ← Matrix.finrank_range_mulVecLin, ← Matrix.toLin'_apply']
 
 theorem residue_eq {X O : Type} [CommRing O] [IsLocalRing O] (T : Subalgebra O (X → O))
     [IsLocalRing T] (f : X → O) (hf : f ∈ T) (x y : X) :

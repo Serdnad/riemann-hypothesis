@@ -181,7 +181,7 @@ theorem resT_wrong_degree (p q : ℕ) (f : MvPolynomial (Fin (p + q) × Fin (p +
   have hw : Finsupp.weight (colW (p + q) (p + q)) m = ν := hf hc
   have ht' : t = ∑ c : Fin p, ((Finsupp.weight (rowW (p + q) (p + q)) m (Fin.castAdd q c) : ℕ) : ℚ) := by
     have h3 := congrArg (AddMonoidAlgebra.coeff · m) hsum
-    rw [coeff_sum, coeff_smul, smul_eq_mul] at h3
+    rw [coeff_sum, MvPolynomial.coeff_smul, smul_eq_mul] at h3
     simp only [Formalism.CohomologicalDescent.LR.coeff_der_diag] at h3
     rw [← Finset.sum_mul] at h3
     exact (mul_right_cancel₀ hc h3).symm

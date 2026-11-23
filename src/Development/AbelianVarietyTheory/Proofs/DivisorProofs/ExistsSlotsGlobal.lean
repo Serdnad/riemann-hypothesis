@@ -71,7 +71,8 @@ namespace GlobalTheory.WachPlace
 
 theorem eq_zero_of_lrank {F : Type} [Field F] {a b : ℕ} (A : Mx F⟦X⟧ a b) (h : lrank A = 0) : A = 0 := by
   have h0 : A.map (algebraMap F⟦X⟧ (LaurentSeries F)) = 0 := by
-    unfold lrank Matrix.rank at h
+    unfold lrank at h
+    rw [← Matrix.finrank_range_mulVecLin] at h
     have hr := Submodule.finrank_eq_zero.mp h
     have hB := LinearMap.range_eq_bot.mp hr
     refine Matrix.ext fun i j => ?_

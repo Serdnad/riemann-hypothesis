@@ -68,7 +68,7 @@ theorem rank_le_rank_map {K L : Type*} [Field K] [Field L] (φ : K →+* L) {m n
     (A : Matrix m n K) : A.rank ≤ (A.map φ).rank := by
   letI := φ.toAlgebra
   haveI : FaithfulSMul K L := (faithfulSMul_iff_algebraMap_injective K L).2 φ.injective
-  rw [Matrix.rank_eq_finrank_span_cols, Matrix.rank_eq_finrank_span_cols]
+  rw [← Matrix.finrank_span_range_col, ← Matrix.finrank_span_range_col]
   obtain ⟨b, hbs, hspan, hli⟩ := exists_linearIndependent K (Set.range A.col)
   have hbfin : b.Finite := (Set.finite_range _).subset hbs
   haveI := hbfin.fintype
@@ -119,7 +119,7 @@ theorem ker_map_le_span {K L : Type*} [Field K] [Field L] (φ : K →+* L) {m n 
     have h1 := LinearMap.finrank_range_add_finrank_ker A.mulVecLin
     have h2 := LinearMap.finrank_range_add_finrank_ker (A.map φ).mulVecLin
     have h3 := rank_le_rank_map φ A
-    unfold Matrix.rank at h3
+    rw [← Matrix.finrank_range_mulVecLin, ← Matrix.finrank_range_mulVecLin] at h3
     rw [Module.finrank_fintype_fun_eq_card] at h1 h2
     have hS : finrank K S = finrank K (LinearMap.ker A.mulVecLin) := rfl
     rw [hS]

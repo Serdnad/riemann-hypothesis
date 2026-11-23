@@ -119,7 +119,7 @@ theorem exists_coeff_of_mem_span {k : Type} [Field k] {N : ℕ} {σ : Type}
       intro ν
       obtain ⟨a, ha, ha'⟩ := hy (-u + ν)
       refine ⟨r • a, Submodule.smul_mem _ _ ha, fun m => ?_⟩
-      rw [coeff_smul, coeff_smul, smul_eq_mul, smul_eq_mul, ha']
+      rw [MvPolynomial.coeff_smul, MvPolynomial.coeff_smul, smul_eq_mul, smul_eq_mul, ha']
       exact (AddMonoidAlgebra.coeff_single_mul_apply _ _ _ _).symm
 
 theorem weightedHomogeneousComponent_mem_of_isGLSubmodule (k : Type) [Field k] (N : ℕ) (lam : DomWeight N)

@@ -241,7 +241,7 @@ theorem fockB_zcomp (β : Fin n → ℤ) (G A : BP K n) (hA : IsWeightedHomogene
   rw [← sub_eq_zero, ← fockBL_apply, ← fockBL_apply, ← LinearMap.sub_apply, ← map_sub]
   refine fockB_eq_zero _ _ fun μ hμ => ?_
   by_contra h0
-  rw [coeff_sub, coeff_zcomp, if_pos (hA h0), sub_self] at hμ
+  rw [MvPolynomial.coeff_sub, coeff_zcomp, if_pos (hA h0), sub_self] at hμ
   exact hμ rfl
 
 theorem lead_inj (b : Fin n → ℕ) {f g : MvPolynomial (Fin n × Fin n) K}

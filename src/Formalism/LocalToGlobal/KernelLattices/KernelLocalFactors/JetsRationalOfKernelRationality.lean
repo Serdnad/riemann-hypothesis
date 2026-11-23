@@ -163,7 +163,7 @@ theorem deg_of_wt [Infinite K] {ν : ι → Fin a → ℕ} {Q : Pol K ι a} (hQ 
   have h2 := subD_colSub_bSc (b := b) τ x Q
   rw [h1, map_smul] at h2
   have h3 := congrArg (AddMonoidAlgebra.coeff · s) h2
-  rw [coeff_scale, scale_prod, coeff_smul, smul_eq_mul, mul_comm] at h3
+  rw [coeff_scale, scale_prod, MvPolynomial.coeff_smul, smul_eq_mul, mul_comm] at h3
   have hc : AddMonoidAlgebra.coeff (subD K ι a b Q) s ≠ 0 := mem_support_iff.1 hs
   have h4 := mul_left_cancel₀ hc h3
   rw [← h4]

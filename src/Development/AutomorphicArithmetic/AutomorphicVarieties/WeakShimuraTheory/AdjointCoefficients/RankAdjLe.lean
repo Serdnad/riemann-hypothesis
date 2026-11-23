@@ -137,8 +137,8 @@ theorem UpperTheory.V.Ws.X1.ccDim :
     have hmono := Submodule.finrank_mono hle
     have hsum := LinearMap.finrank_range_add_finrank_ker p.mulVecLin
     rw [Module.finrank_fin_fun] at hsum
-    have eq1 : q.rank = Module.finrank k (LinearMap.range q.mulVecLin) := rfl
-    have eq2 : p.rank = Module.finrank k (LinearMap.range p.mulVecLin) := rfl
+    have eq1 : q.rank = Module.finrank k (LinearMap.range q.mulVecLin) := (Matrix.finrank_range_mulVecLin q).symm
+    have eq2 : p.rank = Module.finrank k (LinearMap.range p.mulVecLin) := (Matrix.finrank_range_mulVecLin p).symm
     omega
   let K := LinearMap.ker (adSp r h s - 1)
   let ψ : K →ₗ[k] (LinearMap.range p.mulVecLin →ₗ[k] LinearMap.range p.mulVecLin) :=
@@ -182,6 +182,6 @@ theorem UpperTheory.V.Ws.X1.ccDim :
     exact hY0
   calc Module.finrank k K ≤ Module.finrank k (LinearMap.range p.mulVecLin →ₗ[k] LinearMap.range p.mulVecLin) :=
         LinearMap.finrank_le_finrank_of_injective hinj
-    _ = p.rank * p.rank := by rw [Module.finrank_linearMap]; rfl
+    _ = p.rank * p.rank := by rw [Module.finrank_linearMap, Matrix.finrank_range_mulVecLin p]
     _ ≤ 2 * 2 := Nat.mul_le_mul hrk hrk
     _ = 4 := rfl

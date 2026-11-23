@@ -101,7 +101,7 @@ theorem aeval_rank {K : Type} [Field K] {t : ℕ} (D : Matrix (Fin t) (Fin t) K)
   have hPv : Matrix.mulVec (aeval D q) v = q.eval r • v := by
     rw [← Matrix.toLinAlgEquiv'_apply, ← Polynomial.aeval_algHom_apply]
     exact Module.End.aeval_apply_of_hasEigenvector hv
-  show Module.finrank K (LinearMap.range (aeval D q).mulVecLin) = 1
+  rw [← Matrix.finrank_range_mulVecLin]
   apply le_antisymm
   · exact (Submodule.finrank_mono hle).trans (hmult ▸ LinearMap.finrank_eigenspace_le _ r)
   · rw [Nat.one_le_iff_ne_zero]

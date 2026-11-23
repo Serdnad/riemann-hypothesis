@@ -69,7 +69,7 @@ theorem qc_rowA_add {K : Type} [CommRing K] {k n : ℕ} (a : Fin k) (f g : MvPol
 theorem qc_rowA_smul {K : Type} [CommRing K] {k n : ℕ} (a : Fin k) (c : K) (f : MvPolynomial (Fin k × Fin n) K) (d : ℕ)
     (hf : RowA a f d) : RowA a (c • f) d := by
   intro u hu
-  rw [coeff_smul] at hu
+  rw [MvPolynomial.coeff_smul] at hu
   exact hf u (fun h => hu (by rw [h, smul_zero]))
 
 theorem qc_rowA_zero {K : Type} [CommRing K] {k n : ℕ} (a : Fin k) (d : ℕ) :
@@ -129,7 +129,7 @@ theorem qc_rowA_minor (A : Type) [CommRing A] {r n s : ℕ} (I : Fin s → Fin r
   intro u hu h
   apply hu
   simp only [Matrix.of_apply] at h ⊢
-  rw [Units.smul_def, coeff_smul, h, smul_zero]
+  rw [Units.smul_def, MvPolynomial.coeff_smul, h, smul_zero]
 
 def qcRes (A : Type) [CommRing A] (r : ℕ) :
     MvPolynomial (Fin (r + 1 + 1) × Fin (r + 1 + 1)) A →+* MvPolynomial (Fin r × Fin r) A :=

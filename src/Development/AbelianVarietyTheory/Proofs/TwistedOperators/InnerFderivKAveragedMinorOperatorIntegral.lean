@@ -164,7 +164,7 @@ theorem inner_ps_eq {ε : Fin n → Bool} (lam : Fin n → ℝ) {abelian₂ : Fi
   haveI : FiniteDimensional ℂ W := h.1
   have hv : Continuous (fun k : KG ε => τ (toMK k) w) := continuous_tau_toMK_apply h w
   have hR : Continuous (fun k : KG ε => (innerSL ℂ (τ (toMK k) w)).smulRight (τ (toMK k) w)) := by
-    have h1 := ((ContinuousLinearMap.smulRightL ℂ W W).continuous.comp
+    have h1 := ((StrongDual.smulRightL ℂ W W).continuous.comp
       ((innerSL ℂ).continuous.comp hv)).clm_apply hv
     simpa using h1
   have hG : Continuous (fun k : KG ε => Phi lam ((toMK k)⁻¹ * z * toMK k) •

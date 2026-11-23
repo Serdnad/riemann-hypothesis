@@ -1112,7 +1112,7 @@ theorem subOps_wt [CharZero K] (Lt : Letters (Fin N)) (S : Set (Fin N)) (φ : Fi
   have h1 := (mem_weightSpace_iff_diag _ mu F).1 hF a
   rw [subOps_apply, gl_operator_apply_derivation] at h1
   have h2 := congrArg (AddMonoidAlgebra.coeff · m) h1
-  rw [diagonal_derivation_coeff, coeff_smul, smul_eq_mul] at h2
+  rw [diagonal_derivation_coeff, MvPolynomial.coeff_smul, smul_eq_mul] at h2
   have h3 : AddMonoidAlgebra.coeff F m ≠ 0 := by simpa using hm
   have h4 := mul_right_cancel₀ h3 h2
   show wtS Lt S m (φ a) = mu a

@@ -67,7 +67,7 @@ theorem der_diag_eq_weight_smul_of_isWeightedHomogeneous {r n : ℕ} (f : MvPoly
     IsWeightedHomogeneous (rowW r n) f μ → ∀ a, Formalism.CohomologicalDescent.LR.der r n a a f = (μ a : ℚ) • f := by
   intro h a
   ext m
-  rw [coeff_der_diag_row, coeff_smul, smul_eq_mul]
+  rw [coeff_der_diag_row, MvPolynomial.coeff_smul, smul_eq_mul]
   by_cases hm : AddMonoidAlgebra.coeff f m = 0
   · rw [hm, mul_zero, mul_zero]
   · rw [h hm]
@@ -172,7 +172,7 @@ theorem dom_eV (N : ℕ) (ν : Fin N → ℕ) : Dom N (eV N ν) (wtZ ν) := by
   have hμ : ∀ c (hc : c < N), μ c = (rowDeg m ⟨c, hc⟩ : ℤ) := by
     intro c hc
     have h1 := congrArg (fun y : dualWeyl ℚ N N ν => AddMonoidAlgebra.coeff (y : MvPolynomial (Fin N × Fin N) ℚ) m) (hx c hc)
-    simp only [eV_val ν c c hc hc, coeff_der_diag_row, Submodule.coe_smul, coeff_smul, smul_eq_mul,
+    simp only [eV_val ν c c hc hc, coeff_der_diag_row, Submodule.coe_smul, MvPolynomial.coeff_smul, smul_eq_mul,
       weight_rowW_eq] at h1
     have h2 := mul_right_cancel₀ hm h1
     exact_mod_cast h2.symm

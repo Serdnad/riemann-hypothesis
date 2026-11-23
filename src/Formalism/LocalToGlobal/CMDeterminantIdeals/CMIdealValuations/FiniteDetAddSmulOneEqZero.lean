@@ -90,7 +90,7 @@ private theorem exists_conjTranspose_mul_self {n : Type} [Fintype n] [DecidableE
 
 private theorem eval_bind₁' {σ τ : Type} (f : σ → MvPolynomial τ ℂ) (x : τ → ℂ) (P : MvPolynomial σ ℂ) :
     MvPolynomial.eval x (MvPolynomial.bind₁ f P) = MvPolynomial.eval (fun v => MvPolynomial.eval x (f v)) P := by
-  induction P using MvPolynomial.induction_on <;> simp_all
+  exact MvPolynomial.eval₂Hom_bind₁ (RingHom.id ℂ) x f P
 
 private theorem hq_eq {n : ℕ} (S : Matrix (Fin n) (Fin n) ℂ) (u : Fin n → ℂ) :
     ReciprocityTheory.MultiplicativeHeights.hq (Sᴴ * S) u = ∑ k, ‖(S *ᵥ u) k‖ ^ 2 := by

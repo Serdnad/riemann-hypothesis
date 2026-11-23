@@ -114,7 +114,7 @@ def Good (n : ℕ) (f : MvPolynomial (Fin 2) ℤ) : Prop :=
 lemma good_sub {n : ℕ} {f g : MvPolynomial (Fin 2) ℤ} (hf : Good n f) (hg : Good n g) :
     Good n (f - g) := by
   intro i j h
-  rw [coeff_sub, mul_sub]
+  rw [MvPolynomial.coeff_sub, mul_sub]
   exact dvd_sub (hf i j h) (hg i j h)
 
 lemma good_sum {n : ℕ} {ι : Type} (t : Finset ι) (f : ι → MvPolynomial (Fin 2) ℤ)

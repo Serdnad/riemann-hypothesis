@@ -120,7 +120,7 @@ theorem cf_mem_twId (c : (D.mem u).C.cls 0) (y : Fin (D.R.N 0) → (D.sp.X 0).V)
     show trAct (g * B) (actP ((D.fm u).lam 0) B⁻¹ F) = _
     rw [trAct_mul]
     simp only [actP, LinearMap.smul_apply, AlgHom.toLinearMap_apply, AlgHom.comp_apply, map_smul, transpose_action_inv_right]
-  rw [e, coeff_smul, smul_eq_mul, mem_locRing] at hkey
+  rw [e, MvPolynomial.coeff_smul, smul_eq_mul, mem_locRing] at hkey
   exact hkey
 
 end Int2

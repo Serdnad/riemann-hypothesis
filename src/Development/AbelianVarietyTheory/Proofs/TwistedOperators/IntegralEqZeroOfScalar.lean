@@ -111,7 +111,7 @@ theorem eq_sum_mon {D : D7} {m n : ℕ} {d : D.what₂.Tau →₀ ℕ} (P : MvPo
   classical
   ext k'
   rw [coeff_sum]
-  simp only [coeff_smul, coeff_monomial, smul_eq_mul, mul_ite, mul_one, mul_zero]
+  simp only [MvPolynomial.coeff_smul, coeff_monomial, smul_eq_mul, mul_ite, mul_one, mul_zero]
   by_cases hk : k' ∈ Mon D m n d
   · rw [Finset.sum_eq_single ⟨k', hk⟩]
     · simp

@@ -70,7 +70,7 @@ private theorem fock_add_right {σ : Type} (f g g' : MvPolynomial σ ℂ) :
 
 private theorem fock_smul_right {σ : Type} (c : ℂ) (f g : MvPolynomial σ ℂ) :
     fockF f (c • g) = star c * fockF f g := by
-  simp only [fockF, coeff_smul, smul_eq_mul, star_mul', Finset.mul_sum]
+  simp only [fockF, MvPolynomial.coeff_smul, smul_eq_mul, star_mul', Finset.mul_sum]
   exact Finset.sum_congr rfl fun m _ => by ring
 
 private noncomputable def fischer (σ : Type) : MvPolynomial σ ℂ →ₗ[ℂ] MvPolynomial σ ℂ →ₗ[ℂ] ℂ :=

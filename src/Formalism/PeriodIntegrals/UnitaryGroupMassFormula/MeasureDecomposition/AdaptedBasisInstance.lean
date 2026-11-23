@@ -129,7 +129,7 @@ theorem adapted_basis_instance : InstAdaptBasis := by
         first
           | exact Module.finrank_fin_fun ℂ
           | simp
-      unfold Matrix.rank
+      simp only [← Matrix.finrank_range_mulVecLin]
       omega
     · have h := inst_rank_add_le Q P
       have hsum : Q + P = 1 := by rw [hPdef]; abel

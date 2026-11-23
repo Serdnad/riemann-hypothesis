@@ -171,7 +171,7 @@ lemma sub_homogeneousComponent_mem {W : MvPolynomial σ S} {j : ℕ} (hW : W ∈
     W - homogeneousComponent j W ∈ Io S σ ^ (j + 1) := by
   rw [mem_pow_idealOfVars_iff'] at hW ⊢
   intro x hx
-  rw [coeff_sub, coeff_homogeneousComponent]
+  rw [MvPolynomial.coeff_sub, coeff_homogeneousComponent]
   split_ifs with h
   · simp
   · have : x.degree < j := by omega

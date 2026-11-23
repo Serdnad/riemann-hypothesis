@@ -203,7 +203,7 @@ theorem topCoeff_eq_topBig (n : ℕ) (P : MvPolynomial (Fin n × Fin n) ℂ) :
         (monomial_sum_one _ _).symm, smul_monomial, smul_eq_mul, mul_one]
     rw [hmon, map_smul, Subalgebra.coe_smul, map_smul, smul_eq_mul, topBig_toEven_prod, ← topCoeff_prod]
     unfold GlobalTheory.GoodMetric.topCoeff
-    simp only [coeff_smul, smul_eq_mul, Finset.mul_sum]
+    simp only [MvPolynomial.coeff_smul, smul_eq_mul, Finset.mul_sum]
     refine Finset.sum_congr rfl fun w _ => by ring
   | add p q hp hq =>
     rw [map_add (f := _), Subalgebra.coe_add, map_add (f := _), ← hp, ← hq]

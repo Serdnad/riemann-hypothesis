@@ -184,7 +184,7 @@ theorem rank_factorIdem {γ : GL (Fin n) E} (hA : ClauseAlg σ J γ) (hP : Claus
         rw [hc, Matrix.smul_mulVec, Matrix.mulVec_smul, Matrix.mulVec_mulVec, factorIdem_mul]
       | add x y hx hy =>
         rw [map_add (f := _), map_add (f := _), map_add (f := _)]; exact add_mem hx hy
-  rw [Matrix.rank, ← hrange, LinearMap.finrank_range_of_inj hΦ]
+  rw [← Matrix.finrank_range_mulVecLin, ← hrange, LinearMap.finrank_range_of_inj hΦ]
 
 end GlobalTheory.FactorSplit
 
@@ -202,7 +202,7 @@ theorem eq_zero_of_mulVec {M : Matrix (Fin n) (Fin n) E} (h : ∀ w, M *ᵥ w = 
 
 theorem rank_pos_of_ne_zero {M : Matrix (Fin n) (Fin n) E} (hM : M ≠ 0) : 0 < M.rank := by
   refine Nat.pos_of_ne_zero fun h => hM (eq_zero_of_mulVec fun w => ?_)
-  rw [Matrix.rank, Submodule.finrank_eq_zero] at h
+  rw [← Matrix.finrank_range_mulVecLin, Submodule.finrank_eq_zero] at h
   have : M.mulVecLin w ∈ LinearMap.range M.mulVecLin := ⟨w, rfl⟩
   rw [h] at this
   exact (Submodule.mem_bot E).1 this
@@ -210,7 +210,7 @@ theorem rank_pos_of_ne_zero {M : Matrix (Fin n) (Fin n) E} (hM : M ≠ 0) : 0 < 
 theorem eq_one_of_idem_rank {M : Matrix (Fin n) (Fin n) E} (hM : M * M = M) (hr : M.rank = n) : M = 1 := by
   have htop : LinearMap.range M.mulVecLin = ⊤ := by
     apply Submodule.eq_top_of_finrank_eq
-    rw [← Matrix.rank, hr, Module.finrank_fin_fun]
+    rw [Matrix.finrank_range_mulVecLin, hr, Module.finrank_fin_fun]
   have hu : ∀ u, M *ᵥ u = u := by
     intro u
     obtain ⟨w, hw⟩ : u ∈ LinearMap.range M.mulVecLin := htop ▸ Submodule.mem_top

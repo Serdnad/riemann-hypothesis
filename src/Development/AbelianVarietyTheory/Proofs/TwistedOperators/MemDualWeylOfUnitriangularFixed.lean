@@ -103,7 +103,7 @@ theorem mem_dualWeyl_of_unitriangular_fixed :
   · funext i
     let t : Fin n → ℂˣ := fun s => if s = i then Units.mk0 2 two_ne_zero else 1
     have h1 := congrArg (AddMonoidAlgebra.coeff · d) (hT t)
-    rw [coeff_matRep_diagGL_colChar, coeff_smul, smul_eq_mul] at h1
+    rw [coeff_matRep_diagGL_colChar, AddMonoidAlgebra.coeff_smul_apply, smul_eq_mul] at h1
     have h2 := mul_right_cancel₀ hd h1
     have h3 : (∏ a, (t a : ℂ) ^ ν a) = 2 ^ ν i := by
       rw [Finset.prod_eq_single i]

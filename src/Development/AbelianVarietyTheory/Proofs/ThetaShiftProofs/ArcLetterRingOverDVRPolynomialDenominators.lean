@@ -96,7 +96,7 @@ theorem exists_map_eq_of_eval (φ : R →+* L) (a : σ → R) (A G : MvPolynomia
         MvPolynomial.eval a := by
       apply MvPolynomial.ringHom_ext
       · intro r; simp
-      · intro x; simp [s]
+      · intro x; simp [s, MvPolynomial.bind₁_X_right]
     exact RingHom.congr_fun this A
   have h2 := congrArg (MvPolynomial.bind₁ fun x => MvPolynomial.map φ (s x)) h
   rw [map_mul, ← MvPolynomial.map_bind₁, ← MvPolynomial.map_bind₁] at h2
@@ -106,7 +106,7 @@ theorem exists_map_eq_of_eval (φ : R →+* L) (a : σ → R) (A G : MvPolynomia
   have : (fun x => MvPolynomial.bind₁ (fun i => MvPolynomial.map φ (t i)) (MvPolynomial.map φ (s x))) =
       MvPolynomial.X := by
     funext x
-    simp [s, t]
+    simp [s, t, MvPolynomial.bind₁_X_right, MvPolynomial.bind₁_C_right]
   rw [this, MvPolynomial.bind₁_X_left]
   rfl
 

@@ -106,7 +106,14 @@ theorem ratio_indep (F : Type) [Field F] {ι E : Type} [Field E] [Algebra F E] [
     (g := (IsScalarTower.toAlgHom F (MvPolynomial ι F) Kp).comp (aeval c))
     ((IsFractionRing.injective (MvPolynomial ι F) Kp).comp (algebraicIndependent_iff_injective_aeval.1 hc))
   have hχX : ∀ j, χ (Xk j) = algebraMap (MvPolynomial ι F) Kp (c j) := fun j => by
-    simp [χ, Xk, IsFractionRing.lift_algebraMap]
+    change IsFractionRing.lift (g := ((IsScalarTower.toAlgHom F (MvPolynomial ι F) Kp).comp (aeval c)).toRingHom)
+      ((IsFractionRing.injective (MvPolynomial ι F) Kp).comp (algebraicIndependent_iff_injective_aeval.1 hc))
+      (algebraMap (MvPolynomial ι F) Kp (X j)) = _
+    exact (IsFractionRing.lift_algebraMap (A := MvPolynomial ι F) (K := Kp) (L := Kp)
+      (g := ((IsScalarTower.toAlgHom F (MvPolynomial ι F) Kp).comp (aeval c)).toRingHom)
+      ((IsFractionRing.injective (MvPolynomial ι F) Kp).comp
+        (algebraicIndependent_iff_injective_aeval.1 hc)) (X j)).trans
+      (congrArg (algebraMap (MvPolynomial ι F) Kp) (MvPolynomial.aeval_X (R := F) c j))
   have hχ : ∀ i, χ (d i) = Xk i := by
     intro i
     by_cases h : δ i = i

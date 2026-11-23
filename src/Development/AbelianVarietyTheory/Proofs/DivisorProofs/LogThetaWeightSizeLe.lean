@@ -57,7 +57,7 @@ theorem log_theta_weight_size_le (f r Lb S sz : ℝ) (hf : 1 ≤ f) (hr : 1 ≤ 
   have hE : 2 ≤ Real.exp Lb := by have := Real.add_one_le_exp Lb; linarith
   have hxE : f * r ≤ Real.exp Lb := by
     rw [← Real.exp_log hx]; exact Real.exp_le_exp.mpr hlog
-  have hpow : ∀ n : ℕ, Real.exp Lb ^ n = Real.exp (n * Lb) := fun n => (Real.exp_nat_mul Lb n).symm
+  have hpow : ∀ n : ℕ, Real.exp Lb ^ n = Real.exp (n * Lb) := fun n => (Real.exp_natCast_mul n Lb).symm
   have hN0 : (0:ℝ) ≤ N := Nat.cast_nonneg N
   have hSE : (N:ℝ) ≤ Real.exp Lb ^ 10 := by
     rcases Nat.eq_zero_or_pos N with h | h

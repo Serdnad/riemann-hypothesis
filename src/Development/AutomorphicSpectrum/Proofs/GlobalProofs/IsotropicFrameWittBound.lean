@@ -84,7 +84,7 @@ theorem rank_map_of_invol (s : E →+* E) (hs : ∀ x, s (s x) = x) {a b : ℕ} 
   have := rank_eq_of_equiv_equiv s j hb (fun c v => Subtype.ext (funext fun i => by
     show s (c * v.1 i) = s c * s (v.1 i)
     exact map_mul s _ _))
-  show Module.finrank E _ = Module.finrank E _
+  rw [← Matrix.finrank_range_mulVecLin, ← Matrix.finrank_range_mulVecLin]
   exact congrArg Cardinal.toNat this.symm
 
 theorem hform_eq (s : E →+* E) {n : ℕ} (J : Matrix (Fin n) (Fin n) E) (x y : Fin n → E) :
@@ -163,8 +163,8 @@ theorem le_of_frames (s : E →+* E) (hs : ∀ x, s (s x) = x) {n m r : ℕ} (J 
     simp only [cT]
     rw [Matrix.rank_transpose, rank_map_of_invol s hs]
   simp only [Module.finrank_fintype_fun_eq_card, Fintype.card_fin] at h2 h3
-  have h5 : Module.finrank E (LinearMap.range M.mulVecLin) = M.rank := rfl
-  have h6 : Module.finrank E (LinearMap.range M'.mulVecLin) = M'.rank := rfl
+  have h5 : Module.finrank E (LinearMap.range M.mulVecLin) = M.rank := by rw [Matrix.finrank_range_mulVecLin]
+  have h6 : Module.finrank E (LinearMap.range M'.mulVecLin) = M'.rank := by rw [Matrix.finrank_range_mulVecLin]
   omega
 
 theorem isoFrame_le_wittFrame : ∀ (D : D7) (V : HSp D) (m : ℕ) (X Y : Matrix (Fin V.rank) (Fin m) D.host.E),

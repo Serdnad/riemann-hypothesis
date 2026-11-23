@@ -81,7 +81,7 @@ noncomputable def compL (k : Type) [Field k] {σ : Type} (Pr : (σ →₀ ℕ) �
   map_smul' c x := by
     classical
     ext m
-    simp only [coeff_compP, coeff_smul, RingHom.id_apply]
+    simp only [coeff_compP, MvPolynomial.coeff_smul, RingHom.id_apply]
     split_ifs <;> simp
 
 open Classical in
@@ -217,7 +217,7 @@ theorem WD_cw (γ : Fin r → ℤ) (a : Fin r) (x : MvPolynomial (Fin (K + 1) ×
     X (Fin.last K, a) * pderiv (Fin.last K, a) (cw p K γ x) = ((γ a : ℤ) : ℚ_[p]) • cw p K γ x := by
   classical
   ext m
-  rw [coeff_X_mul_pderiv', coeff_smul, smul_eq_mul, cw, coeff_compL]
+  rw [coeff_X_mul_pderiv', MvPolynomial.coeff_smul, smul_eq_mul, cw, coeff_compL]
   split_ifs with h
   · rw [← h]; simp [wp, mul_comm]
   · simp

@@ -49,6 +49,8 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 
+set_option backward.isDefEq.respectTransparency false
+
 @[expose] public section
 
 noncomputable section
@@ -370,7 +372,7 @@ theorem oo_eq (μG μN μH ν : Measure G) [SFinite μN] [IsFiniteMeasure μH]
   set F : G → (V →L[ℂ] V) := fun x => (innerSL ℂ (W x)).smulRight (W x) with hFdef
   have hFc : Continuous F := by
     have h1 : Continuous fun x => innerSL ℂ (W x) := (innerSL ℂ).continuous.comp hWc
-    exact ((ContinuousLinearMap.smulRightL ℂ V V).continuous.comp h1).clm_apply hWc
+    exact ((StrongDual.smulRightL ℂ V V).continuous.comp h1).clm_apply hWc
   set b := stdOrthonormalBasis ℂ V
   have hpar : ∀ w : V, ‖w‖ₑ ^ 2 = ∑ i, ‖⟪w, b i⟫_ℂ‖ₑ ^ 2 := by
     intro w

@@ -124,13 +124,13 @@ theorem fock_monomial_right (F : MvPolynomial σ Kf) (nu : σ →₀ ℕ) :
 theorem fock_smul_left (c : Kf) (F G : MvPolynomial σ Kf) : fock (c • F) G = c * fock F G := by
   rw [fock_eq_sum _ _ _ (Finset.Subset.refl _), fock_eq_sum F _ _ (Finset.Subset.refl _), Finset.mul_sum]
   refine Finset.sum_congr rfl fun m _ => ?_
-  rw [coeff_smul, smul_eq_mul]; ring
+  rw [MvPolynomial.coeff_smul, smul_eq_mul]; ring
 
 theorem fock_smul_right (c : Kf) (F G : MvPolynomial σ Kf) : fock F (c • G) = c * fock F G := by
   unfold fock
   rw [Finset.mul_sum]
   refine Finset.sum_congr rfl fun m _ => ?_
-  rw [coeff_smul, smul_eq_mul]; ring
+  rw [MvPolynomial.coeff_smul, smul_eq_mul]; ring
 
 end Co
 

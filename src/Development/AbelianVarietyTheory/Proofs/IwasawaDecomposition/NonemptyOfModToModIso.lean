@@ -67,7 +67,7 @@ theorem exists_epi_twist_free {R : Type} [CommRing R] {N : ℕ} {X : Scheme.{0}}
 
 theorem nonempty_cokernel_iso {C : Type*} [Category C] [Abelian C] {A B F : C} (φ : B ⟶ F) [Epi φ]
     (ψ : A ⟶ kernel φ) [Epi ψ] : Nonempty (cokernel (ψ ≫ kernel.ι φ) ≅ F) :=
-  ⟨cokernelEpiComp ψ (kernel.ι φ) ≪≫ (cokernelIsCokernel (kernel.ι φ)).coconePointUniqueUpToIso
+  ⟨cokernelEpiComp (kernel.ι φ) ψ ≪≫ (cokernelIsCokernel (kernel.ι φ)).coconePointUniqueUpToIso
     (Abelian.epiIsCokernelOfKernel (KernelFork.ofι (kernel.ι φ) (kernel.condition φ)) (kernelIsKernel φ))⟩
 
 theorem isNoetherianRing_place {E : Type} [Field E] [NumberField E] [IsCMField E] {H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E}

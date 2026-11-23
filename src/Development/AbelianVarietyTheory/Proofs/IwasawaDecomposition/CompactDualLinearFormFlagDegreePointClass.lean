@@ -96,7 +96,7 @@ theorem antisymm_isHomogeneous : ∀ {ι : Type} [Fintype ι] {m : ι → ℕ} (
 theorem intGr_sub {E : Type} [Field E] [NumberField E] [IsCMField E] (H : Host E) (Dw : Datum H)
     (A B : MvPolynomial ((E →+* ℂ) × ℕ) ℝ) : intGr H Dw (A - B) = intGr H Dw A - intGr H Dw B := by
   unfold intGr Formalism.DegreeFormula.degFl
-  simp only [map_sub, sub_mul, coeff_sub, mul_sub, Finset.sum_sub_distrib, sub_div]
+  simp only [map_sub, sub_mul, MvPolynomial.coeff_sub, mul_sub, Finset.sum_sub_distrib, sub_div]
 
 theorem intGr_C_mul {E : Type} [Field E] [NumberField E] [IsCMField E] (H : Host E) (Dw : Datum H)
     (c : ℝ) (A : MvPolynomial ((E →+* ℂ) × ℕ) ℝ) : intGr H Dw (C c * A) = c * intGr H Dw A := by

@@ -83,12 +83,20 @@ def constantSheafCongrIso :
 
 variable [HasExt.{w'} (Sheaf J AddCommGrpCat.{v})] [HasExt.{w'} (Sheaf K AddCommGrpCat.{v})]
 
-instance sheafCongrAb_functor_additive : (sheafCongrAb J K e).functor.Additive :=
-  Functor.additive_of_preserves_binary_products _
+instance sheafCongrAb_functor_additive : (sheafCongrAb J K e).functor.Additive := by
+  letI : (sheafCongrAb J K e).functor.IsLeftAdjoint :=
+    (sheafCongrAb J K e).toAdjunction.isLeftAdjoint
+  letI : (sheafCongrAb J K e).functor.PreservesZeroMorphisms :=
+    Functor.preservesZeroMorphisms_of_isLeftAdjoint _
+  exact Functor.additive_of_preserves_binary_products _
 
 instance sheafCongrAb_functor_preservesInjectiveObjects :
-    (sheafCongrAb J K e).functor.PreservesInjectiveObjects :=
-  Functor.preservesInjectiveObjects_of_adjunction_of_preservesMonomorphisms
+    (sheafCongrAb J K e).functor.PreservesInjectiveObjects := by
+  letI : PreservesLimitsOfShape WalkingCospan (sheafCongrAb J K e).symm.functor :=
+    (sheafCongrAb J K e).toAdjunction.rightAdjoint_preservesLimits.preservesLimitsOfShape
+  letI : (sheafCongrAb J K e).symm.functor.PreservesMonomorphisms :=
+    CategoryTheory.preservesMonomorphisms_of_preservesLimitsOfShape _
+  exact Functor.preservesInjectiveObjects_of_adjunction_of_preservesMonomorphisms
     (sheafCongrAb J K e).symm.toAdjunction
 
 def sheafHCongr [EnoughInjectives (Sheaf J AddCommGrpCat.{v})] (G : Sheaf J AddCommGrpCat.{v})

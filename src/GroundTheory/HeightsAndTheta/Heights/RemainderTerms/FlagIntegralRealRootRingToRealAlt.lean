@@ -99,7 +99,7 @@ theorem coeffMap_map_mul (R : MvPolynomial σ ℚ) (P : MvPolynomial σ ℝ) :
 theorem coeffMap_map (R : MvPolynomial σ ℚ) :
     coeffMap φ (map (algebraMap ℚ ℝ) R) = φ 1 • R := by
   ext d
-  rw [coeff_coeffMap, coeff_map, coeff_smul, smul_eq_mul, ← mul_one (algebraMap ℚ ℝ _),
+  rw [coeff_coeffMap, coeff_map, MvPolynomial.coeff_smul, smul_eq_mul, ← mul_one (algebraMap ℚ ℝ _),
     ← Algebra.smul_def, map_smul, smul_eq_mul, mul_comm]
 
 theorem dual_flagIntegralReal (f N : ℕ) (P : MvPolynomial (Fin f × Fin N) ℝ) :
@@ -121,7 +121,7 @@ theorem flagIntegral_sub_smul (f N : ℕ) (A B : RootRing f N) (s : ℚ) :
     flagIntegral f N (A - s • B) = flagIntegral f N A - s * flagIntegral f N B := by
   rw [flagIntegral, flagIntegral, flagIntegral, mul_sum, ← sum_sub_distrib]
   refine sum_congr rfl fun α _ => ?_
-  rw [coeff_sub, coeff_smul, smul_eq_mul]
+  rw [MvPolynomial.coeff_sub, MvPolynomial.coeff_smul, smul_eq_mul]
   ring
 
 end TermBoundEq

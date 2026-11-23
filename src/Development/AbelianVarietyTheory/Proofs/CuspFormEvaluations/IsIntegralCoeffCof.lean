@@ -199,7 +199,7 @@ theorem exists_ioLFRec : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] 
       (fun t => ((degC Dw pl a t : ℤ) + (lam t).detShift - s t).toNat) F.1 F.2 fun m => ?_), rfl⟩
     have h : e • cof Dw pl c.F n (φ F) = D * F.1 := by rw [(hφ F).2, smul_smul, hee, one_smul]
     change IsIntegral ℤ ((D * F.1).coeff m)
-    rw [← h, coeff_smul, smul_eq_mul]
+    rw [← h, MvPolynomial.coeff_smul, smul_eq_mul]
     exact heI.mul (isIntegral_coeff_cof Dw pl (φ F) hP.2 m)
 
 end GlobalTheory.FrameRead.CoefMap

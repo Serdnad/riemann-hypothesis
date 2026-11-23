@@ -63,7 +63,7 @@ theorem rank_eq_iff_exists_minor_ne_zero (k : Type) [Field k] [ValuativeRel k] [
     haveI : Finite κ := Finite.of_injective f hinj
     haveI : Fintype κ := Fintype.ofFinite κ
     have hcard : Fintype.card κ = a := by
-      rw [← finrank_span_eq_card hli, hspan, ← Matrix.rank_eq_finrank_span_cols, hr]
+      rw [← finrank_span_eq_card hli, hspan, Matrix.finrank_span_range_col, hr]
     let e : κ ≃ Fin a := Fintype.equivFinOfCardEq hcard
     let J : Fin a ↪ Fin d := ⟨f ∘ e.symm, hinj.comp e.symm.injective⟩
     refine ⟨J, ?_⟩

@@ -280,7 +280,7 @@ theorem continuous_rhoH {X : Type} [TopologicalSpace X] (A : X → ι → GL (Fi
     rw [this, map_zero]
   rw [(LinearMap.isClosedEmbedding_of_injective hk).isInducing.continuous_iff]
   refine continuous_pi fun m => ?_
-  simp only [Function.comp_apply, rhoH_toHilb, hL, rhoK_coe, actP, LinearMap.smul_apply, coeff_smul, smul_eq_mul,
+  simp only [Function.comp_apply, rhoH_toHilb, hL, rhoK_coe, actP, LinearMap.smul_apply, MvPolynomial.coeff_smul, smul_eq_mul,
     detTw_eq, AlgHom.toLinearMap_apply, trAct]
   refine Continuous.mul (continuous_finsetProd _ fun τ _ => (hA τ).matrix_det.zpow₀ _ fun x => Or.inl ?_)
     (continuous_coeff_blockAct _ (fun τ => (hA τ).matrix_transpose) _ m)

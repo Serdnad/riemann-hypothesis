@@ -2975,7 +2975,7 @@ theorem exists_pow_int {σ : Type} (v : MvPolynomial σ ℚ_[p]) : ∃ k : ℕ, 
     have hp1 : (1 : ℝ) < p := by exact_mod_cast (Fact.out : p.Prime).one_lt
     obtain ⟨k, hk⟩ := pow_unbounded_of_one_lt ‖a‖ hp1
     refine ⟨k, mem_intPol_of_norm _ fun m' => ?_⟩
-    rw [coeff_smul, coeff_monomial, smul_eq_mul]
+    rw [MvPolynomial.coeff_smul, coeff_monomial, smul_eq_mul]
     split_ifs
     · rw [norm_mul, norm_pow, Padic.norm_p, inv_pow]
       rw [inv_mul_le_iff₀ (by positivity), mul_one]

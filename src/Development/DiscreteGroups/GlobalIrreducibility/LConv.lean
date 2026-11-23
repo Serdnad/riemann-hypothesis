@@ -198,7 +198,7 @@ theorem altIdentity : AltIdentity := by
   have hz0 : z ≠ 0 := by
     intro h0
     apply hc0
-    rw [h0, nnnorm_zero, ENNReal.coe_zero, eq_comm, ENNReal.coe_eq_zero, nnnorm_eq_zero] at hzn
+    rw [h0, enorm_zero, eq_comm, ENNReal.coe_eq_zero, nnnorm_eq_zero] at hzn
     exact hzn
   have hzr : star z = z := by
     rw [hcsa.mem_spectrum_eq_re hz]

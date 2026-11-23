@@ -65,7 +65,7 @@ theorem coeff_bVV_mem (A : Subfield ℂ) (lam : ι → DomWeight n) (i : VVIdx l
 theorem coeff_mem_of_repr_mem (A : Subfield ℂ) (lam : ι → DomWeight n) (v : VV ℂ lam)
     (h : ∀ i, (bVV ℂ lam).repr v i ∈ A) (m) : AddMonoidAlgebra.coeff (v : Pol ℂ ι n) m ∈ A := by
   have e := congrArg (fun x : VV ℂ lam => AddMonoidAlgebra.coeff (x : Pol ℂ ι n) m) ((bVV ℂ lam).sum_repr v)
-  simp only [Submodule.coe_sum, Submodule.coe_smul, coeff_sum, coeff_smul, smul_eq_mul] at e
+  simp only [Submodule.coe_sum, Submodule.coe_smul, coeff_sum, MvPolynomial.coeff_smul, smul_eq_mul] at e
   rw [← e]
   exact sum_mem fun i _ => mul_mem (h i) (coeff_bVV_mem A lam i m)
 
@@ -184,7 +184,7 @@ theorem coeff_rhoVr_mem {E : Type} [Field E] (emb : ι → E →+* ℂ) (lam : �
   have htr : Formalism.L2.DIV.trAct (invTrK (embGL emb γE)) (v : Pol ℂ ι n) ∈ R₀ :=
     hblock _ (fun τ a b => hent τ b a) _ ((memR _).2 hv)
   show AddMonoidAlgebra.coeff (Formalism.L2.DIV.actP lam (invTrK (embGL emb γE)) (v : Pol ℂ ι n)) m ∈ A
-  rw [Formalism.L2.DIV.actP, LinearMap.smul_apply, coeff_smul, smul_eq_mul]
+  rw [Formalism.L2.DIV.actP, LinearMap.smul_apply, MvPolynomial.coeff_smul, smul_eq_mul]
   exact mul_mem hdt ((memR _).1 htr m)
 
 end Coeff

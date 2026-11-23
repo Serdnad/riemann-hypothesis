@@ -83,7 +83,7 @@ theorem d10 : ((chains R).obj (sch.obj X)).d (-1) 0 ≫ (chainsXIso R (sch.obj X
   erw [HomologicalComplex.extend_d_eq ((chainsN R).obj (sch.obj X)) ComplexShape.embeddingDownNat (i := 1) (j := 0) rfl rfl]
   rw [etale_normalized_free_chains_differential_one_zero_eq_zero]
   simp only [Limits.zero_comp, Limits.comp_zero]
-  all_goals exact Limits.zero_comp
+  all_goals rfl
 
 theorem resι_d : resι R F ≫ (res R F).d 0 1 = 0 := by
   rw [resι]

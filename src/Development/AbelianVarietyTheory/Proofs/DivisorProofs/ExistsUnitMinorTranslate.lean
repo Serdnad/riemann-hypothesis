@@ -69,7 +69,9 @@ theorem exists_minor_det_ne_zero {K : Type} [Field K] {n d : ℕ} (Y : Matrix (F
   obtain ⟨κ, a, ha, hspan, hli⟩ := exists_linearIndependent' K (fun j => Yᵀ j)
   have htop : Submodule.span K (Set.range (fun j => Yᵀ j)) = ⊤ := by
     apply Submodule.eq_top_of_finrank_eq
-    rw [Module.finrank_fin_fun]; rw [Matrix.rank_eq_finrank_span_cols] at hY; exact hY
+    rw [Module.finrank_fin_fun]
+    rw [← Matrix.finrank_range_mulVecLin, Matrix.range_mulVecLin] at hY
+    exact hY
   have hsp : ⊤ ≤ Submodule.span K (Set.range ((fun j => Yᵀ j) ∘ a)) := by rw [hspan, htop]
   let b := Module.Basis.mk hli hsp
   let e : κ ≃ Fin n := b.indexEquiv (Pi.basisFun K (Fin n))

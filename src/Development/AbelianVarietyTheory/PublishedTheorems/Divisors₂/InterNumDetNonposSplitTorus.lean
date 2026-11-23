@@ -114,7 +114,7 @@ theorem exists_det_ne_zero_field {K ι : Type} [Field K] [Fintype ι] {r : ℕ} 
     (hN : LinearIndependent K N.row) : ∃ σ : Fin r → ι, (N.submatrix id σ).det ≠ 0 := by
   by_contra! H
   have hs : Submodule.span K (Set.range N.col) = ⊤ := Submodule.eq_top_of_finrank_eq (by
-    rw [← Matrix.rank_eq_finrank_span_cols, hN.rank_matrix, Module.finrank_fintype_fun_eq_card])
+    rw [Matrix.finrank_span_range_col, hN.rank_matrix, Module.finrank_fintype_fun_eq_card])
   have e : (Pi.basisFun K (Fin r)).det.toMultilinearMap = 0 := by
     refine MultilinearMap.ext_of_span_eq_top (γ := fun _ => ι) (g := fun _ j => N.col j) (fun _ => hs) fun σ => ?_
     rw [_root_.zero_apply, AlternatingMap.coe_multilinearMap, Module.Basis.det_apply, ← H σ]

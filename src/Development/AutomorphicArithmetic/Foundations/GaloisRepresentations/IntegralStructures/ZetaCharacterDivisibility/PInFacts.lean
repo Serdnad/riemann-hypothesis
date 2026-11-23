@@ -73,7 +73,8 @@ private theorem left_cancel {k : Type} [Field k] {a d : ℕ} {A : Matrix (Fin d)
     {M N : Matrix (Fin a) (Fin a) k} (h : A * M = A * N) : M = N := by
   have hker : LinearMap.ker A.mulVecLin = ⊥ := by
     have h1 := LinearMap.finrank_range_add_finrank_ker A.mulVecLin
-    have h2 : Module.finrank k (LinearMap.range A.mulVecLin) = a := hA
+    have h2 : Module.finrank k (LinearMap.range A.mulVecLin) = a := by
+      rw [Matrix.finrank_range_mulVecLin]; exact hA
     rw [h2, Module.finrank_fin_fun] at h1
     exact Submodule.finrank_eq_zero.mp (by omega)
   have hinj := LinearMap.ker_eq_bot.mp hker

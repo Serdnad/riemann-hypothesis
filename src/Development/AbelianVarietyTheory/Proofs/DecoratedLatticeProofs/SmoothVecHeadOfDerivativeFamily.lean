@@ -42,6 +42,8 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 
+set_option backward.isDefEq.respectTransparency false
+
 @[expose] public section
 
 noncomputable section
@@ -158,12 +160,12 @@ theorem hasFDerivAt_of_partials :
       · intro j
         exact (hc j.succ).comp (continuous_cons_pair.comp (continuous_const.prodMk continuous_id))
     have cf₁ : Continuous ↿f₁ :=
-      (ContinuousLinearMap.smulRightL ℝ ℝ E (1 : ℝ →L[ℝ] ℝ)).continuous.comp
+      (StrongDual.smulRightL ℝ ℝ E (1 : ℝ →L[ℝ] ℝ)).continuous.comp
         ((hc 0).comp continuous_cons_pair)
     have cf₂ : Continuous ↿f₂ := by
       show Continuous fun p : ℝ × (Fin k → ℝ) => ∑ j, (ContinuousLinearMap.proj j : (Fin k → ℝ) →L[ℝ] ℝ).smulRight (d j.succ (Fin.cons p.1 p.2))
       refine continuous_finsetSum _ fun j _ => ?_
-      exact (ContinuousLinearMap.smulRightL ℝ (Fin k → ℝ) E
+      exact (StrongDual.smulRightL ℝ (Fin k → ℝ) E
         (ContinuousLinearMap.proj j)).continuous.comp ((hc j.succ).comp continuous_cons_pair)
     let ι : (Fin (k+1) → ℝ) →L[ℝ] ℝ × (Fin k → ℝ) :=
       (ContinuousLinearMap.proj 0).prod (ContinuousLinearMap.pi fun j => ContinuousLinearMap.proj j.succ)
@@ -184,7 +186,7 @@ theorem contDiff_succ_of_partials {k : ℕ} (m : ℕ) (F : (Fin k → ℝ) → E
   refine ⟨fun t => ∑ i, (ContinuousLinearMap.proj i : (Fin k → ℝ) →L[ℝ] ℝ).smulRight (d i t), ?_,
     hasFDerivAt_of_partials k F d hd fun i => (hc i).continuous⟩
   exact ContDiff.sum fun i _ =>
-    (ContinuousLinearMap.smulRightL ℝ (Fin k → ℝ) E (ContinuousLinearMap.proj i)).contDiff.comp (hc i)
+    (StrongDual.smulRightL ℝ (Fin k → ℝ) E (ContinuousLinearMap.proj i)).contDiff.comp (hc i)
 
 end Partials
 

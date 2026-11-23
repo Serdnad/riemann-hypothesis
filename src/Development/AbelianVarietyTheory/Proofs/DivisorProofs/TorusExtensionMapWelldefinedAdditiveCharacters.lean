@@ -65,7 +65,7 @@ variable {R : Type} [CommRing R] [IsDomain R] {D₁ D₂ : DegPre R}
 
 section Rep
 
-open FreeAbelianGroup
+open FreeAddCommGroup
 
 variable {T₀ : Over (Sp R)}
 
@@ -74,18 +74,18 @@ abbrev JVals (D₁ D₂ : DegPre R) (T₀ : Over (Sp R)) :=
     (T.left.presheaf.stalk z)ˣ
 
 def fsEval {U : Type} [CommGroup U] (h : (T₀.left ⟶ D₁.P.A.left ⨿ D₂.P.A.left) → U)
-    (s : FreeAbelianGroup (T₀ ⟶ D₁.P.A) × FreeAbelianGroup (T₀ ⟶ D₂.P.A)) : U :=
-  (FreeAbelianGroup.lift (fun q : T₀ ⟶ D₁.P.A => Additive.ofMul (h (q.left ≫ coprod.inl))) s.1 +
-    FreeAbelianGroup.lift (fun q : T₀ ⟶ D₂.P.A => Additive.ofMul (h (q.left ≫ coprod.inr))) s.2).toMul
+    (s : FreeAddCommGroup (T₀ ⟶ D₁.P.A) × FreeAddCommGroup (T₀ ⟶ D₂.P.A)) : U :=
+  (FreeAddCommGroup.lift (fun q : T₀ ⟶ D₁.P.A => Additive.ofMul (h (q.left ≫ coprod.inl))) s.1 +
+    FreeAddCommGroup.lift (fun q : T₀ ⟶ D₂.P.A => Additive.ofMul (h (q.left ≫ coprod.inr))) s.2).toMul
 
 theorem fsEval_add {U : Type} [CommGroup U] (h : (T₀.left ⟶ D₁.P.A.left ⨿ D₂.P.A.left) → U)
-    (s s' : FreeAbelianGroup (T₀ ⟶ D₁.P.A) × FreeAbelianGroup (T₀ ⟶ D₂.P.A)) :
+    (s s' : FreeAddCommGroup (T₀ ⟶ D₁.P.A) × FreeAddCommGroup (T₀ ⟶ D₂.P.A)) :
     fsEval h (s + s') = fsEval h s * fsEval h s' := by
   simp only [fsEval, Prod.fst_add, Prod.snd_add, map_add (f := _)]
   rw [add_add_add_comm]
   rfl
 
-def JRep (s : FreeAbelianGroup (T₀ ⟶ D₁.P.A) × FreeAbelianGroup (T₀ ⟶ D₂.P.A)) (v : JVals D₁ D₂ T₀) : Prop :=
+def JRep (s : FreeAddCommGroup (T₀ ⟶ D₁.P.A) × FreeAddCommGroup (T₀ ⟶ D₂.P.A)) (v : JVals D₁ D₂ T₀) : Prop :=
   ∃ (K : Type) (_ : Fintype K) (φ : K → (T₀.left ⟶ D₁.P.A.left ⨿ D₂.P.A.left)) (ε : K → ℤ)
     (t : LB.Gen (LB.LinComb (JN D₁ D₂) φ ε)), t.IsGen ∧
     (∀ (U : Type) [CommGroup U] (h : (T₀.left ⟶ D₁.P.A.left ⨿ D₂.P.A.left) → U), ∏ k, h (φ k) ^ ε k = fsEval h s) ∧
@@ -172,7 +172,7 @@ variable {R : Type} [CommRing R] [IsDomain R] {D₁ D₂ : DegPre R}
 
 section Cmp
 
-open FreeAbelianGroup
+open FreeAddCommGroup
 
 variable {b : D₁.P.A ⟶ D₂.P.A} {p p' p'' : D₁.X} {χ χ' χ'' : D₂.X} {T : Over (Sp R)} {z : T.left}
   {J : (T.left ⟶ D₁.P.A.left ⨿ D₂.P.A.left) → (JN D₁ D₂).ι}

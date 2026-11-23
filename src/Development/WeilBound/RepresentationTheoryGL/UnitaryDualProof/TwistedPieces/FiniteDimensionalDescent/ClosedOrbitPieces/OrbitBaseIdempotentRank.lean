@@ -94,7 +94,7 @@ theorem cj_pow (g : GL (Fin N) k) (x : Matrix (Fin N) (Fin N) k) (n : ℕ) : cj 
 theorem rank_cj (g : GL (Fin N) k) (e : Matrix (Fin N) (Fin N) k) : (cj g e).rank = e.rank := rank_conj g e
 
 theorem eq_zero_of_rank {A : Matrix (Fin N) (Fin N) k} (h : A.rank = 0) : A = 0 := by
-  rw [Matrix.rank, Submodule.finrank_eq_zero, LinearMap.range_eq_bot] at h
+  rw [← Matrix.finrank_range_mulVecLin, Submodule.finrank_eq_zero, LinearMap.range_eq_bot] at h
   ext i j
   have := congrArg (fun f => f (Pi.single j 1) i) h
   simpa [Matrix.mulVecLin_apply, Matrix.mulVec_single] using this

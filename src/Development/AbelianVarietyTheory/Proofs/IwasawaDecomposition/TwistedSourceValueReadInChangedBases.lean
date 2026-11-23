@@ -61,7 +61,7 @@ theorem map_twSubK_field {E K K' ι : Type} [Field E] [Field K] [Field K'] [Fint
   induction P using MvPolynomial.induction_on with
   | C a => simp
   | add p q hp hq => simp [hp, hq]
-  | mul_X p k hp => simp [hp]
+  | mul_X p k hp => simp [hp, MvPolynomial.bind₁_X_right]
 
 theorem eq_of_eval_invertible {LL ι : Type} [Field LL] [Fintype ι] {n : ℕ} (e : LL →+* ℂ)
     {A B : MvPolynomial (ι × Fin n × Fin n) LL}

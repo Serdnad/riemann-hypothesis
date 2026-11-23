@@ -207,14 +207,14 @@ lemma ι_injectiveExtend (φ : F ⟶ G) :
 def injectiveSequenceMap (φ : F ⟶ G) : injectiveSequence F ⟶ injectiveSequence G where
   τ₁ := φ
   τ₂ := injectiveExtend φ
-  τ₃ := cokernel.map (Injective.ι F) (Injective.ι G) φ (injectiveExtend φ) (ι_injectiveExtend φ)
+  τ₃ := cokernel.map (Injective.ι F) (Injective.ι G) φ (injectiveExtend φ) (ι_injectiveExtend φ).symm
   comm₁₂ := by
     change φ ≫ Injective.ι G = Injective.ι F ≫ injectiveExtend φ
     exact (ι_injectiveExtend φ).symm
   comm₂₃ := by
     change injectiveExtend φ ≫ cokernel.π (Injective.ι G) =
       cokernel.π (Injective.ι F) ≫ cokernel.map (Injective.ι F) (Injective.ι G) φ
-        (injectiveExtend φ) (ι_injectiveExtend φ)
+        (injectiveExtend φ) (ι_injectiveExtend φ).symm
     exact (cokernel.π_desc _ _ _).symm
 
 end InjectiveMap

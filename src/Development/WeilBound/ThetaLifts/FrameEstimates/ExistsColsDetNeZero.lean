@@ -63,7 +63,7 @@ theorem exists_cols_det_ne_zero {K : Type} [Field K] {i d : ℕ} (A : Matrix (Fi
   obtain ⟨κ, a, ha, hsp, hli⟩ := exists_linearIndependent' K A.col
   haveI : Fintype κ := Fintype.ofInjective a ha
   have hcard : Fintype.card κ = i := by
-    rw [← finrank_span_eq_card hli, hsp, ← Matrix.rank_eq_finrank_span_cols, hA.rank_matrix, Fintype.card_fin]
+    rw [← finrank_span_eq_card hli, hsp, Matrix.rank_eq_finrank_span_cols, hA.rank_matrix, Fintype.card_fin]
   let e := (Fintype.equivFinOfCardEq hcard).symm
   refine ⟨a ∘ e, ha.comp e.injective, ?_⟩
   have hu : IsUnit (A.submatrix id (a ∘ e)) := by

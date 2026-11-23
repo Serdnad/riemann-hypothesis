@@ -200,7 +200,7 @@ theorem scaled_bound (RM : Top.RootModel Ψ Nn) (lam nu : Top.Wt Ψ Nn) {z : (Σ
     norm_num
     ring
   have e2 : Real.exp (q * (C * s)) * S ^ q = Real.exp (q * (C * s + Real.log S)) := by
-    rw [mul_add, Real.exp_add, Real.exp_nat_mul (Real.log S), Real.exp_log hS]
+    rw [mul_add, Real.exp_add, Real.exp_natCast_mul q (Real.log S), Real.exp_log hS]
   rw [e2, ← Real.exp_log (show 0 < ‖x‖ ^ 8 * (Top.combLine (RM.line t) m).h z by positivity), e1]
   exact Real.exp_le_exp.2 (mul_le_mul_of_nonneg_left hI (Nat.cast_nonneg q))
 

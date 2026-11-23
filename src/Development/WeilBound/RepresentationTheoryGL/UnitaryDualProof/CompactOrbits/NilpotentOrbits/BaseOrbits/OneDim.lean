@@ -133,7 +133,8 @@ private theorem prim_lemma_2 (f g : Matrix (Fin n) (Fin n) k) (hf : f * f = f) (
     calc g *ᵥ w = g *ᵥ (g *ᵥ w) := by rw [Matrix.mulVec_mulVec, hg]
       _ = g *ᵥ (f *ᵥ w') := by rw [hw']
       _ = 0 := by rw [Matrix.mulVec_mulVec, hgf, Matrix.zero_mulVec]
-  exact Submodule.finrank_lt_finrank_of_lt (lt_of_le_of_ne hle hne)
+  have hr := Submodule.finrank_lt_finrank_of_lt (lt_of_le_of_ne hle hne)
+  simpa only [Matrix.finrank_range_mulVecLin] using hr
 
 
 omit [ValuativeRel k] [TopologicalSpace k] [IsNonarchimedeanLocalField k] in

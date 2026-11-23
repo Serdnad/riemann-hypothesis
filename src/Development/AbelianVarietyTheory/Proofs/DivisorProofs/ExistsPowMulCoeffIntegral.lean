@@ -313,7 +313,7 @@ theorem map_mem_HHa {T : Type} {r : T → ℕ} {n : ℕ} {k K : Type} [Field k] 
 theorem coeff_smul_map_mem {σ k K : Type} [Field k] [Field K] (f : k →+* K) (t : k) (P : MvPolynomial σ k) (m : σ →₀ ℕ)
     (h : IsIntegral ℤ (t * P.coeff m)) :
     (f t • MvPolynomial.map f P).coeff m ∈ (integralClosure ℤ K).toSubring := by
-  rw [coeff_smul, coeff_map, smul_eq_mul, ← map_mul]
+  rw [MvPolynomial.coeff_smul, coeff_map, smul_eq_mul, ← map_mul]
   exact Subalgebra.mem_toSubring.2 ((mem_integralClosure_iff ℤ _).2 (h.map f.toIntAlgHom))
 
 end GlobalTheory.HarmInCoef

@@ -66,7 +66,7 @@ theorem det_pos (L : Matrix (Fin M) (Fin g) ℝ) (hL : L.rank = g) (D : Fin M �
     (hD : ∀ k, 0 < D k) : 0 < (L.transpose * Matrix.diagonal D * L).det := by
   have hinj : Function.Injective L.mulVec := by
     have h := LinearMap.finrank_range_add_finrank_ker L.mulVecLin
-    have h2 : Module.finrank ℝ (LinearMap.range L.mulVecLin) = g := hL
+    have h2 : Module.finrank ℝ (LinearMap.range L.mulVecLin) = g := (Matrix.finrank_range_mulVecLin L).trans hL
     rw [h2, Module.finrank_fin_fun] at h
     have h3 : Module.finrank ℝ (LinearMap.ker L.mulVecLin) = 0 := by omega
     have h4 : LinearMap.ker L.mulVecLin = ⊥ := Submodule.finrank_eq_zero.mp h3

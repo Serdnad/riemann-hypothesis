@@ -60,7 +60,6 @@ theorem chainsXIso_inv_map {E E' : Spc} (f : E ⟶ E') (p : ℕ) :
   simp only [chainsN]
   erw [Iso.inv_hom_id_assoc]
   simp
-  rfl
 
 theorem free_map_freeGen {P Q : PSh} (g : P ⟶ Q) (U : Scheme.{0}) (x : P.obj (op U)) :
     (((free R).map g).hom.app (op U)).hom (freeGen R P U x) = freeGen R Q U (g.app (op U) x) := by

@@ -77,12 +77,12 @@ private theorem prod_two {S : Scheme.{0}} {G : Over S} [GrpObj G] [IsCommMonObj 
     {U : Type 1} [CommGroup U] (h : (T.left ⟶ G.left) → U) :
     ∏ I : ULift.{0} (Finset (Fin 2)), h (psum G ![x, y] I.down).left ^ ((-1 : ℤ) ^ (2 - I.down.card)) =
       h (x * y).left * (h x.left)⁻¹ * (h y.left)⁻¹ * h (1 : T ⟶ G).left := by
-  have key := GlobalTheory.NormRos.prod_square x y (U := Multiplicative (FreeAbelianGroup (T.left ⟶ G.left)))
-    (fun ψ => Multiplicative.ofAdd (FreeAbelianGroup.of ψ))
+  have key := GlobalTheory.NormRos.prod_square x y (U := Multiplicative (FreeAddCommGroup (T.left ⟶ G.left)))
+    (fun ψ => Multiplicative.ofAdd (FreeAddCommGroup.of ψ))
   have k := congrArg (AddMonoidHom.toMultiplicativeLeft
-    (FreeAbelianGroup.lift fun ψ : T.left ⟶ G.left => Additive.ofMul (h ψ))) key
+    (FreeAddCommGroup.lift fun ψ : T.left ⟶ G.left => Additive.ofMul (h ψ))) key
   simpa only [map_mul, map_inv, map_prod, map_zpow, AddMonoidHom.coe_toMultiplicativeLeft, Function.comp_apply,
-    toAdd_ofAdd, FreeAbelianGroup.lift_apply_of, toMul_ofMul] using k
+    toAdd_ofAdd, FreeAddCommGroup.lift_apply_of, toMul_ofMul] using k
 
 theorem exists_gen_of_rosatiAdj : ∀ (O : Type) [CommRing O] [IsLocalRing O] (P : Out.PolAV (Geo.Tor.Sp O)) (Z : Scheme.{0}) (Q : LB Z) (ψ₂ : (P.A ⊗ P.A).left ⟶ Z), Q.IsLB → Geo.Tor.LBIso (abelian₂ P.A P.L) (Q.pull ψ₂) → ∀ f f' : P.A ⟶ P.A, IsMonHom f → IsMonHom f' → Out.RosatiAdj P.A P.L f f' → ∃ t : LB.Gen (LB.LinComb Q (K := Fin 2) ![(lift (fst P.A P.A ≫ f) (snd P.A P.A)).left ≫ ψ₂, (lift (fst P.A P.A) (snd P.A P.A ≫ f')).left ≫ ψ₂] ![1, -1]), t.IsGen := by
   intro O _ _ P Z Q ψ₂ hQ hI f f' _ _ h

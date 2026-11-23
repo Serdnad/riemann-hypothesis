@@ -79,7 +79,8 @@ theorem exists_rightInverse_of_li {r g : ℕ} (X : Fin r → Fin g → ℂ) (hX 
   have hs : Function.Surjective (Matrix.of X).mulVecLin := by
     rw [← LinearMap.range_eq_top]
     apply Submodule.eq_top_of_finrank_eq
-    simpa [Matrix.rank] using hr
+    rw [Matrix.finrank_range_mulVecLin, hr]
+    simp
   choose c hc using fun a : Fin r => hs (Pi.single a 1)
   refine ⟨Matrix.of fun k a => c a k, ?_⟩
   ext a b

@@ -149,7 +149,7 @@ theorem realAt_gen (hS : HidaSetting p n' W Qq O Kf ι σ j w) (φ : WF p n' ≃
       have e1 : AddMonoidAlgebra.coeff (subst p n' O w n' r gv Ff) mm =
           AddMonoidAlgebra.coeff (subst p n' O w n' r gv Ff - C (algebraMap O (KK O) (w ^ o)) * sig) mm +
             algebraMap O (KK O) (w ^ o) * AddMonoidAlgebra.coeff sig mm := by
-        rw [coeff_sub, coeff_C_mul]
+        rw [MvPolynomial.coeff_sub, coeff_C_mul]
         ring
       show AddMonoidAlgebra.coeff (subst p n' O w n' r gv Ff) mm = _
       rw [e1, hc1, hc2, ← map_mul, ← map_add (f := _)]

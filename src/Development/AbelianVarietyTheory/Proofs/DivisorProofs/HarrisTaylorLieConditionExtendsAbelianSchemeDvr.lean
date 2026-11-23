@@ -156,8 +156,7 @@ theorem lie_ext : ∀ (p : ℕ) [Fact p.Prime] (D : Datum p) (W L : Type) [CommR
         exact ⟨y, hQ4 k β i y h⟩
       · rintro ⟨z, rfl⟩ c
         exact heig k β i c z
-    rw [hsub]
-    rfl
+    rw [hsub, Matrix.finrank_range_mulVecLin]
   refine ⟨fun R' _ β v hv => ?_, fun k _ _ β i => ?_⟩
   · obtain ⟨T, hinj, hrange, hadd, hscale, heq⟩ := hM R' β
     obtain ⟨x, rfl⟩ := (hrange v).1 hv.1

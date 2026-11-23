@@ -211,7 +211,7 @@ theorem finrank_inf (g : GL (Ix n) k) :
   rw [h, ← LinearEquiv.finrank_eq (Submodule.equivMapOfInjective _ (phi_inj g) _)]
   have := LinearMap.finrank_range_add_finrank_ker (dBlk g).mulVecLin
   simp only [finrank_fin_fun] at this
-  have hr : (dBlk g).rank = finrank k (LinearMap.range (dBlk g).mulVecLin) := rfl
+  have hr : (dBlk g).rank = finrank k (LinearMap.range (dBlk g).mulVecLin) := (Matrix.finrank_range_mulVecLin _).symm
   omega
 
 theorem exists_pM (E : GL (Ix n) k) (h : E.1.toBlocks₂₁ = 0) :
